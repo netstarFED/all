@@ -259,7 +259,11 @@
                         $template.children().children('.pt-modal-bg').css('z-index', 994);
                     }
                 }
-                showModule.init(pageConfig,true);
+                var config = {
+                    pageConfig : pageConfig,
+                    clickNodeEndHandler : pageCommon.openEditByPosition,
+                }
+                showModule.init(config,true);
             },
             refreshByPageConfig : function(resPageConfig, isCloseDialog){
                 // 组件列表面板
@@ -342,8 +346,11 @@
                                 pageCommon.editModel();
                                 var pageConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist).pageConfig;
                                 if(JSON.stringify(pageConfig) != "{}"){
-                                    
-                                    showModule.init(pageConfig,true)
+                                    var config = {
+                                        pageConfig : pageConfig,
+                                        clickNodeEndHandler : pageCommon.openEditByPosition,
+                                    }
+                                    showModule.init(config,true)
                                 }
                             },
                         },{
@@ -353,8 +360,11 @@
                             handler : function(ev, data){
                                 pageCommon.previewModel();
                                 var pageConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist).pageConfig;
-                                
-                                showModule.init(pageConfig,false)
+                                var config = {
+                                        pageConfig : pageConfig,
+                                        clickNodeEndHandler : pageCommon.openEditByPosition,
+                                }
+                                showModule.init(config,false)
                             },
                         },
                     ]
@@ -774,6 +784,15 @@
                     $('.editor-landing').addClass('hide');
                 },
                 clickNodeHandler : function(node, config){
+                    var showModuleParam = {};
+                    showModuleParam.pageConfig = config.pageConfig;
+                    showModuleParam.isShowMask = true;
+                    if(node.componentType == "panel"){
+                        showModuleParam.indexObj = {typeIndex:node.index};
+                    }else{
+                        showModuleParam.indexObj = {typeIndex:parseInt(config.showComponentName.slice(config.showComponentName.indexOf("-")+1)),fieldIndex:node.index}
+                    };
+                    showModule.init(showModuleParam.pageConfig,showModuleParam.isShowMask,showModuleParam.indexObj)
                     var value = node.value;
                     var isAdd = false;
                     if(typeof(value) == "undefined"){
