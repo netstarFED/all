@@ -1,0 +1,141 @@
+/*====================================================================*/
+
+/*main*/
+
+/*====================================================================*/
+
+.page-container {
+	display: table;
+	width: 100%;
+	height: 100%;
+	vertical-align: top;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	table-layout: fixed;
+
+	.main-content {
+		display: table-cell;
+		position: relative;
+		z-index: 1;
+		padding: @main-content-padding 15px;
+		vertical-align: top;
+		word-break: break-word;
+		
+		&:hover {
+			z-index: 15;
+		}
+		&.table-content,
+		&.content-box {
+			position: relative;
+			container > .row{
+				// margin: 0 -15px;
+				> .col-sm-3 + .col-sm-9,
+				> .col-sm-5 + .col-sm-5,
+				> .col-sm-6 + .col-sm-6,
+				> .col-sm-5 + .col-sm-7,
+				> .col-sm-3 + .col-sm-8,
+				> .nspanel + .nspanel{
+					padding-left: 0;
+					padding-right: 0;
+					.col-sm-12{
+						padding: 0;
+					}
+				}
+				> .col-sm-5 + .col-sm-7 > .col-sm-12{
+					padding: 0;
+				}
+			}
+			// 03-15注
+			// .table-responsive {
+			// 	margin: 0 0 15px;
+			// }
+			.layout-table{
+				&.autoHeight{
+					.table-responsive{
+						margin: 0;
+					}
+				}
+			}
+
+		}
+		
+	}
+
+}
+
+// 模板页面右侧主体面板
+.main-panel > .panel-body{
+	padding: 0;
+}
+.main-panel + .main-panel > .panel{
+	.panel-body{
+		padding-left: 0;
+	}
+}
+//	nspanel
+.nspanel {
+	min-height: @ns-height;
+	margin: 0 0 10px;
+	background: #fff;
+	&.layout-form{
+		padding: 0;
+	}
+	.nspanel-title {
+		padding: 10px 15px;
+		border-bottom: 1px solid @ns-border-color;
+		.base-title-style;
+	}
+
+	&.table-single-templete{
+		margin-bottom: 0;
+	}
+	.nspanel-body {
+		padding: @base-padding 0;
+
+		ul.code {
+			li {
+				line-height: 170%;
+				color: lighten(@gray-light, 15%);
+			}
+
+		}
+
+	}
+	
+	// &.nspanel-left{
+	// 	padding: 0 15px !important;
+
+	// 	& + .col-sm-9{
+	// 		.col-sm-12{
+	// 			padding: 0;
+	// 			.panel-body{
+	// 				padding-left: 0;
+	// 			}
+	// 		}
+	// 	}
+
+	// 	& + .col-sm-9 + .col-sm-9{
+	// 		.panel-body{
+	// 			padding-left: 0;
+	// 		}
+	// 	}
+	// }
+	// + .nspanel {
+	// 	padding-left: 0;
+	// 	.panel {
+	// 		.panel-body{
+	// 			padding: 0;
+	// 		}
+	// 	}
+	// }
+
+}
+
+.table-responsive {
+	margin: 0;
+}
+
+.nspanel-hr{
+	height: 0px !important;
+}
+

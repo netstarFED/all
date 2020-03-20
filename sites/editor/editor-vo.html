@@ -1,0 +1,309 @@
+<container>
+    <style type="text/css">
+        .nspanel.tabs{
+            padding: 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0;
+        }
+        .nspanel.tabs .nav-tabs > li{
+            min-width: 120px;
+            text-align: center;
+        }
+        .nspanel.tabs .nav-tabs > li > a{
+            line-height: 18px;
+            padding: 6px;
+        }
+        .table-tabs-container{
+            padding: 0 15px;
+        }
+        .table-tabs-container > .main-panel{
+            border:1px solid #ddd;
+            border-top:none;
+            padding-top: 10px;
+        }
+        .tabs > .tabs-select-container{
+            position: absolute;
+            right: 0;
+            top: 2px;
+        }
+        .tabs > .tabs-select-container select{
+            min-width: 120px;
+            height: 24px;
+        }
+    </style>
+    <!-- VOlist数据列表 表格 -->
+    <div class="row" id="vomanager-volist-manager-panel">
+        <div class="col-sm-12 main-panel">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table cellspacing="0" class="table table-singlerow table-hover table-bordered table-striped" id="vomanager-volist-manager-table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="vomanager-volist-manager-tabs" class="row nspanel tabs" style="position: relative;">
+    </div>
+    <!-- VOlist状态列表 表格 start-->
+    <div class="row table-tabs-container" id="vomanager-vodata-state-panel">
+        <div class="col-sm-12 main-panel">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table cellspacing="0" class="table table-singlerow table-hover table-bordered table-striped" id="vomanager-vodata-state-table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- VOlist状态列表 表格 end-->
+    <script type="text/javascript">
+        $(function(){
+            //初始化组件
+            var voSourceConfig = 
+            {
+                //保存VO数据的ajax
+                voSaveAjax:{
+                    url:getRootPath()+"/templateMindMaps/save",
+                    type:"POST",
+                    dataSrc:''
+                },
+                //voSource列表的ajax 用于select2
+                voSourceListAjax:{
+                    url: getRootPath() + "/templateMindMaps/allUrls",
+                    type:'GET',
+                    dataSrc:'rows',
+                    textField: 	'text',
+                    valueField: 'value',
+                },
+                //voSource的ajax配置，url是来自于voSourceListAjax的返回结果里
+                voSourceAjax:{
+                    type:'GET',
+                },
+                //获取业务对象（思维导图）数据的ajax
+                getVoDataByIdAjax:{
+                    url:getRootPath()+"/templateMindMaps/",
+                    //url:getRootPath()+"/templateMindMaps/"+id;
+                    type:"GET",
+                    dataSrc:'data'
+                }
+            }
+            nsProjectPagesManager.voDataSource.init(voSourceConfig);
+            //初始化页面
+            var pageConfig = 
+            {	
+                ajax:{
+                    //主表操作相关（思维导图或VOMAP）记录 start -----------------------------------------------------
+                    voMapList:{
+                        //表格Ajax地址
+                        getList:{
+                            url:getRootPath() + '/templateMindMaps/getList', 	
+                            type:'POST',
+                            dataSrc:'rows'
+                        },
+                        //表格详细信息获取，sourceJSON和xml
+                        getDetailById:{
+                            url:getRootPath() + '/templateMindMaps/',
+                            type:"GET",
+                            dataSrc:'data',
+                            dataFormat:'suffixId',
+                            dataValid:{id:'required'}
+                        },
+                        //保存，包含sourceJSON和XML
+                        save:{
+                            url:getRootPath()+"/templateMindMaps/save",
+                            type:"POST",
+                            dataSrc:'data',
+                            contentType:'application/json',
+                        },
+                        //删除
+                        deleteById:{
+                            url:getRootPath()+"/templateMindMaps/delete",
+                            type:"POST",
+                            dataSrc:'',
+                            dataFormat:'id',
+                        }
+                    },
+                    //主表操作相关（思维导图或VOMAP）记录 end-----------------------------------------------------
+                    //VOMAP 操作vo和method记录 start -----------------------------------------------------------
+                    /**根据voMap的id批量获取列表
+                     * mindMapId: 思维导图id
+                     * category: 类别（和保存的值必须一致）
+                     * {
+                     *	 success: true,
+                    *	 msg: 'error',
+                    *	 rows: [
+                    *	  {
+                    *	   Long   id; 				//vo或者方法的id
+                    *	   Long   mindMapId; 		//voMap或者思维导图的id 保存时必须有
+                    *	   Long   parentId; 		//上级id，暂时没用
+                    *	   String name; 			//名称
+                    *	   String category; 		//分类  目前可以使用的是vo/method
+                    *	   String remark; 			//备注  vo保存的是字段、关联方法、状态的数量
+                    *
+                    *	   String originalContent;  //原始数据 对服务器返回的VOMAP解析后产生的数据
+                    *	   String processContent; 	//加工后的数据
+                    *	   String config; 			//
+                    *	   String config2;
+                    *	   String config3;
+                    *
+                    *	   Long   createBy;
+                    *	   Date   whenCreate;
+                    *	   Long   modifyBy;
+                    *	   Date   whenModify;
+                    *	  }
+                    *	 ]
+                    *	}
+                    **/
+                    voMap:{
+                        /**根据voMap的id批量获取列表
+                         * {
+                         * 		mindMapId: 思维导图id
+                         * 		category: 类别（和保存的值必须一致）
+                         * }
+                         * 返回参数详见voMap
+                         **/
+                        getListById:{
+                            url:getRootPath()+"/templateMindMapDetails/getList",
+                            type:"POST",
+                            dataSrc:'rows',
+                            dataFormat:'custom',
+                            dataFormatParams:'{"mindMapId":"{}"}'
+                        },
+                        getListByIdAndCategory:{
+                            url:getRootPath()+"/templateMindMapDetails/getList",
+                            type:"POST",
+                            dataSrc:'rows',
+                            dataFormat:'custom',
+                            dataFormatParams:'{"mindMapId":"{id}", "category":"{class}"}'
+                        },
+
+                        /**保存数据 批量保存 有id则是修改，没有id则是新建
+                         * 参数详见voMap说明
+                         * !使用的RequestBody方式传参
+                         **/
+                        saveList:{
+                            url:getRootPath()+"/templateMindMapDetails/saveList",
+                            type:"POST",
+                            contentType:'application/json',
+                            dataSrc:''
+                        },
+
+                        /**保存数据 单条保存 单条保存后会返回保存结果 有id则是修改，没有id则是新建
+                         * 参数详见voMap说明
+                         **/
+                        save:{
+                            url:getRootPath()+"/templateMindMapDetails/save",
+                            type:"POST",
+                            dataSrc:'data',
+                            contentType:'application/json',
+                        },
+
+                        /**根据vo或者method的id删除单条数据
+                         * id: 明细ID（vo或方法id）
+                         **/
+                        deleteById:{
+                            url:getRootPath()+"/templateMindMapDetails/delete",
+                            type:"POST",
+                            dataSrc:'',
+                            dataFormat:'id',
+                        },
+
+                        /**根据voMap的id批量删除数据
+                         * mindMapId: 思维导图id
+                         * category: 类别（和保存的值必须一致）
+                         **/
+                        deleteByVoMapId:{
+                            url:getRootPath()+"/templateMindMapDetails/deleteByMindMapId",
+                            type:"POST",
+                            dataSrc:'',
+                            dataFormat:'custom',
+                            dataFormatParams:'{"mindMapId":"{}"}',
+                        },
+
+                        /**根据voMap的id查询思维导图数据
+                         **/
+                        mindMap:{
+                            url:getRootPath() + '/templateMindMaps/json/',
+                            type:"GET",
+                            dataSrc:'data',
+                            dataFormat:'suffixId',
+                            dataValid:{id:'required'}
+                        },
+                    },
+                    //pageRel 将页面和vo和method记录关联 start--------------------------------------------------------
+                    /**主要结构
+                     * {
+                     *  	pageId: '页面id',
+                     *  	configs: 
+                     * 			[
+                     *  			{
+                     *  				configName: '配置名',  (输入组件的id，不得重复，后台不验证)
+                     * 					detailId: '关联id（vo或方法id）'
+                     *  			},
+                     * 				.....
+                     *  		]
+                     *  }
+                     **/
+                    pageRel:{
+                        /**根据vo或者方法id获取关联页面的信息
+                         * id: 明细ID（vo或方法id）
+                         **/
+                        getPagesByRel:{
+                            url:getRootPath()+"/templateMindMapDetails/getPagesByRel",
+                            type:"POST",
+                            dataSrc:'rows',
+                            dataFormat:'id',
+                        },
+
+                        /**根据pageId保存vo或者方法id保存关联页面的信息
+                         * id: 明细ID（vo或方法id）
+                         * 使用的RequestBody方式传参
+                         * {
+                         * 	pageId: '页面id',
+                         *  configs: [
+                         *  	{
+                         *   	 configName: '配置名',
+                         *     	 detailId: '关联id（vo或方法id）'
+                         *       },{
+                         *       configName: '配置名2',
+                         *       detailId: '关联id（vo或方法id）'
+                         *      }
+                         *  ]
+                         * }	
+                         **/
+                        saveRel:{
+                            url:getRootPath()+"/templateMindMapDetails/saveRel",
+                            type:"POST",
+                            dataSrc:'',
+                            contentType:'application/json',
+                        },
+                    }
+                    //pageRel 将页面和vo和method记录关联 end --------------------------------------------------------
+                },
+                //页面id
+                pageDomId:{
+                    //主列表
+                    listTableId:'vomanager-volist-manager-table', 				//导入VO列表（主列表）
+                    listTablePanelId: 'vomanager-volist-manager-panel', 		//导入VO列表（主列表）的面板
+                    //tabs
+                    tabsId:'vomanager-volist-manager-tabs', 
+                    //vo状态列表
+                    voStateTableId:'vomanager-vodata-state-table', 				//vo状态列表
+                    voStateTablePanelId: 'vomanager-vodata-state-panel', 		//vo状态列表的面板
+                    //验证和展示导入思维导图内容
+                    voContentPanelId:'vomanager-vocontent-panel', 				//面板id
+                    selectXmlFileDialogId:'vomanager-import-xml-file-dialog', 	//导入xml文件按钮
+                    //说明文档面板
+                    inputPanelId:'nsprojecteditor-volist-document-intro',
+                }
+            }
+            nsProjectPagesManager.pages.voList.init(pageConfig);
+            //加载字典
+            //nsMindjetToJSTools.getDictData();
+        });
+    </script>
+</container>

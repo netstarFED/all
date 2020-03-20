@@ -1,0 +1,47 @@
+<div class="user">
+    <div class="user-info" id="user-info">
+        <div class="user-photo">
+            <img src="assets/images/user.png" alt="">
+        </div>
+        <div class="user-name">Hi~,{{userName}}</div>
+
+        <a href="javascript:NsMyService.user.logout();" class="btn btn-primary btn-outline">
+            <span>退出</span>
+            <script>
+                var userInfoVm = new Vue({
+                    el: '#user-info',
+                    data: {
+                        userName: '',
+                    },
+                    methods: {
+                        details: function () {}
+                    },
+                    mounted() {
+                        var _this = this;
+                        _this.userName = store.get('MyServiceUserInfo').userInfo.userName;
+                    }
+                })
+                NsMyService.user.logout = function () {
+                    NetStarUtils.OAuthCode.clear();
+                    var loginObj = JSON.parse(store.get('NetstarLoginConfig'));
+                    var loginUrl = loginObj.loginUrl;
+                    window.location.href = loginUrl;
+                }
+            </script>
+        </a>
+
+
+    </div>
+    <div class="user-contact">
+        <div class="user-contact-item">
+            <i class="icon-phone"></i>
+            <span>400-6683-663</span>
+        </div>
+        <div class="user-contact-item">
+            <i class="icon-mail"></i>
+            <span>netstar@netstar.com</span>
+        </div>
+    </div>
+</div>
+<script>
+</script>

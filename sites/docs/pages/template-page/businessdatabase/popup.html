@@ -1,0 +1,71 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <div id="businessdatabase-popup"></div>
+    <script>
+        var popUp = {
+            id: "businessdatabase-popup",
+            templateName: "form",
+            componentTemplateName: "PC",
+            isSetMore: false,
+            form: [{
+                id: "popUpTree",
+                type: "business",
+                value: "",
+                idField: 'id',
+                textField: 'cityname',
+                idField: 'id',
+                value: {
+                    cityname: '可点击'
+                },
+                source: {
+                    url: getRootPath() + '/docs/pages/template-page/businessdatabase/popuptree.html',
+                    data: [{
+                            aa: 111
+                        },
+                        {
+                            bb: 111
+                        },
+                        {
+                            cc: 111
+                        },
+                    ],
+                },
+                search: {
+                    url: getRootPath() + '/assets/json/newcomponent/search.json',
+                    dataSrc: 'rows',
+                },
+
+            },{
+                id: "popUplist",
+                type: "business",
+                value: "",
+                idField: 'id',
+                textField: 'cityname',
+                idField: 'id',
+                value: {
+                    cityname: '可点击'
+                },
+                source: {
+                    url: getRootPath() + '/docs/pages/template-page/businessdatabase/popuplist.html',
+                    data: [{
+                            aa: 111
+                        },
+                        {
+                            bb: 111
+                        },
+                        {
+                            cc: 111
+                        },
+                    ],
+                },
+                search: {
+                    url: getRootPath() + '/assets/json/newcomponent/search.json',
+                    dataSrc: 'rows',
+                },
+
+            }]
+
+        }
+        NetstarComponent.formComponent.show(popUp)
+    </script>
+</container>

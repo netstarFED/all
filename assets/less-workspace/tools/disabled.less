@@ -1,0 +1,40 @@
+@disabled-bg: #f1f1f1;
+@disabled-color: #888;
+@disabled-border: #ddd;
+
+@readonly-bg: @disabled-bg;
+@readonly-color: @disabled-color;
+@readonly-border: @disabled-border;
+
+
+// ============disabled============
+*.disabled,
+*[disabled],
+fieldset[disabled] * {
+    color: @disabled-color  !important;
+    background: @disabled-bg  !important;
+    border-color: @disabled-border  !important;
+    cursor: not-allowed;
+    user-select: none;
+
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+        color: @disabled-color  !important;
+        background: @disabled-bg  !important;
+        border-color: @disabled-border  !important;
+    }
+}
+
+
+// ============disabled============
+*.readonly,
+*[readonly] {
+    color: @readonly-color  !important;
+    background: @readonly-bg  !important;
+    border-color: @readonly-border  !important;
+    cursor: default;
+}

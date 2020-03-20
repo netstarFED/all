@@ -1,0 +1,95 @@
+@ns-dashboard-padding: @base-padding;
+@ns-dashboard-margin: @ns-dashboard-padding;
+@ns-dashboard-gutter: (@ns-dashboard-margin * 2);
+@ns-dashboard-header-height: 5rem;
+@ns-dashboard-header-bg: #000;
+@ns-dashboard-cell-bg: transparent;
+@grid-min-width: 20rem;
+
+.grid {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    // 换行标记
+    .row-wrap {
+        flex: 0 0 100%;
+    }
+
+    // 行
+    .row {
+        .flex-block(flex-start, stretch);
+        flex-wrap: wrap;
+    }
+
+    // 列
+    .col {
+        .flex-block(flex-start, stretch);
+        flex-direction: column;
+        position: relative;
+        // overflow: hidden;
+        // min-width: @grid-min-width;
+    }
+
+    .cell {
+        .flex-block(flex-start, stretch);
+        background: @ns-dashboard-cell-bg;
+        margin: @ns-dashboard-margin;
+        position: relative;
+        z-index: 1;
+
+        &.cell-row {
+            flex-direction: row;
+        }
+
+        &.cell-col {
+            flex-direction: column;
+        }
+
+        &.bg-style {
+            &:after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                content: '';
+                background: url("../../images/bg.jpg");
+                filter: blur(0);
+                z-index: -1;
+                opacity: 0;
+            }
+
+        }
+
+    }
+
+
+
+    // 列循环（循环次数20）
+    .col-loop(@counter) when (@counter < 21) {
+        .col-@{counter} {
+            flex: (1 * @counter); // 每次调用时产生的样式代码
+        }
+
+        .col-loop((@counter + 1)); // 递归调用自身
+    }
+
+
+    .col-loop(1); // 调用循环
+
+
+    // 行循环（循环次数20）
+    .row-loop(@counter) when (@counter < 21) {
+        .row-@{counter} {
+            flex: (1 * @counter); // 每次调用时产生的样式代码
+        }
+
+        .row-loop((@counter + 1)); // 递归调用自身
+    }
+
+
+    .row-loop(1); // 调用循环
+
+
+}

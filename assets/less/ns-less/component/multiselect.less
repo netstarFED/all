@@ -1,0 +1,138 @@
+/* ==================== */
+
+/* multiselect*/
+
+/* ==================== */
+
+.ms-container {
+	position: relative;
+	background: transparent;
+
+	&:before {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin: -9px;
+		font-family: @icon-font;
+		font-size: 18px;
+		content: "\f0ec";
+		color: @gray-light;
+	}
+
+	&:after {
+		content: ".";
+		display: block;
+		height: 0;
+		line-height: 0;
+		font-size: 0;
+		clear: both;
+		min-height: 0;
+		visibility: hidden;
+	}
+
+	ul {
+		margin: 0;
+		list-style-type: none;
+		padding: 0;
+	}
+
+	.ms-optgroup-container {
+		width: 100%;
+	}
+
+	.ms-list {
+		-webkit-transition: border linear 0.2s;
+		-moz-transition: border linear 0.2s;
+		-ms-transition: border linear 0.2s;
+		-o-transition: border linear 0.2s;
+		transition: border linear 0.2s;
+		border: 1px solid @gray-lighter;
+		position: relative;
+		height: 200px;
+		padding: 0;
+		overflow-y: auto;
+
+		&.ms-focus {
+			border-color: darken(@gray-lighter, 10%);
+			outline: 0;
+			outline: thin dotted \9;
+		}
+
+	}
+
+	> div > .ms-list {
+		overflow: hidden;
+	}
+
+	.ms-optgroup-label {
+		margin: 0;
+		padding: @base-padding /2 0px 0px @base-padding /2;
+		cursor: pointer;
+		color: #999;
+	}
+
+	//ms-selectable 选择项
+	.ms-selectable {
+		width: 45%;
+		float: left;
+		background: #fff;
+		color: @gray;
+
+		li.ms-elem-selectable {
+			padding: @base-padding - 2 @base-padding;
+			color: @gray;
+			border-bottom: 1px solid #eee;
+
+			&.selection-selected {
+				background: @ns-info;
+				color: #fff;
+			}
+
+			&.ms-hover {
+				background: @gray-lighter;
+				color: @gray-dark;
+				cursor: pointer;
+			}
+
+		}
+
+		li.disabled {
+			background: #eee;
+			color: #aaa;
+			cursor: text;
+		}
+
+	}
+
+	//ms-selection 选择结果
+	.ms-selection {
+		width: 45%;
+		float: right;
+		background: #fff;
+		color: @gray;
+		li.ms-elem-selection {
+			padding: @base-padding - 2 @base-padding;
+			color: @gray;
+			border-bottom: 1px solid #eee;
+			&.selection-selected {
+				background: @ns-success;
+				color: #fff;
+			}
+
+			&.ms-hover {
+				background: @gray-lighter;
+				color: @gray-dark;
+				cursor: pointer;
+			}
+
+		}
+
+		li.disabled {
+			background: #eee;
+			color: #aaa;
+			cursor: text;
+		}
+
+	}
+
+}

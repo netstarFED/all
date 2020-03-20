@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+	<!--# include file="/erp/include/login-static-dev.html" -->
+	<script src="/assets/js/pt/nspt-signin.js"></script>
+	
+    <title>DEV.网星云</title>
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+	<style id="loginStyle">
+
+	</style>
+</head>
+<body class="login">
+<div id="loginPanel" class="page-login common-top-right">
+	<div class="logo bg-light-opacity-10">
+		<img src="/static/dev/images/erp/logo.png" alt="LOGO">
+	</div>
+	<div id="running" class="pt-rotaryplantingmap-container"></div>
+	<div class="login bg-light-opacity-10 border-dark-opacity-1 border-radius-slight">
+		<div class="title title-dark">账号登陆</div>
+		<div class="group-from from-light">
+			<input class="border-radius-slight bg-light-opacity-1" type="text" id="username" placeholder="用户名">
+			<span class="fa fa-user"></span>
+		</div>
+		<div class="group-from from-light">
+			<input class="border-radius-slight bg-light-opacity-1" type="password" id="password" placeholder="密码">
+			<span class="fa fa-lock"></span>
+			<div class="cue hide" id="pwmsg">您输入的密码错误</div>
+		</div>
+		<div class="remember-pwd">
+			<label for="remember">
+				<input class="remember" type="checkbox" name="remember" id="remember">
+				<span></span>
+				<p class="text-pwd">记住密码</p>
+			</label>
+		</div>
+		<div class="loginbtn loginbtn-blue border-radius-slight">
+			<a href="javascript:void(0);" id="btn-submit">登&nbsp;&nbsp;录</a>
+		</div>
+		<div id="nsLoginStyle-loginDiv-btns" class="pt">
+			<a href="/registationController/regist" class="regist">注册</a>
+		</div>
+	</div>
+	<div class="footer">版权所有 © 网星软件 2008-2019 ALL Rights Reserved 保留一切权利 冀ICP备12000600号-1号</div>
+</div>
+</body>
+
+<script type="text/javascript">
+    var webRootPath = 'http://nscloud.applinzi.com/';
+	var serverRootPath = 'http://wangxingcloud.com/';
+    var debugerMode = true; 
+	
+	$(function () {
+		
+		var loginUrl = window.location.href;
+		//var rootPath = 'http://nscloud.applinzi.com/';
+		
+        var rootPath = '/';
+		var sourcePath = 'dist/';
+
+		NetstarLogin.init({
+			loginUrl:loginUrl,
+			expireMinute:1, //过期时长 单位是分钟
+			containerEl:'#loginPanel',
+			usernameEl:"#username",
+			passwordEl:"#password",
+			submitBtnEl:'#btn-submit',
+			msgEl:"#pwmsg",
+			images:{
+				logo:rootPath + 'static/dev/images/erp/logo.png',
+				bg:rootPath + 'static/dev/images/erp/bg.png',
+			},
+			cookieJson:{
+				username: "username", //用户名id
+				remember: "remember" //记住用户名id
+			},
+			loginAjax:{ 				//登录验证
+				url:serverRootPath + 'jwtlogin', 
+			},
+			getLoginProperty:{ 			//获取登录信息，包括用户信息等  
+				url:serverRootPath + 'servletContexts/properties',
+            },
+            getDict:{
+				url:serverRootPath + 'dicts/getDict', //默认系统字典
+				type:'GET',
+				data:{},
+			},
+			styleEl:'#loginStyle', //登录专用的CSS 
+			rootPath:rootPath,
+			sourcePath:sourcePath,
+			userMode:'dev', 		//  dev 开发  /dist 发布  /online 生产环境
+            mainPage:{
+				url:'home/'
+			},
+            mainMenus:{
+				id: "mainpage-menus-contianer",  //插入主菜单的容器ID 例如 <div id="mainpage-menus-contianer" class="pt-nav pt-dropdown"></div>
+
+                ajax:{
+					url:serverRootPath + 'menus/getMenuOfUser',
+					contentType: 'application/x-www-form-urlencoded',
+                    data:{
+                        usedOnPcOrPhone:0
+                    },
+                    dataSrc:'rows',
+                    type:'GET'
+                },
+                convertToTree: true,
+                menuChildIdField: "children",
+                menuIdField: "menuId",
+                menuNameField: "menuName",
+                menuParentIdField: "menuParentId",
+                menuUrlField: "menuUrl",
+            },
+			// staticSourceAjax:{ 	//静态资源文件
+			// 	url:'/erp/data/static-source.json'
+			// }, 
+			
+		})
+
+		//轮播图
+		var config = {
+			time : 3000,
+			rootPath:'',
+            width : '100%',
+            height : '100%',
+            id : 'running',
+            valueField : 'url',
+            ajax : {
+                url : '/assets/json/newcomponent/rotaryplantingmap.json',
+                type : 'GET',
+                dataSrc : 'rows',
+            }
+        }
+        NetstarRotaryPlantingMap.init(config)
+	})
+</script>
+</html>

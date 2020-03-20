@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+	<link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+	<title>统计列表页 listByLevel2</title>
+
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<!--# include file="/sites/include/login-static-dev.html" -->
+	<!--# include file="/sites/include/preload-static-dev.html" -->
+	<!--# include file="/sites/include/mainpage-static-dev.html" -->
+	<!--# include file="/sites/include/lazy-static-dev.html" -->
+	<style>
+	</style>
+</head>
+<style>
+  
+</style>
+
+    <container>
+        
+        
+		<script type="text/javascript">
+			var nsPublic = nsPublic ? nsPublic : {};
+			nsPublic.getAppendContainer = function () { 
+				var insertLocation = $('container:not(.hidden)').not('.content');
+				if ($('.nswindow .content').length > 0) {
+					insertLocation = $('.nswindow .content:last');
+				}
+				return insertLocation;
+			}
+            var localhoseUrl = 'http://ui-pc:2000';
+            var statisticslistJson = {
+				package:'nsVue.graps.statisticslist',
+				template:'statisticsList',
+                title:'listByLevel2',
+				//mode:'dialog',
+				mode:'listByLevel2',
+				components:[
+					{
+						type:'list',
+						idField:'id', 
+						//plusClass:'pt-block-list-vertical',
+						ajax:{
+							src:                    localhoseUrl+'/assets/json/project-list.json',       //数据源地址
+							type:                   "GET",          //GET POST
+                            //contentType:            'application/json; charset=utf-8',          //GET POST
+                            contentType:'application/x-www-form-urlencoded',
+							data:                   {},             //参数对象{id:1,page:100}
+							//isServerMode:         true,           //是否开启服务器模式
+							dataSrc:                'row',
+						},
+						parent:'root',
+						keyField:'',
+						params:{
+							query:{
+								isQuickQuery:false,// 支持快速查询
+								daterange:{
+
+								},
+								year:{
+									//start:,
+									//end:,
+								},
+								isDateRanger:true,//是否支持按日期区间查询
+								isYear:false,//是否支持按年份查询
+								echarts:{
+									type:'pie',//显示饼图
+									title:'点我查看饼图'
+								}
+							}
+						},
+						field:[
+							{
+								field : 'itemName',
+								title : '名称',
+								width : 60,
+								searchable:true,
+								orderable:false, 
+								isCommon:true,
+							}, {
+								field : 'itemCateName',
+								title : '所属分类',
+								searchable: true,
+								width:80,
+								orderable:false, 
+							}
+						],
+					},{
+						type:'list',
+						idField:'customerId',
+						//plusClass:'pt-grid-body',
+						params:{
+							query:{
+								isQuickQuery:false,// 支持快速查询
+								isDateRanger:false,//是否支持按日期区间查询
+								isYear:true,//是否支持按年份查询
+								echarts:{
+									type:'bar',//显示饼图
+									title:'点我查看柱状图'
+								}
+							}
+						},
+						ajax:{
+							src:                    localhoseUrl + '/assets/json/project-list.json',       //数据源地址
+							type:                   "GET",          //GET POST
+                            //contentType:            'application/json; charset=utf-8',          //GET POST
+                            contentType:'application/x-www-form-urlencoded',
+							data:                   {},             //参数对象{id:1,page:100}
+							//isServerMode:         true,           //是否开启服务器模式
+							dataSrc:                'row',
+						},
+						keyField:'customerList',
+						field:[
+							{
+								field : 'itemName',
+								title : '名称',
+								width : 150,
+								searchable:true,
+								orderable:true, 
+								isCommon:true,
+							}, {
+								field : 'itemCateName',
+								title : '所属分类',
+								searchable: true,
+								width:500,
+								orderable:true, 
+							},{
+								field:'py',
+								title:'拼音码',
+								width:200,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							}
+						],
+					}
+				],
+			};
+			NetstarTemplate.init(statisticslistJson);
+
+
+
+        </script>
+    </container>
+</html>

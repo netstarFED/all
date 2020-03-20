@@ -1,0 +1,263 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <style>
+        .pt-document {
+            display: flex;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        .pt-document-field {
+            display: flex;
+        }
+
+        .pt-form-group {
+            margin-right: 12px;
+        }
+
+        .pt-document-gridlist {
+            width: 100%;
+        }
+
+        .pt-document-tree {
+            width: 240px;
+            height: 544px;
+            margin-left: 170px;
+        }
+        .pt-document-demo-tree {
+            height: 544px;
+            margin-top: 34px;
+        }
+
+        .businessdatabase-grid-component {
+            width: 100%;
+            margin-left: 22px;
+        }
+        .pt-form-group {
+            left: 0;
+        }
+        .pt-btn-group {
+            display: flex;
+        }
+    </style>
+    <div class="pt-document">
+        <div class="pt-document-demo-tree">
+            <ul class="pt-document-tree ztree" id="netstar-page-document-ztree"></ul>
+        </div>
+        <div id="pt-document-demo-btns"></div>
+        <div class="pt-panel businessdatabase-grid-component nsgrid">
+            <!-- 列表搜索 -->
+
+            <div class="pt-document-field">
+                <div>文档</div>
+                <div class="pt-form-group-search" >
+                    <div class="pt-form-group fg-select "><label
+                            for="form-query-nstemplate-layout-nscloud-userManage-list-0-filtermode"
+                            class="pt-control-label hide"></label>
+                        <div class="pt-select pt-input-group"><input type="text"
+                                id="form-query-nstemplate-layout-nscloud-userManage-list-0-filtermode"
+                                ns-id="filtermode" class="pt-form-control" style="width: 150px;">
+                            <!---->
+                            <div class="pt-input-group-btn"><button class="pt-btn pt-btn-default pt-btn-icon clear"><i
+                                        class="icon-close"></i></button><button
+                                    ns-name="form-query-nstemplate-layout-nscloud-userManage-list-0-filtermode"
+                                    class="pt-btn pt-btn-default pt-btn-icon"><i class="icon-arrow-down-o"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-form-group fg-text "><label
+                            for="form-query-nstemplate-layout-nscloud-userManage-list-0-filterstr"
+                            class="pt-control-label hide"></label>
+                        <div class="pt-text pt-input-group"><input type="text"
+                                id="form-query-nstemplate-layout-nscloud-userManage-list-0-filterstr"
+                                class="pt-form-control" style="width: 150px;">
+                            <div class="pt-input-group-btn pt-input-group-btn-group"><button
+                                    class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i
+                                        class="icon-close"></i></button></div>
+                        </div>
+                    </div>
+                    <div class="pt-btn-group">
+                        <button type="button" class="pt-btn pt-btn-default pt-btn-icon">
+                            <i class="icon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-document-gridlist" id="netstar-page-document-list"></div>
+        </div>
+
+    </div>
+    </div>
+    <script>
+        $(function () {
+            var NetstarPageDataDocument = {
+                //树
+                tree: {
+                    init: function () {
+                        var _this = this;
+                        _this.initZtree(function (data) {
+                            uiMananer.tree.initZtree(data)
+                        });
+
+                    },
+                    initZtree: function () {
+                        var ZtreeObj;
+                        var setting = {
+                            data: {
+                                simleData: {},
+                                key: {
+                                    name: "name",
+                                },
+                                view: {
+                                    showIcon: true,
+                                }
+                            }
+                        };
+
+                        var zNodes = [{
+                            name: "test",
+                            open: true,
+                            children: [{
+                                id: 1,
+                                name: "1",
+                            }, {
+                                id: 2,
+                                name: "2",
+                            }]
+                        }, {
+                            name: "test-2",
+                            open: true,
+                            children: [{
+                                id: 8,
+                                name: "test-2-1",
+                            }, {
+                                id: 9,
+                                name: 'test-2-2',
+                            }]
+                        }]
+                        zTreeObj = $.fn.zTree.init($("#netstar-page-document-ztree"), setting, zNodes);
+                    }
+
+                },
+                //列表
+                list: {
+                    initList: function (obj) {
+                        var NetstarDocumentList = {
+                            columns: [{
+                                    field: 'name',
+                                    title: '名称',
+                                    columnType: 'text',
+                                    editConfig: {
+                                        type: 'text',
+
+                                    }
+                                },
+                                {
+                                    field: 'come',
+                                    title: '来自',
+                                    columnType: 'text',
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'come',
+                                    title: '最近打开',
+                                    columnType: 'text',
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'come',
+                                    title: '最近浏览',
+                                    columnType: 'text',
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                }
+                            ],
+                            data: {
+                                idField: 'id',
+                                tableID: 'netstar-page-document-list',
+                                dataSource: [{
+
+                                }]
+                            },
+                            ui: {
+                                isAutoSerial: true,
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: true,
+                                minPageLength: 10,
+                                isEditMode: true,
+                                isAllowAdd: true,
+                                height: 450,
+                                tableRowBtns: [{
+                                        text: '设置权限',
+                                    },
+                                    {
+                                        text: '移动',
+                                    },
+                                    {
+                                        text: '重命名',
+                                    },
+                                    {
+                                        text: '删除'
+                                    }
+                                ]
+
+                            }
+                        }
+                        NetStarGrid.init(NetstarDocumentList);
+                    },
+                    init: function (obj) {
+                        var _this = this;
+                        _this.initList(function (data) {
+                            uiMananer.list.initList(data)
+                        });
+                    }
+                },
+                btns: {
+                    initBtns: function (obj) {
+                        var NetstarDocumentBtns = {
+                            id: 'pt-document-demo-btns',
+                            btns: [{
+                                    text: "最近浏览",
+                                    handler: function () {
+
+                                    }
+                                },
+                                {
+                                    text: '最近修改',
+                                    handler: function () {}
+                                },
+                                {
+                                    text: "与我共享",
+                                    handler: function () {
+
+                                    }
+                                }
+                            ]
+                        }
+                        vueButtonComponent.init(NetstarDocumentBtns);
+                    },
+                    init: function (obj) {
+                        var _this = this;
+                        _this.initBtns(function (data) {
+                            uiMananer.btns.initBtns(data)
+                        });
+                    }
+                },
+                init: function () {
+                    var _this = this;
+                    _this.tree.init();
+                    _this.list.init();
+                    _this.btns.init();
+                }
+            }
+            NetstarPageDataDocument.init();
+
+        })
+    </script>
+</container>

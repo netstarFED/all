@@ -1,0 +1,265 @@
+{
+    "operator": {
+        "type": {
+            "chineseName": "组件类型",
+            "validType": "string",
+            "toolType": "select",
+            "default": "businessSelect",
+            "required": true,
+            "subdata": [{
+                "value": "businessSelect",
+                "text": "下拉业务组件"
+            }]
+        },
+        "id": {
+            "chineseName": "字段名称",
+            "validType": "string",
+            "toolType": "text",
+            "required": true
+        },
+        "label": {
+            "chineseName": "标签",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        }, 
+        "inputHeight":{
+            "chineseName":"文本框高度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100
+        },          
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":100,
+            "help":"可以输入百分比：如70% "
+        }, 
+        "rules": {
+            "chineseName": "验证规则",
+            "validType": "string",
+            "toolType": "multi-select",
+            "subdata": [{
+                "value": "required",
+                "text": "必填"
+            }, {
+                "value": "",
+                "text": "无验证"
+            }]
+        },
+        "disabled": {
+            "chineseName": "只读",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "hidden": {
+            "chineseName": "隐藏",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "selectMode":{
+            "chineseName":"选择模式",
+            "validType":"string",
+            "toolType":"select",
+            "default":"single",
+            "subdata":[{
+                "value":"single",
+                "text":"单选"
+            },{
+                "value":"multi",
+                "text":"多选"
+            }]
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+       
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "changeHandler": {
+            "validType": "function",
+            "toolType": "textarea",
+            "chineseName": "值改变方法"
+        }    
+    },
+    "data": {
+        "ajax":{
+            "chineseName":"ajax",
+            "required":true,
+            "validType":"object",
+            "toolType":"ajaxEditor"
+        },
+        "source": {
+            "chineseName": "查询地址",
+            "validType": "object",
+            "toolType": "ajaxEditor",
+            "required": true,
+            "help":"地址可配多个"
+        },
+        "getRowData": {
+            "chineseName": "getRowData",
+            "validType": "object",
+            "toolType": "ajaxEditor",
+            "help":""
+        }, 
+        "getFormData": {
+            "chineseName": "getFormData",
+            "validType": "object",
+            "toolType": "ajaxEditor",
+            "default": {},
+            "help":""
+        },       
+        "idField":{
+            "chineseName":"主键字段",
+            "required":true,
+            "validType":"string",
+            "toolType":"text",
+            "default":"id"
+        },
+        "textField":{
+            "chineseName":"显示字段",
+            "validType":"string",
+            "toolType":"text",
+            "default":"text",
+            "required":true,
+            "help":"下拉框显示字段"
+        },
+        "valueField":{
+            "chineseName":"保存值",
+            "required":true,
+            "validType":"string",
+            "toolType":"text",
+            "default":"value",
+            "help":"服务器接受到的返回值"
+        },
+        "voField":{
+            "chineseName":"vo字段",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":""
+        },
+        "relationField": {
+            "chineseName": "关联字段",
+            "validType": "string",
+            "toolType": "text",
+            "default": "",
+            "help":"举例：\"customerContacterId,addressTo\""
+        },
+        "outputField":{
+            "chineseName": "输出数据",
+            "validType": "object",
+            "toolType": "textarea",
+            "default": {},
+            "help":"弹出模板时需要" 
+        },
+        "innerFields":{
+            "chineseName": "初始化组件",
+            "validType": "object",
+            "toolType": "textarea",
+            "default": {},
+            "help":"组件赋值时value赋值" 
+        },
+        "assignExpres":{
+            "chineseName": "表单赋值",
+            "validType": "object",
+            "toolType": "textarea",
+            "default": {},
+            "help":":通过业务组件返回值给表单赋值（vo赋值）" 
+        },
+         "listExpression": {
+            "chineseName": "显示表达式",
+            "validType": "string",
+            "toolType": "expressionEditor",
+            "default": "",
+            "help":"格式:<li><span>{{name}}</span></li>"
+        },
+        "panelConfig": {
+            "chineseName": "面板配置",
+            "validType": "object",
+            "toolType": "textarea",
+            "default": "",
+            "help":""
+        },
+        "defaultSearchData": {
+            "chineseName": "查询默认配置",
+            "validType": "object",
+            "toolType": "textarea",
+            "default": "",
+            "help":""
+        },
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+    },
+    "prepattern": [
+        {
+            "name": "总",
+            "value":  {
+                "id": "businessselect",
+                "label": "",
+                "type": "business",
+                "textField": "name",
+                "inputWidth": 100,
+                "dialogTitle": "往来单位名称",
+                "infoBtnName": "4444",
+                "isShowDialog":true,                         
+                "source": {
+                    "url": "getRootPath() + '/docs/pages/template-page/businessdatabase2.html'",
+                    "type": "get",
+                    "contentType": "application/x-www-form-urlencoded ",
+                    "data": ""
+                },
+                "search": {
+                    "url": "getRootPath() + '/public/static/assets/json/newcomponent/search.json'",
+                    "dataSrc": "rows",
+                    "type": "GET",
+                    "contentType": "application/x-www-form-urlencoded "
+                }
+            }
+        }  
+    ]
+}

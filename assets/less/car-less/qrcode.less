@@ -1,0 +1,29 @@
+
+@qrcode-media-size: 		241px;
+@qrcode-media-padding: 		15px;
+.qrcode{
+	display: table;
+	width: 100%;
+	.qrcode-media{
+		display: table-cell;
+		vertical-align: top;
+		.square(@qrcode-media-size);
+		img{
+			.square(@qrcode-media-size);
+			padding: @qrcode-media-padding;
+			border: 1px solid @ns-border-color;
+		}
+	}
+	.qrcode-table{
+		display: table-cell;
+		vertical-align: top;
+		padding-left: @qrcode-media-padding;
+		.table{
+			border:1px solid @ns-border-color;
+			tr > td{
+				border-color: @ns-border-color;
+			}
+		}
+	}
+	
+}

@@ -1,0 +1,773 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+           <!-- 参数说明 -->
+           <div class="panel panel-default params" netstar-doc="intro">
+            <div class="panel-header">
+                <h1></h1>
+                <h2 id="sense-params">参数说明</h2>
+            </div>
+            <div class="panel body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>必填</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>columns</td>
+                        <td>配置参数</td>
+                        <td>array</td>
+                        <td><i class="fa fa-check"></i></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>data</td>
+                        <td>数据配置</td>
+                        <td>string</td>
+                        <td><i class="fa fa-check"></i></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ui</td>
+                        <td>ui配置 </td>
+                        <td>string</td>
+                        <td><i class="fa fa-check"></i></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class=" panel content-demo" netstar-doc="sample">
+            <div class="content language-javascript">
+            <pre>
+{    
+    columns:[...   //具体参数详见下面 ]
+    data:{ ...  //具体参数详见下面}
+    ui:{...  //具体参数详见下面}
+} 
+                </pre>
+            </div>
+        </div>
+        <!-- 演示试例 -->
+        <!-- 输入模式 value -->
+        <div class=" panel content-demo" netstar-doc="sample">
+            <a href="javascript:void(0);" id="sense-nsdocs-grid-columns"></a>
+            <!-- <span>快捷键左右选择</span> -->
+            <h3 class="mobile-columns">表格配置参数</h3>
+            <span class="intro">参数说明</span>
+            <div id="nsdocs-radio-value" class="panel-demo"></div>
+            <div class="panel body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>必填</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td>field</td>
+                        <td>不可重复字段名</td>
+                        <td>string</td>
+                        <td><i class="fa fa-check"></i></td>
+                        <td>字段id</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>标题</td>
+                        <td>string</td>
+                        <td><i class="fa fa-check"></i></td>
+                        <td>{}</td>
+                    </tr>
+                    <tr>
+                        <td>columnType</td>
+                        <td> 类型</td>
+                        <td>string</td>
+                        <td><i class="fa fa-check"></i></td>
+                        <td>表格设置</td>
+                    </tr>
+                    <tr>
+                        <td>editable</td>
+                        <td>是否编辑</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td>是否可以编辑</td>
+                    </tr>
+                    <tr>
+                        <td>orderable</td>
+                        <td>是否允许列排序</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>hidden</td>
+                        <td>隐藏列</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                        <tr>
+                        <td>fieldLength</td>
+                        <td>字段长度</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>rowColor</td>
+                        <td>行颜色</td>
+                        <td>object</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>total</td>
+                        <td>表达式</td>
+                        <td>object</td>
+                        <td></td>
+                        <td>举例：{{money}}-{{price}}</td>
+                    </tr>
+                    <tr>
+                        <td>isTreeNode</td>
+                        <td>是否有树节点</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>searchable</td>
+                        <td>是否允许列搜索</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>isQuickQuery</td>
+                        <td>是否支持快速查询</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>tooltip</td>
+                        <td>提示信息</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>isTitle</td>
+                        <td>是否作为标题</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td>默认false</td>
+                    </tr>
+                    <tr>
+                        <td>isValue</td>
+                        <td>是否作为值</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td>默认false</td>
+                    </tr>
+                    <tr>
+                        <td>isDefaultSubdataText</td>
+                        <td>默认字符串替换</td>
+                        <td>boolean</td>
+                        <td></td>
+                        <td>select/radio/checkbox时有效</td>
+                    </tr>
+                    <tr>
+                        <td>editConfig</td>
+                        <td>表单配置</td>
+                        <td>object</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>getRowData</td>
+                        <td>行数据</td>
+                        <td>object</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>footer</td>
+                        <td>类型</td>
+                        <td>object</td>
+                        <td></td>
+                        <td> sum（合计） average（平均值</td>
+                    </tr>
+                    <tr>
+                        <td>formatHandler</td>
+                        <td>列类型</td>
+                        <td>object</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--获取数据1 -->
+        <div class="panel content-demo" netstar-doc="sample">
+            <a href="javascript:void(0);" id="sense-nsdocs-grid-data"></a>
+            <h3 class="mobile-data">表格数据参数</h3>
+            <span class="intro">参数说明</span>
+            <div id="nsdocs-radio-subdata" class="panel-demo"></div>
+            <!-- js块 -->
+            <div class="panel body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>必填</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        <tr>
+                            <td>idField</td>
+                            <td>数据集中主键字段名，或不重复的字段名</td>
+                            <td>object</td>
+                            <td><i class="fa fa-check"></i></td>
+                            <td></td>
+                        </tr> 
+                        <tr>
+                            <td>tableId</td>
+                            <td>容器DOM的id</td>
+                            <td>object</td>
+                            <td><i class="fa fa-check"></i></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>dataSource</td>
+                            <td>静态数据源</td>
+                            <td>object</td>
+                            <td><i class="fa fa-check"></i></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>isPage</td>
+                            <td>是否分页</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td></td>
+                        </tr>  
+                        <tr>
+                            <td>isSearch</td>
+                            <td>是否允许检索</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td></td>
+                        </tr>  
+                        <tr>
+                            <td>isServerMode</td>
+                            <td>是否允许本地检索</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td>默认false</td>
+                        </tr>
+                        <tr>
+                            <td>src</td>
+                            <td>获取地址</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>通过ajax获得subdata</td>
+                        </tr>
+                        <tr>
+                            <td>dataSrc</td>
+                            <td>返回的值</td>
+                            <td>object</td>
+                            <td></td>
+                            <td>ajax返回数据的key值</td>
+                        </tr>
+                        <tr>
+                            <td>type</td>
+                            <td>类型</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>ajax类型，GET/POST (默认GET)</td>
+                        </tr>
+                        <tr>
+                            <td>data</td>
+                            <td>传参</td>
+                            <td>object</td>
+                            <td></td>
+                            <td>ajax传参 关联字段配置（即获得表单中其它字段值作为传输参数）{}</td>
+                        </tr>
+                        <tr>
+                            <td>contentType</td>
+                            <td>ajax的传值类型</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>ajax的传值类型 ‘application/json’表示传值data转化成字符串</td>
+                        </tr>    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--获取数据2 -->
+        <div class="panel content-demo" netstar-doc="sample">
+            <a href="javascript:void(0);" id="sense-nsdocs-grid-ui"></a>
+            <h3 class="mobile-ui">ui参数配置</h3>
+            <span class="intro">参数说明</span>
+            <div id="nsdocs-radio-subdatatwo" class="panel-demo"></div>
+            <!-- js块 -->
+            <div class="panel body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>必填</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>isAutoSerial</td>
+                            <td>是否序号</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>isCheckSelect</td>
+                            <td>是否勾选</td>
+                            <td>boolean</td>
+                            <td></i></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>isHeader</td>
+                            <td></td>
+                            <td>bolean</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>isPage</td>
+                            <td>分页</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td>是否可以分页</td>
+                        </tr>
+                        <tr>
+                            <td>isHaveAddBtn</td>
+                            <td>是否有添加按钮</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>isEditMode</td>
+                            <td>是否可以编辑</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>displayMode</td>
+                            <td>更多模式</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>block（块状），treeGrid（树列表）</td>
+                        </tr>
+                        <tr>
+                            <td>selectMode</td> 
+                            <td>选择</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>选择方式 single（单选）,multi（多选</td>
+                        </tr>
+                        <tr>
+                            <td>styleExpress</td> 
+                            <td>样式表</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>isHaveEditDeleteBtn</td>
+                            <td>是否有编辑和删除按钮</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>tableRowBtns</td>
+                            <td>表格行内按钮</td>
+                            <td>function</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>height</td>
+                            <td>高</td>
+                            <td>number</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>ajaxSuccessHandler</td>
+                            <td>ajax完成回调</td>
+                            <td>function</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>completeHandler</td>
+                            <td>完成事件</td>
+                            <td>function</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>pageChangeAfterHandler</td>
+                            <td>翻页回调</td>
+                            <td>function</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>pageLengthChangeHandler</td>
+                            <td>改变条数回调</td>
+                            <td>function</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>rowdbClickHandler</td>
+                            <td>双击回调</td>
+                            <td>function</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>selectedHandler</td>
+                            <td>行选中</td>
+                            <td>function</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>defaultSelectedIndex</td>
+                            <td>默认选中第几条</td>
+                            <td>number</td>
+                            <td></td>
+                            <td>举例：默认选中第2条数据（defaultSelectedIndex：1）</td>
+                        </tr>
+                        <tr>
+                            <td>isUseMessageState</td>
+                            <td>是否允许代办列</td>
+                            <td>boolean</td>
+                            <td></td>
+                            <td>表格代办列</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 列类型 -->
+        <div class="panel content-demo" netstar-doc="sample">
+            <a href="javascript:void(0);" id="sense-nsdocs-grid-columntype"></a>
+            <h3 class="title-code">列类型</h3>
+            <span class="intro">参数说明</span>
+            <div id="nsdocs-grid-disabled" class="panel-demo"></div>
+            <!-- js块 -->
+            <div class="panel body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>说明</th>
+                            <th>类型</th>
+                            <th>必填</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>stringReplace</td>
+                            <td>字符串替换</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>subdataText</td>
+                            <td>字符串替换</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>columnState</td>
+                            <td>列状态输出</td>
+                            <td>string</td>
+                            <td></i></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>money</td>
+                            <td>金钱</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>number</td>
+                            <td>数字</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>date</td>
+                            <td>日期</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>datetime</td> 
+                            <td>时间</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>href</td> 
+                            <td>超链接输出</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>upload</td> 
+                            <td>上传</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>input</td>
+                            <td>输入</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>formatDate</td>
+                            <td>格式化时间戳</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>dictionary</td>
+                            <td>字典输出</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>switch</td>
+                            <td>字典输出</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>thumb</td>
+                            <td>缩略图</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>codeToName</td>
+                            <td>省市区转换</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>renderField</td>
+                            <td>字符串渲染</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>cubesInput</td>
+                            <td>多维输入</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>standardInput</td>
+                            <td>标准值输入</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>timeUint</td>
+                            <td>时间单位</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>htmlRender</td>
+                            <td>html渲染</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>textFieldReplace</td>
+                            <td>textField替换</td>
+                            <td>string</td>
+                            <td></td>
+                            <td>显示textField</td>
+                        </tr>
+                        <tr>
+                            <td>jsonToList</td>
+                            <td>json数据转list表格</td>
+                            <td>string</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            <!-- 演示试例 -->
+            <!-- 半屏模式-->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-checkbox-halfscreen"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">块状表格</h3>
+                <span class="intro">块状表格blocklist</span>
+                <div class="mobile-test-dome">
+                    <iframe src="../pages/mobile/mobile-panel/mobile-blocklist.html" class="doc-mobile-show"></iframe>
+                    <div class="content language-javascript-mobile">
+                        <pre class="mobile-test">
+    {
+        id: 		 	'sex',
+        label: 		 	'性别',
+        type: 		 	'checkbox',
+        column: 	 	6,
+        rules: 			'required',
+        tooltips: 		'提示信息',
+        subdata:[
+            // { text:'女',value:'',},
+            { text:'女',value:'0', isChecked : true },
+            { text:'男',value:'1' },
+            { text:'男',value:'2' },
+            { text:'男',value:'3' },
+            { text:'男',value:'4' },
+            { text:'男',value:'5' },
+            { text:'男',value:'8' },
+            { text:'男',value:'7' },
+        ],
+        mindjetFieldPosition:'field',
+        changeHandler : function(value, config){
+            console.log(value);
+            console.log(config);
+        },
+        value : '',
+    },{
+        id: 		 		'ajaxRadio',
+        label: 		 		'ajax调用',
+        type: 		 		'checkbox',
+        rules: 		 		'required',
+        column: 	 		6,
+        textField:			'name',	
+        valueField:			'id',
+        isHasClose:			true,
+        url:				getRootPath()+'/docs/data/mobile/radio.json',
+        contentType:'application/x-www-form-urlencoded',
+        method:				'GET',
+        data:				{},
+        dataSrc:			'list',
+        value: 				'1',
+        tooltips: 		'提示信息',
+        mindjetFieldPosition:'field-more',
+    } ,{
+        id: 		 		'ajaxRadio2',
+        label: 		 		'ajax调用2',
+        type: 		 		'checkbox',
+        rules: 		 		'required',
+        column: 	 		6,
+        textField:			'name',	
+        valueField:			'id',
+        // isHasClose:			true,
+        url:				getRootPath()+'/docs/data/mobile/radio.json',
+        contentType:'application/x-www-form-urlencoded',
+        method:				'GET',
+        data:				{},
+        dataSrc:			'list',
+        value: 				'1',
+        tooltips: 		'提示信息',
+        mindjetFieldPosition:'field',
+    },{
+        id: 		 	'name',
+        label: 		 	'姓名',
+        type: 		 	'checkbox',
+        column: 	 	6,
+        rules: 			'required',
+        tooltips: 		'提示信息',
+        subdata:[
+            { text:'小明',value:'0' },
+            { text:'小红',value:'1' },
+            { text:'小刚',value:'2' },
+        ],
+        mindjetFieldPosition:'field-more',   
+    },{
+        id: 		 	'displayClass',
+        label: 		 	'多选样式',
+        type: 		 	'checkbox',
+        column: 	 	6,
+        rules: 			'required',
+        tooltips: 		'提示信息',
+        subdata:[
+            { text:'小明',value:'0' },
+            { text:'小红',value:'1' },
+            { text:'小刚',value:'2' },
+        ],
+        displayClass:   'switch',
+        mindjetFieldPosition:'field',   
+    }
+                         </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

@@ -1,0 +1,71 @@
+@ns-dashboard-padding: @base-padding;
+@ns-dashboard-margin: @ns-dashboard-padding;
+@ns-dashboard-gutter: (@ns-dashboard-margin * 2);
+@ns-dashboard-header-height: 60px;
+@ns-dashboard-header-bg: #000;
+@ns-dashboard-cell-bg: transparent;
+@ns-dashboard-bg: #fff;
+
+.hide {
+    display: none !important;
+}
+
+.ex-title {
+    font-size: 2.5rem;
+    padding: @ns-dashboard-margin;
+    color: #fff;
+}
+
+.ns-dashboard {
+    .size(100vw, 100vh);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+   
+
+    &.ns-dashboard-oa{
+        .ns-dashboard-header{
+            display: none;
+        }
+        .grid{
+            .row-2{
+                flex: 1.5;
+            }
+        }
+    }
+    .ns-dashboard-header {
+        .flex-block(center, center);
+        background: @ns-dashboard-header-bg;
+        flex: 0 0 @ns-dashboard-header-height;
+        padding: @ns-dashboard-padding;
+    }
+
+    .ns-dashboard-body {
+        display: flex;
+        flex: 1;
+        padding: @ns-dashboard-padding;
+
+    }
+
+
+    &.ex-2 {
+        .cell {
+            background: rgb(145, 167, 236);
+        }
+    }
+
+    &.ex-3 {
+        .cell {
+            background: rgb(224, 176, 114);
+        }
+    }
+
+    &.ex-4 {
+        .cell {
+            background: rgb(184, 233, 169);
+        }
+    }
+
+
+}

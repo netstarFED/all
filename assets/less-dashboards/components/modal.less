@@ -1,0 +1,29 @@
+@modal-padding: @base-padding;
+@modal-bg: #fff;
+@modal-gutter: @base-margin;
+
+.modal {
+    position: absolute;
+    top: @modal-gutter;
+    bottom: @modal-gutter;
+    // left: @modal-gutter;
+    margin: 0 auto;
+    background: @modal-bg;
+    z-index: 1099;
+
+    .modal-header {
+        .flex-block(flex-start, center);
+        padding: @modal-padding;
+
+        .close {
+            i {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    .modal-body {
+        padding: @modal-padding;
+    }
+
+}

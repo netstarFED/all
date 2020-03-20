@@ -1,0 +1,48 @@
+@processdocbaselevel2-left-panel-width: 240px;
+@processdocbaselevel2-left-block-list-width: @processdocbaselevel2-left-panel-width;
+.processdocbaselevel2-left{
+    width: @processdocbaselevel2-left-panel-width;
+    .nsgrid-block{
+        margin-bottom: @base-margin;
+
+        .pt-grid-body{
+            position: relative;
+            z-index: 1;
+            // &:before,
+            // &:after{
+            //     position: absolute;
+            //     width: 100%;
+            //     height: 1px;
+            //     content: '';
+            //     background: @border-color;
+            //     left: 0;
+            //     z-index: 9;
+            // }
+            &:before{
+                top: 0;
+            }
+            &:after{
+                bottom: 0;
+            }
+            .pt-block-list{
+                float: none;
+                height: auto;
+                margin: 0;
+                margin-top: -1px;
+               
+                &:first-child{
+                    margin-top: 0;
+                }
+
+                &.selected{
+                    position: relative;
+                    z-index: 2;
+                }
+
+                span.text{
+                    background: none;
+                }
+            }
+        }
+    }
+}

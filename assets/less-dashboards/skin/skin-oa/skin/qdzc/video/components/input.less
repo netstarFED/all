@@ -1,0 +1,30 @@
+@input-width: 17rem;
+@padding-base: 0.6rem;
+@input-border: 1px solid #00beff;
+@border-radius: 0.3rem;
+@color-base: #00c5ff;
+
+.ns-input-group {
+    position: relative;
+    width: @input-width;
+    .flex-block();
+    flex: none;
+
+    .ns-form-control {
+        border: @input-border;
+        padding: @padding-base;
+        background: transparent;
+        border-top-left-radius: @border-radius;
+        border-bottom-left-radius: @border-radius;
+
+        &::-webkit-input-placeholder {
+            /* 修改字体颜色 */
+            color: @color-base
+        }
+    }
+
+    .ns-input-group-btn {
+        .flex-block(space-between, stretch);
+        align-content: stretch;
+    }
+}

@@ -1,0 +1,45 @@
+   <!--# include file="/sites/include/preload-static-dev.html" -->
+<container>
+    <style>
+        /* html,
+        body {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            overflow: hidden;
+        } */
+    
+        #gantt {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <div id="gantt"></div>
+
+    <script>
+        var urlGantt = window.location.origin + '/sites/pages/sifang/zcGantt/gantt.js'
+        var urlTooltip = window.location.origin + '/sites/pages/sifang/zcGantt/lib/js/dhtmlxgantt_tooltip.js'
+        var urldHtmlxgantt = window.location.origin + '/sites/pages/sifang/zcGantt/lib/js/dhtmlxgantt.js'
+        $.getScript(urldHtmlxgantt, function () {
+            $.getScript(urlTooltip, function () {
+                $.getScript(urlGantt, function () {
+                    // debugger;
+                    ganttComponents.getGanttController($, (res) => {
+                        if (res.success) {
+                            var tasks = {}
+                            tasks.data = res.data
+                            console.log(tasks);
+                            ganttComponents.init(gantt, tasks, "gantt")
+                        }
+                    })
+                })
+            })
+    
+    
+    
+        });
+    </script>
+</container>
+
+
+

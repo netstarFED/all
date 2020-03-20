@@ -1,0 +1,91 @@
+@tablemanger-size: 900px;
+@modal-nav-tabs-bg: @modal-header-bg;
+
+/*表格用户设置界面*/
+	.modal-tablemanger{
+		position: fixed;
+		top: 50px;
+		left: 50%;
+		margin-left: -(@tablemanger-size / 2);
+		width: @tablemanger-size;
+		z-index: (@zindex-modal * 2);
+		.modal-header{
+			margin: 0;
+		}
+		.modal-body{
+			.nav.nav-tabs.float-right{
+				position: absolute;
+				top: -31px;
+				right: 12px;
+				border-bottom: 0;
+				> li{
+					a{
+						border-bottom: 0;
+						padding: 6px 15px;
+						background: @modal-nav-tabs-bg;
+						&:hover{
+							background: lighten(@modal-nav-tabs-bg, 3%);
+							border-color: darken(@modal-nav-tabs-bg, 10%)
+						}
+					}
+					&.active{
+						a{
+							background: #fff;
+							color: @gray-darker;
+							position: relative;
+							border-color: darken(@modal-nav-tabs-bg, 15%);
+							&:before{
+								.border-horizontal(2px, darken(@modal-nav-tabs-bg, 15%));
+								top: 0;
+								left: 0;
+							}
+							&:after{
+								.border-horizontal(1px, #fff);
+								top: auto;
+								left: 0;
+								bottom: -1px;
+							}
+						}
+					}
+				}
+			}
+		}
+		.tab-content-intro{
+			padding-left: 15px;
+			border-left: 3px solid @ns-border-color;
+			margin-bottom: (@base-margin / 2);
+			padding: @base-padding;
+			background: #f8f8f8;
+		}
+	}
+
+.modal-tablemanger:before{
+	content: "";
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.5);
+}
+.manager-addtab .has-error{
+	border-color:#ff0000;
+}
+.success{
+	
+}
+.manager-addtab{
+	padding: @base-padding 0 (@base-padding / 2);	
+	.clearfix();
+	.manager-addtab-input{
+		display: inline-block;
+		height: @form-control-height-compactmode;
+		margin-left: (@base-margin / 4);
+		border: 1px solid @ns-border-color;
+		padding: 0 @base-padding;
+		& + div{
+			display: inline-block;
+			float: left;
+		}
+	}
+}

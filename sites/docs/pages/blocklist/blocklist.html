@@ -1,0 +1,184 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>bolcklist</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>当前为bolcklist</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td>数据</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>columns</td>
+                                <td>表格内容</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>ui</td>
+                                <td>表格配置</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>plusClass</td>
+                                <td>样式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>添加样式</td>
+                            </tr>
+                            <tr>
+                                <td>ajax</td>
+                                <td>ajax传参</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>传参</td>
+                            </tr>
+                            <tr>
+                                <td>field</td>
+                                <td>字段</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>字段[]</td>
+                            </tr>
+                            <tr>
+                                <td>idField</td>
+                                <td>id字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>id字段</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-date-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code"></h3>
+                <span class="intro"></span>
+                <div id="nsdocs-jsonbolcklist" class="panel-demo"></div>
+                <div id="mainlist-component-standard-1-blockList" class="panel-demo"></div>
+                <script>
+                    var bolcklist = {
+                        id: "mainlist-component-standard-1-blockList",
+                        type: "blockList",
+                        idField: "id",
+                        isReadStore: true,
+                        plusClass: "aaa",
+                        data: {
+                            idField: "id",
+                            src: getRootPath() +"/docs/data/tree/controltype.json",
+                            type: "GET",
+                            data: {},
+                            dataSrc: "rows",
+                            contentType: "application/x-www-form-urlencoded"
+                        },
+                        columns: [{
+                            field: "stdName",
+                            title: "产品标准名称",
+                            width: 150,
+                            searchable: true,
+                            orderable: false,
+                            isCommon: true
+                        }],
+                        ui: {
+                            isHaveEditDeleteBtn: true, //是否有删除按钮
+                            isHaveAddBtn: true,
+                            isEditMode: false, //
+                            selectMode: "single",
+                            height: 240,
+                            listExpression: "<div class='pt-block-content-item'><span class='label'>香蕉</span><span class='text'>{{stdName}}</span></div>",
+                            defaultSelectedIndex: 0,
+
+                        }
+                    }
+                    NetstarBlockList.init(bolcklist);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: "mainlist-component-standard-1-",
+        type: "blockList",
+        idField: "id",
+        isReadStore: true,
+        plusClass:"aaa",
+        data: {
+            idField: "id",
+            src: "http://localhost:2000/sites/docs/data/tree/nodetype.json",
+            type: "GET",
+            data: {},
+            dataSrc: "rows",
+            contentType: "application/x-www-form-urlencoded"
+        },
+        columns: [{
+            field: "stdName",
+            title: "产品标准名称",
+            width: 150,
+            searchable: true,
+            orderable: false,
+            isCommon: true
+        }],
+        ui: {
+            isHaveEditDeleteBtn: true,//是否有删除按钮
+            isHaveAddBtn: true,
+            isEditMode: false,//
+            selectMode: "single",
+            height: 240,
+            listExpression: "<div class='pt-block-content-item'><span class='label'></span><span class='text'>{{stdName}}</span></div>",
+            defaultSelectedIndex: 0,
+    
+        }
+    }
+    NetstarBlockList.init(bolcklist);
+
+    NetStarUtils.ajax({
+        url:'http://api.cloud.netstar-soft.com/templateMindPages/pageConfig/1310510762078241778', 
+        type:'GET', 
+        contentType:'application/x-www-form-urlencoded'
+    }, 
+    function(res){
+        console.log(res);
+        console.log()
+        console.log(res.data.pageConfig);
+    })
+                    </pre>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

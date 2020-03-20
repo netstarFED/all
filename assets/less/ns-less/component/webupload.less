@@ -1,0 +1,174 @@
+@webupload-width: 100%;
+@webupload-height:200px;
+@webupload-icon-size: 24px;
+
+@webupload-btn-success-bg: #53d69d;
+@webupload-btn-success-border-color: @webupload-btn-success-bg;
+@progress-bg: @webupload-btn-success-bg; 		//进度条颜色
+@webupload-btn-bg: #358fff;
+@webupload-btn-border-color: @webupload-btn-bg;
+@webupload-btn-width: 168px;
+
+.webupload {
+	position: relative;
+	.size(@webupload-width, @webupload-height);
+	border: 1px solid  @ns-border-color;
+	margin: 10px auto 110px;
+	box-sizing: border-box;
+
+	&.webupload-start{
+		&:after{
+			position: absolute;
+			content: "\f093";
+			top: -1px;
+			left: -1px;
+			width: @webupload-width + 2;
+			height: @webupload-height;
+			line-height: @webupload-height;
+			text-align: center;
+			font-family: @icon-font;
+			font-size: @webupload-icon-size;
+			color: #eee;
+			background: #f8f8f8;
+			border: 1px solid @ns-border-color;
+			box-sizing: border-box;
+			
+
+		}
+	}
+	.progres-box{
+		
+		position: absolute;
+		right: -1px;
+		bottom: -18px;
+		left: -1px;
+		background: transparent;
+	}
+	.progress {
+		margin: 0;
+		background: @progress-bg;
+		color: #fff;
+		.text{
+			display: block;
+			text-align: center;
+		}
+		.percent{
+			display: block;
+			margin: 0 auto;
+			text-align: center;
+		}
+	}
+	.webuploader-pick {
+		position: absolute;
+		width: @webupload-btn-width;
+		text-align: center;
+		left: 50%;
+		bottom: -60px;
+		margin-left: -(@webupload-btn-width / 2);
+	}
+	.form-control-focus{
+		position: absolute;
+		top: @webupload-height;
+		right: 0;
+		left: 0;
+		label{
+			padding: 6px 12px;
+			margin: 0;
+		}
+		.webuploader-pick{
+			width: @webupload-btn-width;
+			border: 1px solid @ns-border-color;
+			padding: 6px 12px;
+			transition: ease-in-out all .15s;
+			margin-left: -(@webupload-btn-width / 2);
+		}
+		&:hover{
+			.webuploader-pick{
+				background: @webupload-btn-bg;
+				border-color: @webupload-btn-border-color;
+				color: #fff;
+			}	
+		}
+	}
+	.btn.btn-default {
+		&.uploadBtn{
+			position: absolute;
+			width: @webupload-btn-width;
+			text-align: center;
+			left: 50%;
+			bottom: -100px;
+			background: #53d69d;
+			border: 1px solid #53d69d;
+			margin-left: -(@webupload-btn-width / 2);
+			color: #fff;
+			&:hover{
+				background: #31c484;
+				border-color: #31c484;
+				box-shadow: none;
+			}
+		}
+		
+		&.disabled{
+			border: 1px solid #ddd;
+			background: #f5f5f5;
+			color: #888;
+		}
+	}
+	.statusBar {
+		.info {
+			text-align: left;
+			background: #f5f5f5;
+			padding: 5px;
+			border-bottom: 1px solid #eee;
+		}
+	}
+	.filelist {
+		height: 170px;
+		overflow-y: auto;
+		padding: 0;
+		margin-bottom: 0;
+		li {
+			text-align: right;
+			list-style: none;
+			background: #f8f8f8;
+			border-top: 1px solid #eee;
+			border-bottom: 1px solid #eee;
+			margin-top: -1px;
+			.title {
+				display: block;
+				width: 100%;
+				text-align: left;
+				background: #fff;
+				padding: 10px 5px;
+			}
+			.file-cancel {
+				display: inline-block;
+				margin-left: 10px;
+				margin-right: 5px;
+				cursor: pointer;
+				color: #666;
+				padding: 2px 0;
+				&:hover{
+					color: #ff3100;
+				}
+			}
+			.size {
+				display: inline-block;
+				color: #666;
+				padding: 2px 0;
+			}
+			
+		}
+	}
+}
+input[type="hidden"] {
+	display: none;
+}
+input[type="file"] {
+	display: block;
+}
+.webuploader-element-invisible {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px);
+	clip: rect(1px, 1px, 1px, 1px);
+}

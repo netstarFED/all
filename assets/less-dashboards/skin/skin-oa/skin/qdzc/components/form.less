@@ -1,0 +1,107 @@
+@qdzc-input-height: 22px; //  input框高度
+@qdzc-btn-height: @qdzc-input-height;
+@qdzc-input-border: @primary;
+@qdzc-input-bg: rgba(127, 154, 228, 0.2);
+@qdzc-dropdown-bg: @primary-light-20; // 下拉框背景色
+
+.form {
+    width: 100%;
+    margin-bottom: 10px;
+
+    .form-body {
+        float: right;
+
+        form {
+            padding: 0;
+
+            .pt-form-group {
+                display: inline-table;
+
+                label.pt-control-label {
+                    min-width: auto;
+                    display: inline-block;
+                    margin: 0;
+                    padding-right: 5px;
+                    color: #fff;
+                    padding-left: 15px;
+                }
+
+                .pt-input-group {
+                    display: inline-table;
+                    vertical-align: top;
+                    position: relative;
+
+                    input.pt-form-control {
+                        border: 0;
+                        display: table-cell;
+                        vertical-align: middle;
+                        height: @qdzc-input-height;
+                        padding: 3px 5px;
+                        font-size: @font-size-small;
+                        border-radius: 0;
+                        background-color: @qdzc-input-bg;
+                        border: 1px solid @qdzc-input-border;
+                        color: #fff;
+                    }
+
+                    .pt-select-panel {
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: 23px;
+                        border: none;
+                    }
+
+                    .pt-select-panel {
+                        .pt-dropdown {
+                            overflow: hidden;
+                            overflow-y: auto;
+                            max-height: 250px;
+                            z-index: 1099;
+                            background-color: @qdzc-dropdown-bg;
+                            border: 1px solid @qdzc-input-border;
+                            color: #fff;
+                            margin-top: -2px;
+
+                            ul.pt-dropdown-components {
+                                li {
+                                    padding: 6px 12px;
+                                    cursor: pointer;
+                                    text-align: left;
+                                    font-size: 1.2rem;
+
+                                    &:hover,
+                                    &:active {
+                                        background-color: @primary-dark-15;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .pt-input-group-btn {
+                    display: table-cell;
+                    vertical-align: top;
+
+                    .pt-btn {
+                        width: @qdzc-btn-height;
+                        height: @qdzc-btn-height;
+                        padding: 0;
+                        text-align: center;
+
+                        i {
+                            color: #fff;
+                        }
+
+                    }
+                }
+
+            }
+
+            .pt-btn-group {
+                margin-left: 10px;
+            }
+        }
+    }
+}

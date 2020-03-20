@@ -1,0 +1,73 @@
+<div class="panel">
+    <div class="panel-header">
+        <div class="title">
+            <span>推荐产品</span>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="grid" id="products-recommend">
+            <div class="grid-item" v-for="row in rows">
+                <a href="">
+                    <img :src="row.imageUrl" :alt="row.recommendProductName">
+                    <span>{{row.recommendProductName}}</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var productsUsedVm = new Vue({
+        el: '#products-recommend',
+        data: {
+            rows: []
+        },
+        methods: {
+            details: function () {}
+        },
+        mounted() {
+            var _this = this;
+            axios(NswUtils.getAxios({
+                method: 'post',
+                url: '/system/productOfUsers/getDefaultProduct',
+            }))
+            .then(function (res) {
+                var productId = res.data.data.productId;
+
+                axios(NswUtils.getAxios({
+                    method: 'post',
+                    url: '/product2goods/productRecommendRelations/getList',
+                    data:{
+                        productId:productId,
+                    }
+                }))
+                .then(function (res) {
+                    var rows = res.data.rows
+                    _this.rows = [];
+
+                    for(var i=0; i<rows.length; i++){
+                        var obj = rows[i];
+                        var imageUrl = "assets/images/wangxingyun.png";
+                        // rows[i].imageIds = '1311603459740402674';
+                        if(rows[i].imageIds){
+                            var imageUrl = NswUtils.apiRootPath + '/files/images/'+rows[i].imageIds + '?Authorization='+NetStarUtils.OAuthCode.get();
+                        }
+                        
+                        rows[i].imageUrl = imageUrl;
+                        _this.rows.push(obj);
+                        if(i == 3){
+                            i = rows.length;
+                        }
+                    }
+                })
+                .catch(function (error) { // 请求失败处理
+                    console.error(error);
+                });
+
+            })
+            .catch(function (error) { // 请求失败处理
+                console.error(error);
+            });
+        }
+    })
+</script>

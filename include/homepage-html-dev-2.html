@@ -1,0 +1,76 @@
+<script type="text/javascript">
+    //草稿箱配置
+    var nsDraft = {
+        //通过id获取一条草稿数据的ajax配置
+        getDataById: {
+            url: '/draft/getById',
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded'
+        },
+        //通过条件获取草稿箱列表的ajax配置
+        getListByQueryModel: {
+            url: '/draft/getListByQueryModel',
+            type: 'post'
+        },
+        //根据单据类型获取草稿列表的ajax配置
+        getListByPackage: {
+            url: '/draft/getListByFormName',
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded'
+        },
+        //通过id删除草稿数据的ajax配置
+        deleteById: {
+            url: '/draft/delById',
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded'
+        },
+        //通过ids删除草稿数据的ajax配置
+        deleteByIds: {
+            url: '/draft/delByIds',
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded'
+        },
+        //根据修改时间删除草稿的ajax配置
+        deleteByModifieddate: {
+            url: '/draft/delByModifieddate',
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded'
+        },
+        //清空草稿的ajax配置
+        deleteByformName: {
+            url: '/draft/clear',
+            type: 'post',
+            contentType: 'application/x-www-form-urlencoded'
+        },
+        //保存或修改单条草稿的ajax配置
+        saveData: {
+            url: '/draft/save',
+            type: 'post'
+        }
+    }
+
+    $(function () {
+        function toLoginPage(res) {
+            window.location.href = '/erp/';
+        }
+        var authCode = NetStarUtils.OAuthCode.get();
+        if (authCode == false) {
+            //登录信息没有过期 不需要登录
+            toLoginPage();
+        }
+
+        var config = store.get('NetstarLoginConfig');
+        config = JSON.parse(config);
+        var mainPageConfig = {
+            html: '', //页面
+            mainMenus: config.mainMenus, //主菜单配置
+            userMode: config.userMode, //用户模式
+            getLoginProperty: config.getLoginProperty, //获取登录信息地址
+            getDict: config.getDict //系统字典
+        }
+        NetstarHomePage.init(mainPageConfig);
+    })
+</script>
+</body>
+
+</html>

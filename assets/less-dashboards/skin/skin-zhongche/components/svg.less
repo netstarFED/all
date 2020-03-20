@@ -1,0 +1,354 @@
+svg {
+    display: block;
+
+    // svg图形变量
+    .svg-variant (@stroke, @stroke-width, @fill: @stroke) {
+
+        polygon,
+        //多边形
+        path,
+        //路径
+        .svg-line {
+            stroke: @stroke;
+            stroke-width: @stroke-width;
+            .rgba-fill(@fill, .65);
+        }
+    }
+
+
+    &.svg-primary {
+        .svg-variant(@primary, 1);
+    }
+
+    &.svg-info {
+        .svg-variant(@info, 1);
+    }
+
+    &.svg-success {
+        .svg-variant(@success, 1);
+    }
+
+    &.svg-warning {
+        .svg-variant(@warning, 1);
+    }
+
+    &.svg-danger {
+        .svg-variant(@danger, 1);
+    }
+
+
+}
+
+.building-group {
+    .flex-block();
+    position: relative;
+    height: 100%;
+}
+
+.e-building {
+    zoom: .65;
+    // transform: scale(2);
+}
+
+.building-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+
+    // svg {
+    //     position: absolute;
+    // }
+
+    .demo {
+        position: absolute;
+
+        polygon {
+            stroke: @info;
+            stroke-width: 1;
+            .rgba-fill(@info, .65);
+        }
+
+        // 警报
+        &.alarm {
+
+            polygon,
+            path,
+            .svg-line {
+                animation: svg-warning 1s linear infinite normal none;
+            }
+
+            &:after {
+                @img-warning-size: 5rem;
+                position: absolute;
+                .square(@img-warning-size);
+                content: '';
+                background: @danger;
+                top: 50%;
+                left: 50%;
+                border-radius: @img-warning-size;
+                transform: rotateX(45deg);
+                margin: -@img-warning-size 0 0 -@img-warning-size;
+                opacity: 0.5;
+                animation: warning 1s infinite;
+                filter: blur(5px);
+                z-index: -1;
+                // display: none;
+            }
+
+        }
+    }
+
+    &.building-item-01 {
+        .size(272px, 262px);
+        margin: -470px 0 0 -126px;
+
+        .demo {
+            .size(120px, 180px);
+            &:nth-child(1) {
+                top: -3px;
+                left: 75px;
+            }
+
+            &:nth-child(2) {
+                top: 37px;
+                left: 0;
+            }
+
+            &:nth-child(3) {
+                top: 37px;
+                left: 150px;
+            }
+
+            &:nth-child(4) {
+                top: 80px;
+                left: 75px;
+            }
+        }
+    }
+
+    &.building-item-02 {
+        .size(334px, 230px);
+        margin: -270px 0 0 120px;
+
+        .demo {
+            .size(150px, 136px);
+            width: 150px;
+
+            &:nth-child(1) {
+                top: 0;
+                left: 75px;
+            }
+
+            &:nth-child(2) {
+                top: 60px;
+                left: 180px;
+            }
+
+            &:nth-child(3) {
+                top: 40px;
+                left: 0;
+            }
+
+            &:nth-child(4) {
+                top: 100px;
+                left: 105px;
+            }
+        }
+
+
+    }
+
+    &.building-item-03 {
+        .size(513px, 306px);
+        margin: -120px 0 0 -795px;
+
+        .demo {
+            .size(160px, 120px);
+
+            &:nth-child(1) {
+                top: 0;
+                left: 0;
+            }
+
+            &:nth-child(2) {
+                top: 51px;
+                left: 88px;
+            }
+
+            &:nth-child(3) {
+                top: 102px;
+                left: 176px;
+            }
+
+            &:nth-child(4) {
+                top: 153px;
+                left: 264px;
+            }
+
+            &:nth-child(5) {
+                top: 204px;
+                left: 352px;
+            }
+
+
+
+        }
+
+    }
+
+
+    &.building-item-04 {
+        .size(422px, 306px);
+        margin: -70px 0 0 -320px;
+
+        .demo {
+            .size(180px, 190px);
+            &:nth-child(1) {
+                bottom: -15px;
+                left: 0;
+            }
+
+            &:nth-child(2) {
+                top: 27px;
+                left: 195px;
+            }
+
+        }
+
+    }
+
+    &.building-item-05 {
+        .size(450px, 250px);
+        margin: 115px 0 0 -195px;
+
+        .demo {
+            .size(255px, 150px);
+            &:nth-child(1) {
+                bottom: 0;
+                left: 0;
+
+                .svg-line-group {
+                    display: none;
+                }
+            }
+
+            &:nth-child(2) {
+                top: 0;
+                right: 0;
+            }
+
+        }
+
+        .svg-line-group {
+            stroke: darken(@danger, 10);
+            stroke-width: 5;
+            stroke-linecap: round;
+
+            line {
+                &.line-warning {
+                    stroke: @warning;
+                }
+            }
+        }
+
+    }
+
+    &.building-item-06 {
+        .size(460px, 368px);
+        margin: -162px 0 0 270px;
+
+        .demo {
+            .size(250px, 246px);
+
+            &:nth-child(1) {
+                top: 118px;
+                left: 0;
+            }
+
+            &:nth-child(2) {
+                top: -10px;
+                right: 5px;
+            }
+
+        }
+
+    }
+
+
+    .svg-line {
+        stroke: @info;
+    }
+}
+
+@keyframes svg-warning {
+    0% {
+
+        stroke: @danger;
+        .rgba-fill(@danger, .65);
+
+    }
+
+    50% {
+
+        stroke: @warning;
+        .rgba-fill(@warning, .35);
+    }
+
+
+
+    100% {
+
+        stroke: @danger;
+        .rgba-fill(@danger, .65);
+    }
+}
+
+// svg边框及文字区域
+.box-outline-group{
+    .box-outline-item{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        svg{
+            path{
+                opacity: 0.5;
+                stroke-width: 1;
+                fill: none;
+            }
+        }
+        &:nth-child(1){
+            margin: -175px 0 0 -570px;
+        }
+        &:nth-child(2){
+            margin: -285px 0 0 -385px;
+        }
+        &:nth-child(3){
+            margin: -98px 0 0 -10px;
+        }
+        &:nth-child(4){
+            margin: -420px 0 0 -215px;
+        }
+        &:nth-child(5){
+            margin: -255px 0 0 16px;
+        }
+    }
+}
+
+.svg-text-group{
+    transform:skewY(30deg);
+    .svg-text{
+        color: #fff;
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 0 0 15px rgba(255, 255, 255, .75);
+        
+    }
+}
+
+.box-daker{
+    opacity: 0.5;
+}
+.box-dake{
+    opacity: 0.65;
+}

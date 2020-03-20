@@ -1,0 +1,70 @@
+@table-border-light: #d1dce5;
+@table-border-dark: #93a4b2;
+@table-border-color: @table-border-light;
+@table-thead-bg: #ecf2f7;
+@table-footer-bg: lighten(@table-thead-bg, 2);
+@table-header-triangle-size: 6px; //升降序箭头尺寸大小
+@table-td-hover-bg: lighten(@table-thead-bg, 2);
+// @table-td-active-bg: darken(@table-td-hover-bg, 4);  //选中行样色样式
+// 奇偶行
+@table-td-even-bg: #fff;
+
+.pt-grid-body {
+    background: #fff;
+
+    .pt-grid-body-head {
+        border-top: 2px solid @table-border-dark;
+
+        table {
+            tbody {
+                tr {
+                    td {
+
+                        // 表格行排序
+                        &.sorting-asc {
+                            &:after {
+                                .triangle-top(@table-header-triangle-size, @table-border-dark);
+                            }
+                        }
+
+                        &.sorting-desc {
+                            &:after {
+                                .triangle-bottom(@table-header-triangle-size, @table-border-dark);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    .pt-grid-body-footer {
+        background: @table-footer-bg;
+
+        tr {
+
+            td,
+            td:first-child {
+                background: @table-footer-bg;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            td {
+                background: #fff;
+
+                &:first-child {
+                    background: #fff;
+                }
+            }
+        }
+    }
+
+}
+
+.pt-grid-footer {
+    background: @table-footer-bg;
+}

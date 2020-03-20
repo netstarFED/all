@@ -1,0 +1,258 @@
+{
+    "operator":{
+        "columnType":{
+        },
+        "formatHandler.type":{
+            "chineseName":"组件类型",
+            "validType":"string",
+            "toolType":"hidden",   
+            "required":true
+        },
+        
+        "id":{
+            "chineseName":"字段名称",
+            "validType":"string",
+            "toolType":"text",
+            "required":true,
+            "parentKey":"editConfig"
+        },
+        "label":{
+            "chineseName":"标签",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "parentKey":"editConfig"
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":"" ,
+            "help":"当前value只支持数字",
+            "parentKey":"editConfig"
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        },         
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules":{
+            "chineseName":"验证规则",
+            "validType":"string",
+            "toolType":"multi-select",
+            "subdata":[
+                {
+                    "value":"required",
+                    "text":"必填"
+                },{
+                    "value":"",
+                    "text":"无验证"
+                }              
+            ]     
+        },
+        "disabled":{
+            "chineseName":"只读",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "hidden":{
+            "chineseName":"隐藏",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "startView":{
+            "chineseName":"开始视图",
+            "validType":"number",
+            "default":0,
+            "toolType":"radio",
+            "subdata":[{
+                "value":0,
+                "text":"日"
+            },{
+                "value":1,
+                "text":"月->日"
+            },{
+                "value":2,
+                "text":"年->月->日"
+            }]
+        },
+        "addvalue":{
+            "chineseName":"添加按钮",
+            "validType":"object",
+            "default":{},
+            "toolType":"textarea",
+            "help":"格式：{value:'',id:'1'}"
+        },
+        "format":{
+            "chineseName":"日期格式",
+            "validType":"string",
+            "default": "nsVals.default.dateFormat",
+            "toolType":"textarea",
+            "help":"日期格式： yyy-mm-dd. yyyy年MM月dd日 HH时mm分ss秒 "
+        },
+        "isDefaultDate":{
+            "chineseName":"默认日期",
+            "validType":"boolean",
+            "toolType":"check",
+            "default": false
+        },
+        "isTime":{
+            "chineseName":"添加时间",
+            "validType":"boolean",
+            "toolType":"check",
+            "default": false
+        },
+        "daysOfWeekDisabled":{
+            "chineseName":"日期只读",
+            "validType":"string",
+            "toolType":"text",
+            "help":"字符串或数组格式 根据周几设置只读 默认''即不设置只读",
+            "default": ""
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+       
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "changeHandler":{
+            "validType":"function",
+            "toolType":"textarea",
+            "chineseName":"值改变方法"
+        }
+
+    },
+    "data":{
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+
+    },
+    "prepattern":[
+        {
+            "name":"显示的值",
+            "value": {
+                "id": "valuedata",
+                "label": "显示 :",
+                "type": "date",
+                "value": 1544148749870
+            }  
+        },
+        {
+           "name":"只读",
+           "value":{
+                "id": "disabled",
+                "label": "只读 :",
+                "type": "date",
+                "disabled": true
+           }
+        },
+        {
+            "name":"样式宽",
+            "value":{                               
+                "id": "width",
+                "label": "宽:",
+                "type": "date",
+                "inputWidth": 300
+            }
+        },
+        {
+            "name":"验证",
+            "value":{
+                "id": "requied",
+                "label": "验证 :",
+                "type": "date",
+                "rules":"requied"
+            }
+        },
+        {
+            "name":"是否显示时间",
+            "value":{                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                "isHasClose": false,
+                "id": "isTime",
+                "label": "显示时间:",
+                "type": "date",
+                "isTime":true
+            }
+        },
+        {
+            "name":"添加按钮",
+            "value":{
+                "id": "addvalue",
+                "label": "添加按钮:",
+                "type": "date",
+                "addvalue":{ 
+                    "value":"添加按钮",
+                    "id":"1"
+                }
+            }
+        },
+        {
+            "name":"默认日期",
+            "value":{
+                "id": "isdefaultdate",
+                "label": "默认日期:",
+                "type": "date",
+                "isDefaultDate":true
+            }
+        },
+        {
+            "name":"开始视图",
+            "value":{
+                "id": "startView",
+                "label": "开始视图:",
+                "type": "date",
+                "startView": 2 
+            }
+        },
+        {
+            "name":"日期格式",
+            "value":{
+                "id": "date1",
+                "label": "日期:",
+                "type": "date",
+                "value": 1564761383000,
+                "format": "HH:mm:ss"
+            }
+        }
+
+    ]
+}

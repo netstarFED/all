@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+	<link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+	<title>作业记录模板 workRecord//</title>
+
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<!--# include file="/sites/include/login-static-dev.html" -->
+	<!--# include file="/sites/include/preload-static-dev.html" -->
+	<!--# include file="/sites/include/mainpage-static-dev.html" -->
+	<!--# include file="/sites/include/lazy-static-dev.html" -->
+	<style>
+	</style>
+</head>
+<container>
+      <script>
+         var localhoseUrl = 'http://localhost:2000';
+         var orderProcessingConfig = {
+            package: 'template.workRecordSimple.base',
+            template: 'workRecordSimple',
+            title: '作业记录模板',
+            readonly: false,
+            /*getValueAjax: {
+               src: localhoseUrl + '/assets/json/takesample/processdocsecond.json',
+               type: 'GET',
+               dataSrc: 'data',
+               data: {},
+               contentType:'application/x-www-form-urlencoded',
+            },*/
+            //各个组件配置
+            components: [
+               {
+                  ajax:{
+                     src: localhoseUrl + '/assets/json/takesample/processdocsecond.json',
+                     type: 'GET',
+                     dataSrc: 'data',
+                     data: {},
+                     contentType:'application/x-www-form-urlencoded',
+                  },
+                  type: 'vo',
+                  position: 'header-body',
+                  title:'受理信息',
+                  idField: 'salesorderCondition',
+                  keyField: 'root',
+                  defaultComponentWidth: '25%',
+                  field: [
+                     {
+                        id: 'supplier',
+                        label: '供货单位',
+                        type: 'business',
+                        textField: 'itemCateName',
+                        idField: 'itemName',
+                        inputWidth: 100,
+                        dialogTitle: '供货单位[供应商]选择框',
+                        infoBtnName: '查看供货单位详细信息',
+                        //rules: 'required',
+                        source: {
+                           url: localhoseUrl + '/htmlpage/goodslist.html',
+                        },
+                        search: {
+                           url: localhoseUrl + '/assets/json/newcomponent/search.json',
+                           dataSrc: 'rows',
+                        },
+      
+                     },
+                     {
+                        id: 'sponsor',
+                        label: '经手人',
+                        type: 'business',
+                        textField: 'itemCateName',
+                        idField: 'itemName',
+                        inputWidth: 100,
+                        dialogTitle: '经手人[供应商]选择框',
+                        infoBtnName: '查看经手人详细信息',
+                        source: {
+                           url: localhoseUrl + '/htmlpage/goodslist.html',
+                        },
+                        search: {
+                           url: localhoseUrl + '/assets/json/newcomponent/search.json',
+                           dataSrc: 'rows',
+                        },
+                     },
+                     {
+                        id: 'department',
+                        label: '部门',
+                        type: 'business',
+                        textField: 'itemCateName',
+                        idField: 'itemName',
+                        inputWidth: 100,
+                        dialogTitle: '部门[供应商]选择框',
+                        infoBtnName: '查看部门详细信息',
+                        source: {
+                           url: localhoseUrl + '/htmlpage/goodslist.html',
+                        },
+                        search: {
+                           url: localhoseUrl + '/assets/json/newcomponent/search.json',
+                           dataSrc: 'rows',
+                        },
+                     },
+                     {
+                        id: 'warehouse',
+                        label: '换出仓库',
+                        type: 'business',
+                        textField: 'itemCateName',
+                        idField: 'itemName',
+                        inputWidth: 100,
+                        dialogTitle: '换出仓库[供应商]选择框',
+                        infoBtnName: '查看换出仓库详细信息',
+                        source: {
+                           url: localhoseUrl + '/htmlpage/goodslist.html',
+                        },
+                        search: {
+                           url: localhoseUrl + '/assets/json/newcomponent/search.json',
+                           dataSrc: 'rows',
+                        },
+                     },
+                     {
+                        id: 'replacementType',
+                        label: '换货类型',
+                        type: 'select',
+                        inputWidth: 200,
+                        textField: 'name',
+                        valueField: 'id',
+                        value: '0',
+                        ajaxConfig: {
+                           url: localhoseUrl + '/assets/json/newcomponent/radio.json',
+                           type: 'GET',
+                           dataSrc: 'rows',
+                           contentType:'application/x-www-form-urlencoded',
+                        }
+                     },
+                     {
+                        id: 'warehouse',
+                        label: '换入仓库',
+                        type: 'business',
+                        textField: 'itemCateName',
+                        idField: 'itemName',
+                        inputWidth: 100,
+                        dialogTitle: '换入仓库[供应商]选择框',
+                        infoBtnName: '查看换入仓库详细信息',
+                        source: {
+                           url: localhoseUrl + '/htmlpage/goodslist.html',
+                        },
+                        search: {
+                           url: localhoseUrl + '/assets/json/newcomponent/search.json',
+                           dataSrc: 'rows',
+                        },
+                     },
+                     {
+                        id: 'abstract',
+                        label: '摘要',
+                        type: 'text',
+                        inputWidth: 100,
+                        value: '',
+                     },
+                     {
+                        id: 'additionalInformation',
+                        label: '附加说明',
+                        type: 'business',
+                        textField: 'itemCateName',
+                        idField: 'itemName',
+                        inputWidth: 100,
+                        dialogTitle: '常用说明',
+                        infoBtnName: '',
+                        source: {
+                           url: localhoseUrl + '/htmlpage/goodslist.html',
+                        },
+                        search: {
+                           url: localhoseUrl + '/assets/json/newcomponent/search.json',
+                           dataSrc: 'rows',
+                        },
+                     },
+                     {
+                        id: 'taxRate',
+                        label: '税率',
+                        type: 'number',
+                        inputWidth: 100,
+                     },
+                     {
+                        id: 'discount',
+                        label: '折扣',
+                        type: 'number',
+                        inputWidth: 100,
+                     }
+                  ]
+               },
+               {
+                  ajax:{
+                     src: localhoseUrl + '/assets/json/workrecord/list.json',
+                     type: 'GET',
+                     dataSrc: 'data',
+                     data: {},
+                     contentType:'application/x-www-form-urlencoded',
+                  },
+                  type: 'list',
+                  title: '记录列表数据',
+                  position: 'body',
+                  idField: 'workMethodRowId',
+                 /* field:[
+                     {
+                        field: 'notes',
+                        title: '条码',
+                        isTitle:true,//当前字段作为标题
+                        editConfig:{
+                           id:'notes',
+                           type:'text',
+                           label:'条码',
+                           column:12
+                        }
+                     },{
+                        field: 'unitsNames',
+                        title: '名称',
+                        isValue:true,//当前字段作为显示值
+                        editConfig:{
+                           id:'unitsNames',
+                           type:'select',
+                           label:'名称',
+                           column:12,
+                           textField:'name',
+                           valueField:'value',
+                           subdata:[
+                              {
+                                 name:'苹果',
+                                 value:'0'
+                              },{
+                                 name:'香蕉',
+                                 value:'1'
+                              },{
+                                 name:'哈密瓜',
+                                 value:'2'
+                              },{
+                                 name:'草莓',
+                                 value:'3'
+                              },{
+                                 name:'车厘子',
+                                 value:'4'
+                              }
+                           ]
+                        }
+                     }
+                  ]*/
+               },
+               {
+                  type: 'btns',
+                  position: 'footer-left',
+                  //页面下的按钮
+                  field: [
+                     {
+                        btn: {
+                           text: "保存|提交",
+                           isReturn: true,
+                           handler: function (callBack, Obj) {
+                              
+                           }
+                        },
+                        functionConfig: {
+                           
+                        }
+                     },
+                     {
+                        btn: {
+                           text: "录单配置",
+                           isReturn: true,
+                           handler: function (callBack, Obj) {
+                           }
+                        },
+                        functionConfig: {
+                           
+                        }
+                     },
+                     {
+                        btn: {
+                           text: "商品列表",
+                           isReturn: true,
+                           handler: function (callBack, Obj) {
+                              
+                           }
+                        },
+                        functionConfig: {
+                           
+                        }
+                     }
+                  ]
+               }
+            ],
+         }
+      
+         $(document).ready(function () {
+            NetstarTemplate.init(orderProcessingConfig);
+            nsPublic =  typeof(nsPublic)=='object' ? nsPublic : {};
+            nsPublic.getAppendContainer = function () {
+               var insertLocation = $('container:not(.hidden)').not('.content');
+               if ($('.nswindow .content').length > 0) {
+                     insertLocation = $('.nswindow .content:last');
+               }
+               return insertLocation;
+            }
+         });
+         
+
+      </script>
+</container>

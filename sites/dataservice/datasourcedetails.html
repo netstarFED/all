@@ -1,0 +1,355 @@
+<container>
+    <input type="hidden" id="query-sqlsource-fieldList-datasourceId" name="datasourceId" value=""/>
+    <layout id='query-sqlsource-fieldList'  ns-package='query.sqlsource.fieldList'>
+        <nav  ns-id="nav" ns-config="navConfig"></nav>
+        <panel ns-id="table" ns-options="col:12,height:auto" ns-config="table:tableConfig"></panel>
+    </layout>
+    <script type="text/javascript">
+        query.sqlsource.fieldList = {
+            main: function () {
+                var pageData = this.pageData ? this.pageData : {};
+                this.navConfig = {
+                    btns: [
+                        [
+                            {
+                                text: '新增',
+                                handler: addQueryDatasourceFieldsDialog
+                            },
+                            {
+                                text: '修改',
+                                handler: editQueryDatasourceFieldsDialog
+                            }, {
+                                text: '删除',
+                                handler: delQueryDatasourceFieldsDialog
+                            }
+                        ]
+                    ]
+                }
+                var columnsConfig = [
+                    {
+                        field: 'id',
+                        title: '主键',
+                        width: 150,
+                        hidden: true
+                    },
+                    {
+                        field: 'dsId',
+                        title: '数据源ID',
+                        width: 150,
+                        hidden: true
+                    },
+                    {
+                        field: 'name',
+                        title: '字段名称',
+                        width: 150,
+                        searchable: true
+                    },
+                    {
+                        field: 'remark',
+                        title: '字段注释',
+                        width: 150,
+                        searchable: true
+                    },
+                    {
+                        field: 'jdbcType',
+                        title: '数据类型',
+                        width: 150
+                    },
+                    {
+                        field: 'state',
+                        title: '状态',
+                        width: 150,
+                        formatHandler:	{
+                            type:'dictionary',
+                            data: {
+                                "0" : "无效字段",
+                                "1" : "自动添加",
+                                "2" : "手动添加",
+                            }
+                        }
+                    },
+                    {
+                        field: 'ordered',
+                        title: '次序',
+                        width: 150
+                    },
+                    {
+                        field: 'whenCreated',
+                        title: '创建时间',
+                        width: 130,
+                        formatHandler: {
+                            type: 'date',
+                            data: {
+                                formatDate: 'YYYY-MM-DD hh:mm'
+                            }
+                        }
+                    },
+                    {
+                        field: 'whenModified',
+                        title: '修改时间',
+                        width: 130,
+                        formatHandler: {
+                            type: 'date',
+                            data: {
+                                formatDate: 'YYYY-MM-DD hh:mm'
+                            }
+                        }
+                    }
+                ]
+                var dataSrc = getRootPath() + '/sqlSourceFields/getList';
+                var dataConfig = {
+                    src: dataSrc,		//数据源地址
+                    type: "GET",		//GET POST
+                    data:{dsId: pageData.datasourceId},		//参数对象{id:1,page:100}
+                    isServerMode: false,//是否开启服务器模式
+                    isSearch: true,     //是否开启搜索功能
+                    isPage: false,       //是否开启分页
+                    dataSrc: 'rows',
+                    info: false
+                }
+                var uiConfig = {
+                    searchTitle: "字段名称搜索",				//搜索框前面的文字，默认为检索
+                    searchPlaceholder: "名称",				//搜索框提示文字，默认为可搜索的列名
+                    isSelectColumns: true, 					//是否开启列选择，默认为选择
+                    isAllowExport: false,					//是否允许导出数据，默认允许
+                    pageLengthMenu: 10, 	//可选页面数  auto是自动计算  all是全部
+                    isSingleSelect: true,			 		//是否单选
+                    isMulitSelect: false,
+                    defaultSelect: true
+                }
+                this.tableConfig =
+                {
+                    columns: columnsConfig,
+                    data: dataConfig,
+                    ui: uiConfig,
+                    btns : {}
+                }
+                
+                //新增修改公用部分
+                var dialogForm =[
+                    {
+                        id: 'id',
+                        label: '数据源明细ID',
+                        type: 'hidden'
+                    },
+                    {
+                        id: 'dsId',
+                        label: '数据源ID',
+                        type: 'hidden'
+                    },
+                    {
+                        id: 'name',
+                        label: '字段名称',
+                        type: 'text',
+                        rules: 'required'
+                    },
+                    {
+                        id: 'remark',
+                        label: '字段注释',
+                        type: 'text',
+                        rules: ''
+                    },
+                    {
+                        id: 'ordered',
+                        label: '次序',
+                        type: 'text',
+                        rules: 'required range=[1,1000]'
+                    }
+                ]
+                //新增弹框
+                var addQueryDatasourceFieldsDialogConfig = {
+                    id: 'query-sqlsource-fieldList-addQueryDatasourceFields-dialog',
+                    title: '新增数据源明细',
+                    size: 'm',
+                    form: dialogForm,
+                    btns: [
+                        {
+                            text: '确认',
+                            handler: addQueryDatasourceFieldsSubmit
+                        }
+                    ]
+                }
+                //修改弹框
+                var editQueryDatasourceFieldsDialogConfig = {
+                    id: 'query-sqlsource-fieldList-editQueryDatasourceFields-dialog',
+                    title: '修改数据源明细',
+                    size: 'm',
+                    form: dialogForm,
+                    btns: [
+                        {
+                            text: '确认',
+                            handler: editQueryDatasourceFieldsSubmit
+                        }
+                    ]
+                }
+                //修改模板弹框
+                var editCodeDialogConfig = {
+                    id: 'query-sqlsource-fieldList-editCode-dialog',
+                    title: '模板代码',
+                    size: 'b',
+                    form: [
+                        {
+                            id: 'id',
+                            type: 'hidden'
+                        },{
+                            id: 'templateJs',
+                            label: 'Js 模板',
+                            type: 'textarea',
+                            rules: 'required minlength=2',
+                            isFullWidth: true,
+                            height: '300px',
+                            placeholder: ''
+                        }
+                    ],
+                    btns: [
+                        {
+                            text: '保存',
+                            handler: editCodeSubmit
+                        }
+                    ]
+                }
+                
+                function editCodeHandler(data) {
+                    //模板编辑按钮
+                    nsdialog.initShow(editCodeDialogConfig);
+                    formPlane.fillValues({
+                        'id': data.rowIndex.data().id,
+                        'templateJs': data.rowIndex.data().templateJs
+                    }, 'query-sqlsource-fieldList-editCode-dialog');
+                };
+                function editCodeSubmit() {
+                    //模板编辑保存
+                    var data = nsForm.getFormJSON('query-sqlsource-fieldList-editCode-dialog');
+                    if (data) {
+                        $.ajax({
+                            data: data,
+                            url: getRootPath() + '/sqlSourceFields/save',
+                            type: 'post',
+                            success: function (data) {
+                                if (data.success) {
+                                    nsalert('保存成功', 'success');
+                                    baseDataTable.reloadTableAJAX('table-query-sqlsource-fieldList-table');
+                                    nsdialog.hide();
+                                } else {
+                                    var errStr = data.msg
+                                    nsalert('保存失败，请重试 ' + errStr, 'error');
+                                }
+                            },
+                            error: function (e) {
+                                nsalert('保存失败，请重试', 'error');
+                            }
+                        })
+                    }
+                }
+
+                function addQueryDatasourceFieldsDialog() {
+                    nsdialog.initShow(addQueryDatasourceFieldsDialogConfig);
+                }
+
+                function addQueryDatasourceFieldsSubmit() {
+                    //新增数据源明细
+                    var data = nsForm.getFormJSON('query-sqlsource-fieldList-addQueryDatasourceFields-dialog');
+                    data.dsId=pageData.datasourceId;
+                    if (data) {
+                        if(data.parent){
+                            data.parentIds = data.parent.join(',');
+                        } else {
+                            data.parentIds = '';
+                        }
+                        $.ajax({
+                            data: data,
+                            url: getRootPath() + '/sqlSourceFields/save',
+                            type: 'post',
+                            success: function (data) {
+                                if (data.success) {
+                                    nsalert('保存成功', 'success');
+                                    baseDataTable.reloadTableAJAX('table-query-sqlsource-fieldList-table');
+                                    nsdialog.hide();
+                                } else {
+                                    var errStr = data.msg
+                                    nsalert('保存失败，请重试 ' + errStr, 'error');
+                                }
+                            },
+                            error: function (e) {
+                                nsalert('保存失败，请重试', 'error');
+                            }
+                        })
+                    }
+                }
+
+                function editQueryDatasourceFieldsDialog() {
+                    //修改数据源明细
+                    var row = baseDataTable.getSingleRowSelectedData('table-query-sqlsource-fieldList-table');
+                    if (!row) {
+                        return false;
+                    }
+                    nsdialog.initValueShow(editQueryDatasourceFieldsDialogConfig, row);
+                }
+
+                function editQueryDatasourceFieldsSubmit() {
+                    var data = nsForm.getFormJSON('query-sqlsource-fieldList-editQueryDatasourceFields-dialog');
+                    data.dsId=pageData.datasourceId;
+                    if(data.parent){
+                        data.parentIds = data.parent.join(',');
+                    } else {
+                        data.parentIds = '';
+                    }
+                    if (data) {
+                        $.ajax({
+                            data: data,
+                            url: getRootPath() + '/sqlSourceFields/save',
+                            type: 	'post',
+                            success: function (data) {
+                                if (data.success) {
+                                    nsalert('保存成功', 'success');
+                                    baseDataTable.reloadTableAJAX('table-query-sqlsource-fieldList-table');
+                                    nsdialog.hide();
+                                } else {
+                                    var errStr = data.msg
+                                    nsalert('保存失败，请重试 ' + errStr, 'error');
+                                }
+                            },
+                            error: function (e) {
+                                nsalert('保存失败，请重试', 'error');
+                            }
+                        })
+                    }
+                }
+
+                function delQueryDatasourceFieldsDialog() {
+                    //删除数据源明细
+                    var row = baseDataTable.getSingleRowSelectedData('table-query-sqlsource-fieldList-table');
+                    if (!row) {
+                        return false;
+                    }
+                    var isDel = confirm("是否确认删除 数据源明细：" + row.name);
+                    if (!isDel) {
+                        return false;
+                    }
+
+                    $.ajax({
+                        data: row,
+                        url: getRootPath() + '/sqlSourceFields/delete',
+                        //type: 	'post',
+                        success: function (data) {
+                            if (data.success) {
+                                nsalert('删除成功', 'success');
+                                baseDataTable.delSelectedRowdata('table-query-sqlsource-fieldList-table');
+                            } else {
+                                var errStr = data.msg
+                                nsalert('删除失败，请重试 ' + errStr, 'error');
+                            }
+                        },
+                        error: function (e) {
+                            nsalert('删除失败，请重试', 'error');
+                        }
+                    })
+                }
+
+                nsLayout.init("query-sqlsource-fieldList");
+            }
+        };
+        var pageParams = query.sqlsource.fieldList;
+        NetstarDataService.initToPage(pageParams);
+    </script>
+</container>

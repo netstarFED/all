@@ -1,0 +1,71 @@
+.button-variant(@color; @background; @border) {
+    color: @color;
+    background-color: #fff;
+    border-color: @border-color;
+  
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active,
+    .open > .dropdown-toggle& {
+      color: #fff;
+      background-color: @background;
+          border-color: @background;
+    }
+    color: @color;
+    background-color: @background;
+    border-color: @border;
+
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active,
+    .open > .dropdown-toggle& {
+        color: @color;
+        background-color: darken(@background, 10%);
+            border-color: darken(@border, 12%);
+    }
+    &:active,
+    &.active,
+    .open > .dropdown-toggle& {
+      background-image: none;
+    }
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+      &,
+      &:hover,
+      &:focus,
+      &.focus,
+      &:active,
+      &.active {
+        background-color: @background;
+            border-color: @border;
+      }
+    }
+  
+    .badge {
+      color: @background;
+      background-color: @color;
+    }
+  }
+  
+  // Button sizes
+  .button-size(@height; @padding-h; @font-size; @border-radius:0) {
+    padding: 0 @padding-h;
+    border-radius: @border-radius;
+    height: @height;
+    span,
+    i{
+        font-size: @font-size;
+    }
+  }
+  
+
+//   图标按钮尺寸变量
+  .btn-icon-variant(@size){
+    .square(@size);
+    line-height: @size;
+  }

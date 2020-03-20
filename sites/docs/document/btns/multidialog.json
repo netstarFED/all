@@ -1,0 +1,204 @@
+    {
+        "operator":{
+            "defaultMode": {
+                "chineseName": "类型",
+                "validType": "string",
+                "toolType": "select",
+                "required":true,
+                "default":"multidialog",
+                "subdata": [{
+                    "value":"multidialog",
+                    "text":"multidialog"
+                }],
+                "help":"把多个页面拼接成一个，以tab形式执行"           
+            },
+            "text": {
+                "chineseName": "按钮文字",
+                "validType": "sting",
+                "toolType": "text",
+                "default": "",
+                "help":"按钮中所显示的内容"
+            },
+            "title": {
+                "chineseName": "标题",
+                "validType": "string",
+                "toolType": "text",
+                "default": ""
+            },
+            "width": {
+                "chineseName": "宽",
+                "validType": "string",
+                "toolType": "text",
+                "default": "",
+                "help":"弹框宽度"
+            },
+            "height": {
+                "chineseName": "高",
+                "validType": "string",
+                "toolType": "text",
+                "default": "",
+                "help":"弹框高度"
+            },
+            "isCloseWindow": {
+                "chineseName": "是否关闭",
+                "validType": "boolean",
+                "toolType": "check",
+                "default": "",
+                "help":"完成后是否关闭弹框/页面"
+            },
+            "tabTitles": {
+                "chineseName": "tab名称组",
+                "validType": "boolean",
+                "toolType": "check",
+                "default": "",
+                "help":"完成后是否关闭弹框/页面"
+            },
+            
+            "isAlwaysNewTab": {
+                "chineseName": "是否用新的tab打开",
+                "validType": "boolean",
+                "toolType": "check",
+                "default":""        
+            },
+            "isEditMode": {
+                "chineseName": "编辑状态",
+                "validType": "boolean",
+                "toolType": "check",
+                "default":""        
+            },
+            "isKeepSelected": {
+                "chineseName": "是否行选中",
+                "validType": "boolean",
+                "toolType": "check",
+                "default":false
+            },
+            "targetField": {
+                "chineseName": "目标字段",
+                "validType": "string",
+                "toolType": "text",
+                "default":"",
+                "help":"目标字段 （keyField）"
+            },
+            "shortcutKey": {
+                "chineseName": "快捷键",
+                "validType": "string",
+                "toolType": "text",
+                "help":"举例:ctrl+e",
+                "default":""
+            },
+            "isInlineBtn": {
+                "chineseName": "是否行内按钮",  
+                "validType": "boolean",
+                "toolType": "check",
+                "default":false        
+            },
+            "isMobileInlineBtn": {
+                "chineseName": "是否手机行内按钮",
+                "validType": "boolean",
+                "toolType": "check",
+                "default":true
+            },
+            "isMainDbAction": {
+                "chineseName": "是否双击事件",
+                "validType": "boolean",
+                "toolType": "check",
+                "default":"",
+                "help":"是否将当前方法定义为表格行双击时执行的方法"    
+            }
+        },
+        "data":{
+            "ajax": {
+                "chineseName": "ajax",
+                "validType": "object",
+                "toolType": "ajaxEditor",
+                "required":true
+            },
+            
+            "requestSource": {
+                "chineseName": "请求参数来源",
+                "validType": "string",
+                "toolType": "select",
+                "default":""  ,
+                "subdata":[
+                    {
+                        "value":"selected",
+                        "text":"选中行（单选）"
+                    },
+                    {
+                        "value":"checkbox",
+                        "text":"勾选行（多选）"
+                    },
+                    {
+                        "value":"thisvo",
+                        "text":"当前数据"
+                    },
+                    {
+                        "value":"none",
+                        "text":"无"
+                    }
+                ],
+                "help":"selected checkbox thisvo none"       
+            },
+            
+            "validateParams": {
+                "chineseName": "参数验证公式",
+                "validType": "string",
+                "toolType": "textarea",
+                "default":"",
+                "help":"{'customerId':客户必填'},目前只支持是否存在的验证"         
+            },
+            "isSendPageParams": {
+                "chineseName": "是否发送页面参数",
+                "validType": "boolean",
+                "toolType": "check",
+                "default":true,
+                "help":"参数发送时是否包含页面来源参数"
+            },
+            "isSetValueToSourcePage": {
+                "chineseName": "是否对来源页面赋值",
+                "validType": "boolean",
+                "toolType": "check",
+                "default":false,
+                "help":"是否使用API返回的数据对来源页面赋值"
+            },    
+            "matrixVariable": {
+                "chineseName": "矩阵传参",
+                "validType": "string",
+                "toolType": "textarea",
+                "default":"",
+                "help":"具体形式以API文档为主"         
+            },
+            "disabledExpression": {
+                "chineseName": "禁用表达式",
+                "validType": "string",
+                "toolType": "textarea",
+                "default":"",
+                "help":"1:'disabled"
+            },
+            "parameterFormat": {
+                "chineseName": "参数格式化",
+                "validType": "string",
+                "toolType": "textarea",
+                "default":"",
+                "help":"举例:{'id':'{sampleId}'}"         
+            },
+            "parameterFormatType": {
+                "chineseName": "参数格式化类型",
+                "validType": "string",
+                "toolType": "textarea",
+                "default":"add",
+                "subdata":[
+                    {
+                        "value":"cover",
+                        "text":"覆盖"
+                    },
+                    {
+                        "value":"add",
+                        "text":"添加"
+                    }
+                ],
+                "help":"所定义的参数是否会覆盖默认参数"         
+            }
+            
+        }
+    }

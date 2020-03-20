@@ -1,0 +1,21 @@
+<container>
+    <layout id='templateDef-main' ns-package='templateDef.main'>
+        <nav ns-id="nav" ns-config='navConfig'></nav>
+            <panel ns-id="category" ns-options="col:3,height:520" ns-config="tree:categoryTreeConfig"></panel>
+            <panel ns-id="template" ns-options="col:9,height:520" ns-config="table:templateDefTableConfig"></panel>
+            <tabs ns-options="col:12,height:30px" ns-config="nstabs:tabs">
+                <tab ns-id="sheet-tab" ns-options="title:模版Sheet设置"></tab>
+                <tab ns-id="table-tab" ns-options="title:数据库表"></tab>
+            </tabs>
+            <panel ns-id="sheet" ns-options="col:4,height:auto,class:can-hide" ns-config="table:sheetTableConfig"></panel>
+            <panel ns-id="cell" ns-options="col:8,height:auto,class:can-hide" ns-config="table:cellTableConfig"></panel>
+            <panel ns-id="table" ns-options="col:4,height:auto,class:can-hide hide"
+                ns-config="table:tableTableConfig"></panel>
+            <panel ns-id="column" ns-options="col:8,height:auto,class:can-hide hide"
+                ns-config="table:columnTableConfig"></panel>
+        </div>
+    </layout>
+    <script>
+        nsFrame.init(templateDef.main);
+    </script>
+</container>

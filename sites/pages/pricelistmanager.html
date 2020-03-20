@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7 ]> <html lang="en" class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8 ]> <html lang="en" class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9 ]> <html lang="en" class="no-js lt-ie10"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<html lang="en">
+
+<head>
+
+    <title>pdf</title>
+    <!--# include file="include/head-base.html" -->
+
+</head>
+<style>
+  
+</style>
+<body>
+<container>
+<script type="text/javascript">
+    $(function(){
+        var businessConfig = {
+            type: 'business',
+            textField: 'itemName',
+            inputWidth: 100,
+            dialogTitle: '往来单位[供应商]选择框',
+            infoBtnName: '查看单位基本信息',
+            selectMode: 'checkbox',
+            defaultSearchData: {page:"{page.child.brand}"},
+            source: {
+                url: getRootPath() + '/htmlpage/goodslist.html',
+            },
+            search: {
+                url: getRootPath() + '/public/static/assets/json/newcomponent/search.json',
+                dataSrc: 'rows',
+            },
+            //用于选中后返回整行数据的ajax
+            getRowData: {
+                url: getRootPath() + '/public/static/assets/json/newcomponent/getrowdata.json',
+                dataSrc: 'rows',
+                data : {
+                    ids : '{selectedList.id}',
+                    objectState : '{objectState}',
+                    brand : {
+                        brand : '{1.brand}'
+                    }
+                }
+            },
+            // getTemplateValueFunc:function(){
+            //     return {a:1};
+            // }
+        }
+        var componentsJson = {
+            package:'nsVue.graps.orderlevel2',
+            template:'processDocBaseLevel2',
+            title:'划价单管理',
+            readonly:false,
+            //getValueAjax:{},
+            components:[
+                {
+                    type: 'vo',
+                    position: 'header-right',
+                    parent: 'root',
+                    idField: 'idForm21',
+                    keyField: 'root',
+                    isSetMore: false,
+                    formStyle: "pt-form-normal",
+                    field:[
+                        {
+                            id: 'entrustCode',
+                            label: '委托编号',
+                            type: 'text',
+                            inputWidth: 100,
+                        },{
+                            id: 'entrustDate',
+                            label: '委托日期',
+                            type: 'date',
+                            inputWidth: 100,
+                        }
+                    ]
+                },{
+                    type: 'vo',
+                    position: 'header-body',
+                    parent: 'root',
+                    defaultComponentWidth: '25%',
+                    idField: 'idForm22',
+                    keyField: 'root',
+                    field: [
+                        {
+                            id: 'customer',
+                            label: '客户',
+                            type: 'business',
+                            textField: 'itemCateName',
+                            idField: 'itemName',
+                            dialogTitle: '往来单位[供应商]选择框',
+                            infoBtnName: '查看单位基本信息',
+                            rules: 'required',
+                            source: {
+                                url: getRootPath() + '/htmlpage/goodslist.html',
+                            },
+                            search: {
+                                url: getRootPath() + '/public/static/assets/json/newcomponent/search.json',
+                                dataSrc: 'rows',
+                            }
+                        },
+                        {
+                            id: 'contacts',
+                            label: '联系人',
+                            type: 'select',
+                            inputWidth: 200,
+                            textField: 'name',
+                            valueField: 'id',
+                            value: '0',
+                            ajaxConfig: {
+                                url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                                type: 'GET',
+                                dataSrc: 'rows'
+                            }
+                        },
+                        {
+                            id: 'salesman',
+                            label: '销售员',
+                            type: 'select',
+                            inputWidth: 200,
+                            textField: 'name',
+                            valueField: 'id',
+                            value: '0',
+                            ajaxConfig: {
+                                url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                                type: 'GET',
+                                dataSrc: 'rows'
+                            }
+                        },
+                        {
+                            id: 'abstract',
+                            label: '摘要',
+                            type: 'text',
+                            inputWidth: 100,
+                            value: '',
+                        },
+                        {
+                            id: 'warehouse',
+                            label: '发货仓库',
+                            type: 'select',
+                            inputWidth: 200,
+                            textField: 'name',
+                            valueField: 'id',
+                            value: '0',
+                            ajaxConfig: {
+                                url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                                type: 'GET',
+                                dataSrc: 'rows'
+                            }
+                        },
+                        {
+                            id: 'remark',
+                            label: '备注',
+                            type: 'text',
+                            inputWidth: 100,
+                            value: '',
+                        },
+                        {
+                            id: 'paymentStage',
+                            label: '付款阶段',
+                            type: 'text',
+                            inputWidth: 100,
+                            value: '',
+                        },
+                        {
+                            id: 'discount',
+                            label: '折扣',
+                            type: 'text',
+                            inputWidth: 100,
+                            value: '',
+                        },
+                        {
+                            id: 'invoiceType',
+                            label: '发票类型',
+                            type: 'select',
+                            inputWidth: 200,
+                            textField: 'name',
+                            valueField: 'id',
+                            value: '0',
+                            ajaxConfig: {
+                                url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                                type: 'GET',
+                                dataSrc: 'rows'
+                            }
+                        }
+                    ]
+                },{
+                    type:'blockList',
+                    parent:'root',
+                    keyField:'sampleCategroyList',
+                    idField:'sampleId',
+                    field:[
+                        {
+                            field: 'itemCode',
+                            title: '样品名称',
+                            width: 300,
+                            columnType: 'renderField',
+                            editable: true,
+                            editConfig: businessConfig,
+                            searchable:true,
+                            orderable:false, 
+                            formatHandler: {
+                                type: 'renderField',
+                                data: '{{remark}}',
+                            },
+                        }, {
+                            field : 'itemName',
+                            title : '价格',
+                            searchable: true,
+                            width:80,
+                            orderable:false, 
+                        }, {
+                            field : 'itemCateName',
+                            title : '品牌',
+                            searchable: true,
+                            width:80,
+                            orderable:false, 
+                        }, {
+                            field : 'itemCateId1',
+                            title : '型号',
+                            searchable: true,
+                            width:80,
+                            orderable:false, 
+                        }
+                    ],
+                    listExpression:"<div class='pt-block-content-item'>"
+                                        +"<span class='text'>{{itemCode}}</span>"
+                                    +"</div>"
+                                    +"<div class='pt-block-content-item'>"
+                                        +"<span class='text'>{{itemName}}</span>"
+                                    +"</div>"
+                                    +"<div class='pt-block-content-item'>"
+                                        +"<span class='text'>{{itemCateName}}</span>"
+                                        +"<span class='text'>{{itemCateId1}}</span>"
+                                    +"</div>"
+                },{
+                    type:'list',
+                    parent:'sampleCategroyList',
+                    keyField:'detailItemList',
+                    idField:'itemId',
+                    field:[
+                        {
+                            field: 'itemName',
+                            title: '检测项目',
+                            width:80,
+                            searchable:true,
+                            editable: true,
+                            viewConfig: {
+                                type: 'viewerList',
+                                ajax: {
+                                    url: getRootPath() + '/public/static/assets/json/table/viewerlist.json',
+                                },
+                                field: [
+                                    {
+                                        field: 'name',
+                                        title: '姓名',
+                                    }, {
+                                        field: 'age',
+                                        title: '年龄',
+                                    }, {
+                                        field: 'hobby',
+                                        title: '爱好',
+                                    }
+                                ],
+                            },
+                        },{
+                            field: 'price',
+                            title: '参考价格',
+                            width:60,
+                            searchable:true,
+                            editable: true,
+                        },{
+                            field: 'num',
+                            title: '数量',
+                            width:60,
+                            searchable:true,
+                            editable: true,
+                        },{
+                            field: 'unit',
+                            title: '单位',
+                            width:60,
+                            searchable:true,
+                        }
+                    ]
+                },{
+                    type: 'btns',
+                    plusClass:'footer-right',
+                    field: [
+                        {
+                            btn: {
+                                text: "导入受理",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                   var titleArr = ['基本业务','主详表','新增单据'];
+                                   var urlArr = ['http://localhost:8088/ui/htmlpage/singletable.html','http://localhost:8088/ui/htmlpage/doclistviewer.html','http://localhost:8088/ui/htmlpage/salesordergrid.html'];
+                                   var dialogCommon = {
+                                        id:'multitab-dialog-url',
+                                        title: '多tab页面',
+                                        templateName: 'PC',
+                                        height:'auto',
+                                        width:1170,
+                                        plusClass:'multiDialog',
+                                        shownHandler:function(data){
+                                            var $dialog = $('#'+data.config.dialogId);
+                                            var $dialogBody = $('#'+data.config.bodyId);
+                                            var ulId = data.config.bodyId + '-ul';
+                                            $dialog.addClass('pt-modal-content-lg');
+                                            $dialogBody.addClass('pt-modal-tab');
+                                            var tabContentId = data.config.bodyId+'-container';
+                                            var liHtml = '';
+                                            var tabContentHtml = '';
+                                            for(var titleI=0; titleI<titleArr.length; titleI++){
+                                                var classStr = titleI === 0 ? 'current' : '';
+                                               // var contentClassStr = titleI === 0 ? '' : 'hide';
+                                                var id = data.config.bodyId +'-li-'+titleI;
+                                                liHtml += '<li class="pt-nav-item '+classStr+'" id="'+id+'">'
+                                                            +'<a href="javascript:void(0);" ns-url="'+urlArr[titleI]+'">'+titleArr[titleI]+'</a>'
+                                                        +'</li>';
+                                                //tabContentHtml += '<div id="'+id+'"></div>';
+                                            }
+                                            var html = '<div class="pt-othertab">'
+                                                            +'<div class="pt-container">'
+                                                                +'<div class="pt-othertab-header">'
+                                                                    +'<div class="pt-nav">'
+                                                                        +'<ul id="'+ulId+'">'
+                                                                            +liHtml
+                                                                        +'</ul>'
+                                                                    +'</div>'
+                                                                +'</div>'
+                                                                +'<div class="pt-othertab-body">'
+                                                                    +'<div class="pt-othertab-content">'
+                                                                        +'<div id="'+tabContentId+'"></div>'
+                                                                    +'</div>'
+                                                                +'</div>'
+                                                                +'<div class="pt-othertab-footer"></div>'
+                                                            +'</div>'
+                                                        +'</div>';
+                                            // var html = '<div class="pt-tab">'
+                                            //             +'<div class="pt-container">'
+                                            //                 +'<div class="pt-tab-header">'
+                                            //                     +'<div class="pt-nav">'
+                                            //                         +'<ul id="'+ulId+'">'
+                                            //                             +liHtml
+                                            //                         +'</ul>'
+                                            //                     +'</div>'
+                                            //                 +'</div>'
+                                            //                 +'<div class="pt-tab-body">'
+                                            //                     +'<div class="pt-tab-content">'
+                                            //                         +'<div id="'+tabContentId+'"></div>'
+                                            //                     +'</div>'
+                                            //                 +'</div>'
+                                            //                 +'<div class="pt-tab-footer"></div>'
+                                            //             +'</div>'
+                                            //         +'</div>';
+                                            $dialogBody.html(html);
+                                            function getConfigByUrl(url){
+                                                var pageObj = {
+                                                    containerId:tabContentId,
+                                                };
+                                                var ajaxConfig = {
+                                                    url:url,
+                                                    type:'GET',
+                                                    dataType:'html',
+                                                    context:{
+                                                        config:pageObj
+                                                    },
+                                                };
+                                                NetStarUtils.ajaxForText(ajaxConfig,function(data,_this){
+                                                    var _config = _this.config;
+                                                    var _configStr = JSON.stringify(_config);
+                                                    var funcStr = 'NetstarTemplate.getConfigByAjaxUrl(pageConfig,'+_configStr+')';
+                                                    var starStr = '<container>';
+                                                    var endStr = '</container>';
+                                                    var containerPage = data.substring(data.indexOf(starStr)+starStr.length, data.indexOf(endStr));
+                                                    var exp = /NetstarTemplate\.init\((.*?)\)/;
+                                                    var funcStrRep = funcStr.replace('pageConfig', containerPage.match(exp)[1]);
+                                                    containerPage = containerPage.replace(containerPage.match(exp)[0],funcStrRep);
+                                                    var $container = $('container');
+                                                    $container.append(containerPage);
+                                                });
+                                            }
+                                            $('#'+ulId+' li > a').on('click',function(ev){
+                                                var $this = $(this);
+                                                var url = $this.attr('ns-url');
+                                                var id = $this.closest('li').attr('id');
+                                                $this.closest('li').addClass('current');
+                                                $this.closest('li').siblings().removeClass('current');
+                                                getConfigByUrl(url);
+                                            });
+                                           // getConfigByUrl(urlArr[0]);
+                                        }
+                                    };
+                                    NetstarComponent.dialogComponent.init(dialogCommon);
+                                }
+                            },
+                            functionConfig:{
+
+                            }
+                        },{
+                            btn: {
+                                text: "保存",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig: {
+
+                            }
+                        },{
+                            btn: {
+                                text: "提交",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig: {
+
+                            }
+                        },{
+                            btn: {
+                                text: "流程图",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig:{
+
+                            }
+                        },{
+                            btn: {
+                                text: "打印样品标签",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig:{
+
+                            }
+                        },{
+                            btn: {
+                                text: "生成合同书",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig: {
+
+                            }
+                        },{
+                            btn: {
+                                text: "打印领取单",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig: {
+
+                            }
+                        },{
+                            btn: {
+                                text: "附件",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig:{
+
+                            }
+                        },{
+                            btn: {
+                                text: "划价",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig: {
+
+                            }
+                        },{
+                            btn: {
+                                text: "转办",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig: {
+
+                            }
+                        },{
+                            btn: {
+                                text: "保存草稿",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig: {
+
+                            }
+                        },{
+                            btn: {
+                                text: "草稿箱",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig: {
+
+                            }
+                        },
+                    ]
+                }
+            ],
+        };
+        NetstarTemplate.init(componentsJson);
+    })
+</script>
+</container>
+</body>

@@ -1,0 +1,73 @@
+/*====================================================================*/
+
+// notify
+
+/*====================================================================*/
+.ns-notify-container{
+	position: fixed;
+	right: 15px;
+	bottom: 15px;
+	width: 300px;
+	height: 150px;
+	background: #fff;
+	border: 1px solid @ns-border-color;
+	box-shadow: 0 0 4px rgba(0,0,0, .15);
+	z-index: 999;
+	// notify-header
+	.notify-header{
+		position: relative;
+		border-bottom: 1px solid @ns-border-color;
+		background: #edeff2;
+		.notify-title{
+			height: 30px;
+			line-height: 30px;
+			padding: 0 (@base-padding * 3) 0 @base-padding;
+			margin: 0;
+			font-size: 14px;
+		}
+		.close{
+			position: absolute;
+			top: 0;
+			right: 0;
+			display: block;
+			.square(30px);
+			text-align: center;
+			line-height: 30px;
+		}
+	}
+	// notify-content
+	.notify-body{
+		padding: (@base-padding * 2) (@base-padding * 3) (@base-padding * 2) (@base-padding * 2);
+		.notify-icon{
+			display: inline-block;
+		}
+		.notify-content{
+			&.warning,
+			&.success,
+			&.error{
+				&:before{
+					font-family: @icon-font;
+					font-size: 16px;
+					padding-right: 10px;
+				}
+			}
+			&.warning:before{
+				content: "\f071";
+				color: @ns-warning;
+			}
+			&.success:before{
+				content: "\f058";
+				color: @ns-success;
+			}
+			&.error:before{
+				content: "\f057";
+				color: @ns-danger;
+			}
+		}
+	}
+	// notify-footer
+	.notify-footer{
+		padding: 0 @base-padding;
+	}
+	
+}

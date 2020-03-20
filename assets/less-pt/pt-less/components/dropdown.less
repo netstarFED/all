@@ -1,0 +1,582 @@
+@dropdown-list-width: 240px;
+@dropdown-block-width: 320px;
+@dropdown-table-width: 600px;
+@dropdown-td-height: 28px;
+@dropdown-td-width: 100px;
+@dropdwon-height: 480px;
+@dropdown-provinceselect-width: 480px;
+@dropdown-nodata-height: 40px;
+
+.pt-dropdown {
+    ul {
+        // max-height: @dropdwon-height;
+        overflow: auto;
+    }
+
+    .pt-list {
+        display: none;
+        position: absolute;
+        right: 0;
+        z-index: 9;
+        margin-top: -1px;
+    }
+
+    // 下拉面板模式 普通列表/块状结构/表格结构
+    .pt-dropdown-list,
+    .pt-dropdown-block,
+    .pt-dropdown-table {
+        border-top: 1px solid @border-color;
+        clear: both;
+    }
+
+    // 下拉面板-普通列表结构内容
+    .pt-dropdown-list {
+        width: @dropdown-list-width;
+    }
+
+    // 下拉面板-块状结构内容
+    .pt-dropdown-block {
+        width: @dropdown-block-width;
+
+        .pt-dropdown-list-item {
+            padding: @base-padding;
+            border-bottom: 1px solid @border-color;
+        }
+
+        p {
+            color: @gray;
+            margin-top: @base-margin-sm;
+        }
+    }
+
+    // 下拉面板-表格结构内容
+    .pt-dropdown-table {
+        width: @dropdown-table-width;
+
+        .pt-dropdown-table-header {
+
+            .pt-dropdown-list-item,
+            .pt-dropdown-list-item:hover {
+                background: @table-border-color;
+            }
+        }
+
+        .pt-dropdown-list-item {
+            display: table;
+            width: 100%;
+            padding: 0;
+            table-layout: fixed;
+
+            span {
+                display: table-cell;
+                padding: 3px @base-padding;
+                border: 1px solid @table-border-color;
+                border-width: 0 1px 1px 0;
+
+                &:first-child {
+                    width: @dropdown-td-height;
+                    padding: 0;
+                    text-align: center;
+                }
+
+                &:nth-child(3),
+                &:last-child {
+                    width: @dropdown-td-width;
+                }
+
+                &:last-child {
+                    border-right: 0;
+                }
+            }
+        }
+    }
+
+    .pt-btn.pt-btn-block {
+        height: 32px;
+    }
+
+    .pt-dropdown-footer {
+        padding: @base-padding;
+        border-top: 1px solid @border-color;
+    }
+
+    .dropdon-tags {
+        @title-height: 20px;
+        @title-bg: lighten(@primary, 60);
+
+        .title {
+            height: @title-height;
+            line-height: @title-height;
+            background: @title-bg;
+            padding: 0 @base-padding;
+
+            &>* {
+                display: inline-block;
+                line-height: @title-height;
+            }
+
+            .pt-btn-icon {
+                background: transparent;
+                border: 0;
+                float: right;
+                .square(@title-height);
+                line-height: @title-height;
+            }
+        }
+    }
+
+    &>.pt-form-control {
+        border: 1px solid @form-border;
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
+
+    // 省市区选择面板
+    .pt-provinceselect & {
+        width: @dropdown-provinceselect-width;
+    }
+
+    // 无数据面板显示
+    .no-data {
+        min-height: @dropdown-nodata-height  !important;
+        max-height: @dropdown-nodata-height;
+
+        &:before {
+            margin: -15px 0 0 -25px;
+        }
+
+        &:after {
+            font-size: 24px;
+            margin: -18px 0 0 -38px;
+        }
+    }
+
+}
+
+.pt-dropdown-list-item {
+    padding: @base-padding-sm @base-padding;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        background: @bg-primary;
+    }
+}
+
+
+// 下拉面板尺寸及位置  面板尺寸：表单尺寸+左右描边尺寸+表单组按钮尺寸
+.dropdown-list-variant(@input-width, @btn-size, @top) {
+    .list {
+        width: (@input-width + 2) + @btn-size;
+        top: @top;
+    }
+}
+
+// dropdown尺寸
+.pt-dropdown-base {
+    .dropdown-list-variant(@form-control-width-base, @input-group-btn-size, @input-group-base);
+}
+
+.pt-dropdown-md {
+    .dropdown-list-variant(@form-control-width-md, @input-group-btn-md, @input-group-md);
+}
+
+.pt-dropdown-lg {
+    .dropdown-list-variant(@form-control-width-lg, @input-group-base, @input-group-lg);
+}
+
+.pt-dropdown-list {
+    height: 360px;
+    overflow-y: auto;
+
+    li {
+
+        position: relative;
+
+        a {
+            display: block;
+            padding: @base-padding;
+
+            &:hover {
+                background: #f8f8f8;
+            }
+        }
+
+        // 标题
+        h6 {
+            margin-bottom: @base-margin-sm;
+        }
+
+        // 文本信息
+        p {
+            color: @gray;
+        }
+
+        .pt-badge {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            margin-top: -10px;
+        }
+    }
+}
+
+.pt-list-clumn {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+
+// 下拉业务组件
+// 下拉组件面板
+@pt-dropdown-components-list-width: 240px;
+@pt-dropdown-components-block-width: 320px;
+@pt-dropdown-components-table-width: 480px;
+@pt-dropdown-components-height: 360px;
+@pt-dropdown-components-list-padding: @padding-base-v @padding-base-h;
+
+
+// 列表复选样式
+.list-checkbox {
+    position: relative;
+    padding-left: 30px;
+
+    &:before {
+        position: absolute;
+        content: '';
+        .square(16px);
+        border: 1px solid @table-border-color;
+        background: #fff;
+        top: 7px;
+        left: 7px;
+    }
+
+    &:after {
+        position: absolute;
+        content: '';
+        .square(16px);
+        // border: 1px solid @table-border-color;
+        // background: #fff; 
+        font-family: @icon-font-icomoon;
+        top: 7px;
+        left: 9px;
+        color: #000;
+    }
+
+    &.selected:after {
+        content: '\e95d';
+    }
+
+}
+
+.pt-dropdown-components {
+    border-top: 1px solid @border-color;
+
+    //  下拉组件列表
+    li {
+        padding: @pt-dropdown-components-list-padding;
+        cursor: pointer;
+        text-align: left;
+
+        &:hover {
+            background: #f6f6f6;
+
+        }
+
+        // 列表模式
+        &.pt-list-text {
+            width: @pt-dropdown-components-list-width;
+
+        }
+
+        // 块状内容模式
+        &.pt-list-block {
+            width: @pt-dropdown-components-block-width;
+
+            span {
+                display: block;
+                padding: @padding-base-v 0;
+
+            }
+
+            .title {
+                border-bottom: 0;
+            }
+
+            .list-checkbox();
+
+            &:before,
+            &:after {
+                top: 13px;
+            }
+        }
+
+        // 表格模式
+        &.pt-list-table {
+            display: table;
+            // width: @pt-dropdown-components-table-width;
+            padding: 0;
+            position: relative;
+
+
+
+            span {
+                display: table-cell;
+                padding: @padding-base-v @padding-base-h;
+                border: 1px solid @table-border-color;
+                border-width: 0 1px 1px 0;
+
+                &:first-child {
+                    width: 280px;
+                    padding-left: (@padding-base-h * 3);
+                }
+            }
+
+            // 选中样式
+            &.selected {
+                background: #659ac7;
+
+                span {
+                    color: #fff;
+                }
+            }
+
+            .list-checkbox();
+            padding-left: 0;
+        }
+
+        &.active {
+            background: #f5ede4;
+        }
+
+        &.selected {
+            background: @warning;
+            color: #fff;
+        }
+
+        &[disabled="disabled"] {
+            &:hover {
+                background: #eee;
+                color: @input-color-disabled;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .pt-input-group .pt-dropdown ul& {
+        width: auto;
+        // height: @pt-dropdown-components-height;
+        // overflow-y: auto;
+    }
+
+
+    // 多选模式
+    &.pt-dropdown-components-checkbox {
+        li {
+
+            // 列表模式
+            &.pt-list-text {}
+
+            // 块状内容模式
+            &.pt-list-text {}
+
+            // 表格模式
+            &.pt-list-text {}
+
+            span {
+                &:first-child {
+                    width: 280px;
+                    padding-left: (@padding-base-h * 3);
+                }
+            }
+
+            &.selected {
+                background: #fff;
+            }
+        }
+
+    }
+}
+
+// 选择结果标签面板
+.pt-tags-group {
+    @tags-group-bg: #Fff;
+    @tags-group-border-color: #ddd;
+    @tags-group-padding: @base-padding;
+    @tags-nodata-bg: @gray-lighter;
+    @tags-nodata-color: @gray;
+    @tags-item-bg: lighten(@primary, 45);
+    @tags-item-hover-bg: darken(@tags-item-bg, 5);
+    padding-right: (@btn-size-base + 16);
+    background: @tags-group-bg;
+    border: 1px solid @tags-group-border-color;
+    border-width: 1px 0;
+
+    &+.pt-btn-group {
+        .pt-input-group .pt-dropdown & {
+            position: static;
+            width: 100%;
+            max-width: 100%;
+
+            .pt-btn {
+
+                // 新增按钮样式
+                &.add {
+                    width: 100%;
+                    text-align: center;
+                    height: 30px;
+                    line-height: 30px;
+                }
+
+                // 清空已选内容按钮样式
+                &.clear {
+                    position: absolute;
+                    top: (@pt-dropdown-components-height + @tags-group-padding);
+                    right: 8px;
+                    z-index: 0;
+
+                }
+            }
+        }
+    }
+
+    // 无数据状态，清空已选内容按钮样式
+    &.no-data {
+        border: 1px solid @tags-group-border-color;
+        border-width: 1px 0;
+        background: @tags-nodata-bg;
+
+        &+.pt-btn-group {
+            .pt-input-group .pt-dropdown & {
+                .pt-btn {
+                    &.clear {
+                        z-index: -1;
+                    }
+                }
+            }
+        }
+
+        &:before,
+        &:after {
+            color: @tags-nodata-color;
+        }
+    }
+
+    // 已选标签样式
+    .selected {
+        position: relative;
+        display: inline-block;
+        padding: 0 @base-padding-sm;
+        border-radius: 3px;
+        background: @tags-item-bg;
+        margin: (@base-margin-sm / 2) @base-margin-sm (@base-margin-sm / 2) 0;
+        cursor: pointer;
+
+        &:after {
+            font-family: @icon-font-icomoon;
+            content: '\e968';
+        }
+
+        &:hover {
+            background: @tags-item-hover-bg;
+        }
+
+    }
+
+}
+
+.pt-input-group {
+    &.btn-clear-arrow-down {
+        .pt-input-group-btn {
+            .pt-btn {
+                &.clear {
+                    right: @input-group-base;
+                }
+            }
+        }
+    }
+}
+
+.pt-dropdown-pager {
+    .pt-dropdown {
+        padding-bottom: 26px;
+        overflow-y: hidden;
+    }
+
+    ul {
+        overflow-y: hidden;
+    }
+
+    .pt-pager {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 25px;
+        border-top: 1px solid @border-color;
+        text-align: right;
+
+        .pt-form {
+            .pt-form-body {
+
+                .pt-page-turn {
+                    display: table;
+                    max-width: 175px;
+
+                    .pt-btn-group {
+                        position: inherit;
+                        display: inline-table;
+                        white-space: normal;
+                        width: 52px;
+
+
+                        .pt-btn {
+                            &+.pt-btn {
+                                margin-left: 0;
+                            }
+
+                            &.pt-btn-icon {
+
+                                background: transparent;
+
+                                &:hover {
+                                    background: @gray-light;
+                                    color: @gray-dark;
+                                }
+
+                                &:focus {
+                                    color: @gray-dark;
+                                }
+                            }
+                        }
+                    }
+
+                    .pt-form-group {
+                        width: 100%;
+                        display: table-cell;
+
+                        label.pt-control-label,
+                        .pt-input-group-btn,
+                        .pt-input-group-select {
+                            display: none;
+                        }
+
+                        .pt-input-group {
+                            border: none;
+                            padding: 0 5%;
+
+                            .pt-form-control {
+                                width: 100%;
+                                text-align: center;
+                                border-bottom: 1px solid @border-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

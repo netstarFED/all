@@ -1,0 +1,139 @@
+// 面板遮罩
+.dialog-template-state {
+    @disabled-icon-size: 84px;
+
+    position: fixed;
+    content: '';
+    top: @header-height;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: transparent;
+    text-align: right;
+    z-index: 98;
+    .grayscale(0);
+
+    // 背景色
+    &:before {
+        position: absolute;
+        content: '';
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        margin: 0;
+        z-index: -1;
+        background: rgba(0, 0, 0, .25);
+    }
+
+
+    h5 {
+        font-size: @font-size-h2;
+    }
+
+    .btn {
+        float: right;
+        line-height: 14px;
+
+        &.btn-default {
+            background: @warning;
+            border-color: @warning;
+
+            &:hover {
+                background: darken(@warning, 15);
+                border-color: darken(@warning, 15);
+            }
+        }
+    }
+
+    &:after {
+        position: absolute;
+        content: '\ea3f';
+        font-family: @icon-font-icomoon;
+        top: 0;
+        right: @main-gutter;
+        color: @ns-danger;
+        font-size: @disabled-icon-size;
+    }
+
+    .state-content{
+        position: fixed;
+        z-index: 99;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0,0,0, .5);
+        padding: @base-padding @base-padding-lg;
+        color: #fff;
+        animation: stateshow .5s;
+        -webkit-animation: stateshow .5s; /* Safari 与 Chrome */
+        transition: ease-in-out all 1s;
+        &>* {
+            display: inline-block;
+            line-height: @btn-size-base;
+            
+        }
+        .pt-btn{
+            margin-left: @base-margin;
+            float: right;
+        }
+    }
+
+}
+// 底部提示面板动画
+@keyframes stateshow
+{
+    0% {
+        bottom: -100%;
+    }
+    100% {
+        bottom: 0;
+    }
+}
+ 
+@-webkit-keyframes stateshow /* Safari 与 Chrome */
+{
+    0% {
+        bottom: -100%;
+    }
+    100% {
+        bottom: 0;
+    }
+}
+
+// 页面状态变量
+.state-content-variant(@content) {
+    .dialog-template-state:after{
+        content: @content;
+    }
+}
+
+
+// 页面状态（普通/应急/重办/挂起）
+.state {
+
+    // 普通
+    &-normal-message {
+        .state-content-variant('\ea3f');
+    }
+
+    // 应急
+    &-emergency-message {
+        .state-content-variant('\ea3e');
+    }
+
+    // 重办
+    &-again-message {
+        .state-content-variant('\ea3d');
+    }
+
+    // 挂起
+    &-suspend-message {
+        .state-content-variant('\ea40');
+    }
+
+     // 禁用
+     &-disabled-message {
+        .state-content-variant('\e982');
+    }
+}

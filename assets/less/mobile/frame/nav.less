@@ -1,0 +1,139 @@
+[ns-system="mobile"] {
+	nav {
+
+		// 顶部导航
+		&.navbar {
+			position: static;
+			display: flex;
+			flex: 1;
+			padding: 0;
+			justify-content: space-between;
+			align-items: center;
+			box-shadow: none;
+			border: 0;
+
+		}
+
+		.navbar-nav {
+			float: none;
+			margin: 0;
+
+			.dropdown {
+				display: none;
+			}
+		}
+
+		// 顶部导航时间
+		.page-currentdate {
+			display: none;
+		}
+
+		// 导航按钮组
+		.btn-group {
+			.flex-block(flex-star, center);
+			height: @header-height;
+
+			.btn {
+				.square(@header-height);
+
+				&+.btn {
+					margin: 0;
+				}
+			}
+
+			.badge {
+				top: .5rem !important;
+				right: 0 !important;
+			}
+		}
+
+		.nav-item {
+			&:focus {
+				text-decoration: none;
+			}
+		}
+
+		// 九宫格
+		&.nav-grid {
+			.flex-block(flex-start, center);
+			border: 1px solid @ns-border-color;
+			border-width: 1px 0;
+			margin-top: -1px;
+			flex-wrap: wrap;
+
+			&.grid-4 {
+				.nav-item {
+					.flex-block(center, center);
+					flex: 0 0 25%;
+					color: @mobile-primary;
+					padding: 1.5rem 0;
+					flex-wrap: wrap;
+					position: relative;
+
+					i {
+						font-size: @icon-font-size-md;
+						margin-bottom: 1rem;
+						.flex-block(center, center);
+						flex: 0 0 100%;
+					}
+
+					span {
+						color: @gray;
+						.flex-block(center, center);
+						flex: 0 0 100%;
+
+						&.badge {
+							position: absolute;
+							min-width: 1.5rem;
+							height: 1.5rem;
+							top: 50%;
+							left: 50%;
+							margin: -2.5rem 0 0 1rem;
+							font-weight: normal;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// tab-nav
+	.nav.nav-tabs {
+		&.nav-tabs-line {
+			margin: 0 -1rem 1rem !important;
+			.flex-block();
+
+			li {
+				.flex-block(center, center);
+
+				a {
+					margin-right: 0;
+					border: 0 !important;
+					background-color: transparent !important;
+					color: @mobile-primary-dark;
+					font-size: @mobile-font-size;
+					height: 3rem;
+
+					&:before {
+						top: auto !important;
+						bottom: 0;
+						background: @mobile-primary;
+					}
+				}
+
+				&.active {
+					a {
+						color: @mobile-primary-dark  !important;
+
+						&:before {
+							height: .25rem !important;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+
+}

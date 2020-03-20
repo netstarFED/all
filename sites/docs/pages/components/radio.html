@@ -1,0 +1,838 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>radio</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>字段名</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>组件id，实际生成的表单中名称为'form-'+id id不可重复</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>组件类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>radio</td>
+                            </tr>
+                            <tr>
+                                <td>textField</td>
+                                <td>显示字段</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>选项显示的字段(默认text)</td>
+                            </tr>
+
+                            <tr>
+                                <td>valueField</td>
+                                <td>保存值</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>选项value字段，即如果string类型（isObjectValue==false）组件的保存值 (默认value)</td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件的标签，未配置则不显示</td>
+                            </tr>
+                            <tr>
+                                <td>rules</td>
+                                <td>验证规则</td>
+                                <td>string</td>
+                                <td><i></i></td>
+                                <td>当前组件仅支持必填验证：required</td>
+                            </tr>
+                            <tr>
+                                <td>total</td>
+                                <td>表达式</td>
+                                <td>object</td>
+                                <td><i></i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>value</td>
+                                <td>显示的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认显示的值</td>
+                            </tr>
+                            <tr>
+                                <td>disabled</td>
+                                <td>只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否只读(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>inputWidth</td>
+                                <td>宽</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>组件除去label的宽度 与width不共存(默认100)</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>宽</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件整体宽度 *% 与inputWidth不共存</td>
+                            </tr>
+                            <tr>
+                                <td>changeHandler</td>
+                                <td>变更处理程序</td>
+                                <td>function</td>
+                                <td></td>
+                                <td>组件值改变时触发 即value值发生改变时触发</td>
+
+                            </tr>
+                            <tr>
+                                <td>hidden</td>
+                                <td>隐藏</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否隐藏(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>subdata</td>
+                                <td>数据</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>选项数组 具体配置见下方：subdata配置 数据类型[]</td>
+                            </tr>
+                            <tr>
+                                <td>url</td>
+                                <td>获取地址</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过ajax获得subdata</td>
+                            </tr>
+                            <tr>
+                                <td>dataSrc</td>
+                                <td>返回的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax返回数据的key值</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax类型，GET/POST (默认GET)</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td>传参</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>ajax传参 关联字段配置（即获得表单中其它字段值作为传输参数）{}</td>
+                            </tr>
+                            <tr>
+                                <td>contentType</td>
+                                <td>ajax的传值类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax的传值类型 ‘application/json’表示传值data转化成字符串</td>
+                            </tr>
+                            <tr>
+                                <td>isHasClose</td>
+                                <td>是否有清除按钮</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否有清除按钮(默认false)</td>
+                            </tr>
+                            <tr>
+                                <td>relationField</td>
+                                <td>关联字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>关联字段 即该字段发生变化relationField对应的字段发生变化</td>
+                            </tr>
+                            <tr>
+                                <td>isObjectValue</td>
+                                <td>value值的格式</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>value值的格式(默认false)</td>
+                            </tr>
+                            <tr>
+                                <td>outputFields</td>
+                                <td>获取值</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>获取值</td>
+                            </tr>
+                            <tr>
+                                <td>searchMode</td>
+                                <td>搜索</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>client  server   none </td>
+                            </tr>
+                            <tr>
+                                <td>searchName</td>
+                                <td>搜索名</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>client  server   none </td>
+                            </tr>
+                            <tr>
+                                <td>defaultSelectedIndex</td>
+                                <td>默认选择</td>
+                                <td>object</td>
+                                <td></td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td>isDistinct</td>
+                                <td>是否有排重字段</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>distinctField</td>
+                                <td>排重字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>valueExpression</td>
+                                <td>value表达式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过表达式设置value值  {page.**}</td>
+                            </tr>
+                            <tr>
+                                <td>placeholder</td>
+                                <td>placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>gridPlaceholder</td>
+                                <td>表格placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>表格默认显示（业务组件：点击新增，其它：可输入）</td>
+                            </tr>
+                            <tr>
+                                <td>formSource</td>
+                                <td>组件模式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模式；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认from)</td>
+                            </tr>
+                            <tr>
+                                <td>templateName</td>
+                                <td>组件模式名字</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模板名字；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认pc)</td>
+                            </tr>
+                            <tr>
+                                <td>mindjetFieldPosition</td>
+                                <td>是否在更多种显示</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否是更多中显示的数据(默认field)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-radio-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">显示的值</h3>
+                <span class="intro">显示默认选择</span>
+                <div id="nsdocs-radio-value" class="panel-demo"></div>
+                <script>
+                    /*输入模式value*/
+                    var formJsonValue = {
+                        id: 'nsdocs-radio-value',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,             
+                        form: [{
+                            id: 'value',
+                            label: '显示 :',
+                            type: 'radio',
+                            value: '1', //value为1时默认显示男
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [{
+                                    id: '1',
+                                    name: '男',
+                                    state: "none"
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ],
+                            showState:"right",
+                            outputFields: {
+                                name: "{name}",
+                                statesss: "{state}",
+                            }
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonValue, {});
+                    NetstarComponent.formComponent.init(component, formJsonValue);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+{
+    id: <span class="token-string">'value'</span>,
+    label: <span class="token-string">'value'</span>,
+    type: <span class="token-string">'radio'</span>,
+    inputWidth: <span class="token-number">200</span>,
+    value: "1",
+    textField: <span class="token-string">'name'</span>,
+    valueField: <span class="token-string">'id'</span>,
+    url: getRootPath() + <span class="token-address">"/data/select/radio.json"</span>,
+    dataSrc: <span class="token-string">'rows'</span>,
+    method: <span class="token-string">'GET'</span>,
+    data: {
+        name: <span class="token-string">'{this.disabled}'</span>
+    }
+
+    {
+        id: 'value',
+        label: '显示 :',   
+        type: 'radio',  
+        value: '1', //value为1时默认显示男
+        textField: 'name',
+        valueField: 'id',
+        subdata:[
+            {id:'1', name:'男', state:"none"},
+            {id:'2', name:'女'},
+            {id:'3', name:'其它'}
+        ],
+        outputFields:{
+            name:"{name}",
+            statesss : "{state}",
+        }
+    } 
+
+                </pre>
+                </div>
+            </div>
+            <!--获取数据1 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-radio-subdata"></a>
+                <h3 class="title-code">获取数据1</h3>
+                <span class="intro">用subdata获取数据</span>
+                <div id="nsdocs-radio-subdata" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonSubdata = {
+                        id: 'nsdocs-radio-subdata',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'subdata',
+                            label: 'subdata传出:',
+                            type: 'radio',
+                            value: "1",
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [ //通过subdata获取值
+                                {
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ]
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonSubdata, {});
+                    NetstarComponent.formComponent.init(component, formJsonSubdata);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'subdata',
+        label: 'subdata传出:',
+        type: 'radio',
+        value: "1",
+        textField: 'name',
+        valueField: 'id',
+        subdata:[               //通过subdata获取值 
+            {id:'1', name:'男'},
+            {id:'2', name:'女'},
+            {id:'3', name:'其它'}
+        ]
+    }
+           </pre>
+                </div>
+            </div>
+            <!--获取数据2 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-radio-subdatatwo"></a>
+                <h3 class="title-code">获取数据2</h3>
+                <span class="intro">用ajax获取数据</span>
+                <div id="nsdocs-radio-subdatatwo" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonSubdatatwo = {
+                        id: 'nsdocs-radio-subdatatwo',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'ajax',
+                            label: 'ajax传出:',
+                            type: 'radio',
+                            value: "1",
+                            textField: 'name',
+                            valueField: 'id',
+                            ajaxConfig: {
+                                url: getRootPath() + '/docs/data/select/radio.json',
+                                type: 'GET',
+                                contentType: 'application/x-www-form-urlencoded',
+                                dataSrc: 'rows',
+                            },
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonSubdatatwo, {});
+                    NetstarComponent.formComponent.init(component, formJsonSubdatatwo);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'ajax',
+        label: 'ajax传出:',
+        type: 'radio',
+        value: "1",
+        textField: 'name',
+        valueField: 'id',
+        url: getRootPath() + 'docs/data/select/radio.json', //通过ajax获取 注：获取时要与dataSrc一起用
+        dataSrc: 'rows',
+    }
+           </pre>
+                </div>
+            </div>
+            <!-- 标准输入模式只读disabled -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-radio-disabled"></a>
+                <h3 class="title-code">只读</h3>
+                <span class="intro">只读模式，不可编辑</span>
+                <div id="nsdocs-radio-disabled" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonDisbled = {
+                        id: 'nsdocs-radio-disabled',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'disabled',
+                            label: '只读 :',
+                            type: 'radio',
+                            value: "2",
+                            isHasClose: true,
+                            disabled: true, //只读模式
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [{
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ]
+                        }, ]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonDisbled, {});
+                    NetstarComponent.formComponent.init(component, formJsonDisbled);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+{
+    id: 'disabled',
+    label: 'disabled只读 :',
+    type: 'radio',
+    value: "",
+    disabled: true,  //只读模式
+    textField: 'name',
+    valueField: 'id',
+    subdata:[              
+        {id:'1', name:'男'},
+        {id:'2', name:'女'},
+        {id:'3', name:'其它'}
+    ]
+}
+                        </pre>
+                </div>
+            </div>
+            <!-- 是否有清楚按钮 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-radio-isHasClose"></a>
+                <h3 class="title-code">清除按钮</h3>
+                <span class="intro">是否有清除按钮 false:没有 true：有</span>
+                <div id="nsdocs-radio-isHasClose" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonisHasClose = {
+                        id: 'nsdocs-radio-isHasClose',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false, //是否显示更多
+                        form: [{
+                            isHasClose: true, //带有清除按钮，可以清除
+                            id: 'isHasClose',
+                            label: '清除按钮:',
+                            type: 'radio',
+                            value: "",
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [{
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ]
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonisHasClose, {});
+                    NetstarComponent.formComponent.init(component, formJsonisHasClose);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        isHasClose: true,  //带有清除按钮，可以清除
+        id: 'isHasClose',
+        id: 'width',
+        label: '清除按钮:',
+        type: 'radio',
+        value: "",
+        textField: 'name',
+        valueField: 'id',
+        subdata: [{
+                id: '1',
+                name: '男'
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ]
+                        }
+                                    </pre>
+                </div>
+            </div>
+            <!-- 标准模式样式宽 inputwidth   width-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-radio-width"></a>
+                <h3 class="title-code">样式宽</h3>
+                <span class="intro">宽</span>
+                <div id="nsdocs-radio-width" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonWidth = {
+                        id: 'nsdocs-radio-width',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false, //是否显示更多
+                        form: [{
+
+                            id: 'width',
+                            label: 'width宽:',
+                            type: 'radio',
+                            value: "",
+                            inputWidth: 500, //宽500
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [{
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ]
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonWidth, {});
+                    NetstarComponent.formComponent.init(component, formJsonWidth);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'width',
+        label: 'width宽:',
+        type: 'radio',
+        value: "",
+        inputWidth: 500, //宽500
+        textField: 'name',
+        valueField: 'id',
+        subdata: [{
+                id: '1',
+                name: '男'
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ]
+    }
+                    </pre>
+                </div>
+            </div>
+            <!-- 验证 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-radio-rules"></a>
+                <h3 class="title-code">验证</h3>
+                <span class="intro">验证规则 当前组件仅支持必填验证：required </span>
+                <div id="nsdocs-radio-rules" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonrules = {
+                        id: 'nsdocs-radio-rules',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'requied',
+                            label: '验证 :',
+                            type: 'radio',
+                            value: "",
+                            rules: "required",
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [{
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ] //必填验证              
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonrules, {});
+                    NetstarComponent.formComponent.init(component, formJsonrules);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'requied',
+        label: '只读 :',
+        type: 'radio',
+        value: "", 
+        rules:"requied",//必填验证 
+        textField: 'name',
+        valueField: 'id',
+        subdata: [
+            {
+                id: '1',
+                name: '男'
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ]                      
+    }
+                         </pre>
+                </div>
+            </div>
+            <!-- 是否显示更多 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-radio-mindjetfieldposition"></a>
+                <h3 class="title-code">是否在更多中显示</h3>
+                <span class="intro">是否在更多中显示 </span>
+                <div id="nsdocs-radio-mindjetfieldposition" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonmindjetFieldPosition = {
+                        id: 'nsdocs-radio-mindjetfieldposition',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: true,
+                        //是否显示更多
+                        form: [{
+                                mindjetFieldPosition: 'field-more', //在更多中显示
+                                id: 'mindjetFieldPosition1',
+                                label: '显示1:',
+                                type: 'radio',
+                                value: "2",
+                                textField: 'name',
+                                valueField: 'id',
+                                subdata: [{
+                                        id: '1',
+                                        name: '男'
+                                    },
+                                    {
+                                        id: '2',
+                                        name: '女'
+                                    },
+                                    {
+                                        id: '3',
+                                        name: '其它'
+                                    }
+                                ]
+                            },
+                            {
+                                mindjetFieldPosition: 'field-more',
+                                id: 'mindjetFieldPosition2',
+                                label: '显示2:',
+                                type: 'radio',
+                                value: "1",
+                                textField: 'name',
+                                valueField: 'id',
+                                subdata: [{
+                                        id: '1',
+                                        name: '男'
+                                    },
+                                    {
+                                        id: '2',
+                                        name: '女'
+                                    },
+                                    {
+                                        id: '3',
+                                        name: '其它'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonmindjetFieldPosition, {});
+                    NetstarComponent.formComponent.init(component, formJsonmindjetFieldPosition);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        mindjetFieldPosition: 'field-more', //在更多中显示
+        id: 'mindjetFieldPosition1',
+        label: '显示1:', 
+        type: 'select',
+        value: "2",
+        textField: 'name',
+        valueField: 'id',
+        subdata: [ 
+            {
+                id: '1',
+                name: '男'
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ]
+    },
+    {
+        mindjetFieldPosition: 'field-more',
+        id: 'mindjetFieldPosition2',
+        label: '显示2:',
+        type: 'select',
+        value: "1",
+        textField: 'name',
+        valueField: 'id',
+        subdata: [ 
+            {
+                id: '1',
+                name: '男'
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ]
+    }                
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

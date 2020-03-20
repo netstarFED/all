@@ -1,0 +1,192 @@
+[ns-system="mobile"] {
+
+
+    .businessdatabasem,
+    .doclistviewermobile,
+    .listmobile {
+        padding-top: 0;
+
+        @block-list-padding: 15px;
+        @block-list-control-btn-size: 3.5rem;
+        @block-list-control-btn-padding: 1rem;
+        @block-list-control-text-width: (@block-list-control-btn-size + (@block-list-control-btn-padding * 2));
+        @tree-width: 90px;
+        @search-panel-height: 5rem;
+        @search-form-height: 4rem;
+        @footer-btns-height: 4.5rem;
+
+        .nspanel-container {
+            .pt-grid {
+                background: #fff;
+            }
+
+            // 左侧树菜单
+            &[ns-panel="tree"] {
+                position: fixed;
+                top: @search-panel-height;
+                left: 0;
+                bottom: 0;
+                z-index: 9;
+                width: @tree-width;
+
+                &[search-type="tree"] {
+                    top: @search-panel-height;
+                }
+
+                &[search-type="none"] {
+                    top: 0;
+                }
+            }
+
+            // 块状列表
+            &[ns-panel="blockList"] {
+                // padding: @block-list-padding;
+                // background: #fff;
+                padding: (@search-panel-height + @search-form-height) 0 @footer-btns-height @tree-width;
+                width: 100%;
+
+                .pt-block-list {
+                    .flex-block();
+                    position: relative;
+                    background: #fff;
+
+                    &+.pt-block-list {
+                        border-top: 1px solid @ns-border-color;
+                    }
+
+                    .block-table-button {
+                        padding: @block-list-control-btn-padding;
+
+                        .btn {
+                            .square(@block-list-control-btn-size);
+                            padding: 0;
+
+                            i {
+                                font-size: @block-list-control-btn-size;
+                            }
+                        }
+                    }
+
+                    // 行选中
+                    &.selected {
+                        background: #fcefe8;
+                    }
+
+                    // 禁用
+                    &.disabled {
+                        position: relative;
+                        filter: grayscale(100%);
+                        -webkit-filter: grayscale(100%);
+                        background: #f1f1f1;
+
+                        &:before {
+                            position: absolute;
+                            content: '';
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            left: 0;
+                            z-index: 9;
+                            cursor: not-allowed;
+                        }
+                    }
+                }
+
+                .pt-block-content {
+                    padding: @block-list-padding 25px;
+                }
+
+                .block-list-item {
+
+                    .block-list-item-text {
+                        .title {
+                            font-size: 14px;
+                            font-weight: bold;
+                        }
+
+                        .flex-block();
+
+                        &+.block-list-item-text {
+                            margin-top: 1rem;
+                        }
+
+                        span {
+                            &+span {
+                                padding-left: 1rem;
+                            }
+
+                            &+i {
+                                padding-left: 0.5rem;
+                                display: block;
+
+                            }
+                        }
+
+                        i+span {
+                            padding-left: .5rem;
+                        }
+
+
+                        // 列表右侧内容
+                        &.block-list-control-text {
+                            .flex-block(center, center);
+                            width: @block-list-control-text-width;
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+
+                            span {
+                                &+span {
+                                    padding-left: 0;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                // 无左侧目录树
+                &.notree {
+                    padding-left: 0;
+                    padding-top: @search-panel-height;
+                }
+
+                // 无顶部筛选条件
+                &.no-query {
+                    padding-top: 0;
+                }
+
+                // 无底部按钮
+                &.no-outbtns {
+                    padding-bottom: 0;
+                }
+
+                .mobile-crm-search-form {
+                    left: @tree-width;
+                    width: calc(~"100% -"@tree-width);
+                    top: @search-panel-height;
+                }
+            }
+
+            // 底部按钮组
+            &[ns-panel="btns"] {
+                position: fixed;
+                z-index: 199;
+                width: 100%;
+                bottom: 0;
+                left: 0;
+                background: #fff;
+            }
+
+        }
+
+        // 顶部固定面板
+        .mobile-crm-search-form {
+            width: 100%;
+            right: 0;
+            left: 0;
+
+
+        }
+    }
+}

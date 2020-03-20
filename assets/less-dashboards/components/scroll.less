@@ -1,0 +1,27 @@
+.scroll-horizontal {
+
+    // 多列表水平滚动
+    &.list {
+        &.multi {
+            ul {
+                border: (@list-gutter / 2) solid transparent;
+                border-width: 0 (@list-gutter / 2);
+            }
+        }
+    }
+
+}
+
+.scroll-vertical {
+
+    // 多列垂直平滚动
+    &.list {
+        .list-group {
+            border: (@list-gutter / 2) solid transparent;
+            border-width: 0 (@list-gutter / 2);
+            &+ul {
+                margin-top: @list-gutter;
+            }
+        }
+    }
+}

@@ -1,0 +1,700 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>grid</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>field</td>
+                                <td>不可重复字段名</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>字段id</td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>标题</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>columnType</td>
+                                <td> 类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>表格设置</td>
+                            </tr>
+                            </tr>
+                                <td>formatHandler</td>
+                                <td>初始化方法</td>
+                                <td>object</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tr>
+                                <td>editConfig</td>
+                                <td>组件配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>组件配置参数</td>
+                            </tr>
+                            </tr>
+                                <td>editable</td>
+                                <td> 编辑</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否可以编辑</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class=" panel content-demo" >
+                <a href="javascript:void(0);" id="sense-nsdocs-grid"></a>
+                <h3 class="title-code"></h3>
+                <span class="intro"></span>
+                <div id="" class="panel-demo"></div>
+
+                <div class="content language-javascript">
+                    <pre>
+    {
+        "field": "money",
+        "title": "金额", //标题
+        "columnType": "money",
+        "editable": true,
+        "variableType": "number",
+        "editConfig": { 
+            ...配置参数
+        },
+        "formatType": {
+            ...详见以下参数            
+        },
+        "footer": {
+        }
+    }                    
+                    </pre>
+                </div>
+            </div>
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-grid-time"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">时间</h3>
+                <span class="intro"></span>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>类型 data</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td>时间戳</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>data{}</td>
+                            </tr>
+                            <tr>
+                                <td>format</td>
+                                <td>格式化</td>
+                                <td>array</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>格式化时间'YYYY-MM-DD/YYYY-MM-DD HH:mm:ss' 年月日/小时分秒</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="nsdocs-grid-data" class="panel-demo"></div>
+                <script>
+                    var gridConfig = {
+                        columns: [{
+                            field: 'date1',
+                            title: '时间1',
+                            columType: 'date',
+                            width: 200,
+                            editable: true,
+                            formatHandler: {
+                                type: 'date',
+                                data: {
+                                    formatDate: "YYYY-MM-DD HH:mm:ss",
+                                }
+                            },
+                            editConfig: {
+                                type: 'date',
+                                format: "YYYY-MM-DD HH:mm:ss",
+                            }
+                            },
+                            {
+                                field: 'date2',
+                                title: '时间2',
+                                columType: 'date',
+                                width: 200,
+                                editable: true,
+                                formatHandler: {
+                                    type: 'date',
+                                    data: {
+                                        formatDate: "YYYY/M-DD HH:mm:ss",
+                                    }
+                                },
+                                editConfig: {
+                                    type: 'date',
+                                    format: "YYYY/M-DD HH:mm:ss",
+                                }
+                            },{
+                                field: 'date3',
+                                title: '时间3',
+                                columType: 'date',
+                                width: 200,
+                                editable: true,
+                                formatHandler: {
+                                    type: 'date',
+                                    data: {
+                                        formatDate: "YYYY年M月DD日 HH:mm:ss",
+                                    }
+                                },
+                                editConfig: {
+                                    type: 'date',
+                                    format: "YYYY年M月DD日 HH:mm:ss",
+                                }
+                            }
+                        ],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-data',
+                            dataSource: [{
+                                id: 1,
+                                date1: 1565841937709,
+                                date2: 1565841937709,
+                                date3: 1565841937709
+                            }, ]
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: true,
+                            minPageLength: 3,
+                            isEditMode: true,
+                            pageLengthDefault: 300,
+                            selectMode: "single",
+                            isHaveEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 140,
+                           
+                        }
+                    }
+                    NetStarGrid.init(gridConfig);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    columns:[{
+        field:'date1',
+            title:'时间1',
+            columType:'date',
+            width:200,
+            editable:true,
+            formatHandler:{
+                type:'date',
+                data:{
+                    formatDate: "YYYY-MM-DD HH:mm:ss",//YYYY年月日
+                }
+            },
+            editConfig :{
+                type:'date',
+                format: "YYYY-MM-DD HH:mm:ss",
+        }
+        },{
+        field:'date2',
+            title:'时间2',
+            columType:'date',
+            width:200,
+            editable:true,
+            formatHandler:{
+                type:'date',
+                data:{
+                    formatDate: "YYYY/M/DD HH:mm:ss",
+                }
+            },
+            editConfig :{
+                type:'date',
+                format: "YYYY/MM/DD HH:mm:ss",
+        }
+        },{
+        field:'date3',
+            title:'时间3',
+            width:  420,
+            columType:'date',
+            editable:true,
+            formatHandler:{
+                type:'date',
+                data:{
+                    formatDate: "YYYY年M月DD日 HH时mm分ss秒",
+                }
+            },
+            editConfig :{
+                type:'date',
+                format: "YYY年M月DD日 HH时mm分ss秒",
+        }
+        }
+
+        ],
+        data:{
+        idField:'itemCode23',
+        tableID:'grid-base-grid',
+        dataSource :[
+            {
+            date1:1565841937709,
+            date2:1565841937709,
+            date3:1565841937709   
+            },
+        ]
+        },
+        ui:{...//详见对应参数介绍}
+    }
+
+                </pre>
+                </div>
+            </div>
+            <!-- thumb-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-grid-money"></a>
+                <h3 class="title-code">钱</h3>
+                <span class="intro"></span>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td> 类型</td>
+                                <td></td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td> 金钱类型 money</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td></td>
+                                <td></td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>format</td>
+                                <td>格式化</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td>places</td>
+                                <td>小数位数</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>小数位数，默认2位</td>
+                            </tr>
+                            <tr>
+                                <td>symbol</td>
+                                <td>标识符</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认￥ $</td>
+                            </tr>
+                            <tr>
+                                <td>thousand</td>
+                                <td>千分分隔符</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>千分分隔符 默认','</td>
+                            </tr>
+                            <tr>
+                                <td>decimal</td>
+                                <td>小数点</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>小数点 默认显示小数点 （字符串替换，可以把小数点替换成其它字符。例：2.56（decimal：d）-->2d56）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="nsdocs-grid-money" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var gridConfigMoney = {
+                        columns: [{
+                                field: 'money1',
+                                title: '小数位数',
+                                columType: 'money',
+                                width: 200,
+                                editable: true,
+                                variableType:"number",
+                                formatHandler: {
+                                    type: 'money',
+                                    data: {
+                                        format: {
+                                            places: 4,  //小数位数
+                                        }
+                                    }
+                                },
+                            }, {
+                                field: 'money2',
+                                title: '标识符',
+                                columType: 'money',
+                                width: 200,
+                                editable: false,
+                                variableType:"number",
+                                formatHandler: {
+                                    type: 'money',
+                                    data: {
+                                        format: {
+                                            symbol: '$',//标识符
+                                        }
+                                    }
+                                }
+                            }, {
+                                field: 'money3',
+                                title: '千分分隔符',
+                                width: 200,
+                                columType: 'money',
+                                variableType:"number",
+                                editable: true,
+                                formatHandler: {
+                                    type: 'money',
+                                    data: {
+                                        format: {
+                                            thousand: ',', //   千分分隔符
+                                        }
+
+                                    }
+                                },
+
+                            }, {
+                                field: 'money4',
+                                title: '小数点',
+                                width: 200,
+                                columType: 'money',
+                                variableType:"number",
+                                editable: true,
+                                formatHandler: {
+                                    type: 'money',
+                                    data: {
+                                        format: {
+                                            decimal: "P",//小数点
+                                        }
+
+                                    }
+                                },
+
+                            }
+
+                        ],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-money',
+                            dataSource: [{
+                                id:1,
+                                money1: 23,
+                                money2: 24,
+                                money3: 566.88,
+                                money4: 99,
+                            },{
+                                money1: 766,
+                                money2: 2.4,
+                                money3: 5667,
+                                money4: 9219.5644,
+                            } ]    
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: false,
+                            minPageLength: 3,   
+                            isEditMode: true,
+                            pageLengthDefault: 1,
+                            selectMode: "multi",
+                            isHanrEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 120,
+                        }
+                    }
+                    NetStarGrid.init(gridConfigMoney);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    columns: [{
+        field: 'money1',
+        title: '小数位数',
+        columType: 'money',
+        width: 200,
+        editable: true,
+        variableType:"number",
+        formatHandler: {
+            type: 'money',
+            data: {
+                format: {
+                    places: 4,  //小数位数
+                }
+            }
+        }
+    }, {
+        field: 'money2',
+        title: '标识符',
+        columType: 'money',
+        width: 200,
+        variableType:"number",
+        editable: true,
+        formatHandler: {
+            type: 'money',
+            data: {
+                format: {
+                    symbol: '$',//标识符
+                }
+            }
+        }
+    }, {
+        field: 'money3',
+        title: '千分分隔符',
+        width: 200,
+        columType: 'money',
+        editable: true,
+        variableType:"number",
+        formatHandler: {
+            type: 'money',
+            data: {
+                format: {
+                    thousand: ',', //   千分分隔符
+                }
+
+            }
+        },
+
+    }, {
+        field: 'money4',
+        title: '小数点',
+        width: 200,
+        variableType:"number",
+        columType: 'money',
+        editable: true,
+        formatHandler: {
+            type: 'money',
+            data: {
+                format: {
+                    decimal: "P",//小数点
+                }
+
+            }
+        },
+
+    }
+    ],
+    data: {...详见data参数配置},
+    ui: {...详见ui参数配置}
+    } 
+           </pre>
+                </div>
+            </div>
+            <!-- -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-grid-number"></a>
+                <h3 class="title-code">数字</h3>
+                <span class="intro">subdataText/stringReplace</span>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td> 类型</td>
+                                <td></td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td> 数字 number</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td></td>
+                                <td></td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>format</td>
+                                <td>格式化</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td>places</td>
+                                <td>小数位数</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>小数位数，默认2位</td>
+                            </tr>
+                            <tr>
+                                <td>thousand</td>
+                                <td>千分分隔符</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>千分分隔符 默认','</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="nsdocs-grid-number" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var gridConfigNumber = {
+                        columns: [{
+                            field: 'number1',
+                            title: '小数位数',
+                            columType: 'number',
+                            variableType:"number",
+                            width: 200,
+                            editable: true,
+                            formatHandler: {
+                                type: 'number',
+                                data: {
+                                    format: {
+                                        places: 4,//小数位数
+                                    }
+                                }
+                            }
+                        }, {
+                            field: 'number',
+                            title: '千分分隔符',
+                            width: 200,
+                            variableType:"number",
+                            columType: 'number',
+                            editable: true,
+                            formatHandler: {
+                                type: 'number',
+                                data: {
+                                    format: {
+                                        thousand: ','//千分分割符
+                                    }
+
+                                }
+                            },
+                        }],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-number',
+                            dataSource: [{
+                                id: "1",
+                                number1: "12",
+                                number: "36000000",
+                            }, ]
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: false,
+                            minPageLength: 3,
+                            isEditMode: true,
+                            pageLengthDefault: 1,
+                            selectMode: "single",
+                            isHanrEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 120,
+                        }
+                    }
+                    NetStarGrid.init(gridConfigNumber);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    columns: [{
+        field: 'number1',
+        title: '小数位数',
+        columType: 'number',
+        width: 200,
+        editable: true,
+        variableType:"number",
+        formatHandler: {
+            type: 'number',
+            data: {
+                format: {
+                    places: 4,//小数位数
+                }
+            }
+        }
+    }, {
+        field: 'number',
+        title: '千分分隔符',
+        width: 200,
+        columType: 'number',
+        variableType:"number",
+        editable: true,
+        formatHandler: {
+            type: 'number',
+            data: {
+                format: {
+                    thousand: ','//千分分割符
+                }
+
+            }
+        },
+    }],
+    data: {...详见data参数配置},
+    ui: {...详见ui参数配置 }
+           </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

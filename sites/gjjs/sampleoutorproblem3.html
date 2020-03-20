@@ -1,0 +1,508 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>问题样品</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var sampleOutorProblem3 = {
+    "package": "nscloud.sampleoutorproblem3",
+    "template": "processDocBaseMobile",
+    "readonly": false,
+    "isShowTitle": true,
+    "isFormHidden": false,
+    "versionNumber": "1",
+    "components": [
+        {
+            "type": "vo",
+            "field": [
+                {
+                    "id": "sampleId",
+                    "type": "hidden",
+                    "value": "1319399886239676402"
+                },
+                {
+                    "id": "remake",
+                    "englishName": "remake",
+                    "chineseName": "fieldError-5",
+                    "variableType": "string",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "b8d22c64-71da-480c-263b-9442becb4ad4",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.String",
+                    "type": "text",
+                    "label": "问题描述",
+                    "rules": "",
+                    "moreRules": "",
+                    "mindjetIndexState": 0,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "id": "sampleProblemReason",
+                    "englishName": "sampleProblemReason",
+                    "chineseName": "样品问题原因",
+                    "variableType": "string",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "b58feb41-f2c5-08b8-e2b6-cbde87a0de1d",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.String",
+                    "type": "text",
+                    "label": "问题样品原因",
+                    "rules": "",
+                    "moreRules": "",
+                    "disabled": true,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "mindjetIndexState": 1,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "id": "problemHanding",
+                    "englishName": "problemHanding",
+                    "chineseName": "处理情况",
+                    "variableType": "string",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "c4e1543c-42e3-3ae9-8da4-673ba1860278",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.String",
+                    "type": "text",
+                    "label": "问题处理情况",
+                    "rules": "",
+                    "moreRules": "",
+                    "disabled": true,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "mindjetIndexState": 2,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "id": "postFileIds",
+                    "englishName": "postFileIds",
+                    "chineseName": "问题样品图片FileIds",
+                    "variableType": "string",
+                    "mindjetType": "uploadImage",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "ce32fa1f-afad-1d2c-c557-750118cea515",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.String",
+                    "type": "uploadImage",
+                    "label": "附件",
+                    "rules": "",
+                    "textField": "originalName",
+                    "valueField": "id",
+                    "isMultiple": true,
+                    "fileTypeField": "contentType",
+                    "disabled": false,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "url": getRootPath() + "/files/uploadList",
+                    "previewUrl": getRootPath() + "/files/images/",
+                    "ajax": {
+                        "url": getRootPath() + "/files/uploadList"
+                    },
+                    "editAjax": {
+                        "url": getRootPath() + "/files/rename"
+                    },
+                    "downloadAjax": {
+                        "url": getRootPath() + "/files/download/"
+                    },
+                    "getFileAjax": {
+                        "url":getRootPath() +  "/files/getListByIds",
+                        "type": "GET"
+                    },
+                    "previewAjax": {
+                        "url": getRootPath() + "/files/pdf/",
+                        "type": "GET"
+                    },
+                    "previewImagesAjax": {
+                        "url": getRootPath() + "/files/images/",
+                        "type": "GET"
+                    },
+                    "mindjetIndexState": 3,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "id": "handingState",
+                    "englishName": "handingState",
+                    "chineseName": "处理状态",
+                    "variableType": "string",
+                    "mindjetType": "radio",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "3f0742aa-2633-f2fc-87e6-c0e7836f920c",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.Long",
+                    "type": "radio",
+                    "label": "处理状态",
+                    "rules": "",
+                    "subdata": [
+                        {
+                            "isDisabled": false,
+                            "value": "未处理完成",
+                            "id": "0",
+                            "isChecked": true
+                        },
+                        {
+                            "isDisabled": false,
+                            "value": "处理完成",
+                            "id": "1",
+                            "isChecked": false
+                        }
+                    ],
+                    "textField": "value",
+                    "valueField": "id",
+                    "mindjetIndexState": 4,
+                    "mindjetFieldPosition": "field"
+                }
+            ],
+            "voId": "1313855391624339442",
+            "idField": "id",
+            "keyField": "root",
+            "parent": "root",
+            "gid": "9fb93672-e606-71c0-1eef-bbae64a56f04",
+            "objectState": 2,
+            "stateClass": "more",
+            "fieldById": {
+                "remake": {
+                    "id": "remake",
+                    "englishName": "remake",
+                    "chineseName": "fieldError-5",
+                    "variableType": "string",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "b8d22c64-71da-480c-263b-9442becb4ad4",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.String",
+                    "type": "text",
+                    "label": "问题描述",
+                    "rules": "",
+                    "moreRules": "",
+                    "mindjetIndexState": 0,
+                    "mindjetFieldPosition": "field"
+                },
+                "sampleProblemReason": {
+                    "id": "sampleProblemReason",
+                    "englishName": "sampleProblemReason",
+                    "chineseName": "样品问题原因",
+                    "variableType": "string",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "b58feb41-f2c5-08b8-e2b6-cbde87a0de1d",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.String",
+                    "type": "text",
+                    "label": "问题样品原因",
+                    "rules": "",
+                    "moreRules": "",
+                    "disabled": true,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "mindjetIndexState": 1,
+                    "mindjetFieldPosition": "field"
+                },
+                "problemHanding": {
+                    "id": "problemHanding",
+                    "englishName": "problemHanding",
+                    "chineseName": "处理情况",
+                    "variableType": "string",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "c4e1543c-42e3-3ae9-8da4-673ba1860278",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.String",
+                    "type": "text",
+                    "label": "问题处理情况",
+                    "rules": "",
+                    "moreRules": "",
+                    "disabled": true,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "mindjetIndexState": 2,
+                    "mindjetFieldPosition": "field"
+                },
+                "postFileIds": {
+                    "id": "postFileIds",
+                    "englishName": "postFileIds",
+                    "chineseName": "问题样品图片FileIds",
+                    "variableType": "string",
+                    "mindjetType": "uploadImage",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "ce32fa1f-afad-1d2c-c557-750118cea515",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.String",
+                    "type": "uploadImage",
+                    "label": "附件",
+                    "rules": "",
+                    "textField": "originalName",
+                    "valueField": "id",
+                    "isMultiple": true,
+                    "fileTypeField": "contentType",
+                    "disabled": false,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "url": getRootPath() + "/files/uploadList",
+                    "previewUrl": getRootPath() + "/files/images/",
+                    "ajax": {
+                        "url": getRootPath() + "/files/uploadList"
+                    },
+                    "editAjax": {
+                        "url": getRootPath() + "/files/rename"
+                    },
+                    "downloadAjax": {
+                        "url":getRootPath() +  "/files/download/"
+                    },
+                    "getFileAjax": {
+                        "url": getRootPath() + "/files/getListByIds",
+                        "type": "GET"
+                    },
+                    "previewAjax": {
+                        "url": getRootPath() + "/files/pdf/",
+                        "type": "GET"
+                    },
+                    "previewImagesAjax": {
+                        "url": getRootPath() + "/files/images/",
+                        "type": "GET"
+                    },
+                    "mindjetIndexState": 3,
+                    "mindjetFieldPosition": "field"
+                },
+                "handingState": {
+                    "id": "handingState",
+                    "englishName": "handingState",
+                    "chineseName": "处理状态",
+                    "variableType": "string",
+                    "mindjetType": "radio",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "3f0742aa-2633-f2fc-87e6-c0e7836f920c",
+                    "voName": "sampleSampleProblemVO",
+                    "className": "java.lang.Long",
+                    "type": "radio",
+                    "label": "处理状态",
+                    "rules": "",
+                    "subdata": [
+                        {
+                            "isDisabled": false,
+                            "value": "未处理完成",
+                            "id": "0",
+                            "isChecked": true
+                        },
+                        {
+                            "isDisabled": false,
+                            "value": "处理完成",
+                            "id": "1",
+                            "isChecked": false
+                        }
+                    ],
+                    "textField": "value",
+                    "valueField": "id",
+                    "mindjetIndexState": 4,
+                    "mindjetFieldPosition": "field"
+                }
+            }
+        },
+        {
+            "type": "btns",
+            "field": [
+                {
+                    "functionConfig": {
+                        "ajaxData": {
+                            "handleWay": 2
+                        },
+                        "data": {
+                            "handleWay": 2
+                        },
+                        "ajaxDataVaildConfig": "{}",
+                        "contentType": "application/json",
+                        "dataFormat": "object",
+                        "dataSrc": "data",
+                        "defaultMode": "custom",
+                        "functionClass": "modal",
+                        "suffix": "/sample/accept/samples/problemAndSubmit",
+                        "text": "问题样品",
+                        "title": "问题样品",
+                        "type": "POST",
+                        "voName": "sampleSampleProblemVO",
+                        "entityName": "_sampleProblems",
+                        "chineseName": "问题样品（手机）",
+                        "englishName": "sampleproblem",
+                        "isCloseWindow": true,
+                        "isInlineBtn": false,
+                        "isHaveSaveAndAdd": true,
+                        "isCopyObject": false,
+                        "successOperate": "refresh",
+                        "isSendPageParams": true,
+                        "isIsSave": false,
+                        "isMobileInlineBtn": true,
+                        "isKeepSelected": false,
+                        "isUseAjaxByCopyAdd": true,
+                        "parameterFormatType": "add",
+                        "isSetValueToSourcePage": false,
+                        "url": getRootPath() + "/sample/accept/samples/problemAndSubmit"
+                    },
+                    "btn": {
+                        "text": "问题样品",
+                        "isReturn": true
+                    }
+                }
+            ],
+            "gid": "2e8f4370-d1b5-c382-18ad-340a59b5201a",
+            "objectState": 2
+        }
+    ],
+    "draftBox": {
+        "isUse": false,
+        "isUseSave": true,
+        "closeOrClear": true
+    },
+    "title": "样品确认",
+/*     "pageParam": {
+        "data": {
+            "entrustAddress": "北京市西城区西长安街街道府右街西巷20-22号",
+            "acceptBy": "1310954084307594226",
+            "acceptId": "1319399886239674354",
+            "batchId": "1319399886239675378",
+            "sampleCode": "JC191130001",
+            "sampleCateId": "1316068178102584306",
+            "sampleCateName": "钢管1（测试）",
+            "sampleName": "螺栓【1129】1148",
+            "stdIds": "1592,250",
+            "stdNames": "聚乙烯管材和管件炭黑含量的测定(热失重法),铁路混凝土梁配件多元合金共渗防腐技术条件",
+            "dueDate": 7,
+            "urgentState": 2,
+            "representQuantity": "18050根",
+            "sampleQuantity": "6根（3根力学，3根化学和金相）",
+            "sampleStatusId": "1319304226580464626",
+            "isJudge": 1,
+            "isRetained": 1,
+            "remark": "样品委托备注--北京市西城区西长安街街道府右街西巷20-22号",
+            "createdBy": "1310954084307594226",
+            "createdByName": "Lims管理员",
+            "whenCreated": 1576741874000,
+            "modifiedBy": "1310954084307594226",
+            "modifiedByName": "Lims管理员",
+            "whenModified": 1576741874000,
+            "manufacture": "河北省石家庄桥西区新石中路188【测试】",
+            "enginePart": "桥梁工程、隧道工程、路基及其他工程部位",
+            "observer": "雷建明",
+            "otherRequirements": "TB/T 3274-2011《聚乙烯管材和管件炭黑含量的测定(热失重法)》,GB 13021-1991《铁路混凝土梁配件多元合金共渗防腐技术条件》",
+            "reportSendWay": "0",
+            "reportCopies": "3  +1",
+            "mailAddress": "北京市西城区西长安街街道府右街西巷20-22号",
+            "needSubcontract": "1",
+            "needOutMachining": 1,
+            "warrantyFilesIds": "1319304467098633202",
+            "requirementsFilesIds": "1319304473541084146",
+            "otherFilesIds": "1319304479983535090",
+            "postWay": "1",
+            "postNo": "123",
+            "postFileIds": "1320828876619777010",
+            "handleWay": "1",
+            "entrustContactPhone": "18300020002",
+            "sampleProblemReason": "",
+            "problemHanding": "",
+            "handingState": "0",
+            "remake": "123123",
+            "testFee": 5000,
+            "acceptCode": "SL191130002",
+            "entrustName": "委托方--中铁三局集团山西省太原市和平阶段和平街和平区【测试】",
+            "entrustContactName": "测宪政",
+            "entrustSignBy": "委托方签字人",
+            "sampleState": "2",
+            "testTypeId": "0",
+            "workItemId": "1319400196550956018",
+            "workItemState": 2,
+            "hasRollback": true,
+            "hasOvertime": false,
+            "hasEmergency": false,
+            "hasSuspend": false,
+            "instanceIds": "1319399889460799474",
+            "instanceStates": "1",
+            "objectState": 0,
+            "objectCheckState": 0,
+            "id": "1319399886239676402",
+            "netstarSelectedFlag": true,
+            "systemInfo": {
+                "context": {
+                    "env": "qa",
+                    "staticurl": getRootPath() +"/assets",
+                    "weburl": getRootPath(),
+                    "loginUrl":getRootPath() +"/sites/base/test.html",
+                    "rabbitmq": {
+                        "wsAddresses": "wss://qa.wangxingcloud.com/ws",
+                        "virtualHost": "/"
+                    }
+                },
+                "user": {
+                    "topOrgId": "1310954084307567602",
+                    "topOrgCode": "0001",
+                    "topOrgName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                    "orgId": "1310954084307567602",
+                    "orgCode": "0001",
+                    "orgName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                    "deptId": "1310954084307567602",
+                    "deptCode": "0001",
+                    "deptName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                    "userId": "1310954084307594226",
+                    "userName": "Lims管理员",
+                    "account": "lims"
+                }
+            },
+            "workItemIds": "1319400196550956018"
+        },
+        "url": "getRootPath() + /templateMindPages/pageConfig/1319020177844601842?templateparam=nscloud.samplecustomlist21576746956353"
+    }*/
+}              
+                 // NETSTAR添加url参数即pageParam
+                sampleOutorProblem3 = NetstarProject.init(sampleOutorProblem3);
+                var pageConfig = {config:sampleOutorProblem3};
+                NetstarTemplate.init(sampleOutorProblem3);
+            
+            });
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">问题样品</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+        </script>
+    </container>
+</body>
+
+</html>

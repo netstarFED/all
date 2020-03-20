@@ -1,0 +1,81 @@
+// navbar
+@dropdown-menu-height: @header-nav-height;
+@dropdown-menu-width: 160px;
+@zindex-dropdown: 1000;
+@dropdown-bg: #fff;
+@dropdown-border: @border-color;
+@dropdown-divider-bg: @dropdown-border;
+@dropdown-link-color: @link-color;
+.pt-dropdown {
+    &>ul {
+        &>li {
+            position: relative;
+            a{
+                &:hover{
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+.pt-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: @zindex-dropdown;
+    display: none; 
+    float: left;
+    min-width: @dropdown-menu-width;
+    padding: @base-padding-sm 0;
+    margin: 2px 0 0;
+    list-style: none;
+    text-align: left; 
+    background-color: @dropdown-bg;
+    border: 1px solid @dropdown-border;
+    background-clip: padding-box;
+    &.pull-right {
+      right: 0;
+      left: auto;
+    }
+    
+    > li > a {
+      display: block;
+      clear: both;
+      font-weight: normal;
+      color: @dropdown-link-color;
+      white-space: nowrap; 
+      .padding-base();
+    }
+  }
+
+// // 下拉菜单面板
+
+// 下拉面板基础样式
+.pt-top-nav-block {
+    @pt-list-block-list-width: 280px;
+    @pt-rollout-list-height: 62px;
+    
+    position: absolute;
+    top: @dropdown-menu-height;
+    margin-top:-1px;
+    border: 1px solid @border-color;
+    z-index: @zindex-dropdown;
+    min-width: @dropdown-menu-width;
+    li {
+        display: block;
+        float: none;
+        width: 100%;
+        white-space: nowrap;
+    }
+    .top-nav-block-variant(#fff, @text-color-dark, #fff, @primary);
+    .pt-list-block{
+        width: ((@pt-list-block-list-width * 2) + @pt-list-block-scrollbar-width);
+        ul{
+            li{
+                min-width: @pt-list-block-list-width;
+            }
+        }
+    }
+    
+}

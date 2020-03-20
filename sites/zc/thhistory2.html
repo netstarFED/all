@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>温湿度历史数据2</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui@2.13.0/lib/index.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css">
+    <script src="js/echarts.min.js"></script>
+    </link>
+    <style>
+        body {
+            background: #002679;
+        }
+
+        .zc-body {
+            display: flex;
+        }
+
+        .zc-thhistory-title {
+            font-weight: bold;
+            margin-left: 4px;
+            margin-right: 4px;
+            color: #fff
+        }
+
+        .el-form-item__label {
+            color: #fff
+        }
+
+        .zc-thhistory-tab-header {
+            height: 37px;
+        }
+
+        .zc-reporting-table {
+            padding: 2px;
+            border: 1px solid #7f9ae4;
+        }
+        .el-table__row:nth-child(odd) {
+
+            background: #002679;
+            color: #fff;
+        }
+
+        .el-table__row:nth-child(even) {
+            background: rgba(51, 85, 164);
+            color: #fff;
+        }
+
+        .el-table td,
+        .el-table th.is-leaf {
+            border-bottom: 0px solid #fff;
+        }
+        .el-table th,
+        .el-table tr {
+            background: rgba(51, 85, 164);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="zc-body">
+        <div id="vmreporting" class="zc-tab">
+            <div class="zc-thhistory-tab-header">
+            </div>
+            <div>
+                <div class="zc-thhistory-title" v-text="thhistory"></div>
+            </div>
+            <div class="">
+                <el-form ref="form" :model="form" :inline="true" size="mini"  label-width="80px" :label-position="labelPosition">
+                    <el-form-item label="设备名称">
+                        <el-select v-model="form.deviceName" placeholder="设备名称" :span="4">
+                            <el-option label="区域一" value="shanghai"></el-option>
+                            <el-option label="区域二" value="beijing"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="日期间隔">
+                        <el-select v-model="form.region" placeholder="日期间隔" :span="4">
+                            <el-option label="区域一" value="shanghai"></el-option>
+                            <el-option label="区域二" value="beijing"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="开始时间">
+                        <el-col :span="4">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="form.whenState">
+                            </el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="结束时间">
+                        <el-col :span="4">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="form.whenEnd">
+                            </el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-button icon="el-icon-search"></el-button>
+                        <el-button icon="el-icon-delete"></el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <div class="zc-thhistory-body">
+                <div class="zc-thhistory-table">
+                    <div class="zc-thhistory">
+                        <template>
+                            <el-table :data="tableData" height="540px" width="400">
+                                <el-table-column prop="deviceName" label="温湿度设备名称" width="120">
+                                </el-table-column>
+                                <el-table-column prop="averageTemperature" label="平均温度" width="120">
+                                </el-table-column>
+                                <el-table-column prop="averageHumidity" label="平均湿度">
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </div>
+                    <div>
+                        <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                            :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100"
+                            layout="total, sizes, prev, pager, next, jumper" :total="400">
+                        </el-pagination> -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <!-- 湿度度图标 -->
+            <div class="echart" style="width: 820px; height:780px;" id="echart">
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('echart'));
+        var Main = {
+            data() {
+                return {
+                    lineData: [],
+                    labelPosition:'left',
+                    thhistory: "温湿度历史数据查询2",
+                    currentPage4: 5,
+                    reportingtitle: '报警类型',
+                    tableData: [],
+                    form: {
+                        deviceName: '',
+                        whenState: "",
+                        whenEnd: '',
+                        region: '',
+                        date1: '',
+                        date2: '',
+                        delivery: false,
+                        type: [],
+                        resource: '',
+                        desc: ''
+                    }
+                }
+            },
+            methods: {
+                handleSizeChange() {
+                },
+                handleCurrentChange() {
+                }
+            },
+            mounted() {
+                var _this = this;
+                axios.get('/sites/zc/data/deviceName.json').then(function (res) {
+                    debugger;
+                    var data = res.data.rows
+                    //图表存放数据
+                    var deviceNameData = [] //设备名称（y）
+                    var averageTemperature = [] //平均温度
+                    var averageHumidity = [] //平均湿度
+                    for (var i = 0; i < data.length; i++) {
+                        deviceNameData.push(data[i].deviceName)
+                        averageTemperature.push(parseInt(data[i].averageTemperature))
+                        averageHumidity.push(parseInt(data[i].averageHumidity))
+                    }
+                    _this.tableData = data;
+                    option.yAxis.data = deviceNameData;
+                    option.series[0].data=averageTemperature;
+                    option.series[1].data= averageHumidity;
+                }).catch(function (error) {
+
+                })
+
+            }
+        }
+        var Ctor = Vue.extend(Main)
+        var thHistoryVm = new Ctor().$mount('#vmreporting')
+        //图标
+        //温度图表
+        var option = {
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                splitLine:{
+                    show:false,
+                },
+                nameTextStyle:{
+                    color:''
+                },
+                axisLine:{
+                    lineStyle:{
+                        color:'#224883'
+                    }
+                },
+                axisLabel:{
+                    color:"#beddff"
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: [],
+                axisLine:{
+                    lineStyle:{
+                        color:'#224883'
+                    }
+                },
+                axisLabel:{
+                    color:"#beddff"
+                }
+            },
+            series: [
+                {
+                    name: '温度',
+                    type: 'bar',
+                    data: [],
+                    itemStyle: {
+                        color: '#7dbcf6'
+                    },
+   
+
+                },
+                {
+                    name: '湿度',
+                    type: 'bar',
+                    data: [],
+                    itemStyle: {
+                        color: '#297ae2'
+                    }
+                }
+            ]
+        };
+        setTimeout(function(){
+            myChart.setOption(option);
+        },500)
+        
+
+    </script>
+</body>
+
+</html>

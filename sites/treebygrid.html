@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+	<link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+	<title>统计列表页 treeByGrid</title>
+
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<!--# include file="/sites/include/login-static-dev.html" -->
+	<!--# include file="/sites/include/preload-static-dev.html" -->
+	<!--# include file="/sites/include/mainpage-static-dev.html" -->
+	<!--# include file="/sites/include/lazy-static-dev.html" -->
+	<style>
+	</style>
+</head>
+<style>
+  
+</style>
+
+    <container>
+        
+        
+		<script type="text/javascript">
+		
+
+			var a = {
+				html:"<div class='switch-btn'><span>我是开关</span><a class='switch-inline checked'></a></div>",
+				ajax:{
+					src:'',
+					dataSrc:'',
+					type:'',
+					application:'',
+				},
+				ajaxDataField:'',
+			}
+
+			var localhoseUrl = 'http://ui-pc:2000';
+			var getRootPath = function () {
+				return "http://10.10.1.234:30000/";
+			};
+            var statisticslistJson = {
+				package:'nsVue.graps.statisticslist',
+				template:'statisticsList',
+                title:'treeByGrid',
+				//mode:'dialog',
+				mode:'treeByGrid',
+				components:[
+					{
+						type: 'tree',
+                        title: '价格管理',
+                        treeId: 'id',
+                        idField: 'id',
+                        isSearch: false,
+                        readonly: true,
+                        ajax: {
+                            type: "POST",
+                            url: getRootPath() + '/sampleCate/getSampleCateTreeList',
+                            dataSrc: 'rows',
+                            data: {},
+                        },
+                        addAjax: {
+                            url: getRootPath() + '/dataSourceNodes/addNode',
+                        },
+                        editAjax: {
+                            url: getRootPath() + '/dataSourceNodes/updateNode',
+                            dataSrc: 'rows',
+                        },
+                        deleteAjax: {
+                            url: getRootPath() + '/dataSourceNodes/delById',
+                            dataSrc: 'rows',
+                        },
+                        moveAjax: {
+                            url: getRootPath() + '/dataSourceNodes/moveNode',
+                            dataSrc: 'rows',
+                        },
+                        textField: 'sampleCateName',
+                        parentField: 'parentId',
+                        childField: 'children',
+                        level: "2",
+					},{
+						type: 'blockList',
+                        idField: 'id',
+                        plusClass: 'pt-block-list-transverse pt-plusclass-closebtn',
+                        parent: 'root',
+						ajax: {
+							src: getRootPath() + '/sampleCateStd/getList.json', //数据源地址
+                            type: "POST", //GET POST
+                            contentType: 'application/json; charset=utf-8',
+                            dataSrc: 'rows',
+						},
+                        field: [{
+                            field: 'stdName',
+                            title: '产品标准名称',
+                            width: 150,
+                            type: "text",
+                            editConfig: {
+                                type: "text",
+                            },
+                            searchable: true,
+                            orderable: false,
+                            isCommon: true,
+                        }],
+                        listExpression: "<div class='pt-block-content-item' title='{{stdName}}'>" +
+                                "<span class='tag'>名称：</span>" +
+                                "<span class='code'>{{stdName}}</span>" +
+                                "</div>" +
+                                "<div class='pt-block-content-item'>" +
+                                "<span class='tag'>编号：</span>" +
+                                "<span class='code'>{{stdCode}}</span>" +
+                                "</div>",
+					},{
+						title: '产品检测项目',
+						keyField: 'GoodsPlatformVo',
+                        idField: 'id',
+						type: 'list',
+						params:{
+							query:{
+								isQuickQuery:false,// 支持快速查询
+								isDateRanger:true,//是否支持按日期区间查询
+								isYear:false,//是否支持按年份查询
+							}
+						},
+						ajax:{
+							src: getRootPath() + 'priceDetails/getList',
+							type: 'POST',
+							dataSrc: 'rows',
+							contentType: 'application/json; charset=utf-8'
+						},
+						field:[{
+                                field: 'itemName',
+                                title: '检测项目',
+                                searchable: true,
+                                // isTreeNode: true,
+                                editable: true,
+                                width: 100,
+                            }, {
+                                field: 'methodName',
+                                title: '检测方法',
+                                width: 400,
+                                searchable: true,
+                                editable: true,
+                                editable: true,
+                            }, {
+                                field: 'methodCode',
+                                title: '方法编号',
+                                width: 200,
+                                searchable: true,
+                                editable: true,
+                            }, {
+                                field: 'priceGroupName',
+                                title: '价格组',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'groupPrice',
+                                title: '价格组价格',
+                                width: 100,
+                                contentType: 'money',
+                                variableType: "number",
+                                formatHandler: {
+                                    type: 'money',
+                                    data: {
+                                        format: {
+
+                                        }
+                                    }
+                                },
+                                editable: true,
+                            },
+                            {
+                                field: 'gdpGroupName',
+                                title: '产值组名称',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'samplingDesc',
+                                title: '取样信息描述',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'defaultTestQuantity',
+                                title: '默认实验数量',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'defaultUnit',
+                                title: '默认实验单位',
+                                width: 100,
+                                editable: true,
+                            },
+                            {
+                                field: 'defaultPrice',
+                                title: '默认价格',
+                                width: 100,
+                                editable: true,
+                            },
+                        ]
+					},{
+						title: '检测方法',
+                        keyField: 'GoodsPlatformVo',
+                        idField: 'id',
+						type: 'list',
+						ajax:{
+							src: getRootPath() + 'priceDetails/getList',
+							type: 'POST',
+							dataSrc: 'rows',
+							contentType: 'application/json; charset=utf-8'
+						},
+						params:{
+							query:{
+								isQuickQuery:false,// 支持快速查询
+								isDateRanger:false,//是否支持按日期区间查询
+								isYear:true,//是否支持按年份查询
+							}
+						},
+						field:[
+							{
+								field: 'propertyValue',
+								title: '属性',
+								searchable: true,
+								width: 80,
+								editable: true,
+							}, {
+								field: 'refPrice',
+								title: '参考价格',
+								width: 80,
+								searchable: true,
+								editable: true,
+								contentType: 'money',
+								variableType: "number",
+								formatHandler: {
+									type: 'money',
+									data: {
+										format: {
+
+										}
+									}
+								},
+							}, {
+								field: 'unit',
+								title: '单位',
+								width: 100,
+								editable: true,
+								mindjetIndexState: 2,
+								isDefaultSubdataText: true,
+							}, {
+								field: 'gdp',
+								title: '产值',
+								width: 60,
+								editable: true,
+							}, {
+								field: 'permitDiscount',
+								title: '允许打折',
+								width: 60,
+								editable: true,
+							}]
+					}
+				],
+			};
+			NetstarTemplate.init(statisticslistJson);
+        </script>
+    </container>
+</html>

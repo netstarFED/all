@@ -1,0 +1,546 @@
+
+
+
+@i-font-size-lg:ceil((@font-size-base * 1.5));	// ~18px;			//框内图标字号
+@font-sub-title-size-lg:ceil((@font-size-base * 1.5));// ~18px;		//副标题字号
+@font-title-size-lg:ceil((@font-size-base * 1.833)); // ~22px;		//标题字号
+
+@button-height-xs:30px;												//按钮高度xs
+@button-height-sm:40px;												//按钮高度sm
+@button-height-lg:40px;												//按钮高度lg
+
+@form-height-xs:30px;												//表单高度xs											
+@form-height-sm:40px;												//表单高度sm
+@form-height-lg:40px;												//表单高度lg
+
+@table-td-height-xs:30px;											//表格高度xs
+@table-td-height-sm:40px;											//表格高度sm
+@table-td-height-lg:40px;											//表格高度lg
+
+@font-sub-title-height:45px;										//副标题行高
+@nav-tabs-height-lg:@font-sub-title-height;							//选项卡行高
+
+
+@padding-lg:@base-padding * 2;										//普通间距
+
+@page-button-height-lg:55px;										//顶端定位按钮高度
+@masterkey-user-padding:15px;										//体检编号区域间隔
+
+
+
+//主体定位
+.content-box{
+	background-color: #fff;
+	container{
+		& > .row.content-enlarge{
+			padding-top:40px;
+		}
+	}	
+}
+
+// //按钮
+// .ns-button-size(@font-size; @height; @i-font-size; @margin-left) {
+// 	&.btn.btn-info, 
+// 	&.btn.btn-success, 
+// 	&.btn.btn-warning, 
+// 	&.btn.btn-danger, 
+// 	&.btn.btn-white, 
+// 	&.btn.btn-default{
+// 		font-size: @font-size;
+// 		height: @height;
+// 		i{		
+// 			font-size:@i-font-size;
+// 		}
+// 		span{
+// 			font-size:@font-size;
+// 		}
+// 	}
+// 	& + .btn{
+// 		margin-left: @margin-left;
+// 	}
+// }
+
+// .ns-btn-lg{
+//   .ns-button-size(@font-size-md; @button-height-lg; @i-font-size-lg; 10px);
+// }
+// .ns-btn-sm{
+//   .ns-button-size(@font-size-sm; @button-height-sm; @font-size-sm; 5px);
+// }
+// .ns-btn-xs{
+//   .ns-button-size(@font-size-base; @button-height-xs; @font-size-base; -1px);
+// }
+
+
+
+//表单
+.form-group-size(@height; @font-size; @padding-vertical; @padding-horizontal){
+	height:@height;
+	label.control-label{
+		line-height:@height;
+		font-size: @font-size;
+	}
+	.form-item{
+		.form-control{
+			height: @height;
+			padding: @padding-vertical @padding-horizontal;
+			font-size: @font-size;
+			line-height: @height;
+
+			select& {
+			height: @height;
+			line-height: @height;
+			}
+
+			textarea&,
+			select[multiple]& {
+			height: auto;
+			}
+		}
+	}
+}
+
+.form-group-lg{
+	.form-group-size(@form-height-lg; @font-size-md; @padding-large-vertical; @padding-large-horizontal);
+}
+.form-group-sm{
+	.form-group-size(@form-height-sm; @font-size-sm; @padding-base-vertical; @padding-base-horizontal);
+}
+.form-group-xs{
+	.form-group-size(@form-height-xs; @font-size-base; @padding-small-vertical; @padding-small-horizontal);
+}
+
+//表格附带日期的表单
+.form-group-date-lg{
+	.form-group-lg();
+	.form-item{
+		width: 101px;
+		.form-control{
+			width:101px;
+		}
+		&.date{
+			width:130px; 
+			.form-control{
+				width: 130px;
+			}
+			.input-group-addon{
+				height:@form-height-lg; 
+				a{
+					height:@form-height-lg;
+					i{
+						top: 12px;
+						font-size:@font-size-md;
+					}
+				}
+			}
+		}
+	}
+}
+
+//表格
+.table-size(@font-size; @height;){
+	thead>tr>th, tbody>tr>th, tbody>tr>td {
+		font-size:@font-size;
+		height: @height;
+		padding: 8px;
+	}
+	tbody>tr>td {
+		//按钮类的td容器
+		.btn,
+		//文本框类的td容器
+		input[type="text"],
+		//下拉菜单类的td容器
+		.form-control,
+		.selectboxit {
+			font-size:@font-size;
+		}
+	}
+}
+
+.table-lg{
+	.table-size(@font-size-md; @table-td-height-lg);
+}
+.table-sm{
+	.table-size(@font-size-sm; @table-td-height-sm);
+}
+.table-xs{
+	.table-size(@font-size-base; @table-td-height-xs);
+}
+
+
+//handel
+.handle-size(@padding-vertical; @padding-horizontal; @font-size){
+	.handle-type,
+	.handle-Number{
+		padding:@padding-vertical @padding-horizontal;
+		font-size:@font-size;
+	}
+}
+
+.handle-lg{
+	.handle-size(3px; 10px; @font-size-md);
+}
+.handle-sm{
+	.handle-size(3px; 9px; @font-size-sm);
+}
+.handle-xs{
+	.handle-size(3px; 8px; @font-size-base);
+}
+
+//结构主体
+.overall-layout-size(@padding; @padding-right){
+	.overall-layout-cell{
+		&.overall-layout-cell-md,
+		&.overall-layout-cell-lg{
+			padding: @padding;
+		}
+		&.overall-layout-cell-md{
+			padding-right:@padding-right;
+		}
+	}
+}
+
+.overall-layout-large{
+	.overall-layout-size(@padding-lg; 0px);
+}
+.overall-layout-sm{
+	.overall-layout-size(@base-padding; 0px);
+}
+
+
+
+
+//副标题
+.sub-title-lg{
+	font-size: @font-sub-title-size-lg;
+	height:@font-sub-title-height; 
+	line-height:@font-sub-title-height;
+	padding-left: 18px; 
+	&:before{
+		width: 20px;
+		height: 20px;
+		font-size: 20px;
+		line-height: 22px;
+		left:-2px;
+	}
+}
+
+//标题
+.title-lg{
+	
+}
+
+
+//顶部按钮组
+.page-button-enlarge{
+	&.page-button{
+		height: @page-button-height-lg;
+		.page-title{ 
+			height: @page-button-height-lg;
+			position: relative;
+			.btn-group{
+				padding:8px 0;
+				.btn{
+					// .ns-btn-lg();	
+				}
+			}
+		}
+		.fixd-offside{
+			top:7px;
+			label.checkbox-inline{
+				font-size: @font-size-md;
+				&:after{
+					top: 11px;
+					width: 20px;
+					height: 20px;
+					line-height: 16px;
+					left: -7px;
+				}
+			}
+		}
+	}	
+}
+
+//主要内容
+.content-enlarge{
+	font-size:@font-size-md;
+
+	.btn{
+		// .ns-btn-lg();
+	}
+	.form-group{
+		.form-group-lg();
+	}
+	table.table{
+		.table-lg();
+	}
+	.overall-layout{
+		.overall-layout-large();
+	}
+
+	//主检体检编号
+	.masterkey-user-state{
+		height:60px;
+
+		//体检编码
+		.masterkey-user-info{
+			position: absolute;
+			top:@base-padding;
+			width: 275px;
+			.masterkey-user-number{
+				width: 275px;
+				height:@form-height-lg; 
+				.user-number-label,
+				.user-number{
+					input{
+						height:@form-height-lg;
+						font-size:@font-sub-title-size-lg;
+					}
+				}
+			}
+		}
+		.masterkey-state{
+			position: absolute;
+			right:280px;
+			top:@masterkey-user-padding;
+			//体检各种状态人数
+			.handle{
+				.handle-lg();
+			}
+		}
+	}
+
+	//体检人个人信息
+	.masterkey-form{
+		.panel.form-wide-panel{
+			height:auto;
+			overflow: auto;
+			.row-close.fillbg{
+				.form-td{
+					.form-group{
+						.form-group-lg();
+					}
+
+					//工作单位
+					&.company-name{
+						.text.form-item{
+							input.form-control{
+								width:300px;
+							}
+						}
+					}
+				}
+			}
+		}	
+	}
+
+	//项目小结
+	.peis-results{
+		.peis-results-list{
+			.peis-results-list-title{
+				.sub-title-lg();
+				&:before{
+					left:2px;
+				}
+			}
+			ul.peis-results-list-content{
+				li{
+					font-size:@font-size-md;
+					line-height: 30px;
+					padding: 10px 40px 13px 10px;
+					p{
+						font-size:@font-size-md;
+						line-height: 24px;
+					}
+					&:after{
+						height: 26px;
+						width: 26px;
+						line-height: 20px;
+						right: 10px;
+						font-size:24px;
+						margin-top: -13px;
+						border-radius: 13px;
+					}
+					&.current{
+						&:after{
+							position: absolute;
+							top: 0;
+							right: 0;
+							content: "";
+							width: 1px;
+							height: 100%;
+							z-index: 101;
+							margin-top: 0;
+							background-color: #fff;
+						}
+					}
+				}
+			}
+
+			//项目小结侧弹框
+			.peis-results-list-dialog{
+				top:@padding-lg;
+				right:@padding-lg;
+				.peis-results-list-dialog-title{
+					height:@font-sub-title-height;
+					line-height: @font-sub-title-height; 
+					h4.title{
+						margin: 0;
+						.sub-title-lg();
+					}
+					.nav-form{
+						margin-top: 2px;
+					}
+					.form-content{
+						.panel.form-wide-panel{
+							.row-close.fillbg{
+								.form-td{
+									.form-group{
+										.form-group-date-lg()
+									}
+								}
+							}
+						}
+					}
+				}
+
+				.panel-table{
+					padding:@padding-lg; 
+				}
+			}
+		}
+	}
+
+
+	//疾病信息
+	.disease-list{
+		padding: 0;
+		.disease-list-title{
+			.sub-title-lg();
+			
+		}
+		#disease-list-form{
+			//  
+			.panel.form-wide-panel{
+				.row-close.fillbg{
+					.form-td{
+						.form-group{
+							.form-group-date-lg();
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	//表格按钮
+	.control-btn-toolbar{
+		.btn-group{
+			padding:8px 0; 
+		}
+	}
+
+	//检查结果、结论
+	.masterkey-result{
+		.panel-form{
+			.form-td{
+				.form-group{
+					.form-item{
+						.form-control{
+							font-size:@font-size-md;
+							line-height: 24px;
+						}
+					}
+					.control-label{
+						.sub-title-lg();
+						padding:0;
+					}
+				}
+			}
+		}
+
+		//下方折叠部分
+		.panel-accordion{
+			.panel-accordion-control{
+				a{
+					ul{
+						li{
+							.sub-title-lg();
+							span{
+								font-size:@font-sub-title-size-lg;
+								&.badge {
+									width: 24px;
+									height: 24px;
+									line-height: 22px;
+									top: 50%;
+									margin-top: 12px;
+									font-size: 14px;
+								}
+							}
+							&:last-child{
+								padding-left: 9px;
+								width: 42px;
+								i{
+									font-size: 20px;
+									width: 24px;
+									height: 24px;
+									line-height: 25px;
+									border-radius: 12px;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	.overall-layout{
+		.overall-layout-large();
+	}
+
+	//体检信息选项卡
+	.physical-detailinfo.tabs.nstemplate-tab.nspanel{
+		.nav.nav-tabs.nav-tabs-justified{
+			li{
+				height:@nav-tabs-height-lg;
+				a{
+					height:@nav-tabs-height-lg - 1px;
+					line-height:@nav-tabs-height-lg - 1px;
+					font-size:@font-sub-title-size-lg;
+				}
+				&.active{
+					height:@nav-tabs-height-lg - 1px;
+					a{
+						height:@nav-tabs-height-lg;	
+					}
+				}
+			}
+		}
+	}
+	//上下布局
+	.overall-layout-line{
+		.overall-layout-cell {
+			&.overall-layout-cell-sm{
+				width: 100%;
+				display: table;
+				margin-left:@base-padding;
+				& > div{
+					display: table-cell;
+					vertical-align: top;
+					padding-right: @base-padding;
+				}
+			}
+			&.overall-layout-cell-lg{
+				float: left;
+				width: 100%;
+				padding: @base-padding;
+			}
+		}
+	}
+}
+
+
+
+
+	
+

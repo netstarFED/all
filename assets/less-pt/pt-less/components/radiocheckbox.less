@@ -1,0 +1,220 @@
+@checkradio-icon-size: 16px;
+
+.pt-radio,
+.pt-checkbox {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding-right: 15px;
+
+    //  &.pt-form-required-tips{
+    //     padding-right: 15px;
+    // }
+
+    label {
+        margin-bottom: 0;
+        font-weight: normal;
+        cursor: pointer;
+    }
+
+    // 原生样式
+    input[type="radio"] {
+        -webkit-appearance: radio;
+    }
+
+    input[type="checkbox"] {
+        -webkit-appearance: checkbox;
+    }
+}
+
+.pt-radio input[type="radio"],
+.pt-radio-inline input[type="radio"],
+.pt-checkbox input[type="checkbox"],
+.pt-checkbox-inline input[type="checkbox"] {
+    @radiocheckbox-size: 12px;
+    position: absolute;
+    top: 50%;
+    margin-top: -((@radiocheckbox-size / 2) + 1);
+    margin-left: -18px;
+    display: block;
+    opacity: 0;
+    // display: none;
+}
+
+.pt-radio+.pt-radio,
+.pt-checkbox+.pt-checkbox {
+    margin-top: -5px;
+}
+
+// 行内
+.pt-radio-inline,
+.pt-checkbox-inline,
+.pt-clear-inline {
+    position: relative;
+    display: inline-block;
+    // padding-left: 20px;
+    margin-bottom: 0;
+    vertical-align: inherit;
+    font-weight: normal;
+    cursor: pointer;
+    font-size: @font-size-base;
+
+    label {
+        font-weight: normal;
+        cursor: pointer;
+        padding-left: 24px;
+        padding-right: @base-margin;
+        font-size: @font-size-base;
+
+        &.pt-radio-clear {
+            padding: 0;
+        }
+    }
+
+    .pt-radio-inline,
+    .pt-checkbox-inline,
+    .pt-clear-inline {
+        padding-top: 3px;
+
+        &:after {
+            display: block;
+            position: absolute;
+            content: "";
+            font-family: 'FontAwesome';
+            top: 4px;
+            left: 2px;
+            width: @checkradio-icon-size;
+            height: @checkradio-icon-size;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            line-height: @checkradio-icon-size;
+            text-align: center;
+            color: @gray-darker;
+        }
+    }
+
+}
+
+// 行内间隔
+.pt-radio-inline+.pt-radio-inline,
+.pt-checkbox-inline+.pt-checkbox-inline,
+.pt-clear-inline {
+    margin-left: @base-margin;
+
+}
+
+
+// 单选&复选禁用模式
+input[type="radio"],
+input[type="checkbox"] {
+
+    &[disabled],
+    &.disabled,
+    fieldset[disabled] & {
+        cursor: @cursor-disabled;
+
+        &+label {
+            color: @disabled-color;
+            cursor: @cursor-disabled;
+        }
+    }
+}
+
+// 行内单选&复选禁用模式
+.pt-radio-inline,
+.pt-checkbox-inline {
+
+    &.disabled,
+    fieldset[disabled] & {
+        background: none;
+        cursor: @cursor-disabled;
+    }
+}
+
+// 单选复选禁用模式label样式
+.pt-radio,
+.pt-checkbox {
+
+    &.disabled,
+    fieldset[disabled] & {
+        background: none;
+
+        label {
+            cursor: @cursor-disabled;
+        }
+    }
+}
+
+
+// 清空按钮
+@clear-inline-size: @input-group-base;
+
+.pt-clear-inline {
+
+    .pt-radio-clear {
+        color: transparent;
+
+        &:after {
+            position: absolute;
+            content: '\e968';
+            top: 50%;
+            left: 50%;
+            .square(@clear-inline-size);
+            font-family: @icon-font-icomoon;
+            color: @text-color;
+            line-height: @clear-inline-size;
+            text-align: right;
+            margin: -(@clear-inline-size / 2);
+
+        }
+
+        &:hover {
+            &:after {
+                color: @warning;
+            }
+        }
+
+        input[type="radio"] {
+            margin-left: 0;
+        }
+    }
+
+}
+
+.radio-group,
+.checkbox-group {
+    position: relative;
+}
+
+
+// 选中状态
+//区别
+label.pt-radio-inline {
+    &:after {
+        border-radius: 100%;
+    }
+
+    &.checked:after {
+        content: "\f111";
+        font-size: 10px;
+        line-height: @checkradio-icon-size - 2;
+    }
+}
+
+label.pt-checkbox-inline {
+    &.checked:after {
+        content: "\f00c";
+    }
+}
+
+label.pt-checkbox-inline-none {
+    &:after {
+        display: none;
+    }
+
+    &.checked {
+        &:after {
+            display: none;
+        }
+    }
+}

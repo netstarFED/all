@@ -1,0 +1,104 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+    <link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+    <title>DEV.网星云.HOME</title>
+
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    <style>
+       
+
+    .form-control {
+        display: block;
+        width: 100%;
+        height: 32px;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        margin-bottom: 1rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        box-sizing: border-box;
+    }
+
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+        disabled: #78C3F3;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        position: absolute;
+        cursor: pointer;
+    }
+
+    .file.button {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+    </style>
+</head>
+<style>
+
+</style>
+
+<container>
+    <label for="MulitUploadFile" class="file">选择文件</label>
+    <input id="MulitUploadFile" type="file"  multiple="multiple" placeholder="请选择文件" style="display: none;">
+    <button id="startUpload" class="file">开始上传</button>
+    <script type="text/javascript">
+        $(function () {
+            var serverUrl = 'http://ui-pc:2000';
+            NetStarUtils.hwvodsdk.uploadInit({fileId:'MulitUploadFile'});
+        })
+    </script>
+</container>
+
+</html>
+

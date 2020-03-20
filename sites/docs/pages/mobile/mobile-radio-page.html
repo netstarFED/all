@@ -1,0 +1,595 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <div class="page-title nav-form alone-form">
+        <!--按钮组-->
+    </div>
+    <div class="col-sm-12 nspanel hide">
+        <div class="nspanel-title">
+            <!-- pc -->
+        </div>
+    </div>
+    <div class="row form-content hide">
+        <div class="col-sm-12" id="form-content">
+            <!--form-->
+        </div>
+    </div>
+    <div class="col-sm-12 nspanel">
+        <div class="nspanel-title">
+            mobile半屏
+        </div>
+    </div>
+    <div class="row form-content">
+        <div class="col-sm-12" id="form-content2">
+            <!--form-->
+        </div>
+    </div>
+    <div class="col-sm-12 nspanel">
+        <div class="nspanel-title">
+            mobile全屏
+        </div>
+    </div>
+    <div class="row form-content">
+        <div class="col-sm-12" id="form-content3">
+            form
+        </div>
+    </div>
+    <div class="col-sm-12 nspanel">
+        <div class="nspanel-title">
+            mobile行内
+        </div>
+    </div>
+    <div class="row form-content">
+        <div class="col-sm-12" id="form-content4">
+            <!--form-->
+        </div>
+    </div>
+    <div class="col-sm-12 nspanel">
+        <div class="nspanel-title">
+            mobile功能
+        </div>
+    </div>
+    <div class="row form-content">
+        <div class="col-sm-12" id="form-content5">
+            <!--form-->
+        </div>
+    </div>
+    <div class="row form-content">
+        <div class="col-sm-12" id="form-content6">
+            <!--form-->
+        </div>
+    </div>
+    <div id='otherform' class = 'otherform'>
+        
+    </div>
+    <script type="text/javascript">
+        var formJson = 
+        {
+            id:  		"form-content",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'性别',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    mindjetFieldPosition:'field',
+                    // rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0' },
+                        { text:'男',value:'1' },
+                    ],
+                    changeHandler:function(){
+                        console.log('性别');
+                    },
+                },{
+                    id: 		 	'sex2',
+                    label: 		 	'性别2',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    mindjetFieldPosition:'field',
+                    // hidden:true,
+                    // rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0' },
+                        { text:'男',value:'1' },
+                    ],
+                    changeHandler:function(){
+                        console.log('性别');
+                    },
+                },{
+                    id: 		 	'sex3',
+                    label: 		 	'性别3',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    mindjetFieldPosition:'field-more',
+                    // rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0' },
+                        { text:'男',value:'1' },
+                    ],
+                    changeHandler:function(){
+                        console.log('性别');
+                    },
+                }
+            ]
+        };
+        var formJson2 = 
+        {
+            id:  		"form-content2",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            formSource: 'halfScreen',
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'性别',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    tooltips: 		'提示信息',
+                    subdata:[
+                        // { text:'女',value:'',},
+                        { text:'女',value:'0', isChecked : true },
+                        { text:'男',value:'1' },
+                        { text:'男',value:'2' },
+                        { text:'男',value:'3' },
+                        { text:'男',value:'4' },
+                        { text:'男',value:'5' },
+                        { text:'男',value:'8' },
+                        { text:'男',value:'7' },
+                    ],
+                    mindjetFieldPosition:'field',
+                    changeHandler : function(value, config){
+                        console.log(value);
+                        console.log(config);
+                    },
+                    value : '',
+                },{
+                    id: 		 		'ajaxRadio',
+                    label: 		 		'ajax调用',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field-more',
+                },{
+                    id: 		 		'ajaxRadio2',
+                    label: 		 		'ajax调用2',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field',
+                },{
+                    id: 		 	'name',
+                    label: 		 	'姓名',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    tooltips: 		'提示信息',
+                    subdata:[
+                        { text:'小明',value:'0' },
+                        { text:'小红',value:'1' },
+                        { text:'小刚',value:'2' },
+                    ],
+                    mindjetFieldPosition:'field-more',
+                }
+            ]
+        };
+        var formJson3 = 
+        {
+            id:  		"form-content3",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            // formSource: 'halfScreen',
+            formSource: 'fullScreen',
+            // formSource: 'inline',
+            // formSource: 'function',
+            getPageDataFunc : function(){
+                return {page : 123}
+            },
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'性别',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    // rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0',isChecked:true },
+                        { text:'男',value:'1' },
+                    ],
+                },{
+                    id:'customer',
+                    type:'hidden',
+                    value:'text1',
+                },{
+                    id: 		 		'ajaxRadio1',
+                    label: 		 		'发送ajax',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data: 				{id:1, name:'{this.customer}', pageName:'{page.page}' },
+                    dataSrc:			'list',
+                    value: 				1,
+                },{
+                    id: 		 		'ajaxRadio2',
+                    label: 		 		'不发送ajax',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data: 				{id:1, name:'{this.customer}' },//{search:{search}}
+                    dataSrc:			'list',
+                    value: 				1,
+                    textFieldId: 		'customer',   //这个属性说明是否已经有Text
+                },{
+                    id: 		 		'ajaxRadio3',
+                    label: 		 		'不发送ajax的Obj',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data: 				{id:1, name:'{this.customer}' },//{search:{search}}
+                    dataSrc:			'list',
+                    value: 				{id:2,name:'text2'},
+                    isObjectValue: 		true,
+                },{
+                    id: 		 		'ajaxRadio4',
+                    label: 		 		'搜索ajax',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    // data: 				{id:1, name:'{this.customer}',searchword:'{search}' },//{search:{search}}
+                    data: 				{id:1, name:'{this.customer}',},//{search:{search}}
+                    dataSrc:			'list',
+                    value: 				1,
+                    searchName: 		'客户名称',
+                    searchMode: 		'server', // none/server/client
+                    // textFieldId: 		'customer',   //这个属性说明是否已经有Text
+                },{
+                    id: 		 		'ajaxRadio5',
+                    label: 		 		'搜索ajax的Obj',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data: 	 			{id:1, name:'{this.customer}' },//{search:{search}}
+                    dataSrc:			'list',
+                    value: 				{id:3,name:'text3'},
+                    placeholder: 		'客户名称',
+                    searchMode: 		'server', // none/server/client
+                    isObjectValue: 		true,
+                }
+            ]
+        };
+        var formJson4 = 
+        {
+            id:  		"form-content4",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            // formSource: 'halfScreen',
+            // formSource: 'fullScreen',
+            formSource: 'inlineScreen',
+            // formSource: 'function',
+            moreText:'更多客户信息',
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'性别',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0', isChecked:true, },
+                        { text:'男',value:'1' },
+                    ],
+                    tooltips: 		'提示信息',
+                    rules:'required',
+                },{
+                    id: 		 		'ajaxRadio',
+                    label: 		 		'ajax调用',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                },{
+                    id: 		 		'ajaxRadio2',
+                    label: 		 		'ajax调用2',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field-more',
+                },{
+                    id: 		 		'ajaxRadio3',
+                    label: 		 		'ajax调用3',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field-more',
+                }
+            ]
+        };
+        var formJson5 = 
+        {
+            id:  		"form-content5",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            // formSource: 'halfScreen',
+            // formSource: 'fullScreen',
+            // formSource: 'inlineScreen',
+            formSource: 'staticData',
+            moreText:'更多客户信息',
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'性别',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0' },
+                        { text:'男',value:'1' },
+                    ],
+                    tooltips: 		'提示信息',
+                    value: '0',
+                    acts: 'block',// block,text,tel,link
+                },{
+                    id: 		 		'ajaxRadio',
+                    label: 		 		'ajax调用',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mobileSign: 	'required', // 是否有标签
+                    acts: 'tel',
+                },{
+                    id: 		 		'ajaxRadio2',
+                    label: 		 		'ajax调用2',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field-more',
+                    acts: 'tel',
+                },{
+                    id: 		 		'ajaxRadio3',
+                    label: 		 		'ajax调用3',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field-more',
+                },{
+                    id: 		 	'sex2',
+                    label: 		 	'性别2',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0' },
+                        { text:'男',value:'1' },
+                    ],
+                    value:'1',
+                    tooltips: 		'提示信息',
+                }
+            ]
+        };
+        var formJson6 = 
+        {
+            id:  		"form-content6",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            formSource: 'staticData',
+            moreText:'更多客户信息',
+            modifyHandler:function(formConfig,$dom){
+                console.log(formConfig);
+                console.log($dom);
+            },
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'性别',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0' },
+                        { text:'男',value:'1' },
+                    ],
+                    tooltips: 		'提示信息',
+                    changeHandler:function(){
+                        console.log('性别');
+                    },
+                    acts: 'formlabel',
+                },{
+                    id: 		 		'ajaxRadio',
+                    label: 		 		'ajax调用',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mobileSign: 	'required', // 是否有标签
+                    clickHandler:function(config){
+                        console.log(config);
+                    }, // 标签方法
+                    changeHandler:function(){
+                        console.log('ajax调用');
+                    },
+                    acts: 'formlabel',
+                },{
+                    id: 		 		'ajaxRadio2',
+                    label: 		 		'ajax调用2',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field-more',
+                    changeHandler:function(){
+                        console.log('ajax调用');
+                    },
+                    acts: 'formlabel',
+                },{
+                    id: 		 		'ajaxRadio3',
+                    label: 		 		'ajax调用3',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/assets/json/radio.json',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field-more',
+                    changeHandler:function(){
+                        console.log('ajax调用');
+                    },
+                    acts: 'formlabel',
+                },{
+                    id: 		 	'sex2',
+                    label: 		 	'性别2',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    subdata:[
+                        { text:'女',value:'0' },
+                        { text:'男',value:'1' },
+                    ],
+                    value:'1',
+                    clickHandler:function(config){
+                        console.log(config);
+                    }, // 标签方法
+                    tooltips: 		'提示信息',
+                    acts: 'formlabel',
+                }
+            ]
+        };
+        $(function(){
+            // formPlane.formInit(formJson);
+            formPlane.formInit(formJson2);
+            formPlane.formInit(formJson3);
+            formPlane.formInit(formJson4);
+            formPlane.formInit(formJson5);
+            formPlane.formInit(formJson6);
+        });
+    </script>
+    </container>

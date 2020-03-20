@@ -1,0 +1,101 @@
+@template-bg-light: #fff;
+@template-bg-gray: #f8f8f8;
+@template-bg-dark: @header-bg;
+@template-padding: 20px;
+@template-table-bg: @template-bg-gray;
+@template-footer-height: @template-footer-btn-panel-height + @template-footer-component-height;
+@template-footer-btn-panel-height: 54px;
+@template-footer-component-height: 90px;
+// 页面主体内边距
+.pt-main { 
+    // 基础单据模版/基础数据模版/单据详情模版/基本数据处理模版 
+    &.processdocbase,
+    &.doclistviewer,
+    &.businessdatabase{
+        position: relative;
+        z-index: 1;
+        &:before,
+        &:after {
+            position: fixed;
+            content: '';
+            right: 0;
+            left: 0;
+            z-index: -1;
+        }
+        &:before {
+            top: 0;
+            background: @template-bg-light;
+        }
+
+        &:after {
+            top: 50%;
+            bottom: 0;
+            background: @template-bg-dark;
+        }
+
+        // // 表单栅格化模式样式
+        .pt-form-vertical {
+            border: 0;
+            border-bottom: 1px solid @form-border;
+            border-top: 1px solid lighten(@form-border, 10);
+            box-shadow: 0 1px 0 rgba(255, 255, 255, .75) inset;
+        }
+        .nsgrid{
+            // margin-top: -10px;
+            padding: @template-padding;
+            background: @template-table-bg;
+        }
+        .nav-form{
+            padding: 0 @template-padding;
+        }
+        
+    }
+    // 基础单据模版
+    &.processdocbase{
+        .pt-template-footer{
+            padding-right: @template-padding;
+            padding-left: @template-padding;
+        }
+    }
+    &.businessdatabase{
+        background: @template-bg-gray;
+        &:after{
+            top: auto;
+            height: @template-footer-btn-panel-height;
+        }
+        
+    }
+    &.doclistviewer{
+       
+        &:after{
+            top: auto;
+            height: @template-footer-btn-panel-height;
+        }
+        .component-btns{
+            padding: 0 @template-padding;
+        }
+        .pt-tab{
+            margin-top: @template-padding;
+            .pt-tab-header{
+                padding: 0 @template-padding;
+                height: auto;
+                overflow: hidden;
+                
+                .pt-nav{
+                    border-bottom: 1px solid @border-color;
+                    .pt-nav-item.current{
+                        a{
+                            background: @primary;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+            .pt-tab-body{
+                padding-right: 0;
+                padding-left: 0;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,90 @@
+@soundbar-width: 240px;
+@soundbar-height: 6px;
+@soundbar-border-radius: @soundbar-height;
+@soundbar-bg: #f3f3f3;
+@soundbar-current-bg: @warning;
+@soundbar-control-btn-bg: #fff;
+@soundbar-control-padding: 30px;
+@soundbar-control-btn-size: (@soundbar-height + 10px);
+@progress-value-size: 32px;
+@sounder-mark-size: 20px;
+@sounder-mark-color: #333;
+
+
+// 声音控制器
+.pt-sounder {
+    .pt-nav-item{
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    .pt-sounder-control {
+        position: fixed;
+        right: 10px;
+        padding: @soundbar-control-padding;
+        background: #fff;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, .15);
+       
+        // 声音状态按钮（是否静音）
+        .pt-btn-group {
+            display: block;
+            float: left;
+            .pt-btn-icon{
+                border-color: transparent;
+                color: @sounder-mark-color;
+                background: transparent;
+                i{
+                    font-size:@sounder-mark-size;
+                }
+                
+            }
+        }
+    }
+}
+
+// 进度条
+.pt-progress {
+    width: @soundbar-width;
+    height: @soundbar-height;
+    position: relative;
+    background: @soundbar-bg;
+    border-radius: @soundbar-border-radius;
+    float: left;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .1) inset;
+    margin: 8px 20px 0;
+
+    // 进度条按钮
+    .pt-progress-btn {
+        top: -((@soundbar-control-btn-size - @soundbar-height) / 2);
+        left: -((@soundbar-control-btn-size - @soundbar-height) / 2);
+        .square(@soundbar-control-btn-size);
+        border-radius: @soundbar-control-btn-size;
+        background: @soundbar-control-btn-bg;
+        position: absolute;
+        box-shadow: 0 0 4px rgba(0, 0, 0, .2);
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: 0 0 4px rgba(0, 0, 0, .35);
+        }
+    }
+
+
+    // 进度条进度
+    .pt-progress-bar {
+        height: @soundbar-height;
+        border-radius: @soundbar-border-radius;
+        background: @soundbar-current-bg;
+        position: absolute;
+        top: 0;
+    }
+
+}
+
+// 进度条数值
+.pt-progress-value {
+    display: block;
+    float: right;
+    width: @progress-value-size;
+    text-align: center;
+}

@@ -1,0 +1,43 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <div id="inlinesrceen-radio"></div>
+    <script>
+         var inlineSrceen = 
+        {
+            id:  		"inlinesrceen-radio",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            formSource: 'inlineScreen',
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'性别',
+                    type: 		 	'text',
+                    column: 	 	6,
+                    changeHandler : function(value, config){
+                        console.log(value);
+                        console.log(config);
+                    },
+                    value : '女',
+                },{
+                    id: 		 		'mindjetFieldPosition',
+                    label: 		 		'更多',
+                    type: 		 		'text',
+                    column: 	 		6,
+                    mindjetFieldPosition:'field-more',
+                },{
+                    id: 		 	'required',
+                    label: 		 	'验证',
+                    type: 		 	'text',
+                    column: 	 	6,
+                    rules:            'required',
+                    mindjetFieldPosition:'field',   
+                }
+            ]
+        };
+        formPlane.formInit(inlineSrceen);
+    </script>
+</container>

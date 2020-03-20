@@ -1,0 +1,344 @@
+/*====================================================================*/
+/*personSelect*/
+/*====================================================================*/
+
+.personSelect{
+	.form-control[readonly="readonly"]{
+		.disabled-style();
+		& + .person-select-plane-btn,
+		& + .person-select-plane-btn + .person-select-plane-btn,
+		& + .person-select-plane-btn + .person-select-plane-btn + .person-select-plane-btn{
+			.disabled-style();
+			color: darken(@gray-lighter, 20%) !important;
+			top: 4px;
+			&:hover,
+			&:focus{
+				color: darken(@gray-lighter, 20%) !important;
+			}
+
+		}
+	}
+	.person-select-plane-btn{
+		position: absolute;
+		top: 5px;
+		width: @form-control-height-compactmode;
+		height: @form-control-height-compactmode;
+		line-height: @form-control-height-compactmode - 2px;
+		text-align: center;
+		border: 1px solid transparent;
+		&:hover{
+			color: @ns-info;
+		}
+		&.current{
+			color: @ns-info;
+			border-color: @ns-border-color;
+			background: #fff;
+			padding-top: 0;
+			z-index: 9;
+		}
+		.compactmode &{
+			top: 2px;
+			height: @form-control-height-compactmode;
+		}
+	}
+}
+
+// 人员选择器扩展
+.personSelectSystem{
+	.person-select-inputmask{
+		right: ((@form-sm-height * 2) + 5);
+	}
+
+	.person-select-system-plane-btn{
+		&:extend(.personSelect .person-select-plane-btn all);
+		right: (@form-sm-height + 5) !important;
+		&:last-child{
+			right: 5px !important;
+		}
+	}
+}
+
+.person-select-inputmask{
+	position: absolute;
+	top: 0;
+	right: 98px;
+	height: @base-input-height;
+	display: table-cell;
+	padding: 8px 28px 7px 0;
+	vertical-align: middle;
+	cursor: text;
+	&.blur{
+		left: 5px;
+		cursor: text;
+	}
+	.name{
+		padding: 2px @base-padding /2;
+		margin: 0 3px 0 0;
+		background: #f5f5f5;
+		display: inline-block;
+		border: 1px solid @ns-border-color;
+	}
+	a.close{
+		float: right;
+		opacity: .2;
+		&:after{
+			.ns-icon-close();
+			top: 13px;
+			color: #000;
+			.compactmode &{
+				top: @btn-icon-after-top-compactmode + 2;
+			}
+
+		}
+		&:hover{
+			opacity: .8;
+			&:after{
+				color: @ns-warning;
+			}
+		}
+	}
+	.compactmode &{
+		height: @form-control-height-compactmode;
+		padding-top: 4px;
+	}
+}
+
+
+
+.person-select-plane{
+	position: absolute;
+	top: @form-control-height-base;
+	right: 0;
+	left: -1px;
+	height: 362px;
+	background: #fff;
+	border: 1px solid @ns-border-color;
+	display: none;
+	z-index: 21;
+	
+	.plane-content{
+		&.show{
+			visibility: visible;
+			display: block;
+		}
+		span{
+			position: relative;
+			display: table-cell;
+			vertical-align: middle;
+			white-space: nowrap;
+			overflow-y: hidden;
+			text-overflow: ellipsis;
+			padding: @base-padding /2;
+			min-width: 100px;
+			&:before{
+				.border-vertical();
+				bottom: 0;
+				right: 0;
+				background: #eee;
+			}
+			&:after{
+				.border-horizontal();
+				bottom: 0;
+				left: 0;
+				background: #eee;
+			}
+
+			&:first-child{
+				width: (@base-input-height + 10);
+				height: @base-input-height;
+				min-width: (@base-input-height + 10);
+				max-width: (@base-input-height + 10);
+				text-align: center;
+				background: #f5f5f5;
+				overflow: hidden;
+			}
+			&:last-child{
+				&:before{
+					display: none;
+				}
+			}
+			.name{
+				.personNum{
+					display: block;
+					float: right;
+				}
+			}
+		}
+		a{ display: table;
+			width: 100%;
+			&:hover{
+				background: #f5f5f5;
+				color: @gray;
+			}
+		}
+
+		&.disabled{
+			a{
+				cursor: default;
+				background: #eee;
+				color: #ccc;
+			}
+
+		}
+	}
+
+	.result-plane{
+		position: absolute;
+		top: -1px !important;
+		left: 100%;
+		width: 330px;
+		height: 362px;
+		padding: @base-padding;
+		background: #fff;
+		border: 1px solid @ns-border-color;
+		overflow-y: hidden;
+		span.person-label{
+			display: inline-block;
+			padding:5px 24px 6px 5px;
+			margin: 0 3px 3px 0;
+			border: 1px solid @ns-border-color;
+			cursor: pointer;
+			float: left;
+			min-height: 30px;
+			&:hover{
+				background: #f8f8f8;
+				border-color: darken(@ns-border-color, 10%)
+			}
+			a.close{
+				position: absolute; 
+				padding: @base-padding /2;
+				width: 28px;
+				height: @ns-input-height;
+				margin: -5px 0;
+				&:hover{
+					color: @ns-warning;
+					opacity: .8;
+					&:after{
+						color: @ns-warning;
+					}
+				}
+				&:after{
+					.ns-icon-close();
+					color: #000;
+				}
+			} 
+		}
+	}
+
+	.common-plane{
+		position: relative;
+		height: 360px;
+		min-height: @base-input-height;
+		display: none;
+
+		.plane-title{
+			display: table;
+			width: 100%;
+			background: #f0f0f0;
+			color:@gray;
+		}
+
+		.state{
+			padding: 0 @base-padding 0 0;
+			height: @base-input-height;
+			line-height: @base-input-height;
+			text-align: right;
+			.page{
+				display: table;
+				float: left;
+				span{
+					display: table-cell;
+					min-width: 30px;
+					max-width: 55px;
+					text-align: center;
+					cursor: pointer;
+					&.disabled{
+						cursor: default;
+						color: #ccc;
+					}
+					&.able{
+						color: @ns-info;
+					}
+				}
+			}
+		}
+	}
+	.group-plane{
+		
+		.group-person-plane{
+			position: absolute;
+			width: 200px;
+			height: 360px;
+			top: 0;
+			right: 0;
+			border-left: 1px solid @ns-border-color;
+            z-index: 22;
+            background: #fff;
+
+			.btn.group-person-select-button{
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				margin: 0;
+				border: 0;
+				height: @base-input-height;
+				color: #ddd;
+				&:hover{
+					background: #f2f2f2;
+				}
+			}
+
+			.state{
+				position: absolute;
+				width: 200px;
+				height: @base-input-height;
+				text-align: left;
+				right: 0;
+				bottom: 0;
+			}
+
+			.state-empty{
+				padding: @base-padding /2;
+			}
+		}
+	}
+	.history-plane{
+		span.time{
+			width: 100px;
+			overflow-y: hidden;
+			color: #ddd;
+			border:none;
+			text-align: right;
+			padding-right: @base-padding /2;
+		}
+		.empty{
+			padding-top: 100px;
+			text-align: center;
+			font-size: @font-size-base;
+			i{
+				font-size: 48px;
+				color: #ddd;
+			}
+			p{
+				padding-top: 15px;
+			}
+		}
+	}
+	.btn-plane{
+		position: absolute;
+		width: 100%;
+		height: @base-height + 10px;
+		right: 0;
+		bottom: 0;
+		padding: @base-padding @base-padding 0;
+		border-top: 1px solid @ns-border-color;
+		z-index: 15;	
+		text-align: right;
+		.btn + .btn{
+			margin-left: @base-margin /4;
+		}
+	}
+	.compactmode &{
+		top: @form-control-height-compactmode;
+	}
+}

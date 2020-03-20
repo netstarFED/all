@@ -1,0 +1,458 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>样品入库</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var sampleOutorProblem1 = {
+                    "package": "nscloud.sampleoutorproblem1",
+                    "template": "processDocBaseMobile",
+                    "readonly": false,
+                    "isShowTitle": true,
+                    "isFormHidden": false,
+                    "versionNumber": "1",
+                    "components": [{
+                            "type": "vo",
+                            "field": [
+                                {
+                                    "id": "warehouseId",
+                                    "englishName": "warehouseId",
+                                    "chineseName": "库房",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "42c6073d-1e61-8c40-ec0d-72719e973e90",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "库房",
+                                    "rules": "",
+                                    "textField": "name",
+                                    "valueField": "id",
+                                    "relationField": "locationCode",
+                                    "outputFields": {
+                                        "warehouseId": "{id}"
+                                    },
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": "",
+                                    "contentType": "",
+                                    "suffix": "/warehouse/v2/getList",
+                                    "url": getRootPath() + "/warehouse/v2/getList",
+                                    "mindjetIndexState": 0,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "id": "locationCode",
+                                    "englishName": "locationCode",
+                                    "chineseName": "货位",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "1ab4a5dc-1327-30bd-3d44-52fdc7685537",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.String",
+                                    "type": "select",
+                                    "label": "货位",
+                                    "rules": "",
+                                    "textField": "code",
+                                    "valueField": "code",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": {
+                                        // "warehouseId": "{this.warehouseId}"
+                                    },
+                                    "contentType": "application/json",
+                                    "suffix": "/locations/v2/getList",
+                                    "url": getRootPath() + "/locations/v2/getList",
+                                    "mindjetIndexState": 1,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "englishName": "putInQuantity",
+                                    "className": "java.math.BigDecimal",
+                                    "gid": "211131aa-0456-1608-eb3d-54c02ed34791",
+                                    "variableType": "number",
+                                    "chineseName": "入库数量",
+                                    "isHaveChineseName": true,
+                                    "id": "putInQuantity",
+                                    "label": "入库数量",
+                                    "type": "text",
+                                    "field": "putInQuantity",
+                                    "title": "入库数量",
+                                    "mindjetIndexState": 2,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "id": "remark",
+                                    "englishName": "remark",
+                                    "chineseName": "备注",
+                                    "variableType": "string",
+                                    "isSet": "是",
+                                    // "displayType": "all",
+                                    // "className": "java.lang.Long",
+                                    "type": "text",
+                                    "label": "备注",
+                                    "rules": "",
+                                    "mindjetFieldPosition": "field"
+                                }
+                            ],
+                            "ajax": {
+                                "src": getRootPath() + "/sample/accept/samples/getById",
+                                "dataSrc": "data",
+                                "type": "GET",
+                                "dataFormat": "object",
+                                "isInlineBtn": false,
+                                "contentType": "application/x-www-form-urlencoded",
+                                "isSendPageParams": true,
+                                "data": {}
+                            },
+                            "voId": "1309183777171316713",
+                            "idField": "id",
+                            "keyField": "root",
+                            "parent": "root",
+                            "gid": "9fb93672-e606-71c0-1eef-bbae64a56f04",
+                            "objectState": 2,
+                            "stateClass": "more",
+                            "fieldById": {
+                                "warehouseId": {
+                                    "id": "warehouseId",
+                                    "englishName": "warehouseId",
+                                    "chineseName": "库房",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "42c6073d-1e61-8c40-ec0d-72719e973e90",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "库房",
+                                    "rules": "",
+                                    "textField": "name",
+                                    "valueField": "id",
+                                    "relationField": "locationCode",
+                                    "outputFields": {
+                                        "warehouseId": "{id}"
+                                    },
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": "",
+                                    "contentType": "",
+                                    "suffix": "/warehouse/v2/getList",
+                                    "url": getRootPath() + "/warehouse/v2/getList",
+                                    "mindjetIndexState": 0,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "locationCode": {
+                                    "id": "locationCode",
+                                    "englishName": "locationCode",
+                                    "chineseName": "货位",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "1ab4a5dc-1327-30bd-3d44-52fdc7685537",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.String",
+                                    "type": "select",
+                                    "label": "货位",
+                                    "rules": "",
+                                    "textField": "code",
+                                    "valueField": "code",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": {
+                                        // "warehouseId": "{this.warehouseId}"
+                                    },
+                                    "contentType": "application/json",
+                                    "suffix": "/locations/v2/getList",
+                                    "url": getRootPath() + "/locations/v2/getList",
+                                    "mindjetIndexState": 1,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "putInQuantity": {
+                                    "englishName": "putInQuantity",
+                                    "className": "java.math.BigDecimal",
+                                    "gid": "211131aa-0456-1608-eb3d-54c02ed34791",
+                                    "variableType": "number",
+                                    "chineseName": "入库数量",
+                                    "isHaveChineseName": true,
+                                    "id": "putInQuantity",
+                                    "label": "入库数量",
+                                    "type": "text",
+                                    "field": "putInQuantity",
+                                    "title": "入库数量",
+                                    "mindjetIndexState": 2,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "remark": {
+                                    "id": "remark",
+                                    "englishName": "remark",
+                                    "chineseName": "处理状态",
+                                    "isSet": "是",
+                                    "type": "text",
+                                    "label": "备注",
+                                    "rules": "",
+                                    // "mindjetIndexState": 3,
+                                    "mindjetFieldPosition": "field"
+                                }
+                            }
+                        },
+                        {
+                            "type": "btns",
+                            "field": [{
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/json",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "defaultMode": "custom",
+                                    "functionClass": "modal",
+                                    "suffix": "/sample/accept/samples/chooseAndSubmit",
+                                    "text": "样品入库",
+                                    "title": "样品入库",
+                                    "type": "GET",
+                                    "voName": "sampleSampleVO",
+                                    "entityName": "_sample_accept_samples",
+                                    "chineseName": "样品确认入库3（手机）",
+                                    "englishName": "samplein1",
+                                    "isCloseWindow": true,
+                                    "requestSource": "thisVo",
+                                    "isInlineBtn": false,
+                                    "isHaveSaveAndAdd": true,
+                                    "isCopyObject": false,
+                                    "successOperate": "refresh",
+                                    "isSendPageParams": true,
+                                    "isIsSave": false,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "isUseAjaxByCopyAdd": true,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    "url": getRootPath() + "/sample/accept/samples/chooseAndSubmit"
+                                },
+                                "btn": {
+                                    "text": "样品入库",
+                                    "isReturn": true
+                                }
+                            }],
+                            "gid": "2e8f4370-d1b5-c382-18ad-340a59b5201a",
+                            "objectState": 2
+                        }
+                    ],
+                    "draftBox": {
+                        "isUse": false,
+                        "isUseSave": true,
+                        "closeOrClear": true
+                    },
+                    "title": "样品确认",
+                   /*  "pageParam": {
+                        "data": {
+                            "entrustAddress": "北京市西城区西长安街街道府右街西巷20-22号",
+                            "acceptBy": "1310954084307594226",
+                            "acceptId": "1319399886239674354",
+                            "batchId": "1319399886239675378",
+                            "sampleCode": "JC191130001",
+                            "sampleCateId": "1316068178102584306",
+                            "sampleCateName": "钢管1（测试）",
+                            "sampleName": "螺栓【1129】1148",
+                            "stdIds": "1592,250",
+                            "stdNames": "聚乙烯管材和管件炭黑含量的测定(热失重法),铁路混凝土梁配件多元合金共渗防腐技术条件",
+                            "dueDate": 7,
+                            "urgentState": 2,
+                            "representQuantity": "18050根",
+                            "sampleQuantity": "6根（3根力学，3根化学和金相）",
+                            "sampleStatusId": "1319304226580464626",
+                            "isJudge": 1,
+                            "isRetained": 1,
+                            "remark": "样品委托备注--北京市西城区西长安街街道府右街西巷20-22号",
+                            "createdBy": "1310954084307594226",
+                            "createdByName": "Lims管理员",
+                            "whenCreated": 1576741874000,
+                            "modifiedBy": "1310954084307594226",
+                            "modifiedByName": "Lims管理员",
+                            "whenModified": 1576741874000,
+                            "manufacture": "河北省石家庄桥西区新石中路188【测试】",
+                            "enginePart": "桥梁工程、隧道工程、路基及其他工程部位",
+                            "observer": "雷建明",
+                            "otherRequirements": "TB/T 3274-2011《聚乙烯管材和管件炭黑含量的测定(热失重法)》,GB 13021-1991《铁路混凝土梁配件多元合金共渗防腐技术条件》",
+                            "reportSendWay": "0",
+                            "reportCopies": "3  +1",
+                            "mailAddress": "北京市西城区西长安街街道府右街西巷20-22号",
+                            "needSubcontract": "1",
+                            "needOutMachining": 1,
+                            "warrantyFilesIds": "1319304467098633202",
+                            "requirementsFilesIds": "1319304473541084146",
+                            "otherFilesIds": "1319304479983535090",
+                            "postWay": "1",
+                            "postNo": "123",
+                            "postFileIds": "1320828876619777010",
+                            "handleWay": "1",
+                            "entrustContactPhone": "18300020002",
+                            "sampleProblemReason": "",
+                            "problemHanding": "",
+                            "handingState": "0",
+                            "remake": "123123",
+                            "testFee": 5000,
+                            "acceptCode": "SL191130002",
+                            "entrustName": "委托方--中铁三局集团山西省太原市和平阶段和平街和平区【测试】",
+                            "entrustContactName": "测宪政",
+                            "entrustSignBy": "委托方签字人",
+                            "sampleState": "2",
+                            "testTypeId": "0",
+                            "workItemId": "1319400196550956018",
+                            "workItemState": 2,
+                            "hasRollback": true,
+                            "hasOvertime": false,
+                            "hasEmergency": false,
+                            "hasSuspend": false,
+                            "instanceIds": "1319399889460799474",
+                            "instanceStates": "1",
+                            "objectState": 0,
+                            "objectCheckState": 0,
+                            "id": "1319399886239676402",
+                            "netstarSelectedFlag": true,
+                            "systemInfo": {
+                                "context": {
+                                    "env": "qa",
+                                    "staticurl": "https://qa.wangxingcloud.com/assets",
+                                    "weburl": "getRootPath() + ",
+                                    "loginUrl": "https://qa.wangxingcloud.com/sites/base/test.html",
+                                    "rabbitmq": {
+                                        "wsAddresses": "wss://qa.wangxingcloud.com/ws",
+                                        "virtualHost": "/"
+                                    }
+                                },
+                                "user": {
+                                    "topOrgId": "1310954084307567602",
+                                    "topOrgCode": "0001",
+                                    "topOrgName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "orgId": "1310954084307567602",
+                                    "orgCode": "0001",
+                                    "orgName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "deptId": "1310954084307567602",
+                                    "deptCode": "0001",
+                                    "deptName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "userId": "1310954084307594226",
+                                    "userName": "Lims管理员",
+                                    "account": "lims"
+                                }
+                            },
+                            "workItemIds": "1319400196550956018"
+                        },
+                        "url": "getRootPath() + /templateMindPages/pageConfig/1319020177844601842?templateparam=nscloud.samplecustomlist21576746944546"
+                    } */
+                   
+                }
+                // NETSTAR添加url参数即pageParam
+                var pageConfig = {config:sampleOutorProblem1};
+                var params = pageConfig.config.pageParam.data ? pageConfig.config.pageParam.data : {};
+                for(var componentI=0; componentI<pageConfig.config.components.length;componentI++){
+                    var componentData = pageConfig.config.components[componentI];
+                    if(componentData.type == 'vo'){
+                        componentData.field.unshift({
+                            id:'sampleId',
+                            type:'hidden',
+                            value:params.id
+                        });
+                    }
+                }
+                sampleOutorProblem1 = NetstarProject.init(sampleOutorProblem1);
+              
+                NetstarTemplate.init(sampleOutorProblem1);
+            });
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">样品入库</div>
+                    <div class="btn-group">
+                        <button class="btn btn-icon" onclick="openCamera()">
+                            <i class="icon icon-qrcode" style="font-size:16px;"></i>
+                        </button>
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+            // 扫码
+            var cameraScan = {
+                userCode:"",
+
+                initCamera:function(QRSContents){
+                   var userCode = QRSContents.toString();
+                   cameraScan.userCode = userCode;
+                   nsComponent.setValue('locationCode', "nstemplate-layout-nscloud-sampleoutorproblem1-vo-0", cameraScan.userCode);
+
+                },
+                initHoneywellScan:function(){
+                    cameraScan.honeywellScan(function(){
+
+                    })
+                },
+
+                honeywellScan:function(cb){
+                    NetStarCordova.honeywellScan.get(function(obj){
+                        if(obj.status){
+                            var userCode = obj.result;
+                            cameraScan.userCode = userCode;
+                            nsComponent.setValue('locationCode', "nstemplate-layout-nscloud-sampleoutorproblem1-vo-0", cameraScan.userCode);
+                            // nsComponent.setValue('warehouseId', "nstemplate-layout-nscloud-sampleoutorproblem1-vo-0", cameraScan.userCode);
+
+                        }else{
+                            nsAlert("扫码失败")
+                        }  
+                        cb(cameraScan.userCode) 
+                    })
+                },
+            }
+            
+            cameraScan.initHoneywellScan();
+            function openCamera(){
+                NetstarQRScanner.init({
+                    type : "single",
+                    callBackFunc : function(QRSContents, ajaxRes, config){
+                        // console.log(QRSContents);
+                        cameraScan.initCamera(QRSContents)
+                        
+                    },
+                });
+            };
+        </script>
+    </container>
+</body>
+
+</html>

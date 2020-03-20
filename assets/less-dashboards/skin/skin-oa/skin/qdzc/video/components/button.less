@@ -1,0 +1,105 @@
+// 按钮
+.ns-btn-group {
+    .flex-block();
+    flex-direction: column;
+    flex: none;
+
+    .ns-btn {
+        padding: @padding-base (@padding-base+0.5);
+        color: @color-base;
+        background: none;
+        border: none;
+
+        i {
+            font-size: 1.4rem;
+        }
+
+        &.ns-btn-default {
+            background: rgba(0, 200, 255, 0.28);
+            border: @input-border;
+            border-radius: @border-radius;
+            box-shadow: 0 0 2px 2px rgba(0, 197, 255, 0.5) inset
+        }
+
+        &.ns-btn-default:hover {
+            background: rgba(0, 200, 255, 0.28);
+            border: @input-border;
+            border-radius: @border-radius;
+        }
+    }
+
+    &.btn-min-width {
+
+        .ns-btn {
+            width: 9rem;
+            height: 3rem;
+        }
+
+    }
+
+    &.btn-marign {
+        .ns-btn {
+            margin: 0.4rem 0;
+        }
+    }
+}
+
+// input输入框按钮
+.ns-input-group-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    .ns-btn {
+        &.btn-default-bg {
+            border-top-right-radius: @border-radius;
+            border-bottom-right-radius: @border-radius;
+        }
+    }
+
+}
+
+.ns-btn {
+    padding: @padding-base;
+
+    i {
+        font-size: 1.4rem;
+    }
+
+
+    // 默认按钮 
+    &.btn-default {
+        border: none;
+        background: none;
+        color: #01629e;
+    }
+
+    // 鼠标经过
+    &.btn-default:hover {
+        color: @color-base;
+    }
+
+
+    // 带背景按钮
+    &.btn-default-bg {
+        color: #023e6d;
+        min-width: 2.8rem;
+        background-image: linear-gradient(to right, #0090ff, #00c9ff);
+        border: none;
+        box-shadow: 0 0 2px 0.6px rgba(33, 134, 226, 0.35);
+
+
+        i {
+            font-size: 1.5rem;
+        }
+    }
+
+    &.btn-default-bg:hover {
+        background-image: linear-gradient(to right, #38a9ff, #46d7ff);
+    }
+}
+
+.bnt-default:hover {
+    color: @color-base;
+}

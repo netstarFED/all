@@ -1,0 +1,132 @@
+@setting-btn-size: 2rem;
+@setting-control-height: @setting-btn-size;
+@setting-dropdown-width: 24rem;
+@setting-header-height: @setting-btn-size;
+@setting-zindex: 1999;
+
+.setting {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: @setting-zindex;
+
+    // 设置按钮
+    .setting-btn {
+        .flex-block(center, center);
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: (@setting-zindex + 1);
+        opacity: .15;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        .btn-icon {
+            .square(@setting-btn-size);
+        }
+    }
+
+    // 头部内容
+    .setting-header {
+        height: @setting-header-height;
+        font-size: @font-size-base;
+    }
+
+    // 设置下拉面板
+    .setting-dropdown {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        padding: 0 @base-padding @setting-control-height;
+        width: @setting-dropdown-width;
+        background: #fff;
+        font-size: @font-size-base;
+        .rgba-shadow(-.5rem, 0, .5rem, @primary, .15);
+
+        .subtitle {
+            line-height: 3;
+            border-bottom: 1px solid @border-color;
+        }
+
+        // 单选表单
+        .radio {
+            .flex-block();
+            margin-bottom: @setting-btn-size;
+        }
+
+        .radio-group {
+            // padding-left: @base-padding;
+            // padding: @base-padding 0;
+            .flex-block(flex-start, center);
+
+            .radio-inline {
+                .flex-block(center, center);
+                flex: none;
+                padding: @base-padding;
+                cursor: pointer;
+
+                &:hover {
+                    // background: lighten(@primary, 27);
+                }
+                input{
+                    margin-right: (@base-margin / 2);
+                }
+            }
+        }
+    }
+
+
+    // 皮肤选择器
+    .setting-skin-group{
+        .flex-block(flex-start, center);
+        @setting-skin-block-size: 4rem;
+        padding: @base-padding 0;
+        .setting-skin-group-inline{
+            .square(@setting-skin-block-size);
+            border: .15rem solid #eee;
+            cursor: pointer;
+            &:hover,
+            &.current{
+                border-color: @success;
+            }
+
+            & + .setting-skin-group-inline{
+                margin-left: @base-margin;
+            }
+
+            // 浅色背景
+            &.setting-skin-group-inline-a{
+                background: #d2deff;
+            }
+            // 深色背景
+            &.setting-skin-group-inline-b{
+                background: #2f5a8b;
+            }
+        }
+    }
+
+       // 面板控制器
+       .setting-control {
+           padding: @base-padding 0;
+        .btn-group {
+            .flex-block(flex-start,center );
+            .btn {
+                .flex-block(center, center);
+                flex: none;
+                border: 0;
+                border-radius: 0;
+                font-size: 1rem;
+                height: 2.5rem;
+                font-weight: normal;
+                color: #fff;
+                & + .btn{
+                    margin-left: (@base-margin / 2);
+                }
+            }
+        }
+    }
+
+}

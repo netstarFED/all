@@ -1,0 +1,403 @@
+@sidebar-menu-top: 				@header-height;					//左侧菜单顶部定位
+@sidebar-menu-width: 			@sidebar-menu-horizontal-width;	//左侧菜单宽度
+@sidebar-menu-bg: 				#56b1fc;						//左侧主菜单背景色
+@sidebar-menu-hover-bg: 		#75c1ff;						//左侧主菜单列表鼠标经过背景色
+@sidebar-menu-open-bg:			@sidebar-menu-hover-bg;			//左侧主菜单列表活动状态焦点文字颜色
+@sidebar-menu-current-color: 	#fff;							//左侧主菜单列表活动状态文字颜色
+@sidebar-menu-current-bg: 		#1b95f9;						//左侧主菜单列表活动状态背景色
+@sidebar-menu-link-color: 		#edf8ff;
+@sidebar-menu-link-focus-color: #0051aa;
+@sidebar-menu-link-height: 		56px;							//左侧主菜单列表高度
+@sidebar-menu-link-size: 		16px;							//左侧主菜单列表字体大小
+@submenu-block-border-color:	#daefff;						//二级菜单面板边框颜色
+@submenu-block-bg: 				#fff;							//二级菜单面板背景颜色
+@submenu-block-shadow-size: 	7px;							//二级菜单面板阴影尺寸
+@submenu-block-padding: 		25px;							//二级菜单面板内边距
+@submenu-block-title-color: 	#0051aa;						//二级菜单标题颜色
+@submenu-list-item-link-height: 40px;							//二级菜单高度		
+@submenu-list-item-link-bg: 	#eff6ff;						//二级菜单列表hover背景色
+@submenu-list-width: 			220px;							//二级列表面板宽度
+@submenu-list-gutter: 			5px;							//二级菜单列表间距
+@submenu-badge-size: 			18px;							//角标提示尺寸
+@mobile-submenu-list-item-control-bg: @sidebar-menu-bg;
+@submenu-list-item-control-btn-size: 24px;
+
+
+// 左侧菜单组件
+.sidebar-menu-horizontal {
+	position: fixed;
+	top: @sidebar-menu-top;
+	bottom: 0;
+	left: 0;
+	width: @sidebar-menu-width;
+	display: block;
+	background: @sidebar-menu-bg;
+	z-index: 998;
+
+	
+
+	// 左侧菜单主体列表
+	.sidebar-menu-item {
+		a {
+			display: block;
+			padding: 15px @base-padding;
+			font-size: @sidebar-menu-link-size;
+			line-height: @sidebar-menu-link-size;
+			border-top: 1px solid @sidebar-menu-bg;
+			border-bottom: 1px solid @sidebar-menu-bg;
+			color: @sidebar-menu-link-color;
+			box-sizing: border-box;
+			span {
+				font-size: @sidebar-menu-link-size;
+			}
+
+			&:hover {
+				background: @sidebar-menu-hover-bg;
+				color: #fff;
+			}
+
+			&.current {
+				position: relative;
+				background: @sidebar-menu-current-bg;
+				color: @sidebar-menu-current-color;
+				border-top: 1px solid darken(@sidebar-menu-current-bg, 5);
+				border-bottom: 1px solid lighten(@sidebar-menu-hover-bg, 3);
+				color: #fff;
+				// box-shadow: 0 0 5px rgba(0,0,0, .15) inset;
+
+				&:hover {
+					background: @sidebar-menu-current-bg;
+					color: @sidebar-menu-current-color;
+				}
+
+				&:after{
+					position: absolute;
+					content: "";
+					top: 50%;
+					right: 0;
+					width: 0;
+					height: 0;
+					border-left: 8px solid transparent; 
+					border-right: 8px solid #fff; 
+					border-top: 8px solid transparent;
+					border-bottom: 8px solid transparent;
+					margin: -8px 0 0;
+				}
+
+			}
+
+			
+
+			&.open {
+				background: @sidebar-menu-hover-bg;
+				color: @sidebar-menu-current-color;
+				border-top: 1px solid @sidebar-menu-hover-bg;
+				border-bottom: 1px solid @sidebar-menu-hover-bg;
+
+				&.current {
+					background: @sidebar-menu-current-bg;
+				}
+
+			}
+
+			i {
+				display: block;
+				.square(@sidebar-menu-link-size);
+				margin: 0 auto (@base-margin / 2);
+				font-size: @sidebar-menu-link-size;
+				text-align: center;
+			}
+			& > span{
+				display: block;
+				text-align: center;
+				font-size: @font-size-sm;
+			}
+
+		}
+
+	}
+	& > ul {
+		padding: 0;
+
+		li {
+			list-style-type: none;
+		}
+
+	}
+	// 左侧菜单二级菜单
+	.submenu-block {
+		position: fixed;
+		top: @sidebar-menu-link-height;
+		left: @sidebar-menu-width;
+		padding: @submenu-block-padding (@submenu-block-padding / 5);
+		// border: 1px solid @submenu-block-border-color;
+		background: @submenu-block-bg;
+		box-shadow: 3px 1px 5px rgba(95, 135, 180, .25);
+		z-index: 998;
+
+		& > ul {
+			padding: 0;
+		}
+
+		// 左侧菜单二级标题
+		.submenu-list-title {
+			padding-bottom: ((@submenu-block-padding / 5) * 2);
+			color: @submenu-block-title-color;
+			font-weight: bold;
+			font-size: 15px;
+		}
+
+		// 左侧菜单二级列表
+		.submenu-list {
+			display: block;
+			float: left;
+			width: @submenu-list-width;
+			padding-left: (@submenu-block-padding + 5);
+
+			& ul {
+				padding: 0;
+
+				li {
+					list-style-type: none;
+				}
+
+			}
+
+			.submenu-list-item {
+				position: relative;
+				a {
+					display: block;
+					padding: (@submenu-block-padding / 2);
+					padding-left: @base-padding;
+					padding-right: 30px;
+					border-radius: 3px;
+					color: #000;
+					font-size: @font-size-base;
+					max-height: @submenu-list-item-link-height;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					border: 0;
+					&.open {
+						position: relative;
+						background: transparent;
+						color: @sidebar-menu-link-focus-color;
+						&:after{
+							position: absolute;
+							top: 50%;
+							left: 0;
+							content: "";
+							margin-top: -3px;
+							width: 0;
+							height: 0;
+							border-top: 5px solid transparent; 
+							border-left: 5px solid @ns-warning; 
+							border-bottom: 5px solid transparent; 
+						}
+					}
+				}
+				.submenu-list-item-text {
+					&.submenu-list-item-blank {
+						position: relative;
+						.newtab {
+							position: absolute;
+							top: 8px;
+							right: 5px;
+							padding: 0;
+							text-align: center;
+							border-color: darken(@submenu-list-item-link-bg, 5%);
+							border-radius: 0;
+
+							i {
+								margin: 0;
+								.square(@submenu-list-item-control-btn-size);
+								line-height: @submenu-list-item-control-btn-size;
+							}
+
+						}
+
+						&:hover {
+							.newtab {
+								background: darken(@submenu-list-item-link-bg, 5%);
+
+								&:hover {
+									background: darken(@submenu-list-item-link-bg, 10%);
+									border-color: darken(@submenu-list-item-link-bg, 10%);
+								}
+
+							}
+
+						}
+
+					}
+
+
+				}
+
+				// 提示
+				.badge {
+					position: absolute;
+					display: block;
+					.square(@submenu-badge-size);
+					top: 50%;
+					left: -@submenu-badge-size;
+					margin: -(@submenu-badge-size  / 2) 0 0;
+					padding: 3px;
+					font-weight: normal;
+
+					// 最新提示
+					&.badge-square {
+						border-radius: 2px;
+						color: #fff;
+					}
+
+					// 迷你提示
+					&.badge-empty {
+						.square(@badge-empty-size);
+						margin: -(@badge-empty-size / 2) 0 0 10px;
+					}
+
+				}
+
+				// 列表操作
+				.submenu-list-item-control {
+					position: absolute;
+					top: 50%;
+					right: 0;
+					padding: 0 5px;
+					margin-top: -(@submenu-list-item-control-btn-size / 2);
+					display: none;
+					background: @submenu-list-item-link-bg;
+
+					.btn {
+						border-radius: 0;
+						padding: 0;
+						text-align: center;
+					}
+
+					.btn-icon {
+						.square(@submenu-list-item-control-btn-size);
+						line-height: @submenu-list-item-control-btn-size;
+						background: darken(@submenu-list-item-link-bg, 5%);
+						border-color: darken(@submenu-list-item-link-bg, 5%);
+
+						&:hover {
+							background: darken(@submenu-list-item-link-bg, 10%);
+							border-color: darken(@submenu-list-item-link-bg, 10%);
+						}
+
+						& + .btn-icon {
+							margin-left: 5px;
+						}
+
+					}
+
+				}
+
+				.caret {
+					display: none;
+				}
+
+				&:hover {
+					a {
+						background: @submenu-list-item-link-bg;
+					}
+
+					.submenu-list-item-control {
+						display: block;
+					}
+
+				}
+
+				// 移动端按钮组样式
+
+				[ns-system="mobile"] & {
+					.submenu-list-item-control {
+						display: none;
+						top: 0;
+						background: transparent;
+						margin-top: (@submenu-list-item-link-height + 10);
+						border-radius: 3px;
+						z-index: 99;
+
+						&:before {
+							@caret-color: @mobile-submenu-list-item-control-bg;
+							@caret-size: 6px;
+							position: absolute;
+							content: "";
+							top: -(@caret-size * 2);
+							left: 50%;
+							margin-left: -@caret-size;
+							.caret-top();
+							border-width: @caret-size;
+							border-bottom-color: @caret-color;
+						}
+
+						.btn {
+							background: @mobile-submenu-list-item-control-bg;
+							border-color: @mobile-submenu-list-item-control-bg;
+							margin: 0;
+
+							&:first-child {
+								border-radius: 3px 0 0 3px;
+							}
+
+							&:last-child {
+								border-radius: 0 3px 3px 0;
+							}
+
+							&.btn-icon {
+								.square(@submenu-list-item-link-height);
+								line-height: @submenu-list-item-link-height;
+
+								&:hover {
+									background: darken(@mobile-submenu-list-item-control-bg, 10);
+								}
+
+							}
+
+						}
+
+					}
+
+					&:hover,
+					&:focus {
+						.submenu-list-item-control {
+							display: block;
+						}
+
+					}
+
+					.caret {
+						@caret-size: 5px;
+						@caret-size-color: @ns-success;
+						position: absolute;
+						display: block;
+						right: @caret-size;
+						bottom: @caret-size;
+						border-top: none;
+						border-right: none;
+						border-bottom: @caret-size solid @caret-size-color;
+						border-left: @caret-size solid transparent;
+					}
+
+				}
+
+			}
+
+			& + .submenu-list {
+				margin-left: @submenu-list-gutter;
+				border-left: 1px solid @submenu-block-border-color;
+				// 折行面板
+				&.line-feed{
+					border-left: 0;
+					margin-left: 0;
+					clear: left;
+				}
+			}
+
+		}
+
+	}
+
+}

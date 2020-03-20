@@ -1,0 +1,661 @@
+@peis-margin:15px;
+@peis-padding: 10px;
+@body-bg: #f2f6f9;
+
+
+* {
+	font-family: @font-family;
+	font-size: @font-size-base;
+}
+body{
+	background: @body-bg;
+}
+ul{
+	padding: 0;
+	margin: 0;
+}
+
+li{
+	list-style-type: none;
+}
+
+@color-primary: #1c82ea;
+
+.skin-peis{
+	.content-box{
+		background-color: #fff;
+		container{
+			& > .row{
+				padding-top:30px;
+			}
+		}	
+	}
+}
+
+
+// 检测列表
+.peis-list-size(@font-size){
+	.peis-list-title{
+		.peis-title-sm();
+	}
+	.peis-list-header{
+		padding: 0 @base-padding;
+	}
+	.peis-list-body{
+		padding: 0 @base-padding;
+		ul{
+			padding: 0;
+			li{
+				padding: (@base-padding / 2) @base-padding;
+				label{
+					padding-right:@padding-base-vertical;
+				}
+				label,
+				span{
+					font-size: @font-size;
+				}
+			}
+		}
+	}
+}
+
+
+.peis-list{
+	.peis-list-size(12px)
+}
+
+
+//历史信息
+.peis-history-info{
+	.user-info-body{
+		padding: 10px;
+		li{
+			width: 100%;
+			padding-bottom: @base-padding;
+			&:last-child{
+				padding-bottom: 0;
+			}
+			span{
+				width: 17px;
+				height: 17px;
+				float: right;
+				border-radius: 10px;
+				background:@ns-danger;
+				color: #fff;
+				text-align: center;
+			}
+		}
+	}
+}
+
+
+
+
+
+// 检测序列
+.peis-sequence-size(@padding-vertical; @padding-horizontal){
+	@peis-sequence-primary: #00a2e3;
+	display: block;
+	padding: @base-padding  0;
+	background:@user-info-bg;
+	ul{
+		display: block;
+		background-color: #f2f8fc;
+		border: 1px solid @ns-border-color;
+		li.peis-sequence-item{
+			margin:0 @padding-horizontal;
+			text-align: left;
+			color: #98c4ec;
+			height: 35px;
+			line-height: 35px;
+			&:first-child{
+				border-bottom: 1px solid @ns-border-color;
+			}
+			&:last-child{
+				border-top: 1px solid @ns-border-color;
+			}
+			.user-location{
+				float: left;
+			}
+			.user-name{
+				float: right;
+			}
+			&.current{
+				.user-name,
+				.user-location{
+					color: #0f6cb9;
+				}
+			}
+		}
+	}		
+}
+.peis-sequence{
+	.peis-sequence-size(@padding-base-vertical; @padding-base-horizontal);
+	.peis-list-title{
+		.peis-title-sm();
+		margin-bottom: (@base-margin / 4);
+	}
+}
+
+//检查次数
+.peis-select-time{
+	margin-bottom: 15px;
+}
+
+
+// 体检状态
+.peis-state-size(@padding-vertical; @padding-horizontal; @width; @border-radius){
+	background-color: @user-info-bg;
+	@peis-state-success: @ns-success;
+	@peis-state-danger: @ns-warning;
+	@peis-state-size: 30px;
+	@peis-state-number-size: 20px;
+	padding: 0;
+	height: auto;
+	overflow: hidden;
+	ul{
+		padding: 0;
+	}
+	.peis-state-item{
+		display: inline-block;
+		width:@width;
+		line-height: 28px;
+		padding: 0 @padding-vertical;
+		float: left;
+		border:1px solid @ns-border-color;
+
+		i{
+			margin-right: (@base-margin / 4);
+			color: darken(@ns-border-color, 20%);
+		}
+		
+		.peis-state-number{
+			.square(@peis-state-number-size);
+			line-height: @peis-state-number-size;
+			border-radius: @peis-state-number-size;
+			text-align: center;
+			float: right;
+			color: #fff;
+			margin-top: 4px;
+		}
+
+		&.danger{
+			.peis-state-number{
+				color: @peis-state-danger;
+			}
+		}
+		&.success{
+			.peis-state-number{
+				color: @peis-state-success;
+			}
+		}
+		& + .peis-state-item{
+			margin-left: -1px;
+		}
+	}
+}
+
+.peis-state{
+	.peis-state-size(@padding-base-vertical; @padding-base-horizontal; 50%; 5px)
+}
+
+
+//字体放大版
+.overall-layout-line{
+	.overall-layout-cell {
+		&.overall-layout-cell-sm{
+			.peis-sequence{
+				.peis-sequence-size(@padding-base-vertical * 2; @padding-base-horizontal * 2)
+			}
+			.peis-state{
+				.peis-state-size(@padding-base-vertical * 2; @padding-base-horizontal * 2; 97%; 10px;);
+				.peis-state-item{
+					clear:both;
+					margin-bottom: @base-padding;
+				}
+			}
+			.peis-list{
+				.peis-list-size(@font-size-lg);
+				.peis-list-title{
+					.sub-title-lg();
+				}
+				ul{
+					height: @user-photo-height-lg - @font-sub-title-height;
+				}
+			}
+		}
+	}
+}
+
+
+// 体检编号
+.user-number{
+	.form-control{
+		display: inline-block;
+	}
+}
+
+
+// 标题参数
+
+// @peis-title-font-size-sm: 14px;
+// @peis-title-font-size: (@peis-title-font-size-sm + 2);
+// @peis-title-style-color: #4b6d87;
+// @peis-icon-size: 20px;
+
+// .peis-title{
+// 	position: relative;
+// 	color: @peis-title-style-color;
+// 	&:before{
+// 		position: absolute;
+// 		content: "";
+// 		.square(@peis-icon-size);
+// 		text-align: center;
+// 		line-height: @peis-icon-size;
+// 		font-family: @icon-font;
+// 		font-size: @peis-title-font-size;
+// 		top: 50%;
+// 		left: 0;
+// 		color: @ns-info;
+// 		margin: -(@peis-icon-size / 2) 0 0 0;
+// 	}
+// }
+// .peis-title-lg{
+// 	.peis-title();
+// 	padding: 12px 0 12px @icon-title-padding ;
+// 	margin: 0;
+// 	font-size: @peis-title-font-size;
+// 	&:before{
+// 		content: "\f0c9";
+// 	}
+// }
+// .peis-title-sm{
+// 	.peis-title();
+// 	padding-left: @icon-title-padding-sm;
+// 	font-size: @peis-title-font-size-sm;
+// 	&:before{
+// 		.square(16px);
+// 		content: "\f142";
+// 	}
+// }
+// 标题样式
+.title-style{
+	margin: 18px 0 9px;
+	.peis-title-sm();
+}
+
+
+
+// 结果
+@peis-results-number-width: 108px;
+.peis-results{
+	
+	@layout-height: 32px;
+	.peis-results-header{
+		position: fixed;
+		width: (@overall-layout-cell-md-width + @base-padding);
+		top: @header-height;
+		right: 0;
+		background: transparent;
+		padding: 7px 10px 2px 0; 
+		z-index: 102;
+		// 赠查一体输入框
+		.addSelectInput{
+			display: inline-block;
+		}
+		.nsui-addsearchinput{
+			min-width: ((@overall-layout-cell-md-width - @peis-results-number-width) - @base-padding);
+		}
+		.peis-results-number{
+			display: table;
+			float: right;
+			width: @peis-results-number-width;
+			height: @layout-height;
+			background: @ns-info;
+			
+			& > *{
+				display: table-cell;
+				vertical-align: middle;
+				color: #fff;
+				padding: 0 @base-padding;
+				.badge{
+					display: block;
+					.square(20px);
+					line-height: 20px;
+					text-align: center;
+					font-weight: normal;
+					background: #fff;
+					padding: 0;
+					color: #333;
+				}
+			}
+		}
+	}
+}
+
+//采样标题
+.overall-layout-project{
+
+	.peis-sample-title{
+		.peis-title-lg();
+		padding: 0;
+		padding-left: @icon-title-padding;
+	}
+	position: relative;
+}
+	
+
+//主检体检编号
+.masterkey-user-state{
+	height:43px;
+	padding: 0 10px;
+	background: #fff;
+	border-bottom: 1px solid #d9e9f7; 
+	position: relative;
+	margin:0 @base-padding;
+
+//体检各种状态人数
+	.handle{
+		.handle-type{
+			padding:3px 7px;
+		}
+		.handle-Number{
+			padding: 3px 8px;
+		}
+	}
+}
+.masterkey-user-info{
+	position: absolute;
+	left: 0;
+	top:7px;
+	width: 260px;
+	.masterkey-user-number{
+		position: relative;
+		display: table;
+		margin: 0;
+		width: 260px;
+		height: 29px;
+		color: #8ac5fd;
+		border-bottom: 1px solid #cad7e6;
+		.user-number-label{
+			text-align: left;
+			padding-left: 10px;
+			min-width: 90px;
+			display: table-cell;
+		    vertical-align: middle;
+		    font-size: 16px;
+		    font-weight: bold;
+		}
+		input.form-control{
+			background-color: transparent;
+			border-color: transparent;
+			height: 24px;
+			padding: 0;
+			color: #fff;
+			font-size: 16px;
+		}
+		.user-number{
+			input.form-control{
+				color: #8ac5fd;
+				font-weight:bold;
+			}
+		}
+	}
+}
+
+
+//主检人数状态
+.masterkey-state{
+	position: absolute;
+	right: 200px;
+	top:9px;
+}
+
+//主检次序
+.masterkey-order{
+	display: table;
+	margin-top: 5px;
+	button{
+		display: table-cell;
+		color:#000;
+		i.fa{
+			color: #1ca1ea;
+		}
+	}
+	.order-current{
+		display: table-cell;
+		padding: 0 10px;
+		font-size: 14px;
+		color: #666;
+		label{
+			font-size: 14px;
+			color: #666;
+			&:first-child{
+				font-size: 14px;
+				color: #56bc;
+			}
+		}	
+	}
+}
+
+
+//体检人信息
+.masterkey-form{
+	padding:10px;
+	background: #fff;
+	margin:0 @base-padding;
+	.panel.form-wide-panel{
+		border:none;
+		.row-close.fillbg{
+			border:none;
+			.form-td{
+				padding:0 10px;
+				.form-group{
+					font-weight: bold;
+					label{
+						font-weight: bold!important;
+					}
+					.text.form-item{
+						input.form-control{
+							border:none!important;
+							width: 80px;
+						}
+					}
+				}
+				&.company-name{
+					.text.form-item{
+						input.form-control{
+							width:300px;
+						}
+					}
+				}
+			}	
+		}	
+	}
+}
+
+//初检选项卡
+.physical-detailinfo.nspanel{
+	margin: 10px;
+	.nav.nav-tabs.nav-tabs-justified{
+		border-bottom: none;
+		li{
+			height: 37px;
+
+			a{
+				height: 35px;
+				line-height: 35px;
+				font-size: 14px;
+				padding:0 40px;
+				border-bottom: 0;
+			}
+		}
+	}
+	.tab-content{
+		background-color: #fff;
+		.peis-results{
+			position: static;
+			padding: @base-padding;
+			padding-right: 0;
+		}
+	}
+}
+
+//主检选项卡项目小结
+// .physical-detailinfo.nspanel{
+// 	.peis-results{
+// 		box-shadow: none;
+// 		ul.peis-results-list-content{
+// 			max-height:600px;
+// 		}
+// 	}
+// }
+
+//主检选项卡疾病列表
+.disease-list{
+	padding:10px 0;
+	border:none;
+	.disease-list-title{
+		.peis-title-sm();
+	    font-weight:normal;
+		font-size: 14px;
+		height: 32px;
+		line-height: 32px;
+		border-bottom: 1px solid #d9e9f7;
+	}
+	#disease-list-form{
+		float: right;
+		// max-width: 655px;
+		.panel.panel-default.panel-form{
+			border:none;
+			height: 31px;
+			.col-none.form-td{
+				float: left;
+				padding: 0;
+				margin-left: @base-padding;
+				border: 0;
+				.form-group{
+					.form-item{
+						input.form-control{
+							width: 100px;
+							border:none!important;
+							color:#999;
+							padding: 6px;
+							background-color: transparent!important;
+							text-align: right;
+						}
+						&.date{
+							width: 110px;
+							.form-control{
+								width: 110px;
+							}
+							.input-group-addon{
+								height:31px;
+								background-color: transparent!important;
+								a{
+									i{
+										top:7px;
+									}
+								}
+							}
+						}
+						&:before{
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// 暂无数据
+	.no-data{
+		margin-top: -1px;
+	}
+}
+
+//疾病列表结果
+.masterkey-result{
+	margin: (@base-margin / 2) -5px 0;
+	& > div{
+		padding: 0 (@base-padding / 2);
+	}
+	.panel-form{
+		.row-close{
+			padding: 0;
+		}
+		.form-td{
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			.form-group{
+				.control-label{
+					.peis-title-sm();
+					display: block;
+					width: 100%;
+					max-width: 100%;
+					min-width: 100%;
+					border: 1px solid #fff;
+					border-bottom: 1px solid @ns-border-color;
+					padding: @base-padding 1px @base-padding 0;
+					box-sizing: content-box;
+					background: #fff;
+					margin: -1px -1px 0 ;
+					text-indent: @icon-title-padding-sm;
+					&:before{
+						text-indent: 0;
+					}
+				}
+				.form-item{
+					display: block;
+				}
+			}
+			.form-control{
+				height: 260px;
+				max-height: 260px;
+			}
+		}
+			
+	}
+}
+		
+
+// 搜索
+// .search-modal{
+// 	position: absolute;
+// 	z-index: 99;
+// 	padding: 10px;
+// 	background: #fff;
+// 	box-shadow:  0 0 5px rgba(0,0,0, .15);
+// }
+
+//完检签收页面未检及弃检
+#control-btn-toolbar-no-check-project{
+	width: 100%;
+	.btn-group{
+		float: right;
+		.btn-screen{
+			background-color: #fff;
+			border: 1px solid #56b1fc;
+			span{
+				color: #56b1fc;
+			}
+			&:first-child{
+				border-top-left-radius: 5px;
+				border-bottom-left-radius: 5px;
+			}
+			&:last-child{
+				border-top-right-radius: 5px;
+				border-bottom-right-radius: 5px;
+			}
+			&.pitch-on{
+				background-color: #56b1fc;
+				span{
+					color: #fff;
+				}
+			}
+		}
+	}
+}
+	

@@ -1,0 +1,255 @@
+// Mix-ins
+.borderRadius(@radius) {
+	-moz-border-radius: @radius;
+	-webkit-border-radius: @radius;
+	border-radius: @radius;
+}
+
+.boxShadow(@boxShadow) {
+	-moz-box-shadow: @boxShadow;
+	-webkit-box-shadow: @boxShadow;
+	box-shadow: @boxShadow;
+}
+
+.opacity(@opacity) {
+	@opacityPercent: @opacity * 100;
+	opacity: @opacity;
+	-ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(Opacity=@{opacityPercent})";
+	filter: ~"alpha(opacity=@{opacityPercent})";
+}
+
+.wordWrap(@wordWrap: break-word) {
+	-ms-word-wrap: @wordWrap;
+	word-wrap: @wordWrap;
+}
+
+// Variables
+
+@alert-success-bg: 		@ns-success-bg; //背景色
+@alert-info-bg: 		@ns-info-bg;
+@alert-warning-bg: 		@ns-warning-bg;
+@alert-danger-bg: 		@ns-danger-bg;
+@alert-default-bg: 		@ns-default-bg;
+
+@alert-color: 			#fff; //字体颜色
+@alert-color-hover: 	#fff; 
+@alert-padding: 		@base-padding/2; //默认间距
+
+@alert-width: 300px;
+
+@black: #000000;
+@grey: #999999;
+@light-grey: #ccc;
+@white: #fff;
+@near-black: #030303;
+@green: @brand-success;
+@red: @brand-danger;
+@blue: @brand-info; //#2F96B4;
+@orange: @brand-warning;
+
+
+// Styles
+.toast-title {
+	font-weight: normal;
+	margin-bottom: @alert-padding;
+}
+.toast-message {
+	.wordWrap();
+	a,
+	label {
+		color: @alert-color;
+	}
+	a:hover {
+		color: @alert-color;
+		text-decoration: none;
+	}
+}
+
+.toast-close-button {
+	position: relative;
+	right: -0.3em;
+	top: -0.3em;
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
+	color: @alert-color;
+	.opacity(0.8);
+
+	&:hover,
+	&:focus {
+		text-decoration: none;
+		cursor: pointer;
+		.opacity(1);
+	}
+}
+button.toast-close-button {
+	padding: 0;
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+	-webkit-appearance: none;
+}
+
+.toast-top-full-width {
+	top: 0;
+	right: 0;
+	width: 100%;
+	margin-top: @default-padding/2;
+	
+	.toast {
+		margin-bottom: @default-padding/2 !important;
+	}
+}
+.toast-bottom-full-width {
+	bottom: 0;
+	right: 0;
+	width: 100%;
+}
+
+.toast-top-left {
+	top: 12px;
+	left: 12px;
+}
+//目前只使用了这个
+.toast-top-right {
+	top: 10px;
+	right: 10px;
+}
+
+.toast-bottom-right {
+	right: 12px;
+	bottom: 12px;
+}
+
+.toast-bottom-left {
+	bottom: 12px;
+	left: 12px;
+}
+
+#toast-container {
+	position: fixed;
+	z-index: 999999;
+
+	* {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+	> div {
+		margin: 0 0 6px;
+		padding: @base-padding;
+		width: @alert-width;
+		margin-bottom: @base-padding;
+		.borderRadius(@border-radius-base);
+		background-position: 15px center;
+		background-repeat: no-repeat;
+		color: @white;
+		.opacity(0.8);
+		//.transition(~"opacity 150ms ease-in-out");
+		
+		i {
+			margin-right: @base-padding - 4;
+		}
+	}
+
+	> :hover {
+		//.boxShadow(0 0 12px @black);
+		.opacity(1);
+		cursor: pointer;
+	}
+
+	> .toast-info {
+	}
+
+	> .toast-error {
+	}
+
+	> .toast-success {
+	}
+
+	> .toast-warning {
+	}
+
+	/*overrides*/
+	&.toast-top-full-width > div,
+	&.toast-bottom-full-width > div {
+		width: 96%;
+		margin: auto;
+	}
+}
+
+@alert-success-bg: 		@ns-success-bg; //背景色
+@alert-info-bg: 		@ns-info-bg;
+@alert-warning-bg: 		@ns-warning-bg;
+@alert-danger-bg: 		@ns-danger-bg;
+@alert-default-bg: 		@ns-default-bg;
+
+.toast {
+	background-color: @alert-default-bg;
+	//.box-shadow(0px 0px 0px 5px fade(@near-black, 10%));
+}
+
+.toast-success {
+	background-color: @alert-success-bg;
+	//.box-shadow(0px 0px 0px 5px fade(@green, 10%));
+}
+
+.toast-error {
+	background-color: @alert-danger-bg;
+	//.box-shadow(0px 0px 0px 5px fade(@red, 10%));
+}
+
+.toast-info {
+	background-color: @alert-info-bg;
+	//.box-shadow(0px 0px 0px 5px fade(@blue, 10%));
+}
+
+.toast-warning {
+	background-color: @alert-warning-bg;
+	//.box-shadow(0px 0px 0px 5px fade(@orange, 10%));
+}
+
+.toast-default > div {
+	background-color: fade(@alert-default-bg, 80%);
+}
+
+/*Responsive Design*/
+
+@media all and (max-width: 240px) {
+	#toast-container {
+
+		> div {
+			padding: 8px 8px 8px 50px;
+			width: 11em;
+		}
+
+		& .toast-close-button {
+			right: -0.2em;
+			top: -0.2em;
+		}
+	}
+}
+
+@media all and (min-width: 241px) and (max-width: 480px) {
+	#toast-container {
+		> div {
+			padding: 8px 8px 8px 50px;
+			width: 18em;
+		}
+
+		& .toast-close-button {
+			right: -0.2em;
+			top: -0.2em;
+		}
+	}
+}
+
+@media all and (min-width: 481px) and (max-width: 768px) {
+	#toast-container {
+		> div {
+			padding: 15px 15px 15px 50px;
+			width: 25em;
+		}
+	}
+}

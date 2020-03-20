@@ -1,0 +1,43 @@
+
+@form-border: #b0cbe2;
+@form-hover-border: darken(@form-border, 20);
+@form-bg: @body-bg;
+@from-box-padding: 20px;
+.pt-form{
+    padding: @from-box-padding;
+    &:not(.pt-form-normal){
+        background: @form-bg;
+    }
+    &.pt-form-inline{
+        padding-bottom: (@from-box-padding - @form-gutter);
+    }
+    // 行内表单样式
+    &.pt-form-normal{
+        // padding:  0 @from-box-padding; 
+        padding-bottom: 0;
+        .pt-radio,
+        .pt-checkbox{
+           padding-right: 0;
+        }
+        .nsgrid &{
+           padding: 0; 
+        }
+    }
+
+    // 栅格化模式form表单控制按钮位置
+    &.pt-form-vertical{
+        position: relative;
+        .pt-btn-group-compact{
+            position: absolute;
+            right: @from-box-padding;
+            bottom: -1px;
+            margin-bottom: 0;
+            .pt-btn-default{
+                border-color: @form-border;
+                &:hover{
+                    border-color: @btn-primary-bg;
+                }
+            }
+        }
+    }
+}

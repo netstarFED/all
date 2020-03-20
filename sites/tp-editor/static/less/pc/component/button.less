@@ -1,0 +1,264 @@
+@e-btn-size: 30px;
+@e-btn-icon-size: @e-btn-size;
+@e-btn-padding: 12px;
+// btn-primary
+@e-btn-primary-color: #fff;
+@e-btn-primary-bg: @primary;
+@e-btn-primary-border-color: darken(@e-btn-primary-bg, 5);
+@e-btn-outline-primary-color: @primary;
+@e-btn-outline-primary-border-color: @e-btn-outline-primary-color;
+// btn-info
+@e-btn-info-color: #fff;
+@e-btn-info-bg: @info;
+@e-btn-info-border-color: darken(@e-btn-info-bg, 5);
+@e-btn-outline-info-color: @info;
+@e-btn-outline-info-border-color: @e-btn-outline-info-color;
+// btn-success
+@e-btn-success-color: #fff;
+@e-btn-success-bg: @success;
+@e-btn-success-border-color: darken(@e-btn-success-bg, 5);
+@e-btn-outline-success-color: @success;
+@e-btn-outline-success-border-color: @e-btn-outline-success-color;
+// btn-warning
+@e-btn-warning-color: #fff;
+@e-btn-warning-bg: @warning;
+@e-btn-warning-border-color: darken(@e-btn-warning-bg, 5);
+@e-btn-outline-warning-color: @warning;
+@e-btn-outline-warning-border-color: @e-btn-outline-warning-color;
+// btn-danger
+@e-btn-danger-color: #fff;
+@e-btn-danger-bg: @danger;
+@e-btn-danger-border-color: darken(@e-btn-danger-bg, 5);
+@e-btn-outline-danger-color: @danger;
+@e-btn-outline-danger-border-color: @e-btn-outline-danger-color;
+
+// btn-default
+@e-btn-default-color: #333;
+@e-btn-default-bg: #fff;
+@e-btn-default-border-color: #ddd;
+
+@e-btn-outline-bg: transparent;
+
+[ns-type="editor"] {
+    .btn {
+        // .button-variant(#000, #f5f5f5, #ddd);
+        padding: 0 @e-btn-padding;
+        height: @e-btn-size;
+        line-height: @e-btn-size;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        i {
+            padding-right: (@e-btn-padding / 2);
+        }
+
+        span {
+            line-height: (@e-btn-size - 2);
+        }
+
+        &:hover {
+            box-shadow: none !important;
+        }
+
+        // btn-defaut
+        &.btn-default {
+            .button-variant(@e-btn-default-color, @e-btn-default-bg, @e-btn-default-border-color);
+        }
+
+        // btn-primary
+        &.btn-primary {
+            .button-variant(@e-btn-primary-color, @e-btn-primary-bg, @e-btn-primary-border-color);
+
+            &.btn-outline {
+                .button-variant(@e-btn-outline-primary-color, @e-btn-outline-bg, @e-btn-outline-primary-border-color);
+            }
+
+            i {
+                color: @e-btn-primary-bg;
+            }
+
+            &:hover {
+                i {
+                    color: @e-btn-primary-border-color;
+                }
+            }
+        }
+
+        // btn-info
+        &.btn-info {
+            .button-variant(@e-btn-info-color, @e-btn-info-bg, @e-btn-info-border-color);
+
+            &.btn-outline {
+                .button-variant(@e-btn-outline-info-color, @e-btn-outline-bg, @e-btn-outline-info-border-color);
+            }
+
+            i {
+                color: @e-btn-info-bg;
+            }
+
+            &:hover {
+                i {
+                    color: @e-btn-info-border-color;
+                }
+            }
+        }
+
+        // btn-success
+        &.btn-success {
+            .button-variant(@e-btn-success-color, @e-btn-success-bg, @e-btn-success-border-color);
+
+            &.btn-outline {
+                .button-variant(@e-btn-outline-success-color, @e-btn-outline-bg, @e-btn-outline-success-border-color);
+            }
+
+            i {
+                color: @e-btn-success-bg;
+            }
+
+            &:hover {
+                i {
+                    color: @e-btn-success-border-color;
+                }
+            }
+        }
+
+        // btn-warning
+        &.btn-warning {
+            .button-variant(@e-btn-warning-color, @e-btn-warning-bg, @e-btn-warning-border-color);
+
+            &.btn-outline {
+                .button-variant(@e-btn-outline-warning-color, @e-btn-outline-bg, @e-btn-outline-warning-border-color);
+            }
+
+            i {
+                color: @e-btn-warning-bg;
+            }
+
+            &:hover {
+                i {
+                    color: @e-btn-warning-border-color;
+                }
+            }
+        }
+
+        // btn-danger
+        &.btn-danger {
+            .button-variant(@e-btn-danger-color, @e-btn-danger-bg, @e-btn-danger-border-color);
+
+            &.btn-outline {
+                .button-variant(@e-btn-outline-danger-color, @e-btn-outline-bg, @e-btn-outline-danger-border-color);
+            }
+        }
+
+        i {
+            color: @e-btn-danger-bg;
+        }
+
+        &:hover {
+            i {
+                color: @e-btn-danger-border-color;
+            }
+        }
+    }
+
+    // 图标按钮
+    .btn-icon {
+        .square(@e-btn-icon-size);
+        padding: 0;
+        line-height: @e-btn-icon-size;
+        text-align: center;
+
+        i {
+            padding: 0;
+        }
+    }
+
+    // 块状按钮
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    // 按钮组
+    .btn-group {
+        display: inline-block;
+
+        .btn {
+            display: block;
+            padding: 0 @e-btn-padding;
+
+            &.btn-icon {
+                padding: 0;
+            }
+
+            &+.btn {
+                margin-left: -1px;
+            }
+        }
+
+        &+.btn-group {
+            margin-left: @base-margin;
+        }
+    }
+
+    .pt-modal-footer {
+        .btn-group {
+            .btn {
+                &+.btn {
+                    margin-left: @base-margin;
+                }
+            }
+        }
+    }
+
+
+    // btn-sketch
+    @sketch-btn-bg: transparent;
+    @sketch-btn-color: #222;
+    @sketch-btn-current-bg: @info;
+    @sketch-btn-current-color: #fff;
+
+    .btn-sketch {
+        .btn {
+            background: @sketch-btn-bg;
+            border: 1px solid @e-btn-default-border-color;
+
+            &:hover {
+                border-color: @info;
+
+                span,
+                i {
+                    color: @info;
+                }
+            }
+
+            &+.btn {
+                margin-left: -1px;
+                border-left-color: @info;
+            }
+
+            span,
+            i {
+                color: @sketch-btn-color;
+            }
+
+            &.current {
+                background: @sketch-btn-current-bg;
+                border-color: @sketch-btn-current-bg;
+
+                span,
+                i {
+                    color: @sketch-btn-current-color;
+                }
+
+                &:hover {
+                    background: lighten(@sketch-btn-current-bg, 15);
+                }
+            }
+
+            &:hover {
+                background: darken(@sketch-btn-bg, 5);
+            }
+        }
+    }
+}

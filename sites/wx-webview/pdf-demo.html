@@ -1,0 +1,532 @@
+<!--
+ * @Author: netstar.cjh
+ * @Date: 2019-11-07 09:23:26
+ * @LastEditors  : netstar.cjh
+ * @LastEditTime : 2019-12-26 10:04:21
+ * @Desription: PDF文件读取测试
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <!-- <link rel="stylesheet" href="/static/dev/style/gjp-common.css?v=1.0.1" id="body-link-skin-manager"> -->
+   <link rel="stylesheet" href="/static/libs/basecss/bootstrap.min.css">
+   <link rel="stylesheet" href="/sites/wx-webview/pdf-demo-style/pdf-demo.css" id="body-link-skin-manager">
+   <link rel="stylesheet" href="/sites/wx-webview/pdf-demo-style/toastr.css">
+   <link rel="stylesheet" href="/sites/wx-webview/pdf-demo-style/list.css">
+   <link rel="stylesheet" href="/static/fonts/icomoon/css/icomoon.css?v=1.0.1" />
+   <style>
+      .pdfview-mobile.show-content .panel-body {
+         padding: 0;
+      }
+      .container-canvas-group canvas{
+         padding-bottom: 1px;
+         border-bottom: 1px solid #ccc;
+      }
+      .pt-pdfview-footer .btns-container-intitle .pt-btn-group button {
+         display: inline-block;
+      }
+      .pt-pdfview-footer .pt-btn-group .pt-btn.pt-btn-icon {
+         border:none;
+      }
+      .pt-pdfview-footer .btns-container-intitle .pt-btn-group button:nth-child(2){
+         margin-left: 0;
+      }
+      .signarea{
+         position: fixed;
+         top: 1%;
+         left: 1%;
+         right: 1%;
+         bottom: 1%;
+      }
+      .signature-info{
+         transform: rotate(90deg);
+         text-indent: -50px;
+         color: #cc831d;
+      }
+      .btn-across{
+         transform: rotate(90deg); 
+      }
+   </style>
+   <title>合同详情</title>
+</head>
+<body>
+   <!-- 列表页 -->
+   <div class="fileList" id="filesList">
+      <div class="list-group" id="list-group">
+         <div class="list-title">                                                           
+            <div class="list-text">
+               <span class="">合同列表</span>
+            </div>
+         </div>
+         <div id="loading"
+            style="position: fixed; top: 43px; left: 0;right: 0;bottom: 0;background-color: #fffcfc;z-index: 100;">
+         </div>
+         <div class="list-content">
+            <div class="list-item" @click="gotoUrl" v-for="(signInfo, index) in filesList" :data-index="index">
+               <div class="list-header"></div>
+               <div class="list-body">
+                  <div class="list-before">
+                     <div class="list-text">
+                        <span class="fontWeight">样品编号：</span>
+                        <span>{{signInfo.sampleCode}}</span>
+                     </div>
+                     <div class="list-text">
+                        <span class="fontWeight">样品名称：</span>
+                        <span>{{signInfo.sampleName}}</span>
+                     </div>
+                  </div>
+                  <div class="list-after">
+                     <span v-if="signInfo.isSign">已签字</span>
+                     <span v-else="signInfo.isSign == false">点击签字</span>
+                     <!-- <span>监理已签字</span> -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- 列表页 end-->
+
+   <!-- 文件预览签名 -->
+   <div class="fileContent hide" id="fileContent">
+      <div id="signature-container" class="signarea" style="display: none;">
+         <canvas id="signature-canvas" ></canvas>
+         <!-- 签名清除/保存按钮 -->
+         <div class="signatureBtn">
+            <div class="signature-info">  请横屏签字 </div>
+            <button type="button" style = "margin: 1px 25px 2px 29px;" class="btn btn-primary btn-across btn-aceoss-save" id="sign-save-btn" disabled="disabled">保存</button>
+            <button type="button" style = "margin: 46px 25px 2px 29px;"class="btn btn-primary btn-across btn-aceoss-clear" id="sign-clear-btn">清除</button>
+            <button type="button" style = "margin: 46px 25px 2px 29px;" class="btn btn-primary btn-across btn-aceoss-cancel" id="sign-cancel-btn">取消</button>
+            <!-- </button> -->
+         </div>
+      </div>
+      <!-- canvas生成签名图片 -->
+      <img src="" alt="" id="sign-image">
+      <!-- pdfFile-->
+      <div id="pdf-container"></div>
+      <!-- pdf button -->
+      <div class="pdf-signature-btn" id="pdf-signature-btn">
+         <a href="javascript:void(0);" class="btn btn-primary" id="pdf-back-btn" role="button">返回列表</a>
+         <a href="javascript:void(0);" class="btn btn-primary" id="signature-btn" role="button">签名</a>
+      </div>
+   </div>
+   <script type="text/javascript" src="/static/libs/jquery/jquery.min.js?v=1.12.4"></script>
+   <script>
+      var language = {
+         default: '', common: {
+            nsalert: {
+               cancel: "取消",
+               complete: "完成",
+               determine: "确定",
+               deyk: "有误",
+               error: "错误",
+               fail: "失败",
+               prohibit: "禁止",
+               prompt: "提示",
+               remind: "提醒",
+               success: "成功",
+               unable: "无法",
+               warning: "警告"
+            }
+         }
+      };
+   </script>
+   <script type="text/javascript" src="/static/dev/script/base/nspt-vals.js?v=0.9.1"></script>
+   <script type="text/javascript" src="/static/dev/script/components/nspt-button.js?v=0.9.1"></script>
+   <script type="text/javascript" src="/static/libs/pdf/pdf.js?v=0.9.1"></script>
+   <script type="text/javascript" src="/static/dev/script/components/nspt-pdfview.js?v=0.9.1"></script>
+   <script type="text/javascript" src="/static/dev/script/base/nsdebuger.js?v=0.0.1"></script>
+   <script type="text/javascript" src="/static/libs/vue.min.js?v=0.1.2"></script>
+   <script type="text/javascript" src="/static/libs/toastr.min.js?v=11.2.1"></script>
+   <script type="text/javascript" src="/static/dev/script/common/nsalert.js?v=0.1.0"></script>
+   <script type="text/javascript">
+      function out(t) {
+         var str = '';
+         if (typeof (t) == 'object') {
+            str = t.toString();
+         } else {
+            str = t;
+         }
+      }
+      $(function () {
+         var fileContentHtml = $('#fileContent')[0].innerHTML;
+         // 返回列表页
+         $('#pdf-back-btn').on('click', function (ev) {
+            $("#sign-image").hide();
+            $("#filesList").removeClass("hide");
+            $("#fileContent").addClass("hide");
+            $('#fileContent').attr('class', 'fileContent hide');
+            $('#signature-container').hide();
+            getList();
+         })
+         document.body.addEventListener('touchstart', function () { });
+         $("#signature-container").hide();
+         $("#filesList").addClass("hide");
+         // 获取url参数
+         var getUrlPara = function () {
+            var url = document.location.toString();
+            var paraStr = url.substr(url.indexOf('?') + 1);
+            var paraArr = paraStr.split('&');
+            var paraObj = {};
+            for (var paraI = 0; paraI < paraArr.length; paraI++) {
+               var equalIndex = paraArr[paraI].indexOf('=');
+               var paraName = paraArr[paraI].substr(0, equalIndex);
+               var paraValue = paraArr[paraI].substr(equalIndex + 1);
+               paraObj[paraName] = paraValue;
+            }
+            return paraObj;
+         }
+         var params = getUrlPara();
+         var id = params.id
+         var Authorization = params.Authorization;
+         var businessId = params.businessId;
+         var param = params.param;
+         var businnesstype = params.businnesstype;
+         var $canvas = $('#signature-canvas');
+         var canvasDom = $canvas[0];
+         var lastPos = {};
+         var canvasOffset = {};
+         var ctx = canvasDom.getContext("2d");
+         ctx.fillStyle = "#000";
+         // 获取签名位置
+         function getPos(ev) {
+            var pos = {};
+            switch (ev.type) {
+               case "touchend":
+               case "touchstart":
+               case 'touchmove':
+                  pos = {
+                     x: ev.originalEvent.changedTouches[0].clientX,
+                     y: ev.originalEvent.changedTouches[0].clientY,
+                  }
+
+                  pos.x = pos.x - canvasOffset.left,
+                     pos.y = pos.y - canvasOffset.top
+                  break;
+               default:
+                  pos = {
+                     x: ev.clientX,
+                     y: ev.clientYs,
+                  }
+                  pos.x = pos.x - canvasOffset.left,
+                     pos.y = pos.y - canvasOffset.top
+            }
+            return pos;
+         }
+         // 清除方法
+         function clearCanvas(ev) {
+            canvasDom.width = canvasDom.width;
+            ctx = canvasDom.getContext("2d");
+            ctx.fillStyle = "#000";
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+         }
+         // 保存方法
+         function saveCanvas(ev) {
+             
+            var imgUrl = canvasDom.toDataURL();
+            var imageCode = imgUrl.substr(22)
+            var img = dataURLtoBlob(imgUrl);
+            $("#sign-image").attr("src", imgUrl);
+            ctx.drawImage($("#sign-image")[0], 0, 0);
+            $("#sign-image").show();
+
+         }
+         // base64 转图片格式
+         function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','),
+               mime = arr[0].match(/:(.*?);/)[1],
+               bstr = atob(arr[1]),
+               n = bstr.length,
+               u8arr = new Uint8Array(n);
+            while (n--) {
+               u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {
+               type: mime
+            });
+         }
+         $canvas.on("mousedown touchstart", function (starEv) {
+            lastPos = getPos(starEv);
+            $canvas.on("mousemove touchmove", function (moveEv) {
+               var pos = getPos(moveEv);
+               var outStr = JSON.stringify(pos);
+               out(outStr);
+               ctx.moveTo(lastPos.x, lastPos.y);
+               ctx.lineTo(pos.x, pos.y);
+               ctx.lineWidth = 5;
+               ctx.stroke();
+               lastPos = pos;
+            });
+            $("#sign-save-btn").attr('disabled', false)
+            $canvas.on("mouseup touchend", function (endEv) {
+               $canvas.off("mousemove touchmove");
+            })
+         })
+         $canvas.on("mousedown mousemove mouseup touchstart touchmove touchup ", function (ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
+         });
+         // 清除签名
+         $("#sign-clear-btn").on('click', function () {
+            $("#sign-image").attr("src", "");
+            clearCanvas();
+            $("#sign-save-btn").attr('disabled', true);
+         })
+         var submitSignInfo = {};
+         // 保存
+         $('#sign-save-btn').on('click', function () {
+            $("#sign-image")[0].width = $('#signature-container').width();
+            $("#sign-image")[0].height = $('#signature-container').height();
+            $("#pdf-signature-btn").show();
+            $("#signature-container").hide();
+            $(".pt-pdfview-footer").removeClass("hide");
+            $("#pdf-container").show();
+            saveCanvas();
+
+            //需要先旋转图片90度
+            var canvas2 = $('<canvas id="signature-canvas-tempsave"></canvas>');
+            // canvas2.css({
+            //     position: 'fixed',
+            //     'z-index': 9999,
+            //     top: 0,
+            //     left: 0,
+            //     'background-color': 'rgba(10,10,10,0.3)'
+            // })
+            var canvasWidth = $("#sign-image")[0].width;
+            var canvasHeight =$("#sign-image")[0].height;
+            canvas2.attr({
+                width:canvasHeight,
+                height:canvasWidth,
+            })
+            $('body').append(canvas2);
+
+            
+
+            
+            setTimeout(function(){
+                
+                var canvasTemp = document.getElementById("signature-canvas-tempsave");
+                var ctx2 = canvasTemp.getContext("2d");
+                
+                ctx2.rotate(-90*Math.PI/180);
+                ctx2.drawImage($("#sign-image")[0], -canvasWidth, 0, canvasWidth, canvasHeight);
+
+                var imageCode = canvasTemp.toDataURL().substr(22);
+                reutrn;
+                // pdf文件签名保存接口
+                $.ajax({
+                url: "https://limsapi.cst.ac.cn/sample/accept/sampleAccepts/contractSignature",
+                type: "POST",
+                headers: {
+                    Authorization: Authorization,
+                },
+                data: {
+                    param: param,
+                    fileId: submitSignInfo.fileId,
+                    businessId: submitSignInfo.id,
+                    Authorization: Authorization,
+                    imageCode: imageCode,
+                },
+                success: function (res) {
+                    $('#signature-canvas-tempsave').remove();
+                    if (res.success) {
+                        nsalert("签名成功");
+                        $("#sign-image").hide();
+
+                        // 返回列表页
+                        $("#filesList").removeClass("hide");
+                        $("#fileContent").addClass("hide");
+                        getList();
+                    } else {
+                        var msg = res.msg;
+                        if (typeof (msg) != 'string') {
+                            res = '服务器端未知错误';
+                        }
+                        msg = '签名失败 ' + msg;
+                        nsalert(msg, 'error');
+                        // $("#sign-image").hide();
+                    }
+                }
+                });
+            }, 200)
+            
+
+         })
+         
+         // 点击签名，显示canvas
+         $("#signature-btn").on('click', function () {
+            $("#signature-container").show();
+            $("#pdf-signature-btn").hide();
+            $('.pt-pdfview-footer').hide();
+            // $(".pt-pdfview-footer").addClass("hide");
+            // $("#pdf-container").hide()
+            canvasOffset = $('#signature-canvas').offset();
+            $canvas[0].width = $('#signature-container').width();
+            $canvas[0].height = $('#signature-container').height();
+            // 已获取图片链接,图片添加到canvas
+            if ($("#sign-image").attr("src")) {
+               ctx.drawImage($("#sign-image")[0], canvasOffset.left, canvasOffset.top);
+               $("#sign-image").hide();
+            }
+         })
+
+         // 关闭签名面板，回到PDF预览页面
+         $("#sign-cancel-btn").on('click', function () {
+            $("#signature-container").hide();
+            $("#pdf-signature-btn").show();
+            $('.pt-pdfview-footer').show();
+         })
+
+         //展示签字面板 
+         function showSignPanel(signFileId, isSign) {
+            $("#filesList").addClass("hide");
+            $("#fileContent").removeClass("hide");
+            $('#signature-container').hide();
+            NetstarUI.multiPdfViewer.init({
+               id: "pdf-container",
+               title: '',
+               // url: 'https://qaapi.wangxingcloud.com/files/pdf/' + fileId + '?Authorization=' + Authorization,
+               //url: 'https://limsapi.cst.ac.cn/files/pdf/' + signFileId + '?Authorization=' + Authorization,
+               //url: 'https://lims.cst.ac.cn/files/pdf/' + signFileId + '?Authorization=' + Authorization,
+               url:[{url:'http://10.10.1.38:2001/sites/wx-webview/sample-page2.pdf', type:'pdf', }],
+               //    url:[{url:'https://lims.cst.ac.cn/files/pdf/' + signFileId + '?Authorization=' + Authorization, type:'pdf', }],
+               zoomFit: 'width',
+               isPrint:false,
+               isDownload: false,             //是否有下载
+            });
+            if (isSign) {
+               //已经签字隐藏签字按钮
+               // $(".pt-pdfview-footer").hide();
+               $("#signature-btn").hide();
+            } else {
+               $(".pt-pdfview-footer").show;
+               $("#signature-btn").show();
+            }
+         }
+
+         var listVue = {};
+         // 列表页接口
+         function getList() {
+            $.ajax({
+               url: "https://limsapi.cst.ac.cn/sample/accept/sampleAccepts/getDetailById",
+               type: "POST",
+               headers: {
+                  Authorization: Authorization,
+               },
+               data: {
+                  param: 1,
+                  id: businessId,
+               },
+               success: function (res) {
+                  $("#filesList").removeClass("hide");
+                  $("#sign-image").addClass("hide");
+                  $('#loading').remove();
+                  res = res ? res : {};
+                  res.data = res.data ? res.data : {};
+                  console.log("列表", res);
+                  var sampleListArr = res.data.sampleList;
+                  if (!$.isArray(sampleListArr)) {
+                     sampleListArr = [];
+                     console.warn(sampleListArr, res);
+                     return;
+                  }
+                  if (sampleListArr.length == 0) {
+                     return;
+                  }
+                  var signArr = []
+                  for (var i = 0; i < sampleListArr.length; i++) {
+                     var signInfo = {};
+                     signInfo.sampleName = sampleListArr[i].sampleName;
+                     signInfo.sampleCode = res.data.sampleList[i].sampleCode
+                     signInfo.fileId = res.data.sampleList[i].fileId;
+                     signInfo.id = res.data.sampleList[i].id;
+                     signInfo.customerSignState = res.data.sampleList[i].customerSignState
+                     signInfo.isSign = res.data.sampleList[i].customerSignState == param;
+                     signArr.push(signInfo);
+                  }
+                  if ($.isEmptyObject(listVue) == false) {
+                     listVue.$data.filesList = signArr;
+                     return;
+                  }
+                  // console.log("customerSignState", customerSignState)
+                  listVue = new Vue({
+                     el: "#filesList",
+                     data: {
+                        param: param,
+                        filesList: signArr,
+                     },
+                     methods: {
+                        gotoUrl: function (ev) {
+
+                           var signInfoIndex = ev.currentTarget.dataset.index;
+                           var signInfo = signArr[signInfoIndex];
+                           submitSignInfo = signInfo;
+                           var signFileId = signInfo.fileId;
+                           showSignPanel(signFileId, signInfo.isSign);
+
+                        }
+                     }
+                  })
+               },
+               error: function (error) {
+                  nsalert('链接已失效', 'error');
+               }
+            })
+
+         }
+         if (typeof (params.businnesstype) == 'undefined') {
+            params.businnesstype = 1
+         }
+         if (params.businnesstype == 1) {
+            //先显示列表再选择pdf打开
+            getList();
+         } else {
+            //不用显示列表 直接打开
+            $.ajax({
+               url: "https://limsapi.cst.ac.cn//sample/accept/sampleAccepts/getDetailById",
+               type: "POST",
+               headers: {
+                  Authorization: Authorization,
+               },
+               data: {
+                  param: 1,
+                  id: businessId,
+               },
+               success: function (res) {
+                  if (res.data == undefined) {
+                     nsalert('返回结果不包含数据信息', 'error');
+                  } else {
+                     var fileId = res.data.sampleList[0].fileId;
+                     var businessId = res.data.sampleList[0].id;
+                     var isSign = res.data.sampleList[0].isSign;
+                     submitSignInfo = {
+                        fileId: fileId,
+                        businessId: businessId
+                     }
+                     showSignPanel(fileId, isSign);
+                  }
+
+               },
+               error: function (error) {
+                  nsalert('链接已失效', 'error');
+               }
+            })
+         }
+      });
+
+
+   </script>
+
+</body>
+</html>
+
+
+</body>
+
+</html>

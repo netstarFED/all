@@ -1,0 +1,78 @@
+@qdzc-tab-height: 37px; //选项卡高度
+@qdzc-tab-header-bg: rgba(127, 154, 228, 0.2); //选项卡头部背景颜色
+@qdzc-tab-a-color: @primary; //选项卡文字颜色
+@qdzc-tab-current: @qdzc-sub-dark-color; //选项卡选中状态
+
+.pt-tab {
+    position: relative;
+
+    .pt-tab-header {
+        display: block;
+        min-height: @qdzc-tab-height;
+        position: relative;
+        padding-left: 140px;
+        background-color: @qdzc-tab-header-bg;
+
+        .pt-nav {
+            .pt-nav-item {
+                height: @qdzc-tab-height;
+                line-height: @qdzc-tab-height - 2px;
+                cursor: pointer;
+                float: left;
+
+                a {
+                    border: none;
+                    position: relative;
+                    padding: 0 1.5rem;
+                    background-color: transparent;
+                    font-size: 1.2rem;
+                    color: @qdzc-tab-a-color;
+                }
+
+                &+.pt-nav-item {
+                    margin-left: 0.2rem;
+                }
+
+                &.current {
+                    position: relative;
+                    background-color: @qdzc-tab-current;
+
+                    a {
+                        color: #fff;
+                    }
+
+                    &:after {
+                        position: absolute;
+                        top: 0px;
+                        left: 0;
+                        right: 0;
+                        content: "";
+                        height: 3px;
+                        width: 100%;
+                        background-color: @qdzc-tab-header-bg;
+                    }
+                }
+
+                &:first-child.current {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    .pt-tab-body {
+        position: relative;
+        z-index: 1;
+        display: block;
+        border: none;
+        padding: 20px;
+
+        .pt-tab-content {
+            display: none;
+
+            &.current {
+                display: block;
+            }
+        }
+    }
+}

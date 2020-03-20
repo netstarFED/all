@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>统计报表 </title>
+</head>
+<body>
+<container>
+    <style>
+        /* 顶部title 面板*/
+        .page-title{
+            padding:20px 0 10px 10px;
+            height: auto;
+            /* position: absolute;
+            right: 0;
+            top: 102px; */
+            border: 0;
+            z-index: 9;
+        }
+        
+        /* 表单部分 */
+        .report-view-form{
+           margin: 0 20px 20px 20px;
+        }
+        .report-view-form .pt-form.pt-form-inline{
+            border: 0;
+            padding: 20px 20px 10px 20px;
+            border: 1px solid #bfbfbf;
+        }
+        .pt-form-body{
+            position: relative;
+        }
+        .pt-form-body .field .pt-form-group{
+            width: 25%;
+            margin-left:0;
+        }
+        .pt-form-body .field .pt-form-group + .pt-form-group{
+            margin-left:0;
+        }
+        .pt-form-body .field .pt-form-group label{
+            width: 100px;
+            text-align: right;
+            display: table-cell;
+        }
+        .pt-form-body .field .pt-form-group .pt-input-group{
+            width: 100%;
+            display: inline-table;
+        }
+        .pt-form-body .field .pt-form-group .pt-input-group .pt-input-group-btn{
+           text-align: right;
+        }
+        .pt-form-body .field .pt-form-group .pt-input-group .pt-form-control{
+            width: 100%;
+        }
+        .pt-form-body .field .pt-btn-group-compact{
+            float: right;
+
+        }
+
+        /* 表格部分 */
+        th,td{
+            font-family: \5FAE\8F6F\96C5\9ED1 !important;
+        }
+        .gridtable tbody tr td{
+            padding: 0 5px;
+        }
+        .border{
+            border: 1px solid #bfbfbf;
+        }
+        .border-left{
+            border-left: 1px solid #bfbfbf;
+        }
+        .border-right{
+            border-right: 1px solid #bfbfbf;
+        }
+        .border-top{
+            border-top: 1px solid #bfbfbf;
+        }
+        .border-bottom{
+            border-bottom: 1px solid #bfbfbf;
+        }
+
+
+        .report-view-list{
+            padding: 0 18px 10px 10px;
+        }
+        /* .report-view-list .gridtable{
+            margin: 0 20px;
+        } */
+    </style>
+    <div class="page-title nav-form report-view-btns">
+        <!--按钮组-->
+    </div>
+    <div class="row form-content">
+        <div class="col-sm-12">
+            <!--form-->
+            <div class="report-view-form">
+            </div>
+
+            <div class="report-view-list">
+            </div>
+        </div>
+    </div>
+    <iframe id="webreport_download_file" style="display:none;"></iframe>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // GET xxx/cloud/queryReport/report/view/{id}
+            // 返回数据结构:
+            // {
+            //    success: true,
+            //    data: {
+            //       reportId: 1,
+            //       params: params
+            //    }
+            // }
+            var currentUrl = NetstarUI.labelpageVm.currentUrl;
+            var params = currentUrl.substring(currentUrl.indexOf('?')+1,currentUrl.length).split('&');
+            var searchParams = {};
+            for(var i=0; i<params.length; i++){
+                idx = params[i].indexOf('=');
+                if(idx > 0){
+                    searchParams[params[i].substring(0,idx)] = params[i].substring(idx+1);
+                }
+            }
+            var ajaxConfig = {
+                url:getRootPath()+'/queryReport/report/view/'+searchParams.reportId,
+                type:'GET',
+                dataType:'json',
+                contentType:'application/x-www-form-urlencoded'
+            };
+            var reportView = {
+                reportId:searchParams.reportId,
+                params:[]
+            };
+            var formId = 'form-scientificInput-'+searchParams.reportId;
+            var tableId = 'container-simple-table-'+searchParams.reportId;
+            var navId = 'report-view-btns-'+searchParams.reportId;
+           // console.log($('container:not(".hidden")'))
+            $('container:not(".hidden")').find('.report-view-list').attr('id',tableId);
+            $('container:not(".hidden")').find('.report-view-form').attr('id',formId);
+            $('container:not(".hidden")').find('.report-view-btns').attr('id',navId);
+            NetStarUtils.ajax(ajaxConfig,function(res){
+                if(res.success){
+                    reportView.params = res.data.params;
+                    initForm(reportView.params);
+                }
+            })
+            function getQueryParams(){
+                var formJSON = NetstarComponent.getValues(formId);
+                var params = '';
+                for (var k in formJSON) {
+                    params += k + '=' + formJSON[k] + ';';
+                }
+                params = params.substring(0, params.length - 1);
+                return {
+                    'reportId': reportView.reportId,
+                    'parameters': params
+                };
+            }
+
+            var $tableContainer = $('#'+tableId);
+
+            function showHtml(data){
+                var tableHtml = data.tableHtml;
+                var $table = $(tableHtml); // table表格
+                $table.attr('cellpadding', 0);
+                $table.attr('cellspacing', 0);
+                /*******************修改列宽*******************/
+                var $colgroup = $table.children('colgroup'); // 列分组
+                var $cols = $colgroup.children('col'); // 列对象
+                // 计算现在总宽度
+                var colsWidth = $table.width();
+                // 计算容器的宽度
+                var containerWidth = $tableContainer.width();
+                // 判断表格宽度是否大于容器宽度 若大于则不处理 小于修改列宽度 按照列宽设置百分比
+                if(colsWidth<containerWidth){
+                    $table.width(containerWidth); // 修改表格整体宽度
+                    var $col, tempWidth;
+                    for(var i=0;i<$cols.length;i++){
+                        $col = $($cols[i]);
+                        tempWidth = $col.prop('width');
+                        tempWidth = Number(tempWidth.substr(0, tempWidth.length - 2));
+                        $col.prop('width', tempWidth/containerWidth + '%');
+                    }
+                }
+                /********************修改颜色*********************/
+                var $tableBody = $table.children('tbody'); // 表格body
+                var defaultBackgroundColor = '#eaf3ff'; // 默认背景颜色
+                var defaultBorderColor = '#94b7e6'; // 默认边框颜色
+                var $alltr = $tableBody.children(); // 所有的行
+                for(var trI=0;trI<$alltr.length;trI++){
+                    var $tr = $alltr.eq(trI);
+                    var $alltd = $tr.children(); // 每一行所有的列
+                    for(var tdI=0;tdI<$alltd.length;tdI++){
+                        var $td = $alltd.eq(tdI);
+                        var styleSty = $td.attr('style'); // td样式
+                        if(styleSty){
+                            if(styleSty.indexOf('background-color')>-1){
+                                $td.css('background-color',defaultBackgroundColor);
+                            }
+                            var reqExpBorder = /border(-top)?(-right)?(-left)?(-bottom)?/g;
+                            if(reqExpBorder.test(styleSty)){
+                                var broderColorArr = styleSty.match(reqExpBorder);
+                                for(var colorI=0;colorI<broderColorArr.length;colorI++){
+                                    $td.css(broderColorArr[colorI],'');
+                                    $td.addClass(broderColorArr[colorI])
+                                }
+                            }
+                        }
+                    }
+                }
+                $tableContainer.html($table);
+            }
+
+            var navJson = {
+                id:navId,
+                pageId:'page-'+navId,
+                btns: [
+                    {
+                        text: '查询',
+                        handler: function () {
+                            var ajaxConfig = {
+                                url:getRootPath() + '/execute/webdesignRun',
+                                type:'post',
+                                dataType:'json',
+                                data: getQueryParams(),
+                                contentType:'application/x-www-form-urlencoded'
+                            };
+                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                if (res) {
+                                    //默认方式
+                                    //$tableContainer.html(res.tableHtml);
+                                    showHtml(res);
+                                }
+                            })
+                        }
+                    }, {
+                        text: '导出',
+                        handler: function () {
+                            var ajaxConfig = {
+                                url: getRootPath() + '/execute/exportPrepare',
+                                type:'post',
+                                dataType:'json',
+                                data: getQueryParams(),
+                                contentType:'application/x-www-form-urlencoded'
+                            };
+                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                if (res.success) {
+                                    //下载
+                                    var downloadUrl = getRootPath() + '/execute/exportXls?downloadKey=' + res.downloadKey;
+                                    document.getElementById('webreport_download_file').src = downloadUrl;
+                                } else {
+                                    nsalert(res.msg, 'error');
+                                }
+                            })
+                        }
+                    }
+                ]
+            };
+
+            function initForm(params){
+                var formArray = [];
+                for(var i = 0; i < params.length; i++){
+                    params[i].column = 0;
+                    formArray.push(params[i]);
+                }
+                var formJson = {
+                    id:formId,
+                    size: "standard compactmode",
+                    format: "standard",
+                    fillbg: true,
+                    isSingleMode: true,
+                    form: formArray
+                };
+                //formPlane.formInit(formJson);
+                var component = NetstarComponent.formComponent.getFormConfig(formJson);
+                NetstarComponent.formComponent.init(component,formJson);
+            }
+
+            vueButtonComponent.init(navJson);
+            //controlPlane.formNavInit(navJson);
+            
+        })
+    </script>
+</container>
+</body>
+</html>

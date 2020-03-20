@@ -1,0 +1,49 @@
+@input-group-btn-bg: @input-group-hover-border;
+@input-group-hover-border: @form-hover-border;
+@input-group-btn-bg: @input-group-hover-border;
+@input-group-btn-color: @input-group-btn-bg;
+
+.pt-input-group {
+    .pt-form-normal & {
+        border: 0;
+        border-bottom: 1px solid @form-border;
+
+        &:hover,
+        &:focus {
+            border-bottom: 1px solid @input-group-hover-border;
+            box-shadow: none;
+        }
+
+        // 输入框
+        .pt-form-control {
+            background: transparent;
+
+        }
+
+        // 按钮
+        .pt-input-group-btn {
+            background: transparent;
+
+            .pt-btn {
+                &.pt-btn-default {
+                    background: transparent;
+
+                    &:hover i {
+                        color: @input-group-btn-color;
+                    }
+                }
+            }
+        }
+
+    }
+
+    // 表格底部分页input-group样式
+    .pt-page-turn &,
+    .pt-page-control & {
+        border: 1px solid @form-border;
+
+        &:hover {
+            background: #fff;
+        }
+    }
+}

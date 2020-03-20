@@ -1,0 +1,2887 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <style>
+        .data-element-protect-tree {
+            float: left;
+        }
+
+        .dialog-column-right {
+            margin: 10px 0 0 260px;
+        }
+
+        .btn-group {
+            margin-left: -240px;
+        }
+
+        .btn-fix-st {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .edit-node-newlybtns{
+            margin-bottom:20px;
+        }
+        .ns-larout-tree {
+        /* float: left; */
+        width: 244px;
+        margin-top: -34px;
+        margin-left: 6px;
+    }
+
+    .pt-tab-body {
+        height: 484px;
+        clear: both;
+    }
+
+    .ns-larout-from {
+        /* margin-left:249px; */
+        margin-right: 6px;
+    }
+
+    .ns-larout-newly {
+        display: flex;
+    }
+    .ztree{
+        width:280px;
+        height: 100%;
+    }
+    .data-node{
+        margin-left:300px;
+    }
+    .data-node-left{
+        margin-left:60px;
+        margin-right:60px;
+    }
+    .select-node{  
+        /* width:240px; */
+        /* border-radius: 12px;    */
+        height: 26px;
+        line-height: 26px;
+        /* border: 1px solid #bfbfbf; */
+        margin-bottom: 3px;
+        padding:0px 4px;
+    }
+    .select-node i{
+        /* color: #e8743b; */
+        float: right;
+        font-size: 12px;
+        
+    }
+.pt-tab-header .pt-nav .pt-nav-item.current a {
+    color: black;
+}
+.pt-tab-header .pt-nav .pt-nav-item.current a:hover {
+    color:#e8743b;
+}
+    </style>
+    <!-- <div onclick="dialog()">弹框</div> -->
+    <div class="pt-container" style="padding: 10px;">
+        <div id="dialog-column-left">
+            <div id="data-element-protect-btn" class="btn-group"></div>
+            <div id="data-element-protect-tree" class="data-element-protect-tree"></div>
+        </div>
+        <div class="dialog-column-right">
+            <div id="data-element-protect-from" class="data-element-protect-from"></div>
+            <!-- <div id="btn"></div> -->
+            <script>
+                //地址getRootPath
+                var getRootPath = function () {
+                    return "http://10.10.1.234:30000/";
+                }
+                // var nsPublic = nsPublic ? nsPublic : {};
+                //     nsPublic.getAppendContainer = function () {
+                //         var insertLocation = $('container:not(.hidden)').not('.content');
+                //         if ($('.nswindow .content').length > 0) {
+                //             insertLocation = $('.nswindow .content:last');
+                //         }
+                //         return insertLocation;
+                //     }
+                //表单Field
+                var formJsonFields = [{
+                    id: 'id',
+                    label: 'id',
+                    type: 'hidden'
+                }, {}]
+                // console.warn(formJsonFields);
+                //新增
+                var dataSourceNodeId = null;
+                var copyDaraSourceNode = null;
+                var isHaveAssociated = false;               
+                //调用修改后接口
+                function isHaveAssociatedFun() {
+                    if (isHaveAssociated) {
+                        var ajaxConfig = {
+                            type: 'POST',
+                            contentType: 'application/x-www-form-urlencoded',
+                            url: getRootPath() + '/sample/dataSourceNodes/getById',
+                            data: {
+                                dataSourceId: $('#dataSourceId').val()
+                            },
+                        }
+                        NetStarUtils.ajax(ajaxConfig)
+                    }
+                }
+                // 刷新右侧表单
+                function treeSelectComplete(data) {
+                    if (data.id != null) {
+                        dataSourceNodeId = data.id;
+                    } else {
+                        dataSourceNodeId = null;
+                    }
+                    if (data.id && data.id != 0) {
+                        var ajaxConfig = {
+                            contentType: 'application/x-www-form-urlencoded',
+                            type: 'POST',
+                            url: getRootPath() + '/sample/dataSourceNodes/getById',
+                            data: {
+                                id: data.id
+                            },
+                        }
+                        NetStarUtils.ajax(ajaxConfig, function (res) {
+                            if (res.success) {
+                                // var model = data.model;
+                                // isCustomNodeParentId = model.parentNodeId;
+                                //判断是否为自定义
+                                // if (model.isCustom == 1) {
+                                //     isCustomNodeType = 1;
+                                // } else {
+                                //     isCustomNodeType = 0;
+                                // }
+                                var resData = res.data;
+                                NetstarComponent.fillValues(resData, "data-element-protect-from", true);
+                            } else {
+                                // nsalert(data.msg);
+                            }
+                        })
+                    } else {
+                        isCustomNodeParentId = null;
+                        NetstarComponent.clearValues('data-element-protect-from');
+                    }
+                }
+                // 复制
+                function copyNode() {
+                    var row = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    if (row.length > 0 && dataSourceNodeId != 0) {
+                        copyDaraSourceNode = row[0];
+                        nsalert("复制成功！");
+                    } else {
+                        nsalert("请选择要复制的数据源节点！");
+                    }
+                }
+                // 粘贴
+                function pasteNode() {
+                    if (!copyDaraSourceNode) {
+                        nsalert("请先复制需要粘贴的节点！");
+                        return;
+                    }
+                    if (dataSourceNodeId != null) {
+                        var ajaxConfig = {
+                            contentType: 'application/x-www-form-urlencoded',
+                            type: 'GET',
+                            url: getRootPath() + '/docs/data/tree/from.json',
+                            data: {
+                                copyId: copyDaraSourceNode.id,
+                                pasteId: dataSourceNodeId
+                            },
+                        }
+                        NetStarUtils.ajax(ajaxConfig, function (data) {
+                            if (data.success) {
+                                if (data.success) {
+                                    nsalert("粘贴成功！");
+                                    NetstarTemplate.tree.refreshTreeById('data-element-protect-tree');
+                                    NetstarComponent.clearValues('data-element-protect-from');
+                                    isHaveAssociatedFun();
+                                } else {
+                                    // nsdialog.hide();
+                                    nsalert("粘贴失败！");
+                                }
+                            } else {
+                                // nsalert(data.msg);
+                            }
+                        })
+                    } else {
+                        nsalert("请选择需要粘贴的节点！");
+                    }
+                }
+                // 保存
+                //data-element-protect-tree  树   data-element-protect-from  表单
+                //formJson                          formJson
+                function saveNode() {
+                    var treeSelectedArray = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    if (treeSelectedArray.length == 0) {
+                        nsalert('请选择树节点');
+                        return;
+                    }
+                    var dataSourceNodeId = treeSelectedArray[0].id;
+                    if (dataSourceNodeId) {
+                        var formData = NetstarComponent.getValues('data-element-protect-from');
+                        formData.id = dataSourceNodeId;
+                        formData.objectState = 2;
+                        if (formData) {
+                            var ajaxConfig = {
+                                url: getRootPath() + '/sample/dataSourceNodes/saveNode',
+                                type: 'POST',
+                                data: formData,
+                                contentType: 'application/json; charset=utf-8',
+                            }
+                            // debugger;
+                            NetStarUtils.ajax(ajaxConfig, function (data, success) {
+                                if (data, success) {
+                                    nsalert("保存成功")
+                                } else {
+                                    // nsalert(data.msg)
+                                }
+                            })
+
+                        } else {
+                            nsalert("请保存需要的数据元节点");
+                        }
+                    } else {
+                        nsalert("请选择树节点")
+                    }
+                }
+                // 批量保存
+                function batchSaveDataSource() {
+                    var formData = NetstarComponent.getValues('data-element-protect-batchcopy-form');
+                    var jsonData = NetstarComponent.getValues('data-element-protect-from');
+                    if (jsonData) {
+                        var url = getRootPath() + '/sample/dataSourceNodes/save';
+                        var ajaxConfig = {
+                            async: true,
+                            url: url,
+                            data: jsonData,
+                            type: "GET",
+                            dataType: "json",
+                        }
+                        NetStarUtils.ajax(ajaxConfig, function (data) {
+                            if (data.success && data) {
+                                nsalert('保存成功！');
+                                // nsdialog.hide();
+                                // nsTree.init(dataConfig);
+                                // formPlane.clearData()
+                                NetstarComponent.clearValues('data-element-protect-from');
+                                // isHaveAssociatedFun();
+                            } else {
+                                // nsalert(data.msg);
+                            }
+                        })
+                    }
+                }
+                //按钮
+                var btnJson = {
+
+                    id: "data-element-protect-btn",
+                    isShowTitle: false,
+                    btns: [{
+                            text: "复制",
+                            isReturn: true,
+                            handler: function () {
+                                copyNode();
+                            }
+                        },
+                        {
+                            text: "粘贴",
+                            isReturn: true,
+                            handler: function () {
+                                pasteNode();
+                            }
+                        }, {
+                            text: "保存",
+                            isReturn: true,
+                            handler: function () {
+                                saveNode();
+                            }
+                        },
+                        {
+                            text: "批量保存",
+                            isReturn: true,
+                            handler: function () {
+                                var dialogBatchCopy = {
+                                    id: "dialogebatchcopy",
+                                    height: '30%',
+                                    width: "30%",
+                                    templateName: "PC",
+                                    isAllowDrag: false, //可以拖拽
+                                    title: "",
+                                    shownHandler: function (data) {
+                                        console.log('shownHandler');
+                                        console.log(data);
+                                        var dialogBodyId = data.config.bodyId;
+                                        $("#" + dialogBodyId).html(
+                                            ' <div id="data-element-protect-batchcopy-form"> </div> <div id="data-element-protect-batchcopy-btn-fix" class="btn-fix-st"></div>'
+                                        );
+                                        var formJson = {
+                                            id: "data-element-protect-batchcopy-form",
+                                            templateName: 'form',
+                                            componentTemplateName: 'PC',
+                                            isSetMore: false,
+                                            form: [{
+                                                id: "text",
+                                                type: "text",
+                                                label: "复制数量",
+                                                inputWidth: 200,
+                                                rules: "positiveInteger",
+                                            }, ]
+                                        };
+                                        var component = NetstarComponent.formComponent
+                                            .getFormConfig(formJson);
+                                        NetstarComponent.formComponent.init(component,
+                                            formJson);
+                                        var btnbatchcopy = {
+                                            id: "data-element-protect-batchcopy-btn-fix",
+                                            btns: [{
+                                                text: "确定",
+                                                isReturn: true,
+                                                handler: function () {
+
+                                                }
+                                            }]
+                                        }
+                                        vueButtonComponent.init(btnbatchcopy);
+                                    },
+                                }
+                                NetstarComponent.dialogComponent.init(dialogBatchCopy);
+                            },
+                        },
+                        {
+                            text: '启用',
+                            isReturn: true,
+                            handler: function () {}
+                        }, {
+                            text: '矩阵样',
+                            isReturn: true,
+                            handler: function () {}
+                        }
+                    ]
+                };
+                NetStarUtils.ajax(
+                    {
+                        url: getRootPath() + '/templateMindPages/pageConfig/1311527750204392434',
+                        type: 'GET',
+                        contentType: 'application/x-www-form-urlencoded',
+                    },
+                //表单               
+                function (res) {
+                    var resParams = res.data
+                    pageProperty.init(resParams, function(pageConfig){
+                        pageConfig = pageConfig.config;
+                        // console.log(pageConfigh);
+                        var formJsonFields = eval(pageConfig.components[0].field);
+                        var hideFieldArray = pageConfig.components[0].hide;
+                        var hideFieldObj = {};
+                        for (var i = 0; i < hideFieldArray.length; i++) {
+                            hideFieldObj[hideFieldArray[i]] = {
+                                id: hideFieldArray[i],
+                                type: 'hidden'
+                            };
+                        }
+                        //form 表单隐藏字段替换
+                        for (var i = 0; i < formJsonFields.length; i++) {
+                            var fieldId = formJsonFields[i].id;
+                            // var associatedValue = ''
+                            if (typeof (hideFieldObj[fieldId]) == 'object') {
+                                formJsonFields[i] = hideFieldObj[fieldId];
+                            }
+
+                        } 
+                        //关联值弹框  [16]
+                        var associatValueDialog = {
+                            id: 'associatvaluedialog',
+                            height: '70%',
+                            width: '70%',
+                            templateName: 'PC',
+                            isAllowDrag: true, //允许拖拽
+                            title: '编辑关联节点',
+                            shownHandler: function (data) {
+                                var dialogBodyId = data.config.bodyId;
+                                $('#' + dialogBodyId).html(
+                                    '<div id="edit-node-newlybtns" class="edit-node-newlybtns"></div>\
+                                        <div id="edit-node-nodegrid"></div>\
+                                    ');
+                                    //新增关联
+                                var editNodeNewlybtns = {
+                                    id: 'edit-node-newlybtns',
+                                    btns: [
+                                    {
+                                        text:'保存',
+                                        handler:function(){
+                                            var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                            // var gridData = NetStarGrid.dataManager.getData('count-formula-edit')      
+                                            var _ajaxConfig = {
+                                                id:treeNode[0].id,
+                                                objectState:2,
+                                                // gridData:gridData,
+                                            }
+                                            NetStarUtils.ajax({
+                                                url:getRootPath() +'/sample/dataNode2nodes/save',
+                                                type:'POST',
+                                                // contentType:'application/x-www-form-urlencoded',
+                                                data:_ajaxConfig,
+                                            },function(res, _ajaxConfig){                                                                               
+                                                if(res){
+                                                    nsalert("保存成功",'success');
+                                                    // NetstarComponent.dialog.newlyData.VueConfig.close();
+                                                }
+                                            })
+                                        }
+                                    },{
+                                        text: '新增',
+                                        handler: function () {
+                                            window.NetstarPageDataSouceRelated = (function () {
+                                                //id
+                                                var doms = {
+                                                    container: 'netstar-page-datasouce-related',
+                                                    tabs: 'netstar-page-datasouce-related-tabs',
+                                                    tree: 'netstar-page-datasouce-related-tree',
+                                                    form: 'netstar-page-datasouce-related-form',
+                                                    btns: 'netstar-page-datasouce-related-btns',
+                                                }
+                                                var uiManager = {
+                                                    //整体容器
+                                                    container: {
+                                                        html: '<div id="' + doms.container + '">\
+                                                            <div class="pt-tab-header" >\
+                                                                <div class="pt-nav">\
+                                                                    <ul id="' + doms.tabs + '" class="pt-tab-list-components-tabs">\
+                                                                    </ul>\
+                                                                </div>\
+                                                            </div>\
+                                                            <div class="pt-tab-body">\
+                                                                <div id="' + doms.tree + '" class="tab-conent-layout" >\
+                                                                </div>\
+                                                                <div class="data-node" id="' + doms.form + '" class="tab-conent-layout" >\
+                                                                </div>\
+                                                                <div class="data-node" id="' + doms.btns + '" class="tab-conent-layout" >\
+                                                                </div>\
+                                                            </div>\
+                                                        </div>',
+                                                        init: function (el) {
+                                                            var _this = this;
+                                                            $(el).html(_this.html);
+                                                        }
+                                                    },
+                                                    //TABS处理
+                                                    tabs: {
+                                                        html: '<li v-for="(item, index) in items" class="component-list pt-nav-item current" :ns-index="index" >\
+                                                                <a href="javascript:void(0);" :data-value="item.value" @click="tabClickHandler">{{item.name}}</a>\
+                                                            </li>',
+                                                        data: [{
+                                                                name: '方法数据元',
+                                                                value:3,
+                                                            },
+                                                            {
+                                                                name: '样品数据元',
+                                                                value:2,
+                                                            },
+                                                            {
+                                                                name: '记录样品数据元',
+                                                                value:4,
+                                                            },
+                                                            {
+                                                                name: '记录数据元',
+                                                                value:2,
+                                                            },
+                                                            {
+                                                                name: '表格数据元',
+                                                                value:1,
+                                                            },
+                                                            {
+                                                                name: '项目数据元',
+                                                                value:8,
+                                                            }
+                                                        ],
+                                                        init: function (_uiManager) {
+                                                            var _this = this;
+                                                            _this.uiManager = _uiManager;
+                                                            // debugger;
+                                                            $('#' + doms.tabs).html(_this.html);
+                                                            _this.initVue();
+                                                        }, 
+                                                            //tab绑定
+                                                        initVue: function (_uiManager) {
+                                                            var _this = this;
+                                                            var tabsVue = new Vue({
+                                                                el: '#' + doms.tabs,
+                                                                this:_this,
+                                                                uiManager:_uiManager,
+                                                                data: {
+                                                                    items: _this.data,
+                                                                },
+                                                                methods:{
+                                                                    //tab点击
+                                                                    tabClickHandler:function(ev){
+                                                                        var value = ev.target.dataset.value;
+                                                                        value = parseInt(value);
+                                                                        uiManager.tree.initajax(value, function(res, _config){
+                                                                            uiManager.tree.initZtree(res);
+                                                                        });
+                                                                    }
+                                                                }
+                                                            })
+                                                        }  
+                                                    },
+                                                    //tree
+                                                    tree: {
+                                                        html: '<ul id="treedemo" class="ztree"></ul>',
+                                                        init: function (_uiManager) {
+                                                            var _this = this;
+                                                            _this.uiManager = _uiManager;
+                                                            $('#' + doms.tree).html(_this.html);
+                                                            // _this.initZtree();
+                                                            _this.initajax(0, function(data, _config){
+                                                                uiManager.tree.initZtree(data);
+                                                            });
+                                                            
+                                                        },
+                                                        //ajax
+                                                        initajax: function (value, callBackFunc) {
+                                                            NetStarUtils.ajax({
+                                                                url:getRootPath() + '/sample/dataSourceNodes/getTreeListByDsType',
+                                                                //url: getRootPath() + '/docs/data/data-newly/newly.json',
+                                                                // type:'POST',
+                                                                type:'GET',
+                                                                //contentType: 'application/json; charset=utf-8',   
+                                                                contentType:'application/x-www-form-urlencoded',
+                                                                data:{
+                                                                    dataSourceType : value,
+                                                                },   
+                                                                plusData : {
+                                                                    callBackFunc : callBackFunc,
+                                                                },                          
+                                                            },function(res, _ajaxConfig){
+                                                                if(res){
+                                                                    nsalert('获取树成功')
+                                                                    if(typeof(_ajaxConfig.plusData.callBackFunc) == "function"){
+                                                                        _ajaxConfig.plusData.callBackFunc(res.rows);
+                                                                    }
+                                                                }else{
+                                                                    nsalert('获取树失败')
+                                                                }
+                                                            })
+                                                        },
+                                                        //树
+                                                        initZtree: function (sourceNodes) {
+                                                            var zTreeObj;
+                                                            var setting = {
+                                                                data:{
+                                                                    simpleData:{
+                                                                    },
+                                                                    key:{
+                                                                        name: "nodeName",
+                                                                    }
+                                                                },
+                                                                callback:{
+                                                                    onClick:function(ev, treeId, treeNode){
+                                                                        var _treeNode = {};
+                                                                        //如果有下级则不可用
+                                                                        uiManager.tree.selectedNode = treeNode;
+                                                                        
+                                                                        if($.isArray(treeNode.children)){
+                                                                            if(treeNode.children.length > 0){
+                                                                                return;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        //过滤掉无用的数据添加到刷新里面
+                                                                        for(var key in treeNode){
+                                                                            switch(typeof(treeNode[key])){
+                                                                                case 'object':
+                                                                                case 'function':
+                                                                                    break;
+                                                                                default:
+                                                                                    _treeNode[key] = treeNode[key]
+                                                                                    break;
+                                                                            }
+                                                                            
+                                                                        }
+                                                                        uiManager.form.refreshItems(_treeNode);
+
+                                                                    },
+                                                                }
+                                                            };
+                                                            var _this=this;
+                                                            var zNodes = sourceNodes;
+                                                                zTreeObj = $.fn.zTree.init($("#treedemo"), setting, zNodes);
+
+                                                        }
+                                                    },      //class="fa fa-close"         
+                                                    //form
+                                                    form: {
+                                                        html:'<div class="data-select-node">选择节点 : </div>\
+                                                        <div id="data-node" class="data-node-left">\
+                                                            <div class="select-node"v-for = "(item, index) in items">\
+                                                                {{item.nodeName}} \
+                                                                <i @click="clickItem(index)" :data-index="index"> 删除</i>\
+                                                            </div>\
+                                                        </div>',
+                                                        items:[],
+                                                        initVue :function(selectedNodes){                       
+                                                            var _this = this;
+                                                            var vue = new Vue({
+                                                                el:'#data-node',
+                                                                data:{
+                                                                    items:selectedNodes,
+                                                                },
+                                                                methods:{
+                                                                    clickItem:function(ev){
+                                                                        var _this = this;
+                                                                        console.log(ev);    
+                                                                        // console.log(_this.items);
+                                                                        _this.items.splice(ev,1);
+                                                                    }
+                                                                }
+                                                            });
+                                                            _this.vue = vue; 
+                                                            // debugger;          
+                                                        },
+                                                        init:function(_uiManager){
+                                                            var _this = this;
+                                                            _this.uiManager = _uiManager;
+                                                            $('#' + doms.form).html(_this.html);
+                                                            _this.initVue([]);
+                                                        },
+                                                        refreshItems:function(treeNode){
+                                                            var _this = this;
+                                                            _this.items.push(treeNode);
+                                                            _this.vue.items = _this.items;
+                                                        },
+                                                    },
+                                                    btns:{
+                                                        initbtns:function(footerId){
+                                                            var btns= {
+                                                                id:footerId,
+                                                                btns:[
+                                                                    {
+                                                                        text:'保存',
+                                                                        handler:function(){
+                            
+                                                                            var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                                                            var treeData = NetstarPageDataSouceRelated.uiManager.tree.selectedNode;
+                                                                            
+                                                                            var _ajaxConfig = {
+                                                                                nodeId:treeNode[0].id,
+                                                                                influenceNodeId:treeData.id,
+                                                                                objectState:1,
+                                                                            }
+                                                                            NetStarUtils.ajax({
+                                                                                // url:getRootPath() +'/sample/dataSourceNodes/saveNode',
+                                                                                url:getRootPath() +'/sample/dataNode2nodes/save',
+                                                                                type:'POST',
+                                                                                // contentType:'application/x-www-form-urlencoded',
+                                                                                data:_ajaxConfig,
+                                                                            },function(res, _ajaxConfig){                                                                               
+                                                                                if(res){
+                                                                                    nsalert("保存成功",'success');
+                                                                                    NetStarGrid.refreshById('edit-node-nodegrid');
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                            vueButtonComponent.init(btns);
+                                                        },
+                                                        init:function(obj, footerId){
+                                                            this.initbtns(footerId);
+                                                        }
+                                                    },
+                                                    init: function (config) {
+                                                        var _this = this;
+                                                        _this.container.init(config.el);
+                                                        _this.tabs.init(_this);
+                                                        _this.tree.init(_this);//当前this为uiManager
+                                                        _this.form.init(_this);
+                                                        _this.btns.init(_this, config.footerId)
+                                                        
+                                                    },
+                                                    
+
+                                                }
+
+                                                return {
+                                                    uiManager: uiManager,
+
+                                                }
+                                            })()
+                                            var newlyDialog = {
+                                                id: 'newlyData',
+                                                height: '80%',
+                                                width: '80%',
+                                                templateName: 'PC',
+                                                isAllowDrag: true, //允许拖拽
+                                                title: '新增关联',
+                                                shownHandler: function (data) {
+                                                    var dialogBodyId = data.config.bodyId;
+                                                    NetstarPageDataSouceRelated.uiManager.init({
+                                                        el: '#' + dialogBodyId,
+                                                        footerId : data.config.footerId,
+                                                    });
+                                                }
+                                            }
+                                            NetstarComponent.dialogComponent.init(newlyDialog); //弹框初始化
+                                            }                                          
+                                        }                                            
+                                    ]
+                                }
+                                //节点列表
+                                var treeDataNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                var editNodeGrid = {
+                                    columns: [{
+                                            field: 'dataSourceType',
+                                            title: '数据元类型',
+                                            editConfig: {
+                                                type: 'text',
+                                            }
+                                        },
+                                        {
+                                            field: 'dataSourceName',
+                                            title: '数据元',
+                                            editConfig: {
+                                                type: 'text',
+                                            }
+                                        },
+                                        {
+                                            field: 'nodeName',
+                                            title: '节点名称',
+                                            editConfig: {
+                                                type: 'text',
+                                            }
+                                        }
+                                    ],
+                                    data: {
+                                        idField: "id",
+                                        tableID: "edit-node-nodegrid",
+                                        src: getRootPath() + '/sample/dataNode2nodes/getListByNodeId',
+                                        contentType:'application/x-www-form-urlencoded',
+                                        type:'GET',
+                                        // dataSrc:'row',
+                                        data:{id:treeDataNode[0].id},
+                                    },
+                                    ui: {
+                                        isAutoSerial: true,
+                                        isHeader: false,
+                                        minPageLength: 10,
+                                        isEditMode: true,
+                                        pageLengthDefault: 300,
+                                        selectMode: "single",
+                                        isHaveEditDeleBtn: true,
+                                        isAllowAdd: true,
+                                        height: 250,
+                                    }
+                                }
+                                NetStarGrid.init(editNodeGrid);
+                                vueButtonComponent.init(editNodeNewlybtns);
+                            }
+                        }
+                        console.log(formJsonFields);
+                        //联动值弹框  [37]
+                        var linkageValueDialog = {
+                            id: 'method',
+                            height: '70%',
+                            width: '70%',
+                            templateName: 'PC',
+                            isAllowDrag: true, //允许拖拽
+                            title: '编辑联动模板',
+                            shownHandler: function (data) {
+                                var dialogBodyId = data.config.bodyId;
+                                $('#' + dialogBodyId).html(
+                                    '<div id="linkage-value-newlybtns" class="edit-node-newlybtns"></div>\
+                                        <div id="linkage-value-nodegrid"></div>\
+                                    ');
+                                //联动值维护新增按钮
+                                var linkageValuebtns = {
+                                    id: 'linkage-value-newlybtns',
+                                    btns: [
+                                    {
+                                        text:'保存',
+                                        handler: function (){
+                                            var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                            // var gridData = NetStarGrid.dataManager.getData('count-formula-edit')      
+                                            var _ajaxConfig = {
+                                                id:treeNode[0].id,
+                                                objectState:2,
+                                                // gridData:gridData,
+                                            }
+                                            NetStarUtils.ajax({
+                                                url:getRootPath() +'/sample/dataNode2nodes/save',
+                                                type:'POST',
+                                                // contentType:'application/x-www-form-urlencoded',
+                                                data:_ajaxConfig,
+                                            },function(res, _ajaxConfig){                                                                               
+                                                if(res){
+                                                    nsalert("保存成功",'success');
+                                                    // NetstarComponent.dialog.newlyData.VueConfig.close();
+                                                }
+                                            })
+                                        }
+                                    },
+                                        
+                                    {
+                                        text: '新增',
+                                        handler: function () {
+                                                var newlyForm = {
+                                                    id:"linkage-form",
+                                                    templateName: 'form',
+                                                    componentTemplateName:'PC',
+                                                    isSetMore:false,
+                                                    form:[
+                                                        {
+                                                            id:'influenceNodeId',
+                                                            label:'影响的数据元节点',
+                                                            type:'select',
+                                                            textField: 'nodeName',
+                                                            valueField: 'id',
+                                                            url : getRootPath() + '/sample/dataSourceNodes/getList',
+                                                            dataSrc : 'rows',
+                                                        },
+                                                        {
+                                                            id:'linkageValue',
+                                                            label:'联动值',
+                                                            type:'select',
+                                                            textField: 'text',
+                                                            valueField: 'value',
+                                                            url : getRootPath() + '/sample/dataNodeLinks/getProductTemplateList',
+                                                            dataSrc : 'rows',
+                                                        }
+                                                    ]
+                                                }
+                                                //选不同的联动模板调不同ajax
+                                                var prevFormData = NetstarComponent.getValues('data-element-protect-from', false);
+                                                if(prevFormData.linkageTemplateId == '1'){
+                                                    newlyForm.form[1].url =  getRootPath() + '/sample/dataNodeLinks/getEquipmentTemplateList'
+                                            
+                                                }
+                                                
+                                                var selectTreeData = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                                if(selectTreeData){
+                                                    newlyForm.form[0].data = {                      
+                                                        prentId : 0,
+                                                        dataSourceId : selectTreeData[0].dataSourceId
+                                                    }
+                                                }
+                                                
+                                                //联动值维护按钮
+                                                
+                                                var newlyBtns = {
+                                                        id: 'linkage-btns',
+                                                        btns: [{
+                                                            text: '确认',
+                                                            handler: function () {
+                                                                var treeData = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree')
+                                                                var formData = NetstarComponent.getValues('linkage-form');
+                                                                var arrayData = NetStarGrid.getSelectedData('linkage-value-nodegrid');
+                                                                formData.nodeId = treeData[0].id;
+                                                                formData.objectState = 1;
+                                                                NetStarUtils.ajax({
+                                                                    url:getRootPath() + '/sample/dataNodeLinks/save',
+                                                                    data:formData,
+                                                                    //contentType:'application/x-www-form-urlencoded',
+                                                                    contentType:'application/json; charset=utf-8',
+                                                                    type:'POST',
+                                                                },function(res, _ajaxConfig){
+                                                                    if(res){
+                                                                        nsalert('同步成功','success');
+                                                                        NetstarComponent.dialog.edit.vueConfig.close()
+
+                                                                    };
+                                                                    NetStarGrid.refreshById('linkage-value-nodegrid');//,,{linkageId:formData}
+                                                                })  
+                                                            } ,                                           
+                                                        },{
+                                                            text: '关闭',
+                                                            handler:function () {
+
+                                                            }
+                                                        }]
+                                                    }     
+                                                //联动值维护弹框
+                                                var newlyDialog = {
+                                                    id:'edit',
+                                                    height:'50%',
+                                                    width:'50%',
+                                                    templateName:'PC',
+                                                    isAllowDage:true,
+                                                    title:'联动值维护',
+                                                    shownHandler:function (data){
+                                                        var dialogBodyId = data.config.bodyId;
+                                                        // var footerId = data.config.footerId
+                                                        $("#" +dialogBodyId).html(
+                                                            '<div id="linkage-form"></div>\
+                                                            <div id="linkage-btns"></div>')
+
+                                                        var component = NetstarComponent.formComponent.getFormConfig(newlyForm);
+                                                        NetstarComponent.formComponent.init(component, newlyForm); 
+                                                        vueButtonComponent.init(newlyBtns);                                                     
+                                                    }
+                                                }
+                                                NetstarComponent.dialogComponent.init(newlyDialog);                           
+                                        }                                            
+                                    }]
+                                }                               
+                                    //联动值grid
+                                var treeSelectedNodes = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                            
+                                var linkageGrid = {
+                                    columns: [
+                                        {
+                                            field: 'influenceNodeId',
+                                            title: '影响节点名称',
+                                            editable: true,
+                                            editConfig: {
+                                                type: 'select',
+                                                textField: 'nodeName',
+                                                valueField: 'id',
+                                                url : getRootPath() + '/sample/dataSourceNodes/getList',/// '/sample/dataSourceNodes/getList'
+                                                dataSrc : 'rows',
+                                                method: 'GET', 
+                                                data:{dataSourceId : treeSelectedNodes[0].dataSourceId}
+                                            
+                                            },
+                                        },
+                                        {
+                                            field: 'linkageValue',
+                                            title: '联动名称',
+                                            editable: true,
+                                            editConfig: {
+                                                type: 'select',
+                                                textField: 'text',
+                                                valueField: 'value', 
+                                                url : getRootPath() + '/sample/dataNodeLinks/getProductTemplateList',
+                                                dataSrc : 'rows',
+                                                method: 'GET',                                     
+                                            },
+                                        }
+                                    ],
+                                    data: {
+                                        idField: "id",
+                                        tableID: "linkage-value-nodegrid",
+                                        src: getRootPath() + '/sample/dataNodeLinks/getList',
+                                        //contentType:'application/x-www-form-urlencoded',
+                                        contentType:'application/json; charset=utf-8',
+                                        type:'GET',
+                                        dataSrc:'rows',
+                                        data:{
+                                            "nodeId":treeSelectedNodes[0].id,
+                                        },
+
+                                    },
+                                    ui: {
+                                        isAutoSerial: true,
+                                        isHeader: false,
+                                        minPageLength: 10,
+                                        isEditMode: true,
+                                        pageLengthDefault: 300,
+                                        selectMode: "single",
+                                        isHaveEditDeleBtn: true,
+                                        isAllowAdd: true,
+                                        height: 250,
+                                        // 联动值行内按钮编辑
+                                                                            
+                                    }
+                                }
+                                var prevFormData = NetstarComponent.getValues('data-element-protect-from', false);
+                        
+                                    if(prevFormData.linkageTemplateId == '1'){
+                                        linkageGrid.columns[2].editConfig.url =  getRootPath() + '/sample/dataNodeLinks/getEquipmentTemplateList'             
+                                    }
+                                NetStarGrid.init(linkageGrid);
+                                vueButtonComponent.init(linkageValuebtns);
+                            
+                            }
+                        }
+                        //计算公式弹框 [17] //公式formula
+                        var countFormulaDialog = {
+                            id: 'countformuladialog',
+                            height: '70%',
+                            width: '70%',
+                            templateName: 'PC',
+                            isAllowDrag: true, //允许拖拽
+                            title: '编辑计算公式',
+                            shownHandler: function (data) {
+                                var dialogBodyId = data.config.bodyId;
+                                $('#' + dialogBodyId).html('\
+                                    <div id="count-formula-btns"></div>\
+                                    <div id="count-formula-edit"></div>\
+                                    ');
+                                var countFormulabtns = {
+                                    id: 'count-formula-btns',
+                                    btns: [{
+                                        text: '保存',
+                                        handler: function () {
+                                            var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                            var gridData = NetStarGrid.dataManager.getData('count-formula-edit')      
+                                            var _ajaxConfig = {
+                                                id:treeNode[0].id,
+                                                gridData:gridData,
+                                            }
+                                        
+                                            NetStarUtils.ajax({
+                                                url:getRootPath() +'/sample/dataNode2nodes/save',
+                                                type:'POST',
+                                                // contentType:'application/x-www-form-urlencoded',
+                                                data:_ajaxConfig,
+                                            },function(res, _ajaxConfig){                                                                               
+                                                if(res){
+                                                    nsalert("保存成功",'success');
+                                                    // NetstarComponent.dialog.newlyData.VueConfig.close();
+                                                }
+                                            })
+                                        },                                                                                 
+                                    },{
+                                        text: '选择数据源节点',
+                                        handler: function () {
+                                            window.NetstarPageDataSouceRelated = (function () {
+                                                //id
+                                                var doms = {
+                                                    container: 'netstar-page-datasouce-related',
+                                                    tabs: 'netstar-page-datasouce-related-tabs',
+                                                    tree: 'netstar-page-datasouce-related-tree',
+                                                    form: 'netstar-page-datasouce-related-form',
+                                                    btns: 'netstar-page-datasouce-related-btns',
+                                                }
+                                                var uiManager = {
+                                                    //整体容器
+                                                    container: {
+                                                        html: '<div id="' + doms.container + '">\
+                                                            <div class="pt-tab-header" >\
+                                                                <div class="pt-nav">\
+                                                                    <ul id="' + doms.tabs + '" class="pt-tab-list-components-tabs">\
+                                                                    </ul>\
+                                                                </div>\
+                                                            </div>\
+                                                            <div class="pt-tab-body">\
+                                                                <div id="' + doms.tree + '" class="tab-conent-layout" >\
+                                                                </div>\
+                                                                <div class="data-node" id="' + doms.form + '" class="tab-conent-layout" >\
+                                                                </div>\
+                                                                <div class="data-node" id="' + doms.btns + '" class="tab-conent-layout" >\
+                                                                </div>\
+                                                            </div>\
+                                                        </div>',
+                                                        init: function (el) {
+                                                            var _this = this;
+                                                            $(el).html(_this.html);
+                                                        }
+                                                    },
+                                                    //TABS处理
+                                                    tabs: {
+                                                        html: '<li v-for="(item, index) in items" class="component-list pt-nav-item current" :ns-index="index" >\
+                                                                <a href="javascript:void(0);" :data-value="item.value" @click="tabClickHandler">{{item.name}}</a>\
+                                                            </li>',
+                                                        data: [{
+                                                                name: '方法数据元',
+                                                                value:3,
+                                                            },
+                                                            {
+                                                                name: '样品数据元',
+                                                                value:2,
+                                                            },
+                                                            {
+                                                                name: '记录样品数据元',
+                                                                value:4,
+                                                            },
+                                                            {
+                                                                name: '记录数据元',
+                                                                value:2,
+                                                            },
+                                                            {
+                                                                name: '表格数据元',
+                                                                value:1,
+                                                            },
+                                                            {
+                                                                name: '项目数据元',
+                                                                value:8,
+                                                            }
+                                                        ],
+                                                        init: function (_uiManager) {
+                                                            var _this = this;
+                                                            _this.uiManager = _uiManager;
+                                                            // debugger;
+                                                            $('#' + doms.tabs).html(_this.html);
+                                                            _this.initVue();
+                                                        }, 
+                                                            //tab绑定
+                                                        initVue: function (_uiManager) {
+                                                            var _this = this;
+                                                            var tabsVue = new Vue({
+                                                                el: '#' + doms.tabs,
+                                                                this:_this,
+                                                                uiManager:_uiManager,
+                                                                data: {
+                                                                    items: _this.data,
+                                                                },
+                                                                methods:{
+                                                                    //tab点击
+                                                                    tabClickHandler:function(ev){
+                                                                        var value = ev.target.dataset.value;
+                                                                        value = parseInt(value);
+                                                                        uiManager.tree.initajax(value, function(res, _config){
+                                                                            uiManager.tree.initZtree(res);
+                                                                        });
+                                                                    }
+                                                                }
+                                                            })
+                                                        }  
+                                                    },
+                                                    //tree
+                                                    tree: {
+                                                        html: '<ul id="treedemo" class="ztree"></ul>',
+                                                        init: function (_uiManager) {
+                                                            var _this = this;
+                                                            _this.uiManager = _uiManager;
+                                                            $('#' + doms.tree).html(_this.html);
+                                                            // _this.initZtree();
+                                                            _this.initajax(0, function(data, _config){
+                                                                uiManager.tree.initZtree(data);
+                                                            });
+                                                            
+                                                        },
+                                                        //ajax
+                                                        initajax: function (value, callBackFunc) {
+                                                            NetStarUtils.ajax({
+                                                                url:getRootPath() + '/sample/dataSourceNodes/getTreeListByDsType',
+                                                                //url: getRootPath() + '/docs/data/data-newly/newly.json',
+                                                                // type:'POST',
+                                                                type:'GET',
+                                                                //contentType: 'application/json; charset=utf-8',   
+                                                                contentType:'application/x-www-form-urlencoded',
+                                                                data:{
+                                                                    dataSourceType : value,
+                                                                },   
+                                                                plusData : {
+                                                                    callBackFunc : callBackFunc,
+                                                                },                          
+                                                            },function(res, _ajaxConfig){
+                                                                if(res){
+                                                                    nsalert('获取树成功')
+                                                                    if(typeof(_ajaxConfig.plusData.callBackFunc) == "function"){
+                                                                        _ajaxConfig.plusData.callBackFunc(res.rows);
+                                                                    }
+                                                                }else{
+                                                                    nsalert('获取树失败')
+                                                                }
+                                                            })
+                                                        },
+                                                        //树
+                                                        initZtree: function (sourceNodes) {
+                                                            var zTreeObj;
+                                                            var setting = {
+                                                                data:{
+                                                                    simpleData:{
+                                                                    },
+                                                                    key:{
+                                                                        name: "nodeName",
+                                                                    }
+                                                                },
+                                                                callback:{
+                                                                    onClick:function(ev, treeId, treeNode){
+                                                                        var _treeNode = {};
+                                                                        //如果有下级则不可用
+                                                                        uiManager.tree.selectedNode = treeNode;
+                                                                        
+                                                                        if($.isArray(treeNode.children)){
+                                                                            if(treeNode.children.length > 0){
+                                                                                return;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        //过滤掉无用的数据添加到刷新里面
+                                                                        for(var key in treeNode){
+                                                                            switch(typeof(treeNode[key])){
+                                                                                case 'object':
+                                                                                case 'function':
+                                                                                    break;
+                                                                                default:
+                                                                                    _treeNode[key] = treeNode[key]
+                                                                                    break;
+                                                                            }
+                                                                            
+                                                                        }
+                                                                        uiManager.form.refreshItems(_treeNode);
+
+                                                                    },
+                                                                }
+                                                            };
+                                                            var _this=this;
+                                                            var zNodes = sourceNodes;
+                                                                zTreeObj = $.fn.zTree.init($("#treedemo"), setting, zNodes);
+
+                                                        }
+                                                    },      //class="fa fa-close"         
+                                                    //form
+                                                    form: {
+                                                        html:'<div class="data-select-node">选择节点 : </div>\
+                                                        <div id="data-node" class="data-node-left">\
+                                                            <div class="select-node"v-for = "(item, index) in items">\
+                                                                {{item.nodeName}} \
+                                                                <i @click="clickItem(index)" :data-index="index"> 删除</i>\
+                                                            </div>\
+                                                        </div>',
+                                                        items:[],
+                                                        initVue :function(selectedNodes){                       
+                                                            var _this = this;
+                                                            var vue = new Vue({
+                                                                el:'#data-node',
+                                                                data:{
+                                                                    items:selectedNodes,
+                                                                },
+                                                                methods:{
+                                                                    clickItem:function(ev){
+                                                                        var _this = this;
+                                                                        console.log(ev);    
+                                                                        // console.log(_this.items);
+                                                                        _this.items.splice(ev,1);
+                                                                    }
+                                                                }
+                                                            });
+                                                            _this.vue = vue; 
+                                                            // debugger;          
+                                                        },
+                                                        init:function(_uiManager){
+                                                            var _this = this;
+                                                            _this.uiManager = _uiManager;
+                                                            $('#' + doms.form).html(_this.html);
+                                                            _this.initVue([]);
+                                                        },
+                                                        refreshItems:function(treeNode){
+                                                            var _this = this;
+                                                            _this.items.push(treeNode);
+                                                            _this.vue.items = _this.items;
+                                                        },
+                                                    },
+                                                    btns:{
+                                                        initbtns:function(footerId){
+                                                            var btns= {
+                                                                id:footerId,
+                                                                btns:[
+                                                                    {
+                                                                        text:'保存',
+                                                                        handler:function(){
+                                                                            var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                                                            var treeData = NetstarPageDataSouceRelated.uiManager.tree.selectedNode;
+                                                                            var selectData = NetStarGrid.dataManager.getData('count-formula-edit');
+                                                                            var _ajaxConfig = {
+                                                                                nodeId:treeNode[0].id,
+                                                                                methodId: selectData[0].methodId,//methodId
+                                                                                influenceNodeId:treeData.id
+                                                                                // objectState : 1, 
+                                                                                /* formulaId:'', */
+                                                                            }
+                                                                            NetStarUtils.ajax({
+                                                                                url:getRootPath() +'/sample/dataNode2formulas/saveFormula',
+                                                                                type:'POST',
+                                                                                contentType:'application/x-www-form-urlencoded',
+                                                                                data:_ajaxConfig,
+                                                                            },function(res, _ajaxConfig){                                                                               
+                                                                                if(res){
+                                                                                    nsalert("保存成功",'success');
+                                                                                    // NetstarComponent.dialog.newlyData.VueConfig.close();
+                                                                                    NetStarGrid.refreshById('count-formula-edit');
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                            vueButtonComponent.init(btns);
+                                                        },
+                                                        init:function(obj, footerId){
+                                                            this.initbtns(footerId);
+                                                        }
+                                                    },
+                                                    init: function (config) {
+                                                        var _this = this;
+                                                        _this.container.init(config.el);
+                                                        _this.tabs.init(_this);
+                                                        _this.tree.init(_this);//当前this为uiManager
+                                                        _this.form.init(_this);
+                                                        _this.btns.init(_this, config.footerId)
+                                                        
+                                                    },
+                                                    
+
+                                                }
+
+                                                return {
+                                                    uiManager: uiManager,
+
+                                                }
+                                            })() 
+                                            var dialog1 = {
+                                                id: 'newlyData',
+                                                height: '80%',
+                                                width: '80%',
+                                                templateName: 'PC',
+                                                isAllowDrag: true, //允许拖拽
+                                                title: '新增关联',
+                                                shownHandler: function (data) {
+                                                    var dialogBodyId = data.config.bodyId;
+                                                    NetstarPageDataSouceRelated.uiManager.init({
+                                                        el: '#' + dialogBodyId,
+                                                        footerId : data.config.footerId,
+                                                    });
+                                                }
+                                            }
+                                            NetstarComponent.dialogComponent.init(dialog1); //弹框初始化
+                                        }
+                                    }]
+                                }
+                                //计算公式
+                                var countData = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                var countFormulaGrid = {
+                                    columns: [{//Method name
+                                            field: 'methodName',
+                                            title: '方法名称',
+                                            editConfig: {
+                                                type: 'text',
+
+                                            }
+                                        },
+                                        {
+                                            field: 'formulaId',
+                                            title: '计算公式',
+                                            editable: true,
+                                            editConfig: {
+                                                type: 'text',
+                                            }
+                                        },
+                                        {
+                                            field: 'nodeId',
+                                            title: '关联节点',
+                                            editConfig: {
+                                                type: 'text',
+                                            }
+                                        },
+                                    ],
+                                    data: {
+                                        idField: "id",
+                                        tableID: "count-formula-edit",
+                                        src: getRootPath() + '/sample/dataNode2methods/getList',
+                                        contentType:'application/json; charset=utf-8',
+                                        //contentType: 'application/x-www-form-urlencoded',
+                                        type:'POST',
+                                        data:{nodeId:countData[0].id},
+                                    },
+                                    ui: {
+                                        isAutoSerial: true,
+                                        isHeader: false,
+                                        minPageLength: 10,
+                                        isEditMode: true,
+                                        pageLengthDefault: 300,
+                                        selectMode: "single",
+                                        isHaveEditDeleBtn: true,
+                                        isAllowAdd: true,
+                                        height: 250,
+                                    }
+                                }
+                                NetStarGrid.init(countFormulaGrid);
+                                vueButtonComponent.init(countFormulabtns);
+                            }
+                        }
+                        //颜色设置 [18] color setting
+                        var colorSettingDialog = {
+                            id: 'colorSettingDialog',
+                            height: '70%',
+                            width: '70%',
+                            templateName: 'PC',
+                            isAllowDrag: true, //允许拖拽
+                            title: '颜色设置',
+                            shownHandler: function (data) {
+                                var dialogBodyId = data.config.bodyId;
+                                $('#' + dialogBodyId).html('\
+                                        <div id="color-setting-grid"></div>\
+                                        <div id="count-formula-btns"></div>\
+                                    ');
+                                        
+                                var colorSettingbtns = {
+                                    id: 'count-formula-btns',
+                                    btns: [{
+                                        text: '保存',
+                                        handler: function () {
+                                            // var arr = NetStarGrid.configs['color-setting-grid'].vueConfig.data.originalRows;                                       
+                                            var arr = NetStarGrid.dataManager.getData('color-setting-grid')
+                                            var ajaxData = arr[0];
+                                            // ajaxData.id = colorData[0].id;
+                                            var _ajaxData = {
+                                                colorJudge:JSON.stringify(arr),
+                                                id:colorData[0].id , 
+                                                objectState : 2 
+                                            };  
+                                        
+                                            NetStarUtils.ajax({
+                                                url:getRootPath() + '/sample/dataSourceNodes/saveNode',
+                                                type:'POST',
+                                                data: _ajaxData,   
+                                                // contentType : 'wwapplication/x-www-form-urlencoded',                                        
+                                            },function(res,_ajaxConfig){
+                                                if(res){
+                                                    nsalert('保存成功','success');
+                                                    NetstarComponent.dialog.colorSettingDialog.vueConfig.close();                                    
+                                                }
+                                            })
+                                        }                                            
+                                    }]
+                                }
+                                //颜色设置
+                                var colorData = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                                // var colorGridRow = NetStarGrid.getSelectedData('color-setting-grid')
+                                var gridConfig = NetStarGrid.configManager.configs;                       
+                                console.log(gridConfig);
+                                var colorSettingGrid = {
+                                    columns: [{//Method name
+                                            field: 'colorCondition',
+                                            title: '色彩条件',
+                                            editable: true,                                          
+                                            editConfig: {
+                                                type: 'select',
+                                                textField: 'text',
+                                                valueField: 'value', 
+                                                url: getRootPath()+ '/sample/dataSourceNodes/getColorConditionList' ,
+                                                method: 'GET',
+                                                contentType: 'application/x-www-form-urlencoded', 
+                                                dataSrc: 'rows',
+                                            
+                                            },
+                                            columnType : 'subdataText',
+                                        },
+                                        {
+                                            field: 'judegeValue',
+                                            title: '判断值',
+                                            editable: true,
+                                            editConfig: {
+                                                type: 'text',
+                                            }
+                                        },
+                                        {//Associated node
+                                            field: 'colorVulue',
+                                            editable: true,
+                                            title: '色彩值',
+                                            editConfig: {
+                                                type: 'text',
+                                            }
+                                        },
+                                    ],
+                                    data: {
+                                        idField: "id",
+                                        tableID: "color-setting-grid",
+                                        dataSource: colorJudgeArray,                                  
+                                    },
+                                    ui: {
+                                        isAutoSerial: true,
+                                        isHeader: false,
+                                        minPageLength: 10,
+                                        isEditMode: true,
+                                        pageLengthDefault: 300,
+                                        selectMode: "single",
+                                        isHaveEditDeleteBtn: false,
+                                        isAllowAdd: true,
+                                        height: 250,
+                                        tableRowBtns:[{
+                                            text:'删除',
+                                            //计算公式编辑
+                                            handler:function(data){
+                                                debugger;
+                                                var gridId = data.gridId;
+                                                var dataArray =NetStarGrid.dataManager.getData(gridId);
+                                                var rowIndex = data.rowIndex;
+                                                dataArray = dataArray.splice(rowIndex,gridId);
+                                                NetStarGrid.refreshDataById('color-setting-grid', dataArray);
+                                            }
+                                        }]                                    
+                                    }
+                                }
+                                var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree')
+                                var colorJudge = treeNode[0].colorJudge;
+                                var colorJudgeArray = [];
+
+                                //colorJudge需要转换为JSON，服务器端返回为空 或者 undefined 等情况会引发错误
+                                try{
+                                    colorJudgeArray = JSON.parse(colorJudge);
+                                }catch(err){
+                                    console.warn('colorJudge不能转化为列表')
+                                }
+                                // colorJudge = JSON.parse(colorJudge);
+                                colorSettingGrid.data.dataSource = colorJudgeArray;                     
+                                NetStarGrid.init(colorSettingGrid);
+                                vueButtonComponent.init(colorSettingbtns);
+                            }
+                        }
+                        //联动值按钮
+                        formJsonFields[37].btns = [{
+                            name: '<i class="icon-add"></i>',
+                            handler: function () {         
+                                NetstarComponent.dialogComponent.init(linkageValueDialog);
+                            }
+                        }]                      
+                        //关联值按钮                   
+                        formJsonFields[16].btns = [{
+                            name: '<i class="icon-add"></i>',
+                            handler: function () {
+                                NetstarComponent.dialogComponent.init(associatValueDialog); 
+                            }
+                        }]
+                        //计算公式按钮
+                        formJsonFields[17].btns = [{
+                            name: '<i class="icon-add"></i>',
+                            handler : function () {
+                                NetstarComponent.dialogComponent.init(countFormulaDialog);
+                            }
+                        }]
+                        //颜色设置
+                        formJsonFields[18].btns = [{
+                            name: '<i class="icon-add"></i>',
+                            handler : function () {
+                                NetstarComponent.dialogComponent.init(colorSettingDialog);
+                            }
+                        }]
+                        //联动模板没有选择时联动值只读
+                        formJsonFields[36].changeHandler = function(obj){
+                            var value = obj.value;
+                            var formId = obj.config.formID;
+                            var edit = {
+                                id : 'allLinkageValues',
+                            }
+                            if(value === ''){
+                                edit.disabled = true;
+                            }else{
+                                edit.disabled = false;
+                            }
+                            NetstarComponent.editComponents([edit], formId);
+                        }
+                        // 表单
+                        var formJson = {
+                            defaultComponentWidth: '33%',
+                            id: "data-element-protect-from",
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            formLayout: "pt-form-inline",
+                            // plusClass: "treeform-dialog",
+                            form: formJsonFields,
+                            completeHandler: function () {},
+                        }
+                    
+                        var component = NetstarComponent.formComponent.getFormConfig(formJson, {});
+                        NetstarComponent.formComponent.init(component, formJson);
+                    })
+                    // var pageConfig = resParams.pageConfig;
+                    // if (typeof (pageConfig) == 'string') {
+                    //     pageConfig = JSON.parse(pageConfig);
+                    // }
+                    // var mindmapJson = resParams.mindmapJson;
+                    // if (typeof (mindmapJson) == 'string') {
+                    //     mindmapJson = JSON.parse(mindmapJson);
+                    // }
+                    // var voName = '';
+                    // for (var key in mindmapJson) {
+                    //     voName = key;
+                    // }                  
+                    // eval('{' + voName + '=nsProject.init(mindmapJson[voName])' + '}');
+                    // pageConfig = pageConfig.config;
+                    // console.log(pageConfigh);
+                    // var formJsonFields = eval(pageConfig.components[0].field);
+                    // var hideFieldArray = pageConfig.components[0].hide;
+                    // var hideFieldObj = {};
+                    // for (var i = 0; i < hideFieldArray.length; i++) {
+                    //     hideFieldObj[hideFieldArray[i]] = {
+                    //         id: hideFieldArray[i],
+                    //         type: 'hidden'
+                    //     };
+                    // }
+                    // //form 表单隐藏字段替换
+                    // for (var i = 0; i < formJsonFields.length; i++) {
+                    //     var fieldId = formJsonFields[i].id;
+                    //     // var associatedValue = ''
+                    //     if (typeof (hideFieldObj[fieldId]) == 'object') {
+                    //         formJsonFields[i] = hideFieldObj[fieldId];
+                    //     }
+
+                    // } 
+                    // //关联值弹框  [16]
+                    // var associatValueDialog = {
+                    //     id: 'associatvaluedialog',
+                    //     height: '70%',
+                    //     width: '70%',
+                    //     templateName: 'PC',
+                    //     isAllowDrag: true, //允许拖拽
+                    //     title: '编辑关联节点',
+                    //     shownHandler: function (data) {
+                    //         var dialogBodyId = data.config.bodyId;
+                    //         $('#' + dialogBodyId).html(
+                    //             '<div id="edit-node-newlybtns" class="edit-node-newlybtns"></div>\
+                    //                 <div id="edit-node-nodegrid"></div>\
+                    //             ');
+                    //             //新增关联
+                    //         var editNodeNewlybtns = {
+                    //             id: 'edit-node-newlybtns',
+                    //             btns: [
+                    //             {
+                    //                 text:'保存',
+                    //                 handler:function(){
+                    //                     var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //                     // var gridData = NetStarGrid.dataManager.getData('count-formula-edit')      
+                    //                     var _ajaxConfig = {
+                    //                         id:treeNode[0].id,
+                    //                         objectState:2,
+                    //                         // gridData:gridData,
+                    //                     }
+                    //                     NetStarUtils.ajax({
+                    //                         url:getRootPath() +'/sample/dataNode2nodes/save',
+                    //                         type:'POST',
+                    //                         // contentType:'application/x-www-form-urlencoded',
+                    //                         data:_ajaxConfig,
+                    //                     },function(res, _ajaxConfig){                                                                               
+                    //                         if(res){
+                    //                             nsalert("保存成功",'success');
+                    //                             // NetstarComponent.dialog.newlyData.VueConfig.close();
+                    //                         }
+                    //                     })
+                    //                 }
+                    //             },{
+                    //                 text: '新增',
+                    //                 handler: function () {
+                    //                     window.NetstarPageDataSouceRelated = (function () {
+                    //                         //id
+                    //                         var doms = {
+                    //                             container: 'netstar-page-datasouce-related',
+                    //                             tabs: 'netstar-page-datasouce-related-tabs',
+                    //                             tree: 'netstar-page-datasouce-related-tree',
+                    //                             form: 'netstar-page-datasouce-related-form',
+                    //                             btns: 'netstar-page-datasouce-related-btns',
+                    //                         }
+                    //                         var uiManager = {
+                    //                             //整体容器
+                    //                             container: {
+                    //                                 html: '<div id="' + doms.container + '">\
+                    //                                     <div class="pt-tab-header" >\
+                    //                                         <div class="pt-nav">\
+                    //                                             <ul id="' + doms.tabs + '" class="pt-tab-list-components-tabs">\
+                    //                                             </ul>\
+                    //                                         </div>\
+                    //                                     </div>\
+                    //                                     <div class="pt-tab-body">\
+                    //                                         <div id="' + doms.tree + '" class="tab-conent-layout" >\
+                    //                                         </div>\
+                    //                                         <div class="data-node" id="' + doms.form + '" class="tab-conent-layout" >\
+                    //                                         </div>\
+                    //                                         <div class="data-node" id="' + doms.btns + '" class="tab-conent-layout" >\
+                    //                                         </div>\
+                    //                                     </div>\
+                    //                                 </div>',
+                    //                                 init: function (el) {
+                    //                                     var _this = this;
+                    //                                     $(el).html(_this.html);
+                    //                                 }
+                    //                             },
+                    //                             //TABS处理
+                    //                             tabs: {
+                    //                                 html: '<li v-for="(item, index) in items" class="component-list pt-nav-item current" :ns-index="index" >\
+                    //                                         <a href="javascript:void(0);" :data-value="item.value" @click="tabClickHandler">{{item.name}}</a>\
+                    //                                     </li>',
+                    //                                 data: [{
+                    //                                         name: '方法数据元',
+                    //                                         value:3,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '样品数据元',
+                    //                                         value:2,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '记录样品数据元',
+                    //                                         value:4,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '记录数据元',
+                    //                                         value:2,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '表格数据元',
+                    //                                         value:1,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '项目数据元',
+                    //                                         value:8,
+                    //                                     }
+                    //                                 ],
+                    //                                 init: function (_uiManager) {
+                    //                                     var _this = this;
+                    //                                     _this.uiManager = _uiManager;
+                    //                                     // debugger;
+                    //                                     $('#' + doms.tabs).html(_this.html);
+                    //                                     _this.initVue();
+                    //                                 }, 
+                    //                                     //tab绑定
+                    //                                 initVue: function (_uiManager) {
+                    //                                     var _this = this;
+                    //                                     var tabsVue = new Vue({
+                    //                                         el: '#' + doms.tabs,
+                    //                                         this:_this,
+                    //                                         uiManager:_uiManager,
+                    //                                         data: {
+                    //                                             items: _this.data,
+                    //                                         },
+                    //                                         methods:{
+                    //                                             //tab点击
+                    //                                             tabClickHandler:function(ev){
+                    //                                                 var value = ev.target.dataset.value;
+                    //                                                 value = parseInt(value);
+                    //                                                 uiManager.tree.initajax(value, function(res, _config){
+                    //                                                     uiManager.tree.initZtree(res);
+                    //                                                 });
+                    //                                             }
+                    //                                         }
+                    //                                     })
+                    //                                 }  
+                    //                             },
+                    //                             //tree
+                    //                             tree: {
+                    //                                 html: '<ul id="treedemo" class="ztree"></ul>',
+                    //                                 init: function (_uiManager) {
+                    //                                     var _this = this;
+                    //                                     _this.uiManager = _uiManager;
+                    //                                     $('#' + doms.tree).html(_this.html);
+                    //                                     // _this.initZtree();
+                    //                                     _this.initajax(0, function(data, _config){
+                    //                                         uiManager.tree.initZtree(data);
+                    //                                     });
+                                                        
+                    //                                 },
+                    //                                 //ajax
+                    //                                 initajax: function (value, callBackFunc) {
+                    //                                     NetStarUtils.ajax({
+                    //                                         url:getRootPath() + '/sample/dataSourceNodes/getTreeListByDsType',
+                    //                                         //url: getRootPath() + '/docs/data/data-newly/newly.json',
+                    //                                         // type:'POST',
+                    //                                         type:'GET',
+                    //                                         //contentType: 'application/json; charset=utf-8',   
+                    //                                         contentType:'application/x-www-form-urlencoded',
+                    //                                         data:{
+                    //                                             dataSourceType : value,
+                    //                                         },   
+                    //                                         plusData : {
+                    //                                             callBackFunc : callBackFunc,
+                    //                                         },                          
+                    //                                     },function(res, _ajaxConfig){
+                    //                                         if(res){
+                    //                                             nsalert('获取树成功')
+                    //                                             if(typeof(_ajaxConfig.plusData.callBackFunc) == "function"){
+                    //                                                 _ajaxConfig.plusData.callBackFunc(res.rows);
+                    //                                             }
+                    //                                         }else{
+                    //                                             nsalert('获取树失败')
+                    //                                         }
+                    //                                     })
+                    //                                 },
+                    //                                 //树
+                    //                                 initZtree: function (sourceNodes) {
+                    //                                     var zTreeObj;
+                    //                                     var setting = {
+                    //                                         data:{
+                    //                                             simpleData:{
+                    //                                             },
+                    //                                             key:{
+                    //                                                 name: "nodeName",
+                    //                                             }
+                    //                                         },
+                    //                                         callback:{
+                    //                                             onClick:function(ev, treeId, treeNode){
+                    //                                                 var _treeNode = {};
+                    //                                                 //如果有下级则不可用
+                    //                                                 uiManager.tree.selectedNode = treeNode;
+                                                                    
+                    //                                                 if($.isArray(treeNode.children)){
+                    //                                                     if(treeNode.children.length > 0){
+                    //                                                         return;
+                    //                                                     }
+                    //                                                 }
+                                                                    
+                    //                                                 //过滤掉无用的数据添加到刷新里面
+                    //                                                 for(var key in treeNode){
+                    //                                                     switch(typeof(treeNode[key])){
+                    //                                                         case 'object':
+                    //                                                         case 'function':
+                    //                                                             break;
+                    //                                                         default:
+                    //                                                             _treeNode[key] = treeNode[key]
+                    //                                                             break;
+                    //                                                     }
+                                                                        
+                    //                                                 }
+                    //                                                 uiManager.form.refreshItems(_treeNode);
+
+                    //                                             },
+                    //                                         }
+                    //                                     };
+                    //                                     var _this=this;
+                    //                                     var zNodes = sourceNodes;
+                    //                                         zTreeObj = $.fn.zTree.init($("#treedemo"), setting, zNodes);
+
+                    //                                 }
+                    //                             },      //class="fa fa-close"         
+                    //                             //form
+                    //                             form: {
+                    //                                 html:'<div class="data-select-node">选择节点 : </div>\
+                    //                                 <div id="data-node" class="data-node-left">\
+                    //                                     <div class="select-node"v-for = "(item, index) in items">\
+                    //                                         {{item.nodeName}} \
+                    //                                         <i @click="clickItem(index)" :data-index="index"> 删除</i>\
+                    //                                     </div>\
+                    //                                 </div>',
+                    //                                 items:[],
+                    //                                 initVue :function(selectedNodes){                       
+                    //                                     var _this = this;
+                    //                                     var vue = new Vue({
+                    //                                         el:'#data-node',
+                    //                                         data:{
+                    //                                             items:selectedNodes,
+                    //                                         },
+                    //                                         methods:{
+                    //                                             clickItem:function(ev){
+                    //                                                 var _this = this;
+                    //                                                 console.log(ev);    
+                    //                                                 // console.log(_this.items);
+                    //                                                 _this.items.splice(ev,1);
+                    //                                             }
+                    //                                         }
+                    //                                     });
+                    //                                     _this.vue = vue; 
+                    //                                     // debugger;          
+                    //                                 },
+                    //                                 init:function(_uiManager){
+                    //                                     var _this = this;
+                    //                                     _this.uiManager = _uiManager;
+                    //                                     $('#' + doms.form).html(_this.html);
+                    //                                     _this.initVue([]);
+                    //                                 },
+                    //                                 refreshItems:function(treeNode){
+                    //                                     var _this = this;
+                    //                                     _this.items.push(treeNode);
+                    //                                     _this.vue.items = _this.items;
+                    //                                 },
+                    //                             },
+                    //                             btns:{
+                    //                                 initbtns:function(footerId){
+                    //                                     var btns= {
+                    //                                         id:footerId,
+                    //                                         btns:[
+                    //                                             {
+                    //                                                 text:'保存',
+                    //                                                 handler:function(){
+                         
+                    //                                                     var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //                                                     var treeData = NetstarPageDataSouceRelated.uiManager.tree.selectedNode;
+                                                                        
+                    //                                                     var _ajaxConfig = {
+                    //                                                         nodeId:treeNode[0].id,
+                    //                                                         influenceNodeId:treeData.id,
+                    //                                                         objectState:1,
+                    //                                                     }
+                    //                                                     NetStarUtils.ajax({
+                    //                                                         // url:getRootPath() +'/sample/dataSourceNodes/saveNode',
+                    //                                                         url:getRootPath() +'/sample/dataNode2nodes/save',
+                    //                                                         type:'POST',
+                    //                                                         // contentType:'application/x-www-form-urlencoded',
+                    //                                                         data:_ajaxConfig,
+                    //                                                     },function(res, _ajaxConfig){                                                                               
+                    //                                                         if(res){
+                    //                                                             nsalert("保存成功",'success');
+                    //                                                             NetStarGrid.refreshById('edit-node-nodegrid');
+                    //                                                         }
+                    //                                                     })
+                    //                                                 }
+                    //                                             }
+                    //                                         ]
+                    //                                     }
+                    //                                     vueButtonComponent.init(btns);
+                    //                                 },
+                    //                                 init:function(obj, footerId){
+                    //                                     this.initbtns(footerId);
+                    //                                 }
+                    //                             },
+                    //                             init: function (config) {
+                    //                                 var _this = this;
+                    //                                 _this.container.init(config.el);
+                    //                                 _this.tabs.init(_this);
+                    //                                 _this.tree.init(_this);//当前this为uiManager
+                    //                                 _this.form.init(_this);
+                    //                                 _this.btns.init(_this, config.footerId)
+                                                    
+                    //                             },
+                                                
+
+                    //                         }
+
+                    //                         return {
+                    //                             uiManager: uiManager,
+
+                    //                         }
+                    //                     })()
+                    //                     var newlyDialog = {
+                    //                         id: 'newlyData',
+                    //                         height: '80%',
+                    //                         width: '80%',
+                    //                         templateName: 'PC',
+                    //                         isAllowDrag: true, //允许拖拽
+                    //                         title: '新增关联',
+                    //                         shownHandler: function (data) {
+                    //                             var dialogBodyId = data.config.bodyId;
+                    //                             NetstarPageDataSouceRelated.uiManager.init({
+                    //                                 el: '#' + dialogBodyId,
+                    //                                 footerId : data.config.footerId,
+                    //                             });
+                    //                         }
+                    //                     }
+                    //                     NetstarComponent.dialogComponent.init(newlyDialog); //弹框初始化
+                    //                     }                                          
+                    //                 }                                            
+                    //             ]
+                    //         }
+                    //         //节点列表
+                    //         var treeDataNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //         var editNodeGrid = {
+                    //             columns: [{
+                    //                     field: 'dataSourceType',
+                    //                     title: '数据元类型',
+                    //                     editConfig: {
+                    //                         type: 'text',
+                    //                     }
+                    //                 },
+                    //                 {
+                    //                     field: 'dataSourceName',
+                    //                     title: '数据元',
+                    //                     editConfig: {
+                    //                         type: 'text',
+                    //                     }
+                    //                 },
+                    //                 {
+                    //                     field: 'nodeName',
+                    //                     title: '节点名称',
+                    //                     editConfig: {
+                    //                         type: 'text',
+                    //                     }
+                    //                 }
+                    //             ],
+                    //             data: {
+                    //                 idField: "id",
+                    //                 tableID: "edit-node-nodegrid",
+                    //                 src: getRootPath() + '/sample/dataNode2nodes/getListByNodeId',
+                    //                  contentType:'application/x-www-form-urlencoded',
+                    //                 type:'GET',
+                    //                 // dataSrc:'row',
+                    //                 data:{id:treeDataNode[0].id},
+                    //             },
+                    //             ui: {
+                    //                 isAutoSerial: true,
+                    //                 isHeader: false,
+                    //                 minPageLength: 10,
+                    //                 isEditMode: true,
+                    //                 pageLengthDefault: 300,
+                    //                 selectMode: "single",
+                    //                 isHaveEditDeleBtn: true,
+                    //                 isAllowAdd: true,
+                    //                 height: 250,
+                    //             }
+                    //         }
+                    //         NetStarGrid.init(editNodeGrid);
+                    //         vueButtonComponent.init(editNodeNewlybtns);
+                    //     }
+                    // }
+                    // console.log(formJsonFields);
+                    // //联动值弹框  [37]
+                    // var linkageValueDialog = {
+                    //     id: 'method',
+                    //     height: '70%',
+                    //     width: '70%',
+                    //     templateName: 'PC',
+                    //     isAllowDrag: true, //允许拖拽
+                    //     title: '编辑联动模板',
+                    //     shownHandler: function (data) {
+                    //         var dialogBodyId = data.config.bodyId;
+                    //         $('#' + dialogBodyId).html(
+                    //             '<div id="linkage-value-newlybtns" class="edit-node-newlybtns"></div>\
+                    //                 <div id="linkage-value-nodegrid"></div>\
+                    //             ');
+                    //         //联动值维护新增按钮
+                    //         var linkageValuebtns = {
+                    //             id: 'linkage-value-newlybtns',
+                    //             btns: [
+                    //             {
+                    //                 text:'保存',
+                    //                 handler: function (){
+                    //                     var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //                     // var gridData = NetStarGrid.dataManager.getData('count-formula-edit')      
+                    //                     var _ajaxConfig = {
+                    //                         id:treeNode[0].id,
+                    //                         objectState:2,
+                    //                         // gridData:gridData,
+                    //                     }
+                    //                     NetStarUtils.ajax({
+                    //                         url:getRootPath() +'/sample/dataNode2nodes/save',
+                    //                         type:'POST',
+                    //                         // contentType:'application/x-www-form-urlencoded',
+                    //                         data:_ajaxConfig,
+                    //                     },function(res, _ajaxConfig){                                                                               
+                    //                         if(res){
+                    //                             nsalert("保存成功",'success');
+                    //                             // NetstarComponent.dialog.newlyData.VueConfig.close();
+                    //                         }
+                    //                     })
+                    //                 }
+                    //             },
+                                    
+                    //             {
+                    //                 text: '新增',
+                    //                 handler: function () {
+                    //                         var newlyForm = {
+                    //                             id:"linkage-form",
+                    //                             templateName: 'form',
+                    //                             componentTemplateName:'PC',
+                    //                             isSetMore:false,
+                    //                             form:[
+                    //                                 {
+                    //                                     id:'influenceNodeId',
+                    //                                     label:'影响的数据元节点',
+                    //                                     type:'select',
+                    //                                     textField: 'nodeName',
+                    //                                     valueField: 'id',
+                    //                                     url : getRootPath() + '/sample/dataSourceNodes/getList',
+                    //                                     dataSrc : 'rows',
+                    //                                 },
+                    //                                 {
+                    //                                     id:'linkageValue',
+                    //                                     label:'联动值',
+                    //                                     type:'select',
+                    //                                     textField: 'text',
+                    //                                     valueField: 'value',
+                    //                                     url : getRootPath() + '/sample/dataNodeLinks/getProductTemplateList',
+                    //                                     dataSrc : 'rows',
+                    //                                 }
+                    //                             ]
+                    //                         }
+                    //                         //选不同的联动模板调不同ajax
+                    //                         var prevFormData = NetstarComponent.getValues('data-element-protect-from', false);
+                    //                         if(prevFormData.linkageTemplateId == '1'){
+                    //                             newlyForm.form[1].url =  getRootPath() + '/sample/dataNodeLinks/getEquipmentTemplateList'
+                                        
+                    //                         }
+                                            
+                    //                         var selectTreeData = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //                         if(selectTreeData){
+                    //                             newlyForm.form[0].data = {                      
+                    //                                 prentId : 0,
+                    //                                 dataSourceId : selectTreeData[0].dataSourceId
+                    //                             }
+                    //                         }
+                                            
+                    //                         //联动值维护按钮
+                                            
+                    //                         var newlyBtns = {
+                    //                                 id: 'linkage-btns',
+                    //                                 btns: [{
+                    //                                     text: '确认',
+                    //                                     handler: function () {
+                    //                                         var treeData = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree')
+                    //                                         var formData = NetstarComponent.getValues('linkage-form');
+                    //                                         var arrayData = NetStarGrid.getSelectedData('linkage-value-nodegrid');
+                    //                                         formData.nodeId = treeData[0].id;
+                    //                                         formData.objectState = 1;
+                    //                                         NetStarUtils.ajax({
+                    //                                             url:getRootPath() + '/sample/dataNodeLinks/save',
+                    //                                             data:formData,
+                    //                                             //contentType:'application/x-www-form-urlencoded',
+                    //                                             contentType:'application/json; charset=utf-8',
+                    //                                             type:'POST',
+                    //                                         },function(res, _ajaxConfig){
+                    //                                             if(res){
+                    //                                                 nsalert('同步成功','success');
+                    //                                                 NetstarComponent.dialog.edit.vueConfig.close()
+
+                    //                                             };
+                    //                                             NetStarGrid.refreshById('linkage-value-nodegrid');//,,{linkageId:formData}
+                    //                                         })  
+                    //                                     } ,                                           
+                    //                                 },{
+                    //                                     text: '关闭',
+                    //                                     handler:function () {
+
+                    //                                     }
+                    //                                 }]
+                    //                             }     
+                    //                         //联动值维护弹框
+                    //                         var newlyDialog = {
+                    //                             id:'edit',
+                    //                             height:'50%',
+                    //                             width:'50%',
+                    //                             templateName:'PC',
+                    //                             isAllowDage:true,
+                    //                             title:'联动值维护',
+                    //                             shownHandler:function (data){
+                    //                                 var dialogBodyId = data.config.bodyId;
+                    //                                 // var footerId = data.config.footerId
+                    //                                 $("#" +dialogBodyId).html(
+                    //                                     '<div id="linkage-form"></div>\
+                    //                                     <div id="linkage-btns"></div>')
+
+                    //                                 var component = NetstarComponent.formComponent.getFormConfig(newlyForm);
+                    //                                 NetstarComponent.formComponent.init(component, newlyForm); 
+                    //                                 vueButtonComponent.init(newlyBtns);                                                     
+                    //                             }
+                    //                         }
+                    //                         NetstarComponent.dialogComponent.init(newlyDialog);                           
+                    //                 }                                            
+                    //             }]
+                    //         }                               
+                    //             //联动值grid
+                    //         var treeSelectedNodes = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                          
+                    //         var linkageGrid = {
+                    //             columns: [
+                    //                 {
+                    //                     field: 'influenceNodeId',
+                    //                     title: '影响节点名称',
+                    //                     editable: true,
+                    //                     editConfig: {
+                    //                         type: 'select',
+                    //                         textField: 'nodeName',
+                    //                         valueField: 'id',
+                    //                         url : getRootPath() + '/sample/dataSourceNodes/getList',/// '/sample/dataSourceNodes/getList'
+                    //                         dataSrc : 'rows',
+                    //                         method: 'GET', 
+                    //                         data:{dataSourceId : treeSelectedNodes[0].dataSourceId}
+                                        
+                    //                     },
+                    //                 },
+                    //                 {
+                    //                     field: 'linkageValue',
+                    //                     title: '联动名称',
+                    //                     editable: true,
+                    //                     editConfig: {
+                    //                         type: 'select',
+                    //                         textField: 'text',
+                    //                         valueField: 'value', 
+                    //                         url : getRootPath() + '/sample/dataNodeLinks/getProductTemplateList',
+                    //                         dataSrc : 'rows',
+                    //                         method: 'GET',                                     
+                    //                     },
+                    //                 }
+                    //             ],
+                    //             data: {
+                    //                 idField: "id",
+                    //                 tableID: "linkage-value-nodegrid",
+                    //                 src: getRootPath() + '/sample/dataNodeLinks/getList',
+                    //                 //contentType:'application/x-www-form-urlencoded',
+                    //                 contentType:'application/json; charset=utf-8',
+                    //                 type:'GET',
+                    //                 dataSrc:'rows',
+                    //                 data:{
+                    //                     "nodeId":treeSelectedNodes[0].id,
+                    //                 },
+
+                    //             },
+                    //             ui: {
+                    //                 isAutoSerial: true,
+                    //                 isHeader: false,
+                    //                 minPageLength: 10,
+                    //                 isEditMode: true,
+                    //                 pageLengthDefault: 300,
+                    //                 selectMode: "single",
+                    //                 isHaveEditDeleBtn: true,
+                    //                 isAllowAdd: true,
+                    //                 height: 250,
+                    //                 // 联动值行内按钮编辑
+                                                                         
+                    //             }
+                    //         }
+                    //         var prevFormData = NetstarComponent.getValues('data-element-protect-from', false);
+                       
+                    //             if(prevFormData.linkageTemplateId == '1'){
+                    //                 linkageGrid.columns[2].editConfig.url =  getRootPath() + '/sample/dataNodeLinks/getEquipmentTemplateList'             
+                    //             }
+                    //         NetStarGrid.init(linkageGrid);
+                    //         vueButtonComponent.init(linkageValuebtns);
+                          
+                    //     }
+                    // }
+                    // //计算公式弹框 [17] //公式formula
+                    // var countFormulaDialog = {
+                    //     id: 'countformuladialog',
+                    //     height: '70%',
+                    //     width: '70%',
+                    //     templateName: 'PC',
+                    //     isAllowDrag: true, //允许拖拽
+                    //     title: '编辑计算公式',
+                    //     shownHandler: function (data) {
+                    //         var dialogBodyId = data.config.bodyId;
+                    //         $('#' + dialogBodyId).html('\
+                    //             <div id="count-formula-btns"></div>\
+                    //             <div id="count-formula-edit"></div>\
+                    //             ');
+                    //         var countFormulabtns = {
+                    //             id: 'count-formula-btns',
+                    //             btns: [{
+                    //                 text: '保存',
+                    //                 handler: function () {
+                    //                     var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //                     var gridData = NetStarGrid.dataManager.getData('count-formula-edit')      
+                    //                     var _ajaxConfig = {
+                    //                         id:treeNode[0].id,
+                    //                         gridData:gridData,
+                    //                     }
+                                      
+                    //                     NetStarUtils.ajax({
+                    //                         url:getRootPath() +'/sample/dataNode2nodes/save',
+                    //                         type:'POST',
+                    //                         // contentType:'application/x-www-form-urlencoded',
+                    //                         data:_ajaxConfig,
+                    //                     },function(res, _ajaxConfig){                                                                               
+                    //                         if(res){
+                    //                             nsalert("保存成功",'success');
+                    //                             // NetstarComponent.dialog.newlyData.VueConfig.close();
+                    //                         }
+                    //                     })
+                    //                 },                                                                                 
+                    //             },{
+                    //                 text: '选择数据源节点',
+                    //                 handler: function () {
+                    //                     window.NetstarPageDataSouceRelated = (function () {
+                    //                         //id
+                    //                         var doms = {
+                    //                             container: 'netstar-page-datasouce-related',
+                    //                             tabs: 'netstar-page-datasouce-related-tabs',
+                    //                             tree: 'netstar-page-datasouce-related-tree',
+                    //                             form: 'netstar-page-datasouce-related-form',
+                    //                             btns: 'netstar-page-datasouce-related-btns',
+                    //                         }
+                    //                         var uiManager = {
+                    //                             //整体容器
+                    //                             container: {
+                    //                                 html: '<div id="' + doms.container + '">\
+                    //                                     <div class="pt-tab-header" >\
+                    //                                         <div class="pt-nav">\
+                    //                                             <ul id="' + doms.tabs + '" class="pt-tab-list-components-tabs">\
+                    //                                             </ul>\
+                    //                                         </div>\
+                    //                                     </div>\
+                    //                                     <div class="pt-tab-body">\
+                    //                                         <div id="' + doms.tree + '" class="tab-conent-layout" >\
+                    //                                         </div>\
+                    //                                         <div class="data-node" id="' + doms.form + '" class="tab-conent-layout" >\
+                    //                                         </div>\
+                    //                                         <div class="data-node" id="' + doms.btns + '" class="tab-conent-layout" >\
+                    //                                         </div>\
+                    //                                     </div>\
+                    //                                 </div>',
+                    //                                 init: function (el) {
+                    //                                     var _this = this;
+                    //                                     $(el).html(_this.html);
+                    //                                 }
+                    //                             },
+                    //                             //TABS处理
+                    //                             tabs: {
+                    //                                 html: '<li v-for="(item, index) in items" class="component-list pt-nav-item current" :ns-index="index" >\
+                    //                                         <a href="javascript:void(0);" :data-value="item.value" @click="tabClickHandler">{{item.name}}</a>\
+                    //                                     </li>',
+                    //                                 data: [{
+                    //                                         name: '方法数据元',
+                    //                                         value:3,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '样品数据元',
+                    //                                         value:2,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '记录样品数据元',
+                    //                                         value:4,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '记录数据元',
+                    //                                         value:2,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '表格数据元',
+                    //                                         value:1,
+                    //                                     },
+                    //                                     {
+                    //                                         name: '项目数据元',
+                    //                                         value:8,
+                    //                                     }
+                    //                                 ],
+                    //                                 init: function (_uiManager) {
+                    //                                     var _this = this;
+                    //                                     _this.uiManager = _uiManager;
+                    //                                     // debugger;
+                    //                                     $('#' + doms.tabs).html(_this.html);
+                    //                                     _this.initVue();
+                    //                                 }, 
+                    //                                     //tab绑定
+                    //                                 initVue: function (_uiManager) {
+                    //                                     var _this = this;
+                    //                                     var tabsVue = new Vue({
+                    //                                         el: '#' + doms.tabs,
+                    //                                         this:_this,
+                    //                                         uiManager:_uiManager,
+                    //                                         data: {
+                    //                                             items: _this.data,
+                    //                                         },
+                    //                                         methods:{
+                    //                                             //tab点击
+                    //                                             tabClickHandler:function(ev){
+                    //                                                 var value = ev.target.dataset.value;
+                    //                                                 value = parseInt(value);
+                    //                                                 uiManager.tree.initajax(value, function(res, _config){
+                    //                                                     uiManager.tree.initZtree(res);
+                    //                                                 });
+                    //                                             }
+                    //                                         }
+                    //                                     })
+                    //                                 }  
+                    //                             },
+                    //                             //tree
+                    //                             tree: {
+                    //                                 html: '<ul id="treedemo" class="ztree"></ul>',
+                    //                                 init: function (_uiManager) {
+                    //                                     var _this = this;
+                    //                                     _this.uiManager = _uiManager;
+                    //                                     $('#' + doms.tree).html(_this.html);
+                    //                                     // _this.initZtree();
+                    //                                     _this.initajax(0, function(data, _config){
+                    //                                         uiManager.tree.initZtree(data);
+                    //                                     });
+                                                        
+                    //                                 },
+                    //                                 //ajax
+                    //                                 initajax: function (value, callBackFunc) {
+                    //                                     NetStarUtils.ajax({
+                    //                                         url:getRootPath() + '/sample/dataSourceNodes/getTreeListByDsType',
+                    //                                         //url: getRootPath() + '/docs/data/data-newly/newly.json',
+                    //                                         // type:'POST',
+                    //                                         type:'GET',
+                    //                                         //contentType: 'application/json; charset=utf-8',   
+                    //                                         contentType:'application/x-www-form-urlencoded',
+                    //                                         data:{
+                    //                                             dataSourceType : value,
+                    //                                         },   
+                    //                                         plusData : {
+                    //                                             callBackFunc : callBackFunc,
+                    //                                         },                          
+                    //                                     },function(res, _ajaxConfig){
+                    //                                         if(res){
+                    //                                             nsalert('获取树成功')
+                    //                                             if(typeof(_ajaxConfig.plusData.callBackFunc) == "function"){
+                    //                                                 _ajaxConfig.plusData.callBackFunc(res.rows);
+                    //                                             }
+                    //                                         }else{
+                    //                                             nsalert('获取树失败')
+                    //                                         }
+                    //                                     })
+                    //                                 },
+                    //                                 //树
+                    //                                 initZtree: function (sourceNodes) {
+                    //                                     var zTreeObj;
+                    //                                     var setting = {
+                    //                                         data:{
+                    //                                             simpleData:{
+                    //                                             },
+                    //                                             key:{
+                    //                                                 name: "nodeName",
+                    //                                             }
+                    //                                         },
+                    //                                         callback:{
+                    //                                             onClick:function(ev, treeId, treeNode){
+                    //                                                 var _treeNode = {};
+                    //                                                 //如果有下级则不可用
+                    //                                                 uiManager.tree.selectedNode = treeNode;
+                                                                    
+                    //                                                 if($.isArray(treeNode.children)){
+                    //                                                     if(treeNode.children.length > 0){
+                    //                                                         return;
+                    //                                                     }
+                    //                                                 }
+                                                                    
+                    //                                                 //过滤掉无用的数据添加到刷新里面
+                    //                                                 for(var key in treeNode){
+                    //                                                     switch(typeof(treeNode[key])){
+                    //                                                         case 'object':
+                    //                                                         case 'function':
+                    //                                                             break;
+                    //                                                         default:
+                    //                                                             _treeNode[key] = treeNode[key]
+                    //                                                             break;
+                    //                                                     }
+                                                                        
+                    //                                                 }
+                    //                                                 uiManager.form.refreshItems(_treeNode);
+
+                    //                                             },
+                    //                                         }
+                    //                                     };
+                    //                                     var _this=this;
+                    //                                     var zNodes = sourceNodes;
+                    //                                         zTreeObj = $.fn.zTree.init($("#treedemo"), setting, zNodes);
+
+                    //                                 }
+                    //                             },      //class="fa fa-close"         
+                    //                             //form
+                    //                             form: {
+                    //                                 html:'<div class="data-select-node">选择节点 : </div>\
+                    //                                 <div id="data-node" class="data-node-left">\
+                    //                                     <div class="select-node"v-for = "(item, index) in items">\
+                    //                                         {{item.nodeName}} \
+                    //                                         <i @click="clickItem(index)" :data-index="index"> 删除</i>\
+                    //                                     </div>\
+                    //                                 </div>',
+                    //                                 items:[],
+                    //                                 initVue :function(selectedNodes){                       
+                    //                                     var _this = this;
+                    //                                     var vue = new Vue({
+                    //                                         el:'#data-node',
+                    //                                         data:{
+                    //                                             items:selectedNodes,
+                    //                                         },
+                    //                                         methods:{
+                    //                                             clickItem:function(ev){
+                    //                                                 var _this = this;
+                    //                                                 console.log(ev);    
+                    //                                                 // console.log(_this.items);
+                    //                                                 _this.items.splice(ev,1);
+                    //                                             }
+                    //                                         }
+                    //                                     });
+                    //                                     _this.vue = vue; 
+                    //                                     // debugger;          
+                    //                                 },
+                    //                                 init:function(_uiManager){
+                    //                                     var _this = this;
+                    //                                     _this.uiManager = _uiManager;
+                    //                                     $('#' + doms.form).html(_this.html);
+                    //                                     _this.initVue([]);
+                    //                                 },
+                    //                                 refreshItems:function(treeNode){
+                    //                                     var _this = this;
+                    //                                     _this.items.push(treeNode);
+                    //                                     _this.vue.items = _this.items;
+                    //                                 },
+                    //                             },
+                    //                             btns:{
+                    //                                 initbtns:function(footerId){
+                    //                                     var btns= {
+                    //                                         id:footerId,
+                    //                                         btns:[
+                    //                                             {
+                    //                                                 text:'保存',
+                    //                                                 handler:function(){
+                                               
+                    //                                                     // debugger;
+                    //                                                     var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //                                                     var treeData = NetstarPageDataSouceRelated.uiManager.tree.selectedNode;                                          
+                    //                                                     var _ajaxConfig = {
+                    //                                                         nodeId:treeNode[0].id,
+                    //                                                         influenceNodeId:treeData.id,
+                    //                                                         objectState : 1, 
+                    //                                                     }
+                    //                                                     NetStarUtils.ajax({
+                    //                                                         url:getRootPath() +'/sample/dataNode2formula/saveFormula',
+                    //                                                         type:'POST',
+                    //                                                         // contentType:'application/x-www-form-urlencoded',
+                    //                                                         data:_ajaxConfig,
+                    //                                                     },function(res, _ajaxConfig){                                                                               
+                    //                                                         if(res){
+                    //                                                             nsalert("保存成功",'success');
+                    //                                                             // NetstarComponent.dialog.newlyData.VueConfig.close();
+                    //                                                             NetStarGrid.refreshById('count-formula-edit');
+                    //                                                         }
+                    //                                                     })
+                    //                                                 }
+                    //                                             }
+                    //                                         ]
+                    //                                     }
+                    //                                     vueButtonComponent.init(btns);
+                    //                                 },
+                    //                                 init:function(obj, footerId){
+                    //                                     this.initbtns(footerId);
+                    //                                 }
+                    //                             },
+                    //                             init: function (config) {
+                    //                                 var _this = this;
+                    //                                 _this.container.init(config.el);
+                    //                                 _this.tabs.init(_this);
+                    //                                 _this.tree.init(_this);//当前this为uiManager
+                    //                                 _this.form.init(_this);
+                    //                                 _this.btns.init(_this, config.footerId)
+                                                    
+                    //                             },
+                                                
+
+                    //                         }
+
+                    //                         return {
+                    //                             uiManager: uiManager,
+
+                    //                         }
+                    //                     })() 
+                    //                     var dialog1 = {
+                    //                         id: 'newlyData',
+                    //                         height: '80%',
+                    //                         width: '80%',
+                    //                         templateName: 'PC',
+                    //                         isAllowDrag: true, //允许拖拽
+                    //                         title: '新增关联',
+                    //                         shownHandler: function (data) {
+                    //                             var dialogBodyId = data.config.bodyId;
+                    //                             NetstarPageDataSouceRelated.uiManager.init({
+                    //                                 el: '#' + dialogBodyId,
+                    //                                 footerId : data.config.footerId,
+                    //                             });
+                    //                         }
+                    //                     }
+                    //                     NetstarComponent.dialogComponent.init(dialog1); //弹框初始化
+                    //                 }
+                    //             }]
+                    //         }
+                    //         //计算公式
+                    //         var countData = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //         var countFormulaGrid = {
+                    //             columns: [{//Method name
+                    //                     field: 'methodName',
+                    //                     title: '方法名称',
+                    //                     editConfig: {
+                    //                         type: 'text',
+
+                    //                     }
+                    //                 },
+                    //                 {
+                    //                     field: 'formulaId',
+                    //                     title: '计算公式',
+                    //                     editable: true,
+                    //                     editConfig: {
+                    //                         type: 'text',
+                    //                     }
+                    //                 },
+                    //                 {
+                    //                     field: 'nodeId',
+                    //                     title: '关联节点',
+                    //                     editConfig: {
+                    //                         type: 'text',
+                    //                     }
+                    //                 },
+                    //             ],
+                    //             data: {
+                    //                 idField: "id",
+                    //                 tableID: "count-formula-edit",
+                    //                 src: getRootPath() + '/sample/dataNode2methods/getList',
+                    //                 contentType:'application/json; charset=utf-8',
+                    //                 //contentType: 'application/x-www-form-urlencoded',
+                    //                 type:'POST',
+                    //                 data:{nodeId:countData[0].id},
+                    //             },
+                    //             ui: {
+                    //                 isAutoSerial: true,
+                    //                 isHeader: false,
+                    //                 minPageLength: 10,
+                    //                 isEditMode: true,
+                    //                 pageLengthDefault: 300,
+                    //                 selectMode: "single",
+                    //                 isHaveEditDeleBtn: true,
+                    //                 isAllowAdd: true,
+                    //                 height: 250,
+                    //             }
+                    //         }
+                    //         NetStarGrid.init(countFormulaGrid);
+                    //         vueButtonComponent.init(countFormulabtns);
+                    //     }
+                    // }
+                    // //颜色设置 [18] color setting
+                    // var colorSettingDialog = {
+                    //     id: 'colorSettingDialog',
+                    //     height: '70%',
+                    //     width: '70%',
+                    //     templateName: 'PC',
+                    //     isAllowDrag: true, //允许拖拽
+                    //     title: '颜色设置',
+                    //     shownHandler: function (data) {
+                    //         var dialogBodyId = data.config.bodyId;
+                    //         $('#' + dialogBodyId).html('\
+                    //                 <div id="color-setting-grid"></div>\
+                    //                 <div id="count-formula-btns"></div>\
+                    //             ');
+                                    
+                    //         var colorSettingbtns = {
+                    //             id: 'count-formula-btns',
+                    //             btns: [{
+                    //                 text: '保存',
+                    //                 handler: function () {
+                    //                     // var arr = NetStarGrid.configs['color-setting-grid'].vueConfig.data.originalRows;                                       
+                    //                     var arr = NetStarGrid.dataManager.getData('color-setting-grid')
+                    //                     var ajaxData = arr[0];
+                    //                     // ajaxData.id = colorData[0].id;
+                    //                     var _ajaxData = {
+                    //                         colorJudge:JSON.stringify(arr),
+                    //                         id:colorData[0].id , 
+                    //                         objectState : 2 
+                    //                     };  
+                                       
+                    //                     NetStarUtils.ajax({
+                    //                         url:getRootPath() + '/sample/dataSourceNodes/saveNode',
+                    //                         type:'POST',
+                    //                         data: _ajaxData,   
+                    //                         // contentType : 'wwapplication/x-www-form-urlencoded',                                        
+                    //                     },function(res,_ajaxConfig){
+                    //                         if(res){
+                    //                             nsalert('保存成功','success');
+                    //                             NetstarComponent.dialog.colorSettingDialog.vueConfig.close();                                    
+                    //                         }
+                    //                     })
+                    //                 }                                            
+                    //             }]
+                    //         }
+                    //         //颜色设置
+                    //         var colorData = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree');
+                    //         // var colorGridRow = NetStarGrid.getSelectedData('color-setting-grid')
+                    //         var gridConfig = NetStarGrid.configManager.configs;                       
+                    //         console.log(gridConfig);
+                    //         var colorSettingGrid = {
+                    //             columns: [{//Method name
+                    //                     field: 'colorCondition',
+                    //                     title: '色彩条件',
+                    //                     editable: true,                                          
+                    //                     editConfig: {
+                    //                         type: 'select',
+                    //                         textField: 'text',
+                    //                         valueField: 'value', 
+                    //                         url: getRootPath()+ '/sample/dataSourceNodes/getColorConditionList' ,
+                    //                         method: 'GET',
+                    //                         contentType: 'application/x-www-form-urlencoded', 
+                    //                         dataSrc: 'rows',
+                                        
+                    //                     },
+                    //                     columnType : 'subdataText',
+                    //                 },
+                    //                 {
+                    //                     field: 'judegeValue',
+                    //                     title: '判断值',
+                    //                     editable: true,
+                    //                     editConfig: {
+                    //                         type: 'text',
+                    //                     }
+                    //                 },
+                    //                 {//Associated node
+                    //                     field: 'colorVulue',
+                    //                     editable: true,
+                    //                     title: '色彩值',
+                    //                     editConfig: {
+                    //                         type: 'text',
+                    //                     }
+                    //                 },
+                    //             ],
+                    //             data: {
+                    //                 idField: "id",
+                    //                 tableID: "color-setting-grid",
+                    //                 dataSource: colorJudgeArray,                                  
+                    //             },
+                    //             ui: {
+                    //                 isAutoSerial: true,
+                    //                 isHeader: false,
+                    //                 minPageLength: 10,
+                    //                 isEditMode: true,
+                    //                 pageLengthDefault: 300,
+                    //                 selectMode: "single",
+                    //                 isHaveEditDeleteBtn: false,
+                    //                 isAllowAdd: true,
+                    //                 height: 250,
+                    //                 tableRowBtns:[{
+                    //                     text:'删除',
+                    //                     //计算公式编辑
+                    //                     handler:function(data){
+                    //                         debugger;
+                    //                         var gridId = data.gridId;
+                    //                         var dataArray =NetStarGrid.dataManager.getData(gridId);
+                    //                         var rowIndex = data.rowIndex;
+                    //                         dataArray = dataArray.splice(rowIndex,gridId);
+                    //                         NetStarGrid.refreshDataById('color-setting-grid', dataArray);
+                    //                     }
+                    //                 }]                                    
+                    //             }
+                    //         }
+                    //         var treeNode = NetstarTemplate.tree.getSelectedNodes('data-element-protect-tree')
+                    //         var colorJudge = treeNode[0].colorJudge;
+                    //         var colorJudgeArray = [];
+
+                    //         //colorJudge需要转换为JSON，服务器端返回为空 或者 undefined 等情况会引发错误
+                    //         try{
+                    //             colorJudgeArray = JSON.parse(colorJudge);
+                    //         }catch(err){
+                    //             console.warn('colorJudge不能转化为列表')
+                    //         }
+                    //         // colorJudge = JSON.parse(colorJudge);
+                    //         colorSettingGrid.data.dataSource = colorJudgeArray;                     
+                    //         NetStarGrid.init(colorSettingGrid);
+                    //         vueButtonComponent.init(colorSettingbtns);
+                    //     }
+                    // }
+                    // //联动值按钮
+                    // formJsonFields[37].btns = [{
+                    //     name: '<i class="icon-add"></i>',
+                    //     handler: function () {         
+                    //         NetstarComponent.dialogComponent.init(linkageValueDialog);
+                    //     }
+                    // }]                      
+                    // //关联值按钮                   
+                    // formJsonFields[16].btns = [{
+                    //     name: '<i class="icon-add"></i>',
+                    //     handler: function () {
+                    //         NetstarComponent.dialogComponent.init(associatValueDialog); 
+                    //     }
+                    // }]
+                    // //计算公式按钮
+                    // formJsonFields[17].btns = [{
+                    //     name: '<i class="icon-add"></i>',
+                    //     handler : function () {
+                    //         NetstarComponent.dialogComponent.init(countFormulaDialog);
+                    //     }
+                    // }]
+                    // //颜色设置
+                    // formJsonFields[18].btns = [{
+                    //     name: '<i class="icon-add"></i>',
+                    //     handler : function () {
+                    //         NetstarComponent.dialogComponent.init(colorSettingDialog);
+                    //     }
+                    // }]
+                    // //联动模板没有选择时联动值只读
+                    // formJsonFields[36].changeHandler = function(obj){
+                    //     var value = obj.value;
+                    //     var formId = obj.config.formID;
+                    //     var edit = {
+                    //         id : 'allLinkageValues',
+                    //     }
+                    //     if(value === ''){
+                    //         edit.disabled = true;
+                    //     }else{
+                    //         edit.disabled = false;
+                    //     }
+                    //     NetstarComponent.editComponents([edit], formId);
+                    // }
+                    // // 表单
+                    // var formJson = {
+                    //     defaultComponentWidth: '33%',
+                    //     id: "data-element-protect-from",
+                    //     templateName: 'form',
+                    //     componentTemplateName: 'PC',
+                    //     isSetMore: false,
+                    //     formLayout: "pt-form-inline",
+                    //     // plusClass: "treeform-dialog",
+                    //     form: formJsonFields,
+                    //     completeHandler: function () {},
+                    // }
+                  
+                    // var component = NetstarComponent.formComponent.getFormConfig(formJson, {});
+                    // NetstarComponent.formComponent.init(component, formJson);
+                    //  var associatValue = NetstarComponent.config['form-data-element-protect-from-beAssociatedValue'];
+                    // $(associatValue).after('<div>苹果</div>')
+                })
+                //点击上个页面表格
+                var selectedId = '1312088090965181426'; //演示数据//1312438671965684722//1312088090965181426
+                
+                if (NetStarGrid.configs['nstemplate-layout-nscloud-datasourcesmanage-list-1']) {
+                    var prevPageSelectedLine = NetStarGrid.getSelectedData(
+                        'nstemplate-layout-nscloud-datasourcesmanage-list-1'); // 上一个页面选中行数据
+                    if (prevPageSelectedLine.length == 1) {
+                        selectedId = prevPageSelectedLine[0].id;
+                    }
+                }
+                window.dataSourceSelectId = selectedId;
+                //树
+                var treeJson = {
+                    type: "tree",
+                    textField: 'nodeName',
+                    parentField: 'parentId',
+                    childField: 'children',
+                    level: "0",
+                    fromField: 'fromNodeId',
+                    // readonly: false, //只读
+                    formatter: "{\"goodsShopCateId\":\"{id}\"}",
+                    isSearch: false,
+                    // isClickRoot: false,
+                    // gid: "e7579e40-85bc-7da8-d810-d885f886def7",
+                    ajax: {
+                        contentType: 'application/x-www-form-urlencoded',
+                        type: "POST",
+                        url: getRootPath() + '/sample/dataSourceNodes/getAllList',
+
+                        dataSrc: 'rows',
+                        data: {
+                            id: selectedId
+                        },
+                    },
+                    addAjax: { //新增
+                        url: getRootPath() + '/sample/dataSourceNodes/addNode',
+                        data: {},
+                        type: "POST",
+                        dataSrc: "data",
+                        contentType: 'application/x-www-form-urlencoded',
+                    },
+                    deleteAjax: { //删除
+                        url: getRootPath() + '/sample/dataSourceNodes/delById',
+                        data: {},
+                        type: "GET",
+                        dataSrc: "data",
+                        contentType: "application/x-www-form-urlencoded"
+                    },
+                    editAjax: { //修改
+                        url: getRootPath() + '/sample/dataSourceNodes/updateNode',
+                        data: {},
+                        type: "GET",
+                        dataSrc: "data",
+                        contentType: "application/x-www-form-urlencoded"
+                    },
+                    moveAjax: { //移动
+                        url: getRootPath() + '/sample/dataSourceNodes/moveNode',
+                        data: {},
+                        type: "GET",
+                        dataSrc: "data",
+                        contentType: "application/x-www-form-urlencoded"
+                    },
+                    id: 'data-element-protect-tree',
+                    height: 540,
+                    // unfieldId : 'ddd',
+                    // unfieldText : 'ddd',
+                    // allfieldId : 'ddd',
+                    clickHandler: function (obj) {
+                        if (!obj.treeNode.isEdit) {
+                            return;
+                        }
+                        treeSelectComplete(obj.treeNode);
+                        return;
+                        console.log(obj);
+                        NetStarUtils.ajax({
+                            url: getRootPath() + '/sample/dataSourceNodes/getById',
+                            type: "POST",
+                            dataSrc: "",
+                            contentType: 'application/json; charset=utf-8',
+                            data: {
+                                // treeId: obj.treeNode.id
+                            },
+                            // contentType: "application/x-www-form-urlencoded"
+                        }, function (res, ajaxConfig) {
+                            console.warn(res);
+                            var _formJson = $.extend(true, {}, formJson); //克隆
+                            var _formArray = _formJson.form;
+                            var resData = res.data;
+                            // for(var i = 0; i<_formArray.length; i++ ){
+                            //     var key = _formArray[i].id;
+                            //     _formArray[i].value = resData[key];
+                            // }
+                            // console.warn(_formArray);
+                            // _formJson.form =_formArray;
+                            // NetstarComponent.formComponent.refresh( _formJson);
+                            NetstarComponent.fillValues(resData, "data-element-protect-from",
+                                true);
+                        })
+                    },
+                    shownHandler: function () {
+                        isHaveAssociated = true;
+                    }
+                }
+                vueButtonComponent.init(btnJson);
+                NetstarTemplate.tree.init(treeJson);
+            </script>
+        </div>
+</container>

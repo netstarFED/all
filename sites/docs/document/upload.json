@@ -1,0 +1,337 @@
+{
+    "operator": {
+        "type": {
+            "chineseName": "组件类型",
+            "validType": "string",
+            "toolType": "select",
+            "default": "upload",
+            "required": true,
+            "subdata": [{
+                "value": "upload",
+                "text": "上传"
+            }]
+        },
+        "id": {
+            "chineseName": "字段名称",
+            "validType": "string",
+            "toolType": "text",
+            "required": ""
+        },
+        "label": {
+            "chineseName": "标签",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        },         
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules": {
+            "chineseName": "验证规则",
+            "validType": "string",
+            "toolType": "multi-select",
+            "subdata": [{
+                "value": "required",
+                "text": "必填"
+            }, {
+                "value": "",
+                "text": "无验证"
+            }]
+        },
+        "disabled": {
+            "chineseName": "只读",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "hidden": {
+            "chineseName": "隐藏",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "btns": {
+            "chineseName": "显示的按钮",
+            "validType": "string",
+            "toolType": "multi-select",
+            "subdata": [
+                {
+                    "value": "upload",
+                    "text": "上传"
+                },
+                {
+                    "value": "delete",
+                    "text": "删除"
+                },
+                {
+                    "value": "download",
+                    "text": "下载"
+                },
+                {
+                    "value": "print",
+                    "text": "打印"
+                },
+                {
+                    "value": "produce",
+                    "text": "生成"
+                },
+                {
+                    "value": "preview",
+                    "text": "预览"
+                }    
+            ],
+            "default": "",
+            "help":"upload(上传), delete(删除),download(下载) , print(打印)"
+        },
+        "isShowThum": {
+            "chineseName": "是否显示缩略图",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": true,
+            "help":""
+        },
+        "isMultiple": {
+            "chineseName": "是否多选",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": true,
+            "help":""
+        },
+        "accept": {
+            "chineseName": "格式",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },  
+        "changeHandler": {
+            "validType": "function",
+            "toolType": "textarea",
+            "chineseName": "变更处理程序"
+        }              
+    },
+    "data": {
+        "produceFileAjax": {
+            "chineseName": "produceFileAjax",
+            "validType": "object",
+            "toolType": "ajaxEditor"
+        },
+        "textField":{
+            "chineseName":"显示字段",
+            "validType":"string",
+            "toolType":"text",
+            "default":"text",
+            "help":"显示字段"
+        },
+        "valueField":{
+            "chineseName":"保存值",
+            "validType":"string",
+            "toolType":"text",
+            "default":"value",
+            "help":"服务器接受到的返回值"
+        },
+        "outputFields":{
+            "chineseName": "输出数据",
+            "validType": "string",
+            "toolType": "textarea",
+            "help":"弹出模板时需要" 
+        },
+        "innerFields":{
+            "chineseName": "初始化组件",
+            "validType": "string",
+            "toolType": "textarea",
+            "help":"组件赋值时value赋值" 
+        },
+        "uploadAjaxData": {
+            "chineseName": "ajax传参",
+            "validType": "string",
+            "toolType": "textarea",
+            "help":""
+        },
+        "visibilityLevel": {
+            "chineseName": "上传级别",
+            "validType": "string",
+            "toolType": "text",
+            "default": "",
+            "help":""
+        },
+        "fileType": {
+            "chineseName": "上传类型",
+            "validType": "string",
+            "toolType": "select",
+            "subdata":[
+                {
+                    "value":"common",
+                    "name":"普通"
+                },
+                {
+                    "value":"video",
+                    "name":"视频"
+                }
+            ],
+            "default": "common",
+            "help":""
+        },
+        "urlField": {
+            "chineseName": "url的key值",
+            "validType": "string",
+            "toolType": "text",
+            "default": "url",
+            "help":""
+        },
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+       
+        
+    },
+    "prepattern": [
+        {
+            "name": "按钮",
+            "value": [
+                {
+                    "id": "btns",
+                    "label": "按钮 :",
+                    "type": "upload",
+                    "textField": "name",
+                    "valueField": "id",
+                    "btns": ["upload", "delete", "download", "print"],
+                    "inputWidth": 200,
+                    "ajax": {
+                        "url": "getRootPath() + '/docs/data/upload.json'"
+                    },
+                    "editAjax": {
+                        "url": "getRootPath() + '/docs/data/uploadalter.json'"
+                    },
+                    "downloadAjax": {
+                        "url": "getRootPath() + '/docs/data/down/yuan2.rar?"
+                    },
+                    "getFileAjax": {
+                        "url": "getRootPath() + '/docs/data/upload.json'"
+                    }
+                },
+                {
+                    "id": "upload2",
+                    "label": "upload2",
+                    "type": "upload",
+                    "textField": "name",
+                    "valueField": "id",
+                    "inputWidth": 200,
+                    "btns":["'upload','edit','delete','download','print'"],      
+                    "ajax": {
+                        "url": "getRootPath() + '/docs/data/upload.json'"
+                    },
+                    "editAjax": {
+                        "url": "getRootPath() + '/docs/data/uploadalter.json'"
+                    },
+                    "downloadAjax": {
+                        "url": "getRootPath() + '/docs/data/down/yuan2.rar?'"
+                    },
+                    "getFileAjax": {
+                        "url": "getRootPath() + '/docs/data/upload.json'"
+                    },
+                    "isMultiple": true
+                }
+            ]
+        },
+        {
+            "name": "宽",
+            "value": [
+                {
+                    "id": "btns",
+                    "label": "按钮 :",
+                    "type": "upload",
+                    "textField": "name",
+                    "valueField": "id",
+                    "btns": ["upload", "delete", "download", "print"],
+                    "inputWidth": 200,
+                    "ajax": {
+                        "url": "getRootPath() + '/docs/data/upload.json'"
+                    },
+                    "editAjax": {
+                        "url": "getRootPath() + '/docs/data/uploadalter.json'"
+                    },
+                    "downloadAjax": {
+                        "url": "getRootPath() + '/docs/data/down/yuan2.rar?"
+                    },
+                    "getFileAjax": {
+                        "url": "getRootPath() + '/docs/data/upload.json'"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "修改地址",
+            "value": [
+                {
+                    "id": "btns",
+                    "label": "修改地址 :",
+                    "type": "upload",
+                    "textField": "name",
+                    "valueField": "id",
+                    "btns": ["upload", "delete", "download", "print"],
+                    "inputWidth": 200,
+                    "ajax": {
+                        "url": "getRootPath() + '/docs/data/upload.json'"
+                    },
+                    "editAjax": {
+                        "url": "getRootPath() + '/docs/data/uploadalter.json'"
+                    },
+                    "downloadAjax": {
+                        "url": "getRootPath() + '/docs/data/down/yuan2.rar?"
+                    },
+                    "getFileAjax": {
+                        "url": "getRootPath() + '/docs/data/upload.json'"
+                    }
+                }
+            ]
+        }
+    ]
+}

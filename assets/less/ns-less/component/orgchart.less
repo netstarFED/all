@@ -1,0 +1,119 @@
+@orgchart-bg: #f8f8f8;
+@orgchart-boder-color: @ns-border-color;
+
+.orgChart {
+	border: 1px solid @orgchart-boder-color;
+	overflow: auto;
+	padding: @base-padding;
+
+	h2 {
+		margin: 0;
+		border-bottom: none;
+		position: relative;
+		font-size: 12px;
+		padding: @base-padding;
+		height: 120px;
+		display: table;
+		width: 100%;
+		img{
+			display: table-cell;
+			width: 60px;
+			height: 80px;
+			margin: 10px;
+			background:  darken(@orgchart-bg, 10%);
+			border-radius: 3px;
+		}
+		span{
+			display: table-cell;
+			width: 100%;
+			vertical-align: top;
+			padding: @base-padding;
+			text-align: left;
+			line-height: 18px;
+
+		}
+	}
+
+	ul {
+		list-style: none;
+		margin: 4px;
+		padding: 0px;
+		font-size: 0.8em;
+		text-align: left;
+	}
+
+}
+
+
+div.orgChart ul.stack,
+div.orgChart ul.stack ul {
+	text-align: center;
+}
+
+div.orgChart table {
+	width: 100%;
+	border: 0;
+}
+
+div.orgChart tr.lines td.line {
+	width: 1px;
+	height: 20px;
+}
+
+.orgChart tr.lines td.top {
+	border-top: 1px solid @orgchart-boder-color;
+}
+
+.orgChart tr.lines td.left {
+	border-right: 1px solid @orgchart-boder-color;
+}
+
+.orgChart tr.lines td.right {
+	border-left: 1px solid @orgchart-boder-color;
+}
+
+.orgChart td {
+	text-align: center;
+	vertical-align: top;
+}
+
+.orgChart div.node {
+	cursor: default;
+	border: 1px solid @orgchart-boder-color;
+	display: inline-block;
+	padding: 0;
+	width: 220px;
+	height: 140px;
+	background:lighten(@orgchart-bg, 20%);
+	line-height: 1.3em;
+}
+
+.orgChart div.hasChildren {
+	background-color: @orgchart-bg;
+}
+
+.orgChart.interactive div.hasChildren {
+	cursor: pointer;
+}
+
+.orgChart div.node.hover {
+	background-color: darken(@orgchart-bg, 5%);
+}
+
+.orgChart div.adjunct.node {
+	position: absolute;
+	margin-top: 8px;
+	margin-left: -110px;
+	width: 80px;
+	height: 40px;
+	background-color: #efefef;
+}
+
+.orgChart div.adjunct-link {
+	display: inline-block;
+	position: absolute;
+	margin-left: -20px;
+	margin-top: 25px;
+	width: 20px;
+	border: 1px dashed black;
+}

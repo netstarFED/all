@@ -1,0 +1,171 @@
+body {
+
+    // 价格单-体检项目及价格
+    .price-grid {
+        .pt-grid-body {
+            .pt-grid-body-container {
+                table {
+                    &.pt-grid {
+
+                        tbody {
+
+                            tr {
+                                .tr-control {
+                                    position: absolute;
+                                    top: -100%;
+                                    right: 0;
+                                    bottom: 0;
+                                    // display: none;
+                                    opacity: 0;
+                                    padding: 3px (@base-padding / 2);
+                                    background: #eaeaea;
+                                    transition: ease-in-out all .25s;
+
+                                    .pt-btn-icon {
+                                        margin: 0;
+                                        background: transparent;
+                                        border-color: transparent;
+
+                                        &:hover {
+                                            top: 0;
+                                            background: @warning;
+
+
+                                            .icon {
+                                                color: #fff;
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                                // 支付标记（公费/自费）
+                                .order-payment-type {
+                                    position: absolute;
+                                    .size(16px);
+                                    top: 0;
+                                    left: 5px;
+                                    background: #000;
+                                    color: #fff;
+                                    font-size: 12px;
+                                    text-align: center;
+
+                                    &:before {
+                                        position: absolute;
+                                        top: 0;
+                                        right: 0;
+                                        left: 0;
+                                        text-align: center;
+                                        content: '';
+                                        color: #fff;
+                                    }
+
+                                    &:after {
+                                        position: absolute;
+                                        content: '';
+                                        left: 5px;
+                                        bottom: -8px;
+                                        .triangle-bottom();
+                                        border-width: 8px 8px 0 8px;
+                                        border-color: transparent;
+                                        border-top-color: #eee;
+                                        margin-left: -5px;
+                                    }
+
+                                    // 公费 public expense
+                                    &.p-e {
+                                        background: #7bc5e8;
+
+                                        &:before {
+                                            content: '公';
+                                        }
+
+                                        &:after {
+                                            border-top-color: #7bc5e8;
+                                        }
+                                    }
+
+                                    // 自费 own-expense
+                                    &.o-e {
+                                        background: #7be8cd;
+
+                                        &:before {
+                                            content: '自';
+                                        }
+
+                                        &:after {
+                                            border-top-color: #7be8cd;
+                                        }
+                                    }
+                                }
+
+                                &:hover {
+                                    .tr-control {
+                                        top: 0;
+                                        display: block;
+                                        opacity: 1;
+                                    }
+
+                                    td {
+                                        background: #f0f0f0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .pt-grid-body-head,
+            .pt-grid-body-container {
+                .pt-grid {
+                    tbody {
+
+                        // tr,
+                        // tr:first-child {
+                        //     td {
+                        //         &:first-child {
+                        //             width: 50%;
+                        //             max-width: auto !important;
+                        //             min-width: 50% !important;
+                        //             padding-left: 30px;
+                        //             text-align: left;
+                        //             background: transparent;
+
+
+                        //         }
+
+                        //         &:last-child {
+                        //             width: 95px;
+                        //         }
+                        //     }
+
+                        //     &:hover {
+
+                        //         background: #f0f0f0;
+
+                        //     }
+                        // }
+                        tr {
+                            td {}
+                        }
+                    }
+                }
+            }
+
+            .pt-grid-body-head {
+                .pt-grid {
+                    tbody {
+                        tr:first-child {
+                            td:first-child {
+                                &:hover {
+                                    background: @warning;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

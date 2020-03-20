@@ -1,0 +1,219 @@
+@common-query-conditions-width: 175px;
+@common-query-bg: #f8f8f8;
+@common-query-pt-radio-inline-selectd-bg: darken(@common-query-bg, 8);
+@common-query-pt-radio-inline-hover-bg: darken(@common-query-bg, 4);
+
+.pt-modal {
+    &.pt-common-query {
+        .pt-modal-body {
+            padding: 0;
+            position: relative;
+
+            .common-query-conditions {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: @common-query-conditions-width;
+                height: inherit;
+                background-color: @common-query-bg;
+                padding: 0;
+                margin: 0;
+                overflow-y: auto;
+
+            }
+
+            .pt-form {
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: @common-query-conditions-width;
+                border: none;
+                padding: @padding-lg-v @padding-lg-h;
+                ;
+            }
+        }
+
+        .pt-modal-footer {
+            margin-top: -50px;
+            margin-left: @common-query-conditions-width;
+
+            .pt-window-control {
+                bottom: -6px;
+            }
+        }
+    }
+}
+
+.common-query-conditions {
+    .pt-radio {
+        padding-right: 0;
+
+        &.no-data {
+            position: relative;
+            background-color: #f8f8f8;
+            border: none;
+
+            &:before {
+                top: 20px;
+                content: "暂无常用查询";
+                color: #bcbcbc;
+            }
+
+            &:after {
+                display: none;
+            }
+        }
+
+        .pt-radio-group {
+            &>div {
+                padding: 10px;
+            }
+
+            .pt-radio-inline {
+                display: block;
+                position: relative;
+
+                &+.pt-radio-inline {
+                    margin-left: 0;
+                }
+
+                .btn {
+                    position: absolute;
+                    top: 3px;
+                    right: 5px;
+                    font-size: 14px;
+                    z-index: 99;
+
+                    i {
+                        color: #8b8b8b;
+                    }
+
+                    &:hover {
+                        border: none;
+                        box-shadow: none;
+
+                        i {
+                            color: #333;
+                        }
+                    }
+                }
+
+                &:hover {
+                    background-color: @common-query-pt-radio-inline-hover-bg;
+                }
+
+                &.selectd {
+                    background-color: @common-query-pt-radio-inline-selectd-bg;
+                }
+
+                label {
+                    &.pt-radio-inline {
+                        &:after {
+                            top: 0;
+                        }
+
+                        &.checked {
+                            &:hover {
+                                background-color: @common-query-pt-radio-inline-selectd-bg;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &+.pt-form {}
+}
+
+//高级查询位置
+.pt-btn {
+    &.pt-btn-dropdown {
+        &.pt-btn-dropdown-senior {
+            float: left;
+            padding: 0;
+            position: relative;
+        }
+    }
+}
+
+.pt-panel-col {
+    &.text-right {
+        .pt-btn-dropdown {
+            &.pt-btn-dropdown-senior {
+                position: relative;
+                float: right;
+                border-width: 0;
+
+                .pt-btn-dropdown-panel {
+                    right: 0;
+
+                    .pt-btn-group {
+                        .pt-btn {
+                            &.pt-btn-default {
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.pt-btn-dropdown-panel {
+    position: absolute;
+    top: 23px;
+    left: 0;
+    min-width: 73px;
+    border: 1px solid #bfbfbf;
+    z-index: 1000;
+    background: #ffffff;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+
+    &.no-data {
+        background-color: #f8f8f8;
+
+        &:before {
+            content: "暂无数据";
+            color: #bcbcbc;
+            top: 41%;
+        }
+
+        &:after {
+            display: none;
+        }
+    }
+
+    .pt-btn-group {
+        width: 100%;
+        max-height: 280px;
+        overflow-y: auto;
+        padding: 2px 0;
+
+        .pt-btn {
+            &.pt-btn-default {
+                border: none;
+                height: 33px;
+                line-height: 33px;
+                padding: 0 @base-padding;
+                width: 100%;
+                text-align: left;
+
+                &:hover,
+                &:active {
+                    background: @common-query-pt-radio-inline-selectd-bg;
+                    color: #424242;
+                }
+            }
+
+            &+.pt-btn {
+                margin-left: 0;
+            }
+
+        }
+    }
+}

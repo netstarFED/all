@@ -1,0 +1,394 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+	<link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+	<title>统计列表</title>
+
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<!--# include file="/sites/include/login-static-dev.html" -->
+	<!--# include file="/sites/include/preload-static-dev.html" -->
+	<!--# include file="/sites/include/mainpage-static-dev.html" -->
+	<!--# include file="/sites/include/lazy-static-dev.html" -->
+	<style>
+	</style>
+</head>
+<style>
+		*{padding: 0;margin: 0;}
+		li{list-style: none;}
+		.contain{width: 1080px;height: 500px;background: red;margin: 80px auto;position: relative;}
+		.box{width: 1040px;height: 500px;margin: 0 20px;position: relative;overflow: hidden;}
+		.box_wheel{height: 500px;position: absolute;overflow: hidden;}
+		.box_wheel li{width: 1040px;height: 500px;background: pink;text-align: center;line-height: 500px;float: left;}
+		.btn{width: 50px;height: 60px;background: bisque;line-height: 60px;text-align: center;color: red;font-size: 30px;cursor: pointer;}
+		.btn_left{position: absolute;left: -50px;top: 50%;margin-top: -30px;}
+		.btn_right{position: absolute;right: -50px;top: 50%;margin-top: -30px;}
+</style>
+
+<container>
+	<div class="pt-main">
+		<div class="pt-container">
+			<div class="pt-main-row">
+				<div class="pt-main-col">
+					<div class="pt-panel">
+						<div class="scroll-panel nspanel layout-customertable">
+							<table
+								class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table"
+								id="scroll-table"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var localhoseUrl = 'http://ui-pc:2000';
+		var countConfig = {
+			package: 'nsVue.graps.statisticsList',
+			template: 'statisticsList',
+			title: 'statisticsList',
+			mode: 'countList',
+			components: [{
+				//id:'scroll-table',
+				//type:'countList',
+				type: 'list',
+				/*ajax:{
+					src: localhoseUrl + '/assets/json/count.json',
+					type: 'GET',
+					data: {},
+					dataSrc:"rows",
+					contentType:'application/x-www-form-urlencoded',
+				},*/ //请求的ajax配置
+				field: [{
+						field: 'workUnit',
+						title: '工作单位',
+						width: 120,
+						searchable: true,
+						//isColumnCombine:true,//是否允许列合并
+						//isRowCombine:true,//是否允许行合并
+					}, {
+						field: 'deptName',
+						title: '车间部门',
+						width: 120,
+						searchable: true,
+					}, {
+						field: 'combineProject',
+						title: '组合项目',
+						width: 80,
+						searchable: true,
+						isColumnCombine: true
+					}, {
+						field: 'singleProject',
+						title: '单个项目',
+						width: 120,
+						searchable: true,
+						isColumnCombine: false
+					}, {
+						field: 'unit',
+						title: '单位',
+						width: 60,
+						searchable: true,
+						isColumnCombine: false
+					}, {
+						field: 'referenceValue',
+						title: '参考值',
+						width: 120,
+						searchable: true,
+						isColumnCombine: false
+					}, {
+						field: 'chartName',
+						title: '趋势图',
+						width: 120,
+						searchable: true,
+						isColumnCombine: false,
+						formatHandler: {
+							type: 'button',
+							data: {
+								echart: {
+									type: 'line',
+									title: '{{singleProject}}趋势图',
+									data: {
+										source: 'dynamicColumns',
+										field: 'year'
+									}, //数据来源  来源于动态列 动态列中的字段year
+								},
+								callbackFunc: function (_data) {
+									console.log(_data)
+								}
+							}
+						}
+					}, {
+						field: 'year',
+						title: '年',
+						width: 135,
+						searchable: true,
+					},
+					{
+						field: 'avgNum',
+						title: '平均数',
+						width: 45,
+						searchable: true,
+						isColumnCombine: false
+					}, {
+						field: 'mediaNum',
+						title: '中位数',
+						width: 45,
+						searchable: true,
+						isColumnCombine: false
+					}, {
+						field: 'standardNum',
+						title: '标准差',
+						width: 45,
+						searchable: true,
+						isColumnCombine: false
+					}
+				],
+				params: {
+					dataSource: [{
+						"id": "1304529873898989021",
+						"workUnit": "河北网星",
+						"deptName": "一车间",
+						"combineProject": "血压",
+						"singleProject": "收缩压",
+						"unit": "mmhg",
+						"referenceValue": "89-139",
+						"chartName": "线形图",
+						"upperLimit": 139,
+						"yearList": [{
+							"year": 2019,
+							"avgNum": 129,
+							"mediaNum": 129,
+							"standardNum": 1.3
+						}, {
+							"year": 2018,
+							"avgNum": 150,
+							"mediaNum": 139,
+							"standardNum": 17
+						}]
+					}, {
+						"id": "1304529873898989022",
+						"workUnit": "河北网星",
+						"deptName": "一车间",
+						"combineProject": "血压",
+						"singleProject": "舒张压",
+						"unit": "mmhg",
+						"referenceValue": "60-89",
+						"chartName": "线形图",
+						"upperLimit": 89,
+						"yearList": [{
+							"year": 2019,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 2.5
+						}, {
+							"year": 2018,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 4.5
+						}]
+					}, {
+						"id": "1304529873898989023",
+						"workUnit": "河北网星",
+						"deptName": "一车间",
+						"combineProject": "血糖",
+						"singleProject": "血糖",
+						"unit": "mmol/L",
+						"referenceValue": "3.9-6.1",
+                        "chartName": "线形图",
+                        "yearList": [{
+							"year": 2019,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 2.5
+						}, {
+							"year": 2018,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 4.5
+						}]
+					}, {
+						"id": "1304529873898989024",
+						"workUnit": "河北网星",
+						"deptName": "一车间",
+						"combineProject": "血常规",
+						"singleProject": "白细胞计数",
+						"unit": "*10^9/L",
+						"referenceValue": "3.5-9",
+                        "chartName": "线形图",
+                        "yearList": [{
+							"year": 2019,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 2.5
+						}, {
+							"year": 2018,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 4.5
+						}]
+					}, {
+						"id": "1304529873898989025",
+						"workUnit": "河北网星",
+						"deptName": "一车间",
+						"combineProject": "血常规",
+						"singleProject": "红细胞计数",
+						"unit": "*10^12/L",
+						"referenceValue": "4.3-5.8",
+                        "chartName": "线形图",
+                        "yearList": [{
+							"year": 2019,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 2.5
+						}, {
+							"year": 2018,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 4.5
+						}]
+					}, {
+						"id": "1304529873898989025",
+						"workUnit": "河北网星",
+						"deptName": "二车间",
+						"combineProject": "血压",
+						"singleProject": "收缩压",
+						"unit": "mmHg",
+						"referenceValue": "89-139",
+                        "chartName": "线形图",
+                        "yearList": [{
+							"year": 2019,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 2.5
+						}, {
+							"year": 2018,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 4.5
+						}]
+					}, {
+						"id": "1304529873898989026",
+						"workUnit": "河北网星",
+						"deptName": "二车间",
+						"combineProject": "血压",
+						"singleProject": "舒张压",
+						"unit": "mmHg",
+						"referenceValue": "60-89",
+                        "chartName": "线形图",
+                        "yearList": [{
+							"year": 2019,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 2.5
+						}, {
+							"year": 2018,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 4.5
+						}]
+					}, {
+						"id": "1304529873898989027",
+						"workUnit": "河北电信",
+						"deptName": "二车间",
+						"combineProject": "血压",
+						"singleProject": "收缩压",
+						"unit": "mmhg",
+						"referenceValue": "89-139",
+						"chartName": "线形图",
+						"upperLimit": 139,
+						"yearList": [{
+							"year": 2019,
+							"avgNum": 129,
+							"mediaNum": 129,
+							"standardNum": 1.3
+						}, {
+							"year": 2018,
+							"avgNum": 150,
+							"mediaNum": 139,
+							"standardNum": 17
+						}]
+					}, {
+						"id": "1304529873898989028",
+						"workUnit": "河北电信",
+						"deptName": "一车间",
+						"combineProject": "血压",
+						"singleProject": "舒张压",
+						"unit": "mmhg",
+						"referenceValue": "60-89",
+						"chartName": "线形图",
+						"upperLimit": 89,
+						"yearList": [{
+							"year": 2019,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 2.5
+						}, {
+							"year": 2018,
+							"avgNum": 70,
+							"mediaNum": 71,
+							"standardNum": 4.5
+						}]
+					}], //存在dataSource就不需要读取ajax配置
+					outPutType: 'columnTwoLevel', //输出结构两级列 默认按一级行一级列的格式去输出 rowColumn
+					isScroll: false, //是否滚动
+					displayMode: 'countList',
+					format: {
+						//lowerLimit
+						rowCombineField: 'workUnit',
+						styleExpress: {
+							col: {
+								'avgNum': {
+									'{avgNum}>{upperLimit}': {
+										color: 'red'
+									},
+								},
+								'mediaNum': {
+									'{mediaNum}>{upperLimit}': {
+										color: 'red'
+									},
+								},
+							}
+						},
+						handler: function (res) {
+							//如果是ajax返回值是否需要对参数进行自定义计算
+							return res;
+						}, //data数据
+						//totalType:'column',//column（列合计） row（行合计） both（行列合计）  
+						//dataType:'rowTwoLevel',//column(列一级) row（行一级） both（行列一级） rowTwoLevel（行两级） columnTwoLevel（列两级） bothTwoLevel（行列两级） // 数据展示类型 必填 
+						dynamicColumns: {
+							year: {
+								keyField: 'yearList', //要读取的动态列数据源
+								fields: ['avgNum', 'mediaNum', 'standardNum'],
+								insertPosition: 'chartName', //在某个字段之后插入
+							}
+							//哪些字段作为了动态列输出
+						}, //输出动态列
+					}
+				}, //自定义格式配置
+				rowBtnBeforeHandler: function (data) {
+					//根据每行的数据值决定当前行是否显示按钮，如有5个按钮只有第二和第四显示则返回[false,true,false,false,true]
+					var valueArray = [true, true];
+					if (data.quarterNum) {
+						valueArray = [false, false];
+					}
+					return valueArray;
+				}, //如果行内有按钮可自行配置每行按钮根据行值是否显示
+			}]
+		};
+		NetstarTemplate.init(countConfig);
+		//NetstarUI.countList.init(countConfig);
+	</script>
+</container>
+
+</html>

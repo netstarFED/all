@@ -1,0 +1,271 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <script>
+        var docListViewerMobile = {
+            package:"nscloud.checkgood",
+            template:"docListViewerMobile",
+            readonly:false,
+            isShowTitle:true,
+            versionNumber:"1",//???
+            getValueAjax:{
+                src:getRootPath() + "/docs/data/template/getmyTasks.json",
+                contentType:'application/x-www-form-urlencoded',
+                type:"GET",
+                dataSrc:"rows",
+            },
+           
+          
+            components : [
+                {
+                    type:"blockList",
+                    postion:"header-boby",
+                    idField:"id",
+                    parent:"root",      
+                     listExpression:"<div class=\"block-list-item \"><div class=\"block-list-item-text\"><span class=\"title\">{{goodsName}}</span><span>{{goodsCode}}</span></div><div class=\"block-list-item-text text-left\"><span>{{fromLocation}}</span><i class=\"fa fa-arrow-right\"></i><span>{{toLocation}}</span></div><div class=\"block-list-item-text text-left\"><span>任务：{{userTaskQuantity}}</span><span>应点：{{quantityDone}}</span><span>已点：{{quantityAllDone}}</span><span>返库：{{returnQuantity}}</span></div></div>",
+                    field:[
+                         {
+                            mindjetType:"hidden",
+                            field:  "id",
+                            title:"id",
+                            editConfig:{
+                                type:"hidden"
+                            }
+
+                        },
+                        {
+                            mindjetType:"text",
+                            field:  "goodsName",
+                            title:"商品名称",
+                            editConfig:{
+                                type:"text"
+                            }
+
+                        },
+                        {
+                            field:  "warehouseId",
+                            title:"仓库",
+                            mindjetType:"select",
+                            editConfig:{
+                                textField:"name",
+                                valueField:'id',
+                                type:"select",
+                                url:getRootPath() +'/docs/data/template/mobilegetlist.json',
+                                method:"GET",
+                                dataSrc:"rows",
+                                contentType:'application/x-www-form-urlencoded',
+                            },
+                            orderable:true,
+                            searchable:true
+
+                        },
+                        {
+                            field:  "fromLocation",
+                            title:"仓库名称",
+                            mindjetType:"text",
+                            editConfig:{
+                                type:"text",
+
+                            }
+                        },
+                        {
+                            field:  "fromLocationId",
+                            title:"原货位",
+                            mindjetType:"select",
+                            editConfig:{
+                                textField:"name",
+                                valueField:'id',
+                                type:"select",
+                                url:getRootPath() +'/docs/data/template/modocgetlist.json',
+                                method:"GET",
+                                dataSrc:"rows",
+                                contentType:'application/x-www-form-urlencoded',
+
+                            },
+                            orderable:true,
+                            searchable:true
+                        },
+                        {
+                            field:  "toLocationId",
+                            title:"目标货位",
+                            mindjetType:"select",
+                            editConfig:{
+                                type:"select",
+                                textField:"name",
+                                valueField:'id',
+                                url:getRootPath() +'/docs/data/template/modocgetlist.json',
+                                method:"GET",
+                                dataSrc:"rows",
+                                contentType:'application/x-www-form-urlencoded',
+
+                            },
+                            orderable:true,
+                            searchable:true
+                        },
+                        {
+                            field:  "toLocation",
+                            title:"目标货位",
+                            mindjetType:"text",
+                            editConfig:{
+                                type:"text",
+
+                            }
+                        },
+                        {
+                            field:  "customerName",
+                            title:"客户名称",
+                            mindjetType:"text",
+                            editConfig:{
+                                type:"text",
+
+                            }
+                        },
+                        {
+                            field:  "userTaskQuantity",
+                            title:"任务数量",
+                            editConfig:{
+                                type:"number",
+
+                            },
+                            mindjetType:"number",
+                            formatHandler:{
+                                data:{
+                                    format:{
+                                        places:"0",
+                                        thousand:","
+                                    }
+                                },
+                                columnType:"number",
+                            }
+                        },
+                        {
+                            field:  "returnQuantity",
+                            title:"回退数量",
+                            editConfig:{
+                                type:"number",
+
+                            },
+                            mindjetType:"number",
+                            formatHandler:{
+                                data:{
+                                    format:{
+                                        places:"0",
+                                        thousand:","
+                                    }
+                                },
+                                columnType:"number",
+                            }
+                        },
+                        {
+                            field:  "quantityDone",
+                            title:"完成数量",
+                            editConfig:{
+                                type:"number",
+
+                            },
+                            mindjetType:"number",
+                            formatHandler:{
+                                data:{
+                                    format:{
+                                        places:"0",
+                                        thousand:","
+                                    }
+                                },
+                                columnType:"number",
+                            }
+                        },
+                        {
+                            field:  "quantityAllDone",
+                            title:"总完成数量",
+                            mindjetType:"number",
+                            editConfig:{
+                                type:"number",
+
+                            },
+                            formatHandler:{
+                                data:{
+                                    format:{
+                                        places:"0",
+                                        thousand:","
+                                    }
+                                },
+                                columnType:"number",
+                            }
+                        },
+                    
+
+                    ],
+                    ajax:{
+                        src:getRootPath() + "/docs/data/template/getmyTasks.json",
+                        contentType:'application/x-www-form-urlencoded',
+                        type:"GET",
+                        dataSrc:"rows",
+                    },
+                    hide:[
+                        "warehouseId",
+                        "fromLocationId",
+                        "toLocationId"
+                    ],
+                },
+                {
+                    type:"btns",
+                    field:[
+                        {
+                            functionConfig:{
+                                "ajaxData": {},
+                                "data": {},
+                                "ajaxDataVaildConfig": "{}",
+                                "contentType": "application/x-www-form-urlencoded",
+                                "dataFormat": "object",
+                                "dataSrc": "rows",
+                                "defaultMode": "loadPage",
+                                "functionClass": "modal",
+                                "suffix": "/templateMindPages/pageConfig/1310231155412311026",
+                                "text": "编辑",
+                                "type": "GET",
+                                "voName": "task2Task2UserVO",
+                                "entityName": "taskExecutionController_v2",
+                                "chineseName": "备货/点货编辑手机端",
+                                "englishName": "prepareCheckEditMobile",
+                                "isInlineBtn": false,
+                                "isSendPageParams": true,
+                                "isMobileInlineBtn": true,  
+                                "isKeepSelected": false,
+                                "parameterFormatType": "add",
+                                "isSetValueToSourcePage": false,
+                                "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1310231155412311026"
+
+                            },
+                            btn:{
+                                text:"编辑",
+                                isReturn:true                            
+                            }
+                        },
+                        {
+                            functionConfig:{
+                                defaultMode:'workflowSubmit',
+                                workflowType:"submit"
+                            },
+                            btn:{
+                                text:"提交",
+                                isReturn:true
+                            }
+                        }
+                    ]
+                }
+            ],
+            draftBox:{
+                isUse:false,
+                isUseSave:true
+            },
+            title:"点货",
+            pageParam:{
+                activityName:"点货",
+                workflowType:"0"
+            }
+        }
+        NetstarTemplate.init(docListViewerMobile); 
+
+  
+
+    </script>
+</container>

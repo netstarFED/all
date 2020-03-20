@@ -1,0 +1,176 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>样品确认</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+
+                var sampleCustomList2 = {
+                    package: 'n',
+                    template: 'listMobile',
+                    readonly: false,
+                    isShowTitle: true, //是否显示标题
+                    isFormHidden: false, //表单是否隐藏
+                    getValueAjax: {
+                        src: 'https://qaapi.wangxingcloud.com//sample/accept/samples/getToDoList',
+                        dataSrc: 'rows',
+                        type: 'POST',
+                        "contentType": "application/json",
+                        data: {},
+                    },
+                    components: [{
+                            type: 'blockList',
+                            defaultShow: {
+                                isAjax: false, //是否打开时显示列表 默认true
+                                placeholder: '请使用扫码功能或者点击搜索',
+                            },
+                            field: [{
+                                field: 'sampleCode',
+                                orderable: true,
+                                searchable: true,
+                                tooltip: false, //是否提示信息
+                                title: '样品单号',
+                                isDefaultSubdataText: true, //是否默认字符串转换
+                                width: 130,
+                                formatHandler: {
+                                    type: 'href', //链接
+                                    data: {
+                                        "url": getRootPath() +
+                                            "/templateMindPages/pageConfig/1316994910712234994?editModel=2&saveParams=1",
+                                        "title": "合同明细",
+                                        "field": "sampleCode",
+                                        "readonly": false,
+                                        "templateName": "limsReg"
+                                    }
+                                },
+
+                                columnType: 'href'
+                            }],
+                            ajax: {
+                                src: 'https://qaapi.wangxingcloud.com//sample/accept/samples/getToDoList',
+                                dataSrc: 'rows',
+                                type: 'POST',
+                                "contentType": "application/json",
+                                data: {},
+                            },
+                            idField: 'id',
+                            listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span><p class='fontWeight'>{{sampleName}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span><p style=\"color:#CCCCCC;\">{{sampleCode}}</p></span><span><p style=\"color:#CCCCCC;\">{{handleWay}}</p></span><span><p >{{sampleQuantity}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span class='info'><p style=\"color:#6C6C6C;\"    class=\"block-list-item-text-content\">{{entrustName}}</p></span></div>\n</div>",
+                            isUseSearchInput: true,
+                            searchInputPlaceholder: '扫码查询',
+                            isUseQRInput: true,
+                        },
+                        {
+                            type: 'inputSearchPanel',
+                            keyField: 'input',
+                            field: [{
+                                    type: 'text',
+                                    name: 'text',
+                                    placeholder: '按照文本进行检索',
+                                    successOperate: 'refresh',
+                                    ajax: {
+                                        data: '',
+                                        formatter: function (res) {
+                                            return res;
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'honeywellScan',
+                                    name: 'honeywellScan',
+                                    text: '',
+                                    successOperate: 'refresh',
+                                    ajax: {
+                                        /***默认来自于getValueAjax 
+                                         *  qr-camera
+                                         */
+                                        data: '{"ids":"{input.honeywellScan}","type":2}',
+                                        formatter: function (res) {
+                                            return res;
+                                        },
+                                    }
+                                },
+                                {
+                                    /** 扫码设备类型
+                                     * qrCamera:        二维码摄像头
+                                     * barcodeCamera:   条码摄像头
+                                     * barcodeScan:     蓝牙扫码枪
+                                     * honeywellScan:   霍尼韦尔扫码
+                                     * codeScan:        扫码 所有可用类型的扫码都会触发此
+                                     */
+                                    type: 'qrCamera',
+                                    name: 'qrCamera',
+                                    text: '<i class="icon-qrcode"></i>', //使用html为按钮渲染形式
+                                    /** 扫码后执行的动作
+                                     *      refresh     用返回值刷新数据 只显示返回数据
+                                     *      add         添加到当前列表 不区分当前结果
+                                     *      addOnlyScan 添加到当前列表 添加时候打上标识，只显示同一个扫码设备出现的
+                                     */
+                                    successOperate: 'refresh',
+                                    ajax: {
+                                        /***默认来自于getValueAjax 
+                                         *  qr-camera
+                                         */
+                                        data: '{"ids":"{input.qrCamera}","type":2}',
+                                        formatter: function (res) {
+                                            return res;
+                                        },
+                                    }
+                                },
+                                {
+                                    type:'btn',
+                                    name:'getList',
+                                    text:'<i class="icon-all"></i>',
+                                    successOperate: 'refresh',
+                                    ajax:{
+                                        formatter: function (res) {
+                                            return res;
+                                        }
+                                    }
+                                }
+                            ],
+                            searchAjax: {
+                                data:'{"keyword":"{input.keyword}","type":2, "mobCate":"{filter.classCate}"}',
+                                formatter: function (res) {
+                                    return res ;
+                                }
+                            }
+                        }
+
+                    ]
+
+
+
+                }
+                // NETSTAR添加url参数即pageParam
+                var pageConfig = {
+                    config: sampleCustomList2
+                };
+                /*var componentsArr = pageConfig.config.components;
+                for (var componentI = 0; componentI < componentsArr.length; componentI++) {
+                    var componentData = componentsArr[componentI];
+                    switch (componentData.type) {
+                        case 'blockList':
+                            componentData.scandSource = 'getToDoList';
+                            break;
+                    }
+                }*/
+                sampleCustomList2 = NetstarProject.init(sampleCustomList2);
+                NetstarTemplate.init(sampleCustomList2);
+            })
+        </script>
+    </container>
+</body>
+
+</html>

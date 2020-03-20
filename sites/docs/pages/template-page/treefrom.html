@@ -1,0 +1,465 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+    <container>     
+        <script type="text/javascript">
+            var localhoseUrl = window.location.origin;
+            var treeFormJson = {
+				package:'nsVue.graps.treeForm',
+				template:'treeForm',
+                title:'树表单模板',
+				components:[
+					{
+						type:'tree',
+						title:'树',
+						idField:'id',
+						isSearch:  false,
+						ajax : {
+							url : localhoseUrl + '/sites/docs/data/tree/getList.json',
+							dataSrc:'rows',
+							type:'GET',
+							contentType:'application/x-www-form-urlencoded',
+							// data:   {parentId:0},
+						},
+						addAjax : {
+							url : localhoseUrl + '/sites/docs/data/tree/ztree-add.json',
+                            dataSrc : 'rows',
+                            type:'GET',
+							contentType:'application/x-www-form-urlencoded',
+						},
+						editAjax : {
+							url : localhoseUrl + '/sites/docs/data/tree/ztree-add.json',
+                            dataSrc : 'rows',
+                            type:'GET',
+							contentType:'application/x-www-form-urlencoded',
+						},
+						deleteAjax : {
+							url : localhoseUrl + '/sites/docs/data/tree/ztree-add.json',
+                            dataSrc : 'rows',
+                            type:'GET',
+							contentType:'application/x-www-form-urlencoded',
+						},
+						moveAjax : {
+							url : localhoseUrl + '/sites/docs/data/tree/ztree-add.json',
+                            dataSrc : 'rows',
+                            type:'GET',
+							contentType:'application/x-www-form-urlencoded',
+						},
+						textField:              'name',
+						parentField:               'parent',
+						childField:          'children',
+					},{
+						type:'vo',
+						idField: 'id',
+                        isSetMore: false,
+                        defaultComponentWidth:'50%',
+						field: [
+							{
+								id: 'salesOrder',
+								label: '销售单号',
+								type: 'text',
+								inputWidth: 100,
+							},{
+								id: 'orderTime',
+								label: '开单时间',
+								type: 'date',
+								inputWidth: 200,
+								value: 1544148749870,
+								rules: 'required',
+								isInputMask: true,
+							},{
+								id: 'urgency',
+								type: 'checkbox',
+								inputWidth: 100,
+								value: "0",
+								textField: 'text',
+								valueField: 'value',
+								subdata: [{
+									text: '紧急',
+									value: '1',
+									isChecked: true,
+									isDisabled: false,
+								}]
+                            },
+                            {
+                                id: 'customer',
+                                label: '客户',
+                                type: "text",
+
+                            },
+                            {
+                                id: 'contacts',
+                                label: '联系人',
+                                type: 'select',
+                                // inputWidth: 200,
+                                textField: 'name',
+                                valueField: 'id',
+                                value: '1',
+                                subdata: [
+                                    {
+                                        name: '张三',
+                                        id: '1',
+                                        isChecked: true,
+                                        isDisabled: false,
+                                    },
+                                    {
+                                        id:'2',
+                                        name:'李四',
+                                        isChecked:true,
+                                        isDisabled:true,       
+                                    },
+                                    {
+                                        id:'3',
+                                        name:'刘九',
+                                        isChecked: true,
+                                        idDisabled:true,   
+                                    }
+                                ]
+                            },
+                            {
+                                id: 'salesMan',
+                                label: '销售员',
+                                // inputWidth:200,
+                                type:"select",
+                                textField: 'name',
+                                valueField: 'id',
+                                subdata: [
+                                    {
+                                        name: '王五',
+                                        id: '1',
+                                        isChecked: true,
+                                        isDisabled: false,
+                                    },
+                                    {
+                                        id:'2',
+                                        name:'',
+                                        isChecked:true,
+                                    }
+                                ]
+                            },
+                            {
+                                id: 'abstract',
+                                label: '摘要',
+                                type: 'text',
+                                inputWidth: 100,
+                                value: '',
+                                changeHandler: function (obj) {
+                                    console.log(obj);
+                                }
+                            },
+                            {
+                                id: 'remark',
+                                label: '备注',
+                                type: 'text',
+                                inputWidth: 100,
+                                value: '',
+                                changeHandler: function (obj) {
+                                    console.log(obj);
+                                }
+                            }, {
+                                id: 'paymentStage',
+                                label: '付款阶段',
+                                type: 'text',
+                                inputWidth: 100,
+                                value: '',
+                                changeHandler: function (obj) {
+                                    console.log(obj);
+                                }
+                            },
+                            {
+                                id: 'discount',
+                                label: '折扣',
+                                type: 'text',
+                                inputWidth: 100,
+                                value: '',
+                                changeHandler: function (obj) {
+                                    console.log(obj);
+                                }
+                            },
+                            {
+                                id: 'invoiceType',
+                                label: '发票类型',
+                                type: 'select',
+                                inputWidth: 200,
+                                textField: 'name',
+                                valueField: 'id',
+                                value: '0',
+                                subdata:[{
+                                    name:'普通发票',
+                                    id:'1',
+                                    isChecked:true,
+                                    isDisabled:true,
+                                }]
+                            },
+                            {
+                               id: 'salesOrder',
+                               label: '销售单号',
+                               type: 'text',
+                               inputWidth: 100,
+                               value: '',
+                               changeHandler: function (obj) {
+                                   console.log(obj);
+                               }
+                           },
+                           {
+                               id: 'orderTime',
+                               label: '开单时间',
+                               type: 'date',
+                               inputWidth: 200,
+                               value: 1544148749870,
+                               rules: 'required',
+                               isInputMask: true,
+                               changeHandler: function (obj) {
+                                   console.log(obj);
+                               }
+                           },
+                           {
+                               id: 'urgency',
+                               label: '是否紧急',
+                               type: 'checkbox',
+                               inputWidth: 100,
+                               value: "0",
+                               textField: 'text',
+                               valueField: 'value',
+                               subdata: [{
+                                   text: '紧急',
+                                   value: '1',
+                                   isChecked: true,
+                                   isDisabled: false,
+                               }]
+                           },
+                           {
+                           id: 'contacts',
+                               label: '联系人',
+                               type: 'select',
+                               inputWidth: 200,
+                               textField: 'name',
+                               valueField: 'id',
+                               value: '0',
+                               subdata:[
+                                   {
+                                       id:'1',
+                                       name:'张三',
+                                   },
+                                   {
+                                       id:'2',
+                                       name:'李四',
+                                   },
+                                   {
+                                       id:'3',
+                                       name:'王五',
+                                   },
+                                   {
+                                       id:'4',
+                                       name:'赵六',
+                                   }
+                               ]
+                           },
+                           {
+                               id: 'salesman',
+                               label: '销售员',
+                               type: 'select',
+                               inputWidth: 200,
+                               textField: 'name',
+                               valueField: 'id',
+                               value: '0',
+                               subdata:[{
+                                   id:'1',
+                                   name:'赵钱',
+                               },{
+                                   id:"2",
+                                   name:"孙九",
+                               },{
+                                   id:'3',
+                                   name:'周武',
+                               },{
+                                   id:'4',
+                                   name:'郑忘',
+                               }]
+                           },
+                           {
+                               id: 'abstract',
+                               label: '摘要',
+                               type: 'text',
+                               inputWidth: 100,
+                               value: '',
+                               changeHandler: function (obj) {
+                                   console.log(obj);
+                               }
+                           },
+                           {
+                               id: 'warehouse',
+                               label: '发货仓库',
+                               type: 'select',
+                               inputWidth: 200,
+                               textField: 'name',
+                               valueField: 'id',
+                               value: '0',
+                               subdata:[
+                                   {
+                                       id:'1',
+                                       name:'仓库一',
+                                   },
+                                   {
+                                       id:'2',
+                                       name:'仓库二',
+                                   },
+                                   {
+                                       id:'3',
+                                       name:'仓库三'
+                                   },
+                                   {
+                                       id:'4',
+                                       name:'仓库四'
+                                   }
+                               ]
+                           },
+                           {
+                               id: 'remark',
+                               label: '备注',
+                               type: 'text',
+                               inputWidth: 100,
+                               value: '',
+                               changeHandler: function (obj) {
+                                   console.log(obj);
+                               }
+                           },
+                           {
+                               id: 'paymentStage',
+                               label: '付款阶段',
+                               type: 'text',
+                               inputWidth: 100,
+                               value: '',
+                               changeHandler: function (obj) {
+                                   console.log(obj);
+                               }
+                           },
+                           {
+                               id: 'discount',
+                               label: '折扣',
+                               type: 'text',
+                               inputWidth: 100,
+                               value: '',
+                               changeHandler: function (obj) {
+                                   console.log(obj);
+                               }
+                           },
+                           {
+                               id: 'invoiceType',
+                               label: '发票类型',
+                               type: 'select',
+                               inputWidth: 200,
+                               textField: 'name',
+                               valueField: 'id',
+                               value: '0',
+                               subdata:[
+                                   {
+                                       id:'1',
+                                       name:'普通发票',
+                                   },
+                                   {
+                                       id:'2',
+                                       name:'增值税发票'
+                                   }
+                               ]
+                           }               
+						],
+                    },
+				],
+			};
+				
+		/* 	var treeListJson1 = {
+				package:'nsVue.graps.product',
+				template:'businessDataBase',
+				title:'商品分类',
+				components:[
+				{
+						type:'list',
+						idField:'id', 
+						params:{
+							displayMode:'treeGrid',
+							parentField:'parentId',
+							childField:'children',
+							//level:1,
+						},
+						ajax:{
+							src:                    'http://ui-pc:2000/assets/json/tree/ui.json',       //数据源地址
+							type:                   "GET",          //GET POST
+							contentType:            'application/x-www-form-urlencoded',          //GET POST
+							data:                   {},             //参数对象{id:1,page:100}
+							//isServerMode:         true,           //是否开启服务器模式
+							dataSrc:                'rows',
+						},
+						field:[
+							{
+								field : 'courseRate',
+								title : 'WBS',
+								width : 80,
+								searchable:true,
+								orderable:true, 
+								isCommon:true,
+								isTreeNode:true,//是否树节点
+							}, {
+								field : 'sourceTaskId',
+								title : '前置任务',
+								searchable: true,
+								width:60,
+								orderable:true, 
+							},{
+								field:'subject',
+								title:'任务名称',
+								width:200,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							},{
+								field:'assignToName',
+								title:'任务办理人',
+								width:150,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							},{
+								field:'whenStartPlaned_kz',
+								title:'开始时间',
+								width:180,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							},{
+								field:'whenEndPlaned_kz',
+								title:'结束时间',
+								width:220,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							}
+						],
+					},{
+						type:'btns',
+						position:'text-left',
+						field:[
+							{
+								text:'空白新增',
+								isReturn:true,
+								shortcutKey:'ALT+A'
+							},{
+								text:'选中',
+								isReturn:true,
+								shortcutKey:'ALT+S',
+							},{
+								text:'选中并关闭',
+								isReturn:true,
+								shortcutKey:'ALT+C'
+							},{
+								text:'添加',
+								isReturn:true,
+								shortcutKey:'ALT+R'
+							}
+						]
+					}
+				],
+			}; */
+			
+			NetstarTemplate.init(treeFormJson);
+        </script>
+    </container>
+</html>

@@ -1,0 +1,89 @@
+/* 半屏容器 */
+
+.mobilewindow-halfscreen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 199;
+    // 半屏模式透明背景
+    .mobilewindow-halfscreen-after{
+        background: rgba(0, 0, 0, .45);
+        height: 100%;
+    }
+
+}
+
+/* 全屏容器 */
+
+.mobilewindow-fullscreen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-bottom:@mobile-btn-height;
+    background: #fff;
+    z-index: 999;
+    overflow-y: auto;
+    .btn-group {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        .btn-default{
+            border-top: 1px solid @ns-border-color;
+        }
+    }
+
+    .form-td{
+        & + .form-td{
+            border-top: 1px solid #f1f1f1;
+        }
+        .form-group{
+            min-height: 4rem !important;
+        }
+    }
+
+    .staticdata{
+        padding: 0;
+    }
+}
+
+.mobilewindow-halfscreen-content {
+    background: #fff;
+    margin: 0;
+    .daterangepicker{
+        position: static;
+        width: 100%;
+        border: 1px solid @form-border-color;
+        border-width: 1px 0;
+        .form-control{
+            border: 0;
+        }
+    }
+}
+
+.mobilewindow-halfscreen-container {
+    .flex-block();
+    flex-wrap: wrap;
+    .form-td,
+    .form-group {
+        .flex-block(space-around, stretch);
+        flex: 0 0 100%;
+        margin: 0;
+    }
+    .form-group {
+        padding: 0 @base-padding;
+    }
+    .radio-label {
+        .flex-block();
+        margin: 0;
+        padding: 0;
+    }
+    .form-item {
+        .flex-block(flex-end, center);
+    }
+}

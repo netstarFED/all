@@ -1,0 +1,207 @@
+﻿//单据页面专用
+@bill-title-size:22px;
+@bill-title-height:50px;
+@bill-title-background: @car-top-plane-background;
+@bill-top-component-border-color:  @car-top-plane-border;
+.page-container .main-content.table-content container > .row.car-panel{
+	margin-bottom: @default-layout-padding;
+	&.user-panel{
+		position: absolute;
+		top: 60px;
+		right: 15px;
+		background-color: transparent;
+		.row.row-close{
+			margin: 0;
+		}
+		.form-content{
+			background-color: transparent;
+			.row.row-close{
+				margin: 0;
+				.control-label{
+					background-color: transparent;
+				}
+			}
+		}
+	}
+	> div{
+		background-color: @bill-title-background;
+		.panel-body{
+			padding-right: 0;
+		}
+		&.title-plane{
+			padding: ( @bill-title-height - @car-top-component-height ) / 2 @default-layout-padding;
+			height: @bill-title-height;
+			.row.row-close{
+				margin-bottom: 0;
+				background-color: @bill-title-background;
+			}
+			.form-item.select .selectboxit-container{
+				min-width: 150px !important;
+			}
+			.selectboxit-options{
+				min-width: 100% !important;
+			}
+		}
+	}
+	> .searchBtn-content{
+		.btn-group{
+			padding: (@base-padding - 2) @base-padding (@base-padding - 2) @base-padding + (@base-padding /2);
+			.btn + .btn{
+				margin-left: @base-margin /2;
+			}
+		}
+	}
+	> .searchForm-content{
+		.control-label{
+			background-color: transparent;
+			width: auto;
+			padding: @base-padding /2 @base-padding + 2;
+			&:before{
+				display: none;
+			}
+		}
+		.panel-form{
+			padding: (@base-padding - 3) @base-padding + (@base-padding /2) 3px 0;
+			.form-td{
+				width: auto !important;
+				border: 0;
+				.form-item{
+					min-width: 100px;
+					height: @car-component-height !important;
+					border: 1px solid @car-top-plane-border;
+					&:before{
+						display: none;
+					}
+					
+				}
+				label.radio-inline, 
+				label.checkbox-inline{
+					height: 30px !important;
+					&:after{
+						top: 7px;
+					}
+				}
+				.form-control,
+				.checkbox-options{
+					min-width: 100px;
+					max-width: 100px;
+					height: @car-component-height !important;
+					min-height: @car-component-height;
+					background: #fff;
+					&.datepicker[readonly]{
+						background: @car-top-plane-background;
+					}
+					& + .input-group-addon{
+						width: @car-component-height;
+						border-left: 1px solid @car-top-plane-border;
+						margin-left: -1px;
+					}
+				}
+
+			}
+		}
+	}
+	h3{
+		font-size: @bill-title-size;
+		line-height: @bill-title-height;
+		height: auto;
+		background-color: @car-top-plane-background;
+		color: @car-h3-color;
+		padding:0 0 0 @default-layout-padding;
+		width: 180px;
+	}
+	.form-content{
+		width: 750px;
+		float: right;
+		.form-td{
+			border:none;
+			&.bill-storehouse {
+				width: 220px;
+			}
+			&.col-none span.selectboxit-text{
+				padding-right: @form-sm-btn-height !important;
+			}
+			&.match-width{
+				min-width: 200px;
+				input.form-control[type="text"]{
+					width: 100% !important;
+				}
+			}
+			
+			.form-group{
+				label.control-label{
+					position: relative;
+					background-color: #e4ecf6;
+					text-align: right;
+					width: auto;
+					padding: 5px 12px;
+					// &:before{
+					// 	background-color: transparent;
+					// 	content: '：';
+					// 	width: 12px;
+					// 	left: auto;
+					// 	right: 0;
+					// 	height: 30px;
+					// 	line-height: 30px;
+					// 	text-align: center;
+					// }
+				}
+				.form-item{
+					height: @car-top-component-height;
+					input.form-control[type="text"]{
+						border:1px solid @bill-top-component-border-color;
+						line-height: @car-top-component-height;
+						height: @car-top-component-height;
+						min-height: @car-top-component-height;
+						width: 150px;
+						padding:6px;
+						&[readonly]{
+							background-color: @bill-title-background;
+						}
+						&[nstype="date"]{
+							width: 100px;
+						}
+					}
+					.input-group-addon{
+						border:1px solid @bill-top-component-border-color;
+						border-left: none;
+						width: @car-top-component-height;
+					}
+					&.select{
+						.selectboxit-list{
+							border-color: @bill-top-component-border-color;
+						}
+						span.selectboxit-container{
+							border:1px solid @bill-top-component-border-color;
+							min-width: @base-input-min-width - 30;
+							.selectboxit{
+								line-height: @car-top-component-height - 2;
+								min-height: @car-top-component-height - 2;
+								height: @car-top-component-height - 2;
+								border:none;
+								.selectboxit-text{
+									text-align: left;
+									height: @car-top-component-height - 2;
+									line-height: @car-top-component-height - 2;
+								}
+							}
+							.selectboxit-arrow-container{
+								width: @form-sm-btn-height;
+								height: @form-sm-btn-height;
+								line-height: @form-sm-btn-height;
+								&:after{
+									top: 8px;
+									right: 8px;
+								}
+							}
+						}
+					}
+					&:before{
+						background-color: transparent;
+					}
+				}
+				
+			}
+		}
+	}
+}

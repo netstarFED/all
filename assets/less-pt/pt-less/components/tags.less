@@ -1,0 +1,35 @@
+
+@tags-padding: @base-padding;
+@tags-bg: lighten(@primary, 55);
+@tags-hover-bg: lighten(@primary, 45);
+@tags-height: 20px;
+.tags-variant(@bg, @color){
+    background: @bg;
+    color: @color;
+    &:hover{
+        background: darken(@bg, 10);
+        color: #fff;
+    }
+}
+.pt-tags{
+    display: inline-block;
+    padding-left: @base-padding-sm;
+    background: @tags-bg;
+    line-height: @tags-height;
+    border-radius: @tags-height;
+    .pt-btn-icon.pt-close{
+        float:right;
+        background:transparent;
+        border: 0;
+        .square(@tags-height);
+        border-radius: @tags-height;
+    }
+    &:hover{
+        background: @tags-hover-bg;
+    }
+   
+}
+
+.pt-tags-group{
+    padding: @tags-padding;
+}

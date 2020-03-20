@@ -1,0 +1,442 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+	<link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+	<title>树表单 treeForm</title>
+
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<!--# include file="/sites/include/login-static-dev.html" -->
+	<!--# include file="/sites/include/preload-static-dev.html" -->
+	<!--# include file="/sites/include/mainpage-static-dev.html" -->
+	<!--# include file="/sites/include/lazy-static-dev.html" -->
+	<style>
+	</style>
+</head>
+<style>
+  
+</style>
+
+    <container>
+        
+        
+        <script type="text/javascript">
+            var localhoseUrl = 'http://ui-pc:2000';
+            var treeFormJson = {
+				package:'nsVue.graps.treeForm',
+				template:'treeForm',
+                title:'treeForm',
+				components:[
+					{
+						type:'tree',
+						title:'treelist',
+						idField:'id',
+						isSearch:  false,
+						level:2,
+						ajax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree4.json',
+							dataSrc:'rows',
+							type:'GET',
+							contentType:'application/x-www-form-urlencoded',
+							// data:   {parentId:0},
+						},
+						addAjax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree-add.json',
+							dataSrc : 'rows',
+						},
+						editAjax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree-add.json',
+							dataSrc : 'rows',
+						},
+						deleteAjax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree-add.json',
+							dataSrc : 'rows',
+						},
+						moveAjax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree-add.json',
+							dataSrc : 'rows',
+						},
+						textField:              'name',
+						parentField:               'parent',
+						childField:          'children',
+					},{
+						type:'vo',
+						idField: 'id',
+						isSetMore: false,
+						field: [
+							{
+								id: 'salesOrder',
+								label: '销售单号',
+								type: 'text',
+								inputWidth: 100,
+							},{
+								id: 'orderTime',
+								label: '开单时间',
+								type: 'date',
+								inputWidth: 200,
+								value: 1544148749870,
+								rules: 'required',
+								isInputMask: true,
+							},{
+								id: 'urgency',
+								type: 'checkbox',
+								inputWidth: 100,
+								value: "0",
+								textField: 'text',
+								valueField: 'value',
+								subdata: [{
+									text: '紧急',
+									value: '1',
+									isChecked: true,
+									isDisabled: false,
+								}]
+							}
+						],
+					},{
+						type: 'list',
+						title: '换入商品列表',
+						position: 'body',
+						parent: 'root',
+						idField: 'swapId',
+						keyField: 'swapInGoodsList',
+						flagField: 'flag',
+						//field:nsProject.getFieldsByState(nscrm.alias,'goodsPlatformVo',true),
+						field: [
+							{
+								field: 'pd',
+								title: '生产日期',
+								editable: true,
+								columnType: 'date',
+								formatHandler: {
+									type: 'date',
+									data: {
+										formatDate: 'YYYY-MM-DD HH:mm:ss'
+									}
+								},
+								editConfig: {
+									type: 'date',
+									format: 'yyyy-mm-dd HH:mm:ss',
+								},
+							}, {
+								field: 'unit',
+								title: '单位',
+								editable: true,
+							}, {
+								field: 'num',
+								title: '数量',
+								columnType: 'number',
+								variableType: 'number',
+								editable: true,
+								formatType: {
+									type: 'number',
+									format: ',.'
+								},
+								footer: {
+									type: 'sum' //合计
+								},
+								editConfig: {
+									//total: '{{money}}-{{price}}',
+								},
+							}, {
+								field: 'price',
+								title: '单价',
+								columnType: 'money',
+								editable: true,
+								variableType: 'number',
+								formatType: {
+									type: 'money',
+									forma: ',.'
+								},
+								footer: {
+									type: 'average' //平均
+								},
+								editConfig: {
+									//total: '{{money}}-{{num}}',
+								},
+							}, {
+								field: 'money',
+								title: '金额',
+								columnType: 'money',
+								editable: true,
+								variableType: 'number',
+								editConfig: {
+									// total: '{{num}}+{{price}}',
+								},
+								formatType: {
+									type: 'money',
+									forma: ',.'
+								},
+								footer: {
+									type: 'sum'
+								}
+							}, {
+								field: 'state',
+								editable: true,
+								title: '状态',
+								editConfig: {
+									//total: '{{num}}>{{price}}',
+								},
+							}, {
+								field: 'remark',
+								editable: true,
+								title: '备注'
+							},
+						]
+					},{
+						type: 'list',
+						title: '项目基本信息',
+						position: 'body',
+						parent: 'root',
+						params:{displayMode:'voList'},
+						idField: 'productId',
+						keyField: 'swapOutGoodsList',
+						field:[
+							{
+								field: 'notes',
+								title: '条码',
+								isTitle:true,//当前字段作为标题
+								editConfig:{
+								id:'notes',
+								type:'text',
+								label:'条码',
+								column:12
+								}
+							},{
+								field: 'unitsNames',
+								title: '名称',
+								isValue:true,//当前字段作为显示值
+								editConfig:{
+								id:'unitsNames',
+								type:'select',
+								label:'名称',
+								column:12,
+								textField:'name',
+								valueField:'value',
+								subdata:[
+									{
+										name:'苹果',
+										value:'0'
+									},{
+										name:'香蕉',
+										value:'1'
+									},{
+										name:'哈密瓜',
+										value:'2'
+									},{
+										name:'草莓',
+										value:'3'
+									},{
+										name:'车厘子',
+										value:'4'
+									}
+								]
+								}
+							},
+						]
+					},{
+						type: 'list',
+						title: '换出商品列表',
+						position: 'body',
+						parent: 'root',
+						idField: 'swapIds',
+						keyField: 'swapInGoodsList1',
+						flagField: 'flag',
+						//field:nsProject.getFieldsByState(nscrm.alias,'goodsPlatformVo',true),
+						field: [
+							{
+								field: 'pd',
+								title: '生产日期',
+								editable: true,
+								columnType: 'date',
+								formatHandler: {
+								type: 'date',
+								data: {
+									formatDate: 'YYYY-MM-DD HH:mm:ss'
+								}
+								},
+								editConfig: {
+								type: 'date',
+								format: 'yyyy-mm-dd HH:mm:ss',
+								},
+							}, {
+								field: 'unit',
+								title: '单位',
+								editable: true,
+							}, {
+								field: 'num',
+								title: '数量',
+								columnType: 'number',
+								variableType: 'number',
+								editable: true,
+								formatType: {
+									type: 'number',
+									format: ',.'
+								},
+								footer: {
+									type: 'sum' //合计
+								},
+								editConfig: {
+									total: '{{money}}-{{price}}',
+								},
+							}, {
+								field: 'price',
+								title: '单价',
+								columnType: 'money',
+								editable: true,
+								variableType: 'number',
+								formatType: {
+									type: 'money',
+									forma: ',.'
+								},
+								footer: {
+									type: 'average' //平均
+								},
+								editConfig: {
+									total: '{{money}}-{{num}}',
+								},
+							}, {
+								field: 'money',
+								title: '金额',
+								columnType: 'money',
+								editable: true,
+								variableType: 'number',
+								editConfig: {
+									// total: '{{num}}+{{price}}',
+								},
+								formatType: {
+									type: 'money',
+									forma: ',.'
+								},
+								footer: {
+									type: 'sum'
+								}
+							}, {
+								field: 'state',
+								editable: true,
+								title: '状态',
+								editConfig: {
+									total: '{{num}}>{{price}}',
+								},
+							}, {
+								field: 'remark',
+								editable: true,
+								title: '备注'
+							},
+						]
+					},{
+						type:'uploadCover',
+						title: "照片",
+						keyField:'labPictureList',
+						idField:'id',
+						imgIdField:'fileId'
+					}
+				],
+			};
+			
+			
+			var treeListJson1 = {
+				package:'nsVue.graps.product',
+				template:'businessDataBase',
+				title:'商品分类',
+				components:[
+				{
+						type:'list',
+						idField:'id', 
+						params:{
+							displayMode:'treeGrid',
+							parentField:'parentId',
+							childField:'children',
+							//level:1,
+						},
+						ajax:{
+							src:                    'http://ui-pc:2000/assets/json/tree/ui.json',       //数据源地址
+							type:                   "GET",          //GET POST
+							contentType:            'application/x-www-form-urlencoded',          //GET POST
+							data:                   {},             //参数对象{id:1,page:100}
+							//isServerMode:         true,           //是否开启服务器模式
+							dataSrc:                'rows',
+						},
+						field:[
+							{
+								field : 'courseRate',
+								title : 'WBS',
+								width : 80,
+								searchable:true,
+								orderable:true, 
+								isCommon:true,
+								isTreeNode:true,//是否树节点
+							}, {
+								field : 'sourceTaskId',
+								title : '前置任务',
+								searchable: true,
+								width:60,
+								orderable:true, 
+							},{
+								field:'subject',
+								title:'任务名称',
+								width:200,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							},{
+								field:'assignToName',
+								title:'任务办理人',
+								width:150,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							},{
+								field:'whenStartPlaned_kz',
+								title:'开始时间',
+								width:180,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							},{
+								field:'whenEndPlaned_kz',
+								title:'结束时间',
+								width:220,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							}
+						],
+					},{
+						type:'btns',
+						position:'text-left',
+						field:[
+							{
+								text:'空白新增',
+								isReturn:true,
+								shortcutKey:'ALT+A'
+							},{
+								text:'选中',
+								isReturn:true,
+								shortcutKey:'ALT+S',
+							},{
+								text:'选中并关闭',
+								isReturn:true,
+								shortcutKey:'ALT+C'
+							},{
+								text:'添加',
+								isReturn:true,
+								shortcutKey:'ALT+R'
+							}
+						]
+					}
+				],
+			};
+			
+			NetstarTemplate.init(treeFormJson);
+        </script>
+    </container>
+</html>

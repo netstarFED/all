@@ -1,0 +1,643 @@
+<script>
+    var demoDataSource =
+        [
+            {
+                image: 'images/edit-demo.png',
+                code: '商品编号',
+                codename: [
+                    {
+                        "entityState": "Changed",
+                        "id": 1,
+                        "itemCode": "000002",
+                        "itemName": "灰分：来自于[{itmename:“灰分”}] ITEMNAME",
+                        "stdName": "灰分",
+                        "englishName": null,
+                        "wb": null,
+                        "py": "HF",
+                        "itemCateId1": "0304",
+                        "itemCateId2": null,
+                        "isComb": 0,
+                        "isPricing": 0,
+                        "isResult": 0,
+                        "taskingType": 0,
+                        "reportWay": 0,
+                        "canbeReaplced": 0,
+                        "isPrior": 0,
+                        "orderId": 1,
+                        "isDelete": 0,
+                        "isCMA": 0,
+                        "isCNAL": 0,
+                        "isSubItem": 0,
+                        "itemCateName": "理化",
+                        "subItemIds": null,
+                        "replaceItemIds": null,
+                        "parentId": 0,
+                        "isMapping": 0,
+                        "mappItemIds": null,
+                        "codeIsAuto": null,
+                        "tableName": "lsitem",
+                        "new": false,
+                        "deleted": false,
+                        "changed": true,
+                    }
+                ],
+                barcode: 55988555,
+                spec: '规格',
+                pd: 1544750890139,
+                unit: '单位',
+                unitrelative: '单位关系',
+                suppleunitone: '辅助单位1',
+                suppleunittwo: '辅助单位2',
+                num: 0,
+                price: 5500,
+                money: 0,
+                state: '状态',
+                remark: '备注',
+                commodityname: "商品简名",
+                production: "产地",
+                brand: '品牌',
+                suppleunit: '辅助数量',
+                shopweight: '商品重量',
+                shoptotalweight: '商品总重量(kg)',
+                select:"1",
+            },
+            {
+                image: 'images/edit-demo.png',
+                code: 'ILCE-7RM2',
+                codename: '索尼（SONY）ILCE-7RM2 全画幅微单相机 单机身（约4240万有效像素 4K视频 5轴防抖 A7RM2/a7r2）',
+                barcode: 5222011,
+                spec: '全画幅',
+                pd: 1544750810139,
+                unit: '台',
+                unitrelative: '5轴防抖',
+                suppleunitone: '人物摄影，风光摄影，其他',
+                suppleunittwo: '4000万以上',
+                num: 1,
+                price: 10099,
+                money: 10099,
+                state: '全新',
+                remark: '双12促销',
+                commodityname: "7RM2微单",
+                production: "泰国",
+                brand: '索尼',
+                suppleunit: '',
+                shopweight: '1.375kg',
+                shoptotalweight: '1.375kg',
+                select:"2",
+            }
+        ]
+    //grid field配置
+    var businessConfig = {
+        type: 'business',
+        textField: 'itemName',
+        inputWidth: 100,
+        dialogTitle: '往来单位[供应商]选择框',
+        infoBtnName: '查看单位基本信息',
+        selectMode: 'checkbox',
+        defaultSearchData: {page:"{page.child.brand}"},
+        source: {
+            url: getRootPath() + '/htmlpage/goodslist.html',
+        },
+        search: {
+            url: getRootPath() + '/public/static/assets/json/newcomponent/search.json',
+            dataSrc: 'rows',
+        },
+        //用于选中后返回整行数据的ajax
+        getRowData: {
+            url: getRootPath() + '/public/static/assets/json/newcomponent/getrowdata.json',
+            dataSrc: 'rows',
+            data : {
+                ids : '{selectedList.id}',
+                objectState : '{objectState}',
+                brand : {
+                    brand : '{1.brand}'
+                }
+            }
+        },
+        // getTemplateValueFunc:function(){
+        //     return {a:1};
+        // }
+    }
+    var gridcolumns = [
+        {
+            field: 'code',
+            title: '商品编号',
+            editable: true,
+            viewConfig: {
+                type: 'viewerList',
+                ajax: {
+                    url: getRootPath() + '/public/static/assets/json/table/viewerlist.json',
+                },
+                field: [
+                    {
+                        field: 'name',
+                        title: '姓名',
+                    }, {
+                        field: 'age',
+                        title: '年龄',
+                    }, {
+                        field: 'hobby',
+                        title: '爱好',
+                    }
+                ],
+            },
+        }, {
+            field: 'codename',
+            title: '商品名称',
+            width: 300,
+            // columnType: 'business',
+            columnType: 'renderField',
+            editable: true,
+            editConfig: businessConfig,
+            formatHandler: {
+                type: 'renderField',
+                data: '{{remark}}',
+            },
+        }, {
+            field: 'barcode',
+            title: '条码(不可编辑)',
+            width: 120,
+            // editable: false,
+            columnType: 'upload',
+            editable: true,
+            // editConfig: businessConfig,
+            editConfig: {
+                label: 'upload2',
+                type: 'upload',
+                btns:['upload','edit','delete','download','print'],
+                // value:[
+                //     { text : 'a.doc', value : '1', contentType : 'image/jpeg' },
+                //     { text : 'b.doc', value : '2' },
+                //     { text : 'c.doc', value : '3' },
+                //     { text : 'd.doc', value : '123654' },
+                //     { text : 'e.doc', value : '4' },
+                //     { text : 'f.doc', value : '5' },
+                //     { text : 'g.doc', value : '6' },
+                //     { text : 'h.doc', value : '7' },
+                //     { text : 'i.doc', value : '8' },
+                // ],
+                ajax:{
+                    url : getRootPath() + '/public/static/assets/json/newcomponent/upload.json',
+                },
+                editAjax:{
+                    url : getRootPath() + '/public/static/assets/json/newcomponent/uploadedit.json',
+                },
+                downloadAjax:{
+                    url : getRootPath() + '/public/static/assets/css/img/yuan2.rar?',
+                },
+                getFileAjax:{
+                    url : getRootPath() + '/public/static/assets/json/newcomponent/upload2.json',
+                },
+                isShowThum : false,
+                isMultiple : true,
+            },
+        }, {
+            field: 'pd',
+            title: '生产日期',
+            editable: true,
+            columnType: 'date',
+            formatHandler: {
+                type: 'date',
+                data: {
+                    formatDate: 'YYYY-MM-DD HH:mm:ss'
+                }
+            },
+            editConfig: {
+                type: 'date',
+                format: 'yyyy-mm-dd HH:mm:ss',
+            },
+        }, {
+            field: 'unit',
+            title: '单位',
+            editable: true,
+        }, {
+            field: 'num',
+            title: '数量',
+            columnType: 'number',
+            variableType: 'number',
+            editable: true,
+            formatType: {
+                type: 'number',
+                format: ',.'
+            },
+            footer: {
+                type: 'sum' //合计
+            },
+            editConfig: {
+                total: '{{money}}-{{price}}',
+            },
+        }, {
+            field: 'price',
+            title: '单价',
+            columnType: 'money',
+            editable: true,
+            variableType: 'number',
+            formatType: {
+                type: 'money',
+                forma: ',.'
+            },
+            footer: {
+                type: 'average' //平均
+            },
+            editConfig: {
+                total: '{{money}}-{{num}}',
+            },
+        }, {
+            field: 'money',
+            title: '金额',
+            columnType: 'money',
+            editable: true,
+            variableType: 'number',
+            editConfig: {
+                // total: '{{num}}+{{price}}',
+            },
+            formatType: {
+                type: 'money',
+                forma: ',.'
+            },
+            footer: {
+                type: 'sum'
+            }
+        }, {
+            field: 'state',
+            editable: true,
+            title: '状态',
+            editConfig: {
+                total: '{{num}}>{{price}}',
+            },
+        }, {
+            field: 'remark',
+            editable: true,
+            title: '备注'
+        },{
+            field: 'radio',
+            editable: true,
+            title:'radio',
+            editConfig:{
+                type: 'radio',
+                textField: 'name',
+                valueField: 'id',
+                dataSrc: 'rows',
+                url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                method: 'GET',
+                data : {
+                    row : "{row.remark}"
+                }
+            }
+        }
+    ];
+
+    var processDocBaseConfigNew = {
+        package: 'templatetest.processDocBase.salesordergrid',
+        // template: 'businessDataBaseEditor',
+        template: 'processDocBase',
+        title: '表单表格模板',
+        readonly: false,
+        isShowTitle: false,
+        isFormHidden: false,
+        variableJson: "",
+        getValueAjax: {
+            src: getRootPath() + '/public/static/assets/json/template/withFormTableModal.json',
+            type: 'GET',
+            dataSrc: 'data',
+            data: {},
+        },
+        draftBox : {
+            fields : 'urgency,child.code,child.select,child.pd',
+            isUse : true,
+        },
+        saveData: {
+            ajax: {
+                src: getRootPath() + '/public/static/assets/json/template/withFormTableModal.json',
+                type: 'GET',
+                dataSrc: 'data',
+                data: {},
+            },
+            save: {
+                text: '保存'
+            },
+        },
+        isListTabs:true,
+        components: [
+            {
+                type: 'vo',
+                position: 'header-right',
+                parent: 'root',
+
+                idField: 'idForm21',
+                keyField: 'root',
+                isSetMore: false,
+                formStyle: "pt-form-normal",
+                field: [{
+                    id: 'salesOrder',
+                    label: '销售单号',
+                    type: 'text',
+                    inputWidth: 100,
+                    value: '',
+                    changeHandler: function (obj) {
+                        console.log(obj);
+                    }
+                },
+                {
+                    id: 'orderTime',
+                    label: '开单时间',
+                    type: 'date',
+                    inputWidth: 200,
+                    value: 1544148749870,
+                    rules: 'required',
+                    isInputMask: true,
+                    changeHandler: function (obj) {
+                        console.log(obj);
+                    }
+                },
+                {
+                    id: 'urgency',
+                    label: '是否紧急',
+                    type: 'checkbox',
+                    inputWidth: 100,
+                    value: "0",
+                    textField: 'text',
+                    valueField: 'value',
+                    subdata: [{
+                        text: '紧急',
+                        value: '1',
+                        isChecked: true,
+                        isDisabled: false,
+                    }]
+                }
+                ]
+            },
+            {
+                type: 'vo',
+                position: 'header-body',
+                parent: 'root',
+                defaultComponentWidth: '25%',
+                idField: 'idForm22',
+                keyField: 'root',
+                field: [{
+                    id: 'customer',
+                    label: '客户',
+                    type: 'business',
+                    textField: 'itemCateName',
+                    idField: 'itemName',
+                    dialogTitle: '往来单位[供应商]选择框',
+                    infoBtnName: '查看单位基本信息',
+                    rules: 'required',
+                    source: {
+                        url: getRootPath() + '/htmlpage/goodslist.html',
+                    },
+                    search: {
+                        url: getRootPath() + '/public/static/assets/json/newcomponent/search.json',
+                        dataSrc: 'rows',
+                    }
+                },
+                {
+                    id: 'contacts',
+                    label: '联系人',
+                    type: 'select',
+                    inputWidth: 200,
+                    textField: 'name',
+                    valueField: 'id',
+                    value: '0',
+                    ajaxConfig: {
+                        url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                        type: 'GET',
+                        dataSrc: 'rows'
+                    }
+                },
+                {
+                    id: 'salesman',
+                    label: '销售员',
+                    type: 'select',
+                    inputWidth: 200,
+                    textField: 'name',
+                    valueField: 'id',
+                    value: '0',
+                    ajaxConfig: {
+                        url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                        type: 'GET',
+                        dataSrc: 'rows'
+                    }
+                },
+                {
+                    id: 'abstract',
+                    label: '摘要',
+                    type: 'text',
+                    inputWidth: 100,
+                    value: '',
+                    changeHandler: function (obj) {
+                        console.log(obj);
+                    }
+                },
+                {
+                    id: 'warehouse',
+                    label: '发货仓库',
+                    type: 'select',
+                    inputWidth: 200,
+                    textField: 'name',
+                    valueField: 'id',
+                    value: '0',
+                    ajaxConfig: {
+                        url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                        type: 'GET',
+                        dataSrc: 'rows'
+                    }
+                },
+                {
+                    id: 'remark',
+                    label: '备注',
+                    type: 'text',
+                    inputWidth: 100,
+                    value: '',
+                    changeHandler: function (obj) {
+                        console.log(obj);
+                    }
+                },
+                {
+                    id: 'paymentStage',
+                    label: '付款阶段',
+                    type: 'text',
+                    inputWidth: 100,
+                    value: '',
+                    changeHandler: function (obj) {
+                        console.log(obj);
+                    }
+                },
+                {
+                    id: 'discount',
+                    label: '折扣',
+                    type: 'text',
+                    inputWidth: 100,
+                    value: '',
+                    changeHandler: function (obj) {
+                        console.log(obj);
+                    }
+                },
+                {
+                    id: 'invoiceType',
+                    label: '发票类型',
+                    type: 'select',
+                    inputWidth: 200,
+                    textField: 'name',
+                    valueField: 'id',
+                    value: '0',
+                    ajaxConfig: {
+                        url: getRootPath() + '/public/static/assets/json/newcomponent/radio.json',
+                        type: 'GET',
+                        dataSrc: 'rows'
+                    }
+                }
+                ]
+            },
+            {
+                type: 'list',
+                title: '商品标题',
+                position: 'body',
+                // parent: 'GoodsPlatformList',
+                parent: 'root',
+                idField: 'itemCode23',
+                keyField: 'child',
+                flagField: 'flag',
+                //field:nsProject.getFieldsByState(nscrm.alias,'goodsPlatformVo',true),
+                field: gridcolumns,
+                dataSource: [{
+                    image: 'images/edit-demo.png',
+                    code: '商品编号',
+                    codename: '商品名称可以最多二十二个字',
+                    // barcode: 55988555,
+                    barcode: [
+                        { text : 'a.doc', value : '1', contentType : 'image/jpeg' },
+                        { text : 'b.doc', value : '2' },
+                        { text : 'c.doc', value : '3' },
+                        { text : 'd.doc', value : '123654' },
+                        { text : 'e.doc', value : '4' },
+                        { text : 'f.doc', value : '5' },
+                        { text : 'g.doc', value : '6' },
+                        { text : 'h.doc', value : '7' },
+                        { text : 'i.doc', value : '8' },
+                    ],
+                    spec: '规格',
+                    pd: 1544750890139,
+                    unit: '单位',
+                    unitrelative: '单位关系',
+                    suppleunitone: '辅助单位1',
+                    suppleunittwo: '辅助单位2',
+                    num: 2,
+                    price: 6888.88,
+                    money: 12500,
+                    state: '状态',
+                    remark: '备注',
+                    commodityname: "商品简名",
+                    production: "产地",
+                    brand: '品牌',
+                    suppleunit: '辅助数量',
+                    shopweight: '商品重量',
+                    shoptotalweight: '商品总重量(kg)',
+                }, {
+                    image: 'images/edit-demo.png',
+                    code: 'ILCE-7RM2',
+                    codename: '索尼（SONY）ILCE-7RM2 全画幅微单相机 单机身（约4240万有效像素 4K视频 5轴防抖 A7RM2/a7r2）',
+                    barcode: 5222011,
+                    spec: '全画幅',
+                    pd: 1544750810139,
+                    unit: '台',
+                    unitrelative: '5轴防抖',
+                    suppleunitone: '人物摄影，风光摄影，其他',
+                    suppleunittwo: '4000万以上',
+                    num: 1,
+                    price: 10099,
+                    money: 10099,
+                    state: '全新',
+                    remark: '双12促销',
+                    commodityname: "7RM2微单",
+                    production: "泰国",
+                    brand: '索尼',
+                    suppleunit: '',
+                    shopweight: '1.375kg',
+                    shoptotalweight: '1.375kg',
+                }],
+
+                delete: {
+                    type: 'dialog',
+                    text: '删除商品别名{name}',
+                },
+                btns: [{
+                    text: '删除',
+                    handler: function () {
+                        console.log('cc')
+                    }
+                }]
+            },
+            {
+                type:'tab',
+                field:'child'
+            },
+            {
+                type: 'btns',
+                position: 'footer',
+                field: [
+                    {
+                        btn: {
+                            text: "保存|提交",
+                            isReturn: true,
+                            handler: function (callBack, Obj) {
+                                console.log(1);
+                            }
+                        },
+                        functionConfig: function () {
+
+                        }
+                    },
+                    {
+                        btn: {
+                            text: "录单配置",
+                            isReturn: true,
+                            handler: function (callBack, Obj) {
+                                console.log(2);
+                            }
+                        },
+                        functionConfig: function () {
+
+                        }
+                    }
+                ]
+            }
+        ],
+    }
+    $(document).ready(function () {
+        var data = {
+            abc: '123',
+            sqid: "所属分类",
+            increase: "2",
+            simplename: "简写名字",
+            brand: "pp",
+            GoodsPlatformList: {
+                a: 1,
+                b: 2,
+                c: 3,
+                child: [{
+                    itemName: "真香1",
+                    itemSp: "X",
+                    number: 821
+                },
+                {
+                    itemName: "真香2",
+                    itemSp: "L",
+                    number: 561
+                },
+                {
+                    itemName: "真香3",
+                    itemSp: "XL",
+                    number: 956
+                },
+                {
+                    itemName: "真香4",
+                    itemSp: "M",
+                    number: 21321
+                },
+                ]
+            }
+        };
+        NetstarTemplate.init(processDocBaseConfigNew);
+    })
+</script>

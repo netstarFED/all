@@ -1,0 +1,104 @@
+@camera-play-btn-size: 4rem;
+@camera-master-play-btn-size: (@camera-play-btn-size * 2);
+
+.camera {
+    .panel {
+        position: relative;
+        z-index: 1;
+
+        .btn-icon {
+            position: absolute;
+            padding: 0;
+            .square(@camera-play-btn-size);
+            border-radius: @camera-play-btn-size;
+            background: transparent;
+            border: .2rem solid #fff;
+            top: 50%;
+            left: 50%;
+            margin: -(@camera-play-btn-size / 2);
+            transform: scale(.5);
+
+            i {
+                .flex-block(fenter, center);
+                font-size: @camera-play-btn-size;
+                color: #fff;
+                margin-top: -.25rem;
+                margin-right: -.75rem;
+            }
+
+        }
+    }
+
+    .camera-master {
+        .panel {
+            .btn-icon {
+                transform: scale(1.25);
+            }
+        }
+    }
+
+}
+
+
+// 屏幕宽度小于Full-HD(1920)less样式
+@media screen and (max-width: @screen-hd) {
+    .fullpage-view {
+        .camera {
+            .panel {
+                .btn-icon {
+                    transform: scale(1);
+                }
+            }
+
+            .camera-master {
+                .panel {
+                    .btn-icon {
+                        transform: scale(2);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+@media screen and (min-width: 1921px) and (max-width: @screen-2k) {
+    .fullpage-view {
+        .camera {
+            .panel {
+                .btn-icon {
+                    transform: scale(1);
+                }
+            }
+
+            .camera-master {
+                .panel {
+                    .btn-icon {
+                        transform: scale(2);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 屏幕宽度在大于2k(2560)less样式
+@media screen and (min-width: 2561px) {
+    .fullpage-view {
+        .camera {
+            .panel {
+                .btn-icon {
+                    transform: scale(1);
+                }
+            }
+
+            .camera-master {
+                .panel {
+                    .btn-icon {
+                        transform: scale(2);
+                    }
+                }
+            }
+        }
+    }
+}

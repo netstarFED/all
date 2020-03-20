@@ -1,0 +1,30 @@
+@badge-empty-size: 8px;
+
+.badge{
+	color: #fff;
+	&.badge-primary {
+		background: #3d97dc;
+	}
+
+	&.badge-success {
+		background: #44ddac;
+	}
+
+	&.badge-warning {
+		background: #e09723;
+	}
+
+	&.badge-danger {
+		background: #ff3200;
+	}
+
+	// 仅标记为提示
+	&.badge-empty{
+		display: block;
+		padding: 0;
+		.square(@badge-empty-size);
+		min-width: @badge-empty-size;
+		max-width: @badge-empty-size;
+		border-radius: @badge-empty-size;
+	}
+}

@@ -1,0 +1,45 @@
+@panel-border-radius: 0px;
+@panel-bg: #fff;
+@panel-border-width: 1px;
+@panel-border-color: @border-color;
+@panel-padding: @base-padding;
+@panel-padding-v: (@panel-padding / 2);
+@panel-padding-h: @panel-padding;
+@panel-gutter: (@panel-padding * 2);
+
+
+@oa-padding:@base-padding * 1.5;
+@oa-margin:@base-margin * 1.5;
+.panel{
+    .flex-block(flex-start, stretch);
+    background: @panel-bg;
+    border-radius: @panel-border-radius;
+    border: @panel-border-width solid @panel-border-color;
+    flex-direction: column;
+
+    // margin-bottom: @panel-gutter;
+    & + &{
+        margin-top: @panel-gutter;
+    }
+
+    &.panel-normal{
+        // flex: none;
+    }
+    .panel-header{
+
+        padding: @panel-padding-v @panel-padding-h;
+        .badge{
+            margin: 0 (@base-padding / 2);
+        }
+    }
+    .panel-body{
+        margin: @panel-padding;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+    }
+    .panel-footer{
+        padding: @panel-padding-v @panel-padding-h;
+    }
+
+}

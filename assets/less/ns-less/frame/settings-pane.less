@@ -1,0 +1,88 @@
+.settings-pane {
+	background: @main-active-color;
+	color: @main-text-active-color;
+	display: none;
+	position: relative;
+	overflow: hidden;
+	.perspective(50px); 
+	.transform-origin(center bottom);
+	
+	@media screen and (max-width: @screen-sm){ 
+		padding: @default-padding;
+	}
+	
+	// Animation Part
+	.settings-pane-inner {
+		position: relative;
+		padding: 10px 30px 10px 10px;
+		
+		@media screen and (max-width: @screen-sm){
+			padding: 0;
+		}
+		.tel{
+			font-size: 16px;
+			text-align: right;
+			i{
+				font-size: 16px;
+			}
+		}
+		
+		&.with-animation {
+			//.transform(~"translate3d(0px,100px,-200px)");
+			.opacity(0);
+			
+			.transition(~"all 350ms cubic-bezier(0.785, 0.135, 0.150, 0.860)");
+		
+			&.visible {
+				//.transform(~"translate3d(0px,0px,0px)");
+				.opacity(1);
+				.transition-delay(200ms);
+			}
+			
+			&.closing {
+				.opacity(0);
+				.transition-delay(0ms);
+			}
+		}
+	}
+	
+	> a[data-toggle="settings-pane"] {
+		display: block;
+		color: @main-text-color;
+		position: absolute;
+		right: 0;
+		top: 0;
+		padding: 10px 12px;
+		font-size: 18px;
+		line-height: 1;
+		z-index: 100;
+		
+		&:hover {
+			color: #FFF;
+		}
+	}
+	
+}
+
+// When settings pane is open
+.settings-pane-open {
+	
+	.settings-pane {
+		display: block;
+	}
+	
+	.sidebar-menu {
+		
+		.sidebar-menu-inner {
+			position: relative !important;
+			
+			.logo-env {
+				
+				.settings-icon {
+					background: @main-active-color;
+					.box-shadow(~"0px 0px 0px 10px @{main-active-color}, 0px -10px 0px 10px @{main-active-color}, 0px -20px 0px 10px @{main-active-color}, 0px -30px 0px 10px @{main-active-color}");
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,219 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <script>
+        var businessDataBaseMobile = {
+            package: "nscloud",
+            template: "businessDataBaseMobile",
+            title: "库存查询",
+            readonly: false,
+            isShowTitle: true,
+            isFormHidden: false,
+            versionNumber: "1",
+            draftBox: {
+                isUse: false,
+                isUseSave: true
+            },
+            components: [{
+                    type: "blockList",
+                    idField: "id",
+                    ajax: {
+                        data: {},
+                        src: getRootPath() + '/docs/data/template/mobilegetlist.json',
+                        type: "GET",
+                        dataSrc: "rows",
+                        contentType: 'application/x-www-form-urlencoded',
+                        btnsCongfig: [
+                            "isUseSave",
+                            "isUseSaveSubmit",
+                            "isUseDraft"
+                        ],
+                    },
+                    field: [{
+
+                            field: "id",
+                            title: "id",
+                            editConfig: {
+                                type: "hidden",
+                            },
+                            width: 200
+                        },
+                        {
+                            field: "goodsName",
+                            title: "商品名称",
+                            editConfig: {
+                                type: "text"
+                            },
+                            orderable: true,
+                            searchable: true,
+                            width: 190
+
+                        },
+                        {
+                            field: "goodsCode",
+                            title: "商品编号",
+                            mindjetType: "text",
+                            editConfig: {
+                                type: "text"
+                            },
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            field: "warehouseId",
+                            title: "仓库",
+                            mindjetType: "select",
+                            editConfig: {
+                                type: "select",
+                                url: getRootPath() + "/docs/data/template/businessmobile.json",
+                                method: "GET",
+                                dataSrc: "rows",
+                                contentType:'application/json',
+                                contentType: 'application/x-www-form-urlencoded',
+                                textField: "name",
+                                valueField: "id",
+                                rules:"required"
+                            },
+                            
+                            orderable: true,
+                            searchable: true
+                        },
+                        {
+                            field: "defectiveFlag",
+                            title: "正品/残次",
+                            mindjetType: "radio",
+                            orderable:true,
+                            searchable:true,
+                            columnType: "stringReplace",
+                            editConfig: {
+                                type: "radio",
+                                textField: "value",
+                                valueField: "id",
+                                subdata: [{
+                                        value: "正品",
+                                        id: "0",
+                                        isChecked: true
+                                    },
+                                    {
+                                        value: "残次",
+                                        id: "5",
+                                        isChecked: false
+                                    }
+                                ]
+                            },
+                            isDistinct: false,
+                            width: 106,
+                            formatHandler: {
+                                type: "stringReplace",
+                                data: {
+                                    formatDate: {
+                                        "0": "正品",
+                                        "5": "残次"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            field: "inventoryQuantity",
+                            title: "总库存数量",
+                            editConfig: {
+                                type: "number",
+                            },
+                            columnType: "number",
+                            formatHandler: {
+                                type: "number",
+                                data: {
+                                    format: {
+                                        places: "0",
+                                        thousand: ","
+                                    }
+                                }
+                            }
+
+                        },
+                        {
+                            field: "quantity",
+                            title: "可用库存数量",
+                            editConfig: {
+                                type: "number"
+                            },
+                            columnType: "number",
+                            formatHandler: {
+                                type: "number",
+                                data: {
+                                    format: {
+                                        places: "0",
+                                        thousand: ","
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            field: "generalQuantity",
+                            title: "通用件库存数量",
+                            editConfig: {
+                                type: "number"
+                            },
+                            columnType: "number",
+                            formatHandler: {
+                                type: "number",
+                                data: {
+                                    format: {
+                                        places: "0",
+                                        thousand: ","
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            field: "generalQuantity",
+                            title: "通用件库存数量",
+                            editConfig: {
+                                type: "number"
+                            },
+                            columnType: "money",
+                            formatHandler: {
+                                type: "money",
+                                data: {
+                                    format: {
+                                        places: "2",
+                                        symbol: "￥",
+                                        decimal: ".",
+                                        thousand: ","
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            field: "amounts",
+                            title: "金额",
+                            editConfig: {
+                                type: "number"
+                            },
+                            columnType: "money",
+                            formatHandler: {
+                                type: "money",
+                                data: {
+                                    format: {
+                                        places: "2",
+                                        symbol: "￥",
+                                        decimal: ".",
+                                        thousand: ","
+                                    }
+                                }
+                            }
+                        },
+                    ],
+                    hide: [
+                        "id"
+                    ],
+                    listExpression: "<div class=\"block-list-item \"><div class=\"block-list-item-text\"><span class=\"title\">{{goodsName}}</span></div><div class=\"block-list-item-text text-left\"><span>{{goodsCode}}</span></div><div class=\"block-list-item-text text-left\"><span>{{warehouseId}}</span></div><div class=\"block-list-item-text text-left\"><span>总库存：{{inventoryQuantity}}</span><span>可用库存：{{quantity}}</span></div><div class=\"block-list-item-text text-left\"><span>平均单价：{{averagePrice}}</span><span>金额：{{amounts}}</span></div><div class=\"block-list-item-text text-center block-list-control-text\"><span>{{locationType}}</span></div></div>",
+                    isUseSearchInput: true,
+                    searchInputPlaceholder: "商品名称、商品编码"
+                }
+
+            ],
+            pageParam: {}
+        }
+        NetstarTemplate.init(businessDataBaseMobile)
+    </script>
+</container>

@@ -1,0 +1,71 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+
+<div id = "nsdocs-text-value"></div>
+<script>
+    var formArr = [{
+                id: 'rollbackType',
+                lable: '回退类型',
+                type: 'radio',
+                column: 12,
+                inputWidth: 300,
+                subdata:[{
+                    id: 'reject',
+                    name: '驳回至上一环节'
+                },{
+                    id: 'rollback',
+                    name: '跨环节回退'
+                }],
+                textField: 'name',
+                valueField: 'id',
+               
+            },{
+                id: 'rollbackTo',
+                label: '回退至环节',
+                type: 'select',
+                multiple: true,
+                column: 12,
+                inputWidth: 200,
+                subdata: rows,
+                rules: 'required',
+                textField: 'activityName',
+                valueField: 'workitemId',
+                selectMode:'multi',
+                listExpression: "<li>{{activityName}}</li>"
+            }, {
+                id: 'replayTo',
+                label: '复盘环节',
+                type: 'select',
+                column: 12,
+                inputWidth: 200,
+                subdata: canReplayRows,
+                multiple: true,
+                textField: 'activityName',
+                valueField: 'activityId',
+                listExpression: "<li>{{activityName}}</li>",
+                selectMode:'multi',
+            }];
+            if (doWhenRollback) {
+                _this.info.suggestionType = '2';
+                formArr.push({
+                    id: 'suggestion',
+                    label: '意见',
+                    type: 'textarea',
+                    inputWidth: 400,
+                    inputHeight:400,
+                    column: 12
+                })
+            }
+
+
+
+
+var formJsonValue = {
+        id: 'nsdocs-text-value',
+        templateName: 'form',
+        componentTemplateName: 'PC',
+        isSetMore: false,
+        form: formArr,
+    }
+    var component = NetstarComponent.formComponent.getFormConfig(formJsonValue, {});
+    NetstarComponent.formComponent.init(component, formJsonValue);
+</script>

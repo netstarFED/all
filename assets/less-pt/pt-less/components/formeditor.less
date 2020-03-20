@@ -1,0 +1,127 @@
+// 表单编辑器
+@formeditor-title-bg: @gray-light;
+@formeditor-border-color: @border-color;
+@formeditor-list-short: 40px;
+@formeditor-list-item-height: 30px;
+@formeditor-list-height: 360px;
+@formeditor-list-header-bg: lighten(@formeditor-title-bg, 2);
+@formeditor-list-bg: @bg-info;
+@formeditor-list-current-bg: @bg-warning;
+
+.pt-formeditor {
+    width: 50%;
+
+    .pt-container {
+        border: 1px solid @border-color;
+        border-bottom: 0;
+    }
+
+    // 标题样式
+    .pt-title {
+        background: @formeditor-title-bg;
+        display: block;
+        .padding-base();
+    }
+
+    // 列表
+    .pt-list {
+        overflow-y: auto;
+
+        // max-height: @formeditor-list-height;
+        // 第一行样式
+        ul {
+            &:first-child {
+                background: @formeditor-list-header-bg;
+
+                li {
+                    cursor: default;
+
+                    &:last-child {
+                        border: 0;
+                    }
+
+                    span {
+                        color: @gray-dark;
+                        text-align: center;
+
+                        &:hover {
+                            color: @gray-dark;
+                        }
+                    }
+
+                    &:hover {
+                        background: @formeditor-list-header-bg;
+                    }
+                }
+            }
+        }
+
+        // 列表
+        li {
+            display: table;
+            width: 100%;
+            cursor: pointer;
+            min-height: @formeditor-list-item-height;
+
+            span {
+                position: relative;
+                display: table-cell;
+                .padding-base();
+                border-top: 1px solid @formeditor-border-color;
+
+                &:first-child {
+                    width: @formeditor-list-short;
+                    text-align: center;
+                    padding: 0;
+                    line-height: (@formeditor-list-item-height - 1);
+
+                }
+
+                &+span {
+                    border-left: 1px solid @formeditor-border-color;
+                }
+            }
+
+            // &:last-child {
+            //     border-bottom: 1px solid @formeditor-border-color;
+            // }
+
+            &:hover {
+                background: @formeditor-list-bg;
+            }
+
+            // 焦点状态(除了只有暂无数据情况)
+            &.current:not(.pt-nodata) {
+                .tr-selected-variant(@formeditor-list-current-bg, @formeditor-list-short);
+
+                &.switch {
+                    background: @table-edit-bg;
+                }
+
+            }
+
+            // 新增标记
+            &.switch {
+                @switch-mark-size: 3px;
+                @switch-mark-bg: darken(@table-edit-bg, 5);
+
+                span {
+                    background: @table-edit-bg;
+
+                    &:first-child {
+                        &:before {
+                            position: absolute;
+                            content: '';
+                            width: @switch-mark-size;
+                            background: @switch-mark-bg;
+                            top: 0;
+                            bottom: 0;
+                            left: 0;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

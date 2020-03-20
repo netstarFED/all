@@ -1,0 +1,329 @@
+/*====================================================================*/
+/* page-title */
+/*====================================================================*/
+.page-title{
+	height: @plane-s-height + 1;
+	border-bottom: 1px solid @ns-border-color;
+	background-color: @plane-top-background-color;
+	margin: 0 -15px;
+
+	@btn-group-padding: (@plane-s-height - @ns-btn-height)/2;
+
+	form &{
+		margin: 0;
+	}
+	//普通按钮
+	.btn-group{
+		float: left;
+		padding: @btn-group-padding;
+		.btn-group{
+			padding: 0 !important;
+		}
+
+		& + .btn-group{
+		}
+	}
+	//导航栏头部大按钮
+	.btn-group-big{
+		//大按钮容器
+		float: right;
+		height: @plane-s-height;
+		.btn-big {
+			width: @plane-s-height;
+			height: @plane-s-height;
+			border:none;
+			background-color: transparent;
+			border-left: 1px solid @ns-border-color;
+			color: @ns-btn-color-big;
+			float: left;
+			&:hover, &:active, {
+				color: @ns-btn-color-big-hover;
+				.box-shadow(inset 0 0 2px 2px @ns-btn-background-hover);
+			}
+			i{
+				font-size: @icon-big;
+				line-height: @icon-big;
+			}
+			&.disable{
+				color: @ns-disable;
+			}
+			//回退按钮
+			&.btn-histroy{
+				padding:6px 4px 0 0;
+			}
+			//添加按钮
+			&.btn-plus{
+				padding:3px 0 0 2px;
+				&:hover, &:active{
+					color: @ns-success;
+				}
+				i{
+					font-size: 24px;
+					line-height: 24px;
+				}
+			}
+			//search按钮
+			&.btn-search{}
+		}
+
+		.content-box &{
+			background-color: transparent;
+			.btn-group{
+				padding: @base-padding 0;
+			}
+		}
+	}
+	//自定义配置按钮
+	.btn-custom{
+		float: right; 
+		width: 40px; 
+		height: 50px; 
+		padding:18px 0 0 10px; 
+		position: relative;
+		a.nav-config-btn{
+			color: @ns-btn-color-big;
+			&:hover, &:active{
+				color: @ns-info;
+			}
+		}
+		.dropdown-menu{
+			min-width: 140px;
+			left: auto;
+			right: -1px;
+		}
+	}
+	//搜索面板
+	.panel-search{
+		@simple-width:170px;
+		@select-width: auto;
+		float: right;
+		height: @plane-s-height;
+		padding: @btn-group-padding;
+		position: relative;
+		input{
+			width: @simple-width - ( @btn-group-padding * 2 );
+			height: @ns-btn-height;
+			float: left;
+			border:1px solid @ns-border-color;
+			padding:5px;
+			&:focus{
+				border-color: @ns-input-border-hover-color;
+				.box-shadow(2px 2px 2px 2px fade(@ns-input-border-hover-color, 20%));
+			};
+			.placeholder(@main-text-placeholder-color);
+		}
+		button{
+			height: @ns-btn-height; 
+			background-color: transparent;
+			color: @ns-btn-color-big;
+			&:hover, &:active{
+				color: @ns-btn-color-big-hover;
+			}
+		}
+		.search-info{
+			position: fixed;
+			z-index: 9;
+			display: none;
+			top:@plane-s-height; 
+			right:0;
+			background-color: #fff;
+			line-height: 20px;
+			border: 1px solid @ns-border-color;
+			border-right: none;
+			padding:5px 10px;
+			background-color: @plane-top-background-color;
+			-webkit-animation-duration: 0.5s;
+			animation-duration: 0.5s;
+			.box-shadow(5px 5px 5px rgba(0,0,0, .1));
+			i {
+				display: inline-block; 
+				width: 20px; 
+				text-align: left; 
+				color: @ns-default;
+			}
+		}
+		&.simple{
+			width: @simple-width;
+			button{
+				position: absolute;
+				padding: 0; 
+				margin: 0; 
+				border: none; 
+				top:10px; 
+				right:10px; 
+				width: @ns-btn-height; 
+			}
+		}
+		&.select{
+			width: @select-width;
+			input.select{
+				width: 150px;
+			}
+			button.angle{
+				position: static; 
+				float: left; 
+				width: auto; 
+				padding:0 5px;
+				border:1px solid @default-border-color;
+				border-right:none; 
+				line-height: @ns-btn-height - 2;
+			}
+			button.calendar{
+				position: static; 
+				float: left; 
+				min-width: @ns-btn-height; 
+				width: auto;
+				padding:0 5px;
+				border:1px solid @default-border-color;
+				border-right:none; 
+				line-height: @ns-btn-height - 2;
+				span{
+					padding-left: 6px;
+					color: @main-text-color;
+				}
+			}
+			button.search{
+				position: static;
+				float: left;
+				border:none;
+				padding: 0; 
+				margin: 0 0 0 -@ns-btn-height; 
+				width: @ns-btn-height; 
+				&.with-advance{
+					left:130px; 
+				}
+				//没有输入框的搜索按钮
+				&.hiddeninput{
+					position: static;
+					border:1px solid @ns-border-color;
+				}
+			}
+			//高级搜索按钮
+			button.advance{
+				float: left;
+				border:none; 
+				color: @ns-default;
+				&:hover, &:active{
+					color: @ns-info;
+				}
+			}
+			//搜索框标题
+			.search-title{
+				float: left;
+				height: 30px;
+				line-height: 30px;
+			}
+			ul.dropdown-menu{
+				top:39px;
+				left:10px; 
+				width: auto; 
+				right:10px;
+			}
+		}
+	}
+	.search-advance-panel{
+		//display: none;
+		position: fixed;
+		top: @plane-s-height + 1;
+		left: @sidebar-width;
+		right: 0;
+		border-bottom: 1px solid @ns-border-color;
+		background-color: @ns-default-panel-bg;
+		padding: 0 @base-padding;
+		z-index: 10;
+		.form-td{
+			padding: @base-padding - 1 @base-padding;
+			&.col-none {
+				padding: @base-padding - 1 @base-padding @base-padding - 1 0;
+			}
+		}
+		@arrow-prefix-size:9px;
+		@arrow-suffix-size:7px;
+		&:before, &:after {
+			position: absolute;
+			display: inline-block;
+
+			border-bottom-color: rgba(0, 0, 0, 0.2);
+			content: '';
+		}
+		&:before {
+			top: -@arrow-prefix-size;
+			border-right: @arrow-prefix-size solid transparent;
+			border-left: @arrow-prefix-size solid transparent;
+			border-bottom: @arrow-prefix-size solid @daterangepicker-border-color;
+			left:43px;
+		}
+		&:after {
+			top: -@arrow-suffix-size;
+			border-right: @arrow-suffix-size solid transparent;
+			border-bottom: @arrow-suffix-size solid @daterangepicker-bg-color;
+			border-left: @arrow-suffix-size solid transparent;
+			left:45px;
+		}
+		
+	}
+	.nav-title{
+		display: inline-block;
+		float: left;
+		line-height: @base-input-height;
+		padding: @base-padding 15px;
+		font-size: @font-size-base + 4;
+		margin-left: 10px;
+		.base-title-style;
+		
+	}
+	[ns-system="mobile"] &{
+		margin: 0;
+		.nav-title:before{
+			display: none;
+		}
+	}
+	//模板相关
+	//自定义查询弹出框
+	&.modal-customsearchdialog{
+		height: 1px;
+		.btn-group:nth-child(1){
+			position: absolute;
+			bottom: 0;
+			right: @default-layout-padding;
+			padding:0 0 @default-layout-padding 0;
+			.btn{
+				.btn-big();
+			}
+		}
+		.btn-group:nth-child(2){
+			position: absolute;
+			top: 0;
+			left: 120px;
+		}
+	}
+}
+@breadcrumb-color: #aaaaaa; //导航面包屑颜色
+.breadcrumb-container{
+	//height: @plane-s-height - 1;
+	float: left;
+	clear: both;
+	width: 100%;
+	padding: 0 @base-padding + @base-padding/2;
+	background: #fff;
+	h1{
+		font-size: 18px;
+		line-height: 30px;
+		float: left;
+		display: block;
+		padding:0;
+		margin: 0;
+	}
+	.breadcrumb{
+		display: block;
+		float: left;
+		margin:0;
+		padding: 17px 0;
+		width: 100%;
+		height: 49px;
+		background: transparent;
+		li{
+			color:@breadcrumb-color;
+		}
+	}
+}

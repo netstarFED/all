@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Frame Base</title>
+</head>
+<body>
+<container>
+<layout id='demos-frame-configpage' ns-options="type:standard, custom:true" ns-package='demos.frame.configpage'>
+  <nav ns-id="nav" ns-config='navConfig'></nav>
+  <panel  ns-id="panel-1" ns-options="col:3,height:auto, border:right"></panel>
+  <panel  ns-id="panel-2" ns-options="col:9,height:auto, afterHeight:400, afterRow:1" ns-config='table:tableJson'></panel>
+  <panel  ns-id="panel-3" ns-options="col:9,height:400" ns-config='form:formJson2'></panel>
+</layout>
+
+<input id="demos-frame-configpage-map" type="hidden" value='{"form":{"demos-frame-configpage-panel-3":{"setList":{"patientName":{"column":"4","label":"自定义label","id":"patientName"}},"remarkList":{}}},"button":{"demos-frame-configpage-nav":{"setList":{"configButton":{"configArea":"0","id":"configButton","orderId":"1"},"d":{"id":"d","text":"已修改文字"},"e":{"configShow":"false","id":"e","orderId":"2"}},"remarkList":{}}},"table":{"table-demos-frame-configpage-panel-2":{"setList":{"hazardClassName":{"field":"hazardClassName","title":"第一列","hidden":"true"}},"remarkList":{}}}}' />
+<script type="text/javascript">
+$(document).ready(function(){
+  //var customNavJson = customConfig.init({nav:[navJson]});
+  //navJson.btns = customNavJson[navJson.id];
+  nsLayout.init("demos-frame-configpage");
+  var configObj = 
+  {
+    pageCode:'demos-frame-configpage',
+    //nav:[navJson],
+    //formJson:[formJson],
+  };
+  
+  //customConfig.init(configObj);
+  //nsNav.init(configObj);
+  //nsNav.initConfigBtn({nav:[navJson]});
+  
+});
+demos.frame.configpage = {}
+demos.frame.configpage.navConfig = {
+  //id: "demo-frame-configpage-nav",
+  configTitle : '自定义配置DEMO按钮',
+  btns:
+  [
+    [
+      {
+        id:     'configButton',
+        text:     '弹框页面 配置效果',
+        configShow: false,
+        required:   false,
+        handler:  popConfigPage,
+      },{
+        id:     'd',
+        text:     '未修改的文字',
+        configShow : true,
+        required:   true,
+        handler:  popConfigPage,
+      }
+    ]
+  ],
+}
+demos.frame.configpage.formJson = 
+{
+  id:     "demos-frame-layout2-2",
+  name:     '表单一',
+  size:     "standard",
+  format:   "standard",
+  fillbg:   true,
+  form:
+  [
+    [
+      {
+        id:     'patientName',
+        label:    '申请编号',
+        type:     'text',
+        rules:    'required minlength=6',
+        value:    'aaaaaf',
+        column:   8,
+      },
+      {
+        id:     'sqdate',
+        label:    '申请日期',
+        type:     'date',
+        rules:    'required',
+        column:   4,
+      },
+      {
+        id:     'sqdate11',
+        label:    '申请日期2',
+        type:     'date',
+        rules:    'required',
+        column:   12,
+      }
+    ],
+  ]
+};
+demos.frame.configpage.formJson2 = 
+{
+  id:     "demo-frame-layout-panel-3",
+  size:     "standard",
+  format:   "standard",
+  fillbg:   true,
+  form:
+  [
+    [
+      {
+        id:     'patientName',
+        label:    '页面定义Label',
+        type:     'text',
+        rules:    'required minlength=6',
+        value:    'aaaaaf',
+        column:   4,
+      },
+      {
+        id:     'sqdate',
+        label:    '申请日期',
+        type:     'date',
+        rules:    'required',
+        column:   4,
+      },
+      {
+        id:     'sqdate2',
+        label:    '申请日期',
+        type:     'date',
+        rules:    'required',
+        column:   4,
+      },
+      {
+        id:     'sqdate3',
+        label:    '申请日期',
+        type:     'text',
+        rules:    'required',
+        column:   8,
+      },
+      {
+        id:     'sqdate4',
+        label:    '申请日期',
+        type:     'date',
+        rules:    'required',
+        column:   4,
+      },
+      {
+        id:     'sqdate5',
+        label:    '申请日期',
+        type:     'date',
+        rules:    'required',
+        column:   12,
+      }
+
+    ],
+    [
+      {
+        id:     'chargetype',
+        label:    '付款方式',
+        type:     'select',
+        rules:    'required',
+        column:   4,
+        textField:  'name',
+        valueField: 'id', 
+        url:'',//路径
+        method:'',
+        data:'',
+        value:  'sj',
+        subdata:  [
+                {
+                  name:   '付款方式第一种',
+                  id:   'zp',
+                },
+                {
+                  name:   '付款方式第二种',
+                  id:   'pp',
+                },
+                {
+                  name:   '付款方式第三种',
+                  id:   'sj',
+                  isChecked:  true,
+                }
+              ]
+      },
+    ],
+    [
+      {
+        id:     'kpCheckbox',
+        label:    'checkbox类',
+        type:     'checkbox',
+        rules:    'required',
+        column:   8,
+        textField:  'text', 
+        valueField: 'value',
+        //value:    ['zp','pp'],
+        value:    'pp',
+        subdata:  [
+                {
+                  text:   'checkbox1',
+                  value:  'zp',
+                  isChecked:  true,
+                  isDisabled: false,
+                },
+                {
+                  text:   'checkbox2',
+                  value:  'pp',
+                  isChecked:  false,
+                  isDisabled: false,
+                },
+                {
+                  text:   'checkbox3',
+                  value:  'sj',
+                  isChecked:  false,
+                  isDisabled: false,
+                }
+              ]
+      }
+    ],
+    [
+      {
+        id:     'kpRadio',
+        label:    'radio类',
+        type:     'radio',
+        rules:    'required',
+        column:   8,
+        textField:  'text', 
+        valueField: 'value',
+        //value:    ['zp','pp'],
+        value:    'pp',
+        subdata:  [
+                {
+                  text:   '增值税专用发票',
+                  value:  'zp',
+                  isChecked:  true,
+                  isDisabled: false,
+                },
+                {
+                  text:   '增值税普通发票',
+                  value:  'pp',
+                  isChecked:  false,
+                  isDisabled: false,
+                },
+                {
+                  text:   '收据',
+                  value:  'sj',
+                  isChecked:  false,
+                  isDisabled: false,
+                }
+              ]
+      }
+    ],
+    [
+      {
+        element:  'label',
+        label:    '更改折扣',
+      },{
+        id:     'percentChange1',
+        label:    '变更前',
+        readonly:   true,
+        type:     'text',
+        column:   4,
+      },{
+        id:     'percentChange2',
+        label:    '变更后',
+        type:     'text',
+        rules:    'required number',
+        column:   4,
+      },{
+        element:  'br',
+      },{
+        id:     'percentChange',
+        label:    '变更原因',
+        type:     'textarea',
+      }
+    ]
+  ]
+};
+var addHandler = function(){};
+var editHandler = function(){};
+    var columnConfig_btn = [ 
+        {
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassN33ame',
+          title : '按钮',
+          width : 80,
+          formatHandler:{
+            type:'button',
+            data:
+            [
+              {'添加':addHandler},
+              {'编辑':editHandler}
+            ]
+          }
+          
+        },{
+          field : 'remark',
+          title : '页面定义',
+          width : 80
+        }
+      ]
+    var columnConfig_widthmax = [ 
+        {
+          field : 'hazardClassName',
+          title : '危害类别',
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          field : 'hazardClassName',
+          title : '危害类别',
+          width : 160,
+        },{
+          title : '按钮',
+          width : 80,
+          formatHandler:{
+            type:'button',
+            data:
+            [
+              {'添加':addHandler},
+              {'编辑':editHandler}
+            ]
+          }
+          
+        }
+      ]
+    var dataSrc = getRootPath() + '/assets/json/guidebull.json';
+    var dataConfig = {
+      tableID:    "table-demos-frame-configpage-panel-2",
+      configTitle:  "测试表格",
+      src:        dataSrc,
+      type:       "GET",      //GET POST
+      data:       '',       //参数对象{id:1,page:100}
+      isServerMode:   false,      //是否开启服务器模式
+      isSearch:       true,      //是否开启搜索功能
+      isPage:         true,      //是否开启分页
+      dataSrc:        'data',
+    }
+    var uiConfig = {
+      searchTitle:    "危害搜索",       //搜索框前面的文字，默认为检索
+      searchPlaceholder:  "编号，名称",      //搜索框提示文字，默认为可搜索的列名
+      isSelectColumns:  true,           //是否开启列选择，默认为选择
+      isAllowExport:    true,         //是否允许导出数据，默认允许
+      pageLengthMenu:   ['auto', 10, 20, 50],   //可选页面数  auto是自动计算  all是全部
+      //isSingleSelect: true,           //是否单选
+      isMulitSelect:  true,           //是否多选
+      defaultSelect:true,
+    }
+    var btnConfig = {
+      addBtn:'abc',
+      modifyBtn:'abc',
+      delBtn:'viewSelectData',
+      //sortBtn:['sortRiseHandler','sortDropHandler'],
+      //exportBtn:'viewSelectData',
+    }
+demos.frame.configpage.tableJson = {
+  columns:columnConfig_btn,
+  data:dataConfig,
+  ui:uiConfig,
+  btns:btnConfig
+}
+function loadingDemoPage(){
+  var url = getRootPath() + '/demos/form/base.jsp';
+  nsFrame.loadPage(url);
+}
+function popDemoPage(){
+  var url = getRootPath() + '/demos/form/base.jsp';
+  nsFrame.popPage(url);
+}
+function popConfigPage(){
+  var config = {
+    url:getRootPath() + '/demos/form/base.jsp',
+    width:'70%',
+    title:'最小化标题六',
+    loadedHandler: loadedHandler,
+    closeHandler:closeHandler,
+  }
+  nsFrame.popPageConfig(config);
+}
+function loadedHandler(){
+  nsalert("loadedHandler!");
+}
+function closeHandler(){
+  nsalert("closeHandler!");
+}
+</script>
+<container>
+</body>
+</html>

@@ -1,0 +1,49 @@
+@mb-header-height: 4.5rem;
+@mb-header-bg: #5076b7;
+@mb-header-title-font-size: 1.5rem;
+@mb-header-btn-size: @mb-header-height;
+@mb-header-btn-font-size: 1.5rem;
+
+[ns-system="mobile"] {
+    header {
+        &.header {
+            .flex-block(space-between, stretch);
+            height: @mb-header-height;
+            box-shadow: none;
+            background: @mb-header-bg;
+            border-color: @mb-header-bg;
+        }
+
+        // 页面顶部标题
+        .title {
+            .flex-block(center, center);
+            font-size: @mb-header-title-font-size;
+            color: #fff;
+        }
+
+        .btn-group {
+            .flex-block(flex-start, stretch);
+            min-width: @mb-header-btn-size;
+            flex: none;
+
+            .btn {
+                .flex-block(center, center);
+                flex: 0 0 @mb-header-btn-size;
+                padding: 0;
+                min-height: @mb-header-btn-size;
+                box-shadow: none;
+                background: transparent;
+
+                &:hover {
+                    background: darken(@mb-header-bg, 5);
+                }
+
+                .icon {
+                    color: #fff;
+                    font-size: @mb-header-btn-font-size;
+                }
+            }
+        }
+
+    }
+}

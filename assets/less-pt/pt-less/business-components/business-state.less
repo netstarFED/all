@@ -1,0 +1,203 @@
+.pt-block-list-vertical {
+    margin: 0;
+    width: 100%;
+    height: auto;
+
+    .text-primary {
+        color: @primary;
+    }
+
+    .pt-block-header {
+        padding: 5px;
+        background: #f5f5f5;
+
+        .pt-checkbox-inline:after {
+            top: -13px;
+        }
+
+        span {
+            &+span {
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .pt-block-content-item {
+        // padding: 5px 0;
+
+        span.label {
+            background: none;
+            margin: 0;
+            min-width: 70px;
+            font-weight: normal;
+            display: inline-block;
+            text-align-last: left;
+        }
+
+        span.text {
+            background: none;
+            margin: 0;
+        }
+
+        label {
+            margin-bottom: 0;
+        }
+    }
+
+    &+& {
+        margin-top: -1px;
+    }
+
+    &:after {
+        display: none;
+    }
+}
+
+// .pt-block-list-state {
+//     display: inline-block;
+//     float: none;
+//     margin: 0;
+//     width: auto;
+//     height: auto;
+//     border: 0;
+//     border-bottom: 3px solid transparent;
+//     cursor: pointer;
+
+//     & + &{
+//         margin-left: 10px;
+//     }
+//     &:after {
+//         display: none;
+//     }
+
+//     &.current {
+//         border-color: @warning;
+//     }
+
+//     &:hover {
+//         border-color: #ddd;
+//         background: #f8f8f8;
+//     }
+
+//     .pt-block-list-content {
+//         display: block;
+//         height: 60px;
+//         padding: 9px @base-padding-sm;
+
+//         i {
+//             .square(42px);
+//             line-height: 42px;
+//             font-size: 24px;
+//             border: 1px solid #ddd;
+//             border-radius: 100px;
+//             float: left;
+//             text-align: center;
+//         }
+
+//         .pt-state-item-text {
+//             float: left;
+//             padding-left: 5px;
+
+//             span.text {
+//                 display: block;
+//                 margin: 0;
+//                 background: transparent;
+//             }
+//             .pt-badge{
+//                 background: transparent;
+//                 color: #333;
+//                 font-size: 12px;
+//             }
+//             label{
+//                 margin: 0;
+//             }
+//         }
+//     }
+
+//     &.selected{
+//         border-color: @ns-warning;
+//         background: #fff;
+//     }
+// }
+
+.pt-block-list-state {
+
+    &.pt-block-list {
+        width: auto;
+        height: 24px;
+        margin: 0;
+        border: 0;
+
+        .pt-block-content {
+            padding: 0;
+
+        }
+
+        &+.pt-block-list {
+            margin-left: 15px;
+        }
+
+        span {
+            background: transparent;
+
+            label {
+                margin-bottom: 0;
+            }
+
+            &.pt-list-name{
+                background: transparent;
+                margin-right: 0;
+                height: 24px;
+                line-height: 24px;
+            }
+            &.pt-badge{
+                margin: 0;
+                padding: 6px 5px;
+                background: #eee;
+                cursor: pointer;
+                label{
+                    cursor: pointer;
+                }
+                &.badge-success{
+                    background: @success;
+                    color: #fff;
+                }
+                &.badge-info{
+                    background: @info;
+                    color: #fff;
+                }
+                &.badge-warning{
+                    background: @warning;
+                    color: #fff;
+                }
+                &.badge-danger{
+                    background: @danger;
+                    color: #fff;
+                }
+            }
+        }
+
+        .pt-block-list-content{
+            height: 24px;
+            line-height: 24px;
+            .pt-state-item-text{
+                cursor: pointer;
+            }
+        }
+
+        &.selected{
+            background: transparent;
+            .pt-list-name{
+                color: @warning;
+            }
+            span.pt-badge{
+                background: @selected-bg;
+                color: @warning;
+               
+            }
+        }
+
+    }
+}
+
+

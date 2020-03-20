@@ -1,0 +1,100 @@
+@droppable-area-form-height: 	@form-control-height-base; 		//上传组件显示上传结果区域
+@upload-close-size: 			20px; 								//上传结果标签清空按钮
+
+.droppable-area-form{
+	height: @droppable-area-form-height;
+	padding: (@base-padding / 2);
+	overflow: hidden;
+	color: #ddd;
+	// 上传项显示
+	.dropzone-upload-span{
+		margin-bottom: 3px;
+		.subitem-style();
+		max-width: 126px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		.upload-title{
+			padding: 0 2px;
+
+		}
+		// 清空上传项
+		.upload-close{
+			position: absolute;
+			top: 50%;
+			right: 0;
+			.square(@upload-close-size);
+			background: transparent;
+			margin: -(@upload-close-size / 2) 0 0;
+			&:after{
+				.ns-icon-close();
+				top: 0;
+				right: 0;
+				.square(@upload-close-size);
+				line-height: @upload-close-size;
+				text-align: center;
+			}
+			&:hover{
+				&:after{
+					color: @ns-warning;
+				}
+			}	
+		}
+		.compactmode &{
+			line-height: 14px;
+		}
+	}
+	&.dz-max-files-reached{
+		color: @gray-dark;
+	}
+	
+	// 上传按钮
+	& + .input-group-addon{
+		color: @gray-light;
+		&:hover{
+			color: @ns-info;
+		}
+	}
+}
+
+.droppable-area.dz-clickable{
+	min-width: 150px !important;
+	max-width: 150px !important;
+	min-height: 150px !important;
+	max-height: 150px !important;
+	line-height: 150px;
+	margin: 0 auto;
+	background: @gray-lighter;
+	.border-radius(100%);
+	box-sizing: border-box;
+	border: 1px solid @ns-border-color;
+	overflow: hidden;
+	cursor: pointer;
+}
+img.image-empty{
+	.square(@form-sm-height);
+	display: inline-block;
+	float: left;
+	border-color: @ns-border-color
+}
+.table-upload.dz-clickable{
+	position: relative;
+	.square(@form-sm-height);
+	line-height: @form-sm-height;
+	display: inline-block;
+	float: left;
+	margin:0 (@base-margin / 4);
+	border:1px solid transparent;
+	&:hover{
+		cursor: pointer;
+		&:after{
+			color: #fff !important;
+			background: fade(@gray, 40);
+		}
+	}
+	&:after{
+		.ns-icon-btn("\f093");
+		text-align: center;
+		color: darken(@ns-info, 8%);
+	}
+}

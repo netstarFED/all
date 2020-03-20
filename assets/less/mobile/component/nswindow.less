@@ -1,0 +1,46 @@
+[ns-system="mobile"]{
+	.nswindow{
+		@close-button-size: @header-height;
+		@window-title-bg: darken(@mobile-primary, 45%);
+		background: @mobile-body-bg;
+		margin: 0;
+		.nspop-container &{
+			margin: 0 !important;
+			top: 0 !important;
+		}
+
+		.window-title{
+			.flex-block();
+			position: fixed;
+			width: 100%;
+			padding: 0 5rem;
+			background: @window-title-bg;
+			color: #fff;
+			z-index: 99;
+			span{
+				font-size: @font-size-md;
+			}
+		}
+
+		// 返回按钮
+		.window-close{
+			position: fixed;
+			.square(@close-button-size);
+			top: 0;
+			left: 0;
+			z-index: 99;
+			&:after{
+				.flex-block(center, center);
+				.square(@close-button-size);
+				background: @window-title-bg;
+				right: auto;
+				content: '\f053';
+				color: #fff;
+			}
+			
+		}
+		.content{
+			padding: (@mobile-header-height + 1rem) 1rem @mobile-footer-height;
+		}
+	}
+}

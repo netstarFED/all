@@ -1,0 +1,86 @@
+@user-photo-width: 100px;
+@user-photo-height: (@user-photo-width * 1.4);
+@user-info-photo-padding: 15px;
+
+.user-info {
+    border: 1px solid @border-color;
+    margin-bottom: @base-margin;
+
+    // 用户照片
+    .user-info-photo {
+        position: relative;
+        z-index: 1;
+        height: ((@user-info-photo-padding * 2) + @user-photo-height);
+        background: #f8f8f8;
+        padding: @user-info-photo-padding 0;
+
+        img {
+            display: block;
+            .size(@user-photo-width, @user-photo-height);
+            margin: 0 auto;
+            background: #f1f1f1;
+            margin: 0 auto;
+            z-index: 2;
+        }
+
+        &:after {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -34px 0 0 -24px;
+            content: '\ea55';
+            font-family: @icon-font-icomoon;
+            font-size: 48px;
+            z-index: 1;
+            color: #ddd;
+        }
+    }
+
+    // 用户信息控制面板
+    .user-info-control {
+        padding: @base-padding;
+
+        .pt-btn-group {
+            text-align: center;
+
+            .pt-btn {
+                display: inline-block;
+                float: none;
+            }
+        }
+    }
+
+    // 用户信息-查看模式
+    .user-info-list {
+        .pt-form {
+            border: 0;
+            padding: 0 @base-padding;
+
+            &.pt-form-view {
+                .pt-form-body {
+                    form {
+                        .pt-form-group {
+                            margin-bottom: 0;
+
+                            label.pt-control-label {
+                                font-size: @font-size-sm;
+                                text-align: left;
+                                width: 80px;
+                                max-width: 80px;
+                                min-width: 80px;
+                            }
+
+                            &+.pt-form-group {
+                                margin-left: 0;
+                            }
+
+                            .pt-form-control {
+                                text-align: right;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

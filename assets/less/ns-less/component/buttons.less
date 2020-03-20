@@ -1,0 +1,299 @@
+
+.btn {
+	outline: none;
+	border: 1px solid transparent;
+	background-color: @ns-btn-background;
+	height: @ns-btn-height;
+	margin-bottom: 0;
+	line-height: @icon-normal;
+	padding: (@ns-btn-height - @icon-normal - 2) / 2 10px ;
+	font-size: @font-size-base;
+	color: @ns-default;
+	border-radius: 0;
+	i{
+		color: @ns-default;
+		font-size: @btn-icon-size;
+		padding-right: @base-padding/2;
+	}
+
+	span{
+		color: @ns-default;
+		font-size: @btn-font-size;           
+	}
+	&:active, &:focus {
+		outline: none !important;
+	}
+	
+	// Active
+	&:active,
+	&.active {
+		.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+	}
+	
+
+	// Icon
+	&.btn-icon {
+		padding:7px;
+		text-align: center;
+		width: @ns-btn-height;
+		&.dropdown-toggle{
+			width: auto !important;
+		}
+
+		i{
+			padding-right: 0;
+		}
+	}
+	
+	// Standalone Icon
+	&.btn-icon-standalone {
+		padding: 0;
+		border: 0;
+		line-height: 1;
+		
+		i, span {
+			display: block;
+			padding: 12px @padding-base-horizontal;
+		}
+		
+		i {
+			border-right: 1px solid transparent;
+			float: left;
+		}
+		
+		span {
+			padding-left: 45px + @base-padding;
+			padding-right: @base-padding + 3;
+		}
+		
+	}
+
+	&.btn-success{
+		color: #000;
+		.btn-theme(@ns-default, @ns-success)
+	}
+	&.btn-info{
+		color: #000;
+		.btn-theme(@ns-default, @ns-info);
+		i{
+			color: lighten(@ns-info, 10%);
+		}
+	}
+	&.btn-warning{
+		color: #000;
+		.btn-theme(@ns-default, @ns-warning)
+	}
+	&.btn-white{
+		color: #000;
+		.btn-theme(@ns-default, @ns-default);
+		i{
+			color: darken(@ns-info, 8%);
+		}
+	}
+	&.btn-danger{
+		color: #000;
+		.btn-theme(@ns-default, @ns-danger)
+	}
+	&.btn-default{
+		color: #000;
+		.btn-theme(@ns-default, @ns-default);
+	}
+	&.btn-gray{
+		color: #000;
+		.btn-theme(@ns-default, @ns-gray);
+	}
+	&.btn-primary{
+		color: #fff;
+		.btn-theme(@ns-default, @ns-primary);
+	}
+	
+}
+
+.btn-unstyled {
+	margin: 0;
+	padding: 0;
+	background: none;
+	border: 0;
+	height: auto;
+	line-height: 1;
+	
+	&:active, &:focus {
+		background: none;
+		.box-shadow(none);
+	}
+}
+.btn-theme(@font-color, @icon-color){
+	border-color: transparent;
+	background-color: @ns-btn-background;
+	i {
+		color: @icon-color;
+	}
+	span{
+		color: @font-color;
+	}
+	&:hover, &:active, {
+		.box-shadow(inset 0 0 2px 2px @ns-btn-background-hover);
+		color: @icon-color;
+		span{
+			color: @icon-color;
+		}
+	}
+}
+
+ .td-button{
+
+ 	.btn:hover{
+ 		box-shadow: none;
+ 		i{
+ 			color:#fff !important;
+ 		}
+ 	}
+ 	.btn-info{
+ 		&:hover{
+ 			background: fade(@ns-info, 50) !important;
+ 		}
+ 	}
+ 	.btn-success{
+ 		&:hover{
+ 			background: fade(@ns-success, 50) !important;
+
+ 		}
+ 	}
+ 	.btn-warning{
+ 		&:hover{
+ 			background: fade(@ns-warning, 50) !important;
+ 		}
+ 	}
+ 	.btn-danger{
+ 		&:hover{
+ 			background: fade(@ns-danger, 50) !important;
+ 		}
+ 	}
+ 	.btn-white{
+ 		&:hover{
+ 			background: fade(@ns-info, 40) !important;
+ 		}
+ 	}
+ 	.btn-white.dropdown-toggle{
+ 		&:hover{
+ 			background: fade(@ns-info, 50);
+ 			&:before{
+ 				color: #fff !important;
+ 			}
+ 		}
+ 	}
+	.btn-group{
+		.btn:before{
+			transition:ease-in-out all .3s;
+		}
+		&.open{
+			.btn:before{
+				.transform(~"rotate(180deg)");
+			}
+		}
+	}
+
+ }
+
+ .btn.disabled, .btn[disabled], fieldset[disabled] .btn{
+	i{
+		color: @gray-light;
+	}
+	cursor: not-allowed;
+ }
+
+
+ .btn-group{
+ 	.btn{
+ 		margin-left: -1px;
+ 		border-radius: 0;
+ 	}
+ }
+
+ a.btn-clear{
+		margin-right: (@base-margin / 2);
+	}
+
+
+// 平板模式按钮尺寸
+.padmode{
+	.btn-group{
+		.btn{
+			height: 42px;
+			&.btn-icon{
+				width: 42px;
+			}
+		}
+	}
+}
+
+
+// 下拉选择按钮
+.btn-dropdown{
+	@btn-bg: lighten(@ns-border-color, 5%);
+	// 控制面板
+	.btn-group{
+	
+		&:hover{
+			.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+		}
+		.btn{
+			border: 0;
+			padding-right: 3px;
+			&:hover{
+				background: #f9f9f9;
+			}
+			&.btn-icon{
+				width: 18px;
+				padding: 6px 0;
+			}
+			& > span{
+				.badge{
+					position: relative;
+					bottom: -1px;
+					margin-left: 3px;
+					margin-bottom: -1px;
+					vertical-align: bottom;
+				}
+			}
+		}
+	}
+	// 下拉面板
+	.dropdown-menu{
+		border: 0;
+		box-shadow: 0px 1px 6px rgba(0, 0, 0, .15);
+		&.open{
+			display: block;
+		}
+		.dropdown-item{
+			.btn{
+				width: 100%;
+				text-align: left;
+				margin-left: 0;
+				height: 34px;
+				&:hover{
+					box-shadow: none;
+					background: #f6f6f6;
+				}
+				i{
+					color: #888;
+				}
+			}
+		}
+		
+	}
+
+	// 标记
+	@dropmenu-badge-size: 15px;
+	.badge{
+		border: 0;
+		background: @ns-border-color;
+		font-weight: normal;
+		.square(@dropmenu-badge-size);
+		line-height: @dropmenu-badge-size;
+		padding: 0px;
+		text-align: center;
+		text-align: center;
+		border-radius: 10px;
+	}
+}

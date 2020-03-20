@@ -1,0 +1,43 @@
+@td-padding: @base-padding;
+
+@tr-even-bg: @primary;
+@table-font-size: @font-size-base;
+.table {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    th,
+    td {
+        padding: @td-padding;
+        text-align: center;
+        font-size: @table-font-size;
+    }
+
+    tbody {
+        tr {
+            th {
+                font-weight: normal;
+            }
+        }
+    }
+
+
+    // 待条纹的表格（奇偶行）
+    &.table-striped {
+        tbody {
+            tr {
+
+                //    偶数行背景色
+                &:nth-child(2n) {
+
+                    th,
+                    td {
+                        .rgba-bg(@tr-even-bg, .1);
+                    }
+
+                }
+            }
+        }
+    }
+}

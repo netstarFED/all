@@ -1,0 +1,472 @@
+[ns-system="mobile"] {
+
+    //列表
+    .mobile-list-group {
+        margin-top: @base-margin;
+        background-color: #fff;
+        width: 100%;
+
+        &-transparent {
+            background-color: transparent;
+
+            .list-group-title {
+                border-bottom: none;
+            }
+
+            .text-primary {
+                margin-right: 0.5rem;
+            }
+
+            .list-main {
+                background: #fff;
+                border-radius: 0.5rem;
+                padding: @base-padding / 2;
+
+                .text-state {
+                    line-height: 1;
+                    font-size: @mobile-font-size * 62%;
+                    padding: 0.1rem 0.6rem;
+                    border-radius: 0.3rem;
+                    border: 1px solid @brand-primary;
+                }
+
+                .list-text {
+                    &-link {
+                        color: darken(@brand-primary, 20%);
+                        line-height: 2.2rem;
+                    }
+                }
+            }
+        }
+
+        &.list-border {
+            border: 1px solid @mobile-border-color;
+            border-width: 1px 0 1px 0;
+        }
+    }
+
+    //列表标题
+    .list-group-title {
+        font-size: @mobile-font-size;
+        color: @mobile-list-group-title-color;
+        height: @mobile-list-group-title-height;
+        line-height: @mobile-list-group-title-height;
+        padding-left: @content-padding;
+        border-bottom: 1px solid @mobile-border-color;
+    }
+
+    //每一列
+    .list-group-item {
+        border: none;
+        background-color: transparent;
+
+        &>div {
+            margin-right: @base-margin;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        //底边框，分隔线
+        &.list-group-item-border {
+            margin-bottom: 0;
+            border: 1px solid @mobile-border-color;
+            border-width: 0 0 1px 0;
+
+            &:last-child {
+                border-width: 0 !important;
+            }
+        }
+
+        //左边距
+        &.list-group-item-spacing {
+            margin-left: 1.33rem;
+            padding-left: 0;
+        }
+
+        //列表内容主体
+        .list-main {
+            flex: 1;
+        }
+
+        .list-title {
+            font-size: @mobile-font-size-md;
+            font-weight: bold;
+            line-height: 2.5rem;
+        }
+
+        .list-text {
+            font-size: 1rem;
+            color: @mobile-text-color;
+            line-height: 1.8rem;
+
+            span {
+                margin: 0 1rem;
+            }
+        }
+
+        .line-height-lg {
+            line-height: @mobile-line-height-lg;
+        }
+
+        .line-height-md {
+            line-height: @mobile-line-height-md;
+        }
+
+        .line-height-sm {
+            line-height: @mobile-line-height-sm;
+        }
+
+        //价格
+    }
+
+    //按钮
+    .list-button {
+        padding: (@base-padding / 2) 0;
+        text-align: right;
+
+        span {
+            margin-left: @base-margin;
+            line-height: 1;
+            color: @mobile-text-color;
+
+            i {
+                font-size: @mobile-font-size-md;
+                color: @brand-primary;
+                margin-right: 0.3rem;
+            }
+        }
+    }
+
+    //用户头像图片样式
+    .user-img {
+        .square(@mobile-user-img-width);
+        border-radius: 1rem;
+        background: #f5f5f5;
+        position: relative;
+
+        &:before {
+            position: absolute;
+            bottom: 0;
+            font-family: "FontAwesome";
+            content: "\f007";
+            color: #e1e1e1;
+            width: @mobile-user-img-width;
+            text-align: center;
+            font-size: 3rem;
+        }
+    }
+
+    //列表图标
+    .list-icon {
+        .square(2.2rem);
+        border-radius: 1.1rem;
+        text-align: center;
+
+        i {
+            color: darken(@ns-border-color, 5%);
+            line-height: 2.2rem;
+            font-size: @icon-font-size-md - 0.4rem;
+        }
+
+        &.list-icon-bg {
+            background: @mobile-list-icon-color;
+
+            i.icon-ellipsis-h {
+                color: #fff;
+                font-size: @icon-font-size-md;
+            }
+        }
+    }
+
+    //客户动态
+    &.mobile-list-group-transparent {
+        .list-group-item {
+            background-color: transparent;
+
+            .icon-clock-o {
+                padding: @base-padding 0;
+            }
+
+            .list-main {
+                border-radius: 1rem;
+            }
+        }
+    }
+
+    .block-list-item {
+        width: 100%;
+
+        .block-list-item-title {
+            .flex-block(flex-start, center);
+        }
+
+        .block-list-item-text {
+            .flex-block(flex-start, center);
+
+            i.fa-arrow-left,
+            i.fa-arrow-right {
+                display: none;
+            }
+
+            span {
+                .flex-block();
+                flex: none; // font-size: @mobile-font-size-md;
+
+                &+span {
+                    padding-left: 1rem;
+                }
+
+                p {
+                    margin: 0;
+                }
+
+                // 文本加粗
+                .fontWeight {
+                    font-weight: 600;
+                    font-size: 14px;
+                    margin: 0;
+                }
+
+                label {
+                    margin-bottom: 0;
+                }
+
+                // 数量
+                .num {
+                    background: #F1F4FD;
+                    padding: 0 10px;
+                    height: 18px;
+                    text-align: center;
+                    border-radius: 2px;
+                    border: 1px solid #E4E6FA;
+                    color: #A1B8FF;
+                }
+            }
+
+            // 文本超出后隐藏显示省略号....
+            span.info {
+                width: 100%;
+
+                p {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                    text-overflow: ellipsis
+                }
+            }
+
+            .time {
+                position: absolute;
+                bottom: 10px;
+                right: 16px;
+                color: #cccccc;
+            }
+
+            .font-text-gary {
+                color: #cccccc;
+            }
+        }
+    }
+
+    label.text-right,
+    span.text-right {
+        .flex-block();
+        flex: 1 !important;
+        text-align: right;
+        justify-content: flex-end;
+    }
+
+    .pt-block-list {
+        position: relative;
+        overflow: hidden; // margin-bottom: 1rem;
+
+        &+.pt-block-list {
+            border-top: 1px solid #eee;
+        }
+
+        // 信息状态共计8种 ==== 转移、归档、删除、关闭、重办、应急、挂起、待办
+        &.message-state {
+            [column-state="workitemstatemanage"] {
+                position: absolute;
+                top: -4px;
+                left: -34px;
+                transform: rotate(-45deg);
+                padding: 7px 32px;
+                background: #eee;
+                font-size: 14px;
+
+                .message-state-variant(@bg, @color) {
+                    background: @bg;
+                    color: @color;
+                }
+
+                // @transfer-message-bg: #46da6c; //转移
+                // @file-message-bg: #2da9ff; //归档
+                // @delete-message-bg: #ee3a3a; //删除
+                // @close-message-bg: #ff8724; //关闭
+                // @again-message-bg: #ffb920; //重办
+                // @emergency-message-bg: #b66eff; //应急
+                // @suspend-message-bg: #ddd; //挂起
+                // @normal-message-bg: #ABE1E0; //待办
+                @transfer-message-bg: #A6DAB3; //转移
+                @file-message-bg: #C2E6FF; //归档
+                @delete-message-bg: #EEB5B5; //删除
+                @close-message-bg: #F9C9A3; //关闭
+                @again-message-bg: #FFDC8F; //重办
+                @emergency-message-bg: #E0C2FF; //应急
+                @suspend-message-bg: #ddd; //挂起
+                @normal-message-bg: #ABE1E0; //待办
+
+                //转移
+                &.transfer-message {
+                    .message-state-variant(@transfer-message-bg, #fff);
+                }
+
+                //归档
+                &.file-message {
+                    .message-state-variant(@file-message-bg, #fff);
+                }
+
+                //删除
+                &.delete-message {
+                    .message-state-variant(@delete-message-bg, #fff);
+                }
+
+                //关闭
+                &.close-message {
+                    .message-state-variant(@close-message-bg, #fff);
+                }
+
+                //重办
+                &.again-message {
+                    .message-state-variant(@again-message-bg, #fff);
+                }
+
+                //应急
+                &.emergency-message {
+                    .message-state-variant(@emergency-message-bg, #fff);
+                }
+
+                //挂起
+                &.suspend-message {
+                    .message-state-variant(@suspend-message-bg, #222);
+                }
+
+                //待办
+                &.normal-message {
+                    .message-state-variant(@normal-message-bg, #fff);
+                }
+            }
+        }
+
+        &+& {
+            border-top: 1px solid @ns-border-color;
+        }
+
+        &:last-child {
+            border-bottom: 1px solid @ns-border-color;
+        }
+
+        .pt-block-content {
+            .flex-block();
+
+            flex-wrap: wrap;
+        }
+
+        .rowbtns {
+            .flex-block(flex-end, center);
+            // border-top: 1px solid #f5f5f5;
+            background: #f8f8f8;
+            padding: 0 1rem;
+
+            .pt-btn-group {
+                flex: none;
+
+                .pt-btn {
+                    background: transparent;
+                    border: 0;
+
+                    &.pt-btn-icon {
+                        .square(4rem);
+                    }
+                }
+            }
+        }
+    }
+
+    .touch-end-event {
+        position: absolute;
+        z-index: 9;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, .25);
+
+        .btn-group {
+            .flex-block(center, center);
+            flex: 0 0 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            padding: 0 1rem;
+            -webkit-animation: btnGroup .25s;
+
+            .btn {
+                .flex-block(center, center);
+                flex: none;
+                background: #fff;
+                .square(4rem);
+                min-height: 4rem;
+                border-radius: 100rem !important;
+                padding: 0;
+
+                &:last-child {
+                    background: #ff414e;
+
+                    span {
+                        color: #fff;
+                    }
+                }
+
+                &:nth-last-child(2) {
+                    background: #ff8700;
+
+                    span {
+                        color: #fff;
+                    }
+                }
+
+                &:nth-last-child(3) {
+                    background: #ffc600;
+
+                    span {
+                        color: #fff;
+                    }
+                }
+
+                &+.btn {
+                    margin-left: 2rem;
+                }
+            }
+        }
+    }
+
+    @-webkit-keyframes btnGroup
+
+    /* Safari 和 Chrome */
+        {
+        from {
+            bottom: -100%;
+        }
+
+        to {
+            bottom: 0;
+        }
+    }
+}

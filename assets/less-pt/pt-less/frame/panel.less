@@ -1,0 +1,158 @@
+@panel-border: @border-color;
+@pt-panel-control-width: 60px;
+@pt-panel-control-height: 10px;
+
+// 面板
+.pt-panel {
+    margin-bottom: @panel-gutter;
+
+    .pt-panel-row {
+        display: table;
+        width: 100%;
+        // height: @main-container-row-height;
+
+        // 面板列
+        .pt-panel-col {
+            display: table-cell;
+            vertical-align: top;
+
+            &+.pt-panel-col {
+                padding-left: @main-gutter;
+            }
+        }
+    }
+
+    &.pt-panel-border {
+        border: 1px solid @panel-border;
+    }
+
+    &.pt-panel-toggle {
+        padding-top: @base-padding-sm;
+    }
+
+    &.pt-panel-header {
+
+        margin-bottom: 0;
+        // background: #fff;
+        // border-bottom: 1px solid @border-color;
+    }
+
+    &.nsgrid {
+        // margin-bottom: 0;
+    }
+
+    &.pt-grid-footer {
+        margin-bottom: 0;
+    }
+
+}
+
+
+// 面板控制开关
+.pt-panel-control {
+    .btn {
+        position: relative;
+        z-index: 9;
+        width: @pt-panel-control-width;
+        height: @pt-panel-control-height;
+        padding: 0;
+        background: @gray-light;
+
+        i {
+            padding-right: 0;
+            transition: ease-in-out all .25s;
+
+        }
+
+        &:hover {
+            background: @warning;
+
+            i {
+                color: #fff;
+            }
+        }
+    }
+
+    // 水平环境按钮样式
+    &.pt-panel-control-horizontal {
+        margin-top: -2px;
+
+        .btn {
+            i {
+                margin-top: -3px;
+            }
+        }
+
+        &.drag-fold {
+            margin-top: 5px;
+        }
+    }
+
+    // 水平环境按钮样式
+    &.pt-panel-control-vertical {
+        transform: rotate(90deg);
+        margin-left: (-(@pt-panel-control-width / 2) + (@pt-panel-control-height / 2));
+
+        .btn {
+            i {
+                margin-top: -3px;
+                transform: rotate(-90deg);
+            }
+        }
+
+        &.drag-fold {
+            margin-left: (-(@pt-panel-control-width / 2) - (@pt-panel-control-height / 2));
+
+            .btn i {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    &.drag-fold {
+        .btn {
+            i {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .pt-panel-toggle & {}
+}
+
+//页面底端按钮组
+// .doclistviewer-btns,
+// .button-panel-component,
+// .pt-template-footer,{
+//     margin-bottom: 0;
+//     .pt-panel{
+//         margin-bottom: 0;
+//     }
+// }
+
+// .pt-main{
+//     &.limsreport{
+//         .pt-template-limsreport-main{
+//             .pt-panel{
+//                 margin-bottom: 0;
+//             }
+//             .lims-report{
+//                 .pt-panel{
+//                     margin-bottom:@base-padding;
+//                 }
+//             }
+//         }
+//     }
+//     .pt-template-processdocbaselevel2-btns{
+
+//         .pt-panel{
+//             margin-bottom: 0;
+//         }
+//     }
+// }
+
+// .pt-btn-group-toper{
+//     &.pt-panel{
+//         margin-bottom: @base-margin;
+//     }
+// }

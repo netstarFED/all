@@ -1,0 +1,140 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<title>文档.网星云.HOME</title>
+    <link rel="stylesheet" href="/docs/static/style/docs.css"/>
+	<script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<!--# include file="/docs/include/login-static-dev.html" -->
+	<!--# include file="/docs/include/preload-static-dev.html" -->
+    <!--# include file="/docs/include/mainpage-static-dev.html" -->
+    
+</head>
+
+<body class="home">
+	<!-- 主页的内容 start -->
+	<div id="netstar-main-page" class="netstar-main-page netstar-project-erp">
+			<!-- 头部 包含logo 主菜单 -->
+			<div class="pt-header">
+				<div class="pt-container">
+					<div class="pt-topbar">
+						<div class="pt-container">
+							<div class="pt-logo">
+								<img src="../images/mainpage/logo.png" alt="LOGO">
+							</div>
+							<div id="mainpage-todolist-contianer" class="pt-nav pt-dropdown"></div>
+							<div id="topMessageBarNav" class="pt-nav pt-dropdown"></div>
+						</div>
+					</div>
+					<div class="pt-navbar">
+						<div class="pt-container">
+							<!-- 主菜单 -->
+							<div id="mainpage-menus-contianer" class="pt-nav pt-dropdown"></div>
+						</div>
+					</div>
+					<div id="labelPages" class="pt-tabbar"></div>
+				</div>
+			</div>
+		</div>
+		<!-- 主页的内容 end   -->
+	<container>
+		
+	</container>
+	<script type="text/javascript">
+	
+	//草稿箱配置
+	var nsDraft = {
+		//通过id获取一条草稿数据的ajax配置
+		getDataById: {
+			url: '/draft/getById',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded'
+		},
+		//通过条件获取草稿箱列表的ajax配置
+		getListByQueryModel: {
+			url: '/draft/getListByQueryModel',
+			type: 'post'
+		},
+		//根据单据类型获取草稿列表的ajax配置
+		getListByPackage: {
+			url: '/draft/getListByFormName',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded'
+		},
+		//通过id删除草稿数据的ajax配置
+		deleteById: {
+			url: '/draft/delById',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded'
+		},
+		//通过ids删除草稿数据的ajax配置
+		deleteByIds: {
+			url: '/draft/delByIds',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded'
+		},
+		//根据修改时间删除草稿的ajax配置
+		deleteByModifieddate: {
+			url: '/draft/delByModifieddate',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded'
+		},
+		//清空草稿的ajax配置
+		deleteByformName: {
+			url: '/draft/clear',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded'
+		},
+		//保存或修改单条草稿的ajax配置
+		saveData: {
+			url: '/draft/save',
+			type: 'post'
+		}
+	}
+
+	$(function(){
+		
+		
+		var  config = store.get('NetstarLoginConfig');
+		config = JSON.parse(config);
+		var mainPageConfig = {
+            html:'',                
+            
+            //页面
+			mainMenus:{
+                id: "mainpage-menus-contianer",  //插入主菜单的容器ID 例如 <div id="mainpage-menus-contianer" class="pt-nav pt-dropdown"></div>
+
+                ajax:{
+					url:'http://localhost:2000/docs/data/home-menu.json',
+					contentType: 'application/x-www-form-urlencoded',
+                    dataSrc:'rows',
+                    type:'GET'
+                },
+                convertToTree: true,
+                menuChildIdField: "children",
+                menuIdField: "menuId",
+                menuNameField: "menuName",
+                menuParentIdField: "menuParentId",
+                menuUrlField: "menuUrl",
+                defalutServerUrl:'',
+            },   			//主菜单配置
+			userMode:config.userMode,       			//用户模式
+			getLoginProperty:config.getLoginProperty, 	//获取登录信息地址
+			getDict:config.getDict 						//系统字典
+        }
+		NetstarHomePage.init(mainPageConfig);
+	})
+		
+	</script>
+</body>
+
+</html>

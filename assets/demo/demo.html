@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>demo</title>
+	<!--css-->
+	<link rel="stylesheet" href="assets/css/fonts/linecons/css/linecons.css?v=1">
+	<link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.min.css?v=4.6.3">
+	<link rel="stylesheet" href="assets/css/bootstrap.css?v=3.0.1">
+	<link rel="stylesheet" href="assets/css/netstar-core.css?v=1">
+	<link rel="stylesheet" href="assets/css/netstar-forms.css?v=1">
+	<link rel="stylesheet" href="assets/css/netstar-components.css?v=1">
+	<link rel="stylesheet" href="assets/css/netstar-skins.css?v=0.1">
+	<link rel="stylesheet" href="assets/css/netstar-common.css?v=0.1"></head>
+<body class="page-body">
+	<div class="page-title nav-form">
+		<!--按钮组-->
+	</div>
+	<!--表格-->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Basic Setup</h3>
+
+			<div class="panel-options">
+				<a href="#" data-toggle="panel">
+					<span class="collapse-icon">&ndash;</span>
+					<span class="expand-icon">+</span>
+				</a>
+				<a href="#" data-toggle="remove">&times;</a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="col-sm-12">
+
+				<!-- Combined Table --> <strong>Table Classes Combined</strong>
+
+				<table class="table table-bordered table-striped table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>Address</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>Arlind</td>
+							<td>Nushi</td>
+						</tr>
+
+						<tr>
+							<td>2</td>
+							<td>Art</td>
+							<td>Ramadani</td>
+						</tr>
+
+						<tr>
+							<td>3</td>
+							<td>Filan</td>
+							<td>Fisteku</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+		</div>
+	</div>
+<script type="text/javascript">
+function openPasswordChange(){
+	var config = {
+		id: 	"plane-passwordchange",
+		title: 	"修改密码",
+		size: 	"s",
+		form:[
+			{
+				id: 		'username',
+				label: 		'用户名',
+				type: 		'text',
+				readonly: 	true,
+				value: 		'<shiro:principal property="userAccount" />',
+				placeholder:'登录用户名',
+			},{
+				id: 		'oldpassword',
+				label: 		'现有密码',
+				type: 		'password',
+				rules: 		'required minlength=6',
+				placeholder:''
+			},{
+				html: 		'<hr>',
+			},{
+				note: 		'各地相继公布的上半年经济“成绩单”，印证了权威人士的预判：“经济分化趋势在延续，甚至在加剧，确实是‘几家欢乐几家愁’。',
+			},{
+				id: 		'newpassword',
+				label: 		'新密码',
+				type: 		'password',
+				rules: 		'required minlength=6'
+			},{
+				id: 		'newpassword2',
+				label: 		'重复密码',
+				type: 		'password',
+				rules: 		'required minlength=6 equalTo=newpassword',
+				placeholder:'请重复输入新密码'
+			}
+		],
+		btns:[
+			{
+				text: 		'确认修改',
+				handler: 	'abc',
+			},{
+				text: 		'确认修改',
+				type: 		'success',
+				iconCls: 	'fa-check',
+				handler: 	'abc',
+			}
+		]
+	}
+	popupBox.initShow(config);
+}
+
+function logout() {
+	top.location = getRootPath() + "/LogOut";
+}
+</script>
+	<!--javascript-->
+	<script src="assets/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="assets/js/TweenMax.min.js?v=1.13.1"></script>
+	<script src="assets/js/resizeable.js?v=1"></script>
+	<script src="assets/js/joinable.js?v=1.18.9"></script>
+
+	<script src="assets/js/jquery-validate/jquery.validate.js?v=1.15.0"></script>
+	·
+	<script src="assets/js/datatables/js/jquery.dataTables.min.js?v=1.10.2"></script>
+	<script src="assets/js/datatables/yadcf/jquery.dataTables.yadcf.js?v=0.8.3"></script>
+	<script src="assets/js/datatables/tabletools/dataTables.tableTools.min.js?v=2.2.3"></script>
+	<script src="assets/js/datatables/js/dataTables.bootstrap.min.js?v=1.10.2"></script>
+
+	<script src="assets/js/base64/jquery.base64.js?v=10.0.0"></script>
+	<script src="assets/js/export/tableExport.js?v=10.0.0"></script>
+	<script src="assets/js/dropzone/dropzone.min.js"></script>
+	<script src="assets/js/datepicker/bootstrap-datepicker.js?v=10.0.0"></script>
+	<script src="assets/js/toastr/toastr.min.js?v=2.1.2"></script>
+
+	<script src="assets/js/netstar-api.js?v=1.0.0"></script>
+	<script src="assets/js/netstar-toggles.js?v=1.0.0"></script>
+	<script src="assets/js/netstar-widgets.js?v=1.0.0"></script>
+	<script src="assets/js/netstar-custom.js?v=1.0.0"></script>
+
+	<script src="assets/js/select2/select2.min.js?v=3.5.1"></script>
+	<script src="assets/js/jquery-ui/jquery-ui.min.js?v=1.11.1"></script>
+	<script src="assets/js/selectboxit/jquery.selectBoxIt.min.js?v=3.8.1"></script>
+	<script src="assets/js/netstar-common.js?v=0.1.0"></script>
+	<script src="assets/js/netstar-datatable.js?v=0.1.0"></script>
+	<script src="assets/js/store.min.js?v=0.1.0"></script>
+	<script src="assets/js/moment.js?v=0.1.0"></script>
+	<script src="assets/js/fnReloadAjax.js"></script>
+</body>
+
+</html>

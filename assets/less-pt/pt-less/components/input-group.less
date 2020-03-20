@@ -1,0 +1,384 @@
+@input-group-border: @form-border;
+@input-group-btn-bg: @warning;
+@input-group-hover-border: @form-hover-border;
+
+// input-group尺寸
+@input-group-sm: (@input-group-base - 6); //20px
+@input-group-base: 24px; //24px
+@input-group-md: (@input-group-base + 8); //32px
+@input-group-lg: (@input-group-base + 16); //34px
+
+// input-group-按钮尺寸
+@input-group-btn-sm: @input-height-sm;
+@input-group-btn-size: @input-height-base;
+@input-group-btn-md: @input-height-md;
+@input-group-btn-lg: @input-height-lg ;
+
+
+.pt-input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    border-style: solid;
+    border-color: @input-group-border;
+    border-width: 1px;
+    .pt-input-group-size-base();
+
+    &:hover,
+    &:focus {
+        .form-shadow();
+        .transition();
+        border: 1px solid @input-group-hover-border;
+        // box-shadow: 0 0 0 1px @input-group-hover-border;
+    }
+
+    .pt-form-control {
+        border: 0;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    // input-group状态
+    &.success {
+        border-color: @success;
+        color: @success;
+    }
+
+    &.warning {
+        border-color: @warning;
+        color: @warning;
+    }
+
+    &.danger,
+    &.error {
+        border-color: @danger;
+
+        .form-control {
+            color: @danger;
+        }
+    }
+
+    .pt-input-group-btn {
+        background: #fff;
+
+        .pt-btn {
+            i {
+                color: @gray-dark;
+            }
+
+            &:hover {
+                i {
+                    color: #fff;
+                }
+            }
+        }
+
+        &.pt-input-group-btn-group {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+
+    &.pt-number {
+        .pt-form-control {
+            &[type="number"] {
+                padding-right: 0;
+            }
+        }
+    }
+
+    // date组件下拉箭头定位
+    &.pt-date {
+        position: relative;
+
+        .pt-form-control {
+            padding-right: @input-group-btn-size;
+        }
+
+        .pt-input-group-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+
+
+    // 输入框组下拉菜单
+    .pt-dropdown {
+        @pt-dropdown-width: 480px;
+        @pt-tab-title-height: 36px;
+        @pt-dropdown-border-color: @border-color;
+        @pt-dropdown-border-width: 2px;
+        position: fixed;
+        overflow: hidden;
+        overflow-y: auto;
+        z-index: 1099;
+        background: #fff;
+        border: 1px solid @pt-dropdown-border-color;
+        border-top: 0;
+        margin-top: -2px;
+
+        // 输入框组tab
+        .pt-tab-tabs {
+            background: #fff;
+
+            .pt-tab-title {
+                position: relative;
+                height: auto;
+                overflow: hidden;
+                padding-top: (@pt-dropdown-border-width * 4);
+                background: @gray-lighter;
+                line-height: @pt-tab-title-height;
+
+                ul {
+                    margin-top: -(@pt-dropdown-border-width* 3);
+
+                    li {
+                        position: relative;
+                        display: inline-block;
+                        padding-left: @padding-base-h;
+                        padding-right: @padding-base-h;
+
+                        &:after {
+                            .border-horizontal(@pt-dropdown-border-width, transparent);
+                            right: 0;
+                            top: -@pt-dropdown-border-width;
+                            left: 0;
+                        }
+
+                        &:hover {
+                            background: #fff;
+                            cursor: pointer;
+
+                            &:after {
+                                background: darken(@pt-dropdown-border-color, 10);
+                            }
+                        }
+
+                        &.current {
+                            background: #fff;
+                            color: @warning;
+                            font-weight: bold;
+
+                            &:after {
+                                background: @warning;
+                            }
+                        }
+                    }
+                }
+
+                &:after {
+                    .border-horizontal(@pt-dropdown-border-width, @pt-dropdown-border-color);
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    z-index: 1;
+                }
+            }
+
+            .pt-tab-content {
+                height: auto;
+                overflow: hidden;
+                background: #fff;
+                .padding-base();
+
+                ul {
+                    li {
+                        display: block;
+                        float: left;
+                        margin: @base-margin-sm;
+                        cursor: pointer;
+                        .padding-xs();
+
+                        &.current,
+                        &:hover {
+                            background: @warning;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+
+        .pt-btn-group {
+            position: absolute;
+            top: 8px;
+            right: 5px;
+            max-width: 60px;
+            margin: 0;
+
+            .pt-btn.pt-btn-default {
+                border-color: transparent;
+                background: transparent;
+
+                &:hover {
+                    background: @input-group-btn-bg;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    // 输入框载入
+
+    &.pt-loading {
+        height: @input-group-base;
+        line-height: @input-group-base;
+        position: static;
+        top: 0;
+        left: 0;
+        margin: 0;
+        border-radius: 0;
+
+        @pt-loading-size: (@input-group-base - 2);
+
+        &:before {
+            position: absolute;
+            content: '\e9c0';
+            .square(@pt-loading-size);
+            line-height: @pt-loading-size;
+            text-align: center;
+            font-family: @icon-font-icomoon;
+            font-size: 12px;
+            color: #000;
+            -webkit-animation: form-loading 2s infinite linear;
+            opacity: 0.2;
+            /* Safari and Chrome */
+
+        }
+
+        &:after {
+            display: none;
+        }
+
+        .pt-form-control {
+            color: transparent;
+        }
+    }
+
+}
+
+//火狐浏览器选择下拉框左移1像素
+/* Firefox */
+@-moz-document url-prefix() {
+    .pt-input-group {
+        .pt-dropdown {
+            margin-left: -1px;
+        }
+    }
+}
+
+// input-group尺寸 ==大/默认尺寸/小
+.pt-input-group-size-lg {
+    .input-group-size(@input-group-lg, 100%, @input-group-btn-lg);
+
+    .pt-input-group-addon,
+    .pt-input-group-btn {
+        .pt-btn {
+            width: @input-group-base;
+        }
+    }
+}
+
+.pt-input-group-size-md {
+    .input-group-size(@input-group-md, 100%, @input-group-btn-md);
+}
+
+.pt-input-group-size-base {
+    .input-group-size(@input-group-base, 100%, @input-group-btn-size);
+}
+
+.pt-input-group-size-sm {
+    .input-group-size(@input-group-sm, 100%, @input-group-btn-sm);
+}
+
+
+// input-group 附加内容及按钮
+.pt-input-group-addon,
+.pt-input-group-btn {
+    display: table-cell;
+    vertical-align: top;
+
+    .pt-btn {
+        border: 0;
+        background: #fff;
+
+        &:hover {
+            background: @input-group-btn-bg;
+        }
+
+        // 输入框清空按钮
+        &.pt-input-clear {
+            i {
+                color: @gray;
+            }
+
+            &:hover {
+                background: @gray-lighter;
+
+                i {
+                    color: @input-group-btn-bg;
+                }
+            }
+        }
+    }
+}
+
+.pt-input-group-addon {
+    vertical-align: middle;
+    padding: 0 (@base-padding / 2);
+    background: #eee;
+}
+
+// 业务组件
+.pt-input-group {
+    &.pt-select-panel {}
+
+    &.pt-businessselect-panel,
+    &.pt-businessSelect,
+    &.pt-business {
+        .pt-dropdown {
+            overflow: hidden;
+            overflow-y: hidden;
+
+            .pt-dropdown-components {
+                overflow-y: auto;
+            }
+        }
+
+        // 清空按钮
+        .pt-btn.clear {
+            position: absolute;
+            top: 0;
+            right: @btn-size-base;
+        }
+    }
+}
+
+//火狐浏览器业务组件
+@-moz-document url-prefix() {
+    .pt-input-group {
+
+        &.pt-businessselect-panel,
+        &.pt-businessSelect,
+        &.pt-business {
+
+            // 清空按钮
+            .pt-btn.clear {
+                top: 1px;
+            }
+        }
+    }
+}
+
+
+@keyframes form-loading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(359deg);
+    }
+}

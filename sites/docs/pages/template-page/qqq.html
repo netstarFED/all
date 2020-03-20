@@ -1,0 +1,374 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <script>
+        var nsPublic = nsPublic ? nsPublic : {};
+        nsPublic.getAppendContainer = function () {
+            var insertLocation = $('container:not(.hidden)').not('.content');
+            if ($('.nswindow .content').length > 0) {
+                insertLocation = $('.nswindow .content:last');
+            }
+            return insertLocation;
+        }
+        $(function () {
+          /*   var processDocBase = {
+                package: '',
+                template: 'processDocBase',
+                title: '基本单据模板',
+                components: [{
+                        type: 'vo',
+                        field: [{
+                            id: 'salesOrder',
+                            label: '销售单号',
+                            type: 'text',
+                            inputWidth: 100,
+                            value: '',
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            }
+                        }]
+                    }, {
+                        type: 'vo',
+                        position: 'header-body',
+                        parent: 'rooot',
+                        defaultComponentWidth: '25%',
+                        idField: '',
+                        keyField: 'root',
+                        field: [{
+                                id: 'customer',
+                                label: '客户',
+                                type: "text",
+
+                            },
+
+                        ]
+
+                    },
+                    {
+                        type: 'list',
+                        title: '商品标题',
+                        field: [
+                            {
+                                field: 'pd',
+                                title: '生产日期',
+                                editable: true,
+                                columnType: 'text',
+                                editConfig: {
+                                    type: "text",
+                                }
+
+                            }]
+                    },
+                    {
+                        type: 'btns',
+                        position: 'footer',
+                        field: [{
+                                btn: {
+                                    text: "保存|提交",
+                                    isReturn: true,
+                                    handler: function (callBack, Obj) {
+                                        console.log(1);
+                                    }
+                                },
+                                functionConfig:{
+                                    englishName:"save"
+                                }
+                            },
+                        ]
+                    }
+                ]
+            }
+            var docListViewer = { 
+                package: '',
+                template: 'docListViewer',
+                title: '单据详情模板',
+                components: [{
+                        type: 'vo',
+                        field: [{
+                            id: 'salesOrder',
+                            label: '销售单号',
+                            type: 'text',
+                            inputWidth: 100,
+                            value: '',
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            }
+                        }]
+                    },
+                    {
+                        type: 'list',
+                        title: '商品标题',
+                        field: [
+                            {
+                                field: 'pd',
+                                title: '生产日期',
+                                editable: true,
+                                columnType: 'text',
+                                editConfig: {
+                                    type: "text",
+                                }
+
+                            }]
+                    },
+                    {
+                        type: 'list',
+                        title: '商品标题',
+                        field: [
+                            {
+                                field: 'itemCode',
+                                title: '商品编号',
+                                editable: true,
+                                columnType: 'text',
+                                editConfig: {
+                                    type: "text",
+                                }
+
+                            }]
+                    },
+                    {
+                        type: 'btns',
+                        position: 'footer',
+                        field: [{
+                                btn: {
+                                    text: "保存|提交",
+                                    isReturn: true,
+                                    handler: function (callBack, Obj) {
+                                        console.log(1);
+                                    }
+                                },
+                                functionConfig: function () {
+
+                                }
+                            },
+                        ]
+                    }
+                ]
+            }*/
+
+            var businesslevellist3 = {
+            package:'n',
+            template:'businesslevellist3',
+            title:'ye',
+            components:[
+                {
+                    type:'list',
+                    idField:'id', 
+                    //plusClass:'pt-block-list-vertical',
+                    ajax:{
+                    },
+                    parent:'root',
+                    keyField:'',
+                    field:[
+                        {
+                            field : 'itemName',
+                            title : '名称',
+                            width : 60,
+                            searchable:true,
+                            orderable:false, 
+                            isCommon:true,
+                        }
+                    ],
+                },{
+                    type:'blockList',
+                    idField:'saleId',
+                    plusClass:'pt-block-list-vertical',
+                    ajax:{
+                           
+                    },
+                    parent:'',
+                    keyField:'saleList',
+                    field:[
+                        {
+                            field : 'id',
+                            title : '名称',
+                            width : 150,
+                            searchable:false,
+                            orderable:false, 
+                            formatHandler:{
+                                type:'dictionary',
+                                data:{
+                                    '0':'全部',
+                                    '1':'已解决',
+                                    '2':'未解决'
+                                }
+                            }
+                        }
+                    ],
+                    listExpression:'<div class="pt-block-content-item">'
+                                        +'<span class="label">未分配记录</span>'
+                                        +'<span class="text">{{num}}</span>'
+                                    +'</div>'
+                },{
+                    type:'list',
+                    idField:'customerId',
+                    //plusClass:'pt-grid-body',
+                    ajax:{
+
+                    },
+                    parent:'saleList',
+                    keyField:'customerList',
+                    field:[
+                        {
+                            field : 'itemName',
+                            title : '名称',
+                            width : 150,
+                            searchable:true,
+                            orderable:true, 
+                            isCommon:true,
+                        }
+                    ],
+                },{
+                    type:'btns',
+                    operatorObject:'',
+                    field:[
+                        {
+                            text:'主按钮',
+                            isReturn:true,
+                            btn:{
+                                text:'主按钮',
+                                handler:function(data){
+                                    console.log(data)
+                                },
+                            },
+                            functionConfig:{
+                                englishName:"",
+                            }
+                        }
+                    ]
+                }
+            ],
+        }
+           
+        var businessbasePanoramic = {
+            package:'',
+            template:'businessbasePanoramic',
+            title:'业务对象全景模板',
+            mode:'listgrid',
+            components:[
+                {
+                    type:"tree",
+                    title:"",
+                    ajax:{},
+                    addAjax:{},
+                    editable:{},
+                    deleteAjax:{},
+                    moveAjax:{},
+                    textField:"",
+                    parentField:"",
+                    childField:""
+                },
+                {
+                    type:'list',
+                    idField:'id', 
+                    //plusClass:'pt-block-list-vertical',
+                    ajax:{
+                    },
+                    parent:'root',
+                    keyField:'',
+                    field:[
+                        {
+                            field : 'itemName',
+                            title : '名称',
+                            width : 60,
+                            searchable:true,
+                            orderable:false, 
+                            isCommon:true,
+                        }
+                    ],
+                },{
+                    type:'list',
+                    idField:'customerId',
+                    //plusClass:'pt-grid-body',
+                    ajax:{
+
+                    },
+                    parent:'saleList',
+                    keyField:'customerList',
+                    field:[
+                        {
+                            field : 'itemName',
+                            title : '名称',
+                            width : 150,
+                            searchable:true,
+                            orderable:true, 
+                            isCommon:true,
+                        }
+                    ],
+                },{
+                    type:'btns',
+                    operatorObject:'',
+                    field:[
+                        {
+                            text:'主按钮',
+                            isReturn:true,
+                            btn:{
+                                text:'主按钮',
+                                handler:function(data){
+                                    console.log(data)
+                                },
+                            },
+                            functionConfig:{
+                                englishName:"",
+                            }
+                        }
+                    ]
+                }
+            ],
+        }
+        var processDocBase = {
+                package: '',
+                template: 'docListViewer',
+                title: '单据详情模板',
+                components: [{
+                        type: 'vo',
+                        field: [{
+                            id: 'salesOrder',
+                            label: '销售单号',
+                            type: 'text',
+                            inputWidth: 100,
+                            value: '',
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            }
+                        }]
+                    },
+                    {
+                        type: 'list',
+                        title: '商品标题',
+                        field: [
+                            {
+                                field: 'pd',
+                                title: '生产日期',
+                                editable: true,
+                                columnType: 'text',
+                                editConfig: {
+                                    type: "text",
+                                }
+
+                            }]
+                    },
+                    {
+                        type: 'btns',
+                        position: 'footer',
+                        field: [{
+                                btn: {
+                                    text: "保存|提交",
+                                    isReturn: true,
+                                    handler: function (callBack, Obj) {
+                                        console.log(1);
+                                    }
+                                },
+                                functionConfig: function () {
+                                    englishName:"btns"
+                                }
+                            },
+                        ]
+                    }
+                ]
+            }
+        NetstarTemplate.init(processDocBase);
+        })
+
+    </script>
+
+</container>
+

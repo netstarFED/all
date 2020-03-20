@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="作业记录" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>作业记录</title>
+</head>
+<body class="weixin-type">
+<container>
+	<script type="text/javascript">
+	$(function(){
+		var config = {
+			template: 'workRecordSimpleMobile',
+			package: 'nsVue.graps.list',
+			title: '作业记录',
+			components:[
+				{
+					type:'vo',
+					title:'作业内容',
+                    idField:'id',
+                    formSource: 'staticData',
+                    field:[
+                        {
+                            id:'itemReportName',
+                            type:'text',
+                            label:'作业申请内容',
+                        },{
+                            id:'testBedId',
+                            type:'text',
+                            label:'作业区域',
+                            textField:"labName",
+                            valueField:'id',
+                            url:getRootPath() +'/docs/data/mobile/worksimple-select.json',
+                            method:'GET',
+                            contentType:'application/x-www-form-urlencoded',
+                            dataSrc:'rows',
+                            data:{},
+                            acts:'label'
+                        },
+                        {
+                            id:'transactors',
+                            type:'text',
+                            label:'涉及人员'
+                        },
+                        {
+                            id:'acceptId',
+                            label:'委托Id',
+                            type:'text',
+                        },
+                        {
+                            id:'taskAssignId',
+                            label:'任务分配',
+                            type:'text',
+                            hidden:true,
+                        },
+                        {
+                            id:'whenBegin',
+                            type:'date',
+                            label:'开始时间',
+                            format:'yyyy-mm-dd hh:mm'
+                        },
+                        {
+                            id:'whenEnd',
+                            type:'date',
+                            label:'结束时间'
+                        },
+                        {
+                            id:'deviceIds',
+                            type:'select',
+                            value:'1',
+                            label:'公共设备需求',
+                            textField:'value',
+                            valueField:'id',
+                            subdata:[
+                                {
+                                    id:'1',
+                                    value:'西'
+                                },
+                                {
+                                    id:'2',
+                                    value:'东'
+                                }
+                            ],
+                            data:{}
+                        },
+                        {
+                            id:'type',
+                            type:'select',
+                            label:'状态',
+                            textField:'value',
+                            value:'3',
+                            valueField:'id',
+                            subdata:[
+                                {
+                                    id:'1',
+                                    value:'已申请'
+                                },
+                                {
+                                    id:'2',
+                                    value:'未申请'
+                                },
+                                {
+                                    id:'3',
+                                    value:'待确认'
+                                },
+                                {
+                                    id:'4',
+                                    value:'已发布'
+                                }
+                            ],
+                            data:{}
+                        },
+                        {
+                            id:'endFlag',
+                            type:'text',
+                            label:'收尾作业',
+                        },
+                        {
+                            id:'remark',
+                            type:'text',
+                            label:'备注'
+                        }
+                    ],
+                    ajax:{
+                        src:getRootPath() +'/docs/data/mobile/worksimple-vo.json',
+                        method:'GET',
+                        contentType:'application/x-www-form-urlencoded',
+                        dataFormat:'id',
+                        dataSrc:'data',
+                        data:{
+                            id:'1322568436085162994'
+                        }
+                    }
+                },
+                {
+                    type:'blockList',
+					title:'确认事项',
+					ajax:{
+						src:getRootPath() +'/docs/data/mobile/worksimple-block.json',
+                        method:'GET',
+                        contentType:'application/x-www-form-urlencoded',
+                        dataSrc:'data',
+                        data:{
+                            id:'1322568470444901362'
+                        }
+					},
+                },
+                {
+                    type:'btns',
+                    operatorObject:'vo',
+                    field:[
+                        {
+                            "functionConfig": {
+								"ajaxDataVaildConfig": "required",
+								"contentType": "application/json",
+								"dataFormat": "object",
+								"dataSrc": "data",
+								"defaultMode": "confirm",
+								"functionClass": "modal",
+								"id": "1320347824176505842",
+								"suffix": "/work/workRecords/save",
+								"text": "保存",
+								"title": "保存记录",
+								"type": "POST",
+								"voName": "workWorkRecordVO",
+								"entityName": "_work_workRecords",
+								"chineseName": "保存 VO",
+								"englishName": "save",
+								"isInlineBtn": false,
+								"isSendPageParams": true,
+								"isMobileInlineBtn": true,
+								"isKeepSelected": false,
+								"parameterFormatType": "add",
+								"isSetValueToSourcePage": false,
+								"url": "https://qaapi.wangxingcloud.com//work/workRecords/save",
+								"isOperatorMain": true,
+								"operatorObject": "root"
+							},
+							"btn": {
+								"text": "保存1",
+								"isReturn": true
+							}
+                        },
+                        {
+                            functionConfig:{
+                                text:'提交',
+                                defaultMode:'workflowSubmit',
+                                workflowType:'submit',
+                                isOperatorMain:true
+                            },
+                            btn:{
+                                text:'提交'
+                            }
+                        },
+                        {
+                            functionConfig:{
+                                text:'驳回',
+                                defaultMode:'workflowSubmit',
+                                workflowType:'reject',
+                                isOperatorMain:true
+                            },
+                            btn:{
+                                text:'驳回'
+                            }
+                        }
+                    ]
+                },
+                {
+                    type:'btns',
+                    operatorObject:'list',
+                    field:[
+                        {
+                            "functionConfig": {
+								"ajaxDataVaildConfig": "required",
+								"contentType": "application/json",
+								"dataFormat": "object",
+								"dataSrc": "data",
+								"defaultMode": "confirm",
+								"functionClass": "modal",
+								"id": "1320347824176505842",
+								"suffix": "/work/workRecords/save",
+								"text": "保存",
+								"title": "保存记录",
+								"type": "POST",
+								"voName": "workWorkRecordVO",
+								"entityName": "_work_workRecords",
+								"chineseName": "保存 VO",
+								"englishName": "save",
+								"isInlineBtn": false,
+								"isSendPageParams": true,
+								"isMobileInlineBtn": true,
+								"isKeepSelected": false,
+								"parameterFormatType": "add",
+								"isSetValueToSourcePage": false,
+								"url": "https://qaapi.wangxingcloud.com//work/workRecords/save",
+								"isOperatorMain": true,
+								"operatorObject": "root"
+							},
+							"btn": {
+								"text": "保存1",
+								"isReturn": true
+							}
+                        },
+                        {
+                            functionConfig:{
+                                text:'提交',
+                                defaultMode:'workflowSubmit',
+                                workflowType:'submit',
+                                isOperatorMain:true
+                            },
+                            btn:{
+                                text:'提交'
+                            }
+                        },
+                        {
+                            functionConfig:{
+                                text:'驳回',
+                                defaultMode:'workflowSubmit',
+                                workflowType:'reject',
+                                isOperatorMain:true
+                            },
+                            btn:{
+                                text:'驳回'
+                            }
+                        }
+                    ]
+                }		
+			]
+		}
+		config = NetstarProject.init(config);
+		NetstarTemplate.init(config);
+	})
+
+	</script>
+</container>
+</body>
+</html>

@@ -1,0 +1,42 @@
+@main-padding: @base-padding;
+@main-gutter: @base-padding;
+@main-col-minwidth-sm: 240px;
+@main-col-minwidth-md: 260px;
+@main-col-minwidth-lg: 298px;
+
+// 主体内容
+.pt-main {
+
+    padding: @main-padding;
+
+    // 主体行
+    .pt-main-row {
+        -webkit-display: flex;
+        -moz-display: flex;
+        -o-display: flex;
+        -ms-display: flex;
+        display: flex;
+
+        width: 100%;
+
+        // 主体列
+        .pt-main-col {
+            flex: 1;
+
+            &+.pt-main-col {
+                margin-left: @main-gutter;
+                // border-left: @main-gutter solid transparent;
+                flex: 100;
+            }
+
+            &.pt-col-auto {
+                flex: none;
+            }
+
+            &.pt-col-fixed {
+                flex:0 0 240px;
+            }
+        }
+    }
+
+}

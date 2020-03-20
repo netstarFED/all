@@ -1,0 +1,51 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <div id="inlinesrceen-addersubtracter"></div>
+    <script>
+         var inlineSrceen = 
+        {
+            id:  		"inlinesrceen-addersubtracter",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            formSource: 'inlineScreen',
+            form:
+            [
+                {
+                    id: 		 	'adderSubtracter',
+                    label: 		 	'数字加减',
+                    type: 		 	'adderSubtracter',
+                    column: 	 	6,
+                    changeHandler : function(value, config){
+                        console.log(value);
+                        console.log(config);
+                    },
+                    value : 7,
+                },{
+                    id: 		 	'required',
+                    label: 		 	'验证',
+                    type: 		 	'adderSubtracter',
+                    column: 	 	6,
+                    rules:            'required',
+                    mindjetFieldPosition:'field',
+                    value:5   
+                },/*  {
+                    id: 		 	'mindjetFieldPosition',
+                    label: 		 	'更多',
+                    type: 		 	'adderSubtracter',
+                    column: 	 	6,
+                    subdata:[
+                        { text:'石家庄',value:'0' },
+                        { text:'小红',value:'1' },
+                        { text:'小刚',value:'2' },
+                    ],
+                    rules:            'required',
+                    mindjetFieldPosition:'field',
+                    value:'0'   
+                }  */
+            ]
+        };
+        formPlane.formInit(inlineSrceen);
+    </script>
+</container>

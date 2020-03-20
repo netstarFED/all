@@ -1,0 +1,85 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+        <script type="text/javascript">
+            var localhoseUrl = window.location.origin;
+            var statisticslistJson = {
+                package: 'nsVue.graps.statisticslist',
+                template: 'statisticsList',
+                title: '统计列表',
+                mode: 'statisticsbase',//statisticsbase blockListByLevel2
+                components: [{
+                        type: 'blockList',
+                        idField: 'id',
+                        plusClass: 'pt-block-list-vertical-simple',
+                        ajax: {
+                            src: localhoseUrl + '/sites/docs/data/template/project-list.json', //数据源地址
+                            type: "GET", //GET POST
+                            contentType: 'application/x-www-form-urlencoded', //GET POST
+                            data: {}, //参数对象{id:1,page:100}
+                            //isServerMode:         true,           //是否开启服务器模式
+                            dataSrc: 'row',
+                        },
+                        parent: 'root',
+                        keyField: '',
+                        field: [{
+                            field: 'itemName',
+                            title: '名称',
+                            width: 60,
+                            searchable: true,
+                            orderable: false,
+                            isCommon: true,
+                        }, {
+                            field: 'itemCateName',
+                            title: '所属分类',
+                            searchable: true,
+                            width: 80,
+                            orderable: false,
+                        }],
+                        listExpression: "<div class='pt-block-content-item'>" +
+                            "<span class='tag'>科室：</span>" +
+                            "<span class='code'>{{itemName}}</span>" +
+                            "</div>" +
+                            "<div class='pt-block-content-item'>" +
+                            "<span class='tag'>床位号：</span>" +
+                            "<span class='code'>{{itemCode}}</span>" +
+                            "</div>"
+    
+                    },
+                    {
+                        type: 'list',
+                        idField: 'id',
+                        //plusClass:'pt-block-list-vertical',
+                        ajax: {
+                            src: localhoseUrl + '/assets/json/project-list.json', //数据源地址
+                            type: "GET", //GET POST
+                            //contentType:            'application/json; charset=utf-8',          //GET POST
+                            contentType: 'application/x-www-form-urlencoded',
+                            data: {}, //参数对象{id:1,page:100}
+                            //isServerMode:         true,           //是否开启服务器模式
+                            dataSrc: 'row',
+                        },
+                        // params:{
+                        //     height:500,
+                        // },
+                        keyField: 'detailList',
+                        parent: 'blocklist',
+                        field: [{
+                            field: 'itemName',
+                            title: '名称',
+                            width: 60,
+                            searchable: true,
+                            orderable: false,
+                            isCommon: true,
+                        }, {
+                            field: 'itemCateName',
+                            title: '所属分类',
+                            searchable: true,
+                            width: 80,
+                            orderable: false,
+                        }],
+                    }
+                ],
+            };
+            NetstarTemplate.init(statisticslistJson);
+        </script>
+    </container>

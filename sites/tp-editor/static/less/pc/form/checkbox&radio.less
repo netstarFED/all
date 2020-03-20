@@ -1,0 +1,38 @@
+@checkboxradio-size: 16px;
+@checkboxradio-height: @e-form-height;
+@checkboxradio-padding-left: 24px;
+
+[ns-type="editor"] {
+
+    .checkbox,
+    .radio {
+        input {
+            display: none;
+        }
+
+    }
+
+    .pt-form-group {
+        &.active-component {
+
+            .pt-radio-group,
+            .pt-checkbox-group {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    label.checkbox-inline,
+    label.radio-inline {
+        height: @checkboxradio-height;
+        line-height: @checkboxradio-height;
+        padding-left: @checkboxradio-padding-left;
+
+        &:after {
+            top: 50%;
+            margin-top: -(@checkboxradio-size / 2);
+        }
+    }
+}

@@ -1,0 +1,268 @@
+@mobile-btn-height: 4.5rem;
+
+[ns-system="mobile"] {
+    .btn-group {
+        .flex-block(space-between, stretch);
+        min-height: @mobile-btn-height;
+
+        .btn {
+            height: auto;
+            min-height: @mobile-btn-height;
+
+            span {
+                font-size: @mobile-font-size;
+            }
+
+            &+.btn {
+                margin-left: 0;
+            }
+
+            &[ns-type="dropdown"] {
+                .flex-block();
+                padding: 0 @base-padding;
+            }
+        }
+    }
+
+    .btn {
+        .flex-block(center, center);
+        border: 0; // height: @mobile-btn-height;
+
+        &:hover {
+            box-shadow: none;
+        }
+
+        // 移动端按钮基本样式
+        .mobile-btn-style(@border-color, @bg, @color) {
+            border: 1px solid solid @border-color;
+            background: @bg;
+
+            span {
+                color: @color;
+            }
+
+        }
+
+        &.btn-info {
+            .mobile-btn-style(@mobile-info, @mobile-info, #fff);
+        }
+
+        &.btn-success {
+            .mobile-btn-style(@mobile-success, @mobile-success, #fff);
+        }
+
+        &.btn-warning {
+            .mobile-btn-style(@mobile-warning, @mobile-warning, #fff);
+        }
+
+        &.btn-danger {
+            .mobile-btn-style(@mobile-danger, @mobile-danger, #fff);
+        }
+
+        &.btn-icon {
+            // flex: 0 0 @mobile-btn-height;
+        }
+
+        &.btn-default {
+            background: #fff;
+        }
+
+        &.btn-white {
+            i {
+                color: @mobile-info;
+            }
+        }
+
+        span {
+            font-size: @mobile-font-size;
+        }
+
+        &.btn-block {
+            height: @mobile-btn-height;
+            margin: @base-margin 0;
+
+            &.btn-logout {
+                background: #fff;
+
+                i,
+                span {
+                    color: @mobile-danger;
+                }
+            }
+        }
+    }
+
+    // 手机端底部下拉按钮组样式-九宫格
+    .mobile-menu-buttons,
+    .form-btns {
+        .dropdown-menu {
+            .flex-block(flex-start, flex-start);
+            position: fixed;
+            top: auto;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding-top: 0;
+            padding-bottom: @mobile-btn-height;
+            margin: 0;
+            box-shadow: 0 -.25rem .5rem rgba(0, 0, 0, 0.15);
+            flex-wrap: wrap;
+            background: #fff;
+            z-index: 999;
+            border-radius: 0;
+
+
+            &>li {
+                .flex-block(center, stretch);
+                flex-wrap: wrap;
+                flex: none;
+                width: 33.3333%;
+
+                min-height: @mobile-btn-height;
+                flex-direction: column;
+
+                i {
+                    .flex-block(center, center);
+                    font-size: @icon-font-size-lg;
+                    padding-bottom: (@base-padding / 2);
+                }
+
+                &:hover {
+                    background: #f1f1f1;
+                }
+
+                &>a {
+                    padding: @base-padding 0;
+                    flex-direction: column;
+                    text-align: center;
+                    .flex-block(center, center);
+
+                    i {
+                        .flex-block(center, center);
+                        font-size: @icon-font-size-lg;
+                    }
+
+                    &:hover {
+                        background: transparent;
+                    }
+                }
+
+                &.mobile-cancel {
+                    .flex-block(center, stretch);
+                    position: fixed;
+                    top: auto;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    border-top: 1px solid @ns-border-color;
+                    height: @mobile-btn-height;
+                    width: 100%;
+                    padding: 0;
+
+                    &>a {
+                        .flex-block(center, center);
+                    }
+                }
+
+                &:first-child {
+                    i {
+                        color: #f38d45;
+                    }
+                }
+
+                &:nth-child(2) {
+                    i {
+                        color: #4ddbd3;
+                    }
+                }
+
+                &:nth-child(3) {
+                    i {
+                        color: #df4569;
+                    }
+                }
+
+                &:nth-child(4) {
+                    i {
+                        color: #1ea2ec;
+                    }
+                }
+
+                &:nth-child(5) {
+                    i {
+                        color: #b45b3d;
+                    }
+                }
+
+                &:nth-child(6) {
+                    i {
+                        color: #b176cc;
+                    }
+                }
+
+                &:nth-child(7) {
+                    i {
+                        color: #8facee;
+                    }
+                }
+
+                &:nth-child(8) {
+                    i {
+                        color: #76c9cc;
+                    }
+                }
+
+                &:nth-child(9) {
+                    i {
+                        color: #e9c95a;
+                    }
+                }
+            }
+        }
+    }
+
+    .mobile-menu-buttons {
+        &:after {
+            position: fixed;
+            z-index: -1;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            content: '';
+            background: rgba(0, 0, 0, .5);
+            color: #000;
+        }
+    }
+
+    // 手机端底部下拉按钮组样式-列表
+    .form-btns {
+        .btn-group {
+            position: static;
+        }
+
+        .dropdown-menu {
+            border: 0;
+
+            &>li {
+                width: 100%;
+                background: #fff;
+                // &[disabled="disabled"]{
+                //     cursor: not-allowed;
+
+                // }
+            }
+
+            &:after {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                content: '';
+                background: rgba(0, 0, 0, .35);
+                z-index: -1;
+            }
+        }
+    }
+}

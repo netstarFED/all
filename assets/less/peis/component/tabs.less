@@ -1,0 +1,179 @@
+@peis-tab-nav-bg: #d4e9f9;
+@peis-tab-nav-height: 32px;
+@peis-tab-nav-color: #2f628c;
+@peis-tab-nav-border-color: @peis-tab-nav-bg;
+.peis-tab {
+	position: relative;
+}
+.peis-tab-nav {
+	position: fixed;
+	height: @peis-tab-nav-height;
+	top: (@header-height + @page-button-height);
+	margin: -31px 22px 0 0;
+	right: 0;
+	display: block;
+	z-index: 103;
+	.peis-tab-nav-item {
+		background: @peis-tab-nav-bg;
+		border: 1px solid @peis-tab-nav-border-color;
+		padding: @padding-base-vertical (@padding-base-horizontal * 2);
+		color: @peis-tab-nav-color;
+		&.current {
+			position: relative;
+			background: #fff;
+			font-weight: bold;
+			border-bottom-color: #fff;
+			&:before {
+				position: absolute;
+				top: 0;
+				left: 0;
+				content: "";
+				width: 100%;
+				height: 1px;
+				background: @peis-tab-nav-bg;
+			}
+		}
+	}
+
+	.nswindow &{
+		margin: -74px 56px 0 0;
+		z-index: 10001;
+	}
+}
+.peis-tab-content {
+	@tab-content-border-color: @ns-border-color;
+	@tab-table-border-color: @tab-content-border-color;
+	@tab-table-bg: #a6d7ff;
+	padding: @base-padding 0;
+	background: #fff;
+	table {
+		width: 100%;
+		text-align: center;
+		border-collapse: collapse;
+		border: 1px solid @tab-content-border-color;
+		table-layout: fixed; 
+		tr {
+			&.diagnosis-item {
+				background: #eef6fd;
+				border: 1px solid #cadbe8;
+				
+			}
+			&.diagnosis-result {
+				cursor: pointer;
+				.content {
+					box-sizing: border-box;
+					padding: 0 !important;
+					.diagnosis-time{
+						& + .level{
+							margin-left: (@base-margin / 4);
+							font-weight: bold;
+						}
+					}
+				}
+			}
+		}
+		td {
+			word-wrap: break-word;
+			width: 126px;
+			box-sizing: border-box;
+			padding: 5px 0;
+			border: 1px solid @tab-table-border-color;
+			position: relative;
+			// 高亮
+			&.td-hightlight{
+				border: 1px solid darken(@tab-table-bg, 10%) !important;
+				background: darken(@tab-table-bg, 5%);
+				color: #fff;
+			}
+
+			// 鼠标经过提示
+			.description {
+				position: absolute;
+				border: 1px solid @tab-content-border-color;
+				background-color: lighten(@peis-tab-nav-bg, 5%);
+				box-shadow: 3px 3px 0 rgba(0,0,0, .05);
+				box-sizing: border-box;
+				padding: (@base-padding / 2) @base-padding;
+				z-index: 9;
+			}
+		}
+
+	}
+
+
+	.peis-fill {
+		width: 375px;
+		// border: 1px solid @tab-content-border-color;
+		background-color: #fff;
+		position: absolute;
+		box-shadow: 0 0 5px @tab-content-border-color;
+		z-index: 999;
+		
+		.panel-form{
+			.row-close{
+				padding: 0;
+			}
+			.form-td{
+				margin-top: -1px;
+				margin-left: 0;
+				border-left: 0;
+				border-right: 0;
+			}
+		}
+		.peis-fill-footer{
+			padding: (@base-padding / 2);
+			text-align: right;
+			.form-group{
+				float: right;
+			}
+		}
+		
+	}
+
+	.form-item.radio{
+		@radio-checked-bg: #59cc84;
+		.radio-inline{
+			height: 20px;
+			line-height: 18px;
+			padding: 0 (@base-padding / 2); 
+			text-align: center;
+			&:after{
+				display: none;
+			} 
+			&:hover{
+				background: lighten(@radio-checked-bg, 8%);
+				color: #fff;
+			}
+			&.checked{
+				background: @radio-checked-bg;
+				color: #fff;
+			}
+		}
+	}
+}
+
+// 媒体查询
+@media screen and (max-width: 300px) {
+	.peis-tab-content {
+		table{
+			tr{
+				td{
+					width: 400px;
+				}
+			}
+		}
+	}
+}
+
+.peis-table{
+	.block-tags{
+		margin: -5px auto;
+		.row {
+			.block-tags-content{
+				& > .text{
+					padding: 6px @base-padding;
+				}
+			}
+		}
+	}
+}

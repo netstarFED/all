@@ -1,0 +1,242 @@
+{
+    "package": "nsVue.graps.businessbasePanoramic",
+    "template": "businessbasePanoramic",
+    "title": "业务对象全景模板",
+    "components": [
+        {
+            "type": "tree",
+            "title": "treelist",
+            "idField": "id",
+            "isSearch": false,
+            "formatter": {
+                "id": "{id}"
+            },
+            "ajax": {
+                "url": "https://qaapi.wangxingcloud.com//sites/docs/data/properties.json",
+                "dataSrc": "rows",
+                "type": "GET",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "addAjax": {
+                "url": "https://qaapi.wangxingcloud.com//assets/json/ztree/ztree-add.json",
+                "dataSrc": "rows"
+            },
+            "editAjax": {
+                "url": "https://qaapi.wangxingcloud.com//assets/json/ztree/ztree-add.json",
+                "dataSrc": "rows"
+            },
+            "deleteAjax": {
+                "url": "https://qaapi.wangxingcloud.com//assets/json/ztree/ztree-add.json",
+                "dataSrc": "rows"
+            },
+            "moveAjax": {
+                "url": "https://qaapi.wangxingcloud.com//assets/json/ztree/ztree-add.json",
+                "dataSrc": "rows"
+            },
+            "textField": "name",
+            "parentField": "parent",
+            "childField": "children"
+        },
+        {
+            "type": "list",
+            "keyField": "root",
+            "idField": "id",
+            "ajax": {
+                "src": "https://qaapi.wangxingcloud.com//sites/docs/data/template/businesspanoramic.json",
+                "type": "get",
+                "data": {},
+                "dataSrc": "row",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "field": [
+                {
+                    "field": "itemCode",
+                    "title": "订单编号",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "itemName",
+                    "title": "经手人",
+                    "width": 60,
+                    "searchable": true
+                },
+                {
+                    "field": "tableName",
+                    "title": "部门",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "isPrior",
+                    "title": "交货日期",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "isPricing",
+                    "title": "折前金额",
+                    "width": 60
+                },
+                {
+                    "field": "isPricing",
+                    "title": "金额",
+                    "width": 60,
+                    "footer": {
+                        "type": "sum"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "list",
+            "parent": "root",
+            "keyField": "goodsList",
+            "idField": "goodsListId",
+            "title": "货品明细",
+            "ajax": {
+                "src": "https://qaapi.wangxingcloud.com//sites/docs/data/template/businesspanoramic.json",
+                "type": "get",
+                "data": {},
+                "dataSrc": "row",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "field": [
+                {
+                    "field": "itemCode",
+                    "title": "订单编号",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "itemName",
+                    "title": "经手人",
+                    "width": 60,
+                    "searchable": true
+                },
+                {
+                    "field": "tableName",
+                    "title": "部门",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "isPrior",
+                    "title": "交货日期",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "isPricing",
+                    "title": "折前金额",
+                    "width": 60
+                },
+                {
+                    "field": "isPricing",
+                    "title": "金额",
+                    "width": 60,
+                    "footer": {
+                        "type": "sum"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "list",
+            "parent": "root",
+            "keyField": "shopGoodsList",
+            "idField": "shopGoodsListId",
+            "title": "商品明细",
+            "ajax": {
+                "src": "https://qaapi.wangxingcloud.com//sites/docs/data/template/businesspanoramic.json",
+                "type": "get",
+                "data": {},
+                "dataSrc": "row",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "field": [
+                {
+                    "field": "itemCode",
+                    "title": "订单编号",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "itemName",
+                    "title": "经手人",
+                    "width": 60,
+                    "searchable": true
+                },
+                {
+                    "field": "tableName",
+                    "title": "部门",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "isPrior",
+                    "title": "交货日期",
+                    "width": 80,
+                    "searchable": true
+                },
+                {
+                    "field": "isPricing",
+                    "title": "折前金额",
+                    "width": 60
+                },
+                {
+                    "field": "isPricing",
+                    "title": "金额",
+                    "width": 60,
+                    "footer": {
+                        "type": "sum"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "btns",
+            "field": [
+                {
+                    "btn": {
+                        "text": "新增,复制新增,编辑"
+                    },
+                    "functionConfig": {
+                        "defaultMode": "editorDialog",
+                        "editorType": "add,copyAdd,edit"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "btns",
+            "operatorObject": "goodsList",
+            "field": [
+                {
+                    "btn": {
+                        "text": "新增,复制新增,编辑"
+                    },
+                    "functionConfig": {
+                        "defaultMode": "editorDialog",
+                        "editorType": "add,copyAdd,edit"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "btns",
+            "operatorObject": "shopGoodsList",
+            "field": [
+                {
+                    "btn": {
+                        "text": "新增,复制新增,编辑"
+                    },
+                    "functionConfig": {
+                        "defaultMode": "editorDialog",
+                        "editorType": "add,copyAdd,edit"
+                    }
+                }
+            ]
+        }
+    ]
+}

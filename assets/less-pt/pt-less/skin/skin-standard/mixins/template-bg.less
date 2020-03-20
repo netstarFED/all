@@ -1,0 +1,23 @@
+@template-bg-light: @bg-primary;
+@template-bg-dark: lighten(@primary, 15);
+
+
+.template-bg-variant(@bg-light: @template-bg-light, @bg-dark: @template-bg-dark){
+    position: relative;
+    &:before,
+    &:after{
+        position: fixed;
+        content: '';
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+    &:before{
+        background: @bg-light;
+    }
+    &:after{
+        background: @bg-dark;
+        top: 50%;
+    }
+}

@@ -1,0 +1,391 @@
+@e-blocklist-media-height: 130px;
+@e-list-media-bg: #eee;
+@e-list-padding: @base-padding;
+@e-list-item-row-gutter: 30px;
+@e-list-item-media-size: 76px;
+@e-list-gutter: (@base-margin / 2);
+@e-list-border-color: @border-color;
+@e-list-current-bg: #f3f3f3;
+@e-list-hover-bg: #f8f8f8;
+@e-list-help-size: 22px;
+@list-blocklist-selected-border-color: @primary;
+
+[ns-type="editor"] {
+    .list {
+
+        .list-header,
+        .list-footer {
+            padding: 0 @e-list-padding;
+        }
+
+        // 内容部分
+        .list-body {
+            padding:  @e-list-padding;
+
+            .list-item {
+                position: relative;
+                height: auto;
+                overflow: hidden;
+                z-index: 1;
+
+
+                .media {
+                    position: relative;
+                    display: block;
+                    background: @e-list-media-bg;
+
+                    .help {
+                        position: absolute;
+                        .square(@e-list-help-size);
+                        right: 0;
+                        bottom: 0;
+                        opacity: 0;
+
+                        transition: ease-in-out all .25s;
+
+                        i {
+                            display: block;
+                            line-height: @e-list-help-size;
+                            text-align: center;
+                        }
+
+                        &:hover {
+                            background: @info;
+                            opacity: 1;
+
+                            i {
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+
+                &:hover {
+                    .help {
+                        opacity: .5;
+                        background: #fff;
+                    }
+                }
+
+                .list-content {
+                    width: 100%;
+
+                    &>* {
+                        margin-top: @e-list-gutter;
+
+                        &:first-child {
+                            margin-top: 0;
+                        }
+                    }
+
+                    .title {
+                        font-size: @font-size-sm;
+                        font-weight: bold;
+                    }
+
+                    .subtitle {
+                        font-size: @font-size-sm;
+                        color: #888;
+                    }
+
+                    .text {
+                        color: #555;
+                        font-size: @font-size-sm;
+                    }
+
+                    .pt-form {
+                        padding: 0;
+
+                        .pt-input-group {
+                            width: 100%;
+                        }
+                    }
+
+
+
+                    .tags {
+                        display: inline-block;
+                        border-radius: 2px;
+                        width: 16px;
+                        text-align: left;
+
+
+                        i {
+                            font-size: 12px;
+                            line-height: 12px;
+                            color: @gray;
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin-top: -1px;
+
+
+                            &.fa-tablet {
+                                font-size: 13px;
+                            }
+
+                        }
+                    }
+
+                }
+
+                .list-after {
+                    padding-left: @e-list-padding;
+                    @after-btn-size: 22px;
+
+                    .btn {
+                        height: @after-btn-size;
+                        line-height: @after-btn-size;
+
+                        &.btn-icon {
+                            .square(@after-btn-size);
+
+                        }
+
+                        &.btn-default {
+                            background: transparent;
+                            border-color: transparent;
+
+                            i {
+                                .rgba-color(#fff, .5);
+                            }
+
+                            &:hover {
+                                background: @info;
+
+                                i {
+                                    .rgba-color(#fff, 1);
+                                }
+                            }
+                        }
+
+                        &[ns-name="delete"] {
+                            background: transparent;
+                            // border-radius: @after-btn-size;
+
+                            i {
+                                color: #888;
+                            }
+
+                            &:hover {
+                                background: #333;
+
+                                i {
+                                    color: rgba(255, 255, 255, 0.85);
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            .list-body-search{
+                .pt-form{
+                    .pt-form-body{
+                        .field{
+                            padding: 0;
+                        }
+                        .pt-input-group{
+                            .pt-input-group-btn{
+                                .pt-btn{
+                                    line-height: 22px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .list-body-list{
+                ul{
+                   height: auto;
+                   overflow: hidden;
+                }
+            }
+        }
+
+        .list-footer {
+            .form {
+                float: left;
+            }
+        }
+
+        // 普通列表
+        &.list-normal {
+            .list-body {
+                .row {
+                    margin: 0;
+                }
+
+                .list-item {
+                    padding: @e-list-padding;
+                    display: table;
+                    width: 100%;
+                    border-bottom: 1px solid @e-list-border-color;
+
+                    &:first-child {
+                        border-top: 1px solid @e-list-border-color;
+                    }
+
+                    .media {
+                        width: @e-list-item-media-size;
+
+                    }
+
+                    .list-before,
+                    .list-content,
+                    .list-after {
+                        display: table-cell;
+                        vertical-align: middle;
+                    }
+
+                    .list-before {
+                        &+.list-content {
+                            padding-left: @e-list-padding;
+                        }
+                    }
+
+                    .list-content {
+                        &+.list-after {
+                            padding-left: @e-list-padding;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 块状列表
+        &.list-blocklist {
+
+            .list-body {
+                .list-item {
+
+                    display: block;
+                    margin-bottom: @e-list-item-row-gutter;
+                    padding: @e-list-padding;
+                    border: 1px solid transparent;
+
+                    .list-before,
+                    .list-content,
+                    .list-footer {
+                        display: block;
+                    }
+
+                    .list-content {
+                        padding: @e-list-padding;
+                        border: 1px solid transparent;
+                    }
+
+                    .list-before {
+                        .media {
+                            width: 100%;
+                        }
+                    }
+
+                    &:hover {
+                        background: transparent;
+
+                    }
+
+                    // blocklist 选中样式
+                    &.current {
+                        background: transparent;
+
+                        .list-before {
+                            border: 1px solid @e-list-media-bg;
+                            border-color: @list-blocklist-selected-border-color @list-blocklist-selected-border-color @e-list-media-bg;
+                        }
+
+                        .list-content {
+                            border: 1px solid @e-list-media-bg;
+                            border-color: @e-list-media-bg @list-blocklist-selected-border-color @list-blocklist-selected-border-color;
+                        }
+
+                        // 对勾
+                        &:before {
+                            position: absolute;
+                            top: (@e-list-padding + 2);
+                            right: (@e-list-padding + 2);
+                            color: #fff;
+                            font-family: @icon-font;
+                            content: '\f00c';
+                            z-index: 3;
+                            transform: scale(.8);
+                        }
+
+                        // 对勾背景
+                        &:after {
+                            @triangle-size: 28px;
+                            position: absolute;
+                            top: @e-list-padding;
+                            right: @e-list-padding;
+                            .square(@triangle-size);
+                            content: '';
+                            z-index: 2;
+                            .triangle-right-top(@triangle-size, @list-blocklist-selected-border-color);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        // 带链接的列表
+        &.list-link {
+            .list-item {
+
+                // 活动状态
+                &:hover {
+                    background: @e-list-hover-bg;
+                }
+
+                // 列表选中
+                &.current {
+                    background: @e-list-current-bg;
+                }
+            }
+
+            &.list-blocklist {
+                .list-item {
+                    &:hover {
+                        background: transparent;
+
+                        &>* {
+                            background: @e-list-hover-bg;
+                        }
+                    }
+
+                    // blocklist 选中样式
+                    &.current {
+                        background: transparent;
+
+                        // 对勾
+                        &:before {
+                            position: absolute;
+                            top: (@e-list-padding + 2);
+                            right: (@e-list-padding + 2);
+                            color: #fff;
+                            font-family: @icon-font;
+                            content: '\f00c';
+                            z-index: 3;
+                            transform: scale(.8);
+                        }
+
+                        // 对勾背景
+                        &:after {
+                            @triangle-size: 28px;
+                            position: absolute;
+                            top: @e-list-padding;
+                            right: @e-list-padding;
+                            .square(@triangle-size);
+                            content: '';
+                            z-index: 2;
+                            .triangle-right-top(@triangle-size, @list-blocklist-selected-border-color);
+                        }
+
+                    }
+                }
+            }
+
+        }
+    }
+}

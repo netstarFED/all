@@ -1,0 +1,328 @@
+/*====================================================================*/
+
+/*Add-Select-Input*/
+
+/*====================================================================*/
+
+.nsui-addsearchinput,
+.nscomponent-type-addSelectInput {
+	.value-tag {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		padding: 0 @base-padding /2;
+		background: @ns-info;
+		z-index: 8;
+		color: #fff;
+		margin: 3px 13px 3px 3px;
+		line-height: @form-control-height-base - 6;
+		overflow: hidden;
+
+		.remark {
+			padding: 0 6px;
+			color: rgba(255, 255, 255, .75);
+		}
+
+		.handler-btn {
+			&:after {
+				.square(@form-control-height-base - 6);
+				line-height: @form-control-height-base - 6;
+				.compactmode &,
+				.form-wide-panel &,
+				.table > tbody > tr > td &,
+				.col-none &,
+				.user-panel &{
+					.square(@form-control-height-compactmode - 6);
+					line-height: @form-control-height-compactmode - 6;
+				}
+			}
+
+		}
+
+	}
+
+	.result-plane {
+		position: absolute;
+		top: @form-control-height-base;
+		left: -1px;
+		width: 100%;
+		min-height: @form-control-height-base;
+		padding: 0;
+		background: #fff;
+		border: 1px solid @ns-border-color;
+		box-sizing: content-box;
+		text-align: left;
+		z-index: 29;
+
+		&:before {
+			.border-vertical();
+			width: 5px;
+			left: -1px;
+		}
+
+		.empty {
+			height: @base-height;
+			line-height: @base-input-height;
+			padding: @base-padding /2 @base-padding;
+			color: @ns-warning;
+		}
+
+		.plane-content {
+			border-bottom: 1px solid @ns-border-color;
+
+			a {
+				display: block;
+				width: 100%;
+				height: @base-input-height;
+
+				span {
+					display: inline-block;
+					height: @base-input-height;
+					line-height: @base-input-height;
+					border-right: 1px solid @ns-border-color;
+					padding: 0 @base-padding /2;
+					overflow: hidden;
+
+					&:first-child {
+						padding-left: @base-padding;
+					}
+
+					&:last-child {
+						border: 0;
+					}
+
+				}
+
+				&:hover {
+					span {
+						background: #eee;
+					}
+
+				}
+
+			}
+
+			&.current,
+			&.current:hover {
+				span {
+					background: @ns-info;
+					color: #fff;
+				}
+
+			}
+
+			&.current span {
+				background: @ns-info;
+				color: #fff;
+			}
+
+			&.add span,
+			&.add a:hover span {
+				background: @ns-success;
+				color: #fff;
+			}
+
+		}
+
+		.plane-title {
+			background: @gray-lighter;
+
+			span {
+				display: inline-block;
+				border-right: 1px solid @ns-border-color;
+				line-height: @base-input-height;
+				text-align: center;
+			}
+
+		}
+
+	}
+
+	label.has-error {
+		z-index: 98;
+		right: @base-height;
+	}
+
+}
+
+
+
+.nsui-addsearchinput{
+	display: table;
+	min-width: 600px;
+	border: 1px solid @ns-border-color;
+
+	.label-title{
+		display: table-cell;
+		width: 80px;
+		height: 40px;
+		margin: 0;
+		padding: 0 (@base-padding / 2);
+		vertical-align: middle;
+		box-sizing: border-box;
+		border: 1px solid @ns-border-color;
+		border-width: 0 1px 0 0;
+		background: #f1f1f1;
+	}
+	.form-td{
+		display: table-cell;
+		border: 0;
+		.input-group{
+			background: #fff;
+		}
+	}
+	.form-control{
+		box-shadow: none;
+	}
+	.input-group-btn{
+		border:1px solid @ns-border-color;
+		border-width: 0 0 0 1px;
+	}
+
+}
+
+
+// 增查一体输入框-独立使用
+.addSelectInput{
+	@addselectinput: 30px;
+	position: relative;
+
+	// 表格面板使用按钮组
+	.control-btn-toolbar{
+		position: absolute;
+		top: 0;
+		right: 183px;
+	}
+	// 表格面板使用搜索框
+	.dataTables_filter{
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+
+	// 增查一体输入框
+	.nsui-addsearchinput{
+		height: @addselectinput;
+		
+		.label-title,
+		.input-group,
+		.form-control{
+			height: @addselectinput;
+		}
+
+		// 输入框样式
+		.value-tag{
+			margin-right: (@base-margin / 4);
+			line-height: (@addselectinput - 6);
+			background: #cce8ff;
+			color: #000;
+			.remark{
+				color: #3497e9;
+			}
+			.handler-btn{
+				.square(@addselectinput - 6);
+				line-height: (@addselectinput - 6);
+				&:after{
+					color: #aaa;
+					.square(@addselectinput - 6);
+					line-height: (@addselectinput - 6);
+				}
+				&:hover:after{
+					color: #ff6500;
+				}
+			}
+		}
+		.add-select-input-btn{
+			.square(@addselectinput);
+		}
+
+		// 检索结果
+		.result-plane{
+			top: @addselectinput;
+		}
+		
+		@result-plane-border-color: #e1eaf5;
+		@result-plane-bg: #f2f6fc;
+		@result-plane-new-bg: #f7fefb;
+		@result-plane-new-color: #5fbb93;
+
+		// 检索结果
+		.result-plane{
+			border-color: @result-plane-border-color;
+			&:before{
+				background: @result-plane-border-color;
+			}
+			.plane-content{
+				border-color: @result-plane-border-color;
+				&.current{
+					a{
+						span{
+							background: @result-plane-border-color;
+							color: #333;
+						}
+						&:hover{
+							span{
+								background: @result-plane-border-color;
+								color: #333;
+							}	
+						}
+					}
+				}
+				a{
+					span{
+						border-color: @result-plane-border-color;
+					}
+					&:hover{
+						span{
+							background: @result-plane-bg;
+						}
+					}
+				}
+				&.add{
+					a{
+						span{
+							background: @result-plane-new-bg;
+							color: @result-plane-new-color;
+							font-weight: bold;
+							border:1px solid @result-plane-border-color;
+							border-width: 1px 1px 1px 0;
+							&:last-child{
+								border-right: 0;
+							}
+						}
+					}
+				}
+			}
+			.plane-title{
+				background: @result-plane-bg;
+				span{
+					border-color: @result-plane-border-color;
+					&:last-child{
+						border: 0;
+					}
+				}
+			}
+		}
+	}
+
+}
+
+
+// 模态框模式
+.modal-dialog{
+	.addSelectInput{
+		.input-group{
+			border: 1px solid @ns-border-color;
+			.form-control{
+				border: 0;
+			}
+		}
+		.handler-btn{
+			&:after{
+				top: 0;
+				right: 0;
+			}
+		}
+	}
+}

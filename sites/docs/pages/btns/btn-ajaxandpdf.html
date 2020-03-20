@@ -1,0 +1,132 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <style>
+        .json-form-size {
+            font-size: 16px;
+            line-height: 42px;
+            font-weight: 560;
+            color: #222;
+        }
+
+        .expand  pre {
+            height: 340px;
+        }
+    </style>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!--type-btns 参数 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>ajaxandpdf</h1>
+                    <h2 id="sense-params">通用参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="parame-width">参数</th>
+                                <th class="explain-width">说明</th>
+                                <th class="mold-width">类型</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>defaultMode</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td>弹框ajax打印</td>
+                            </tr>
+                            <tr>
+                                <td>functionClass</td>
+                                <td>方法类型</td>
+                                <td>string</td>
+                                <td>modal/list </td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>传参类型</td>
+                                <td>string</td>
+                                <td>ajax类型，GET/POST (默认GET)</td>
+                            </tr>
+                            <tr>
+                                <td>dataSrc</td>
+                                <td>返回的值</td>
+                                <td>string</td>
+                                <td>ajax返回数据的key值</td>
+                            </tr>
+                            <tr>
+                                <td>ajaxData</td>
+                                <td>ajax传参</td>
+                                <td>object</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>fileField</td>
+                                <td>fileField</td>
+                                <td>string</td>
+                                <td> {\"fileId\":\"{fileId}\"}"</td>
+                            </tr>
+                            <tr>
+                                <td>requestSource</td>
+                                <td>请求参数来源</td>
+                                <td>string</td>
+                                <td>selected选中行 checkbox勾选行  thisvo当前数据  无none  </td>
+                            </tr>
+                            <tr>
+                                <td>targetField</td>
+                                <td>目标字段</td>
+                                <td>string</td>
+                                <td>目标字段  （keyField）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel content-demo" netstar-doc="sample">
+                <!-- <a href="javascript:void(0);" id="sense-nsdocs-date-disabled"></a>   -->
+                <!-- <h3 class="title-code">只读</h3>-->
+                <span class="intro">举例 </span> 
+                <div id="nsdocs-date-disabled" class="panel-demo"></div>
+                <!-- js块 -->
+                <div class="content language-javascript expand ">
+                    <pre>
+    functionConfig:{
+            ajaxData:
+            ids: "{selectedList.goodsShopId}"
+            reportTemplateId: "1316807832674239474"
+            ajaxDataVaildConfig: "{}"
+            chineseName: "货品贴打印（企业版）"
+            contentType: "application/x-www-form-urlencoded"
+            data:{}
+            ids: "{selectedList.goodsShopId}"
+            reportTemplateId: "1316807832674239474"
+            dataFormat: "object"
+            dataSrc: "data"
+            defaultMode: "ajaxAndPdf"
+            englishName: "createReportEnterprise"
+            entityName: "goods_v2"
+            fileField: "{"fileId":"{fileId}"}"
+            functionClass: "modal"
+            requestSource: "checkbox"  
+            suffix: "/goods/v2/createReport"
+            text: "批量打印"
+            type: "POST"
+            url: "https://qaapi.wangxingcloud.com//goods/v2/createReport"
+            voName: "goods2GoodsVO"
+            webSocketBody: "{"command":"文件打印","templateId":"","listName":"","fileId":"{fileId}"}"
+    }
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script> -->
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

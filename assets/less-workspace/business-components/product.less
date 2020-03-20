@@ -1,0 +1,98 @@
+@product-padding: @base-padding-lg;
+@product-margin: @base-margin-lg;
+@product-item-height: 280px;
+
+.product {
+    @product-gutter: 8px;
+    height: auto;
+    overflow: hidden;
+    margin-bottom: @panel-margin;
+    margin-left: -@product-gutter;
+    margin-right: -@product-gutter;
+
+
+
+    .product-item {
+        position: relative;
+        overflow: hidden;
+        display: block;
+        float: left;
+        width: calc(~"33.3333% - (@{product-gutter} * 2)");
+        height: @product-item-height;
+        background: #fff;
+        margin: 0 @product-gutter;
+        padding: 0 @product-padding;
+        margin-bottom: @product-margin;
+        border: 1px solid transparent;
+        transition: ease-in-out all .25s;
+
+        &:hover {
+
+            .rgba-shadow(0, 3px, 10px, darken(@primary, 15), .075);
+            border: 1px solid lighten(@primary, 45);
+            border: 1px solid transparent;
+        }
+
+        // 产品标记 是否试用版
+        .product-mark {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background: @warning;
+            color: #fff;
+            width: 120px;
+            text-align: center;
+            line-height: 2.5;
+            transform: rotate(45deg);
+        }
+
+        // 产品名称
+        .name {
+            line-height: 2;
+            font-size: 24px;
+            display: block;
+            text-align: center;
+            padding: @product-padding 0;
+        }
+
+        // 用户数量
+        .user-number {
+            text-align: center;
+            margin-bottom: (@product-margin * 2);
+        }
+
+        .btn-lg {
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+            background: #4e9aff;
+            border-color: #4e9aff;
+            color: #fff;
+
+            &:hover {
+                background: #277df0;
+                border-color: #277df0;
+                color: #fff;
+            }
+        }
+
+        .product-item-footer {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            text-align: center;
+            display: block;
+            width: 100%;
+            padding: @product-padding;
+            line-height: 3;
+            font-size: 12px;
+
+            .btn {
+                display: inline;
+                line-height: 24px;
+            }
+        }
+
+
+    }
+}

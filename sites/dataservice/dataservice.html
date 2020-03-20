@@ -1,0 +1,104 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<title>DEV.网星云.HOME</title>
+
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+    <!--# include file="/sites/include/mainpage-static-editor.html" -->
+    <script type="text/javascript" src="/static/other/excel/main.js?v=10.0.0"></script>
+    <script src="/static/other/report/eventbus.js"></script>
+    <script src="/static/other/report/report-main.js"></script>
+    <script src="/static/other/report/base-method.js"></script>
+    <script src="/static/other/dataservice.js"></script>
+    <style>
+        table.table tbody tr td.td-button {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="body-sm">
+    <div>
+        <div class="pt-header">
+            <div class="pt-container">
+                <div class="pt-topbar">
+                    <div class="pt-container">
+                        <div class="pt-logo">
+                            <img src="/assets/images/netstar/logo.png">
+                        </div>
+                        <div id="mainpage-systeminfo-contianer"></div>
+                    </div>
+                </div>
+                <div class="pt-navbar">
+                    <div class="pt-container">
+                        <div class="pt-nav pt-dropdown">
+                            <ul id="netstar-mainpage-menu">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="labelPages" class="pt-tabbar">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="placeholder-popupbox"></div>
+    <script>
+        $(function(){
+            function toLoginPage(res) {
+                window.location.href = '/sites/base/test.html';
+            }
+            var authCode = NetStarUtils.OAuthCode.get();
+            if (authCode == false) {
+                //登录信息没有过期 不需要登录
+                toLoginPage();
+            }
+            // $.ajax
+            $.ajaxSetup({
+                headers : {
+                    Authorization : authCode,
+                },
+            })
+            // 上传ajax
+            Dropzone.prototype.defaultOptions.headers = {
+                Authorization : authCode,
+            };
+            // layout没有回退
+            nsLayout.isShowHistoryBtn = false;
+            nsLayout.isShowRefreshBtn = false;
+            var config = store.get('NetstarLoginConfig');
+            config = JSON.parse(config);
+            config.mainMenus.menuType = "left";
+            var mainPageConfig = {
+                html: '',                                   //页面
+                userMode: config.userMode,                  //用户模式
+                getLoginProperty: config.getLoginProperty,  //获取登录信息地址
+                getDict: config.getDict,                    //系统字典
+                toLoginPage:toLoginPage,                    //跳转到登录页
+                // 系统展示配置
+                systemInfo: {
+                    id : 'mainpage-systeminfo-contianer',
+                    isMessage : false,
+                },
+                isLinkWorkflow : false,
+                isLinkNetstar : false,
+                callBackFunc : function(){
+                    NetstarDataService.init();
+                }
+            }
+            NetstarHomePage.init(mainPageConfig);
+        })
+    </script>
+</body>
+
+</html>

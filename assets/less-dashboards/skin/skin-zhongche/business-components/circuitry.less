@@ -1,0 +1,511 @@
+@circuitry-box-width: 560px;
+@circuitry-box-height: 640px;
+@circuitry-switch-color: @warning;
+@circuitry-switch-on-color: @success;
+
+.circuitry {
+    .flex-block(center, center);
+    zoom: .4;
+
+    svg {
+        .size(@circuitry-box-width, @circuitry-box-height);
+
+    }
+
+    // 电路图线路
+    .circuitry-line {
+        stroke: @info;
+        stroke-width: 2;
+    }
+
+    // 电路图开关
+    .switch {
+        .flex-block(center, center);
+        flex-direction: column;
+        .size(@circuitry-box-width, @circuitry-box-height);
+        position: absolute;
+        transform: scale(1);
+        z-index: 9;
+
+        .switch-group {
+            position: relative;
+            .flex-block(center, center);
+            width: 100%;
+            flex: 0 0 (@circuitry-box-height / 4);
+
+            // background: rgba(255,255,255, .2);
+            .switch-item {
+                transform: scale(.5);
+            }
+
+            // group-qf
+            &.switch-group-qf {
+                .switch-item {
+
+                    // 开关定位布局
+                    &:nth-child(1) {
+                        margin: -68px 0 0 -124px;
+                    }
+
+                    &:nth-child(2) {
+                        margin: -68px 0 0 124px;
+                    }
+
+                    &:nth-child(3) {
+                        margin: 48px 0 0 -137px;
+                    }
+
+                    &:nth-child(4) {
+                        margin: 48px 0 0 -50px;
+                    }
+
+                    &:nth-child(5) {
+                        margin: 48px 0 0 114px;
+                    }
+
+                    &:nth-child(6) {
+                        margin: 48px 0 0 210px;
+                    }
+
+                    &:nth-child(7) {
+                        margin: 283px 0 0 -118px;
+                    }
+
+                    &:nth-child(8) {
+                        margin: 283px 0 0 -20px;
+                    }
+
+                    &:nth-child(9) {
+                        margin: 283px 0 0 83px;
+                    }
+
+                    &:nth-child(10) {
+                        margin: 283px 0 0 142px;
+                    }
+                }
+            }
+
+            // group-km
+            &.switch-group-km {
+                .switch-item {
+                    &:nth-child(1) {
+                        margin: -83px 0 0 -137px;
+                    }
+
+                    &:nth-child(2) {
+                        margin: -83px 0 0 -50px;
+                    }
+
+                    &:nth-child(3) {
+                        margin: -83px 0 0 114px;
+                    }
+
+                    &:nth-child(4) {
+                        margin: -83px 0 0 210px;
+                    }
+                }
+            }
+
+            // group-a
+            &.switch-group-a {
+                .icon {
+                    background: @info;
+                    color: #fff;
+                    padding: .25rem .5rem;
+                }
+
+                .switch-item {
+                    .flex-block(center, center);
+
+                    &:nth-child(1) {
+                        margin: -170px 0 0 -148px;
+                    }
+
+                    &:nth-child(2) {
+                        margin: -170px 0 0 -60px;
+                    }
+
+                    &:nth-child(3) {
+                        margin: -170px 0 0 103px;
+                    }
+
+                    &:nth-child(4) {
+                        margin: -170px 0 0 200px;
+                    }
+                }
+            }
+
+            // group-km
+            &.switch-group-9k {
+                .switch-item {
+                    .switch-name {
+                        margin-top: 2.5rem;
+
+                    }
+
+                    &:nth-child(1) {
+                        margin: 16px 0 0 -112px;
+
+                        .switch-name {
+                            margin-top: -1.5rem;
+                            margin-left: -2.5rem;
+                        }
+                    }
+
+                    &:nth-child(2) {
+                        margin: 16px 0 0 -98px;
+
+                        .switch-name {
+                            margin-top: -1.5rem;
+                            margin-left: 0;
+                        }
+                    }
+
+                    &:nth-child(3) {
+                        margin: 16px 0 0 -6px;
+
+                        .switch-name {
+                            margin-top: .25rem;
+                            margin-left: -3rem;
+                        }
+                    }
+
+                    &:nth-child(4) {
+                        margin: 16px 0 0 13px;
+
+                        .switch-name {
+                            margin-top: .25rem;
+                            margin-left: 0;
+                        }
+                    }
+
+                    &:nth-child(5) {
+                        margin: 16px 0 0 46px;
+
+                        .switch-name {
+                            margin-top: -1.5rem;
+                            margin-left: -3rem;
+                        }
+                    }
+
+                    &:nth-child(6) {
+                        margin: 16px 0 0 64px;
+
+                        .switch-name {
+                            margin-top: -1.5rem;
+                            margin-left: 0;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .switch-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            // 开关控制器
+            .switch-control {
+                .flex-block(center, center);
+                position: relative;
+                width: .25rem;
+                height: 3rem;
+                background: transparent;
+                transform: rotate(-45deg);
+
+                &.switch-on {
+                    animation: circuitry-switch .25s linear;
+                    transform: rotate(0deg);
+
+                    &:after {
+                        background: @circuitry-switch-on-color;
+                    }
+                }
+
+                &:after {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    border-radius: 3rem;
+                    content: '';
+                    width: 100%;
+                    height: 50%;
+                    background: @circuitry-switch-color;
+                }
+
+
+            }
+
+            // 开关名称
+            .switch-name {
+                color: #fff;
+                font-size: (@font-size-base * .75);
+                margin-top: -2.5rem;
+                margin-left: @base-margin;
+            }
+
+
+        }
+    }
+}
+
+
+// @keyframes circuitry-switch {
+//     0% {
+//         transform: rotate(-45deg);
+//     }
+
+//     100% {
+//         transform: rotate(0deg);
+//     }
+// }
+
+// 屏幕宽度小于Full-HD(1920)less样式
+@media screen and (max-width: @screen-hd) {
+    .circuitry {
+        .switch {
+            transform: scale(1);
+            margin: -18px 0 0 -23px;
+        }
+    }
+
+    .fullpage-view {
+        .circuitry {
+
+            .switch,
+            svg {
+                transform: scale(3);
+            }
+
+            .switch {
+                margin: -58px 0 0 -78px;
+            }
+        }
+    }
+}
+
+// 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+@media screen and (min-width: 1921px) and (max-width: @screen-2k) {
+    .circuitry {
+        svg {
+            transform: scale(1.5);
+        }
+
+        // 开关
+        .switch {
+            transform: scale(1.5);
+            margin: -18px 0 0 -39px;
+
+            .switch-item {
+                .switch-control {
+                    width: 6px;
+                    height: 60px;
+                }
+
+                .switch-name {
+                    margin-top: -1.25rem;
+                }
+
+            }
+
+            .switch-group {
+                &.switch-group-qf {
+                    .switch-item {
+                        &:nth-child(1) {
+                            margin: -68px 0 0 -121px;
+                        }
+
+                        &:nth-child(7) {
+                            margin: 283px 0 0 -123px;
+                        }
+
+                        &:nth-child(8) {
+                            margin: 283px 0 0 -24px;
+                        }
+
+                        &:nth-child(9) {
+                            margin: 285px 0 0 81px;
+                        }
+
+                        &:nth-child(10) {
+                            margin: 285px 0 0 138px;
+                        }
+                    }
+                }
+
+                &.switch-group-km {
+                    .switch-item {
+                        &:nth-child(3) {
+                            margin: -83px 0 0 111px;
+                        }
+                    }
+                }
+
+                &.switch-group-9k {
+                    .switch-item {
+                        &:nth-child(1) {
+                            margin: 20px 0 0 -88px;
+                        }
+
+                        &:nth-child(2) {
+                            margin: 20px 0 0 -92px;
+                        }
+
+                        &:nth-child(3) {
+                            margin: -2px 0 0 20px;
+                        }
+
+                        &:nth-child(4) {
+                            margin: -4px 0 0 13px;
+                        }
+
+                        &:nth-child(5) {
+                            margin: 20px 0 0 69px;
+                        }
+
+                        &:nth-child(6) {
+                            margin: 20px 0 0 64px;
+                        }
+                    }
+                }
+
+                &.switch-group-a {
+                    .icon {
+                        padding: 3px 10px;
+                        margin: -2px 0 0 -10px;
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    .fullpage-view {
+        .circuitry {
+
+            .switch,
+            svg {
+                transform: scale(4.5);
+            }
+
+            .switch {
+                margin: -50px 0 0 -117px;
+            }
+        }
+    }
+}
+
+// 屏幕宽度在大于2k(2560)less样式
+@media screen and (min-width: 2561px) {
+    .circuitry {
+        svg {
+            transform: scale(2.25);
+        }
+
+        // 开关
+        .switch {
+            transform: scale(2.25);
+            margin: -12px 0 0 -63px;
+
+            .switch-item {
+                .switch-control {
+                    width: 6px;
+                    height: 60px;
+                }
+
+                .switch-name {
+                    margin-top: -1.25rem;
+                }
+
+            }
+
+            .switch-group {
+                &.switch-group-qf {
+                    .switch-item {
+                        &:nth-child(1) {
+                            margin: -68px 0 0 -121px;
+                        }
+
+                        &:nth-child(7) {
+                            margin: 283px 0 0 -123px;
+                        }
+
+                        &:nth-child(8) {
+                            margin: 283px 0 0 -24px;
+                        }
+
+                        &:nth-child(9) {
+                            margin: 285px 0 0 81px;
+                        }
+
+                        &:nth-child(10) {
+                            margin: 285px 0 0 138px;
+                        }
+                    }
+                }
+
+                &.switch-group-km {
+                    .switch-item {
+                        &:nth-child(3) {
+                            margin: -83px 0 0 111px;
+                        }
+                    }
+                }
+
+                &.switch-group-9k {
+                    .switch-item {
+                        &:nth-child(1) {
+                            margin: 20px 0 0 -88px;
+                        }
+
+                        &:nth-child(2) {
+                            margin: 20px 0 0 -92px;
+                        }
+
+                        &:nth-child(3) {
+                            margin: -2px 0 0 20px;
+                        }
+
+                        &:nth-child(4) {
+                            margin: -4px 0 0 13px;
+                        }
+
+                        &:nth-child(5) {
+                            margin: 20px 0 0 69px;
+                        }
+
+                        &:nth-child(6) {
+                            margin: 20px 0 0 64px;
+                        }
+                    }
+                }
+
+                &.switch-group-a {
+                    .icon {
+                        padding: 3px 10px;
+                        margin: -2px 0 0 -10px;
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    .fullpage-view {
+        .circuitry {
+
+            .switch,
+            svg {
+                transform: scale(6.5);
+            }
+
+            .switch {
+                margin: -20px 0 0 -176px;
+            }
+        }
+    }
+}

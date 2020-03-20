@@ -1,0 +1,259 @@
+@header-bg: @primary;
+@header-color-dark: #b0b8c0;
+// logo
+@logo-width: 100px;
+@logo-height: (@topbar-height + @header-nav-height);
+@logo-img-width: (@logo-width - (@base-padding * 2));
+@logo-img-height: (@logo-height - (@base-padding * 2));
+
+// topbar-顶部logo及工具栏
+@topbar-height: 35px;
+@topbar-padding: @base-padding-sm;
+@topbar-nav-height: (@topbar-height - (@topbar-padding * 2));
+@topbar-nav-hover-bg: darken(@header-bg, 5);
+// 页面主导航
+@header-nav-height: @topbar-height;
+@header-nav-bg: @header-bg;
+@header-nav-border-color: darken(@header-nav-bg, 10);
+@header-nav-line-height: @header-nav-height;
+
+// 标签页导航
+@tabbar-height: 32px;
+@tabbar-bg: darken(@header-bg, 12);
+@tabbar-border-color-dark: lighten(@tabbar-bg, 4);
+@tabbar-border-color-light: #d3e6f7;
+@tabbar-nav-li-height: (@tabbar-height - 2);
+@tabbar-pdding: 3px;
+@tabbar-nav-line-height: (@tabbar-nav-li-height - (@tabbar-pdding * 2));
+
+
+
+// 头部面板样式
+.pt-header {
+
+    // 左侧logo预留尺寸
+    background: url('@{images}/netstar/header-bg.png') 0 0 no-repeat @header-bg;
+
+    // logo
+    .pt-logo {
+        .size(@logo-width, @logo-height);
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: @base-padding;
+        margin-left: 0;
+
+        // logo图片
+        // img {
+        //     width: auto !important;
+        //     max-width: 100%;
+        //     max-height: 40px;
+        //    height: 40px;
+        // }
+    }
+
+    // topbar-顶部logo及工具栏
+
+    .pt-topbar {
+        border-bottom: 0;
+        padding: @topbar-padding @topbar-height @topbar-padding @logo-width;
+
+        // 导航
+        .pt-nav {
+            &.pt-dropdown {
+                height: @topbar-nav-height;
+                padding: 0 @topbar-padding;
+            }
+
+            .pt-top-menu-item {
+                .pt-nav-item {
+                    color: @header-color-dark;
+                    height: @topbar-nav-height;
+                    line-height: @topbar-nav-height;
+                    padding: 0 @topbar-padding;
+
+                    i {
+                        line-height: @topbar-nav-height;
+
+                        &.undefined {
+                            display: none;
+                        }
+                    }
+
+                    &:hover {
+                        background: @topbar-nav-hover-bg  !important;
+                        color: #fff !important;
+                    }
+                }
+            }
+        }
+
+    }
+
+    // 页面主导航
+    .pt-navbar {
+        padding-left: @logo-width;
+        border-bottom: 1px solid @header-nav-border-color;
+
+        .pt-nav {
+            .pt-top-menu-item {
+                .pt-nav-item {
+
+                    // 右侧箭头样式
+                    i {
+                        color: @header-color-dark;
+                        font-size: @font-size-sm;
+                        transform: scale(.75);
+                        line-height: @header-nav-line-height;
+                    }
+
+                    &:hover{
+                        border: 0;
+                    }
+
+                }
+            }
+        }
+        .pt-top-nav-block{
+            li{
+                .pt-nav-item{
+                    &:hover{
+                        background: @bg-primary;
+                        color: @primary;
+                    }
+                }
+            }
+        }
+    }
+
+    // 标签页导航
+    .pt-tabbar {
+        @tabbar-padding: 3px;
+        @tabbar-nav-height: ((@tabbar-height - (@tabbar-padding * 2)) - 2);
+
+        background: @tabbar-bg;
+        border-top: 1px solid @tabbar-border-color-dark;
+        border-bottom: 1px solid @tabbar-border-color-light;
+        padding: @tabbar-padding @base-padding;
+
+        .pt-nav {
+            height: @tabbar-nav-height;
+
+            .pt-nav-item {
+                @pt-nav-item-padding: 8px;
+                position: relative;
+                height: @tabbar-nav-height;
+                line-height: @tabbar-nav-height;
+                margin: 0 2px;
+                padding: 0 (@pt-nav-item-padding * 2) 0 @pt-nav-item-padding;
+
+                a {
+                    font-size: @font-size-sm;
+                    line-height: @tabbar-nav-line-height;
+                    color: @header-color-dark;
+                    padding: 0;
+                    position: relative;
+                }
+
+                // 当前选中状态
+                &.current {
+                    background: transparent;
+
+                    a {
+                        color: @warning;
+
+                        &:after {
+                            .border-horizontal(2px, @warning);
+                            right: 0;
+                            bottom: 0;
+                            left: 0;
+                        }
+
+                    }
+
+                    .pt-btn-clear {
+                        opacity: 0;
+                    }
+
+                    &:hover {
+                        i {
+                            color: @warning;
+                        }
+                    }
+
+                }
+
+                i {
+                    padding-right: 0;
+                }
+
+                &+.pt-nav-item {
+                    border: 0;
+                }
+
+                // 鼠标经过状态
+                &:hover {
+                    background: @header-bg;
+
+                    i {
+                        color: @header-color-dark;
+                    }
+
+                    .pt-btn-clear {
+                        opacity: 0.75;
+                    }
+                }
+
+                // 标签关闭按钮
+                .pt-btn-clear {
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    margin-top: -(@font-size-md / 2);
+                }
+
+                // 新消息提醒
+                &.pt-nav-item-tip {
+                    &:before {
+                        .triangle-left-top(@nav-item-tip-size, @warning);
+                        top: 0;
+                        left: 0;
+                    }
+                }
+                // 新消息提醒-消息数量
+                .pt-badge{
+                    line-height: @tabbar-nav-line-height;
+                }
+            }
+
+            // 标签控制
+            &.pt-tabbar-control {
+                padding: 0;
+
+                .pt-nav-toggle {
+
+                    @pt-nav-toggle-height: @tabbar-nav-height;
+                    height: @pt-nav-toggle-height;
+                    line-height: @pt-nav-toggle-height;
+
+                    i {
+                        line-height: @pt-nav-toggle-height;
+                    }
+
+                    &:hover {
+                        background: @header-bg;
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    .pt-nav-item{
+        //徽章
+        .pt-badge{
+            background: transparent;
+        }
+    }
+}

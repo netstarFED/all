@@ -1,0 +1,42 @@
+.show {
+    display: block !important;
+}
+
+.hide,
+.hidden {
+    display: none !important;
+}
+
+// inline-block 消除间距
+.display-inline-block {
+    display: inline-block;
+    font-size: 0;
+
+    &>*:not(.dropdown-menu) {
+        display: inline-block;
+    }
+}
+
+//表格布局
+.display-table {
+    display: table;
+
+    &>* {
+        display: table-cell;
+    }
+
+}
+
+.cell-top {
+    vertical-align: top !important;
+}
+
+// 圆形
+.block-circle (@size) {
+    display: block;
+    .square(@size);
+    line-height: @size;
+    border-radius: @size;
+    text-align: center;
+    overflow: hidden;
+}

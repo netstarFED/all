@@ -1,0 +1,43 @@
+@search-icon-size: 24px;
+
+.pt-search-box {
+    position: relative;
+
+    &.user-id {
+        .pt-form {
+            &.pt-form-inline {
+                border: 0;
+                padding: 0;
+
+                .pt-form-control {
+                    padding-left: @search-icon-size;
+                    // font-weight: bold;
+                }
+            }
+        }
+    }
+
+    &:before {
+        position: absolute;
+        .square(@search-icon-size);
+        line-height: @search-icon-size;
+        content: '\ea03';
+        top: 0;
+        left: 0;
+        font-family: @icon-font-icomoon;
+        z-index: 9;
+        text-align: center;
+    }
+
+}
+
+// 高级查询
+.pt-search-pro {}
+
+.pt-search-pro-btn {
+    float: right;
+
+    .pt-btn-dropdown.pt-btn-dropdown-senior {
+        float: none;
+    }
+}

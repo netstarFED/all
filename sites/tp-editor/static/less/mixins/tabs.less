@@ -1,0 +1,41 @@
+// 浅色主题tabs
+.tabs-light-variant(@bg, @color) {
+    a {
+        background: @bg;
+        color: @color;
+        &:focus,
+        &:hover {
+            background: darken(@bg, 5);
+            color: darken(@color, 5);
+        }
+    }
+
+    &.current {
+        a {
+            background: darken(@bg, 10);
+            color: darken(@color, 10);
+        }
+    }
+
+}
+
+// 深色主题tabs
+.tabs-dark-variant(@bg, @color) {
+    a {
+        background: @bg;
+        color: @color;
+        &:focus,
+        &:hover {
+            background: lighten(@bg, 5);
+            color: #fff;
+        }
+    }
+
+    &.current {
+        a {
+            background: lighten(@bg, 20);
+            color: #fff;
+        }
+    }
+
+}

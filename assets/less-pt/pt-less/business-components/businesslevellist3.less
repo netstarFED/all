@@ -1,0 +1,74 @@
+.businesslevellist3 {
+
+    @block-list-border-color: #bfbfbf;
+
+    .nsgrid-block[ns-level="1"] {
+
+        .pt-block-list {
+            border-color: @block-list-border-color;
+
+            &:hover,
+            &.selected {
+                border-color: @block-list-border-color;
+            }
+        }
+
+        .pt-grid-body {
+            .pt-grid-body-container {
+                position: relative;
+
+                &:before,
+                &:after {
+                    position: absolute;
+                    content: "";
+                    right: 8px;
+                    left: 0;
+                    height: 1px;
+                    background: @block-list-border-color;
+                    z-index: 9;
+                }
+
+                &:before {
+                    top: 0;
+                }
+
+                &:after {
+                    bottom: 0;
+                }
+            }
+        }
+    }
+
+    // 子模版-塊狀列表
+    &.blockgrid {
+        .nsgrid-block[ns-level="2"] {
+            height: 24px !important;
+            margin-bottom: 10px;
+            overflow-x: auto;
+
+            .pt-grid-body {
+                height: 24px !important;
+            }
+        }
+    }
+
+    // 左表格右block布局
+    &.listgrid {
+        .pt-main-row {
+            .pt-main-col {
+                margin-left: 10px;
+                flex: 100;
+
+                &+.pt-main-col {
+                    flex: 1;
+                }
+            }
+        }
+
+        .pt-panel-container {
+            &.nsgrid {
+                margin-bottom: @base-margin;
+            }
+        }
+    }
+}

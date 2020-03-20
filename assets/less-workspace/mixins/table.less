@@ -1,0 +1,118 @@
+//字号；首列宽度；最小高度;上下间距；左右间距；下间距；图标字号；图片宽度
+.td-size(@font-size;@min-height;@first-child-width;@padding-v;@padding-h;@padding-bottom;@icon-font-size;@img-with){
+    font-size:@font-size; 
+    // min-width:@first-child-width;
+    height: @min-height;
+    min-height: @min-height;
+    .pt-td-text{
+        padding:@padding-v @padding-h;
+        padding-bottom: @padding-bottom;
+    }
+    &.pt-td-check{
+        width:@first-child-width;
+    }
+    &.pt-col-sort{
+        &:after{
+            width:@first-child-width; 
+        }
+    }
+    &.pt-col-setting{
+        width:@first-child-width; 
+        .pt-btn{
+            i{
+                font-size: @icon-font-size;
+            }
+        }
+    }
+    &.pt-td-img{
+        width:@img-with + 6px;
+        .pt-img-mini{
+            img{
+                display: block;
+                .square(@img-with);
+            }
+        }
+    }
+}
+
+.first-table-size(@first-child-width){
+    tbody{
+        tr{
+            &:first-child{
+                td{
+                    &:first-child{
+                        width: @first-child-width;
+                        min-width: @first-child-width;
+                        max-width: @first-child-width;
+                    }
+                }
+            }
+        }
+    } 
+}
+
+.table-size(@icon-font-size; @first-child-width){
+    tbody{
+        tr{
+            &.selected{
+                td{
+                    &:first-child{
+                        &:before{
+                            font-size:@icon-font-size;
+                        }
+                    }
+                }
+            }
+            td{
+                &:first-child{
+                    width: @first-child-width;
+                    min-width: @first-child-width;
+                    max-width: @first-child-width;
+                }
+            }
+        }
+    }
+}
+
+
+
+// 选中行样式变量
+.tr-selected-variant(@bg, @td-width){
+    background: @bg;
+    & > {
+        & > span,
+        & > .autoserial{
+            color: @warning;
+            background: transparent;
+           &:first-child{
+               color: transparent;
+                &:after{
+                    @triangle-size: 8px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    .triangle-right(@triangle-size, @table-first-triangle-color);
+                    margin: -(@triangle-size / 2);
+                }
+                
+           }
+        }
+    }
+}
+
+// 行状态变量
+
+.tr-state-variant(@bg, @color){
+    & > th,
+    & > td{
+        background: @bg;
+        color: @color;
+    }
+    &:hover{
+        & > th,
+        & > td{
+            background: darken(@bg, 5);
+            color: @color;
+        }
+    }
+}

@@ -1,0 +1,140 @@
+@ns-table-border-color: #ddd;
+@ns-table-header-bg: #ebedf0;
+@ns-table-font-size: @font-size-sm;
+@ns-table-td-height: 28px;
+@ns-table-td-line-height: (@ns-table-td-height - 2);
+@ns-table-td-padding: 5px;
+
+table {
+    &.table {
+
+        &>thead,
+        &>tbody {
+            &>tr {
+
+                &>th,
+                &>td {
+                    font-size: @ns-table-font-size;
+                    height: @ns-table-td-height;
+                    line-height: (@ns-table-td-line-height - (@ns-table-td-padding * 2));
+                    padding: @ns-table-td-padding;
+                }
+            }
+        }
+
+        th {
+            background: @ns-table-header-bg  !important;
+            color: #000 !important;
+        }
+
+        &>tbody {
+            &>tr {
+                &>td {
+                    &.td-button{
+                        padding-top: 0;
+                        padding-bottom: 0;
+                    }
+                }
+            }
+        }
+
+    }
+
+    // 条纹行表格（奇偶行）
+    &.table-striped {
+        &>tbody {
+            &>tr {
+                &.selected{
+                    th{
+                        position: relative;
+                        color: transparent !important;
+                        background: @bg-warning !important;
+                        &:after{
+                            @triangle-size: 8px;
+                            position: absolute;
+                            top: 50%;
+                            left: ((40px - @triangle-size) / 2);
+                            .triangle-right(@triangle-size, @warning);
+                            margin-top: -(@triangle-size / 2);
+                        }
+                    }
+                    td{
+                        background: @bg-warning !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 表格底部
+.nstable-bottom{
+    border: 1px solid @ns-table-border-color;
+    // height: @ns-table-td-height;
+}
+
+.pagination{
+
+    .paginate_button{
+        position: relative;
+        &.disabled{
+            background: transparent;
+            a{
+                background: none !important;
+                color: @gray-light;
+            }
+        }
+        &.previous,
+        &.next{
+            cursor: pointer;
+            i{
+                display: none;
+            }
+            &:after{
+                @icon-size: 12px;
+                .icon-after('\e943', @icon-size, @gray-dark);
+                left: 50%;
+                margin-left: -(@icon-size / 2);
+            }
+            &.disabled{
+                cursor: not-allowed;
+                &:after{
+                    color: #ccc;
+                }
+            }
+        }
+        &.next:after{
+            content:'\e945';
+        }
+
+        // 选中
+        &.active{
+            a{
+                background: @warning !important;
+                color: #fff !important;
+                &:hover{
+                    background: @warning !important;
+                    color: #fff !important;  
+                }
+            }
+        }
+        a{
+            &:hover{
+                background: @bg-warning !important;
+                font-weight: bold;
+            }
+        }
+    }
+
+    & > li{
+        .padding-xs();
+        & >a{
+            .square(20px) !important;
+            line-height: 20px !important;
+        }
+    }
+}
+
+.layout-planes{
+    padding: 15px 10px !important;
+}

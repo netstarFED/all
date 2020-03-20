@@ -1,0 +1,139 @@
+// 系统选择器
+@system-change-modal-width: 400px;
+@system-change-modal-height: 336px;
+@system-change-modal-title-font-size: 18px;
+@system-change-modal-title-padding: @base-padding;
+@system-change-modal-padding: 30px;
+@system-change-modal-bg: #f5f5f5;
+@system-change-current-color: @success;
+@system-change-current-border-color: @system-change-current-color;
+@system-change-current-mark-size: 20px;
+@system-change-border-radius: 10px;
+@system-change-nav-gutter: 15px;
+@system-change-nav-font-size: 16px;
+
+.system-change-modal {
+    position: absolute;
+    width: @system-change-modal-width;
+    height: @system-change-modal-height;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    margin-top: -(@system-change-modal-height / 2);
+    margin-left: -(@system-change-modal-width / 2);
+    z-index: 1999;
+
+    // 标题
+    .title {
+        padding: @system-change-modal-padding;
+        text-align: center;
+        background: @system-change-modal-bg;
+        font-size: @system-change-modal-title-font-size;
+        border-radius: @system-change-border-radius @system-change-border-radius 0 0;
+    }
+
+    // 列表
+    .nav {
+        background: @system-change-modal-bg;
+        padding: @system-change-modal-padding  (@system-change-modal-padding * 2);
+        padding-top: 0;
+        border-radius: 0 0 @system-change-border-radius @system-change-border-radius;
+
+        .nav-item {
+            margin-top: @system-change-nav-gutter;
+            position: relative;
+
+            &:first-child {
+                margin-top: 0;
+            }
+
+            a {
+                display: block;
+                text-align: center;
+                background: #fff;
+                color: darken(@gray, 15);
+                border: 1px solid @border-color;
+                border-radius: @system-change-border-radius;
+                font-size: @system-change-nav-font-size;
+
+                &:hover {
+                    border-color: darken(@border-color, 15);
+                    color: #000;
+                    background: transparent;
+                }
+
+            }
+
+            // 列表选中状态
+            &.current {
+                a {
+                    border-color: @system-change-current-border-color;
+                    color: @system-change-current-color;
+                    background: #fff;
+                }
+                &:after {
+                    position: absolute;
+                    content: '\e95f';
+                    font-family: @icon-font-icomoon;
+                    color: @system-change-current-color;
+                    font-size: @system-change-current-mark-size;
+                    z-index: 2;
+                    right: -(@system-change-current-mark-size / 2);
+                    bottom: -((@system-change-current-mark-size / 2) + 2);
+                }
+
+            }
+        }
+    }
+
+
+    // 弹框背景
+    &:after {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        content: '';
+        background: rgba(0, 0, 0, .5);
+        z-index: -1;
+    }
+
+    // 关闭按钮
+    @close-size: 30px;
+    .close{
+        .square( @close-size);
+        border-radius:  @close-size;
+        background: transparent;
+        position: absolute;
+        left: 50%;
+        margin-left: -(@close-size / 2);
+        bottom: -(@close-size * 2);
+        border: 1px solid #fff;
+        text-align: center;
+        z-index: 1999;
+        opacity: 1;
+        i{
+            color: #fff;
+            line-height: (@close-size - 2);
+        }
+        &:after{
+            position: absolute;
+            width: 1px;
+            height: @close-size;
+            left: 50%;
+            top: -@close-size;
+            content: '';
+            background: #fff;
+            opacity: 0.3;
+
+        }
+        &:hover{
+            background: rgba(255,255,255, .25);
+            &:after{
+                opacity: 0.3;
+            }
+        }
+    }
+
+}

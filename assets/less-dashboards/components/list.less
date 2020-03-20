@@ -1,0 +1,144 @@
+@font-size-base: 1rem;
+@list-color: @text-color;
+@list-font-size: @font-size-base;
+@list-padding: @base-padding;
+@list-margin: @base-margin;
+@list-border-color: @border-color;
+@list-title-font-size: 1.15rem;
+@list-title-color: #000;
+@list-gutter: @base-margin;
+.list {
+    flex: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .list-item {
+        .flex-block();
+        color: @list-color;
+        font-size: @list-font-size;
+
+    }
+
+    // 列表组
+    .list-group {
+        .flex-block(flex-start, flex-start);
+        flex-wrap: wrap;
+        flex: none;
+        padding: 0;
+
+        // 列表
+        .list-item {
+            .flex-block(flex-start, stretch);
+            flex: 0 0 100%;
+            width: 100%;
+            padding: @list-padding 0;
+
+            &+.list-item {
+                border-top: 1px solid @list-border-color;
+            }
+
+            // 列表头部内容
+            .list-before {
+                .flex-block();
+                flex: none;
+
+                &+.list-content {
+                    padding-left: @list-padding;
+                }
+            }
+
+            // 列表中间内容
+            .list-content {
+                .flex-block();
+                flex-wrap: wrap;
+
+                &+.list-after {
+                    padding-left: @list-padding;
+                }
+            }
+
+            // 列表尾部内容
+            .list-after {
+                .flex-block();
+                flex: none;
+            }
+        }
+
+        // 列表文本
+        .list-text {
+            font-size: @list-font-size;
+            .flex-block(flex-start, center);
+            flex: 0 0 100%;
+
+            &+.list-text {
+                margin-top: (@list-margin / 2);
+            }
+
+            &.list-text-title {
+                font-size: @list-title-font-size;
+                color: @list-title-color;
+
+                &+.list-text {
+                    margin-top: @list-margin;
+                }
+            }
+        }
+
+        // 纵向列表（blocklist）
+        &.list-vertical {
+            flex-wrap: wrap;
+            flex-direction: column;
+
+            .list-before {
+                flex: 0 0 100%;
+
+                &+.list-content {
+                    padding-left: 0;
+                }
+            }
+
+            .list-content {
+                flex: 0 0 100%;
+
+                &+.list-after {
+                    padding-left: 0;
+                }
+            }
+
+            .list-after {
+                flex: 0 0 100%;
+            }
+        }
+    }
+
+    &.multi {
+        position: relative;
+
+        ul {
+            position: absolute;
+            top: 0;
+            bottom: -@list-gutter;
+        }
+    }
+
+    //OA中通知公告
+    // &.list-text{
+    //     .list-group{
+    //         .list-item{
+    //             padding: (@base-padding * 1.1) 0;
+    //             border-bottom: 1px solid #ddd;
+    //             span{
+    //                 color: #333;
+    //                 font-size: 1.4rem;
+    //             }
+    //             .state{
+    //                 span{
+    //                     color: #999;
+    //                     font-size:1.2rem;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+}

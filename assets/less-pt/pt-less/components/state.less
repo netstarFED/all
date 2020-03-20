@@ -1,0 +1,81 @@
+@state-padding: @base-padding;
+@state-size: 24px;
+@state-border-color: @border-color;
+@state-label-bg: #f1f1f1;
+@state-item-margin: 5px;
+
+@state-primary-border: @primary;
+@state-primary-color: @primary;
+@state-primary-item-bg: lighten(@primary, 45);
+
+@state-success-border: @success;
+@state-success-color: @success;
+@state-success-item-bg: lighten(@success, 45);
+
+@state-warning-border: @warning;
+@state-warning-color: @warning;
+@state-warning-item-bg: lighten(@warning, 45);
+
+@state-danger-border: @danger;
+@state-danger-color: @danger;
+@state-danger-item-bg: lighten(@danger, 45);
+
+
+.pt-state-variant(@border-color, @label-bg, @color) {
+    border-color: @border-color;
+
+    .pt-label {
+        background: @label-bg;
+        color: @border-color;
+    }
+    .pt-badge{
+        color: @border-color;
+    }
+}
+
+.pt-state {
+    padding: @state-padding;
+    background: #fff;
+
+    .pt-state-item {
+        display: inline-table;
+        height: @state-size;
+        line-height: @state-size;
+        border: 1px solid @state-border-color;
+        margin: @state-item-margin;
+        word-spacing: 0;
+
+        .pt-label {
+            padding: 0 @state-padding;
+            background: @state-label-bg;
+            display: table-cell;
+        }
+
+        .pt-badge {
+            display: table-cell;
+            background: transparent;
+            color: #000;
+        }
+
+        // state-primary
+        &.pt-state-primary{
+            .pt-state-variant(@state-primary-border, @state-primary-item-bg, @state-primary-color);
+        }
+
+        // state-success
+        &.pt-state-success{
+            .pt-state-variant(@state-success-border, @state-success-item-bg, @state-success-color);
+        }
+
+        // state-warning
+        &.pt-state-warning{
+            .pt-state-variant(@state-warning-border, @state-warning-item-bg, @state-warning-color);
+        }
+
+        // state-danger
+        &.pt-state-danger{
+            .pt-state-variant(@state-danger-border, @state-danger-item-bg, @state-danger-color);
+        }
+        
+    }
+}

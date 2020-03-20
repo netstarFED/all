@@ -1,0 +1,18 @@
+@tooltips-width: 240px;
+
+.tooltips {
+    position: absolute;
+    border: 1px solid @e-form-border-color;
+    padding: @e-form-padding;
+    margin-top: (@e-form-gutter / 2);
+    border-top-width: 3px;
+    max-width: @tooltips-width;
+    .rgba-shadow(0, 3px, 5px, #000, .075);
+
+
+    &:after {
+        .triangle-top(5px, @e-form-border-color);
+        top: -8px;
+        left: @e-form-gutter;
+    }
+}

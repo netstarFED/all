@@ -1,0 +1,115 @@
+[ns-system="mobile"] {
+    @checkradio-icon-size: 16px;
+    @checkradio-label-size: @mobile-form-height;
+    @checkradio-disable-color: #eee;
+    @checkradio-border-color: @mobile-form-border-color;
+    @list-search-padding: (@mobile-form-height + 1);
+    .radio,
+    .checkbox {
+        height: auto;
+        flex-wrap: wrap;
+        label.radio-inline,
+        label.checkbox-inline {
+            @radio-inline-padding: 1rem;
+            .flex-block(flex-end, center);
+            flex: 0 0 100%;
+            margin: 0;
+            height: @mobile-form-height;
+            line-height: inherit;
+            padding: 0 @mobile-form-height 0 @radio-inline-padding;
+            padding-right: @mobile-form-height;
+            &:after {
+                .flex-block(center, center);
+                top: 50%;
+                right: 1.25rem;
+                left: auto;
+                margin-top: -(@checkradio-icon-size / 2);
+            }
+        }
+        .radio-list,
+        .checkbox-list {
+            .flex-block();
+            flex: 0 0 100%;
+            flex-wrap: wrap;
+            border: 1px solid @ns-border-color;
+            border-width: 1px 0;
+
+            &.list-search{
+                padding-top: @list-search-padding;
+            }
+
+            
+        }
+        &.mobilewindow-halfscreen-container{
+            .radio-list,
+            .checkbox-list{
+                max-height: (@checkradio-label-size * 5);
+             overflow-y: auto;
+            }
+        }
+    }
+    label.radio-inline,
+    label.radio-inline-none,
+    label.checkbox-inline,
+    label.checkbox-inline-none {
+        height: @checkradio-label-size;
+        border-top: 1px solid @checkradio-border-color;
+        &:first-child {
+            border-top: 0;
+        }
+        &:after {
+            top: 50%;
+            border: 0;
+            .square( @checkradio-icon-size);
+            border-radius: @checkradio-icon-size;
+            margin-top: - (@checkradio-icon-size / 2);
+            border: 2px solid #ddd;
+        }
+    } // 单选
+    label.radio-inline.checked:after {
+        content: "\f192";
+         font-size: 18px;
+        color: @mobile-success;
+        border: 0;
+    } // 复选
+    label.checkbox-inline {
+        &.checked,
+        &.th-check.checked {
+            &:after {
+                background-color: transparent;
+                content: "\f058";
+                font-size: 18px;
+                color: @mobile-success;
+                border: 0;
+            }
+        }
+    } // 半屏组件
+    .radio,
+    .checkbox {
+        &.mobilewindow-halfscreen-container,
+        &.mobilewindow-fullscreen-container {
+            margin: 0;
+            .flex-block(flex-start, flex-start);
+            flex-wrap: wrap;
+            label.radio-inline,
+            label.checkbox-inline {
+                .flex-block();
+                flex: 0 0 100%;
+                margin: 0;
+                padding: 0 @base-padding;
+                padding-right: @mobile-form-height;
+                &:after {
+                    left: auto;
+                    right: @base-padding;
+                }
+            }
+        }
+    }
+
+}
+.mobilewindow-halfscreen,
+.mobilewindow-fullscreen{
+    .btn-group{
+        min-height: 3.75rem;
+    }
+}

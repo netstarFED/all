@@ -1,0 +1,348 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <script>
+        var nsPublic = nsPublic ? nsPublic : {};
+        nsPublic.getAppendContainer = function () {
+            var insertLocation = $('container:not(.hidden)').not('.content');
+            if ($('.nswindow .content').length > 0) {
+                insertLocation = $('.nswindow .content:last');
+            }
+            return insertLocation;
+        }
+        $(function () {
+            var processDocBase = {
+                package: '',
+                template: 'processDocBase',
+                title: '表单表格模板',
+                isSowTitle: false,
+                isFormHidden: false,
+                variableJson: '',
+                getValueAjax: {
+                    src: getRootPath() + '/docs/data/tree/getList.json',
+                    type: 'GET',
+                    dataSrc: 'rows',
+                    data: {},
+                    contentType: 'application/x-www-form-urlencoded'
+                },
+                draftBox: {
+                    fields: '', //草稿箱
+                    isUse: true,
+                },
+                saveData: { //保存
+                    ajax: {
+                        src: getRootPath() + '/docs/data/tree/getList.json',
+                        data: '',
+                        type: 'GET',
+                        dataSrc: 'rows',
+                        contentType: 'application/x-www-form-urlencoded'
+                    },
+                    save: {
+                        text: ''
+                    }
+                },
+                isListTbs: true,
+                components: [{
+                        type: 'vo',
+                        position: 'header-righrt',
+                        parent: 'roor',
+                        idField: 'id',
+                        KeyField: 'root',
+                        isSetMore: false,
+                        formStyle: '',
+                        field: [{
+                            id: 'salesOrder',
+                            label: '销售单号',
+                            type: 'text',
+                            inputWidth: 100,
+                            value: '',
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            }
+                        }, {
+                            id: 'orderTime',
+                            label: '销售单号',
+                            type: 'text',
+                            inputWidth: 200,
+                            value: '',
+                            rules: 'required',
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            }
+                        }, {
+                            id: 'urgency',
+                            label: '是否紧急',
+                            type: 'checkbox',
+                            inputWidth: 100,
+                            value: '0',
+                            textField: 'text',
+                            valueField: 'value',
+                            subdata: [{
+                                text: '紧急',
+                                value: '1',
+                                isChecked: true,
+                                isDisabled: false,
+                            }]
+                        }]
+                    }, {
+                        type: 'vo',
+                        position: 'header-body',
+                        parent: 'rooot',
+                        defaultComponentWidth: '25%',
+                        idField: '',
+                        keyField: 'root',
+                        field: [{
+                                id: 'customer',
+                                label: '客户',
+                                type: "text",
+
+                            },
+                            {
+                                id: 'contacts',
+                                label: '联系人',
+                                type: 'select',
+                                // inputWidth: 200,
+                                textField: 'name',
+                                valueField: 'id',
+                                value: '1',
+                                subdata: [{
+                                        name: '张三',
+                                        id: '1',
+                                        isChecked: true,
+                                        isDisabled: false,
+                                    },
+                                    {
+                                        id: '2',
+                                        name: '李四',
+                                        isChecked: true,
+                                        isDisabled: true,
+                                    },
+                                    {
+                                        id: '3',
+                                        name: '刘九',
+                                        isChecked: true,
+                                        idDisabled: true,
+                                    }
+                                ]
+                            },
+                            {
+                                id: 'salesMan',
+                                label: '销售员',
+                                type: "text",
+                                // inputWidth:200,
+                                textField: 'name',
+                                valueField: 'id',
+                                subdata: [{
+                                        name: '王五',
+                                        id: '1',
+                                        isChecked: true,
+                                        isDisabled: false,
+                                    },
+                                    {
+                                        id: '2',
+                                        name: '',
+                                        isChecked: true,
+                                    }
+                                ]
+                            },
+                            {
+                                id: 'abstract',
+                                label: '摘要',
+                                type: 'text',
+                                inputWidth: 100,
+                                value: '',
+                                changeHandler: function (obj) {
+                                    console.log(obj);
+                                }
+                            },
+                            {
+                                id: 'remark',
+                                label: '备注',
+                                type: 'text',
+                                inputWidth: 100,
+                                value: '',
+                                changeHandler: function (obj) {
+                                    console.log(obj);
+                                }
+                            }, {
+                                id: 'paymentStage',
+                                label: '付款阶段',
+                                type: 'text',
+                                inputWidth: 100,
+                                value: '',
+                                changeHandler: function (obj) {
+                                    console.log(obj);
+                                }
+                            },
+                            {
+                                id: 'discount',
+                                label: '折扣',
+                                type: 'text',
+                                inputWidth: 100,
+                                value: '',
+                                changeHandler: function (obj) {
+                                    console.log(obj);
+                                }
+                            },
+                            {
+                                id: 'invoiceType',
+                                label: '发票类型',
+                                type: 'select',
+                                inputWidth: 200,
+                                textField: 'name',
+                                valueField: 'id',
+                                value: '0',
+                                subdata: [{
+                                    name: '普通发票',
+                                    id: '1',
+                                    isChecked: true,
+                                    isDisabled: true,
+                                }]
+                            }
+                        ]
+
+                    },
+                    {
+                        type: 'list',
+                        title: '商品标题',
+                        position: 'body',
+                        height: '50%',
+                        parent: 'root',
+                        idField: 'itemCode23',
+                        keyField: 'child',
+                        flagField: 'flag',
+                        field: [{
+                                field: 'codename',
+                                title: '商品名称',
+                                width: 300,
+                                // columnType: 'business',
+                                // columnType: 'renderField',
+                                editable: true,
+                                editConfig: {
+                                    type: "text",
+                                }
+                                // editConfig: ,
+                                //  formatHandler: {
+                                //     type: 'renderField',
+                                //     data: '{{remark}}',
+                                // },      
+                            },
+                            {
+                                field: 'pd',
+                                title: '生产日期',
+                                editable: true,
+                                columnType: 'text',
+                                editConfig: {
+                                    type: "text",
+                                }
+
+                            },
+                            {
+                                field: 'unit',
+                                title: '单位',
+                                editable: true,
+                                editConfig: {
+                                    type: "text",
+                                }
+                            },
+                            {
+                                field: 'num',
+                                title: '数量',
+                                columnType: 'number',
+                                variableType: 'number',
+                                editable: true,
+                                editConfig: {
+                                    type: "number",
+                                }
+                                // formatType: {
+                                //     type: 'number',
+                                //     format: ',.'
+                                // },
+                                //    /* footer: {
+                                //         type: 'sum' //合计
+                                //     },*/
+                                //     // editConfig: {
+                                //     //     total: '{{money}}-{{price}}',
+                                //     // },  
+                            },
+                            {
+                                field: 'price',
+                                title: '单价',
+                                columnType: 'money',
+                                editable: true,
+                                variableType: 'number',
+                                formatType: {
+                                    type: 'money',
+                                    format: ',.'
+                                },
+                                /*footer: {
+                                    type: 'average' //平均
+                                },*/
+                                editConfig: {
+                                    total: '{{money}}-{{num}}',
+                                },
+                            },
+                            {
+                                field: 'remark',
+                                editable: true,
+                                title: '备注',
+                                editConfig: {
+                                    type: "text",
+                                }
+                            },
+                        ],
+                        dataSource: [
+                            // {
+                            //     pd: 1544750890139,
+                            //     code:'ILCE-7RM2',
+                            //     codename:'索尼' ,
+                            //     unit:'台',
+                            //     num:2,
+                            //     price:10099,
+                            // },
+                            // {
+                            //     pd: 1544750890139,
+                            //     code:'ILCE-7RM2',
+                            //     codename:'索尼（SONY）ILCE-7RM2' ,
+                            //     unit:'台',
+                            //     num:5,
+                            //     price:12589,
+                            // },
+                        ]
+                    },
+                    {
+                        type: 'btns',
+                        position: 'footer',
+                        field: [{
+                                btn: {
+                                    text: "保存|提交",
+                                    isReturn: true,
+                                    handler: function (callBack, Obj) {
+                                        console.log(1);
+                                    }
+                                },
+                                functionConfig: function () {
+
+                                }
+                            },
+                            {
+                                btn: {
+                                    text: "录单配置",
+                                    isReturn: true,
+                                    handler: function (callBack, Obj) {
+                                        console.log(2);
+                                    }
+                                },
+                                functionConfig: function () {
+
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+            NetstarTemplate.init(processDocBase);
+        })
+
+    </script>
+
+</container>

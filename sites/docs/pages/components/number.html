@@ -1,0 +1,616 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>number</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>字段名</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>组件id，实际生成的表单中名称为'form-'+id id不可重复</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>组件类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>number</td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件的标签，未配置则不显示</td>
+                            </tr>
+                            <tr>
+                                <td>rules</td>
+                                <td>验证规则</td>
+                                <td>string</td>
+                                <td><i></i></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>value</td>
+                                <td>显示的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认显示的值</td>
+                            </tr>
+                            <tr>
+                                <td>decimalDigit</td>
+                                <td>小数点后几位</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>小数点后几位</td>
+                            </tr>
+                            <tr>
+                                <td>isShowCalculator</td>
+                                <td>是否显示计算器</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>默认是</td>
+                            </tr>
+                            <tr>
+                                <td>disabled</td>
+                                <td>只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否只读(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>inputWidth</td>
+                                <td>宽</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>组件除去label的宽度 与width不共存(默认100)</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>宽</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件整体宽度 *% 与inputWidth不共存</td>
+                            </tr>
+                            <tr>
+                                <td>changeHandler</td>
+                                <td>变更处理程序</td>
+                                <td>function</td>
+                                <td></td>
+                                <td>组件值改变时触发 即value值发生改变时触发</td>
+
+                            </tr>
+                            <tr>
+                                <td>hidden</td>
+                                <td>隐藏</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否隐藏(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>formSource</td>
+                                <td>组件模式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模式；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认from)</td>
+                            </tr>
+                            <tr>
+                                <td>templateName</td>
+                                <td>组件模式名字</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模板名字；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认pc)</td>
+                            </tr>
+                            <tr>
+                                <td>mindjetFieldPosition</td>
+                                <td>是否在更多种显示</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>是否是更多中显示的数据(默认field)</td>
+                            </tr>
+                            <tr>
+                                <td>isShowCalculator</td>
+                                <td>是否显示计算器</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认true</td>
+                            </tr>
+                            <tr>
+                                <td>isDistinct</td>
+                                <td>是否有排重字段</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>total</td>
+                                <td>表达式</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>举例：{{refFeeTotal}}-{{discount}}</td>
+                            </tr>
+                            <tr>
+                                <td>distinctField</td>
+                                <td>排重字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>valueExpression</td>
+                                <td>value表达式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过表达式设置value值  {page.**}</td>
+                            </tr>
+                            <tr>
+                                <td>placeholder</td>
+                                <td>placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>gridPlaceholder</td>
+                                <td>表格placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>表格默认显示（业务组件：点击新增，其它：可输入）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-number-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">显示的值</h3>
+                <span class="intro">默认显示内容:日期组件value值必须是数字</span>
+                <div id="nsdocs-number-value" class="panel-demo"></div>
+                <script>
+                    /*输入模式value*/
+                    var formJsonValue = {
+                        id: 'nsdocs-number-value',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'value',
+                            label: '显示 :',
+                            acts: "label",
+                            type: 'number',
+                            value: '24',       //默认显示24
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonValue, {});
+                    NetstarComponent.formComponent.init(component, formJsonValue);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'value',
+        label: '显示 :',
+        acts: "label",
+        type: 'number',
+        value: '24',       //默认显示24
+    }
+
+                </pre>
+                </div>
+            </div>
+            <!-- 标准输入模式只读disabled -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-number-disabled"></a>
+                <h3 class="title-code">只读</h3>
+                <span class="intro">只读，不可编辑 </span>
+                <div id="nsdocs-number-disabled" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonDisbled = {
+                        id: 'nsdocs-number-disabled',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'disabled',
+                            label: '只读 :',
+                            type: 'number',
+                            value: "",
+                            disabled: true, //只读模式                       
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonDisbled, {});
+                    NetstarComponent.formComponent.init(component, formJsonDisbled);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'disabled',
+        label: '只读 :',
+        type: 'number',
+        value: "",
+        disabled: true,//只读模式
+    }
+                        </pre>
+                </div>
+            </div>
+            <!-- 样式宽-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-number-width"></a>
+                <h3 class="title-code">样式宽</h3>
+                <span class="intro">宽</span>
+                <div id="nsdocs-number-width" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonWidth = {
+                        id: 'nsdocs-number-width',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false, //是否显示更多
+                        form: [{
+
+                            id: 'width',
+                            label: '宽 :',
+                            type: 'number',
+                            value: "",
+                            inputWidth: 300, //宽
+
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonWidth, {});
+                    NetstarComponent.formComponent.init(component, formJsonWidth);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+                
+        id: 'width',
+        label: 'width宽:',
+        type: 'number',
+        value: "",
+        iwidth:300,    //宽
+
+    }
+                            </pre>
+                </div>
+            </div>
+            <!-- 小数点后几位 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-number-isHasClose"></a>
+                <h3 class="title-code">小数点后几位</h3>
+                <span class="intro"></span>
+                <div id="nsdocs-number-isHasClose" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonisHasClose = {
+                        id: 'nsdocs-number-isHasClose',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            isHasClose: false,
+                            id: 'isHasClose',
+                            label: '小数:',
+                            type: 'number',
+                            value: "24",
+                            width: 500,
+                            decimalDigit: 3, //小数后面有两位
+
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonisHasClose, {});
+                    NetstarComponent.formComponent.init(component, formJsonisHasClose);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        isHasClose: false, 
+        id: 'isHasClose',
+        label: '小数:',
+        type: 'number',
+        value: "24",
+        width: 500,
+        decimalDigit:2,//小数后面有两位
+    }
+                        </pre>
+                </div>
+            </div>
+            <!-- 是否显示计算机 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                    <a href="javascript:void(0);" id="sense-nsdocs-number-isshowcalculator"></a>
+                    <h3 class="title-code">是否显示计算机</h3>
+                    <span class="intro"></span>
+                    <div id="nsdocs-number-isshowcalculator" class="panel-demo"></div>
+                    <!-- js块 -->
+                    <script>
+                        var formJsonisIsShowCalculator = {
+                            id: 'nsdocs-number-isshowcalculator',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            form: [{
+                                id: 'isshowcalculator',
+                                label: '是否显示计算机:',
+                                type: 'number',
+                                value: "24",
+                                width: 500,
+                                isShowCalculator: false, //小数后面有两位
+    
+                            }]
+                        }
+                        var component = NetstarComponent.formComponent.getFormConfig(formJsonisIsShowCalculator, {});
+                        NetstarComponent.formComponent.init(component, formJsonisIsShowCalculator);
+                    </script>
+                    <div class="content language-javascript">
+                        <pre>
+    {
+        id: 'isshowcalculator',
+        label: '是否显示计算机:',
+        type: 'number',
+        value: "24",
+        width: 500,
+        isshowcalculator: false, //小数后面有两位
+
+    }
+                            </pre>
+                    </div>
+                </div>
+            <!-- 是否是更多显示的数据 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                    <a href="javascript:void(0);" id="sense-nsdocs-number-mindjetfieldposition"></a>
+                    <h3 class="title-code">是否在更多中显示</h3>
+                    <span class="intro">是否在更多中显示 </span>
+                    <div id="nsdocs-number-mindjetfieldposition" class="panel-demo"></div>
+                    <!-- js块 -->
+                    <script>
+                        var formJsonmindjetFieldPosition = {
+                            id: 'nsdocs-number-mindjetfieldposition',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: true, 
+                            //是否显示更多
+                            form: [{
+                                mindjetFieldPosition: 'field-more', //在更多中显示
+                                id: 'mindjetFieldPosition1',
+                                label: '显示1:', 
+                                type: 'number',
+                                value: "",
+                            },
+                            {
+                                id: 'mindjetFieldPosition2',
+                                label: '显示2:',
+                                type: 'number',
+                                value: "",
+                            }]
+                        }
+                        var component = NetstarComponent.formComponent.getFormConfig(formJsonmindjetFieldPosition, {});
+                        NetstarComponent.formComponent.init(component, formJsonmindjetFieldPosition);
+                    </script>
+                    <div class="content language-javascript">
+                        <pre>
+            {
+                mindjetFieldPosition: 'field-more', //在更多中显示
+                id: 'mindjetFieldPosition1',
+                label: '显示1:', 
+                type: 'number',
+                value: "",
+            },
+            {
+                mindjetFieldPosition: 'field-more',
+                id: 'mindjetFieldPosition2',
+                label: '显示2:',
+                type: 'number',
+                value: "",
+            }
+                            </pre>
+                    </div>
+                    </div
+
+            <!-- 验证 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <a href="javascript:void(0);" id="sense-nsdocs-number-checkbox"></a>
+                    <h2 id="sense-checkboxparams" class="title-code">验证说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>验证</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>必填验证</td>
+                                <td>required</td>
+                             </tr>
+                            <tr>
+                                <td>手机号验证</td>
+                                <td>ismobile</td>
+                            </tr>
+
+                            <tr>
+                                <td>固定电话验证</td>
+                                <td>isphone</td>
+                            </tr>
+                            <tr>
+                                <td>正整数验证</td>
+                                <td>positiveInteger</td>
+                            </tr>
+                            <tr>
+                                <td>邮政编码验证</td>
+                                <td>postalcode</td>
+                            </tr>
+                            <tr>
+                                <td>邮箱验证</td>
+                                <td>email</td>
+                            </tr>
+                            <tr>
+                                <td>身份证号验证</td>
+                                <td>Icd</td>
+                            </tr>
+                            <tr>
+                                <td>有效网址</td>
+                                <td>url</td>
+                            </tr>
+                            <tr>
+                                <td>非负整数验证</td>
+                                <td>nonnegativeInteger</td>
+                            </tr>
+                            <tr>
+                                <td>负数验证</td>
+                                <td>negative</td>
+                            </tr>
+                            <tr>
+                                <td>整数验证</td>
+                                <td>integer</td>
+                            </tr>
+
+                            <tr>
+                                <td>正数</td>
+                                <td>positive</td>
+                            </tr>
+
+                            <tr>
+                                <td>0-1之间验证</td>
+                                <td>range</td>
+                            </tr>
+                            <tr>
+                                <td>不大于{0}的数值</td>
+                                <td>max</td>
+                            </tr>
+                            <tr>
+                                <td>不小于{0}的数值</td>
+                                <td>min</td>
+                            </tr>
+
+                            <tr>
+                                <td>小数几位验证</td>
+                                <td> precision</td>
+                            </tr>
+                            <tr>
+                                <td>ajax验证</td>
+                                <td>remote</td>
+                            </tr>
+
+                            <tr>
+                                <td>最少字符</td>
+                                <td>minlength</td>
+                            </tr>
+                            <tr>
+                                <td>最多字符</td>
+                                <td>maxlength</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 普通验证 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-number-rules"></a>
+                <h3 class="title-code">验证1</h3>
+                <span class="intro">验证输入内容是否正确注：ajax验证时remoteAjax必填</span>
+                <div id="nsdocs-number-rules" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonrules = {
+                        id: 'nsdocs-number-rules',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'width',
+                            label: '邮箱验证:',
+                            type: 'text',
+                            value: '',
+                            rules: 'email', // /mobile/fax/isphone/postalcode/bankno/Icd/positiveInteger
+                                                         //nonnegativeInteger/integer/min/max/positive/negative
+                                                         //range/precision/email
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonrules, {});
+                    NetstarComponent.formComponent.init(component, formJsonrules);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'width',
+        label: '验证:',
+        type: 'text',
+        value: '',
+        rules: 'email', //  /mobile/fax/isphone/postalcode/bankno/Icd/positiveInteger
+                        //  /nonnegativeInteger/integer/min/max/positive/negative
+                        //  /range/precision/email
+    }
+                    </pre>
+                </div>
+            </div>
+            <!-- 最大最小字符验证 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-number-ruleslength"></a>
+                <h3 class="title-code">验证2</h3>
+                <span class="intro">验证输入内容是否正确</span>
+                <div id="nsdocs-number-ruleslength" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonruleslength = {
+                        id: 'nsdocs-number-ruleslength',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'width',
+                            label: '验证2 :',
+                            type: 'text',
+                            value: '',
+                            rules: 'minlength=5', //最少五个字符   /maxlength=9  最大9个字符
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonruleslength, {});
+                    NetstarComponent.formComponent.init(component, formJsonruleslength);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'width',
+        label: '验证2 :',
+        type: 'text',
+        value: '',
+        rules: 'minlength=5', //最少五个字符   /maxlength=9  最大9个字符
+    }
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

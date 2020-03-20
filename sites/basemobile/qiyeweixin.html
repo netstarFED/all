@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <title>DEV.网星云</title>
+</head>
+<body class="page-body skin-peis frame-standard">
+	<container>
+		<div id="customerCRM">
+			<div class="mobile-loading" id="mobile-loading"></div>
+			<div id="customerMenu" class="row mobile-main no-mobile-search"></div>
+		</div>
+	</container>
+</body>
+
+<script type="text/javascript">
+    $(function () {
+        var hrefSrc = window.location.href;
+        var attr  = NetStarUtils.getUrlPara(hrefSrc);
+        var attrStr = '';
+        for(var key in attr){
+            attrStr += key + '=' + attr[key] + '&';
+        }
+        if(attrStr.length > 0){
+            attrStr = attrStr.substring(0, attrStr.length-1)
+        }
+        var url = 'https://qaapi.wangxingcloud.com/openAppLogin/loginReturnToken?' + attrStr;
+        var ajaxConfig = {
+            url : url,
+            type : 'GET',
+        }
+        // alert(url);
+        $.ajax({
+            url : url,
+            type : 'GET',
+            success : function(data){
+                // alert(JSON.stringify(data));
+                if(data.success){
+                    // var cookieStr = NetStarUtils.cookie.get('Authorization');
+                    // nsAlert(cookieStr);
+                    var Authorization = data.data;
+
+                    //保存授权码
+                    NetStarUtils.OAuthCode.set({
+                        authorization:Authorization, 
+                        expireMinute:10,
+                    });
+                    window.location.href = '/sites/basemobile/main.html';
+                }else{
+                    window.location.href = '/sites/basemobile/index.html';
+                }
+            }
+        })
+    })
+</script>
+</html>

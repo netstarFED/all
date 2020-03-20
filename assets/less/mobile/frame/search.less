@@ -1,0 +1,350 @@
+[ns-system="mobile"] {
+    @mobile-input-height: @mobile-form-height;
+    @mobile-search-input-height: (@mobile-form-height - 1);
+    @mobile-input-search-bg: @ns-border-color;
+    @mobile-search-bg: #efeff4;
+    @mobile-search-border-radius: .4rem;
+    @search-panel-height: 5rem;
+    @search-form-height: 4rem;
+
+    // 搜索框
+    .search-box {
+        margin: -15px -1.5rem 0;
+        padding: 1rem;
+        height: 6rem;
+        #gradient>.vertical(#75c1ff, #56b1fc);
+        box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .08);
+
+        .input-group {
+            .flex-block();
+            height: 4rem;
+        }
+
+        .panel-form {
+            .form-td {
+                .form-control {
+                    .flex-block(flex-start, center);
+                    height: 4rem;
+                    border: 0; // font-size: @font-size-md;
+                    border-radius: .25rem;
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                    text-align: left;
+
+                    &:focus {
+                        box-shadow: none;
+
+                        &+.input-group-btn {
+                            i {
+                                color: #75c1ff;
+                                transition: ease-in-out all .35s;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 清空按钮
+        .clear-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .size(3rem, 4rem);
+
+            i {
+                color: #ddd;
+            }
+        }
+
+        // 搜索按钮
+        .input-group-btn {
+            display: flex;
+            .square(4rem);
+
+            .btn {
+                .flex-block(center, center);
+                .square(4rem);
+                border-radius: .25rem;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+
+                i {
+                    color: #ddd;
+                    font-size: @font-size-lg;
+                }
+            }
+        }
+    }
+
+    // 搜索历史
+    .search-history {
+
+        // title
+        .history-title {
+            .flex-block();
+            height: 4rem;
+
+            span {
+                font-weight: bold;
+            }
+        }
+
+        // history-tags
+        .history-content {
+            @history-bg: #eee;
+
+            .search-history-item {
+                display: inline-block;
+                background: @history-bg;
+                padding: (@base-padding / 2) @base-padding;
+                border-radius: 2rem;
+                margin: 0 (@base-margin / 2) (@base-margin / 2) 0;
+            }
+        }
+    }
+
+    // 搜索框
+    .search.card {
+        @search-input-height: 3.5rem;
+        @search-bg: #efeff4;
+        padding: 1rem @base-padding;
+        background: @search-bg;
+        border: 1px solid @ns-border-color;
+        border-width: 1px 0;
+        .flex-block();
+
+        .form-control {
+            text-align: center;
+            height: @search-input-height;
+            border-radius: .3rem;
+
+            &:focus {
+                text-align: left;
+                padding-left: @search-input-height;
+
+                &+.btn-link {
+                    display: flex;
+                    color: @mobile-primary;
+                }
+            }
+        }
+
+        .btn-link {
+            display: none;
+            width: 4.5rem;
+            height: @search-input-height;
+
+            &:focus {
+                outline: none;
+                text-decoration: none;
+            }
+        }
+
+        i {
+            .flex-block(center, center);
+            position: absolute;
+            top: 1rem;
+            left: @base-padding;
+            .square(@search-input-height);
+            color: @ns-border-color;
+        }
+    }
+
+    .mobile-input-search {
+
+        .flex-block();
+        padding: 1rem;
+        background: @mobile-search-bg;
+        border-bottom: 1px solid @ns-border-color;
+        position: fixed;
+        width: 100%;
+        z-index: 9;
+
+        &.row {
+            margin: 0;
+        }
+
+        form {
+            .flex-block(space-between, stretch);
+            background: transparent;
+        }
+
+        .input-group {
+            background: transparent;
+            height: @mobile-search-input-height;
+            border: 1px solid @ns-border-color;
+            overflow: hidden;
+            border-radius: @mobile-search-border-radius;
+            .flex-block(space-between, stretch);
+
+            .input-group-addon {
+                .flex-block(center, center);
+                flex: 0 0 @mobile-search-input-height;
+                background: #fff;
+                margin-top: -1px;
+                border: 0;
+                border-radius: @mobile-search-border-radius 0 0 @mobile-search-border-radius;
+
+                &:hover {
+                    box-shadow: none;
+                }
+
+                &+.form-control {
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+            }
+
+            .form-control {
+                .flex-block();
+                height: @mobile-search-input-height;
+                font-size: @mobile-font-size;
+                border-radius: @mobile-search-border-radius;
+                border: 0;
+                padding: 0 10px;
+                margin-top: -1px;
+
+                &+.input-group-btn {
+                    margin-left: -@mobile-search-border-radius;
+                }
+            }
+
+            .input-group-btn {
+                .flex-block();
+                flex: 0 0 @mobile-search-input-height;
+                margin-top: -1px;
+
+                i {
+                    color: @gray-light;
+                }
+
+                .btn {
+                    .square(@mobile-search-input-height);
+                    height: @mobile-search-input-height  !important;
+                    min-height: @mobile-search-input-height  !important;
+
+                    &:last-child {
+                        border-radius: 0 @mobile-search-border-radius @mobile-search-border-radius 0;
+                    }
+                }
+            }
+        }
+
+        .btn-group {
+            position: static;
+            flex: none;
+            align-items: center;
+            min-height: @mobile-search-input-height ;
+        }
+
+        .btn {
+            .square(@mobile-search-input-height);
+            min-height: @mobile-search-input-height;
+        }
+
+        // 搜索框触发控制面板
+        .mobile-input-search-control {
+            .flex-block(center, center);
+            background: #fff;
+            height: @mobile-search-input-height;
+            color: @gray-light;
+            border-radius: @mobile-search-border-radius;
+            border: 1px solid @ns-border-color;
+
+            i {
+                padding-right: 0.5rem;
+            }
+        }
+
+        //二维码
+        .mobile-scanqrcode-button {
+            button {
+                -moz-background-color: transparent;
+                /* 火狐等使用Mozilla浏览器引擎的浏览器 */
+                -webkit-background-color: transparent;
+                /* Safari, 谷歌浏览器等使用Webkit引擎的浏览器 */
+                -o-background-color: transparent;
+                /* Opera浏览器(早期) */
+                -ms-background-color: transparent;
+                /* Internet Explorer (不一定) */
+                background-color: transparent;
+
+                -moz-border-color: transparent;
+                /* 火狐等使用Mozilla浏览器引擎的浏览器 */
+                -webkit-border-color: transparent;
+                /* Safari, 谷歌浏览器等使用Webkit引擎的浏览器 */
+                -o-border-color: transparent;
+                /* Opera浏览器(早期) */
+                -ms-border-color: transparent;
+                /* Internet Explorer (不一定) */
+                border-color: transparent;
+
+                i {
+                    -moz-font-size: @font-size-lg;
+                    /* 火狐等使用Mozilla浏览器引擎的浏览器 */
+                    -webkit-font-size: @font-size-lg;
+                    /* Safari, 谷歌浏览器等使用Webkit引擎的浏览器 */
+                    -o-font-size: @font-size-lg;
+                    /* Opera浏览器(早期) */
+                    -ms-font-size: @font-size-lg;
+                    /* Internet Explorer (不一定) */
+                    font-size: @font-size-lg;
+                    -moz-color: #666;
+                    /* 火狐等使用Mozilla浏览器引擎的浏览器 */
+                    -webkit-color: #666;
+                    /* Safari, 谷歌浏览器等使用Webkit引擎的浏览器 */
+                    -o-color: #666;
+                    /* Opera浏览器(早期) */
+                    -ms-color: #666;
+                    /* Internet Explorer (不一定) */
+                    color: #666;
+                }
+            }
+        }
+
+        .btn-group {
+            .btn {
+                background: transparent;
+                width: 4rem;
+            }
+        }
+
+        &+.mobile-crm-search-form {
+            top: (@mobile-input-height + 1rem);
+
+            &+div {
+                .nspanel-container[ns-panel="blockList"] {
+                    padding-top: (@search-panel-height + @search-form-height);
+                }
+            }
+        }
+
+    }
+
+    .mobile-input-search {
+        &+.layout-planes {
+            &.businessdatabasem {
+
+                .nspanel-container {
+                    &[ns-panel="tree"] {
+                        top: 5rem;
+                    }
+
+                    .mobile-crm-search-form {
+                        top: 5rem;
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+.mobile-crm-search-table {
+    padding-top: ((@mobile-form-height * 2) + 1);
+
+    &.no-mobile-search {
+        padding-top: @mobile-form-height;
+    }
+}

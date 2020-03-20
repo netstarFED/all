@@ -1,0 +1,17 @@
+.input-size(@input-height; @padding-v; @padding-h; @font-size; @border-radius:0) {
+    height: @input-height;
+    padding: @padding-v @padding-h;
+    font-size: @font-size;
+
+    border-radius: @border-radius;
+  
+    select& {
+      height: @input-height;
+      line-height: @input-height;
+    }
+  
+    textarea&,
+    select[multiple]& {
+      height: auto;
+    }
+  }

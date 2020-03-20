@@ -1,0 +1,113 @@
+.pt-block-card {
+    position: relative;
+    z-index: 1;
+    margin-top: @base-margin;
+    border-radius: 5px;
+
+    &.pt-block-list {
+        float: none;
+        border: 0;
+        background: #eee;
+        & +  .pt-block-list{
+            margin-top: @base-margin;
+        }
+        &.pt-block-list-vertical-simple{
+            & +  .pt-block-list-vertical-simple{
+                margin-top: @base-margin;
+            }
+        }
+
+        .pt-block-content{
+            padding-left: 75px;
+            position: relative;
+            
+            span{
+                color: #fff;
+            }
+            &:before{
+                position: absolute;
+                content:"";
+                width: 0;
+                top: 0;
+                bottom: 0;
+                left: 59px;
+                border: 1px dashed #fff;
+            }
+            .card-mark{
+                position: absolute;
+                width: 60px;
+                line-height: 65px;
+                top: 0;
+                bottom: 0;
+                font-size: 14px;
+                text-align: center;
+                left: 0;
+                margin-bottom: 0;
+                opacity: 1;
+                &.tag{
+                    color: #fff;
+                    opacity: 1;
+                }
+                & + .code{
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #fff;
+                    opacity: 1;
+                    text-shadow: 0 1px 3px rgba(0,0,0, .25);
+                }
+                &:before,
+                &:after{
+                    position: absolute;
+                    content: '';
+                    width: 10px;
+                    height: 5px;
+                    background: #fff;
+                    right: -5px;
+                    
+                }
+                &:before{
+                    top: 0;
+                    border-radius: 0 0 10px 10px;
+                }
+                &:after{
+                    bottom: 0;
+                    border-radius: 10px 10px 0 0;
+                }
+            }
+            .pt-block-content-item{
+                
+                .tag,
+                .code{
+                    color: #fff;
+                    opacity: 0.75;
+                    &.card-mark{
+                        opacity: 1;
+                        & + .code{
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+            
+        }
+       
+
+        // 现金券
+        &.pt-block-card-xj{
+            #gradient >  .vertical(#5be1d0, #23bfab);
+        }
+        
+        // 优惠券
+        &.pt-block-card-yh{
+            #gradient >  .vertical(#54ccea, #1ca3d5);
+        }
+        
+        // 满减券
+        &.pt-block-card-mj{
+            #gradient >  .vertical(#eac994, #d29665);
+        }
+
+
+    }
+
+}

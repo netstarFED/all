@@ -1,0 +1,326 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>textarea</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>字段名</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>组件id，实际生成的表单中名称为'form-'+id id不可重复</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>组件类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>textarea</td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件的标签，未配置则不显示</td>
+                            </tr>
+                            <tr>
+                                <td>rules</td>
+                                <td>验证规则</td>
+                                <td>string</td>
+                                <td><i></i></td>
+                                <td>当前组件仅支持必填验证：required</td>
+                            </tr>
+                            <tr>
+                                <td>value</td>
+                                <td>显示的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认显示的值</td>
+                            </tr>
+                            <tr>
+                                <td>disabled</td>
+                                <td>只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否只读(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>inputWidth</td>
+                                <td>宽</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>组件除去label的宽度 与width不共存(默认100)</td>
+                            </tr>
+                            <tr>
+                                <td>isUseUEditor</td>
+                                <td>是否使用UEditor</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>默认（false）</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>宽</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件整体宽度 *% 与inputWidth不共存</td>
+                            </tr>
+                            <tr>
+                                <td>model</td>
+                                <td>查询默认数据</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>all（全部功能） standard(标准功能按钮) min（min功能）</td>
+                            </tr>
+                            <tr>
+                                <td>changeHandler</td>
+                                <td>变更处理程序</td>
+                                <td>function</td>
+                                <td></td>
+                                <td>组件值改变时触发 即value值发生改变时触发</td>
+                            </tr>
+                            <tr>
+                                <td>hidden</td>
+                                <td>隐藏</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否隐藏(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>isDistinct</td>
+                                <td>是否有排重字段</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>默认false</td>
+                            </tr>
+                            <tr>
+                                <td>distinctField</td>
+                                <td>排重字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>valueExpression</td>
+                                <td>value表达式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过表达式设置value值  {page.**}</td>
+                            </tr>
+                            <tr>
+                                <td>placeholder</td>
+                                <td>placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>gridPlaceholder</td>
+                                <td>表格placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>表格默认显示（业务组件：点击新增，其它：可输入）</td>
+                            </tr>
+                            <tr>
+                                <td>formSource</td>
+                                <td>组件模式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模式；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认from)</td>
+                            </tr>
+                            <tr>
+                                <td>templateName</td>
+                                <td>组件模式名字</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模板名字；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认pc)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-textarea-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">显示的值</h3>
+                <span class="intro">默认显示内容</span>
+                <div id="nsdocs-textarea-value" class="panel-demo"></div>
+                <script>
+                    /*输入模式value*/
+                    var formJsonValue = {
+                        id: 'nsdocs-textarea-value',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'value1',
+                            label: '显示 :',
+                            type: 'textarea',
+                            value: '鸡蛋',
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonValue, {});
+                    NetstarComponent.formComponent.init(component, formJsonValue);
+                    /*输入模式value---end*/
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'value1',
+        label: '显示 :',   
+        type: 'textarea',  
+        value: '鸡蛋',
+    } 
+
+                </pre>
+                </div>
+            </div>
+            <!-- 标准输入模式只读disabled -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-textarea-disabled"></a>
+                <h3 class="title-code">只读</h3>
+                <span class="intro">只读，不可编辑</span>
+                <div id="nsdocs-textarea-value-disabled" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonDisbled = {
+                        id: 'nsdocs-textarea-value-disabled',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'disabled',
+                            label: '只读 :',
+                            type: 'textarea',
+                            value: "只读",
+                            disabled: true, //只读模式
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonDisbled, {});
+                    NetstarComponent.formComponent.init(component, formJsonDisbled);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'disabled',
+        label: '只读 :',
+        type: 'textarea',
+        value: "只读",
+        disabled: true,//只读模式
+    }
+                        </pre>
+                </div>
+            </div>
+            <!-- 样式宽-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-textarea-width"></a>
+                <h3 class="title-code">样式宽</h3>
+                <span class="intro">宽</span>
+                <div id="nsdocs-textarea-value-width" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonWidth = {
+                        id: 'nsdocs-textarea-value-width',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false, //是否显示更多
+                        form: [{
+
+                            id: 'width',
+                            label: '宽 :',
+                            type: 'textarea',
+                            value: "",
+                            inputWidth: 500, //宽500
+
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonWidth, {});
+                    NetstarComponent.formComponent.init(component, formJsonWidth);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+                
+        id: 'width',
+        label: 'width宽:',
+        type: 'textarea',
+        value: "",
+        inputWidth:500, //宽500
+
+    }
+                            </pre>
+                </div>
+            </div>
+            <!-- 是否使用isUseUEditor-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-textarea-isuseueditor"></a>
+                <h3 class="title-code">是否使用UEditor</h3>
+                <span class="intro"></span>
+                <div id="nsdocs-textarea-value-isuseueditor" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonIsUseUEditor = {
+                        id: 'nsdocs-textarea-value-isuseueditor',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false, //是否显示更多
+                        form: [{
+                            isUseUEditor: true,
+                            id: 'width',
+                            label: '是否使用UEditor:',
+                            type: 'textarea',
+                            value: "",
+                            inputWidth: 500, //宽500
+
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonIsUseUEditor, {});
+                    NetstarComponent.formComponent.init(component, formJsonIsUseUEditor);
+                </script>
+                <!-- model-->
+                <div class="content language-javascript">
+                    <pre>
+    {
+                
+        id: 'width',
+        label: 'width宽:',
+        type: 'textarea',
+        value: "",
+        inputWidth:500, //宽500
+
+    }
+                            </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

@@ -1,0 +1,309 @@
+<container>
+    <style>
+        .control-btn-toolbar {
+            position: absolute;
+        }
+
+        .modal-backdrop.fade {
+            z-index: 99;
+        }
+    </style>
+    <div class="page-title nav-form"></div>
+    <div class="row">
+        <div class="col-sm-12 main-panel">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table cellspacing="0" class="table table-singlerow table-hover table-bordered table-striped"
+                            id="template-table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // var urlMenu = '';
+        $(function () {
+            var dataConfig = {
+                tableID: "template-table",
+                src: getRootPath() + '/templatePages/getList', //数据源地址
+                type: "GET", //GET POST
+                data: {}, //参数对象{id:1,page:100}
+                dataSrc: 'rows',
+            }
+            var columnConfig = [{
+                field: 'name',
+                title: '模板名',
+                searchable: true,
+                orderable: true,
+            }, {
+                field: 'remark',
+                title: '备注',
+                searchable: true,
+            }, {
+                field: 'category',
+                title: '分类',
+                searchable: true,
+            }, {
+                field: 'id',
+                title: '操作',
+                formatHandler: {
+                    type: 'button',
+                    data: [{
+                        "编辑": function (datajson) {
+                            // console.log(datajson);
+                            var ajaxConfig = {
+                                url: getRootPath() + "/templatePages/" + datajson.rowData.id,
+                                type: "GET",
+                                dataType: "json",
+                                contentType : 'application/x-www-form-urlencoded',
+                            };
+                            NetStarUtils.ajax(ajaxConfig, function(data){
+                                if (data.success) {
+                                    var rowData = $.extend(true, {}, data.data);
+                                    var templateFtl = rowData.templateFtl;
+                                    rowData.templateFtl = templateFtl.substring(templateFtl.indexOf("<container>") + 11,templateFtl.indexOf("</container>"));
+                                    //rowData.templateFtl = rowData.templateFtl.substring(rowData.templateFtl.indexOf("<"+"/script>")+9);
+                                    showModalFun(rowData);
+                                }
+                            })
+                            function showModalFun(rowData) {
+                                var configS = {
+                                    id: "plane-template",
+                                    title: "保存模板",
+                                    size: "b",
+                                    form: [{
+                                        id: "id",
+                                        label: "id",
+                                        type: "hidden",
+                                        value: rowData.id
+                                    }, {
+                                        id: "name",
+                                        label: "模板名",
+                                        type: "text",
+                                        value: rowData.name
+                                    }, {
+                                        id: "remark",
+                                        label: "备注",
+                                        type: "textarea",
+                                        value: rowData.remark
+                                    }, {
+                                        id: "category",
+                                        label: "分类",
+                                        type: "textarea",
+                                        value: rowData.category
+                                    }, {
+                                        id: "templateFtl",
+                                        label: "模板内容(ftl格式)",
+                                        type: "textarea",
+                                        height: 250,
+                                        value: rowData.templateFtl
+                                    }, {
+                                        id: "templateForm",
+                                        label: "模板表单(配置表单)",
+                                        type: "textarea",
+                                        height: 250,
+                                        value: rowData.templateForm
+                                    }],
+                                    btns: [{
+                                        text: '确认',
+                                        handler: function () {
+                                            var dialogData = nsdialog.getFormJson("plane-template");
+                                            // console.log(dialogData);
+                                            if (dialogData) {
+                                                // dialogData.templateFtl = '<container>' + dialogData.templateFtl + '</container>';
+                                                // dialogData.templateFtl = '<'+'%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%'+'>'+urlMenu.replace(urlMenu.substring(urlMenu.indexOf("<container>"),urlMenu.indexOf("</container>")+12),dialogData.templateFtl);
+                                                // console.log(dialogData.templateFtl);
+                                                dialogData.templateFtl =
+                                                    '<' +
+                                                    '%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%' +
+                                                    '>' +
+                                                    '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">' +
+                                                    '<html>' +
+                                                    '<head>' +
+                                                    '<title></title>' +
+                                                    '<' +
+                                                    '%@ include file="/WEB-INF/view/jsp/include.jsp"%' +
+                                                    '>' +
+                                                    '</head>' +
+                                                    '<body>' +
+                                                    '<container>'
+                                                    // +'<script type="text/javascript">'
+                                                    // 	+'var rootPathStr = getRootPath();'
+                                                    // 	+'var lastStr = rootPathStr.substring(rootPathStr.lastIndexOf("/")+1);'
+                                                    // 	+'if(lastStr == "templateMindPages"){'
+                                                    // 		+'getRootPath = function(){'
+                                                    // 			+'return rootPathStr.substring(0,rootPathStr.lastIndexOf("/"));'
+                                                    // 		+'}'
+                                                    // 	+'};'
+                                                    // 	+'$.getScript(getRootPath()+"/js/uiconfig.js");'
+                                                    // +'<'+'/script>'
+                                                    +
+                                                    dialogData.templateFtl +
+                                                    '</container>' +
+                                                    '</body>' +
+                                                    '</html>';
+                                                var ajaxConfig = {
+                                                    url: getRootPath() +"/templatePages/save",
+                                                    type: "POST",
+                                                    dataType: "json",
+                                                    data: dialogData,
+                                                    contentType : 'application/x-www-form-urlencoded',
+                                                }
+                                                NetStarUtils.ajax(ajaxConfig, function(data){
+                                                    if (data.success) {
+                                                            nsAlert( "修改成功");
+                                                            nsdialog.hide();
+                                                            baseDataTable.reloadTableAJAX("template-table");
+                                                        } else {
+                                                            nsAlert("修改失败");
+                                                        }
+                                                })
+                                            }
+                                        },
+                                    }]
+                                }
+                                nsdialog.initShow(configS);
+                            }
+                        }
+                    }, {
+                        "删除": function (data) {
+                            console.log(data);
+                            var rowData = data.rowData;
+                            nsConfirm("确认要删除吗？", function (isdelete) {
+                                if (isdelete) {
+                                    var ajaxConfig = {
+                                        url: getRootPath() +"/templatePages/delete",
+                                        type: "POST",
+                                        dataType: "json",
+                                        data: {
+                                            id: rowData.id
+                                        },
+                                        contentType : 'application/x-www-form-urlencoded',
+                                    }
+                                    NetStarUtils.ajax(ajaxConfig, function(data){
+                                        if (data.success) {
+                                            nsAlert("删除成功");
+                                            baseDataTable.reloadTableAJAX("template-table");
+                                        } else {
+                                            nsAlert("删除失败");
+                                        }
+                                    })
+                                }
+                            }, "success");
+                        }
+                    }]
+                }
+            }]
+            var uiConfig = {
+                searchTitle: "保存模板", //搜索框前面的文字，默认为检索
+                searchPlaceholder: "模板名", //搜索框提示文字，默认为可搜索的列名
+                isSelectColumns: false, //是否开启列选择，默认为选择
+                isAllowExport: false, //是否允许导出数据，默认允许
+                // pageLengthMenu: 	18, 	//可选页面数  auto是自动计算  all是全部
+                isSingleSelect: true, //是否单选
+                // isMulitSelect: true,						//是否多选
+                // isOpenCheck: true,							//是否全选
+                onselectHandler: function () {}
+            }
+            var btnConfig = {
+                selfBtn: [{
+                    text: '新增模板',
+                    handler: function () {
+                        var configS = {
+                            id: "plane-template",
+                            title: "保存模板",
+                            size: "b",
+                            form: [{
+                                id: "name",
+                                label: "模板名",
+                                rules: "required",
+                                type: "text",
+                            }, {
+                                id: "remark",
+                                label: "备注",
+                                rules: "required",
+                                type: "textarea",
+                            }, {
+                                id: "category",
+                                label: "分类",
+                                rules: "required",
+                                type: "textarea",
+                            }, {
+                                id: "templateFtl",
+                                label: "模板内容(ftl格式)",
+                                rules: "required",
+                                type: "textarea",
+                                height: 250,
+                            }, {
+                                id: "templateForm",
+                                label: "模板表单(配置表单)",
+                                rules: "required",
+                                type: "textarea",
+                                height: 250,
+                            }],
+                            btns: [{
+                                text: '确认',
+                                handler: function () {
+                                    var dialogData = nsdialog.getFormJson("plane-template");
+                                    console.log(dialogData);
+                                    if (dialogData) {
+                                        // dialogData.templateFtl = '<container>' + dialogData.templateFtl + '</container>';
+                                        // dialogData.templateFtl = '<'+'%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%'+'>'+urlMenu.replace(urlMenu.substring(urlMenu.indexOf("<container>"),urlMenu.indexOf("</container>")+12),dialogData.templateFtl);
+                                        dialogData.templateFtl = '<' +
+                                            '%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%' +
+                                            '>' +
+                                            '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">' +
+                                            '<html>' +
+                                            '<head>' +
+                                            '<title></title>' +
+                                            '<' +
+                                            '%@ include file="/WEB-INF/view/jsp/include_New.jsp"%' +
+                                            '>' +
+                                            '</head>' +
+                                            '<body>' +
+                                            '<container>'
+                                            // +'<script type="text/javascript">'
+                                            // 	+'var rootPathStr = getRootPath();'
+                                            // 	+'var lastStr = rootPathStr.substring(rootPathStr.lastIndexOf("/")+1);'
+                                            // 	+'if(lastStr == "templateMindPages"){'
+                                            // 		+'getRootPath = function(){'
+                                            // 			+'return rootPathStr.substring(0,rootPathStr.lastIndexOf("/"));'
+                                            // 		+'};'
+                                            // 		+'$.getScript(getRootPath()+"/js/uiconfig.js");'
+                                            // 	+'};'
+                                            // +'<'+'/script>'
+                                            +
+                                            dialogData.templateFtl +
+                                            '</container>' +
+                                            '</body>' +
+                                            '</html>'
+                                        var ajaxConfig = {
+                                            url: getRootPath() +"/templatePages/save",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: dialogData,
+                                            contentType : 'application/x-www-form-urlencoded',
+                                        };
+                                        NetStarUtils.ajax(ajaxConfig, function(data){
+                                            if (data.success) {
+                                                nsAlert("保存成功");
+                                                nsdialog.hide();
+                                                baseDataTable.reloadTableAJAX("template-table");
+                                            } else {
+                                                nsAlert("保存失败");
+                                            }
+                                        })
+                                    }
+                                }
+                            }]
+                        }
+                        nsdialog.initShow(configS);
+                    }
+                }]
+            }
+            baseDataTable.init(dataConfig, columnConfig, uiConfig, btnConfig);
+        })
+    </script>
+</container>

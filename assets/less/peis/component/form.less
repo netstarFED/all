@@ -1,0 +1,522 @@
+
+@col-none-label-width: 60px;
+@col-none-form-conrtol-width: 90px;
+// 无边框表单
+.form-content {
+	&.form-border-close {
+		.form-td {
+			border: 0;
+			margin: 0;
+			background-color: transparent;
+			.form-item {
+				background-color: transparent;
+				&:before {
+					display: none;
+				}
+			}
+		}
+		.fillbg {
+			background-color: transparent;
+		}
+		.row-close {
+			padding: 0;
+		}
+	} 
+	// 账户信息
+	&.account {
+		@account-border-color: #d9e9f8;
+		@account-label-bg: #eff5fc;
+		@readonly-bg: #f6f6f6;
+		.panel.panel-form{
+			background: #fff;
+		}
+		border: 1px solid @ns-border-color;
+		form{
+			margin: 0;
+			.row{
+				padding: 0 @base-padding;
+				.form-td{
+					margin: 0;
+					.form-item{
+						&.text{
+							.form-control{
+								text-align: right;
+								padding-right: (@padding-base-horizontal / 2);
+							}
+						}
+					}
+	
+					.control-label{
+						text-align: right;
+						background: #fff;
+						color: #989898;
+					}
+					.form-control{
+						min-width: 80px;
+						padding: 6px (@base-padding / 2);
+						
+						&.readonly,
+						&[readonly="readonly"]{
+							background: #fff !important;
+							color: #000 !important;
+						}
+					}
+					&.form-normal{
+						border: 1px solid @account-border-color;
+						box-sizing: border-box;
+						.control-label{
+							min-width: 70px;
+							width:70px;
+							text-align: left;
+							background: @account-label-bg;
+							color: #666 ;
+						}
+						.from-control{
+							
+							&.readonly,
+							&[readonly="readonly"]{
+								background: @readonly-bg;
+							}
+						}
+
+						& + .form-normal{
+							margin-top: 2px;
+						}
+
+						.input-group-btn{
+							border-left: 1px solid @account-border-color;
+							.btn.btn-white{
+								width: 30px;
+								background-color: transparent !important;
+								i{
+									color: @gray !important;
+									font-weight: normal;
+								}
+								&:hover{
+									box-shadow: none;
+									cursor: default;
+								}
+							}
+							&:hover{
+								box-shadow: none;
+							}
+						}
+					}
+					&.account-money{
+						@form-height:46px;
+						width: auto !important;
+						margin: 0 -(@base-margin / 2);
+						.form-group{
+							height: @form-height;
+						}
+						.control-label{
+							background: @account-label-bg;
+							text-align: right;
+							color: #666;
+						}
+						.form-item{
+							min-width: 60%;
+							.form-control[readonly="readonly"]{
+								text-align: right;
+								font-size: 20px;
+								height: @form-height;
+								color: @ns-danger !important;
+								font-weight: bold;
+								background: @account-label-bg !important;
+								padding-right: @padding-base-horizontal;
+							}
+						}
+					}
+				}
+
+				.element-title{
+					&:before{
+						display: none;
+					}
+				}
+			}
+		}
+
+		.title-style{
+			&:before{
+				content: "\f157";
+			}
+		}
+		
+	}
+
+}
+.page-title {
+	&.template-btn {
+		height: auto;
+		background-color: transparent;
+		border: 0;
+		.btn-group {
+			width: 100%;
+			.btn {
+				display: block;
+				width: 100%;
+				&+.btn {
+					margin-top: (@base-margin / 2);
+				}
+				&.btn-info {
+					background: @ns-info;
+					span {
+						color: #fff;
+					}
+					i {
+						color: #fff;
+					}
+					&:hover {
+						box-shadow: none;
+						background: darken(@ns-info, 5%);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+.panel-form {
+	// 表单标题
+	.element-title{
+		padding: (@padding-base-vertical * 2) 0;
+		i{
+			display: none;
+		}
+		// .title-label{
+		// 	.peis-title-lg();
+		// 	padding: 0 @base-padding;
+		// 	padding-left: @icon-title-padding;
+		// }
+	}
+	
+}
+
+.peis-filter{
+	.filter-mode-form();
+
+	.nspanel.layout-form form{
+		.row-close{
+			padding: 0;
+		}
+	}
+	.panel-form .element-title{
+		padding-left: 5px;
+		.title-label{
+			padding-left: @icon-title-padding !important;
+		}
+	}
+
+	label.control-label{
+		@control-label: 120px;
+		min-width: @control-label !important;
+	}
+}
+
+// 下拉复选框
+.drop-checkbox{
+	position: absolute;
+	right: 10px;
+	width: 240px;
+	z-index: 2;
+}
+.drop-checkbox .input-group{
+	display: table;
+	width: 240px;
+}
+.drop-checkbox .control-label{
+	display: table-cell;
+	width: 80px;
+	margin: 0;
+	vertical-align: middle;
+}
+.drop-checkbox .form-control{
+	display: table-cell;
+	width: 160px;
+	height: 32px;
+	line-height: 32px;
+	padding-right: 24px;
+	padding: 0 24px 0 10px;
+	box-sizing: border-box;
+	border-right: 1px solid @ns-border-color;
+}
+.drop-checkbox .dropdown-block{
+	position: absolute;
+	top: 32px;
+	right: 0;
+	left: 80px;
+	padding: 0;
+	margin: -1px 0 0;
+	background: #fff;
+	border: 1px solid #ddd;
+	box-shadow: 0 2px 5px rgba(0,0,0, .15);
+	max-height: 120px;
+	overflow-y: auto;
+	.checkbox{
+		min-height: 30px;
+		margin: 0;
+		.checkbox-inline{
+			height: 30px;
+			line-height: 30px;
+			margin: 0; 
+			padding-left: 30px;
+			&:after{
+				top: 8px;
+			}
+		}
+	}
+}
+.drop-checkbox .dropdown-block li{
+	list-style-type: none;
+	padding: 5px 10px;
+}
+.drop-checkbox .dropdown-block li:hover{
+	background: #f8f8f8;
+	cursor: pointer;
+}
+
+.peis-form{
+	margin-bottom: (@base-margin / 2);
+	&.col-none{
+		position: absolute;
+		top: 10px;
+		right: 0;
+		z-index: 9;
+		margin-bottom:  -(@base-margin / 2);
+		.panel-form{
+			.form-td{
+				border: 0;
+				.control-label{
+					background-color: transparent;
+					min-width: @col-none-label-width;
+					max-width: @col-none-label-width;
+					width: @col-none-label-width;
+				}
+				.form-item{
+					&:before{
+						display: none;
+					}
+					.form-control{
+						padding: 0 (@base-padding / 2);
+						width: @col-none-form-conrtol-width;
+					}
+				}
+			}
+		}
+	}
+	&:first-child,
+	&:last-child{
+		margin: 0;
+	}
+	// 表单标题
+	// label.grouplable{
+	// 	.peis-title-lg();
+	// 	margin-left: -2px;
+	// 	border: 0;
+	// 	text-indent: 0;
+	// 	font-weight: normal !important;
+	// }
+
+	.form-control{
+		height: 30px;
+	}
+	
+}
+
+.panel-form{
+	.readonly-view{
+		.fillbg{
+			border-color: transparent;
+			background: transparent;
+			.form-td.col-none{
+				display: inline-block;	
+				.form-group {
+					font-weight: bold;
+					.text.form-item input.form-control{
+						width: 80px;
+					}
+				}
+				&.company-name{
+					.form-group {
+						.text.form-item input.form-control{
+							width: 300px;
+						}
+					}
+				}
+			}
+
+			.control-label{
+				float: left;
+				line-height: 30px;
+				padding: 0;
+				width: auto !important;
+				max-width:  auto !important;
+				min-width:  auto !important;
+				padding-right: (@base-padding / 2) !important;
+				margin: 0;
+			}
+		}
+	}
+}
+.content-enlarge{
+	.panel-form{
+		.readonly-view{
+			.control-label{
+				line-height: 40px;
+			}
+		}
+	}
+}
+
+.form-content{
+	@control-label-width: 57px;
+	@control-label-width-lg: 75px;
+	.masterkey-form{
+		border:1px solid @ns-border-color;
+		margin-top: -1px;
+		.panel-form{
+			.form-td {
+				.control-label{
+					width: @control-label-width;
+				}
+				.form-item{
+					// width: calc(~"100% -" @control-label-width);
+					float: left;
+					.form-control{
+						font-weight: bold;
+						height: 30px;
+					}
+				}
+			}
+		}
+	}
+	&.content-enlarge{
+		.masterkey-form{
+			.panel-form .form-td{
+				.control-label{
+					width: @control-label-width-lg;
+				}
+				.form-item{
+					width: calc(~"100% -" @control-label-width-lg);
+					.form-control{
+						height: 40px;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+.skin-peis{
+	@filter-form-width: 275px;
+	@filter-form-label-width: 75px;
+	.filter-form{
+		width: @filter-form-width;
+		.panel-form{
+			.form-td{
+				.control-label{
+					max-width: @filter-form-label-width;
+					min-width: @filter-form-label-width;
+					width: @filter-form-label-width;
+				}
+			}
+
+			& + .btn.btn-white{
+				float: right;
+				width: 100%;
+				background: @ns-primary;
+				padding: @base-padding;
+				height: 40px;
+				color: #fff;
+				margin-top: (@base-margin / 2);
+				&:hover{
+					box-shadow: none;
+					background: darken(@ns-primary, 10%);
+				}
+			}
+		}
+
+
+	}
+}
+
+//主检页面疾病列表表单
+.peis-diseases{
+	.peis-diseases-content{
+		.peis-diseases-content-list{
+			.peis-diseases-content-list-item{
+				.panel{
+					border-radius: 0px;
+				}
+			}
+			.empty-data{
+				min-height: 220px;
+				background-color: #eff5fc;
+				border:1px solid #d9e9f8;
+				line-height: 200px;
+				text-align: center;
+				color: #98c4ec;
+				font-size: 16px;
+			}
+		}
+	}
+
+}
+.peis-diseases{
+	.peis-diseases-content{
+		.panel{
+			.panel-heading{
+				background: @accordion-panel-heading-bg;
+				padding: 3px 0px 2px 10px;
+				height: auto;
+				overflow: hidden;
+				border-color: transparent;
+				border:1px solid #d9e9f8;
+				border-bottom:none;
+				border-radius: 0px;
+				span.panel-title{
+					.peis-title-sm();
+					line-height: 30px;
+					input{
+						height: 30px;
+						background-color: transparent;
+						box-shadow: none;
+						outline: none !important;
+						-webkit-appearance: none;
+						border:none;
+						border-bottom:1px solid #d9e9f7;
+						margin-left: @base-margin / 2;
+					}
+				}
+				.nav-form{
+					float:right;
+				}
+			}
+			.panel-collapse{
+				min-height: 100px;
+			}
+		}
+	}	
+}
+.medicalHistory-detail-body{
+}
+#plane-dialogS{
+	.modal-dialog{
+		.modal-content {
+			.modal-body{
+				.tab-content{
+					padding: 10px;
+					border: 1px solid #ddd;
+					border-top: none;
+				}
+				.form-group{
+					margin: 0;
+				}
+			}
+		}
+	}
+}

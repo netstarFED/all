@@ -1,0 +1,163 @@
+.peis-table {
+	position: relative;
+	.block-tags {
+		border: 0;
+		padding: 0;
+	}
+	// table.table{
+	// 	thead{
+	// 		tr{
+	// 			th{
+	// 				color:#62a7e0!important;
+	// 			}
+	// 		} 
+	// 	} 
+	// } 
+	.peis-table-components{
+		@nsui-quicktyping-size: 32px;
+		@nsui-quicktyping-gutter: 6px;
+		@nsui-quicktyping-label-bg: transparent;
+
+		position: absolute;
+		top: 5px;
+		left: 130px;
+		// right: 0;
+		z-index: 9;
+		.btn{
+			i{
+				padding-right: 0;
+			}
+		}
+
+		.nsui-quicktyping{
+			background-color: transparent !important;
+			.label-title{
+				float: right;
+				margin-left: -@nsui-quicktyping-size;
+				position: relative;
+				min-width: @nsui-quicktyping-size;
+				.square(@nsui-quicktyping-size);
+				background: @nsui-quicktyping-label-bg;
+				border: 0;
+				color: transparent;
+				z-index: 2;
+				text-indent: @nsui-quicktyping-size;
+				overflow: hidden;
+				
+				&:after{
+					position: absolute;
+					top: 0;
+					left: 0;
+					.square(@nsui-quicktyping-size);
+					line-height: @nsui-quicktyping-size;
+					text-align: center;
+					content: "\f067";
+					font-family: @icon-font;
+					color: #aaa;
+					text-indent: 0;
+				}
+			}
+			.input{
+				border: 0;
+				height: @nsui-quicktyping-size;
+				.input-main{
+					padding-right: @nsui-quicktyping-size;
+					height: @nsui-quicktyping-size;
+					border-width: 0 0 1px;
+
+				}
+			}
+			.result-panel{
+				top: (@nsui-quicktyping-size - 1);
+			}
+			.tags-container{
+				.quicktyping-tag{
+					height: (@nsui-quicktyping-size - @nsui-quicktyping-gutter);
+					line-height: (@nsui-quicktyping-size - @nsui-quicktyping-gutter);
+				}
+			}
+		}
+
+		&.peis-table-components-tablelayout{
+			display: table;
+			.peis-table-btn{
+				display: table-cell;
+			}
+			.quicktyping{
+				display: table-cell;
+			}
+		}
+	}
+	// 表格内容部分
+	// .peis-table-body{
+	// 	h3{
+	// 		.peis-title-lg();
+	// 	}
+	// }
+	.control-btn-toolbar{
+		margin: 0;
+		.btn-title{
+			.peis-title-lg();
+			font-weight: normal !important;
+			padding: 0;
+			padding-left: @icon-title-padding;
+			&:before{
+				display: block !important;
+				background-color: transparent;
+			}
+		}
+	}
+	.form-content + &{
+		margin-top: 10px;
+	}
+}
+
+
+//采样管理历年结果
+.sub-detail {
+	margin-top:@peis-padding;
+	background-color: #f6f6f6;
+	color: #494949;
+	border: 1px solid #d9e9f7;
+	padding: 10px;
+	line-height: 1;
+	font-size: 12px;
+	// &.no-data{
+	// 	.no-data-style();
+	// }
+
+}
+
+
+// 体检登记-套餐标记
+td.plus1{
+	@mark-size: 24px;
+	position: relative;
+	&:before{
+		position: absolute;
+		content: "";
+		.square(5px);
+		top: 3px;
+		right: 2px;
+		z-index: 2;
+		background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjU3OUQ4MzFCOTE2NTExRTg4MUNFRjgxQjZGQ0NEMzRFIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjU3OUQ4MzFDOTE2NTExRTg4MUNFRjgxQjZGQ0NEMzRFIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NTc5RDgzMTk5MTY1MTFFODgxQ0VGODFCNkZDQ0QzNEUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NTc5RDgzMUE5MTY1MTFFODgxQ0VGODFCNkZDQ0QzNEUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5YH6BnAAAAJElEQVR42mL8//8/AxSAGIwgBhMDFsACVYGsGizISJR2gAADABvlBwpsU5I/AAAAAElFTkSuQmCC") center center no-repeat;
+	}
+	&:after{
+		position: absolute;
+		content: "";
+		.square(@mark-size);
+		top: -(@mark-size / 2);
+		right: -(@mark-size / 2);
+		background: @ns-success;
+		transform: rotate(45deg);
+	}
+}
+td.plus2{
+
+}
+
+
+.control-btn-toolbar{
+	margin-bottom: 0;
+}
+

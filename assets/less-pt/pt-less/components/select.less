@@ -1,0 +1,106 @@
+// 自定义下拉选择组件
+@pt-select-text-bg: #f5f5f5;
+@pt-select-text-hover-bg: #f7f7f7;
+
+.pt-select,
+.fg-select {
+    .mutli-select-text-input {
+        display: table-cell;
+        text-align: right;
+        padding: 0 (@base-padding / 2);
+
+        // 已选字段
+        .select-options-text {
+            background: @pt-select-text-bg;
+            padding: 0 (@base-padding / 2);
+            border-radius: 3px;
+            display: inline-block;
+            padding-right: 0;
+            line-height: 16px;
+
+            &:hover {
+                background: transparent;
+            }
+
+            // 已选字段清空按钮
+            .close {
+                position: relative;
+                display: inline-block;
+                color: #000;
+
+                &:after {
+                    content: '\e968';
+                    font-family: @icon-font-icomoon;
+
+                    font-size: 16px;
+                    text-align: center;
+                    line-height: 16px;
+
+
+                }
+
+                &:hover {
+                    background: @pt-select-text-hover-bg;
+                    font-weight: normal;
+                    color: @warning;
+                    opacity: 1;
+                }
+            }
+
+            &+.select-options-text {
+                margin-left: 2px;
+            }
+        }
+    }
+
+    // 单选
+    input.pt-form-control[selectmode="single"] {
+
+        &+.mutli-select-text-input {
+            display: none;
+        }
+    }
+
+    // 多选
+    input.pt-form-control[selectmode="multi"] {
+        // color: transparent;
+
+        &+.mutli-select-text-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 22px;
+            text-align: left;
+            padding: 3px (@base-padding / 2);
+
+            //多选下拉框和搜索框并存样式优化
+            &.select-change-search {
+                // transform: translateY(-46px);
+                // transition: .5s;
+                // top: 309px;
+                // // left: 752px;
+                position: fixed;
+                width: 160px;
+                padding: 0;
+                background: #fff;
+                z-index: 9;
+                box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, .1);
+
+                span.select-options-text {
+                    margin-top: (@base-margin / 2);
+                    margin-left: (@base-margin / 2);
+
+                    margin-bottom: 0;
+
+                    &:last-child {
+                        margin-bottom: (@base-margin / 2);
+                    }
+
+                    &:hover {
+                        background: @pt-select-text-bg;
+                    }
+                }
+            }
+        }
+    }
+}

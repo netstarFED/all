@@ -1,0 +1,317 @@
+/*====================================================================*/
+/*Skins*/
+/*====================================================================*/
+.page-body{
+	
+	//Autoservice
+	&.skin-autoservice {
+		.ns-sidebar-skin-variant(#323232; #282828; #989898; #fff; #fff; #3a3a3a; #3b6caa; #fff);
+		.ns-table-skin-variant(#fafafb, #ebedf0, #555, #222, #d6d6d6, #186ba0, #346097);
+	}
+
+	//博慧 & 中国福利彩票
+	&.skin-bohui,
+	&.skin-caipiao{
+		.ns-sidebar-skin-variant(#e6e6e6; #ccc; #444; #000; #1b2839; #e6e6e6; #eb180d; #fff);
+		.ns-table-skin-variant(#fafafb, #ebedf0, #555, #222, #d6d6d6, #186ba0, #346097);
+	}
+
+}
+
+//Sidebar Skin
+//背景色，活动背景色，文本色，鼠标经过文本色，活动文本色，边框颜色，主色，副色
+.ns-sidebar-skin-variant(@bgColor, @bgColor-active, @text-color, @text-hover-color, @text-active-color, @border-color, @primary, @secondary, @scroll-color:#fff){
+	// 左侧菜单
+	.sidebar-menu{
+		background:@bgColor;
+		&.fixed{
+			.sidebar-menu-inner{
+				background: @bgColor;
+			}
+		}
+		.main-menu{
+			background:@bgColor;
+			a{
+				color: @text-color;
+				border-color: @border-color;
+				&:hover{
+					color: @text-hover-color;
+				}
+			}
+			// 子菜单
+			li {
+				& > ul > li.active{
+					color: @text-active-color;
+					background: @bgColor;
+				}
+				&.active > a{
+					color: @text-active-color
+				}
+			}
+
+		}
+		// 用户面板
+		.user-plane{
+			border-color: @border-color;
+			background: @primary;
+			.user-info{
+				border-color: lighten(@primary, 10%);
+			}
+			a[data-toggle="dropdown"],
+			a.icon{
+				color: rgba(255, 255, 255, 0.75);
+				transition: ease-in-out all .25s;
+				&:hover{
+					color: rgba(255, 255, 255, 1);
+					background: darken(@primary, 5%);
+				}
+			}
+		}
+	}
+	// 左侧菜单收起
+	.collapsed{
+		a{
+			color: @text-color;
+			&:hover{
+				color: @text-hover-color;
+			}
+		}
+		.user-plane{
+			.dropdown-menu a:hover{
+				color: @bgColor;
+			}
+		}
+		.main-menu > li > ul{
+			background: darken(@bgColor, 2%);
+			li{
+				&.active{
+					background-color: transparent;
+				}
+			}
+		}
+	}
+
+}
+
+
+// table
+.ns-table-skin-variant(@bgColor, @thead-tr-bg, @tehad-text-color, @tbody-text-color, @border-color, @focus-bg, @primary){
+	.table{
+		border-color: @border-color;
+		thead{
+			&:first-child > tr:last-child > th{
+				// border-bottom-width: 1px;
+				// border-color: @border-color;
+				&:after{
+				 	background: @border-color;
+				 	border-color: @border-color;
+				 }
+			}
+			tr{
+				background: @thead-tr-bg;
+				color: @tehad-text-color;
+			}
+		}
+		tbody > tr{
+			
+			.tr-variant(@text-color, @bgColor){
+                & > th{
+                    background: #fff;
+                    color: #222;
+                   
+                }
+                &:hover > th{
+                    background: #f5f5f5;
+                }
+				& > td{
+					color: @text-color;
+					background: @bgColor;
+					
+                }
+                
+			}
+			&:hover{
+				td{
+					background: darken(@bgColor, 2%);
+				}
+			}
+			
+			td{
+				border-color: @border-color;
+				color: @tbody-text-color;
+				&.td-button{
+					border-color: @border-color;
+				}
+			}
+            
+            @tr-state-info-bg: #e0f5ff;
+            @tr-state-success-bg: #e0ffeb;
+            @tr-state-warning-bg: #ffe7d6;
+            @tr-state-danger-bg: #ffd6d6;
+			&.info{
+				.tr-variant(#222, @tr-state-info-bg);
+				&:hover{
+					.tr-variant(#222, darken(@tr-state-info-bg, 10%));
+                }
+			}
+			&.success{
+				.tr-variant(#222, @tr-state-success-bg);
+				&:hover{
+					.tr-variant(#222, darken(@tr-state-success-bg, 10%));
+                }
+			}
+			&.warning{
+				.tr-variant(#222, @tr-state-warning-bg);
+				&:hover{
+					.tr-variant(#222, darken(@tr-state-warning-bg, 10%));
+                }
+			}
+			&.danger,
+			&.error{
+				.tr-variant(#222, @ns-danger);
+				&:hover{
+					.tr-variant(#222, darken(@tr-state-danger-bg, 10%));
+                }
+
+            }
+            
+            &.selected{
+                .tr-variant(#fff, @focus-bg);
+				&:hover{
+					.tr-variant(#fff, darken(@focus-bg, 10%));
+				}
+				i{
+					color: #fff;
+				}
+			}
+
+			
+		}
+		&.table-bordered{
+			border-color: @border-color;
+			tbody > tr > th{
+				border-right-color: @border-color;
+				border-left-color: @border-color;
+
+			}
+			tbody > tr {
+				& > td{
+					border-color: @border-color;
+					&:last-child{
+						border-right-color: @border-color;
+					}
+				}
+				&.selected > th,
+				&.selected > td{
+					background: @focus-bg !important;
+					border-color: @focus-bg !important;
+					color: #fff;
+					i{
+						color: #fff;
+					}
+				}
+			}
+		}
+		
+	}
+	.pagination > .active > a{
+		color: @ns-info; 
+	}
+
+
+	.nstable-bottom{
+		border-color: @border-color;
+	}
+	.nstable-plus-panel-btns .btn i{
+		color: lighten(@primary, 25) !important;
+	}
+}
+
+
+// 中国福利彩票欢迎页快捷菜单
+.skin-caipiao{
+	.sidebar-menu{
+		.user-plane{
+			.user-info{
+				 a[data-toggle="dropdown"]{
+				 	padding-top: 14px;
+				 	.name{
+					 	display: inline-block;
+					 	width: 90px;
+					 	overflow: hidden;
+					 	height: 18px;
+					 	line-height: 22px;
+					 	font-size: 14px;
+					 }
+				 }
+				 
+			}
+		}
+	}
+
+
+	.dashboard{
+		.nstable-panel{
+			.overview-box-item{
+				// 快捷菜单样式
+				.overview-box-style(@color, @bg) {
+					background: @bg;
+
+					.overview-title {
+						color: @color;
+					}
+
+					h2 {
+						color: @color;
+					}
+
+					i {
+						color: @bg;
+						box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+					}
+
+				}
+
+				&.overview-box-01 {
+					.overview-box-style(#fff, #2f838c);
+				}
+
+				&.overview-box-02 {
+					.overview-box-style(#fff, #6e3b81);
+				}
+
+				&.overview-box-03 {
+					.overview-box-style(#fff, #e66905);
+				}
+
+				&.overview-box-04 {
+					.overview-box-style(#ae5d48, #ff653d);
+				}
+
+				&.overview-box-05 {
+					.overview-box-style(#5057af, #707aff);
+				}
+
+				&.overview-box-06 {
+					.overview-box-style(#a93d4a, #f0394f);
+				}
+			}
+		}
+	}
+	
+}
+
+
+// 博慧定制样式
+.skin-bohui{
+	.col-wite-process{
+		.card-list-info{
+			.title,
+			span{
+				color: @ns-danger;
+			}
+		}
+	}
+	
+}
+

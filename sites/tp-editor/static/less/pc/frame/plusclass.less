@@ -1,0 +1,81 @@
+// ================modal==================
+.pt-modal {
+    &.right {
+        .pt-modal-content {
+            left: auto;
+            right: 0;
+        }
+
+        .pt-modal-form {
+            .pt-modal-form-block-header {
+                .title {
+                    font-size: 16px;
+                    font-weight: bold;
+
+                    &.checkbox {
+                        @checkbox-size: 16px;
+                        @checkbox-color: #444;
+                        position: relative;
+                        padding-left: 20px;
+                        cursor: pointer;
+                        display: inline-block;
+
+                        &:before {
+
+                            position: absolute;
+                            top: 50%;
+                            left: 0;
+                            content: '';
+                            font-family: @icon-font-icomoon;
+                            .square(@checkbox-size);
+                            line-height: @checkbox-size;
+                            text-align: center;
+                            border: 1px solid @checkbox-color;
+                            background: transparent;
+                            left: 0;
+                            margin-top: -(@checkbox-size / 2);
+                            transition: ease-in-out all .15s;
+                            font-size: 12px;
+                        }
+
+                        &.active {
+                            &:before {
+                                content: '\e95d';
+                                background: @checkbox-color;
+                                color: #fff;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+
+                .pt-btn {
+                    &.pt-btn-icon {
+                        border-radius: 100rem;
+                        border: 0;
+                        background: transparent;
+                        margin-left: (@base-margin / 2);
+
+                        &:hover {
+                            background: @warning;
+                        }
+                    }
+                }
+            }
+
+            .pt-form {
+                margin-top: @base-margin;
+
+                &.pt-form-inline {
+                    padding: 0;
+                    border: 0;
+
+                    .pt-control-label {
+                        text-align: left;
+                    }
+                }
+            }
+
+        }
+    }
+}

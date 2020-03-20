@@ -1,0 +1,143 @@
+@btn-size: 2.5rem;
+@btn-font-size: .75rem;
+// btn-normal
+@btn-normal-color: #fff;
+@btn-normal-bg: @gray;
+@btn-normal-border: @btn-normal-bg;
+
+// btn-primary
+@btn-primary-color: #fff;
+@btn-primary-bg: @primary;
+@btn-primary-border: @btn-primary-bg;
+
+
+// btn-info
+@btn-info-color: #fff;
+@btn-info-bg: @info;
+@btn-info-border: @btn-info-bg;
+
+
+// btn-success
+@btn-success-color: #fff;
+@btn-success-bg: @success;
+@btn-success-border: @btn-success-bg;
+
+// btn-warning
+@btn-warning-color: #fff;
+@btn-warning-bg: @warning;
+@btn-warning-border: @btn-warning-bg;
+
+// btn-danger
+@btn-danger-color: #fff;
+@btn-danger-bg: @danger;
+@btn-danger-border: @btn-danger-bg;
+
+
+@btn-padding: @base-padding;
+@btn-padding-v: (@btn-padding / 2);
+@btn-padding-h: @btn-padding;
+@border-circle-radius: 100rem;
+@btn-vertical-gutter: @base-margin;
+
+
+.btn-square-variant(@size){
+    width: @size;
+    height: @size;
+    flex: 0 0 @size;
+}
+.btn {
+    .flex-block(center, center);
+    padding: (@btn-padding *2/3) @btn-padding;
+    cursor: pointer;
+    // btn-default
+    flex: none;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: .25rem;
+
+    &.btn-default {
+        .button-variant(@btn-normal-color, @btn-normal-bg, @btn-normal-border);
+    }
+
+    // btn-primary
+    &.btn-primary {
+        .button-variant(@btn-primary-color, @btn-primary-bg, @btn-primary-border);
+    }
+
+    // btn-info
+    &.btn-info {
+        .button-variant(@btn-info-color, @btn-info-bg, @btn-info-border);
+    }
+    // btn-success
+    &.btn-success {
+        .button-variant(@btn-success-color, @btn-success-bg, @btn-success-border);
+    }
+    // btn-warning
+    &.btn-warning {
+        .button-variant(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
+    }
+
+    // btn-danger
+    &.btn-danger {
+        .button-variant(@btn-danger-color, @btn-danger-bg, @btn-danger-border);
+    }
+
+
+    // 圆形按钮
+    &.btn-circle{
+        border-radius: @border-circle-radius;
+        padding: 0;
+        
+    }
+
+    // 方形按钮
+    &.btn-square{
+        padding: @btn-padding;
+        &.btn-lg{
+            margin: @base-margin auto;
+        }
+    }
+
+    &.btn-circle.btn-square.btn-lg{
+        .square(5rem);
+        line-height: 0;
+        font-size: 2.5rem;
+    }
+    // 块状按钮
+    &.btn-block{
+        flex: 1;
+    }
+
+    &.btn-lg{
+        font-size: (@btn-font-size * 2);
+    }
+    
+}
+
+
+// 按钮组
+.btn-group{
+    .flex-block();
+
+    // 纵向按钮组
+    &.btn-group-vertical{
+        flex-direction: column;
+        align-items: stretch;
+        .btn{
+            & + .btn{
+                margin-top: @btn-vertical-gutter;
+            }
+        }
+    }
+
+    // 带间隔的按钮
+    &.btn-group-gutter{
+        .btn{
+           margin-left: .5rem;
+            &:first-child{
+                margin-left: 0;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,143 @@
+.pt-btn-group,
+.pt-btn-group-vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+
+    >.pt-btn {
+        position: relative;
+        float: left;
+
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            z-index: 2;
+        }
+
+        &:focus {
+
+            outline: 0;
+        }
+    }
+}
+
+
+.pt-btn-group {
+    @btn-gutter: 5px;
+
+    // .pt-btn+.pt-btn,
+    // .pt-btn+.pt-btn-group,
+    // .pt-btn-group+.pt-btn,
+    // .pt-btn-group+.pt-btn-group {
+    //     margin-left: @btn-gutter;
+    // }
+    &,
+    .pt-btn {
+        margin-right: @btn-gutter;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    // 下拉菜单模式
+    .dropdown-menu {
+        margin-top: -5px;
+    }
+
+    .dropdown-item {
+        .pt-btn {
+            display: block;
+            width: 100%;
+            .button-variant(@btn-default-color, @btn-default-bg, @btn-default-border);
+            text-align: left;
+            border: 0;
+
+            &:hover {
+                color: @gray-dark;
+            }
+        }
+    }
+
+    // 纵向按钮组
+    &.pt-btn-group-vertical {
+        .pt-btn {
+            display: block;
+            width: 100%;
+            margin: 0;
+            margin-bottom: @form-gutter;
+        }
+    }
+
+    // 按钮组尺寸
+    &.pt-btn-group-md {
+        .pt-btn {
+            .pt-btn-md();
+
+            &.pt-btn-icon {
+                .pt-btn-icon-md();
+            }
+        }
+    }
+
+    &.pt-btn-group-lg {
+        .pt-btn {
+            .pt-btn-lg();
+
+            &.pt-btn-icon {
+                .pt-btn-icon-lg();
+            }
+        }
+    }
+}
+
+
+// 紧凑型按钮组
+.pt-btn-group-compact {
+    &>.pt-btn {
+        &+.pt-btn {
+            margin-left: -1px;
+        }
+
+        vertical-align: top;
+    }
+}
+
+
+//委托登记页面配置按钮组
+.pt-formeditor {
+    &.pt-sort-panel {
+        .pt-list {
+            li {
+                span {
+                    &.select {
+                        color: transparent;
+
+                        &+span {
+                            border-left-color: transparent;
+                            color: #666;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+//委托登记按钮组按钮确认提示
+.selection-prompt {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 4;
+
+    i.icon-info {
+        color: @warning;
+        margin-right: 5px;
+        vertical-align: middle;
+        font-size: 23px;
+        line-height: 4;
+    }
+}

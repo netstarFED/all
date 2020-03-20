@@ -1,0 +1,63 @@
+//表格形式的表单
+table.ns-form-table{
+	&.no-select{
+		.user-select(none);
+	}
+	background-color: @table-background-color;
+	border:1px solid @table-border-color;
+	thead{
+		th{
+			text-align: center;
+			height: @table-thead-height;
+			line-height: @table-thead-height;
+			border:1px solid @table-border-color;
+			position: relative;
+			
+			.resize-handler{
+				cursor: e-resize;
+				background-color: #ff0000;
+				width: 30px;
+				height: @table-thead-height;
+				position: absolute;
+				top: 0;
+				right: -15px;
+				z-index: 2;
+			}
+			.resize-table-handler{
+				cursor: e-resize;
+				background-color: #ffff00;
+				width: 20px;
+				height: @table-thead-height;
+				position: absolute;
+				top: 0;
+				right: 0;
+				z-index: 2;
+			}
+		}
+	}
+	tbody{
+		td{
+			height: @table-thead-height;
+			line-height: @table-thead-height;
+			padding:4px;
+			border:1px solid @table-border-color;
+			background-color: @table-tbody-background-color;
+			input[type="text"] {
+				padding:6px;
+				height: 30px;
+				line-height: 18px;
+				&[readonly]{
+					background-color: @table-input-readonly-background-color;
+				}
+				&.number{
+					color:@state-number-color;
+					text-align: right;
+				}
+				&.money{
+					color:@state-money-color;
+					text-align: right;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,140 @@
+/*====================================================================*/
+/*inputSelect-------输入下拉框*/
+/*====================================================================*/
+@inputSelect-btn: @form-group-btn-size;
+@inputSelect-btn-compactmode: @form-group-btn-size-compactmode;
+@plane-content-height: 30px;
+
+.inputSelect{
+	.input-group{
+		width: 100%;
+	}
+
+	input.form-control[type="text"]{
+		display: table-cell;
+		&[readonly],
+		&[readonly] + .input-select-btn{
+			.disabled-style();
+			&:hover i{
+				transform: rotate(0deg);
+			}
+		}
+		&[readonly] + .input-select-btn{
+			color: darken(@gray-lighter, 20%) !important;
+			&:hover,
+			&:focus{
+				color: darken(@gray-lighter, 20%) !important;
+			}
+		}
+
+	}
+	
+	.input-select-btn{
+		display: table-cell;
+		.square(@inputSelect-btn);
+		text-align: center;
+		vertical-align: middle;
+
+		i{
+			transition: ease-in-out all .5s;
+		}
+		&:hover{
+			.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+			i{
+				transform: rotate(180deg);
+			}
+		}
+		.compactmode &{
+			.square(@inputSelect-btn-compactmode);
+		}
+
+		&.input-group-btn{
+			border: 0;
+		}
+	}
+
+}
+.input-select-btn{
+	&.input-group-btn{
+		border: 1px solid @ns-border-color;
+		border-left: 0;
+	}
+}
+.input-select-plane{
+	position: absolute;
+	display: none;
+	right: 0;
+	left: 100px;
+	padding: 1px 0 1px 1px;
+	box-sizing: content-box;
+	background: #fff;
+	border:1px solid @ns-border-color;
+	z-index: 21;
+	max-height: (@plane-content-height * 5);
+	overflow-y: auto;
+
+	.show{
+		visibility: visible;
+		display: block;
+	}
+	.empty{
+		padding: @base-padding;
+		background: #f9f9f9;
+		i,
+		p{
+			display: inline-block;
+		}
+		i{
+			margin-right: @base-margin / 2;
+		}
+	}
+	.plane-content {
+		a{
+			display: table;
+			width: 100%;
+			&:hover{
+				background: @ns-info;
+				color: #fff;
+			}
+		}
+		span{
+			position: relative;
+			display: table-cell;
+			vertical-align: middle;
+			white-space: nowrap;
+			overflow-y: hidden;
+			text-overflow: ellipsis;
+			padding: (@base-padding /2) + 2 @base-padding + 2 (@base-padding /2) + 1;
+			min-width: 100px;
+		}
+
+		&.current{
+			background: @ns-border-color;
+			color: @gray;
+			a:hover,
+			a:active,
+			a:focus{
+				background: @ns-border-color;
+				color: @gray;
+			}
+		}
+	}
+}
+
+.form-content{
+		.form-group.inputSelect{
+			input.form-control[type="text"]{
+				height: @base-height;
+			}
+		}
+
+
+}
+
+// 一维数组表单模式
+.form-group.nscomponent-modal{
+	& + .input-select-plane{
+		left: 25%;
+		margin: -11px 0 0 40px;
+	}
+}

@@ -1,0 +1,168 @@
+<!--
+ * @Desription: 登录页 v1.1.2
+ * @Author: netstar.cy
+ * @Date: 2019-08-22 16:17:02
+ * @LastEditTime: 2019-12-21 11:24:01
+ -->
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<!--# include file="/sites/include/login-static-dev.html" -->
+
+	<title>网星云</title>
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<style id="loginStyle"> </style>
+</head>
+
+<body class="login">
+	
+	<div id="loginPanel" class="page-login common-top-right">
+		<div class="logo bg-light-opacity-10">
+			<img src="" alt="LOGO">
+		</div>
+		<div id="running" class="pt-rotaryplantingmap-container">
+		</div>
+		<div class="login  bg-light-opacity-10 border-darrk-opacity-1 border-radius-slight" style="right:10%">
+			<div class="title title-dark">账号登陆</div>
+			<div class="group-from from-light">
+				<input class="border-radius-slight bg-dark-opacity-1 " type="text" id="orgname" placeholder="组织名称" value="河北网星">
+				<span class="fa fa-home"></span>
+			</div>
+			<div class="group-from from-light">
+				<input class="border-radius-slight bg-dark-opacity-1 " type="text" id="username" placeholder="用户名">
+				<span class="fa fa-user"></span>
+			</div>
+			<div class="group-from from-light">
+				<input class="border-radius-slight bg-dark-opacity-1 " type="password" id="password" placeholder="密码">
+				<span class="fa fa-lock"></span>
+				<div class="cue hide" id="pwmsg">您输入的密码错误</div>
+			</div>
+			<div class="remember-pwd">
+				<label for="remember">
+					<input class="remember" type="checkbox" name="remember" id="remember" checked="checked">
+					<span></span>
+					<p class="text-pwd">记住组织名称和用户名</p>
+				</label>
+			</div>
+			<div class="loginbtn loginbtn-blue border-radius-slight">
+				<a href="javascript:void(0);" id="btn-submit">登&nbsp;&nbsp;录</a>
+			</div>
+			<div id="nsLoginStyle-loginDiv-btns" class="pt">
+				<a href="/registationController/regist" class="regist">注册</a>
+			</div>
+		</div>
+		<div class="footer">版权所有 © 网星软件 2008-2019 ALL Rights Reserved 保留一切权利 冀ICP备12000600号-1号</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	var serverRootPath = 'https://qaapi.wangxingcloud.com/';
+	var debugerMode = true;
+
+	$(function () {
+		//用于调试代码 重新定位server的url cy 20190828 读取地址栏中的?nsserver=http://api.cloud.netstar-soft.com/
+		serverRootPath = NetStarUtils.resetServerUrl.reset(serverRootPath);
+
+		//从地址栏读取orgName cy 20190828 读取地址栏中的?orgname=oa&username=admin&password=123
+		var orgValues = {
+			oa: '网星OA系统',
+			ns: '河北网星',
+			gjjs: '国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司材料实验室',
+			qyd: '企业端平台',
+			erpq: 'ERP企业版',
+			erpm: 'ERP门店版',
+			erpt: 'ERP团队版',
+			cw: '开发组织财务',
+		}
+
+		var loginUrl = window.location.href;
+		//var rootPath = 'http://nscloud.applinzi.com/';
+
+		var rootPath = '/';
+		var sourcePath = 'dist/';
+
+		NetstarLogin.init({
+			loginUrl: loginUrl,
+			expireMinute: 120, //过期时长 单位是分钟
+			containerEl: '#loginPanel',
+			orgnameEl: "#orgname",
+			orgValues: orgValues,
+			usernameEl: "#username",
+			passwordEl: "#password",
+			submitBtnEl: '#btn-submit',
+			msgEl: "#pwmsg",
+			images: {
+				logo: rootPath + 'sites/base/images/login/logo.png',
+				bg: rootPath + 'sites/base/images/login/bg.png',
+			},
+			loginAjax: { //登录验证
+				url: serverRootPath + 'system/jwtlogin',
+			},
+			getLoginProperty: { //获取登录信息，包括用户信息等  
+				url: serverRootPath + 'servletContexts/properties',
+			},
+			getDict: {
+				url: serverRootPath + 'system/dicts/getDict', //默认系统字典
+				type: 'GET',
+				contentType: 'application/x-www-form-urlencoded',
+				data: {},
+			},
+			styleEl: '#loginStyle', //登录专用的CSS 
+			rootPath: rootPath,
+			sourcePath: sourcePath,
+			userMode: 'dev', //  dev 开发  /dist 发布  /online 生产环境 
+			mainPage: {
+				url: '/sites/tp-editor/home/main.html'
+			},
+			mainMenus: {
+				id: "mainpage-menus-contianer", //插入主菜单的容器ID 例如 <div id="mainpage-menus-contianer" class="pt-nav pt-dropdown"></div>
+
+				ajax: {
+					url: serverRootPath + 'system/menus/getUserMenu',
+					contentType: 'application/x-www-form-urlencoded',
+					data: {
+						// usedOnPcOrPhone:0
+						isPc: true,
+						// productId : "1307532378352124905"
+					},
+					dataSrc: 'rows',
+					type: 'GET'
+				},
+				convertToTree: true,
+				menuChildIdField: "children",
+				menuIdField: "menuId",
+				menuNameField: "menuName",
+				menuParentIdField: "menuParentId",
+				menuUrlField: "url",
+			},
+		})
+
+		//轮播图
+		var config = {
+			time: 3000,
+			rootPath: '',
+			width: '100%',
+			height: '100%',
+			id: 'running',
+			valueField: 'url',
+			ajax: {
+				url: '/assets/json/newcomponent/rotaryplantingmap.json',
+				type: 'GET',
+				dataSrc: 'rows',
+			}
+		}
+		//   NetstarRotaryPlantingMap.init(config)
+	})
+</script>
+
+</html>

@@ -1,0 +1,39 @@
+
+// select2选择框高度、select2选择框按钮高度、字体大小
+.select2-variant(@select-height, @select2-btn-width, @select2-btn-height){
+    .select2-selection.select2-selection--single{
+        .select2-selection__rendered{
+            padding-right: @select2-btn-width;
+        }
+        height: @select-height;
+        .select2-selection__arrow,
+        .select2-selection__clear{
+            .size(@select2-btn-width, @select2-btn-height);
+        }
+
+        .select2-selection__arrow b{
+            .size(@select2-btn-width, @select2-btn-height);
+            &:after{
+                .size(@select2-btn-width, @select2-btn-height);
+                line-height: @select2-btn-height;
+                text-align: center;
+                margin-top: -(@select2-btn-height / 2);
+            }
+        }
+        .select2-selection__clear{
+            right: 0;
+            &:after{
+                .size(@select2-btn-width, @select2-btn-height);
+                line-height: @select2-btn-height;
+                text-align: center;
+                margin-top: -(@select2-btn-height / 2);
+                right: 0;
+            }
+        }
+        .select2-selection__rendered{
+            line-height:(@select-height - 2);
+        }
+        
+    } 
+    
+}

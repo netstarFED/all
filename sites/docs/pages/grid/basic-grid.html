@@ -1,0 +1,676 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+        <div class="netstar-docs">
+            <!--内容  -->
+            <div class="panel content">
+
+                <!-- thumb-->
+                <div class="panel content-demo" netstar-doc="sample">
+                    <a href="javascript:void(0);" id="sense-nsdocs-thumb"></a>
+                    <h3 class="title-code">thumb</h3>
+                    <span class="intro"></span>
+                    <div id="nsdocs-grid-thumb" class="panel-demo"></div>
+                    <!-- js块 -->
+                    <script>
+                    var gridThumbConfig = {
+                        columns: [{
+                            field: 'signatureId',
+                            title: '签名（thumb）',
+                            columnType: 'thumb',
+                            width: 200,
+                            editable: true,
+                            formatHandler:{
+                                type:"thumb"
+                            },
+                            editConfig: {
+                                type: "upload",
+                                textField:"originalName",
+                                valueField:"id",
+                                isMultiple:false,
+                                isShowThun:true,
+                                btns:"upload,edit,delete,downloas",
+                                ajax:{
+                                    url:"https://qaapi.wangxingcloud.com//files/uploadList"
+                                },
+                                editAjax:{
+                                    url:"https://qaapi.wangxingcloud.com//files/rename",
+                                },
+                                downloadAjax:{
+                                    url:"https://qaapi.wangxingcloud.com//files/download/",
+                                },
+                                getFileAjax:{
+                                    url:"https://qaapi.wangxingcloud.com//files/getListByIds",
+                                    type:"GET",
+                                },
+                                previewAjax:{
+                                    url:"https://qaapi.wangxingcloud.com//files/pdf/",
+                                    type:"GET"
+                                },
+                                previewImagesAjax:{
+                                    url:'https://qaapi.wangxingcloud.com//files/images/',
+                                    type:"GET"
+                                },                            
+                            },
+                        },{
+                            field:'funcId',
+                            title:'func显示',
+                            columnType: 'func',
+                            width: 200,
+                            formatHandler:function(value,row,_grid){
+                                switch (row.typeId) {
+                                    case value:
+                                        
+                                        break;
+                                
+                                    default:
+                                        break;
+                                }
+                                return '我是七千'
+                            }
+                        }    
+                        ],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-thumb',
+                            dataSource: [{
+                                signatureId:"docs/images/login/logo.png",
+                                funcId:1,
+                                typeId:3,
+                            },{
+                                signatureId:"docs/images/login/logo.png",
+                                funcId:2,
+                                typeId:4,
+                            }]
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: false,
+                            minPageLength: 3,
+                            isEditMode: true,
+                            pageLengthDefault: 1,
+                            selectMode: "single",
+                            isHanrEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 120,
+                        }
+                    }
+                    NetStarGrid.init(gridThumbConfig);
+                    </script>
+                    <div class="content language-javascript">
+                        <pre>
+    {
+        field: 'signatureId',
+        title: '签名（thumb）',
+        columType: 'thumb',
+        width: 200,
+        editable: false,
+        formatHandler:{
+            type:"thumb"
+        },
+        editConfig: {
+            type: "upload",
+            textField:"originalName",
+            valueField:"id",
+            isMultiple:false,
+            isShowThun:true,
+            btns:"upload,edit,delete,downloas",
+            ajax:{
+                url:"https://qaapi.wangxingcloud.com//files/uploadList"
+            },
+            editAjax:{
+                url:"https://qaapi.wangxingcloud.com//files/rename",
+            },
+            downloadAjax:{
+                url:"https://qaapi.wangxingcloud.com//files/download/",
+            },
+            getFileAjax:{
+                url:"https://qaapi.wangxingcloud.com//files/getListByIds",
+                type:"GET",
+            },
+            previewAjax:{
+                url:"https://qaapi.wangxingcloud.com//files/pdf/",
+                type:"GET"
+            },
+            previewImagesAjax:{
+                url:'https://qaapi.wangxingcloud.com//files/images/',
+                type:"GET"
+            },                            
+        },
+    },   
+    {
+        field: 'signatureId',
+        title: '签名（multithumb）',
+        columType: 'multithumb',
+        width: 200,
+        editable: false,
+        formatHandler:{
+            type:"multithumb"
+        },
+        editConfig: {
+            type: "upload",
+            textField:"originalName",
+            valueField:"id",
+            isMultiple:false,
+            isShowThun:true,
+            btns:"upload,edit,delete,downloas",
+            ajax:{
+                url:"https://qaapi.wangxingcloud.com//files/uploadList"
+            },
+            editAjax:{
+                url:"https://qaapi.wangxingcloud.com//files/rename",
+            },
+            downloadAjax:{
+                url:"https://qaapi.wangxingcloud.com//files/download/",
+            },
+            getFileAjax:{
+                url:"https://qaapi.wangxingcloud.com//files/getListByIds",
+                type:"GET",
+            },
+            previewAjax:{
+                url:"https://qaapi.wangxingcloud.com//files/pdf/",
+                type:"GET"
+            },
+            previewImagesAjax:{
+                url:'https://qaapi.wangxingcloud.com//files/images/',
+                type:"GET"
+            },                            
+        },
+    },  
+               </pre>
+                    </div>
+                </div>
+                <!--字符串转换 -->
+                <div class="panel content-demo" netstar-doc="sample">
+                    <a href="javascript:void(0);" id="sense-nsdocs-grid-subdataText"></a>
+                    <h3 class="title-code">字符串转换</h3>
+                    <span class="intro">subdataText/stringReplace</span>
+                    <div id="nsdocs-grid-subdataText" class="panel-demo"></div>
+                    <!-- js块 -->
+                    <script>
+                        var gridSubdataText = {
+                            columns:[
+                                {
+                                    field:"state",
+                                    title:"状态(stringReplace)",
+                                    searchable:false,
+                                    orderable:false,
+                                    editable:true,
+                                    width:200,
+                                    editConfig:{
+                                        type:"radio",
+                                        textField:'value',
+                                        valueField:"id",
+                                        subdata:[
+                                            {
+                                                value:"启用",
+                                                id:"1"
+                                            },
+                                            {
+                                                value:"停用",
+                                                id:"0"
+                                            }
+                                        ]
+                                    },
+                                    formatHandler:{
+                                        type:"stringReplace",
+                                        data:{
+                                            formatDate:{
+                                                0:"停用",
+                                                1:"启用"
+                                            }
+                                        }
+                                    },
+                                    columnType:"stringReplace",
+                                },
+                                {
+                                    field:"isOwnedByOrg",
+                                    title:"机构私有权限(subdataText)",
+                                    searchable:false,
+                                    orderable:false,
+                                    editable:true,
+                                    width:300,
+                                    editConfig:{
+                                        type:"radio",
+                                        textField:'value',
+                                        valueField:"id",
+                                        subdata:[
+                                            {
+                                                value:"是",
+                                                id:"1"
+                                            },
+                                            {
+                                                value:"否",
+                                                id:"0"
+                                            }
+                                        ]
+                                    },
+                                    formatHandler:{
+                                        type:"subdataText",
+                                        data:{
+                                            formatDate:{
+                                                0:"否",
+                                                1:"是"
+                                            }
+                                        }
+                                    },
+                                    columnType:"subdataText",
+                                }
+                            ],
+                            data:{
+                                tableID:"nsdocs-grid-subdataText",
+                                idField:"id",
+                                dataSource:[
+                                    {
+                                        state:0,
+                                        isOwnedByOrg:1
+
+                                    },
+                                    {
+                                        state:1,
+                                        isOwnedByOrg:0
+
+                                    }
+                                ]
+                            },
+                            ui:{
+                                isAutoSerial: true,
+                                // isCheckSelect: false,
+                                isHeader: false,
+                                isPage: false,
+                                minPageLength: 3,
+                                selectMode: "single",
+                                height: 120,
+                            }
+                      
+                        }
+                        NetStarGrid.init(gridSubdataText)
+                    </script>
+                    <div class="content language-javascript">
+                        <pre>
+    {
+        field:"state",
+        title:"状态(stringReplace)",
+        searchable:false,
+        orderable:false,
+        editable:false,
+        width:200,
+        editConfig:{
+            type:"radio",
+            textField:'value',
+            valueField:"id",
+            subdata:[
+                {
+                    value:"启用",
+                    id:"1"
+                },
+                {
+                    value:"停用",
+                    id:"0"
+                }
+            ]
+        },
+        formatHandler:{
+            type:"stringReplace",
+            data:{
+                formatDate:{
+                    0:"停用",
+                    1:"启用"
+                }
+            }
+        },
+        columnType:"stringReplace",
+    },
+    {
+        field:"isOwnedByOrg",
+        title:"机构私有权限(subdataText)",
+        searchable:false,
+        orderable:false,
+        editable:false,
+        width:300,
+        editConfig:{
+            type:"radio",
+            
+            textField:'value',
+            valueField:"id",
+            subdata:[
+                {
+                    value:"是",
+                    id:"1"
+                },
+                {
+                    value:"否",
+                    id:"0"
+                }
+            ]
+        },
+        formatHandler:{
+            type:"subdataText",
+            data:{
+                formatDate:{
+                    0:"否",
+                    1:"是"
+                }
+            }
+        },
+        columnType:"subdataText",
+    }
+               </pre>
+                    </div>
+                </div>
+                <!-- 超链接输出 -->
+                <div class="panel content-demo" netstar-doc="sample">
+                    <a href="javascript:void(0);" id="sense-nsdocs-grid-href"></a>
+                    <h3 class="title-code">超链接输出</h3>
+                    <span class="intro"></span>
+                    <div class="panel body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>参数</th>
+                                    <th>说明</th>
+                                    <th>类型</th>
+                                    <th>必填</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>url</td>
+                                    <td>地址</td>
+                                    <td>string</td>
+                                    <td><i class="fa fa-check"></i></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td>title</td>
+                                    <td>标题</td>
+                                    <td>string</td>
+                                    <td><i class="fa fa-check"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>readonly</td>
+                                    <td>是否只读</td>
+                                    <td>boolean</td>
+                                    <td><i class="fa fa-check"></i></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>parameterFormat</td>
+                                    <td>格式化参数</td>
+                                    <td>object</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>templateName</td>
+                                    <td> 模板类型</td>
+                                    <td>string</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>isAllwaysNewTab</td>
+                                    <td>是否用新TAB打开</td>
+                                    <td>boolean</td>
+                                    <td></td>
+                                    <td>默认true，当值为false时链接打开的是同一个页面内容不容</td>
+                                </tr>                      
+                                <tr>
+                                    <td>urlSubdata</td>
+                                    <td>urlSubdata</td>
+                                    <td>string</td>
+                                    <td></td>
+                                    <td>举例：[{"value":2,"data":{"id":"{bllId}"},"url":"/templateMindPages/pageConfig/1311881343050712050","title":"xxx详情"}]</td>
+                                </tr>
+                                <tr>
+                                    <td>urlSubdata</td>
+                                    <td>urlSubdata</td>
+                                    <td>string</td>
+                                    <td></td>
+                                    <td>举例：[{"value":2,"data":{"id":"{bllId}"},"url":"/templateMindPages/pageConfig/1311881343050712050","title":"xxx详情"}]</td>
+                                </tr>
+                               <!-- 
+                                   subdataField 取当前行的值
+                                    拿subdataField中的值与value中的值进行比较，打开对应的链接（配置多个链接的时候）
+,                                -->
+                                <tr>
+                                    <td>subdataField</td>
+                                    <td>subdataField</td>
+                                    <td>string</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <!-- 把搜索的数据传到下一页面 -->
+                                <tr>
+                                    <td>isSendQueryModel</td>
+                                    <td>是否发送数据搜索数据</td>
+                                    <td>boolean</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>isFirstUseRow</td>
+                                    <td>优先使用行数据</td>
+                                    <td>boolean</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="nsdocs-grid-href" class="panel-demo"></div>
+                    <!-- js块 -->               
+                    <script>
+                        var gridhref = {
+                           columns:[
+                               {
+                                field:"acceptCode",
+                                title:"受理编号",
+                                orderable:true,
+                                searchable:false,
+                                editConfig:{
+                                    type:"text"
+                                },
+                                width:300,
+                                formatHandler:{
+                                    type:"href",
+                                    data:{
+                                        url:"https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1311226121093645298?editModel=0;packageSuffix=3",
+                                        title:"委托单",
+                                        field:"acceptCode",
+                                        readonly:false,
+                                        parameterFormat:"{\"id\":\"{id}\"}",
+                                        templateName:"limsReg"
+                                    }
+                                },
+                                columnType:"href"
+                               }
+                           ],
+                           data:{
+                               tableID:"nsdocs-grid-href",
+                               idField:"id",
+                               dataSource:[
+                                   {
+                                    acceptCode:"W(01)1911160"
+                                   },
+                                   {
+                                    acceptCode:"W(01)19111600011"
+                                   }
+                               ]
+                           },
+                           ui:{
+                                 isAutoSerial: true,
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: false,
+                                minPageLength: 3,
+                                selectMode: "single",
+                                height: 120,
+                           }
+                        }
+                      NetStarGrid.init(gridhref)
+                    </script>
+                    <div class="content language-javascript">
+                        <pre>
+    {
+        field:"acceptCode",
+        title:"受理编号",
+        orderable:true,
+        searchable:false,
+        editConfig:{
+            type:"text"
+        },
+        width:300,
+        formatHandler:{
+            type:"href",
+            data:{
+                url:"https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1311226121093645298?editModel=0;packageSuffix=3",
+                title:"委托单",
+                field:"acceptCode",
+                readonly:false,
+                parameterFormat:"{\"id\":\"{id}\"}",
+                templateName:"limsReg"
+            }
+        },
+        columnType:"href"
+    }
+                         </pre>
+                    </div>
+                </div>
+
+                <!-- 方法 -->
+                <div class="panel content-demo" netstar-doc="sample">
+                    <a href="javascript:void(0);" id="sense-nsdocs-grid-func"></a>
+                    <h3 class="title-code">func</h3>
+                    <span class="intro"></span>
+                    <div class="panel body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>参数</th>
+                                    <th>说明</th>
+                                    <th>类型</th>
+                                    <th>必填</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>formatHandler</td>
+                                    <td>格式化方法</td>
+                                    <td>function</td>
+                                    <td><i class="fa fa-check"></i></td>
+                                    <td> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="nsdocs-grid-href" class="panel-demo"></div>
+                    <!-- js块 -->               
+                    <script>
+                        var gridfunc = {
+                            columns:[
+                                {
+                                    field:"func",
+                                    title:"列一",
+                                    orderable:true,
+                                    searchable:false,
+                                    editConfig:{
+                                        type:"text"
+                                    },
+                                    width:300,
+                                    columnType:"func",
+                                    formatHandler:function(a, b , c){
+                                        console.log(a,b,c)
+
+                                    }
+                                },
+                                {
+                                    field:"func2",
+                                    title:"列二",
+                                    orderable:true,
+                                    searchable:false,
+                                    editConfig:{
+                                        type:"text"
+                                    },
+                                    width:300,
+                                    columnType:"func",
+                                    formatHandler:function(a, b , c){
+
+                                    }
+                                }
+                            ],
+                            data:{
+                                tableID:"nsdocs-grid-href",
+                                idField:"id",
+                                dataSource:[
+                                    {
+                                        func:"1",
+                                        func2:"2"
+                                    },
+                                    {
+                                        func:"3",
+                                        func2:"4"
+                                    }
+                                ]
+                            },
+                            ui:{
+                                isAutoSerial: true,
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: false,
+                                minPageLength: 3,
+                                selectMode: "single",
+                                height: 120,
+                            }
+                        }
+                        NetStarGrid.init(gridfunc)
+                    </script>
+                    <div class="content language-javascript">
+                        <pre>
+    {
+        field:"func",
+        title:"列一",
+        orderable:true,
+        searchable:false,
+        editConfig:{
+            type:"text"
+        },
+        width:300,
+        columnType:"func",
+        formatHandler:function(a, b , c){
+            console.log(a,b,c)
+
+        }
+    },
+    {
+        field:"func2",
+        title:"列二",
+        orderable:true,
+        searchable:false,
+        editConfig:{
+            type:"text"
+        },
+        width:300,
+        columnType:"func",
+        formatHandler:function(a, b , c){
+
+        }
+    }
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function(){
+                NetstarDocs.init();
+            })
+        </script>
+    </container>
+    
+    <!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

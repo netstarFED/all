@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>扫码详情表</title>
+</head>
+<body class="weixin-type">
+<container>
+	<script type="text/javascript">
+	$(function(){
+		var localUrl = 'http://ui-pc:2000';
+		var config = {
+			template: 'docListViewerMobile',
+			package: 'nsVue.graps.list',
+			title: '货品选择',
+			getValueAjax:{
+				src: localUrl + '/assets/json/template/withFormTableModal.json',
+				type: 'GET',
+				dataSrc: 'modal',
+				data:{},
+				contentType: 'application/x-www-form-urlencoded',
+			},
+			components:[
+				{
+                    type:'blockList',
+                    idField:'keyId', 
+                    ajax:{
+                        src:                    localUrl + '/assets/json/scand.json',       //数据源地址
+                        type:                   "GET",          //GET POST
+                        data:                   {},             //参数对象{id:1,page:100}
+                        //isServerMode:         true,           //是否开启服务器模式
+						dataSrc:                'data.saleList',
+						contentType:'application/x-www-form-urlencoded'
+					},
+					isUseSearchInput:true,
+					searchInputPlaceholder:'扫码查询',
+					isUseQRInput:false,
+					scandSource:'lims',
+					isAjax:false,//数据列表不发送ajax,
+
+					listExpression:'<div class="block-list-item ">'
+										//+'<div class="block-list-item-text">'
+											//+'<span class="title">商品名称</span>'
+										//+'</div>'
+										//+'<div class="block-list-item-text text-left">'
+										//	+'<span>仓库</span>'
+											//+'<span>原货位</span><i class="fa fa-arrow-right"></i><span>目标货位</span>'
+										//+'</div>'
+										//+'<div class="block-list-item-text text-left">'
+										//	+'<span>出入库对象</span>'
+									//	+'</div>'
+										+'<div class="block-list-item-text text-left">'
+											+'<span>样品明细编号：{{hazardCode}}</span>'
+										+'</div>'
+										+'<div class="block-list-item-text text-left">'
+											+'<span>样品名称：{{hazardName}}</span>'
+										+'</div>'
+										+'<div class="block-list-item-text text-left">'
+											+'<span>任务数量：45</span>'
+										+'</div>'
+										+'<div class="block-list-item-text text-left">'
+											+'<span>领取人：45</span>'
+										+'</div>'
+										+'<div class="block-list-item-text text-left">'
+											+'<span>出库数量：45</span>'
+										+'</div>'
+										+'<div class="block-list-item-text text-center block-list-control-text">'
+											+'<span>货位</span>'
+										+'</div>'
+									+'</div>',
+					field:[
+                        {
+                            field : 'hazardClassName',
+                            title : '名称',
+                            width : 150,
+                            searchable:true,
+                            orderable:true, 
+                            isCommon:true,
+                        }, {
+                            field : 'hazardCode',
+                            title : '所属分类',
+                            searchable: true,
+                            width:500,
+                            orderable:true, 
+                        },{
+                            field:'hazardName',
+                            title:'拼音码',
+                            width:200,
+                            searchable:true,
+                            orderable:true,
+                            isCommon:true,
+                        }
+                    ],
+                },{
+					type:'btns',
+					field:[
+						{
+							btn: {
+								text: "详情",
+								isReturn: true,
+								handler: function (callBack, Obj) {
+									console.log('详情');
+								}
+							},
+							functionConfig: {
+								isMobileInlineBtn:true,
+							}
+						},{
+							btn: {
+								text: "出库",
+								isReturn: true,
+								handler: function (callBack, Obj) {
+									console.log('出库');
+								}
+							},
+							functionConfig:{
+								isMobileInlineBtn:true,
+							}
+						},{
+							btn: {
+								text: "回退",
+								isReturn: true,
+								handler: function (callBack, Obj) {
+									console.log('回退');
+								}
+							},
+							functionConfig:{
+								isMobileInlineBtn:true,
+							}
+						}
+					]
+				}
+			]
+		}
+		NetstarTemplate.init(config);
+	})
+
+	/*var componentsArr = pageConfig.config.components;
+	for(var componentI=0; componentI<componentsArr.length; componentI++){
+		var componentData = componentsArr[componentI];
+		switch(componentData.type){
+			case 'blockList':
+				componentData.isAjax = false;
+				componentData.scandSource = 'lims';
+				componentData.ajax = {
+					url:'/sample/accept/samples/getById',
+					data:{id:'1317167578061212658'},
+					contentType:'application/x-www-form-urlencoded',
+				}
+				break;
+			case 'btns':
+				componentData.field = [
+					{
+						btn: {
+							text: "打印",
+							isReturn: true,
+							handler: function (callBack, Obj) {
+								var getPageConfig = callBack.dialogBeforeHandler(callBack);
+								var templateConfig = getPageConfig.config;
+								var valueData = getPageConfig.value;
+								console.log(valueData)
+								console.log(templateConfig)
+							}
+						},
+						functionConfig: {
+							isMobileInlineBtn:true,
+						}
+					}
+				]
+				break;
+		}
+	}*/
+
+	</script>
+</container>
+</body>
+</html>

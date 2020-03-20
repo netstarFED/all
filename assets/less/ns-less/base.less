@@ -1,0 +1,735 @@
+* {
+	font-family: @font-family;
+	// font-size: @font-size-base;
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: #fff;
+	color: #000;
+
+	&[ns-system="pc"] {
+		&>* {
+			::-webkit-scrollbar {
+				width: @scrollbar-width;
+				height: @scrollbar-width;
+
+			}
+
+			//滚动条里面小方块
+			::-webkit-scrollbar-thumb {
+				height: @scrollbar-control-height;
+				background: @scrollbar-control-bg;
+				border-left: @scrollbar-border-width solid #fff;
+				border-radius: @scrollbar-width;
+				cursor: pointer;
+
+				&:hover {
+					background: darken(@scrollbar-control-bg, 10);
+				}
+
+			}
+
+			//滚动条里面轨道
+			::-webkit-scrollbar-track {
+				background: @scrollar-bg;
+				border-left: @scrollbar-border-width solid #fff;
+
+
+			}
+		}
+	}
+
+}
+
+//火狐浏览器滚动条
+/* Firefox */
+@-moz-document url-prefix() {
+
+	html,
+	body {
+		&[ns-system="pc"] {
+			&>* {
+				::-moz-scrollbar {
+					width: @scrollbar-width;
+					height: @scrollbar-width;
+
+				}
+
+				//滚动条里面小方块
+				::-moz-scrollbar-thumb {
+					height: @scrollbar-control-height;
+					background: @scrollbar-control-bg;
+					border-left: @scrollbar-border-width solid #fff;
+					border-radius: @scrollbar-width;
+					cursor: pointer;
+
+					&:hover {
+						background: darken(@scrollbar-control-bg, 10);
+					}
+
+				}
+
+				//滚动条里面轨道
+				::-moz-scrollbar-track {
+					background: @scrollar-bg;
+					border-left: @scrollbar-border-width solid #fff;
+
+
+				}
+			}
+		}
+
+	}
+}
+
+i[class*="fa-"] {
+	display: inline-block;
+	font-size: @icon-normal;
+	text-rendering: auto;
+}
+
+a {
+	text-decoration: none;
+	outline: none !important;
+
+	&:hover,
+	&:focus {
+		text-decoration: none;
+	}
+}
+
+input,
+button {
+	outline: none !important;
+	-webkit-appearance: none;
+}
+
+input::-ms-clear,
+select::-ms-expand {
+	display: none;
+}
+
+// 表单清空按钮
+.ns-icon-close-normal() {
+	text-align: center;
+
+	&:after {
+		.ns-icon-close();
+		width: @base-input-height;
+		height: @base-input-height - 2;
+		line-height: @base-input-height;
+		text-align: center;
+		top: 1px;
+		right: 0;
+	}
+
+	&:hover {
+		&:after {
+			color: @ns-warning;
+			.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+			cursor: pointer;
+		}
+	}
+}
+
+
+// layout-form表单清空按钮
+.form-td-ns-icon-close() {
+	.ns-icon-close-normal();
+
+	&:after {
+		width: @base-height;
+		height: @base-height;
+		line-height: @base-height;
+	}
+}
+
+// layout-form表单下拉箭头
+.form-td-ns-btn-arrow-down() {
+	.ns-btn-arrow-down();
+	width: @base-height;
+	height: @base-height;
+}
+
+// 超时提醒弹框
+.timeout {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 999999998;
+	background: rgba(0, 0, 0, .5);
+
+	.timeout-panel {
+		position: fixed;
+		width: 400px;
+		top: 15%;
+		left: 50%;
+		margin: 0 0 0 -200px;
+		padding: @base-padding *3 0 0;
+		background: #fff;
+		z-index: 999999999;
+		box-shadow: 0 0 5px rgba(0, 0, 0, .6);
+		text-align: center;
+
+		i.fa-warning {
+			font-size: @font-size-base * 4;
+			margin: 0;
+			color: @ns-warning;
+		}
+
+		p {
+			color: @gray-light;
+		}
+
+		.btn {
+			height: @base-height;
+			border-width: 1px 0 0;
+			margin: @base-margin *2 0 0;
+		}
+	}
+}
+
+// 下拉表格面板分页
+.state-style() {
+	width: 100%;
+	text-align: right;
+	padding-right: @base-padding;
+	line-height: @base-input-height;
+
+	.page {
+		display: table;
+		float: left;
+
+		span {
+			width: @base-input-height;
+			height: @base-input-height;
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+			cursor: pointer;
+
+			&:hover,
+			&.able {
+				color: @ns-info;
+			}
+
+			&.disabled {
+				color: fade(@gray-light, 40);
+				cursor: default;
+
+				&:hover {}
+			}
+		}
+	}
+}
+
+//下拉表格面板
+.plane-content-style() {
+	.plane-title {
+		span {
+			background: #f0f0f0 !important;
+		}
+
+		&:hover {
+			cursor: default;
+		}
+	}
+
+	.plane-content {
+
+		&.current,
+		&.current:hover {
+			background: @gray-light;
+		}
+
+		&.current span {
+			color: #fff;
+			cursor: default;
+
+			&:first-child {
+				background: @gray-light;
+				color: #fff;
+			}
+		}
+
+		&:hover {
+			background: #f5f5f5;
+			cursor: pointer;
+		}
+	}
+
+	.plane-title,
+	.plane-content {
+		display: table;
+		width: 100%;
+
+		span {
+			display: table-cell;
+			width: 100%;
+			height: @base-input-height;
+			vertical-align: middle;
+			padding: 0 @base-padding /2;
+			position: relative;
+			color: @gray;
+
+			&:before {
+				.border-vertical();
+				left: -1px;
+				top: 0;
+			}
+
+			&:after {
+				.border-horizontal();
+				left: 0;
+				bottom: 0;
+			}
+
+			&:first-child {
+				width: @base-input-height;
+				min-width: @base-input-height;
+				max-width: @base-input-height;
+				text-align: center;
+				color: @gray-light;
+				background: #f5f5f5;
+				cursor: default;
+			}
+
+			&.plane-content-button {
+				width: 100px;
+				min-width: 100px;
+
+				.btn {
+					display: inline-block;
+					width: @base-input-height;
+					padding: 0 @base-padding /2;
+					line-height: @base-input-height;
+					border-color: transparent;
+					background: transparent;
+				}
+			}
+		}
+	}
+}
+
+// 禁用样式
+.disabled-style() {
+	background: #eee;
+	color: @gray;
+	cursor: not-allowed;
+}
+
+/*radiobox鼠标经过提示*/
+
+.frame-standard .tooltip-inner {
+	text-align: left;
+	font-size: 12px;
+	background: #00a9e1;
+	border-radius: 4px;
+}
+
+.frame-standard .tooltip.in {
+	opacity: 0.9;
+	filter: alpha(opacity=90);
+}
+
+.frame-standard .tooltip.top .tooltip-arrow,
+.frame-standard .tooltip.top-left .tooltip-arrow,
+.frame-standard .tooltip.left .tooltip-arrow,
+.frame-standard .tooltip.top-right .tooltip-arrow,
+.frame-standard .tooltip.right .tooltip-arrow,
+.frame-standard .tooltip.bottom .tooltip-arrow,
+.frame-standard .tooltip.bottom-left .tooltip-arrow,
+.frame-standard .tooltip.bottom-right .tooltip-arrow {
+	border-bottom-color: #00a9e1;
+}
+
+// ToolTip样式
+.tooltip-style() {
+	.tooltip-inner {
+		text-align: left;
+		font-size: @font-size-base;
+		background: @gray-dark;
+		color: @gray-light;
+	}
+
+	.tooltip {
+		&.in {
+			opacity: .7;
+			filter: alpha(opacity=70);
+		}
+
+		&.top .tooltip-arrow,
+		&.top-left .tooltip-arrow,
+		&.left .tooltip-arrow,
+		&.top-right .tooltip-arrow,
+		&.right .tooltip-arrow,
+		&.bottom .tooltip-arrow,
+		&.bottom-left .tooltip-arrow,
+		&.bottom-right .tooltip-arrow {
+			border-top-color: @gray-dark;
+		}
+	}
+}
+
+// 带关闭按钮的输入框结果列表 例如：select2，upload等
+.subitem-style() {
+	position: relative;
+	display: block;
+	float: left;
+	line-height: 24px;
+	margin-right: 5px;
+	padding: 1px 20px 2px 2px;
+	background: #f5f5f5;
+	background-clip: padding-box;
+	border: 1px solid @ns-border-color;
+	border-radius: 0;
+}
+
+// placeholder
+.form-control::-moz-placeholder {
+	color: @ns-border-color;
+	opacity: 1;
+}
+
+.form-control:-ms-input-placeholder {
+	color: @ns-border-color;
+}
+
+.form-control::-webkit-input-placeholder {
+	color: @ns-border-color;
+}
+
+// 受理状态
+.handle-type-group {
+	background: #f9f9f9;
+	margin: 0 -15px;
+	padding: 9px 15px;
+	border-bottom: 1px solid #ddd;
+}
+
+.handle {
+	display: inline-block;
+	border: 1px solid lighten(@gray-light, 25%);
+
+	&+& {
+		margin: 0 0 0 (@base-margin /2);
+	}
+
+	// 受理状态
+	.handle-type {
+		float: left;
+		display: inline-block;
+		color: lighten(@gray-lighter, 30%);
+		padding: (@padding-base-vertical - 1) @padding-base-horizontal;
+		background: lighten(@gray-light, 25%);
+
+		&:hover {
+			background: lighten(@gray-light, 15%);
+		}
+	}
+
+	.handle-Number {
+		position: relative;
+		display: inline-block;
+		background: #fff;
+		padding: (@padding-base-vertical - 1) @padding-base-horizontal;
+	}
+
+	&.handle-primary {
+		@ns-primary: #8a84fe;
+		border-color: lighten(@ns-primary, 10%);
+
+		.handle-type {
+			background: lighten(@ns-primary, 10%);
+
+			&:hover {
+				background: @ns-primary;
+			}
+		}
+
+		.handle-Number {
+			&:hover {
+				color: @ns-primary;
+				background: lighten(@ns-primary, 50%);
+			}
+		}
+	}
+
+	&.handle-info {
+		border-color: lighten(@ns-info, 10%);
+
+		.handle-type {
+			background: lighten(@ns-info, 10%);
+
+			&:hover {
+				background: @ns-info;
+			}
+		}
+
+		.handle-Number {
+			&:hover {
+				color: @ns-info;
+				background: lighten(@ns-info, 50%);
+			}
+		}
+	}
+
+	&.handle-success {
+		border-color: lighten(@ns-success, 10%);
+
+		.handle-type {
+			background: lighten(@ns-success, 10%);
+
+			&:hover {
+				background: @ns-success;
+			}
+		}
+
+		.handle-Number {
+			&:hover {
+				color: @ns-success;
+				background: lighten(@ns-success, 60%);
+			}
+		}
+	}
+
+	&.handle-warning {
+		border-color: lighten(@ns-warning, 10%);
+
+		.handle-type {
+			background: lighten(@ns-warning, 10%);
+
+			&:hover {
+				background: @ns-warning;
+			}
+		}
+
+		.handle-Number {
+			&:hover {
+				color: @ns-warning;
+				background: lighten(@ns-warning, 45%);
+			}
+		}
+	}
+
+	&.handle-danger {
+		border-color: lighten(@ns-danger, 10%);
+
+		.handle-type {
+			background: lighten(@ns-danger, 15%);
+
+			&:hover {
+				background: @ns-danger;
+			}
+		}
+
+		.handle-Number {
+			&:hover {
+				color: @ns-danger;
+				background: lighten(@ns-danger, 50%);
+			}
+		}
+	}
+
+	&.handle-default {
+		border-color: lighten(@gray-light, 10%);
+
+		.handle-type {
+			background: lighten(@gray-light, 15%);
+
+			&:hover {
+				background: @gray-light;
+			}
+		}
+
+		.handle-Number {
+			&:hover {
+				color: @gray-light;
+				background: lighten(@gray-light, 50%);
+			}
+		}
+	}
+
+	.handle-tips {
+		position: absolute;
+		top: -@base-padding;
+		right: -@base-padding;
+		.square((@base-padding * 2) - 2);
+		background: lighten(@ns-danger, 20%);
+		font-size: (@font-size-base - 4);
+		line-height: ((@base-padding * 2) - 2);
+		text-align: center;
+		color: #fff;
+		border-radius: (@base-padding + 4);
+		box-sizing: content-box;
+		font-family: "Arial, sans-serif";
+	}
+}
+
+.handling-state {
+	display: table;
+	width: 100%;
+	margin: 0 -5px;
+
+	.handling-state-item {
+		display: table-cell;
+		padding: 0 5px;
+
+		.handling-state-box-variant(@color, @bg) {
+			color: @color;
+			background: @bg;
+		}
+
+		&:nth-child(1) {
+			.handling-state-box {
+				.handling-state-box-variant(#fff, #4691e5);
+			}
+		}
+
+		&:nth-child(2) {
+			.handling-state-box {
+				.handling-state-box-variant(#fff, #fcb538);
+			}
+		}
+
+		&:nth-child(3) {
+			.handling-state-box {
+				.handling-state-box-variant(#fff, #937af0);
+			}
+		}
+
+		&:nth-child(4) {
+			.handling-state-box {
+				.handling-state-box-variant(#fff, #3fc9e0);
+			}
+		}
+
+		&:nth-child(5) {
+			.handling-state-box {
+				.handling-state-box-variant(#fff, #6acd5a);
+			}
+		}
+
+		&:nth-child(6) {
+			.handling-state-box {
+				.handling-state-box-variant(#fff, #e03d76);
+			}
+		}
+
+		&:nth-child(7) {
+			.handling-state-box {
+				.handling-state-box-variant(#fff, #f06e4c);
+			}
+		}
+	}
+
+	.handling-state-box {
+		display: table;
+		width: 100%;
+		background: #ddd;
+
+		.handling-state-box-before {
+			display: table-cell;
+			width: 48px;
+			text-align: left;
+			vertical-align: top;
+
+			i {
+				display: block;
+				.square(24px);
+				text-align: center;
+				font-size: 24px;
+				color: rgba(255, 255, 255, 0.75);
+				margin: 5px;
+			}
+		}
+
+		.handling-state-box-info {
+			display: table-cell;
+			padding: 5px 0;
+
+			h6 {
+				margin: 0;
+				line-height: 18px;
+			}
+
+			h5 {
+				margin: 0;
+				line-height: 18px;
+				font-weight: bold;
+			}
+		}
+
+		.handling-state-box-after {
+			width: 36px;
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+
+			span {
+				display: block;
+				.square(20px);
+				margin: 0 auto;
+				line-height: 20px;
+				border-radius: 20px;
+				background: #fff;
+				color: #333;
+				font-family: @font-family-base;
+			}
+		}
+	}
+}
+
+//文本样式
+.text-success {
+	color: @ns-success;
+}
+
+.text-info {
+	color: @ns-info;
+}
+
+.text-warning {
+	color: @ns-warning;
+}
+
+.text-danger {
+	color: @ns-danger;
+}
+
+// 人员管理照片样式
+.user-id-photo {
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 124px;
+	z-index: 99;
+	background: #fff;
+
+	img {
+		display: block;
+		height: 100px;
+		margin: 10px auto;
+	}
+}
+
+.color-preview {
+	width: 16px;
+	height: 16px;
+	background: #FFF;
+	display: inline-block;
+	border: 1px solid #e4e4e4;
+	background-color: rgb(205, 12, 12);
+}
+
+
+video {
+	width: 100%;
+}

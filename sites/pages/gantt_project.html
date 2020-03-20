@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+   <title></title>
+</head>
+
+<body>
+   <container>
+      <script type="text/javascript">
+        
+      function projectGanttShow(){
+         var labelpageVmPageProperty = NetstarUI.labelpageVm.pageProperty;
+         var gridUrl = 'nstemplate-layout-nscloud-oatasklist-list-0';
+         var id = '';
+         if($.isArray(labelpageVmPageProperty) && labelpageVmPageProperty.length > 0){
+            var _pageProperty = labelpageVmPageProperty[labelpageVmPageProperty.length-1];
+            if(_pageProperty.value && $.isArray(_pageProperty.value.selectedList) && _pageProperty.value.selectedList.length > 0){
+                id = _pageProperty.value.selectedList[0].billId;
+            }
+         }
+         if(!id){
+            console.error('billId没找到');
+            return;
+         }
+         var ganttHereId  = 'gantt_here_' + id;
+         var gantt_here = $('<div id="' + ganttHereId + '" style="width:100%;height:100%;"></div>');
+        //  var id = NetStarGrid.getSelectedData('nstemplate-layout-nscloud-oatasklist-list-0')[0].billId;;
+         var $container = $('container').eq($('container').length - 1);
+         if ($container.length == 0) {
+            return;
+         }
+         $container.append(gantt_here)
+
+         // 设置左侧字段
+         gantt.config.columns = [
+            {   // 任务名
+               name: "taskName",
+               label: "任务名",
+               align: "center",
+               tree: true,
+               width: "*",
+               template: function (item) {
+                  // return byId(gantt.serverList("task"),item.taskName) 
+                  return item.text
+
+               }
+            },
+            {   // 开始时间
+               name: "start_date",
+               label: "开始时间",
+               align: "center",
+               width: "*",
+            },
+            {   // 持续时间
+               name: "duration",
+               label: "持续时间",
+               align: "center",
+               width: "*",
+
+            },
+            {   // 进度
+               name: "progress",
+               label: "进度",
+               align: "center",
+               width: '70',
+               template: function (obj) {
+                  return Math.floor(obj.progress * 100) + "%";
+               }
+            },
+            {
+               name: "add",
+            }
+         ]
+
+         // 设置右侧甘特图的时间标尺(%Y:年,%F:月,%j:日,%D:星期)以及样式
+         gantt.config.grid_width = 500; // 设置宽度
+         gantt.config.xml_date = "%Y-%m-%d %H:%i:%s";
+         gantt.config.scale_height = 100; //设置时间刻度的高度和网格的标题
+         gantt.config.order_branch = true; // 设置可以拖动
+         gantt.config.order_branch_free = true; // 设置可以拖动
+         gantt.config.scale_unit = "month";	//按月显示
+         gantt.config.date_scale = "%F, %Y";	//设置时间刻度的格式（X轴） 多个尺度
+         gantt.config.scale_height = 100; //设置时间刻度的高度和网格的标题
+         gantt.config.subscales = [       //指定第二个时间刻度
+            { unit: "day", step: 1, date: "%D" },
+            { unit: "day", step: 1, date: '%M %j' },
+         ];
+         gantt.config.fit_tasks = true;
+         gantt.config.drag_progress = false;    // 设置进度条不可拖动
+         gantt.init(ganttHereId);
+
+         var obj = { wbsRootId: id }
+         var staff = []
+         console.log(obj)
+         var tasks = {}
+         // getTask()
+         // function getTask(){
+         $.ajax({
+            url: "/cloud/wbs/showWbs",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(obj),
+            success: function (res) {
+               gantt.clearAll()
+
+               // console.log(res)
+               if (res.success) {
+
+                  var taskArr = res.data.data;
+                  var linkArr = res.data.links;
+
+                  tasks.data = taskArr;
+                  tasks.links = linkArr;
+                  staff = res.data.user;
+                  var staffList = [] // 人员列表
+                  for (var i = 0; i < staff.length; i++) {
+                     var obj = {};
+                     obj.key = staff[i].id;
+                     obj.label = staff[i].userName;
+                     staffList.push(obj);
+
+                  }
+                  gantt.serverList("staff", staffList); // 设置负责人列表
+                  gantt.serverList("milestone", [{ key: "0", label: "非里程碑" }, { key: "1", label: "里程碑" }]);
+                  gantt.serverList("wbsModel", [{ key: 0, label: "自动模式" }, { key: 1, label: "手动模式" }])
+
+                  //设置弹出框
+                  var labels = gantt.locale.labels;
+                  labels.column_owner = labels.section_owner = "负责人";
+                  labels.column_description = labels.section_description = "任务";
+                  labels.column_time = labels.section_time = "任务时间";
+                  labels.column_milestone = labels.section_milestone = "任务类型";
+                  labels.column_wbsModel = labels.section_wbsModel = "任务模式";
+                  labels.column_workHours = labels.section_workHours = "预计工时";
+                  gantt.config.lightbox.sections = [
+                     { name: "description", height: 38, map_to: "text", type: "textarea", focus: true },
+                     { name: "owner", height: 22, map_to: "owner_id", type: "select", options: gantt.serverList("staff") },
+                     { name: "milestone", height: 22, map_to: "milestone", type: "select", options: gantt.serverList("milestone"), default_value: 1 },
+                     { name: "wbsModel", height: 22, map_to: "wbsModel", type: "select", options: gantt.serverList("wbsModel"), default_value: 1 },
+                     { name: "workHours", height: 22, map_to: "workHours", type: "textarea", default_value: "0" },
+                     { name: "time", type: "duration", map_to: "auto" }
+                  ];
+
+                  gantt.parse(tasks);
+               } else {
+                  console.error("数据错误")
+               }
+
+            }
+
+         })
+         // }
+
+         // 任务新增方法
+         gantt.attachEvent("onAfterTaskAdd", function (id, item) {
+            // console.log("新增任务",item)
+            var addTask = {};
+            // addTask.id = item.id;
+            addTask.text = item.text;
+            addTask.duration = item.duration;
+            addTask.parent = item.parent;
+            if (item.parent == 0) {
+               alert("不能添加根任务");
+               // getTask()
+            } else {
+               addTask.progress = item.progress;
+               addTask.start_date = transformDate(item.start_date);
+               addTask.personId = item.owner_id;
+               addTask.milestone = item.milestone;
+               addTask.person = byId(gantt.serverList("staff"), item.owner_id)
+               addTask.wbsModel = item.wbsModel;
+               if (item.workHours) {
+                  addTask.workHours = item.workHours
+               }
+
+               console.log("新增", addTask)
+               $.ajax({
+                  url: "/cloud/wbs/saveData",
+                  method: "POST",
+                  contentType: "application/json",
+                  data: JSON.stringify(addTask),
+                  success: function (res) {
+                     console.log(res)
+                     if (res.success == false) {
+                        alert(res.msg)
+                     }
+                  }
+               })
+            }
+
+         })
+         function byId(list, id) {
+            for (var i = 0; i < list.length; i++) {
+               if (list[i].key == id) {
+                  return list[i].label || "";
+               }
+            }
+            return ""
+         }
+         
+
+         // 任务更新方法
+         gantt.attachEvent("onAfterTaskUpdate", debounce(function (id, item) {
+            console.log("更新", item);
+            var updateTask = {};
+            updateTask.id = item.id;
+            updateTask.text = item.text;
+            updateTask.parent = item.parent;
+            updateTask.progress = item.progress;
+            updateTask.duration = item.duration;
+            updateTask.start_date = transformDate(item.start_date);
+            updateTask.person = item.person;
+            updateTask.personId = item.personId;
+            updateTask.wbsModel = item.wbsModel;
+            updateTask.milestone = item.milestone;
+            updateTask.workHours = item.workHours;
+
+            $.ajax({
+               url: "/cloud/wbs/updateData",
+               method: "POST",
+               contentType: "application/json",
+               data: JSON.stringify(updateTask),
+               success: function (res) {
+                  if (res.success == false) {
+                     //alert(res.msg)
+                     nsalert(res.msg, 'error');
+                  }
+                  // getTask()
+               
+               }
+            })
+
+         }, 300))
+         // 任务的删除
+         gantt.attachEvent("onAfterTaskDelete", debounce(function (id, item) {
+            console.log("删除", item)
+
+            $.ajax({
+               url: "/cloud/wbs/delData?id=" + item.id,
+               method: "POST",
+               contentType: "application/json",
+               success: function (res) {
+                  console.log(res)
+                  if (res.success == false) {
+                     alert(res.msg)
+                  }
+                  // getTask()
+
+               }
+            })
+
+         }, 300))
+
+
+         // 连接线的新增
+         gantt.attachEvent("onAfterLinkAdd", debounce(function (id, item) {
+            console.log("新增Link", item)
+            var addLink = {};
+            addLink.objectState = 2;
+            addLink.source = item.source;
+            addLink.target = item.target;
+            addLink.type = item.type;
+            $.ajax({
+               url: "/cloud/wbs/saveLink",
+               method: "POST",
+               contentType: "application/json",
+               data: JSON.stringify(addLink),
+               success: function (res) {
+                  console.log(res)
+                  if (res.success == false) {
+                     alert(res.msg)
+                  }
+                  // getTask()
+
+               }
+            })
+
+         }, 300))
+
+
+         // 连接线的删除
+         gantt.attachEvent("onAfterLinkDelete", debounce(function (id, item) {
+            console.log("删除Link", item)
+            $.ajax({
+               url: "/cloud/wbs/delLink?id=" + item.id,
+               method: "POST",
+               contentType: "application/json",
+               success: function (res) {
+                  console.log(res)
+                  if (res.success == false) {
+                     alert(res.msg)
+                  }
+                  // getTask()
+
+               }
+            })
+
+         }, 300))
+
+         // 中国标准时间转换
+         function transformDate(date) {
+            const d = new Date(date);
+            const resDate = d.getFullYear() + '-' + p((d.getMonth() + 1)) + "-" + p(d.getDate()) + " " + p(d.getHours()) + ":" + p(d.getMinutes()) + ":" + p(d.getSeconds());
+            return resDate
+         }
+         // 时间加0操作
+         function p(s) {
+            return s < 10 ? "0" + s : s
+         }
+
+         //防抖函数
+
+         function debounce(func, wait, immediate) {
+            var timeout;
+
+            // This is the function that is actually executed when
+            // the DOM event is triggered.
+            return function executedFunction() {
+               // Store the context of this and any
+               // parameters passed to executedFunction
+               var context = this;
+               var args = arguments;
+
+               // The function to be called after 
+               // the debounce time has elapsed
+               var later = function () {
+                  // null timeout to indicate the debounce ended
+                  timeout = null;
+
+                  // Call function now if you did not on the leading end
+                  if (!immediate) func.apply(context, args);
+               };
+
+               // Determine if you should call the function
+               // on the leading or trail end
+               var callNow = immediate && !timeout;
+
+               // This will reset the waiting every function execution.
+               // This is the step that prevents the function from
+               // being executed because it will never reach the 
+               // inside of the previous setTimeout  
+               clearTimeout(timeout);
+
+               // Restart the debounce waiting period.
+               // setTimeout returns a truthy value (it differs in web vs node)
+               timeout = setTimeout(later, wait);
+
+               // Call immediately if you're dong a leading
+               // end execution
+               if (callNow) func.apply(context, args);
+            };
+         };
+      }
+      projectGanttShow();
+      </script>
+   </container>
+</body>
+
+</html>

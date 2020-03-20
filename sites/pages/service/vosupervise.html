@@ -1,0 +1,1409 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: 祁倩
+ * @Date: 2020-2-13 10:30
+ * @LastEditTime: 2020-2-13 10:30
+ * @LastEditors: Please set LastEditors
+ -->
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <style>
+        .netstar-service-title {
+            font-size: 14px;
+            margin: 10px 0 0 10px;
+        }
+
+        .btn-servise {
+            padding: 0 10px 10px 10px;
+        }
+
+        .pt-tab-header {
+            padding-left: 10px;
+        }
+
+        .btn-servise-save {
+            padding: 10px 10px;
+        }
+
+        .btn-servise-vo {
+            padding: 0 10px 10px 10px;
+        }
+
+        .btn-servise-list {
+            padding-bottom: 10px;
+            padding: 0 10px 10px 10px;
+        }
+
+        .pt-tab-header .pt-nav .pt-nav-item.current a {
+            border-width: 0px;
+        }
+    </style>
+    <div class="netstar-service-vosupervise">
+        <h4 class="netstar-service-title">vo管理维护</h4>
+        <!-- <div id="netstar-servise-vosupervise-btn" class="btn-servise-save"></div>
+        <div id="netstar-servise-vosupervise-vo" class="btn-servise-vo"></div>
+        <div class="pt-tab-header">
+            <div class="pt-nav">
+                <ul class="pt-tab-list-components-tabs">
+                    <li id="tab-propertyList" class="component-list pt-nav-item current">
+                        <a id="tab-color" href="javascript:void(0);">属性 </a>
+                    </li>
+                    <li id="tab-processorList" class="component-list pt-nav-item current">
+                        <a id="tab-color-2" href="javascript:void(0);" hidden> 处理器 </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="netstar-servise-vosupervise-btn-1" class="btn-servise"></div>
+        <div id="netstar-servise-vosupervise-btn-2" class="btn-servise"></div>
+        <div id="netstar-servise-vosupervise-list-1" class="btn-servise-list"></div>
+        <div id="netstar-servise-vosupervise-list-2" class="btn-servise-list"></div> -->
+    </div>
+
+
+    <script>
+        /* 
+    serviseId.propertyId158   25   44  30  27  34
+    */
+        //NetstarTemplate.init();
+        var serviceVoSupervise = (function () {
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/";
+            }
+            var baseServerData = {};
+            var serviseId = {
+                voId: 'netstar-servise-vosupervise-vo',
+                propertyId: 'netstar-servise-vosupervise-list-1',
+                processorId: 'netstar-servise-vosupervise-list-2',
+                propertybtnId: 'netstar-servise-vosupervise-btn-1',
+                processorbtnId: 'netstar-servise-vosupervise-btn-2',
+                btnId: 'netstar-servise-vosupervise-btn'
+            };
+            /* var dictData = nsVals.dictData.dataType.subdata */
+            var configs = {
+                vo: {
+                    id: serviseId.voId,
+                    defaultComponentWidth: "25%",
+                    isSetMore: false,
+                    form: [{
+                            id: 'isMiddle',
+                            type: 'checkbox',
+                            label: '中台vo',
+                            variableType: "number",
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'inheritVoId',
+                            type: 'select',
+                            label: '继承vo',
+                            textField: 'typeName',
+                            valueField: 'id',
+                            url: getRootPath() + '/servicemanages/vo/getList',
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json',
+                            changeHandler: function (id) {
+                            }
+                        },
+                        {
+                            id: 'moduleId',
+                            type: 'business',
+                            label: '所属模块',
+                            textField: 'moduleName',
+                            valueField: 'id',
+                            source:{
+                                url:getRootPath()+'/templateMindPages/pageConfig/1304366017866105833',
+                            },
+                            search:{
+                                url: getRootPath() + '/modules/getList',
+                            },
+                            outputFields:"{\"moduleName\":\"{moduleName}\"}",  
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json'
+                        },
+                        {
+                            id: 'serviceId',
+                            type: 'select',
+                            label: '微服务',
+                            textField: 'serviceName',
+                            valueField: 'id',
+                            url: getRootPath() + '/servicemanages/service/getList',
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json',
+                            changeHandler: function (id) {
+                            }
+                        },
+                        {
+                            id: 'controllerId',
+                            type: 'select',
+                            label: '控制器',
+                            textField: 'controllerName',
+                            valueField: 'id',
+                            url: getRootPath() + '/servicemanages/controller/getList',
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json',
+                            changeHandler: function (id) {
+                            }
+                        },
+                        {
+                            id: 'since',
+                            type: 'text',
+                            label: '起始版本'
+                        },
+                        {
+                            id: 'typeName',
+                            type: 'text',
+                            label: 'vo名称'
+                        },
+                        {
+                            id: 'chineseName',
+                            type: 'text',
+                            label: '中文名称'
+                        },
+                        {
+                            id: 'voCode',
+                            type: 'text',
+                            label: '编码'
+                        },
+                        {
+                            id: 'classType',
+                            type: 'text',
+                            label: 'class'
+                        },
+                        {
+                            id: 'logType',
+                            type: 'select',
+                            label: '记录日志类型',
+                            textField: 'value',
+                            valueField: 'id',
+                            variableType: 'number',
+                            subdata: [{
+                                    id: 0,
+                                    value: '不记录'
+                                },
+                                {
+                                    id: 1,
+                                    value: '记录新增'
+                                },
+                                {
+                                    id: 3,
+                                    value: '记录修改'
+                                },
+                                {
+                                    id: 4,
+                                    value: '记录删除'
+                                },
+                                {
+                                    id: 5,
+                                    value: '记录删除和新增'
+                                }, {
+                                    id: 6,
+                                    value: '记录删除和修改'
+                                },
+                                {
+                                    id: 7,
+                                    value: '记录新增,修改,删除'
+                                }
+                            ]
+                        },
+                        {
+                            id: 'deleteFlag',
+                            type: 'checkbox',
+                            label: '作废标记',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'isPrivate',
+                            type: 'checkbox',
+                            label: '私有',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'multiLanguage',
+                            type: 'checkbox',
+                            label: '多语言',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'description',
+                            type: 'text',
+                            label: '描述'
+                        },
+                        {
+                            id: 'id',
+                            type: 'hidden',
+                            label: '描述'
+                        }
+                    ]
+                },
+                //属性列表
+                propertyList: {
+                    id: serviseId.propertyId,
+                    columns: [{
+                            field: 'chineseName',
+                            title: '中文名称',
+                            searchable: true,
+                            editable: true
+                        },
+                        {
+                            field: 'fieldName',
+                            title: '英文名称',
+                            searchable: true,
+                            editable: true
+                        },
+                        {
+                            field: 'description',
+                            title: '字段描述',
+                            searchable: true,
+                            editable: true
+                        },
+                        {
+                            field: 'fieldCode',
+                            title: '编码',
+                            searchable: true,
+                            editable: true,
+                        },
+                        {
+                            field: 'dataTypeName',
+                            title: '数据类型',
+                            searchable: true,
+                            editable: true,
+                            variableType: "string",
+                            columnType: "stringReplace",
+                            editConfig: {
+                                type: 'select',
+                                textField: 'value',
+                                valueField: 'id',
+                                subdata: [{
+                                        id: '1',
+                                        value: "string"
+                                    },
+                                    {
+                                        id: '2',
+                                        value: "date"
+                                    },
+                                    {
+                                        id: '3',
+                                        value: "bool"
+                                    },
+                                    {
+                                        id: '4',
+                                        value: "int"
+                                    },
+                                    {
+                                        id: "5",
+                                        value: "方法"
+                                    }
+                                ],
+                            },
+                            formatHandler: {
+                                data: {
+                                    formatDate: {
+                                        '1': "string",
+                                        '2': 'date',
+                                        '3': 'bool',
+                                        '4': 'int',
+                                        '5': '方法'
+                                    },
+                                    type: 'stringReplace'
+                                }
+                            }
+                        },
+                        {
+                            field: 'defaultValue',
+                            title: '默认值',
+                            searchable: true,
+                            editable: true
+                        },
+                        {
+                            field: 'logFlag',
+                            title: '记录日志',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                type: 'radio',
+                                valueField: 'id',
+                                textField: 'value',
+                                subdata: [{
+                                        id: 0,
+                                        value: '否',
+                                    },
+                                    {
+                                        id: 1,
+                                        value: '是',
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            field: 'fileldName',
+                            title: '对应数据库字段',
+                            searchable: true,
+                            editable: true
+                        },
+                        {
+                            field: 'quickSearchFlag',
+                            title: '支持快速查询',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                type: 'radio',
+                                valueField: 'id',
+                                textField: 'value',
+                                subdata: [{
+                                        id: 0,
+                                        value: '否',
+                                    },
+                                    {
+                                        id: 1,
+                                        value: '是',
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            field: 'multiLanguage',
+                            title: '多语言支持',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                type: 'radio',
+                                valueField: 'id',
+                                textField: 'value',
+                                subdata: [{
+                                        id: 0,
+                                        value: '否',
+                                    },
+                                    {
+                                        id: 1,
+                                        value: '是',
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            field: 'isHidden',
+                            title: '隐藏',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                type: 'radio',
+                                valueField: 'id',
+                                textField: 'value',
+                                subdata: [{
+                                        id: 0,
+                                        value: '否',
+                                    },
+                                    {
+                                        id: 1,
+                                        value: '是',
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            field: 'isRequired',
+                            title: '必填',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                type: 'radio',
+                                valueField: 'id',
+                                textField: 'value',
+                                subdata: [{
+                                        id: 0,
+                                        value: '否',
+                                    },
+                                    {
+                                        id: 1,
+                                        value: '是',
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            field: 'pkFlag',
+                            title: '主键',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                type: 'radio',
+                                valueField: 'id',
+                                textField: 'value',
+                                subdata: [{
+                                        id: 0,
+                                        value: '否',
+                                    },
+                                    {
+                                        id: 1,
+                                        value: '是',
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            field: 'fkFlag',
+                            title: '外键',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                type: 'checkBox',
+                                valueField: 'id',
+                                textField: 'value',
+                                subdata: [{
+                                        id: 0,
+                                        value: '否',
+                                    },
+                                    {
+                                        id: 1,
+                                        value: '是',
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            field: 'inputLength',
+                            title: '长度',
+                            searchable: true,
+                            editable: true,
+                            variableType: 'number',
+                        }
+                    ],
+                    ui: {
+                        isOpenQuery:true,
+                        isAllowAdd: true,
+                        pageLengthMenu: [10],
+                        toPageMenu: 6,
+                        height: 200,
+                        tableRowBtns: [{
+                                text: '编辑',
+                                handler: function (res) {
+                                    var rowData = res.rowData
+                                    rowData.index = res.rowIndex
+                                    var dialogVoConfig = {
+                                        id: 'superviseDialogVo',
+                                        height: '80%',
+                                        title: 'vo表单维护',
+                                        width: '80%',
+                                        templateName: 'PC',
+                                        shownHandler: function (data) {
+                                            propertyDialog.propertyDialogVo(data);
+                                            setTimeout(function () {
+                                                NetstarComponent.fillValues(rowData,
+                                                    'netstar-supervise-dialog-Vo'
+                                                )
+                                                NetstarComponent.fillValues(rowData,
+                                                    'netstar-supervise-dialog-field'
+                                                )
+                                            }, 50)
+                                        }
+                                    }
+                                    NetstarComponent.dialogComponent.init(dialogVoConfig);
+                                }
+
+                            },
+                            {
+                                text: '删除',
+                                handler: function (res) {
+                                    var rowData = res.rowData
+                                    var index = res.rowIndex
+                                    NetStarGrid.delRow(rowData, serviseId.propertyId, index)
+                                }
+                            }
+                        ]
+                    },
+                    data: {
+                        idField: 'id',
+
+                    }
+                },
+                //处理器列表
+                processorList: {
+                    id: serviseId.processorId,
+                    columns: [{
+                            field: 'fieldId',
+                            title: '字段',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                id: 'fieldId',
+                                label: '字段',
+                                type: 'select',
+                                textField: 'chineseName',
+                                valueField: 'id',
+                                url: getRootPath() + '/fdsFields/getList',
+                                method: 'POST',
+                                data: {},
+                                dataSrc: 'rows',
+                                contentType: 'application/json'
+                            },
+                        },
+                        {
+                            field: 'handlerName',
+                            title: '处理器',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                id: 'handlerName',
+                                label: '处理器',
+                                type: 'select',
+                                textField: 'handlerName',
+                                valueField: 'id',
+                                url: getRootPath() + '/fdsHandlers/getList',
+                                method: 'POST',
+                                data: {},
+                                dataSrc: 'rows',
+                                contentType: 'application/json'
+                            },
+                        },
+                        {
+                            field: 'relatedVold',
+                            title: '对应vo',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                id: 'relatedVold',
+                                label: '输入vo',
+                                type: 'select',
+                                textField: 'typeName',
+                                valueField: 'id',
+                                url: getRootPath() + '/servicemanages/vo/getList',
+                                method: 'POST',
+                                data: {},
+                                dataSrc: 'rows',
+                                contentType: 'application/json'
+                            },
+                        },
+                        {
+                            field: 'relatedFieldIds',
+                            title: '对应属性',
+                            searchable: true,
+                            editable: true,
+                            editConfig: {
+                                id: 'relatedFieldIds',
+                                label: '输入属性',
+                                type: 'select',
+                                textField: 'fieldName',
+                                selectMode: 'multi',
+                                valueField: 'id',
+                                data: {},
+                                url: getRootPath() + '/fdsFields/getList',
+                                method: 'POST',
+                                dataSrc: 'rows',
+                                contentType: 'application/json'
+                            },
+                        },
+                        {
+                            field: 'config',
+                            title: '配置',
+                            searchable: true,
+                            editable: true
+                        }
+                    ],
+                    data: {
+                        idField: 'id',
+                    },
+                    ui: {
+                        isAllowAdd: true,
+                        tableRowBtns: [{
+                                text: '编辑',
+                                handler: function (res) {
+                                    var rowData = res.rowData
+                                    rowData.index = res.rowIndex
+                                    var dialogVoConfig = {
+                                        id: 'processordialog',
+                                        height: '80%',
+                                        title: '处理器维护',
+                                        width: '80%',
+                                        templateName: 'PC',
+                                        shownHandler: function (data) {
+                                            processorDialog.processorDialogVo(data);
+                                            setTimeout(function () {
+                                                NetstarComponent.fillValues(rowData,
+                                                    'netstar-property-dialog-Vo'
+                                                );
+                                            }, 50)
+
+                                        }
+                                    }
+                                    NetstarComponent.dialogComponent.init(dialogVoConfig);
+                                }
+                            },
+                            {
+                                text: '删除',
+                                handler: function (res) {
+                                    var rowData = res.rowData
+                                    var index = res.rowIndex
+                                    NetStarGrid.delRow(rowData, serviseId.propertyId, index)
+                                }
+                            }
+                        ]
+                    }
+                },
+                propertybtns: {
+                    id: serviseId.propertybtnId,
+                    btns: [{
+                        text: '新增',
+                        handler: function () {
+                            var dialogVoConfig = {
+                                id: 'superviseDialogVo',
+                                height: '80%',
+                                title: 'vo表单维护',
+                                width: '80%',
+                                templateName: 'PC',
+                                shownHandler: function (data) {
+                                    data.index = -1;
+                                    propertyDialog.propertyDialogVo(data);
+
+                                }
+                            }
+                            NetstarComponent.dialogComponent.init(dialogVoConfig);
+                        }
+                    }]
+                },
+                processorbtns: {
+                    id: serviseId.processorbtnId,
+                    btns: [{
+                        text: '新增',
+                        handler: function () {
+                            var dialogVoConfig = {
+                                id: 'processordialog',
+                                height: '80%',
+                                title: '处理器维护',
+                                width: '80%',
+                                templateName: 'PC',
+                                shownHandler: function (data) {
+                                    processorDialog.processorDialogVo(data);
+                                }
+                            }
+                            NetstarComponent.dialogComponent.init(dialogVoConfig);
+                        }
+                    }]
+                },
+                btns: {
+                    id: serviseId.btnId,
+                    btns: [{
+                        text: '保存',
+                        handler: function (res) {
+                            /* data  修改后的数据 */
+                            var ajaxData = {}
+                            var formData = NetstarComponent.getValues(serviseId.voId)
+                            var propertyGrigData = NetStarGrid.dataManager.getData(serviseId
+                                .propertyId)
+                            var processorGrigData = NetStarGrid.dataManager.getData(serviseId
+                                .processorId)
+                            var _data = {}
+                            var data = $.extend(true, _data, formData)
+                            data.fields = propertyGrigData
+                            data.middlewares = processorGrigData
+                            var _data = nsServerTools.getObjectStateData(baseServerData, data, {
+                                    'root': 'id',
+                                    'root.fields': 'id',
+                                    'root.middlewares': 'id'
+                                })
+                         
+                            var ajaxConfig = {
+                                url: getRootPath() + '/servicemanages/vo/save',
+                                type: 'POST',
+                                contentType: 'application/json',
+                                dataSrc: 'data',
+                                data: _data,
+
+                            }
+                            NetStarUtils.ajax(ajaxConfig, function (res) {                              
+                                if (res) {
+                                    nsalert('保存成功')
+                                    baseServerData = res;
+                                }
+                            })
+                        }
+                    }]
+                },
+                dialogVo: {
+                    selectVoFrom: [{
+                        id: 'check',
+                        type: 'radio',
+                        label: '数据类型',
+                        value: '1',
+                        textField: 'value',
+                        valueField: 'id',
+                        subdata: [{
+                                id: "1",
+                                value: 'vo'
+                            },
+                            {
+                                id: '2',
+                                value: '字段'
+                            }
+                        ]
+                    }],
+                    voForm: [{
+                            id: 'inherit',
+                            type: 'select',
+                            label: 'vo',
+                            textField: 'chineseName',
+                            valueField: 'id',
+                            url: getRootPath() + '/servicemanages/vo/getList',
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json'
+                        },
+                        {
+                            id: 'isList',
+                            type: 'checkbox',
+                            label: '是否list',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'isPrivate',
+                            type: 'checkbox',
+                            label: '私有',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'isInherit',
+                            type: 'checkbox',
+                            label: '继承属性',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'multiLanguage',
+                            type: 'checkbox',
+                            label: '支持多语言',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'isHidden',
+                            type: 'checkbox',
+                            label: '隐藏',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '',
+                                value: '1'
+                            }],
+                        }
+                    ],
+                    fieldForm: [{
+                            id: 'dataTypeName',
+                            type: 'select',
+                            label: '数据类型',
+                            value: '',
+                            textField: 'value',
+                            valueField: 'id',
+                            subdata: [{
+                                    id: '1',
+                                    value: "string"
+                                },
+                                {
+                                    id: '2',
+                                    value: "date"
+                                },
+                                {
+                                    id: '3',
+                                    value: "bool"
+                                },
+                                {
+                                    id: '4',
+                                    value: "int"
+                                },
+                                {
+                                    id: "5",
+                                    value: "方法"
+                                }
+                            ],
+                        },
+                        {
+                            id: 'isHidden',
+                            type: 'checkbox',
+                            value: '',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '隐藏',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'isRequired',
+                            type: 'checkbox',
+                            value: '',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '必填',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'fieldName',
+                            type: 'text',
+                            label: '字段名称',
+                            value: '',
+                        },
+                        {
+                            id: 'pkFlag',
+                            type: 'checkbox',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '主键',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'fkFlag',
+                            type: 'checkbox',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '外键',
+                                value: '1'
+                            }],
+
+                        },
+                        {
+                            id: 'chineseName',
+                            type: 'text',
+                            label: '字段中文名称',
+                        },
+                        {
+                            id: 'quickSearchFlag',
+                            type: 'checkbox',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '支持快速查询',
+                                value: '1'
+                            }]
+                        },
+                        {
+                            id: 'isPrivate',
+                            type: 'checkbox',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '私有',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'description',
+                            type: 'text',
+                            label: '字段描述',
+                        },
+                        {
+                            id: 'multiLanguage',
+                            type: 'checkbox',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '支持多语言',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'isInherit',
+                            type: 'checkbox',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '继承属性',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'fieldCode',
+                            type: 'text',
+                            label: '编码',
+                        },
+                        {
+                            id: 'logFlag',
+                            type: 'checkbox',
+                            value: '1',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '记录日志',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'onlyFlag',
+                            type: 'checkbox',
+                            value: '1',
+                            variableType: 'number',
+                            subdata: [{
+                                text: '数据库唯一标识',
+                                value: '1'
+                            }],
+                        },
+                        {
+                            id: 'defaultValue',
+                            type: 'text',
+                            label: '默认值'
+                        },
+                        {
+                            id: 'inputLength',
+                            type: 'number',
+                            label: '输入长度',
+
+                        },
+                        {
+                            id: 'fileldName',
+                            type: 'text',
+                            label: '数据库字段'
+                        },
+                        {
+                            id: 'validateRules',
+                            type: 'text',
+                            label: '验证规则'
+                        },
+                        {
+                            id: 'index',
+                            type: 'hidden'
+                        }
+                    ],
+                    processorVoFrom: [{
+                            id: 'fieldId',
+                            label: '字段',
+                            type: 'select',
+                            textField: 'chineseName',
+                            valueField: 'id',
+                            url: getRootPath() + '/fdsFields/getList',
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json'
+                        },
+                        {
+                            id: 'handlerName',
+                            label: '处理器',
+                            type: 'select',
+                            textField: 'handlerName',
+                            valueField: 'id',
+                            url: getRootPath() + '/fdsHandlers/getList',
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json'
+                        },
+                        {
+                            id: 'relatedVold',
+                            label: '输入vo',
+                            type: 'select',
+                            textField: 'typeName',
+                            valueField: 'id',
+                            url: getRootPath() + '/servicemanages/vo/getList',
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json'
+                        },
+                        {
+                            id: 'relatedFieldIds',
+                            label: '输入属性',
+                            type: 'select',
+                            textField: 'fieldName',
+                            selectMode: 'multi',
+                            valueField: 'id',
+                            data: {},
+                            url: getRootPath() + '/fdsFields/getList',
+                            method: 'POST',
+                            dataSrc: 'rows',
+                            contentType: 'application/json'
+                        },
+                        {
+                            id: 'config',
+                            label: '配置串',
+                            type: 'textarea',
+                            textField: 'handlerName',
+                            valueField: 'id',
+                            url: getRootPath() + '/fdsHandlers/getList',
+                            method: 'POST',
+                            data: {},
+                            dataSrc: 'rows',
+                            contentType: 'application/json'
+                        },
+                        {
+                            id: 'index',
+                            type: 'hidden'
+                        }
+                    ]
+                }
+            }
+            //新增。编辑。弹框
+            /* 
+                1.当数据类型为int 支持快速查询，支持多语言只读
+                            *date，bool时主键，外键，支持快速查询，支持多语言只读，数据唯一标识
+                            *string时主键，外键只读
+                
+             */
+
+            var propertyDialog = {
+                propertyDialogVo: function (data) {
+                    var dialopgBoyId = data.config.bodyId
+                    var footerIdGroup = data.config.footerIdGroup
+                    $('#' + dialopgBoyId).html(
+                        '<div id="netstar-supervise-dialog-selectVo"></div>\
+                     <div id="netstar-supervise-dialog-Vo"></div>\
+                     <div id="netstar-supervise-dialog-field"></div>'
+                    )
+                    $('#' + footerIdGroup).html(
+                        '<div id="netstar-supervise-dialog-btn"></div>'
+                    )
+                    var dialogselectVoId = 'netstar-supervise-dialog-selectVo'
+                    var dialogVoId = 'netstar-supervise-dialog-Vo'
+                    var dialogfieldId = 'netstar-supervise-dialog-field'
+                    var btnVoId = 'netstar-supervise-dialog-btn'
+                    var superviseBtns = {
+                        id: btnVoId,
+                        btns: [{
+                                text: '确定',
+                                handler: function () {
+                                    var voFormData = NetstarComponent.getValues(dialogVoId);
+                                    var fieldData = NetstarComponent.getValues(
+                                        dialogfieldId);
+                                    var formData = $.extend(true, {}, voFormData)
+                                    var index = fieldData.index
+                                    form = $.extend(true, formData, fieldData)
+                                    if (typeof (fieldData.index) == 'number') {
+                                        NetStarGrid.editRow(fieldData, serviseId.propertyId,
+                                            index)
+                                    } else {
+                                        NetStarGrid.addRow(fieldData, serviseId.propertyId)
+                                    }
+
+                                    NetstarComponent.dialog.superviseDialogVo.vueConfig
+                                        .close();
+                                }
+                            },
+                            {
+                                text: '取消',
+                                handler: function () {
+                                    NetstarComponent.dialog.superviseDialogVo.vueConfig
+                                        .close()
+                                }
+                            }
+                        ]
+                    }
+                    var dialogselectVoForm = {
+                        id: dialogselectVoId,
+                        defaultComponentWidth: '100%',
+                        isSetMore: false,
+                        form: configs.dialogVo.selectVoFrom
+                    }
+                    var dialogVoForm = {
+                        id: dialogVoId,
+                        defaultComponentWidth: '50%',
+                        isSetMore: false,
+                        form: configs.dialogVo.voForm
+                    }
+                    var dialogFieldForm = {
+                        id: dialogfieldId,
+                        defaultComponentWidth: '33%',
+                        isSetMore: false,
+                        form: configs.dialogVo.fieldForm
+                    }
+                    //数据类型的显示隐藏  vo/字段
+                    configs.dialogVo.selectVoFrom[0].changeHandler = function (res) {
+                        console.log(res);
+                        var value = res.value
+                        if (res.value == "1") {
+                            $('#' + dialogfieldId).hide();
+                            $('#' + dialogVoId).show();
+                        } else {
+                            $("#" + dialogVoId).hide();
+                            $("#" + dialogfieldId).show();
+                        }
+                    }
+                    //根据数据类型判断字段只读
+                    configs.dialogVo.fieldForm[0].changeHandler = function (res) {
+                        console.log(res)
+                        var configDisabled = NetstarComponent.config[dialogfieldId].config
+                        var vueConfigDisabled = NetstarComponent.config[dialogfieldId].vueConfig
+                        var selectField = res.value
+                        switch (selectField) {
+                            case '4':
+                                configDisabled.quickSearchFlag.disabled = true
+                                vueConfigDisabled.quickSearchFlag.disabled = true
+                                configDisabled.multiLanguage.disabled = true
+                                vueConfigDisabled.multiLanguage.disabled = true
+                                break;
+                            case '2':
+                            case '3':
+                                configDisabled.quickSearchFlag.disabled = true
+                                vueConfigDisabled.quickSearchFlag.disabled = true
+                                configDisabled.multiLanguage.disabled = true
+                                vueConfigDisabled.multiLanguage.disabled = true
+                                configDisabled.pkFlag.disabled = true
+                                vueConfigDisabled.pkFlag.disabled = true
+                                configDisabled.fkFlag.disabled = true
+                                vueConfigDisabled.fkFlag.disabled = true
+                                break;
+                            case '1':
+                                configDisabled.pkFlag.disabled = true
+                                vueConfigDisabled.pkFlag.disabled = true
+                                configDisabled.fkFlag.disabled = true
+                                vueConfigDisabled.fkFlag.disabled = true
+                            default:
+                                break;
+                        }
+                    }
+
+                    NetstarComponent.formComponent.show(dialogselectVoForm);
+                    NetstarComponent.formComponent.show(dialogVoForm);
+                    NetstarComponent.formComponent.show(dialogFieldForm);
+                    vueButtonComponent.init(superviseBtns);
+                }
+            }
+            var processorDialog = {
+                processorDialogVo: function (data) {
+                    var dialopgBoyId = data.config.bodyId
+                    var footerIdGroup = data.config.footerIdGroup
+                    $('#' + dialopgBoyId).html(
+                        ' <div id="netstar-property-dialog-Vo"></div>'
+                    )
+                    $('#' + footerIdGroup).html(
+                        '<div id="netstar-property-dialog-btn"></div>'
+                    )
+                    var dialogVoId = 'netstar-property-dialog-Vo'
+                    var btnVoId = 'netstar-property-dialog-btn'
+                    var dialogVo = {
+                        id: dialogVoId,
+                        defaultComponentWidth: '100%',
+                        isSetMore: false,
+                        form: configs.dialogVo.processorVoFrom
+                    }
+                    var dialogBtn = {
+                        id: btnVoId,
+                        btns: [{
+                                text: '确定',
+                                handler: function (res) {
+                                    var voFormData = NetstarComponent.getValues(dialogVoId);
+                                    var index = voFormData.index
+                                    if (typeof (index) == 'number') {
+                                        NetStarGrid.editRow(voFormData, serviseId
+                                            .processorId, index)
+                                    } else {
+                                        NetStarGrid.addRow(voFormData, serviseId
+                                            .processorId)
+                                    }
+                                    NetstarComponent.dialog.processordialog.vueConfig
+                                        .close()
+                                }
+                            },
+                            {
+                                text: '取消',
+                                handler: function () {
+                                    NetstarComponent.dialog.processordialog.vueConfig
+                                        .close()
+                                }
+                            }
+                        ]
+                    }
+                    NetstarComponent.formComponent.show(dialogVo);
+                    vueButtonComponent.init(dialogBtn);
+
+                }
+            }
+            //主vo
+            var superviseVo = {
+                init: function () {
+                    NetstarComponent.formComponent.show(configs.vo);
+                }
+            }
+            var propertyList = {
+                ajax: function () {
+
+                },
+                init: function () {
+                    propertyList.ajax()
+                    NetStarGrid.init(configs.propertyList)
+                }
+            }
+            var processorList = {
+                init: function () {
+                    NetStarGrid.init(configs.processorList)
+                }
+            }
+            var surperviseBtn = {
+                init: function () {
+                    vueButtonComponent.init(configs.propertybtns);
+                    vueButtonComponent.init(configs.processorbtns);
+                }
+            }
+            var btn = {
+                init: function () {
+                    vueButtonComponent.init(configs.btns);
+                }
+            }
+
+            function init() {
+                // var getById = '1302894493352546281'
+                // var getById = NetStarGrid.getSelectedData('nstemplate-layout-nscloud-voManage-list-0')[0].id;
+                var packageName = 'nscloud.voManage';
+                var value = {};
+                var idSuffix = '';
+                if (!$.isEmptyObject(NetstarTempValues)) {
+                    for (var key in NetstarTempValues) {
+                        var _packageName = key;
+                        if(key.indexOf('isMulitTab') > -1){
+                            var obj = JSON.parse(key);
+                            _packageName = obj.packageName;
+                            idSuffix = _packageName.replace(/\./g, '-');
+                        }
+                        if (/\d+/.test(_packageName)) {
+                            _packageName = /^\D+(?=\d)/.exec(_packageName)[0];
+                        }
+                        if (packageName == _packageName) {
+                            value = NetstarTempValues[key];
+                            delete NetstarTempValues[key];
+                            break;
+                        }
+                    }
+                }
+                for(var key in serviseId){
+                    serviseId[key] = serviseId[key] + idSuffix;
+                }
+                if (value.id) {
+                    getById = value.id;
+                    var ajaxConfig = {
+                        url: getRootPath() + '/servicemanages/vo/getVoIncludeInheritById',
+                        type: 'GET',
+                        dataSrc: 'data',
+                        data: {
+                            id: getById
+                        },
+                        baseServerData: baseServerData,
+                        contentType: 'application/x-www-form-urlencoded',
+                    }
+                    NetStarUtils.ajax(ajaxConfig, function (res) {
+                        baseServerData = res.data;
+                        var data = res.data;
+                        var editId = res.data.id
+                        if (editId) {
+                            configs.dialogVo.processorVoFrom[0].data.typeId = editId;
+                            configs.dialogVo.processorVoFrom[3].data.typeId = editId;
+                            configs.processorList.columns[0].editConfig.data.typeId = editId
+                            configs.processorList.columns[3].editConfig.data.typeId = editId
+                        } else {
+                            NetstarComponent.fillValues(data, serviseId.voId)
+
+                        }
+                        setTimeout(function () {
+                            NetstarComponent.fillValues(data, serviseId.voId)
+                            NetStarGrid.refreshDataById(serviseId.propertyId, data.fields)
+                            NetStarGrid.refreshDataById(serviseId.processorId, data.middlewares)
+                        }, 50)
+
+                    }, true)
+
+                } else {
+
+                }
+                var html = '<div id="'+serviseId.btnId+'" class="btn-servise-save"></div>'
+                    +'<div id="'+serviseId.voId+'" class="btn-servise-vo"></div>'
+                    +'<div class="pt-tab-header">'
+                        +'<div class="pt-nav">'
+                            +'<ul class="pt-tab-list-components-tabs">'
+                                +'<li id="tab-propertyList" class="component-list pt-nav-item current">'
+                                    +'<a id="tab-color" href="javascript:void(0);">属性 </a>'
+                                +'</li>'
+                                +'<li id="tab-processorList" class="component-list pt-nav-item current">'
+                                    +'<a id="tab-color-2" href="javascript:void(0);" hidden> 处理器 </a>'
+                            + '</li>'
+                            + '</ul>'
+                        + '</div>'
+                    + '</div>'
+                    + '<div id="'+serviseId.propertybtnId+'" class="btn-servise"></div>'
+                    + '<div id="'+serviseId.processorbtnId+'" class="btn-servise"></div>'
+                    + '<div id="'+serviseId.propertyId+'" class="btn-servise-list"></div>'
+                    + '<div id="'+serviseId.processorId+'" class="btn-servise-list"></div>'
+                var $container = $('container').not('.hidden');
+                if($container.length > 0){
+                    $container = $container.eq(0);
+                }
+                $container.children('.netstar-service-vosupervise').append(html);
+                configs.vo.id = serviseId.voId;
+                configs.propertyList.id = serviseId.propertyId;
+                configs.propertyList.id = serviseId.propertyId;
+                configs.processorList.id = serviseId.processorId;
+                configs.propertybtns.id = serviseId.propertybtnId;
+                configs.processorbtns.id = serviseId.processorbtnId;
+                propertyList.init();
+                processorList.init();
+                surperviseBtn.init();
+                btn.init();
+                superviseVo.init();
+                //tab的显示隐藏
+                $(document).ready(function () {
+                    $("#" + serviseId.processorId).hide();
+                    $("#" + serviseId.processorbtnId).hide();
+                    $('#tab-color').css({
+                        "color": "orange"
+                    })
+                    $('#tab-color-2').css({
+                        "color": "black"
+                    })
+                    $("#tab-propertyList").click(function (res) {
+                        console.log(res)
+                        $('#tab-color').css({
+                            "color": "orange"
+                        })
+                        $('#tab-color-2').css({
+                            "color": "black"
+                        })
+                        $("#" + serviseId.propertyId).show();
+                        $("#" + serviseId.processorId).hide();
+                        $("#" + serviseId.propertybtnId).show();
+                        $("#" + serviseId.processorbtnId).hide();
+
+                    });
+                    $("#tab-processorList").click(function () {
+                        $('#tab-color-2').css({
+                            "color": "orange"
+                        })
+                        $('#tab-color').css({
+                            "color": "black"
+                        })
+                        $("#" + serviseId.propertyId).hide();
+                        $("#" + serviseId.processorId).show();
+                        $("#" + serviseId.processorbtnId).show();
+                        $("#" + serviseId.propertybtnId).hide();
+                    });
+                });
+            }
+            init();
+        })()
+    </script>
+</container>

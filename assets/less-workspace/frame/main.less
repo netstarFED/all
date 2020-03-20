@@ -1,0 +1,41 @@
+@main-padding: @base-padding-lg;
+@main-margin: @base-margin-lg;
+@main-col-min-width: @user-info-width;
+
+.container-fixed {
+    width: 100%;
+    padding: 0 @main-padding;
+}
+
+.container {
+    width: 1170px;
+    padding: 0 @main-padding;
+    margin: 0 auto;
+}
+
+.row {
+    margin: 0 -@main-margin;
+}
+
+.main {
+    width: 100%;
+    margin: @main-margin auto;
+
+
+    .main-row {
+        display: table;
+        width: 100%;
+    }
+
+    .main-col {
+        display: table-cell;
+        min-width: @main-col-min-width;
+        vertical-align: top;
+
+
+        &+.main-col {
+            padding-left: @main-padding;
+            width: 100%;
+        }
+    }
+}

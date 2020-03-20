@@ -1,0 +1,107 @@
+// @table-head-bg: linear-gradient(to bottom, #dcefff, #cfe7ff);
+@table-head-bg: linear-gradient(to bottom, #f0f9ff, #dbedf9);
+@table-header-border-color: #a6c8ec;
+@table-border-color:  #cad7e6;
+@nstable-bottom-border-color: #cad7e6;
+@table-td-select-bg: #56b3ff;
+
+table{
+	&.table{
+		thead{
+			tr{
+				th{
+					background: @table-head-bg;
+					color: #000;
+				}
+			}
+		}
+		tbody{
+			tr{
+				th,
+				td{
+					border-color: @table-border-color;
+				}
+				td{
+					&.td-button{
+						.btn.btn-white{
+							&:hover{
+								background:fade(@primary, 50);
+							}
+						}
+					}
+				}
+				&.selected{
+					th,
+					td{
+						background: @table-td-select-bg;
+					}
+				}
+			}
+		}
+	}
+	&.table-bordered{
+		thead{
+			position: relative;
+		}
+		tbody{
+				tr{
+					th,
+					td{
+						border-color: @table-border-color;
+					}
+					td{
+
+					}
+					&.selected{
+						th,
+						td{
+							background: @table-td-select-bg;
+						}
+					}
+				}
+			}
+	}
+}
+// 表格底部内容样式
+.nstable-bottom {
+	border-color: @nstable-bottom-border-color;
+	.dataTables_paginate{
+		.pagination{
+			& > li{
+				&.paginate_button{
+					&.active{
+						a{
+							background-color: #e6f3ff;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// 表格底部tab标签页样式
+.nstable-plus-panel {
+	& > .nstable-plus-panel-tabs{
+		& > a.nstable-plus-panel-tabs-tab{
+			border-color: @table-border-color;
+				&.active{
+				background: #fff;
+			}
+		}
+	}
+}
+
+
+.dataTables_wrapper{
+	label > i{
+		color: #ddd;
+	}
+	// input.form-control{
+	// 	background-color: transparent;
+	// 	border: 0;
+	// 	border-bottom: 1px solid @table-border-color;
+	// }
+}
+
+

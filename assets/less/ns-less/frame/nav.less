@@ -1,0 +1,194 @@
+@header-width: @sidebar-menu-width;
+@header-height: 48px;
+@header-border-color: #daefff;
+@header-bg: #fff;
+@logo-width: 90px;
+@logo-height: @header-height;
+@navbar-height: @header-height;
+@navbar-push-left: @header-width;
+@navbar-btn-size: 34px;
+@navbar-bg: @header-bg;
+@navbar-btn-icon-size: 16px;
+@navbar-btn-icon-color: #1ca1ea;
+@navbar-border-color: @header-border-color;
+@nav-border-color: @ns-border-color;
+@nav-dropdown-list-padding: 5px;
+
+header.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: @header-width;
+	height: @header-height;
+	border-bottom: 1px solid @header-border-color;
+	background: @header-bg;
+	z-index: 998;
+
+	.logo {
+		display: table;
+		width: 100%;
+		height: @logo-height;
+
+		a {
+			display: table-cell;
+			vertical-align: middle;
+			padding: 0 @base-padding;
+
+			img {
+				display: block;
+				width: 100%;
+				// min-width: @logo-width;
+				margin: 0 auto;
+			}
+
+		}
+
+	}
+
+}
+
+nav {
+	&.navbar {
+		height: @navbar-height;
+		min-height: @navbar-height;
+		margin: 0;
+		border-bottom: none;
+		.panel-box-shadow();
+	}
+
+	.navbar-nav {
+		float: right;
+	}
+
+	.dropdown {
+		display: inline-block;
+	}
+	&.nav-accordion{
+		width: 100%;
+		.nav-group{
+			.nav-item{
+				a{
+					display: block;
+				}
+			}
+		}
+	}
+
+}
+
+.frame-standard {
+	nav {
+		&.navbar {
+			position: fixed;
+			top: 0;
+			right: 0;
+			left: @navbar-push-left;
+			z-index: 998;
+			padding: ((@navbar-height - @navbar-btn-size) / 2) 15px;
+			background: @navbar-bg;
+			// border-bottom: 1px solid @navbar-border-color;
+			border-radius: 0;
+
+			button {
+				i {
+					font-size: @navbar-btn-icon-size;
+					color: @navbar-btn-icon-color;
+					padding-right: 0;
+					.btn-icon-bg();
+				}
+
+				&:hover {
+					i {
+						color: darken(@navbar-btn-icon-color, 15);
+					}
+
+				}
+
+			}
+
+			// 导航条按钮样式
+			.btn-group {
+				.btn {
+					position: relative;
+
+					.badge {
+						@badge-size: 16px;
+						position: absolute;
+						top: -3px;
+						right: -5px;
+						display: block;
+						padding: 0;
+						color: #fff;
+						font-weight: normal;
+						.square(@badge-size);
+						line-height: @badge-size;
+						z-index: 9;
+
+						&.badge-empty {
+							top: 0;
+							right: 0;
+						}
+
+						&:focus,
+						&:active {
+							.box-shadow(none);
+						}
+
+					}
+
+				}
+
+			}
+			.btn-icon {
+				&:hover,
+				&:focus {
+					text-decoration: none;
+				}
+
+				&.dropdown-toggle {
+					i {
+						&:after {
+							display: none;
+						}
+
+					}
+
+				}
+
+				& + .btn-icon {
+					margin-left: 5px;
+				}
+
+			}
+
+			.navbar-nav {
+				// dropdown-menu
+				.dropdown-menu {
+					margin-top: 11px;
+					padding: 0;
+					border-radius: 0;
+					border-color: @nav-border-color;
+					.border-caret(8px, #3d97dc);
+					.panel-box-shadow(5px);
+
+					& > li {
+						&.divider {
+							margin: 0;
+							background: @nav-border-color;
+						}
+
+						& > a {
+							padding: (@nav-dropdown-list-padding * 2);
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+}

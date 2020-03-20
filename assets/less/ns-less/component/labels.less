@@ -1,0 +1,52 @@
+label{
+	
+	font-weight: normal !important;
+
+	// 必填提示
+	&.has-error{
+		position: absolute;
+		top: 0;
+		right: @base-input-height;
+		bottom: 0;
+		font-weight: normal;
+		color: @ns-warning;
+		z-index: 98;
+	}
+
+	&.grouplable{
+		display: block;
+		width: 100%;
+		margin: -1px -2px;
+		padding: 12px 2px 12px 0;
+		box-sizing: border-box;
+		float: left;
+		background: #fff;
+		color:@gray-dark;
+		text-indent: @base-padding;
+		border:1px solid @ns-border-color;
+		position: relative;
+		font-weight: bold !important;
+		&:after{
+			position: absolute;
+			content: "";
+			width: 2px;
+			height: 100%;
+			top: 0;
+			right: -2px;
+			background: #fff;
+		}
+	}
+}
+[ns-system="pc"]{
+    .panel-form{
+        .form-td{
+            label.control-label{
+                width: @form-td-label-width;
+                max-width: @form-td-label-width;
+                min-width: @form-td-label-width;
+            }
+        }
+    }
+}
+
+

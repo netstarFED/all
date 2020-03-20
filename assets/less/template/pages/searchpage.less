@@ -1,0 +1,414 @@
+
+
+.searchPage,
+.advanceSearch {
+	// 筛选模式表单样式
+	.filter-mode-form();
+	
+	&.layout-planes {
+		position: relative;
+
+		.nav-form {
+			position: absolute !important;
+			top: 14px;
+			width: auto;
+			right: 45px;
+			z-index: 9999;
+		}
+
+		.dataTables_filter {
+			display: none;
+		}
+
+		.nspanel {
+			margin-bottom: 0;
+
+			// 标签页
+			ul.nav-tabs {
+				margin-bottom: -1px !important;
+				z-index: 9;
+			}
+
+			// 表单按钮
+			&.layout-form{
+				.panel-form{
+					background-color: transparent;
+					.panel-body{
+						position: relative;
+						.fillbg{
+							border-color: @ns-nav-tabs-border-color;
+						}
+						
+						& > button.btn{
+							position: absolute;
+							top: -34px;
+							right: 0;
+							z-index: 99;
+						}
+					}
+				}
+			}
+
+			// 表格部分
+			&.layout-table {
+				// 表格工具栏（标题、按钮组、下拉菜单、搜索框、表格列配置）
+				.control-btn-toolbar {
+					float: none;
+					min-height: 30px;
+					margin-bottom: (@base-margin / 2);
+
+					// 表格标题
+					.btn-title {
+						float: left;
+						line-height: 30px;
+						font-size: 12px;
+						font-weight: normal !important;
+						padding-left: 0;d
+
+						&:before {
+							display: none;
+						}
+
+						.customer {
+							font-size: 14px;
+							padding: 0 (@base-padding / 2);
+							color: @ns-warning;
+						}
+
+					}
+
+					// 表格按钮组
+					.btn-group {
+						float: left;
+					}
+
+					// 下拉菜单及搜索
+					.table-columnselect {
+						float: right;
+						margin-left: (@base-margin - 10);
+
+						.fillbg {
+							margin-bottom: 0;
+							padding: 0;
+							background-color: transparent;
+
+							.form-group {
+								height: @formfilter-form-height;
+								min-height: @formfilter-form-height;
+							}
+
+							.input-group {
+								height: @formfilter-form-height;
+
+								.input-group-addon, .input-group-btn {
+									height: @formfilter-form-height;
+								}
+
+							}
+
+							.textBtn {
+								position: relative;
+
+								// 搜索输入框
+								.form-control {
+									max-width: 105px;
+									padding-left: (@formfilter-form-height - 6);
+									border-right: 1px solid @ns-border-color;
+								}
+
+								// 搜索输入框图标
+								&:before {
+									position: absolute;
+									top: 0;
+									left: 0;
+									width: (@formfilter-form-height - 6);
+									height: @formfilter-form-height;
+									text-align: center;
+									line-height: @formfilter-form-height;
+									font-family: @icon-font;
+									content: "\f002";
+									color: #aaa;
+									background: #fff;
+								}
+
+							}
+
+							.form-td {
+								display: table-cell;
+								height: @formfilter-form-height;
+								vertical-align: top;
+
+								.form-control {
+									width: 100%;
+									height: @formfilter-form-height;
+								}
+
+								.btn {
+									width: auto;
+									height: @formfilter-form-height;
+								}
+
+								.selectboxit-container {
+									min-width: 120px;
+								}
+
+							}
+
+						}
+
+					}
+
+					.selectboxit {
+						border: 0;
+						height: @formfilter-form-height;
+						line-height: @formfilter-form-height;
+					}
+
+					// 表格列配置按钮
+					.th-btn-last {
+						float: right;
+						height: 32px;
+						margin-left: -1px;
+						border: 1px solid @ns-border-color;
+					}
+
+				}
+
+				.td-btn .btn {
+					cursor: move;
+				}
+
+				tr.selected > th > label:after {
+					content: "\f00c";
+				}
+
+			}
+
+		}
+
+	}
+
+	// 下拉框selectboxit
+	.selectboxit-container {
+		.selectboxit {
+			height: @formfilter-form-height;
+			border: 1px solid @ns-border-color;
+
+			.selectboxit-text, .selectboxit-arrow-container {
+				height: @formfilter-form-height;
+				line-height: @formfilter-form-height;
+			}
+
+			.selectboxit-text {
+				padding-right: @formfilter-form-height;
+			}
+
+			.selectboxit-arrow-container {
+				width: @formfilter-form-height;
+
+				&:after {
+					top: 8px;
+					right: 11px;
+				}
+
+			}
+
+		}
+
+		.selectboxit-options {
+			margin-top: -1px;
+
+			.selectboxit-option {
+				height: @formfilter-form-height;
+				line-height: @formfilter-form-height;
+
+				a {
+					height: @formfilter-form-height;
+					line-height: @formfilter-form-height;
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
+/***********表单用户配置****************/
+.modal-formmanger {
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	margin-left: -450px;
+	margin-bottom: 50px;
+	width: 900px;
+	z-index: 10010;
+
+	.modal-header {
+		margin: 0;
+	}
+
+	&:before {
+		content: "";
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
+	.form-content-intro {
+		border-left: 3px solid #dddddd;
+		margin-bottom: (@base-margin / 2);
+		padding: 10px 10px 10px 15px;
+		background: #eeeeee;
+	}
+
+	// 模态框
+	.modal-body {
+		.table {
+			tbody > tr > th {
+				border-left: 1px solid #ddd;
+
+				&:first-child {
+					min-width: 30px;
+				}
+
+			}
+
+			tbody > tr > td {
+				&.td-input {
+					input.form-control[type="text"][readonly="readonly"] {
+						border: 0;
+						background: none !important;
+						color: @gray-dark !important;
+						cursor: default;
+					}
+
+				}
+
+				&.td-btn {
+					text-align: center;
+				}
+
+				.td-btn .btn {
+					cursor: move;
+				}
+
+				.th-btn-last {
+					float: right;
+					border: none;
+				}
+
+				.page-body.skin-autoservice .table tbody > tr.selected > th, .page-body.skin-autoservice .table tbody > tr.selected > th > label:after {
+					content: "\f00c";
+				}
+
+			}
+
+		}
+
+	}
+
+}
+
+// tab标签页导航
+.modal-formmanger .modal-body{
+	.tab-nav-default;
+	.nav.nav-tabs.float-right{
+		position: absolute;
+		top: -36px;
+		right: 12px;
+		border-bottom: 0;
+		li{
+			a{
+				border-bottom: 1px solid #edeff2;
+			}
+			&.active{
+				a{
+					border-bottom: 1px solid #fff;
+				}
+			}
+		}
+	}
+}
+.tr-drag-panel {
+	border: 1px dashed #ccc;
+	margin-bottom: 5px;
+	position: absolute;
+}
+
+.tils {
+	font-size: 14px;
+	margin: 15px 0;
+}
+
+// 表格列设置模块
+.all-show-tab {
+	width: 100%;
+	overflow: hidden;
+	height: 32px;
+
+	span {
+		position: static;
+		display: block;
+		float: left;
+		line-height: 30px;
+		border: 1px solid @ns-border-color;
+		text-align: center;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		cursor: move;
+		box-sizing: border-box;
+
+		& + span {
+			border-left: 0;
+		}
+
+	}
+
+}
+
+.alllabels {
+	height: auto;
+	overflow: hidden;
+	margin: 0 -5px;
+
+	& > div {
+		padding: 0 5px;
+		margin-bottom: 10px;
+
+		span {
+			display: block;
+			text-align: center;
+			cursor: pointer;
+			padding: 6px 6px 7px;
+			background: #f6f6f6;
+
+			&:hover {
+				background: @formfilter-tags-hover-bg;
+				color: @formfilter-tags-hover-color;
+			}
+
+		}
+
+		&.current {
+			span {
+				background: @formfilter-tags-current-bg;
+				color: @formfilter-tags-current-color;
+
+				&:hover {
+					background: @formfilter-tags-hover-bg;
+					color: @formfilter-tags-hover-color;
+				}
+
+			}
+
+		}
+
+	}
+
+}

@@ -1,0 +1,148 @@
+@form-padding: @base-padding;
+@form-control-color: #fff;
+@control-label-color: #fff;
+@form-color: #fff;
+@form-control-bg: @primary;
+
+.form {
+
+    flex-wrap: wrap;
+    flex: none;
+
+    .title {
+        flex: 0 0 100%;
+    }
+
+    .form-item {
+        font-size: 1.25rem;
+
+        &.form-danger {
+            .input-group {
+                &.input-group-danger {
+                    -webkit-animation: form-shadow 2s infinite linear;
+                }
+            }
+        }
+
+        &.disabled {
+            .form-state-variant(#fff);
+            opacity: 0.4;
+
+            .form-control {
+                color: transparent;
+            }
+
+            .input-group-addon {
+                color: @body-bg;
+            }
+        }
+    }
+
+    .control-label {
+        color: @control-label-color;
+    }
+
+    .form-control {
+        .rgba-bg(@primary, .35);
+        min-width: 3rem;
+    }
+
+    &+& {
+        margin-top: 2rem;
+    }
+
+}
+
+@keyframes form-shadow {
+
+    0% {
+        .rgba-shadow(0, 0, 1rem, @danger, .1);
+    }
+
+    100% {
+        .rgba-shadow(0, 0, 1rem, @danger, 1);
+    }
+}
+
+
+// // 屏幕宽度小于Full-HD(1920)less样式
+// @media screen and (max-width: @screen-hd) {
+//     .form {
+//         .form-item {
+//             font-size: 0.85rem;
+//         }
+//     }
+
+//     .fullpage-view {
+
+//         .form,
+//         .table,
+//         .list {
+//             zoom: 2;
+//         }
+
+//         .form .form-item {
+//             margin-bottom: 1rem;
+//         }
+
+//         .btn-group.btn-group-vertical .btn+.btn {
+//             margin-top: 1.25rem;
+//         }
+//     }
+// }
+
+// // 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+// @media screen and (min-width: 1921px) and (max-width: @screen-2k) {
+//     .form {
+//         .form-item {
+//             font-size: 0.85rem;
+//         }
+//     }
+
+//     .fullpage-view {
+
+//         .form,
+//         .table,
+//         .list {
+//             zoom: 2;
+//         }
+
+//         .form .form-item {
+//             margin-bottom: 1rem;
+//         }
+
+//         .btn-group.btn-group-vertical .btn+.btn {
+//             margin-top: 1.25rem;
+//         }
+//     }
+// }
+
+// // 屏幕宽度在大于2k(2560)less样式
+// @media screen and (min-width: 2561px) {
+//     .dashboard-box .dash-board-mark-number {
+//         font-size: .35rem !important;
+//     }
+
+//     .form {
+//         .form-item {
+//             font-size: 0.85rem;
+//         }
+//     }
+
+//     .fullpage-view {
+
+//         .form,
+//         .table,
+//         .list {
+//             zoom: 1.5;
+//         }
+
+//         .form .form-item {
+//             margin-bottom: 1rem;
+//         }
+
+//         .btn-group.btn-group-vertical .btn+.btn {
+//             margin-top: 1.25rem;
+//         }
+//     }
+// }

@@ -1,0 +1,69 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <div id="inlinesrceen-radio"></div>
+    <script>
+         var inlineSrceen = 
+        {
+            id:  		"inlinesrceen-radio",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            formSource: 'inlineScreen',
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'日期',
+                    type: 		 	'date',
+                    column: 	 	6,
+                    changeHandler : function(value, config){
+                        console.log(value);
+                        console.log(config);
+                    },
+                    // value : '女',
+                },
+                {
+                    id: 		 	'startView',
+                    label: 		 	'开始视图',
+                    type: 		 	'date',
+                    column: 	 	6,
+                    changeHandler : function(value, config){
+                        console.log(value);
+                        console.log(config);
+                    },
+                    value : 1544148749870,
+                },
+                /* {
+                    id: 		 	'addvalue',
+                    label: 		 	'添加按钮',
+                    type: 		 	'date',
+                    column: 	 	6,
+                    changeHandler : function(value, config){
+                        console.log(value);
+                        console.log(config);
+                    },
+                    value : 1544148749870,
+                  /*   addvalue:{
+                        value:"按钮",
+                        id:'1'
+                    } 
+                } */,{
+                    id: 		 		'mindjetFieldPosition',
+                    label: 		 		'更多',
+                    type: 		 		'date',
+                    column: 	 		6,
+                    mindjetFieldPosition:'field-more',
+                },{
+                    id: 		 	'required',
+                    label: 		 	'验证',
+                    type: 		 	'date',
+                    column: 	 	6,
+                    rules:            'required',
+                    mindjetFieldPosition:'field',   
+                }
+            ]
+        };
+        formPlane.formInit(inlineSrceen);
+    </script>
+</container>

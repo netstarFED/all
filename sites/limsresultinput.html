@@ -1,0 +1,158 @@
+<!--
+ * @Desription: 文件说明
+ * @Author: netstar.cy
+ * @Date: 2019-09-28 11:10:02
+ * @LastEditTime: 2019-11-06 09:23:36
+ -->
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+	<link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+	<title>三级模板页 listgrid</title>
+
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<!--# include file="/sites/include/login-static-dev.html" -->
+	<!--# include file="/sites/include/preload-static-dev.html" -->
+	<!--# include file="/sites/include/mainpage-static-dev.html" -->
+	<!--# include file="/sites/include/lazy-static-dev.html" -->
+	<style>
+	</style>
+</head>
+<style>
+
+</style>
+
+<container>
+	<script type="text/javascript">
+		var localhoseUrl = 'http://ui-pc:2000';
+		var a = {
+			footerForm:{
+				fields:[{"id":"reportRemark","label":"报告备注","type":"textarea","width":"100%"}],
+				saveAjax:{
+					url:"/sample/testrecord/save",
+					type:"post",
+					dataSrc:"data",
+					data:{id:"{root.id}"}
+				}
+			}
+		}
+		var blockListJson = {
+			package: 'nsVue.graps.limsResultInput',
+			template: 'limsResultInput',
+			title: 'limsResultInput',
+			mode: 'listgrid',
+			components: [{
+				type: 'list',
+				idField: 'id',
+				//plusClass:'pt-block-list-vertical',
+				ajax: {
+					src: localhoseUrl + '/assets/json/project-list.json', //数据源地址
+					type: "GET", //GET POST
+					//contentType:            'application/json; charset=utf-8',          //GET POST
+					contentType: 'application/x-www-form-urlencoded',
+					data: {}, //参数对象{id:1,page:100}
+					//isServerMode:         true,           //是否开启服务器模式
+					dataSrc: 'row',
+				},
+				parent: 'root',
+				keyField: '',
+				field: [{
+					field: 'itemName',
+					title: '名称',
+					width: 60,
+					searchable: true,
+					orderable: false,
+					isCommon: true,
+				}, {
+					field: 'itemCateName',
+					title: '所属分类',
+					searchable: true,
+					width: 80,
+					orderable: false,
+				}],
+			}, {
+				type: 'resultinput',
+				tableAjax: {
+					url: localhoseUrl + '/assets/json/resultmanager/sample-nscompleteindex.json',
+					type: 'get',
+					data: {
+						id: 'DEMO-TM201',
+						uid: 'UID001'
+					},
+					dataSrc: 'data',
+					contentType: 'application/x-www-form-urlencoded',
+				},
+				saveAjax: {
+					url: localhoseUrl + '/assets/json/resultmanager/tablesave.json',
+					type: 'get',
+					data: {
+						id: 'DEMO-TM201',
+						uid: 'UID001'
+					},
+					dataSrc: 'data',
+				},
+				historyAjax: {
+					url: localhoseUrl + '/assets/json/resultmanager/historylist.json',
+					type: 'get',
+					data: {
+						id: 'abc',
+						uid: 'abcde'
+					},
+					dataSrc: 'data',
+				},
+			}, {
+				type: 'btns',
+				operatorObject: '',
+				field: [{
+					text: '主按钮',
+					isReturn: true,
+					btn: {
+						text: '主按钮',
+						handler: function (data) {
+							console.log(data)
+						},
+					},
+					functionConfig: {
+						//isInlineBtn:true,
+					}
+				}]
+			}],
+		};
+		NetstarTemplate.init(blockListJson);
+
+		$('container').append('<div class="suspension-edit-box">' +
+			'<div class="pt-form  pt-form-vertical pt-form-inline">' +
+			'<div class="pt-form-body">' +
+			'<form>' +
+			'<div class="field">' +
+			'<div class="pt-form-group fg-textarea" style="width:100%;">' +
+			'<div class="pt-textarea">' +
+			'<textarea class="pt-form-control"  style="min-height:48px"></textarea>' +
+			'</div>' +
+			'</div>' +
+			'<div class="pt-btn-group pt-btn-group-compact text-right">' +
+			'<button class="pt-btn pt-btn-default">我是按钮</button>' +
+			'</div>' +
+			'</div>' +
+			'</form>' +
+			'</div>' +
+			'</div>' +
+			'<div class="back-to-left">' +
+			'<a href="#"><i class="icon-arrow-left-o"></i></a>' +
+			'</div>' +
+			'</div>');
+	</script>
+</container>
+
+</html>

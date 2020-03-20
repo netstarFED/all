@@ -1,0 +1,100 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>pdf</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td>组件类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>label</td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>组件的标签，未配置则不显示</td>
+                            </tr>
+                            <tr>
+                                <td>zoomFit</td>
+                                <td>使用宽和高</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>'width'或者'height'</td>
+                            </tr>
+                            <tr>
+                                <td>autoFitScale</td>
+                                <td>自动缩放的比例</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-pdf"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">pdf</h3>
+                <span class="intro"></span>
+                <div id="nsdocs-pdf" class="panel-demo"></div>
+                <script>
+
+                        var fromDemoPdf = {
+                            "id": "nsdocs-pdf",
+                            "isDownload": true,
+                            "title": "",
+                            "url": [
+                                {
+                                    "title": "JC200111023.pdf",
+                                    "url": "/sites/docs/images/pdf/1323306139667923954.pdf",
+                                    "type": "pdf"
+                                }
+                            ],
+                            zoomFit: "width"
+                        }
+                        $(function(){
+                            
+                            setTimeout(function(){
+                                NetstarUI.multiPdfViewer.init(fromDemoPdf);
+                            }, 1000)
+                        })
+                </script>
+      
+            </div>
+            <div class="content language-javascript">
+                <pre>
+                </pre>
+            </div>
+        </div>
+  <!--       <script>
+            $(function () {
+                NetstarDocs.init();
+            })
+        </script> -->
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

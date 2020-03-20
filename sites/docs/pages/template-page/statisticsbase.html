@@ -1,0 +1,509 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <script type="text/javascript">
+        //displayMode table block treeGrid
+    $(function(){
+        var templateConfig = {
+            package:'nsVue.graps.product',
+            template:'statisticsBase',
+            title:'基本统计模板',
+            getValueAjax:{
+                src:getRootPath() + '/docs/data/template/base.json',
+                dataSrc:'data',
+                type:'GET',
+                contentType: 'application/x-www-form-urlencoded',
+            },
+            components:[
+                {
+                    type: 'vo',
+                    parent: 'root',
+                    idField: 'id',
+                    keyField: 'root',
+                    isSetMore: false,
+                    formStyle: "pt-form-normal",
+                    title:'睡眠报告',
+                    field: [
+                        {
+                            id: 'sleeptimer',
+                            label: '时间',
+                            type: 'date',
+                            inputWidth: 200,
+                            value: 1544148749870,
+                            rules: 'required',
+                            isInputMask: true,
+                        },
+                    ]
+                },{
+                    type:'customize',
+                    title:'综合分析',
+                    parent:'root',
+                    field:[
+                        {
+                            id:'fallasleepTime',
+                            label:'入睡时间',
+                            type:'date',
+                            format:'HH:mm:ss',
+                        },{
+                            id:'wakeupTime',
+                            label:'醒来时间',
+                            type:'date',
+                            format:'HH:mm:ss',
+                        },{
+                            id:'asleepDuration',
+                            label:'有效睡眠时长',
+                            type:'timeUnit',//单位是毫秒
+                        },{
+                            id:'alarmTotal',
+                            label:'告警次数',
+                            type:'number',
+                        },{
+                            id:'sleepOutBedCount',
+                            label:'离床次数',
+                            type:'number',
+                        },{
+                            id:'avgHeart',
+                            label:'平均心率',
+                            type:'number',
+                        },{
+                            id:'avgBreath',
+                            label:'平均呼吸',
+                            type:'number',
+                        }
+                    ],
+                    listExpression:'<div class="pt-row">'
+                                        +'<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'
+                                            +'<h3 class="pt-title pt-title-lg">睡眠质量高，睡眠评分<span class="text-warning">{{sleepScore}}<span>！</h3>'
+                                        +'</div>'
+                                    +'</div>'
+                                    +'<div class="pt-row pt-col-group">'
+                                        +'<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="height: 300px">'
+                                            +'<div class="pt-statistics-block" style="height: 300px">'
+                                                +'<ul>'
+                                                    +'<li>'
+                                                        +'<span class="pt-text-md">入睡时间：</span><span class="pt-text-md">{{fallasleepTime}}</span>'
+                                                    +'</li>'
+                                                    +'<li>'
+                                                        +'<span class="pt-text-md">醒来时间：</span><span class="pt-text-md">{{wakeupTime}}</span>'
+                                                    +'</li>'
+                                                    +'<li>'
+                                                        +'<span class="pt-text-md">有效睡眠时长：</span><span class="pt-text-md">{{asleepDuration}}小时</span>'
+                                                    +'</li>'
+                                                +'</ul>'    
+                                            +'</div>'
+                                        +'</div>'
+                                        +'<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="height: 300px">'
+                                            +'<div class="pt-statistics-block" style="height: 300px">'
+                                                +'<ul>'
+                                                    +'<li>'
+                                                        +'<i class="icon icon-minicode-bell-o"></i>'
+                                                        +'<div class="pt-statistics-block-text">'
+                                                            + '<span class="pt-text-md">告警次数</span><span class="pt-text-md">5次</span>'
+                                                        +'</div>'
+                                                    +'</li>'
+                                                    +'<li>'
+                                                        +'<i class="icon icon-minicode-bed-o"></i>'
+                                                        +'<div class="pt-statistics-block-text">'
+                                                            + '<span class="pt-text-md">离床次数</span><span class="pt-text-md">{{sleepOutBedCount}}次</span>'
+                                                        +'</div>'
+                                                    +'</li>'
+                                                    +'<li>'
+                                                        +'<i class="icon icon-minicode-heart-o"></i>'
+                                                        +'<div class="pt-statistics-block-text">'
+                                                            + '<span class="pt-text-md">平均心率</span><span class="pt-text-md">{{avgHeart}}bpm</span>'
+                                                        +'</div>'
+                                                    +'</li>'
+                                                    +'<li>'
+                                                        +'<i class="icon icon-minicode-breath-o"></i>'
+                                                        +'<div class="pt-statistics-block-text">'
+                                                            + '<span class="pt-text-md">平均呼吸</span><span class="pt-text-md">{{avgBreath}}rpm</span>'
+                                                        +'</div>'
+                                                    +'</li>'
+                                                +'</ul>'                                                                                                                                            
+                                                +'</div>'
+                                        +'</div>'
+                                        +'<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="height: 300px" id="nstemplate-layout-nsVue-graps-product-barpie-2">'
+                                            +'画布内容'
+                                        +'</div>'
+                                    +'</div>',
+                },{
+                    type:'pie',
+                    parent:'root',
+                    title:'分布统计',
+                    //dataCallBackExpressStr:'',
+                    pieId:'nstemplate-layout-nsVue-graps-product-barpie-2',
+                    dataCallback:function(resData,fieldJson){
+                        var legendTitle = [];
+                        var dataArray = [];
+                        var secondDataArray = [];
+                        for(var fieldI in fieldJson){
+                            var nameStr = fieldJson[fieldI].label + ' '+moment.duration(Number(resData[fieldJson[fieldI].id])).hours()+'小时'+moment.duration(Number(resData[fieldJson[fieldI].id])).minutes()+'分';
+                            var color = '';
+                            switch(fieldJson[fieldI].label){
+                                case '离线':
+                                    color = '#749f83';
+                                    break;
+                                case '醒着':
+                                    color = '#d48265';
+                                    break;
+                                case 'REM':
+                                    color = '#e0d882';
+                                    break;
+                                case '浅睡':
+                                    color = '#61a0a8';
+                                    break;
+                                case '深睡':
+                                    color = '#2f4554';
+                                    break;
+                                case '离床':
+                                    color = '#9900dd';
+                                    break;
+                            }
+                            if(fieldJson[fieldI].level ===1){
+                                legendTitle.push(nameStr); 
+                                secondDataArray.push({
+                                    value:resData[fieldJson[fieldI].id],
+                                    name:nameStr,
+                                    itemStyle:{color: color}
+                                });  
+                            }else{
+                                dataArray.push({
+                                    value:resData[fieldJson[fieldI].id],
+                                    name:nameStr,
+                                    itemStyle:{color: color}
+                                });
+                            }
+                        }
+                        var options = {
+                            tooltip: {
+                                trigger: 'item',
+                                //formatter: "{a} <br/>{b}: {c} ({d}%)"
+                                formatter: function(params, ticket, callback){
+                                    return params.data.name+':'+moment.duration(Number(params.data.value)).hours()+'小时'
+                                }
+                            },
+                            legend: {
+                                orient: 'vertical',
+                                icon:'circle',
+                                right: 10,
+                                //top: 200,
+                                //bottom: 20,
+                                data:legendTitle,
+                                itemWidth:20,
+                                itemHeight:20,
+                            },
+                            series: [
+                                {
+                                    //name:'访问来源',
+                                    type:'pie',
+                                    radius: [0, '50%'],
+                                    label: {
+                                            normal: {
+                                            position: 'inner',
+                                            textAlign:'center'
+                                            }
+                                    },
+                                    data:dataArray
+                                },
+                                {
+                                    //name:'访问来源',
+                                    type:'pie',
+                                    radius: ['40%', '100%'],
+                                    label: {
+                                            normal: {
+                                            position: 'inner',
+                                            
+                                            }
+                                    },
+                                    data:secondDataArray
+                                }
+                            ]
+                        }
+                        return options;
+                    },
+                    field:[
+                        {
+                            label:'深睡',
+                            id:'deepSleepDuration',
+                            type:'timeUnit',
+                            level:1,
+                            format:'moment-scoendToHour'
+                        },{
+                            label:'浅睡',
+                            id:'lightSleepDuration',
+                            level:1,
+                            format:'PERCENT{TOTAL/{lightSleepDuration}} {moment-scoendToHour}'
+                        },{
+                            label:'醒着',
+                            id:'wakeUPSleepDuration',
+                            level:1,
+                        },{
+                            label:'REM',
+                            id:'remSleepDuration',
+                            level:1,
+                        },{
+                            label:'离线',
+                            id:'offlineDuration',
+                            level:1,
+                        },{
+                            label:'睡眠时长',
+                            id:'asleepDuration',
+                            level:0,
+                        }
+                    ]
+                },{
+                    type:'bar',
+                    parent:'',
+                    title:'睡眠分布',
+                    keyField:"sleepReportQualityVOList",
+                    field:[
+                        {
+                            label:'开始时间',
+                            id:'sleepStageStartTime',
+                            type:'timeUnit',
+                        },
+                        {
+                            label:'结束时间',
+                            id:'sleepStageEndTime',
+                            type:'timeUnit',
+                        },{
+                            label:'状态',
+                            id:'sleepStageType',
+                            type:'number'
+                        },{
+                            label:'持续时长',
+                            id:'sleepStageDuration',
+                            type:'timeUnit'
+                        }
+                    ],
+                    dataCallback:function(resData,fieldJson){
+                        var data = [];
+                        var colorArray = ['#bd6d6c','#7b9ce1','#e0d882','#ee00dd','#5533ff','#9900dd'];
+                        for(var dataI=0; dataI<resData.length; dataI++){
+                            var nameStr = '';
+                            var color = '';
+                            switch(resData[dataI].sleepStageType){
+                                case 0:
+                                    nameStr = '离线';
+                                    color = '#749f83';
+                                    break;
+                                case 1:
+                                    nameStr = '醒着';
+                                    color = '#d48265';
+                                    break;
+                                case 2:
+                                    nameStr = 'REM';
+                                    color = '#e0d882';
+                                    break;
+                                case 3:
+                                    nameStr = '浅睡';
+                                    color = '#61a0a8';
+                                    break;
+                                case 4:
+                                    nameStr = '深睡';
+                                    color = '#2f4554';
+                                    break;
+                                case 5:
+                                    nameStr = '离床';
+                                    color = '#9900dd';
+                                    break;
+                            }
+                            data.push({
+                                name:nameStr,
+                                value:[
+                                    resData[dataI].sleepStageType,
+                                    resData[dataI].sleepStageStartTime,
+                                    resData[dataI].sleepStageEndTime,
+                                    Number(resData[dataI].sleepStageDuration)
+                                ],
+                                itemStyle:{
+                                    normal:{
+                                        color:color
+                                    }
+                                }
+                            });
+                        }
+                        var options = {
+                            "tooltip": {
+                                formatter:function(data){
+                                    //var str = data.name+'持续时长:'+data.value[3]+'开始时间:'+moment(data.value[1]).format('YYYY-MM-DD')
+                                                //+moment(data.value[2]).format('YYYY-MM-DD');
+                                    var startHours = moment(data.value[1]).format('HH:mm');
+                                    var endHours = moment(data.value[2]).format('HH:mm');
+                                    var str = '<P>'+data.name+':'+startHours+'-'+endHours+'</p>'
+                                                +'<p>持续:'+moment.duration(Number(data.value[3])).minutes()+'min</p>';
+                                    return str;
+                                }
+                            },
+                            "grid": {
+                                "left": 10,
+                                "bottom": 40,
+                                "top": 30,
+                                "right": 60,
+                                "containLabel": true
+                            },
+                            "axisPointer": {
+                                "show": false
+                            },
+                            "xAxis": {
+                                //"min": 1561649988000,
+                                "max": "dataMax",
+                                "splitArea": {
+                                    "show": false
+                                },
+                                "splitLine": {
+                                    "show": false
+                                },
+                                "scale": true,
+                                "axisLabel": {
+                                    formatter: function(t){
+                                        var date = new Date(t);
+                                        var texts = [(date.getMonth() + 1), date.getDate()];
+                                        return new Date(t).getHours()+':'+new Date(t).getMinutes()+ ' '+texts.join('-');
+                                    }
+                                }
+                            },
+                            "yAxis": {
+                                "data": [
+                                    "离线",
+                                    "醒着",
+                                    "REM",
+                                    "浅睡",
+                                    "深睡",
+                                    "离床",
+                                ],
+                                "splitArea": {
+                                    "show": false
+                                }
+                            },
+                            "series": [
+                                {
+                                    "type": "custom",
+                                    "itemStyle": {
+                                        "color": "transparent"
+                                    },
+                                    renderItem: function(t, n) {
+                                        var e = n.value(0)
+                                        , o = n.coord([n.value(1), e])
+                                        , i = n.coord([n.value(2), e])
+                                        , r = .99 * n.size([0, 1])[1]
+                                        , a = echarts.graphic.clipRectByRect({
+                                            x: o[0] + 1,
+                                            y: o[1] - r / 2,
+                                            width: i[0] - o[0],
+                                            height: r
+                                        }, {
+                                            x: t.coordSys.x,
+                                            y: t.coordSys.y,
+                                            width: t.coordSys.width,
+                                            height: t.coordSys.height
+                                        });
+                                        return a && {
+                                            type: "rect",
+                                            shape: a,
+                                            style: n.style()
+                                        }
+                                    },
+                                    "encode": {
+                                        "x": [
+                                            1,
+                                            2
+                                        ],
+                                        "y": 0
+                                    },
+                                    "data": data
+                                }
+                            ]
+                        };
+                        console.log(options)
+                        return options;
+                    }
+                },{
+                    type:'line', //type:'bar'
+                    parent:'',
+                    keyField:'heartList',
+                    idField:'id',
+                    title:'心率分布',
+                    field:[
+                        {
+                            label:'深睡',
+                            id:'monitorValue',
+                            type:'chartValue',
+                        }
+                    ],
+                    dataCallback:function(resData,fieldJson){
+                        var data = [];
+                        for(var dataI=0; dataI<resData.length; dataI++){
+                            data.push({
+                                name:moment(resData[dataI].time).toString(),
+                                value:[moment(resData[dataI].time).format('YYYY/MM/DD HH:mm'),resData[dataI].monitorValue]
+                            });
+                        }
+                        var options = {
+                            tooltip: {
+                                trigger: 'axis',
+                                formatter: function (params) {
+                                    params = params[0];
+                                    var date = new Date(params.name);
+                                    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+                                },
+                                axisPointer: {
+                                    animation: false
+                                }
+                            },
+                            xAxis: {
+                                type: 'time',
+                                splitLine: {
+                                    show: false
+                                }
+                            },
+                            yAxis: {
+                                type: 'value',
+                                boundaryGap: [0, '100%'],
+                                splitLine: {
+                                    show: false
+                                }
+                            },
+                            series: [{
+                                name: '模拟数据',
+                                type: 'line',
+                                showSymbol: false,
+                                hoverAnimation: false,
+                                data: data
+                            }]
+                        };
+                        return options;
+                    }
+                },{
+                    type:"list",
+                    parent:'',
+                    keyField:"outBedList",
+                    idField:'id',
+                    title:'离床记录',
+                    field:[
+                        {
+                            field:'sleepStageStartTime',
+                            title:'离床时间',
+                            formatHandler:{
+                                type:'date',
+                                data:{
+                                    formatDate:'YYYY-MM-DD'
+                                }
+                            }
+                        },{
+                            field:'sleepStageEndTime',
+                            title:'上床时间',
+                            formatHandler:{
+                                type:'date',
+                                data:{
+                                    formatDate:'YYYY-MM-DD'
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+        };
+        NetstarTemplate.init(templateConfig);
+    })
+    </script>
+</container>

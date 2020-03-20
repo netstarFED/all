@@ -1,0 +1,2507 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<script>
+    var getRootPath = function () {
+        return "http://10.10.1.234:30000/";
+    }
+</script>
+<container>
+    <style type="text/css">
+        .panel-emptyrows.no-data {
+            min-height: auto !important;
+        }
+    </style>
+    <div class="pt-main">
+        <div class="pt-container">
+            <div class="pt-main-row">
+                <div class="pt-main-col" id="tree-component-standard-0">
+                    <div class="pt-panel">
+                        <div class="pt-container">
+                            <div class="pt-panel-row">
+                                <div class="pt-panel-col">
+                                    <div class="pt-tree">
+                                        <div class="pt-container">
+                                            <div class="businessdatabase-tree-ztree layout-ztree" style="height:700px;"
+                                                id="netstar-lims-pricemanage-tree"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-main-col" style="margin-top: 28px;">
+                    <!-- <div class="pt-panel nav-form" id="mainlist-btn-component-standard-2"></div> -->
+                    <div class="pt-panel businessdatabase-grid-component" style="margin-bottom: 5px;height: 65px;"
+                        id="mainlist-component-standard-1"></div>
+                    <div class="pt-panel nav-form" id="detaillist-btn-component-standard-5"></div>
+                    <div class="pt-panel businessdatabase-grid-component" id="netstar-lims-pricemanage-property-grid">
+                    </div>
+                    <!--style="height: 247.5px;"-->
+                    <div class="pt-panel businessdatabase-grid-component" style="margin-bottom:0;"
+                        id="netstar-lims-pricemanage-price-grid"></div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            /*
+             * 1。点击树节点刷新块状表格（刷新传参树节点Id）
+             * 2。左侧项目列表刷新（如果块状表格有值根据树节点id与块状表格stdId刷新，如果没有值根据树节点id刷新）
+             * 3.左侧属性列表根据项目列表选中值id刷新
+             * 4.
+             */
+
+
+
+            var limsTemplatePrice = {};
+            //弹出模版页面
+            limsTemplatePrice.showTemplateByPageData = function (config, editorType, ids) {
+                var treeArray = NetstarTemplate.tree.getSelectedNodes('netstar-lims-pricemanage-tree');
+                var mainSelectedData = NetstarBlockList.getSelectedData('mainlist-component-standard-1');
+                var detailSelectedData = NetStarGrid.getSelectedData('netstar-lims-pricemanage-property-grid');
+                var detailCheckedData = NetStarGrid.getCheckedData('netstar-lims-pricemanage-property-grid')
+                // if(mainSelectedData[0].id.length == 0)
+                //     var treeData = treeArray[0].id
+                //     NetStarGrid.refreshById('netstar-lims-pricemanage-property-grid',{sampleCateStdId:treeData});
+                // }else{
+                //     NetStarGrid.refreshById('netstar-lims-pricemanage-property-grid',{sampleCateStdId:treeData,});
+                // }
+
+                if ($.isArray(mainSelectedData)) {
+                    config.pageParam.sampleCateId = treeArray[0].id
+                    if (mainSelectedData.length > 0) {
+                        config.pageParam.sampleCateStdId = mainSelectedData[0].id;
+                        config.pageParam.sampleCateId = mainSelectedData[0].sampleCateId;
+                        //config.pageParam.ids = mainSelectedData[0].sampleCateId;//////
+                        config.pageParam.stdId = mainSelectedData[0].stdId;
+                    }
+                }
+                if ($.isArray(detailSelectedData)) {
+                    if (detailSelectedData.length > 0) {
+                        config.pageParam.parentId = detailSelectedData[0].id;
+                    }
+                }
+                switch (editorType) {
+                    case 'edit':
+                        config.pageParam = detailSelectedData[0];
+                        if (typeof (config.pageParam) == 'undefined') {
+                            config.pageParam = {};
+                        }
+                        break;
+                    case 'ids':
+                        config.pageParam.ids = ids;
+                        break;
+                }
+                for (var i = 0; i < config.components.length; i++) {
+                    var componentData = config.components[i];
+                    switch (componentData.type) {
+                        case 'vo':
+                            var fieldArray = componentData.field;
+                            for (var fieldI = 0; fieldI < fieldArray.length; fieldI++) {
+                                if (config.pageParam[fieldArray[fieldI].id]) {
+                                    fieldArray[fieldI].value = config.pageParam[fieldArray[fieldI].id];
+                                }
+                                if (typeof (config.pageParam[fieldArray[fieldI].id]) == 'number') {
+                                    fieldArray[fieldI].value = config.pageParam[fieldArray[fieldI].id];
+                                }
+                                /*if(fieldArray[fieldI].id == 'sampleCateId'){
+                                    fieldArray[fieldI].value = config.pageParam.sampleCateId;
+                                }else if(fieldArray[fieldI].id == 'stdId'){
+                                    fieldArray[fieldI].value = config.pageParam.stdId;
+                                }else if(fieldArray[fieldI].id == 'sampleCateStdId'){
+                                    fieldArray[fieldI].value = config.pageParam.sampleCateStdId;
+                                }else if(fieldArray[fieldI].id == 'parentId'){
+                                    fieldArray[fieldI].value = config.pageParam.parentId;
+                                }*/
+                            }
+                            break;
+                    }
+                }
+                config.closeHandler = function () {
+                    var treeJson = {};
+                    var treeArray = NetstarTemplate.tree.getSelectedNodes('netstar-lims-pricemanage-tree');
+                    if (treeArray.length > 0) {
+                        if (treeArray.length == 1) {
+                            treeJson = treeArray[0];
+                        }
+                    }
+                    LimsPriceManager.methodList.refresh(function () {
+                        LimsPriceManager.propertyGrid.refresh(function () {
+                            LimsPriceManager.priceGrid.refresh
+                        })
+                    })
+                }
+                NetstarTemplate.init(config);
+            }
+
+            var LimsPriceManager = (function (res) {
+                var commonHeight = $(window).outerHeight() - 35 - 40;
+                var gridHeight = commonHeight - 28 - 70 - 34; //减去标题的高度减去头部块状表格的高度-按钮的高度
+                gridHeight = parseFloat(gridHeight / 2);
+                $('#netstar-lims-pricemanage-tree').css('height', commonHeight);
+                var copyListArr = [];
+                var configs = {
+                    classTree: {
+                        type: 'tree',
+                        id: 'netstar-lims-pricemanage-tree',
+                        title: '价格管理',
+                        treeId: 'id',
+                        idField: 'id',
+                        height: commonHeight - 28 - 34 - 34,
+                        isSearch: true,
+                        readonly: true,
+                        ajax: {
+                            type: "POST",
+                            url: getRootPath() + '/sampleCate/getSampleCateTreeList',
+                            dataSrc: 'rows',
+                            data: {},
+                        },
+                        addAjax: {
+                            url: getRootPath() + '/dataSourceNodes/addNode',
+                        },
+                        editAjax: {
+                            url: getRootPath() + '/dataSourceNodes/updateNode',
+                            dataSrc: 'rows',
+                        },
+                        deleteAjax: {
+                            url: getRootPath() + '/dataSourceNodes/delById',
+                            dataSrc: 'rows',
+                        },
+                        moveAjax: {
+                            url: getRootPath() + '/dataSourceNodes/moveNode',
+                            dataSrc: 'rows',
+                        },
+                        textField: 'sampleCateName',
+                        parentField: 'parentId',
+                        childField: 'children',
+                        level: "2",
+                        clickHandler: function (data) {
+                            classTree.selected(data.treeNode.id)
+                        }
+                    },
+                    methodBlock: {
+                        type: 'blockList',
+                        idField: 'id',
+                        plusClass: 'pt-block-list-transverse pt-plusclass-closebtn',
+                        parent: 'root',
+                        id: 'mainlist-component-standard-1',
+                        data: {
+                            idField: 'id',
+                            dataSource: [],
+                            isServerMode: false,
+                            //  src: getRootPath() + '/sampleCateStd/getList.json', //数据源地址
+                            //  type: "POST", //GET POST
+                            //  contentType: 'application/json; charset=utf-8',
+                            //  source: {
+                            //      sampleCateId: '-1'
+                            //  }, //参数对象{id:1,page:100}
+                            //  isServerMode:         true,           //是否开启服务器模式
+                            //  dataSrc: 'rows',
+                        },
+
+                        columns: [{
+                            field: 'stdName',
+                            title: '产品标准名称',
+                            width: 150,
+                            type: "text",
+                            editConfig: {
+                                type: "text",
+                            },
+                            searchable: true,
+                            orderable: false,
+                            isCommon: true,
+                        }],
+                        ui: {
+
+                            isEditMode: false,
+                            selectMode: "single",
+                            isCheckSelect: true,
+                            defaultSelectedIndex: 0,
+                            listExpression: "<div class='pt-block-content-item' title='{{stdName}}'>" +
+                                "<span class='tag'>名称：</span>" +
+                                "<span class='code'>{{stdName}}</span>" +
+                                "</div>" +
+                                "<div class='pt-block-content-item'>" +
+                                "<span class='tag'>编号：</span>" +
+                                "<span class='code'>{{stdCode}}</span>" +
+                                "</div>",
+                            selectedHandler: function (data) {
+                                // console.log( 'ddd',data)
+                                methodList.selected(data.stdId)
+                            }
+
+                        },
+
+                    },
+                    propertyGrid: {
+                        title: '产品检测项目',
+                        keyField: 'GoodsPlatformVo',
+                        idField: 'id',
+                        type: 'list',
+                        ui: {
+                            isCheckSelect: true,
+                            isEditMode: false,
+                            selectMode: "single",
+                            defaultSelectedIndex: 0,
+                            height: parseFloat($(window).outerHeight() - 35 - 48 - 70 - 74 - 24) / 2,
+                            /*tableRowBtns: [{
+                                    text: "删除",
+                                    handler: function (data) {
+                                        var stdId = data.rowData.id;
+                                        nsConfirm('是否确认删除', function (success) {
+                                            var ajaxData = {}
+
+                                            if (stdId) {
+                                                ajaxData.id = stdId;
+                                            }
+                                            if (success == true) {
+                                                var ajaxConfig = {
+                                                    url: getRootPath() +
+                                                        'testPrices/delById',
+                                                    type: 'POST',
+                                                    data: ajaxData,
+                                                    contentType: 'application/x-www-form-urlencoded',
+                                                }
+                                                NetStarUtils.ajax(ajaxConfig, function (res,
+                                                    _ajaxConfig) {
+                                                    if (res.success) {
+                                                        propertyGrid.refresh(
+                                                            function () {
+                                                                priceGrid
+                                                                    .refresh()
+                                                            })
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    }
+                                }
+
+                            ],*/
+                            selectedHandler: function (data) {
+                                propertyGrid.selected(data.id)
+                            }
+                            // level: -1
+                        },
+                        data: {
+                            tableID: "netstar-lims-pricemanage-property-grid",
+                            idField: "id",
+                            dataSource: [],
+                            // src: getRootPath() + 'priceDetails/getList',
+                            // type: 'POST',
+                            // data: {
+                            //     sampleCateStdId: '-1',
+                            // },
+                            // height:500,
+                            // dataSrc: 'rows',
+                            // contentType: 'application/json; charset=utf-8'
+                            // contentType: 'application/x-www-form-urlencoded'
+                        },
+                        columns: [{
+                                field: 'sampleItemFullName',
+                                title: '产品项目',
+                                searchable: true,
+                                editable: true,
+                                width: 100,
+                                columnType: 'htmlRender',
+                            }, {
+                                field: 'itemName',
+                                title: '检测项目',
+                                searchable: true,
+                                // isTreeNode: true,
+                                editable: true,
+                                width: 100,
+                                columnType: 'htmlRender',
+                            }, {
+                                field: 'methodName',
+                                title: '检测方法',
+                                width: 400,
+                                searchable: true,
+                                editable: true,
+                                editable: true,
+                            }, {
+                                field: 'methodCode',
+                                title: '方法编号',
+                                width: 200,
+                                searchable: true,
+                                editable: true,
+                            }, {
+                                field: 'priceGroupName',
+                                title: '价格组',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'groupPrice',
+                                title: '价格组价格',
+                                width: 100,
+                                contentType: 'money',
+                                variableType: "number",
+                                formatHandler: {
+                                    type: 'money',
+                                    data: {
+                                        format: {
+
+                                        }
+                                    }
+                                },
+                                editable: true,
+                            },
+                            {
+                                field: 'gdpGroupName',
+                                title: '产值组名称',
+                                width: 100,
+                                editable: true,
+                            },
+                            {
+                                field: 'gdpGroupGdp',
+                                title: '产值组产值',
+                                width: 100,
+                                contentType: 'money',
+                                variableType: "number",
+                                editable: false,
+                                formatHandler: {
+                                    type: "money",
+                                    data: {
+                                        format: {}
+                                    }
+                                }
+                            },
+                            {
+                                field: 'descName',
+                                title: '取样信息组名称',
+                                width: 100,
+                                editable: true,
+                            },
+                            {
+                                field: 'samplingDesc',
+                                title: '取样组信息描述',
+                                width: 100,
+                                editable: true,
+                            },
+                            {
+                                field: 'defaultSamplingDesc',
+                                title: '默认取样信息描述',
+                                width: 120,
+                                editable: true,
+                            }, {
+                                field: 'defaultTestQuantity',
+                                title: '默认数量',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'defaultUnit',
+                                title: '默认单位',
+                                width: 100,
+                                editable: true,
+                            },
+                            {
+                                field: 'defaultPrice',
+                                title: '默认价格',
+                                width: 100,
+                                editable: true,
+                            },
+                            {
+                                field: 'defaultGdp',
+                                title: '默认产值',
+                                width: 100,
+                                editable: true,
+                            },
+                        ]
+                    },
+                    priceGrid: {
+                        title: '检测方法',
+                        keyField: 'GoodsPlatformVo',
+                        idField: 'id',
+                        type: 'list',
+                        data: {
+                            tableID: "netstar-lims-pricemanage-price-grid",
+                            idField: "id",
+                            dataSourc: []
+                            // src: getRootPath() + 'priceDetails/getList',
+                            // type: 'POST',
+                            // data: {
+                            //     sampleCateStdId: '-1',
+                            // },
+                            // dataSrc: 'rows',
+                            // contentType: 'application/json; charset=utf-8'
+                            // contentType: 'application/x-www-form-urlencoded'
+
+                        },
+                        ui: {
+                            parentField: "parentId",
+                            selectMode: "single",
+                            selectedHandler: function (data) {
+                                priceGrid.selected(data.id)
+                            },
+                            height: parseFloat($(window).outerHeight() - 35 - 48 - 70 - 74 - 24) / 2,
+                        },
+                        columns: [{
+                            field: 'propertyValue',
+                            title: '属性',
+                            searchable: true,
+                            width: 80,
+                            editable: true,
+                        }, {
+                            field: 'refPrice',
+                            title: '参考价格',
+                            width: 80,
+                            searchable: true,
+                            editable: true,
+                            contentType: 'money',
+                            variableType: "number",
+                            formatHandler: {
+                                type: 'money',
+                                data: {
+                                    format: {
+
+                                    }
+                                }
+                            },
+                        }, {
+                            field: 'unit',
+                            title: '单位',
+                            width: 100,
+                            editable: true,
+                            mindjetIndexState: 2,
+                            isDefaultSubdataText: true,
+                        }, {
+                            field: 'gdp',
+                            title: '产值',
+                            width: 60,
+                            editable: true,
+                        }, {
+                            field: 'permitDiscount',
+                            title: '允许打折',
+                            width: 60,
+                            editable: true,
+                        }]
+                    },
+                    groupBtns: {
+                        id: "detaillist-btn-component-standard-5",
+                        btns: [{
+                                text: "同步产品标准",
+                                handler: function () {
+
+
+                                    var ajaxData = {}
+                                    var sampleCateId = classTree.getId();
+                                    if (sampleCateId) {
+                                        ajaxData.sampleCateId = sampleCateId;
+                                    }
+                                    var stdId = methodList.getId();
+                                    if (stdId) {
+                                        ajaxData.stdId = stdId;
+                                    }
+
+                                    NetStarUtils.ajax({
+                                        url: getRootPath() + '/testPrices/syncSampleItem',
+                                        type: "POST",
+                                        //contentType: 'application/x-www-form-urlencoded',
+                                        data: ajaxData,
+                                    }, function (res, _ajaxConfig) {
+                                        nsalert("同步标准价格成功", 'success');
+                                        methodList.refresh(function () {
+                                            propertyGrid.refresh(function () {
+                                                priceGrid.refresh();
+                                            });
+                                        })
+
+                                    })
+
+                                }
+                            },
+                            {
+                                text: "同步方法标准",
+                                handler: function () {
+
+                                    var id = classTree.id
+                                    var ajaxData = {
+                                        sampleCateId: id
+                                    }
+                                    NetStarUtils.ajax({
+                                        url: getRootPath() +
+                                            '/testPrices/syncMethodSampleItem',
+                                        type: "POST",
+                                        //contentType: 'application/x-www-form-urlencoded',
+                                        data: ajaxData,
+                                    }, function (res, _ajaxConfig) {
+                                        nsalert("同步参数价格成功", 'success');
+                                        console.log(res.rows);
+
+                                        LimsPriceManager.propertyGrid.refresh(function () {
+                                            LimsPriceManager.priceGrid.refresh()
+                                        })
+                                    })
+
+                                }
+                            },
+                            {
+                                text: "编辑项目价格",
+                                handler: function (res) {
+                                    var gridData = NetStarGrid.getSelectedData(
+                                        'netstar-lims-pricemanage-property-grid')
+                                    if (gridData.length == 0) {
+                                        nsalert("当前表格数据为空", 'error')
+                                        return;
+                                    }
+                                    if (gridData === null) {
+                                        nsalert('表格选择不能为空')
+                                    } else {
+                                        var url = getRootPath() +
+                                            '/templateMindPages/pageConfig/1311226439994968050';
+                                        dialogTemplateByUrl(url, 'edit')
+                                    }
+                                }
+                            },
+                            {
+                                text: "批量删除",
+                                handler: function () {
+                                    var detailCheckedData = NetStarGrid.getCheckedData(
+                                        'netstar-lims-pricemanage-property-grid');
+                                    var ids = '';
+                                    for (var i = 0; i < detailCheckedData.length; i++) {
+                                        ids += detailCheckedData[i].id + ',';
+                                    }
+                                    ids = ids.substring(0, ids.length - 1);
+                                    var ajaxConfig = {
+                                        url: getRootPath() + '/testPrices/delByIds',
+                                        type: 'GET',
+                                        data: {
+                                            ids: ids
+                                        },
+                                        contentType: 'application/x-www-form-urlencoded',
+                                    }
+                                    NetStarUtils.ajax(ajaxConfig, function (res, _ajaxConfig) {
+                                        if (res.success) {
+                                            nsAlert('删除成功');
+                                            propertyGrid.refresh(function () {
+                                                priceGrid.refresh();
+                                            });
+                                        }
+                                    })
+                                }
+
+                            },
+                            {
+                                text: "编辑属性价格",
+                                handler: function () {
+                                    var priceDialog = {
+                                        id: "priceDefent",
+                                        height: "80%",
+                                        width: "80%",
+                                        title: "维护项目价格",
+                                        shownHandler: function (data) {
+
+                                            var dialogBodyId = data.config.bodyId;
+                                            var dialogFooterId = data.config.footerIdGroup;
+                                            $('#' + dialogBodyId).html(
+                                                '<div id="data-price-grid"></div>')
+                                            $('#' + dialogFooterId).html(
+                                                '<div id = "data-price-btns"></div>')
+                                            var gridData = NetStarGrid.getSelectedData(
+                                                'netstar-lims-pricemanage-property-grid'
+                                            )[0]
+
+                                            var priceDetailList = NetStarGrid.dataManager
+                                                .getData(
+                                                    'netstar-lims-pricemanage-price-grid');
+                                            var priceGrid = {
+                                                columns: [{
+                                                        field: "refPrice",
+                                                        editable: true,
+                                                        title: "参考价格",
+                                                        editConfig: {
+                                                            type: "number",
+                                                        },
+                                                        variableType: "number",
+                                                        width: 200
+                                                    },
+                                                    {
+                                                        field: "propertyValue",
+                                                        editable: true,
+                                                        title: "属性值",
+                                                        editConfig: {
+                                                            type: "text",
+                                                        },
+                                                        variableType: "text",
+                                                        width: 200
+                                                    },
+                                                    {
+                                                        field: "unit",
+                                                        editable: true,
+                                                        title: "单位",
+                                                        editConfig: {
+                                                            type: "text",
+                                                        },
+                                                        variableType: "text",
+                                                        width: 150
+                                                    },
+                                                    {
+                                                        field: "gdp",
+                                                        editable: true,
+                                                        title: "产值",
+                                                        editConfig: {
+                                                            type: "number",
+                                                        },
+                                                        variableType: "number",
+                                                        width: 150
+                                                    },
+                                                    {
+                                                        field: "permitDiscount",
+                                                        variableType: "string",
+                                                        mindjetType: "radio",
+                                                        editable: true,
+                                                        title: "允许打折",
+                                                        editConfig: {
+                                                            type: "radio",
+                                                            textField: "value",
+                                                            valueField: "id",
+                                                            subdata: [{
+                                                                    id: "1",
+                                                                    value: "是"
+                                                                },
+                                                                {
+                                                                    id: "0",
+                                                                    value: "否"
+                                                                }
+                                                            ]
+                                                        },
+                                                        // variableType: "text",
+                                                        width: 150
+                                                    }
+                                                ],
+                                                data: {
+                                                    src: getRootPath() +
+                                                        '/priceDetails/getList',
+                                                    contentType: 'application/json',
+                                                    type: 'POST',
+                                                    dataSrc: 'rows',
+                                                    data: {
+                                                        testPriceId: gridData.id
+                                                    },
+                                                    idField: "id",
+                                                    tableID: "data-price-grid"
+                                                },
+                                                ui: {
+                                                    isAllowAdd: true,
+                                                    isAutoSerial: true,
+                                                    isCheckSelect: true,
+                                                    isEditMode: true,
+                                                    isHaveEditDeleteBtn: true,
+                                                    isHeader: false,
+                                                    isPage: false,
+                                                    height: 400,
+                                                    minPageLength: 12,
+                                                    pageLengthDefault: 20,
+                                                    pageLengthMenu: [20, 50, 100, 200],
+                                                    selectMode: "single"
+                                                }
+                                            }
+
+                                            //原始数据
+                                            var serverData = $.extend(true, {}, gridData);
+                                            serverData.priceDetailVOs = $.extend(true, [],
+                                                priceDetailList);
+
+                                            var priceBtns = {
+                                                id: "data-price-btns", // data-price-btns
+                                                btns: [{
+                                                    text: "保存",
+                                                    handler: function (res) {
+                                                        // debugger;
+                                                        var ajaxConfig = {
+                                                            url: getRootPath() +
+                                                                'testPrices/save',
+                                                            contentType: 'application/json; charset=utf-8',
+                                                            type: "POST",
+                                                            data: ''
+                                                        }
+
+                                                        var editData = $
+                                                            .extend(
+                                                                true, {},
+                                                                gridData);
+                                                        var priceData =
+                                                            NetStarGrid
+                                                            .dataManager
+                                                            .getData(
+                                                                'data-price-grid'
+                                                            );
+                                                        editData
+                                                            .priceDetailVOs =
+                                                            $.extend(true,
+                                                                [],
+                                                                priceData);
+                                                        var root = {
+
+                                                        }
+                                                        var ajaxData =
+                                                            nsServerTools
+                                                            .getObjectStateData(
+                                                                serverData,
+                                                                editData, {
+                                                                    'root': 'id',
+                                                                    'root.priceDetailVOs': 'id'
+                                                                });
+                                                        ajaxConfig.data =
+                                                            ajaxData;
+
+                                                        NetStarUtils.ajax(
+                                                            ajaxConfig,
+                                                            function (
+                                                                res,
+                                                                _ajaxConfig
+                                                            ) {
+                                                                LimsPriceManager
+                                                                    .priceGrid
+                                                                    .refresh()
+                                                                NetstarComponent
+                                                                    .dialog
+                                                                    .priceDefent
+                                                                    .vueConfig
+                                                                    .close()
+
+                                                            })
+                                                    }
+                                                }]
+                                            }
+                                            NetStarGrid.init(priceGrid)
+                                            vueButtonComponent.init(priceBtns)
+                                        }
+
+                                    }
+                                    NetstarComponent.dialogComponent.init(priceDialog)
+                                }
+                            },
+                            {
+                                text: "价格组",
+                                dropdownType: "memoryDropdown",
+                                subdata: [{
+                                        text: "创建价格组",
+                                        handler: function () {
+                                            var checkData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid')
+                                            if (checkData.length != 0) {
+                                                var createPriceGroupDialog = {
+                                                    id: 'createPriceGroupDialog',
+                                                    height: '30%',
+                                                    width: '80%',
+                                                    templateName: 'PC',
+                                                    title: '创建价格',
+                                                    shownHandler: function (data) {
+                                                        var dialogBodyId = data.config
+                                                            .bodyId;
+                                                        var dialogFooterId = data.config
+                                                            .footerIdGroup //footerId
+                                                        $('#' + dialogBodyId).html(
+                                                            ' <div id="data-createprice-from" class="from-data-st"> </div> \
+                                                                '
+                                                        );
+                                                        $('#' + dialogFooterId).html(
+                                                            '<div id="data-createprice-btns" class="btn-fix-st"></div>'
+                                                        )
+                                                        var createPriceGroupFrom = {
+                                                            id: 'data-createprice-from',
+                                                            templateName: 'form',
+                                                            componentTemplateName: 'PC',
+                                                            defaultComponentWidth: '50%',
+                                                            isSetMore: false,
+                                                            // formStyle: "pt-form-normal",
+                                                            form: [{
+                                                                    id: "priceGroupName",
+                                                                    type: "text",
+                                                                    label: "价格组名称",
+                                                                    rules: "",
+                                                                },
+                                                                {
+                                                                    id: "groupPrice",
+                                                                    type: "text",
+                                                                    label: "价格组价格",
+                                                                    rules: "positive",
+
+                                                                }
+                                                            ]
+                                                        };
+                                                        var createPriceGroupBtns = {
+                                                            id: 'data-createprice-btns',
+                                                            btns: [{
+                                                                text: '保存',
+                                                                handler: function () {
+                                                                    var _formData = {}
+                                                                    var _checkData =
+                                                                        NetStarGrid
+                                                                        .getCheckedData(
+                                                                            'netstar-lims-pricemanage-property-grid'
+                                                                        )
+                                                                    var treeArray =
+                                                                        NetstarTemplate
+                                                                        .tree
+                                                                        .getSelectedNodes(
+                                                                            'netstar-lims-pricemanage-tree'
+                                                                        )[
+                                                                            0
+                                                                            ];
+                                                                    var gridBlockData =
+                                                                        NetstarBlockList
+                                                                        .getSelectedData(
+                                                                            'mainlist-component-standard-1'
+                                                                        )[
+                                                                            0
+                                                                        ]
+                                                                    var formData =
+                                                                        NetstarComponent
+                                                                        .getValues(
+                                                                            'data-createprice-from'
+                                                                        )
+                                                                    _formData
+                                                                        =
+                                                                        formData
+                                                                    // _formData.sampleCateId =gridBlockData.sampleCateId
+                                                                    _formData
+                                                                        .parentId =
+                                                                        treeArray
+                                                                        .parentId
+                                                                    _formData
+                                                                        .sampleCateId =
+                                                                        treeArray
+                                                                        .id
+                                                                    _formData
+                                                                        .stdId =
+                                                                        gridBlockData
+                                                                        .stdId
+                                                                    if (_checkData
+                                                                        .length !==
+                                                                        0
+                                                                    ) {
+                                                                        var
+                                                                            idsArray = [];
+                                                                        for (
+                                                                            var i =
+                                                                                0; i <
+                                                                            _checkData
+                                                                            .length; i++
+                                                                        ) {
+                                                                            idsArray
+                                                                                .push(
+                                                                                    _checkData[
+                                                                                        i
+                                                                                    ]
+                                                                                    .id
+                                                                                );
+                                                                        }
+                                                                        _formData
+                                                                            .ids =
+                                                                            idsArray
+                                                                            .toString();
+                                                                    } else {
+
+                                                                    }
+
+                                                                    _formData
+                                                                        .objectState =
+                                                                        1
+                                                                    var ajaxData = {
+                                                                        url: getRootPath() +
+                                                                            "/testPrices/createAndJoinGroup",
+                                                                        data: _formData,
+                                                                        type: "POST"
+                                                                    }
+                                                                    NetStarUtils
+                                                                        .ajax(
+                                                                            ajaxData,
+                                                                            function (
+                                                                                res,
+                                                                                _ajaxConfig
+                                                                            ) {
+                                                                                nsalert
+                                                                                    (
+                                                                                        '保存成功'
+                                                                                    )
+                                                                                propertyGrid
+                                                                                    .refresh(
+                                                                                        function () {
+                                                                                            priceGrid
+                                                                                                .refresh();
+                                                                                        }
+                                                                                    );
+                                                                                NetstarComponent
+                                                                                    .dialog
+                                                                                    .createPriceGroupDialog
+                                                                                    .vueConfig
+                                                                                    .close()
+                                                                            }
+                                                                        )
+                                                                }
+                                                            }]
+                                                        }
+                                                        vueButtonComponent.init(
+                                                            createPriceGroupBtns);
+                                                        var component = NetstarComponent
+                                                            .formComponent
+                                                            .getFormConfig(
+                                                                createPriceGroupFrom, {}
+                                                            );
+                                                        NetstarComponent.formComponent
+                                                            .init(
+                                                                component,
+                                                                createPriceGroupFrom);
+                                                    }
+                                                }
+                                                NetstarComponent.dialogComponent.init(
+                                                    createPriceGroupDialog);
+                                                // var url = getRootPath() +
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+                                        }
+
+                                    },
+                                    {
+                                        text: "加入价格组",
+                                        handler: function () {
+
+                                            var checkData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid')
+                                            if (checkData.length != 0) {
+                                                var addPriceGroupDialog = {
+                                                    id: 'addPriceGroupDialog',
+                                                    height: '80%',
+                                                    width: '80%',
+                                                    templateName: 'PC',
+                                                    title: '价格组名称',
+                                                    shownHandler: function (data) {
+                                                        var dialogBodyId = data.config
+                                                            .bodyId;
+                                                        var dialogFooterId = data.config
+                                                            .footerIdGroup //footerId
+                                                        $('#' + dialogBodyId).html(
+                                                            ' <div id="data-addprice-grid" class="from-data-st"> </div> \
+                                                                '
+                                                        );
+                                                        $('#' + dialogFooterId).html(
+                                                            '<div id="data-addprice-btns" class="btn-fix-st"></div>'
+                                                        )
+                                                        // var addPriceId= NetStarGrid.getCheckedData('netstar-lims-pricemanage-property-grid')
+                                                        var addPriceId =
+                                                            NetstarBlockList
+                                                            .getSelectedData(
+                                                                'mainlist-component-standard-1'
+                                                            )
+                                                        var _ajaxData = {
+                                                            sampleCateId: checkData[
+                                                                    0]
+                                                                .sampleCateId,
+                                                            stdId: checkData[0]
+                                                                .stdId,
+                                                            stdId: addPriceId[0]
+                                                                .stdId
+                                                        }
+                                                        // if (addPriceId.length !==0) {
+                                                        //     var idsArray = [];
+                                                        //     for (var i =0; i <_checkData.length; i++) {
+                                                        //         idsArray.push(_checkData[i].i);
+                                                        //     }
+                                                        //     _ajaxData.ids =idsArray.toString();
+                                                        // } else {}
+                                                        var addPriceGroupGrid = {
+                                                            columns: [{
+                                                                    field: "priceGroupName",
+                                                                    title: '价格组名称',
+                                                                    width: 200,
+                                                                    editConfig: {
+                                                                        type: 'text',
+                                                                    }
+                                                                },
+                                                                {
+                                                                    field: "groupPrice",
+                                                                    title: '价格组价格',
+                                                                    width: 200,
+                                                                    editConfig: {
+                                                                        type: 'text',
+                                                                    }
+                                                                },
+                                                                {
+                                                                    field: "calculateWay",
+                                                                    title: '价格计算方式',
+                                                                    width: 200,
+                                                                    editConfig: {
+                                                                        type: 'text',
+                                                                    }
+                                                                },
+                                                            ],
+                                                            data: {
+                                                                dataFormat: "object",
+                                                                idField: "id",
+                                                                tableID: "data-addprice-grid",
+                                                                src: getRootPath() +
+                                                                    '/priceGroups/getList',
+                                                                contentType: 'application/json; charset=utf-8',
+                                                                type: 'POST',
+                                                                dataSrc: 'rows',
+                                                                data: _ajaxData,
+                                                            },
+                                                            ui: {
+                                                                isAutoSerial: true,
+                                                                // isHeader: false,
+                                                                defaultSelectedIndex: 0,
+                                                                minPageLength: 12,
+                                                                isEditMode: true,
+                                                                pageLengthDefault: 300,
+                                                                selectMode: "single",
+                                                                // isHaveEditDeleBtn: true,
+                                                                isAllowAdd: true,
+                                                                height: 400,
+                                                            }
+                                                        };
+                                                        var addPriceGroupBtns = {
+                                                            id: 'data-addprice-btns',
+                                                            btns: [{
+                                                                text: '保存',
+                                                                handler: function () {
+                                                                    var _checkData =
+                                                                        NetStarGrid
+                                                                        .getCheckedData(
+                                                                            'netstar-lims-pricemanage-property-grid'
+                                                                        )
+                                                                    var treeArray =
+                                                                        NetstarTemplate
+                                                                        .tree
+                                                                        .getSelectedNodes(
+                                                                            'netstar-lims-pricemanage-tree'
+                                                                        )[
+                                                                            0
+                                                                            ];
+                                                                    var addPriceGridData =
+                                                                        NetStarGrid
+                                                                        .getSelectedData(
+                                                                            'data-addprice-grid'
+                                                                        )
+                                                                    var gridBlockData =
+                                                                        NetstarBlockList
+                                                                        .getSelectedData(
+                                                                            'mainlist-component-standard-1'
+                                                                        )[
+                                                                            0
+                                                                        ]
+
+                                                                    var _ajaxData = {
+                                                                        // priceGroupId: addPriceGridData.id,
+                                                                        sampleCateId: treeArray
+                                                                            .id,
+                                                                        objectState: 1,
+                                                                        stdId: _checkData
+                                                                            .stdId
+                                                                    }
+                                                                    if (addPriceGridData
+                                                                        .length ==
+                                                                        1
+                                                                    ) {
+                                                                        _ajaxData
+                                                                            .priceGroupId =
+                                                                            addPriceGridData[
+                                                                                0
+                                                                            ]
+                                                                            .id
+                                                                    } else {
+                                                                        nsAlert
+                                                                            (
+                                                                                '没有选中的数据，不能保存'
+                                                                            )
+                                                                        return;
+                                                                    }
+                                                                    if (_checkData
+                                                                        .length !==
+                                                                        0
+                                                                    ) {
+                                                                        var
+                                                                            idsArray = [];
+                                                                        for (
+                                                                            var i =
+                                                                                0; i <
+                                                                            _checkData
+                                                                            .length; i++
+                                                                        ) {
+                                                                            idsArray
+                                                                                .push(
+                                                                                    _checkData[
+                                                                                        i
+                                                                                    ]
+                                                                                    .id
+                                                                                );
+                                                                        }
+                                                                        _ajaxData
+                                                                            .ids =
+                                                                            idsArray
+                                                                            .toString();
+                                                                    } else {}
+                                                                    var ajaxConfig = {
+                                                                        url: getRootPath() +
+                                                                            "/testPrices/joinGroup",
+                                                                        data: _ajaxData,
+                                                                        type: "POST",
+                                                                        contentType: 'application/x-www-form-urlencoded',
+                                                                    }
+                                                                    NetStarUtils
+                                                                        .ajax(
+                                                                            ajaxConfig,
+                                                                            function (
+                                                                                res,
+                                                                                _ajaxConfig
+                                                                            ) {
+                                                                                propertyGrid
+                                                                                    .refresh(
+                                                                                        function () {
+                                                                                            priceGrid
+                                                                                                .refresh()
+                                                                                        }
+                                                                                    );
+                                                                                NetstarComponent
+                                                                                    .dialog
+                                                                                    .addPriceGroupDialog
+                                                                                    .vueConfig
+                                                                                    .close();
+                                                                            }
+                                                                        )
+                                                                },
+
+                                                            }, {
+                                                                text: "关闭",
+                                                                handler: function () {
+                                                                    NetstarComponent
+                                                                        .dialog
+                                                                        .addPriceGroupDialog
+                                                                        .vueConfig
+                                                                        .close();
+                                                                }
+                                                            }]
+                                                        }
+                                                        vueButtonComponent.init(
+                                                            addPriceGroupBtns);
+                                                        NetStarGrid.init(
+                                                            addPriceGroupGrid)
+                                                    }
+                                                }
+                                                NetstarComponent.dialogComponent.init(
+                                                    addPriceGroupDialog);
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+                                        }
+
+                                    },
+                                    {
+                                        text: "移除价格组",
+                                        handler: function () {
+                                            var detailCheckedData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid');
+                                            if (detailCheckedData.length != 0) {
+                                                var ids = '';
+                                                for (var i = 0; i < detailCheckedData
+                                                    .length; i++) {
+                                                    ids += detailCheckedData[i].id + ',';
+                                                }
+                                                ids = ids.substring(0, ids.length - 1);
+                                                var ajaxConfig = {
+                                                    url: getRootPath() +
+                                                        '/testPrices/leaveGroup',
+                                                    type: 'GET',
+                                                    data: {
+                                                        ids: ids
+                                                    },
+                                                    contentType: 'application/x-www-form-urlencoded',
+                                                }
+                                                NetStarUtils.ajax(ajaxConfig, function (res,
+                                                    _ajaxConfig) {
+                                                    if (res.success) {
+                                                        nsAlert('移除成功');
+                                                        propertyGrid.refresh(
+                                                            function () {
+                                                                priceGrid.refresh();
+                                                            });
+                                                    }
+                                                })
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                text: "产值组",
+                                dropdownType: "memoryDropdown",
+                                subdata: [{
+                                        text: "创建产值组",
+                                        handler: function () {
+                                            var checkData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid')
+                                            if (checkData.length != 0) {
+                                                var setgdpGroupDialog = {
+                                                    id: 'setGdpGroupDialog',
+                                                    height: '30%',
+                                                    width: '50%',
+                                                    templateName: 'PC',
+                                                    title: '创建产值组',
+                                                    shownHandler: function (data) {
+                                                        var dialogBodyId = data.config
+                                                            .bodyId;
+                                                        var dialogFooterId = data.config
+                                                            .footerIdGroup //footerId
+                                                        $('#' + dialogBodyId).html(
+                                                            ' <div id="data-gdpgroup-from" class="from-data-st"> </div> \
+                                                                '
+                                                        );
+                                                        $('#' + dialogFooterId).html(
+                                                            '<div id="data-gdpgroup-btns" class="btn-fix-st"></div>'
+                                                        )
+                                                        var setGdpGroupFrom = {
+                                                            id: 'data-gdpgroup-from',
+                                                            templateName: 'form',
+                                                            componentTemplateName: 'PC',
+                                                            defaultComponentWidth: '50%',
+                                                            isSetMore: false,
+                                                            defaultComponentWidth: "100%",
+                                                            // formStyle: "pt-form-normal",
+                                                            form: [{
+                                                                    id: "gdpGroupName",
+                                                                    type: "text",
+                                                                    label: "产值组名称",
+                                                                    rules: "",
+
+                                                                },
+                                                                {
+                                                                    id: "gdpGroupGdp",
+                                                                    type: "text",
+                                                                    label: "产值组产值",
+                                                                    rules: "",
+
+                                                                }
+                                                            ]
+                                                        };
+                                                        var setGdpGroupBtns = {
+                                                            id: 'data-gdpgroup-btns',
+                                                            btns: [{
+                                                                text: '保存',
+                                                                handler: function () {
+                                                                    var _formData = {}
+                                                                    var _checkData =
+                                                                        NetStarGrid
+                                                                        .getCheckedData(
+                                                                            'netstar-lims-pricemanage-property-grid'
+                                                                        )
+                                                                    var treeArray =
+                                                                        NetstarTemplate
+                                                                        .tree
+                                                                        .getSelectedNodes(
+                                                                            'netstar-lims-pricemanage-tree'
+                                                                        )[
+                                                                            0
+                                                                            ];
+                                                                    var formData =
+                                                                        NetstarComponent
+                                                                        .getValues(
+                                                                            'data-gdpgroup-from'
+                                                                        )
+                                                                    _formData
+                                                                        =
+                                                                        formData
+                                                                    _formData
+                                                                        .parentId =
+                                                                        treeArray
+                                                                        .parentId
+                                                                    _formData
+                                                                        .sampleCateId =
+                                                                        treeArray
+                                                                        .id
+                                                                    _formData
+                                                                        .stdId =
+                                                                        _checkData[
+                                                                            0
+                                                                        ]
+                                                                        .stdId
+                                                                    if (_checkData
+                                                                        .length !==
+                                                                        0
+                                                                    ) {
+                                                                        var
+                                                                            idsArray = [];
+                                                                        for (
+                                                                            var i =
+                                                                                0; i <
+                                                                            _checkData
+                                                                            .length; i++
+                                                                        ) {
+                                                                            idsArray
+                                                                                .push(
+                                                                                    _checkData[
+                                                                                        i
+                                                                                    ]
+                                                                                    .id
+                                                                                );
+                                                                        }
+                                                                        _formData
+                                                                            .ids =
+                                                                            idsArray
+                                                                            .toString();
+                                                                    } else {
+
+                                                                    }
+                                                                    _formData
+                                                                        .objectState =
+                                                                        1
+                                                                    var ajaxData = {
+                                                                        url: getRootPath() +
+                                                                            "/testPrices/createAndJoinGdpGroup",
+                                                                        data: _formData,
+                                                                        type: "POST"
+                                                                    }
+                                                                    NetStarUtils
+
+                                                                        .ajax(
+                                                                            ajaxData,
+                                                                            function (
+                                                                                res,
+                                                                                _ajaxConfig
+                                                                            ) {
+                                                                                nsalert
+                                                                                    (
+                                                                                        '保存成功'
+                                                                                    )
+                                                                                propertyGrid
+                                                                                    .refresh(
+                                                                                        function () {
+                                                                                            priceGrid
+                                                                                                .refresh();
+                                                                                        }
+                                                                                    );
+                                                                                NetstarComponent
+                                                                                    .dialog
+                                                                                    .setGdpGroupDialog
+                                                                                    .vueConfig
+                                                                                    .close()
+                                                                            }
+                                                                        )
+                                                                }
+                                                            }]
+                                                        }
+                                                        vueButtonComponent.init(
+                                                            setGdpGroupBtns);
+                                                        NetstarComponent.formComponent
+                                                            .show(
+                                                                setGdpGroupFrom);
+                                                    }
+                                                }
+                                                NetstarComponent.dialogComponent.init(
+                                                    setgdpGroupDialog);
+                                                // var url = getRootPath() +
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+                                        }
+                                    },
+                                    {
+                                        text: "加入产值组",
+                                        handler: function () {
+                                            var checkData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid')
+                                            if (checkData.length != 0) {
+                                                var addGdpGroupDialog = {
+                                                    id: 'addPriceGroupDialog',
+                                                    height: '50%',
+                                                    width: '50%',
+                                                    templateName: 'PC',
+                                                    title: '产值组名称',
+                                                    shownHandler: function (data) {
+
+                                                        var dialogBodyId = data.config
+                                                            .bodyId;
+                                                        var dialogFooterId = data.config
+                                                            .footerIdGroup //footerId
+                                                        $('#' + dialogBodyId).html(
+                                                            ' <div id="data-addGdp-grid" class="from-data-st"> </div> '
+                                                        );
+                                                        $('#' + dialogFooterId).html(
+                                                            '<div id="data-addGdp-btns" class="btn-fix-st"></div>'
+                                                        )
+                                                        var addPriceId = NetStarGrid
+                                                            .getCheckedData(
+                                                                'netstar-lims-pricemanage-property-grid'
+                                                            )[0]
+                                                        var _ajaxData = {
+                                                            sampleCateId: addPriceId
+                                                                .sampleCateId,
+                                                            stdId: addPriceId.stdId
+                                                        }
+                                                        var addGdpGroupGrid = {
+                                                            columns: [{
+                                                                field: "gdpGroupName",
+                                                                title: '产值组名称',
+                                                                width: 200,
+                                                                editConfig: {
+                                                                    type: 'text',
+                                                                }
+                                                            }, ],
+                                                            data: {
+                                                                dataFormat: "object",
+                                                                idField: "id",
+                                                                tableID: "data-addGdp-grid",
+                                                                src: getRootPath() +
+                                                                    '/priceGdpGroups/getList',
+                                                                contentType: 'application/json; charset=utf-8',
+                                                                type: 'POST',
+                                                                dataSrc: 'rows',
+                                                                data: _ajaxData,
+                                                            },
+                                                            ui: {
+                                                                isAutoSerial: true,
+                                                                // isHeader: false,
+                                                                defaultSelectedIndex: 0,
+                                                                minPageLength: 10,
+                                                                isEditMode: true,
+                                                                pageLengthDefault: 300,
+                                                                selectMode: "single",
+                                                                // isHaveEditDeleBtn: true,
+                                                                isAllowAdd: true,
+                                                                // height: 250,
+                                                            }
+                                                        };
+                                                        var addGdpGroupBtns = {
+                                                            id: 'data-addGdp-btns',
+                                                            btns: [{
+                                                                text: '保存',
+                                                                handler: function () {
+                                                                    var _checkData =
+                                                                        NetStarGrid
+                                                                        .getCheckedData(
+                                                                            'netstar-lims-pricemanage-property-grid'
+                                                                        )
+                                                                    var treeArray =
+                                                                        NetstarTemplate
+                                                                        .tree
+                                                                        .getSelectedNodes(
+                                                                            'netstar-lims-pricemanage-tree'
+                                                                        )[
+                                                                            0
+                                                                            ];
+                                                                    var addGdpGridData =
+                                                                        NetStarGrid
+                                                                        .getSelectedData(
+                                                                            'data-addGdp-grid'
+                                                                        )
+                                                                    // var gridBlockData =NetStarGrid.dataManager.getData('mainlist-component-standard-1')[0]
+                                                                    var _ajaxData = {
+                                                                        // gdpGroupId: addPriceGridData.id,
+                                                                        sampleCateId: treeArray
+                                                                            .id,
+                                                                        objectState: 1,
+                                                                        stdId: _checkData
+                                                                            .stdId
+                                                                    }
+                                                                    if (addGdpGridData
+                                                                        .length ==
+                                                                        1
+                                                                    ) {
+                                                                        _ajaxData
+                                                                            .gdpGroupId =
+                                                                            addGdpGridData[
+                                                                                0
+                                                                            ]
+                                                                            .id
+                                                                    } else {
+                                                                        nsAlert
+                                                                            (
+                                                                                ''
+                                                                                )
+                                                                        return
+                                                                    }
+                                                                    if (_checkData
+                                                                        .length !==
+                                                                        0
+                                                                    ) {
+                                                                        var
+                                                                            idsArray = [];
+                                                                        for (
+                                                                            var i =
+                                                                                0; i <
+                                                                            _checkData
+                                                                            .length; i++
+                                                                        ) {
+                                                                            idsArray
+                                                                                .push(
+                                                                                    _checkData[
+                                                                                        i
+                                                                                    ]
+                                                                                    .id
+                                                                                );
+                                                                        }
+                                                                        _ajaxData
+                                                                            .ids =
+                                                                            idsArray
+                                                                            .toString();
+                                                                    } else {}
+                                                                    var ajaxConfig = {
+                                                                        url: getRootPath() +
+                                                                            "/testPrices/joinGdpGroup",
+                                                                        data: _ajaxData,
+                                                                        type: "POST",
+                                                                        contentType: 'application/x-www-form-urlencoded',
+                                                                    }
+                                                                    NetStarUtils
+                                                                        .ajax(
+                                                                            ajaxConfig,
+                                                                            function (
+                                                                                res,
+                                                                                _ajaxConfig
+                                                                            ) {
+
+                                                                                propertyGrid
+                                                                                    .refresh(
+                                                                                        function () {
+                                                                                            priceGrid
+                                                                                                .refresh()
+                                                                                        }
+                                                                                    );
+                                                                                NetstarComponent
+                                                                                    .dialog
+                                                                                    .addPriceGroupDialog
+                                                                                    .vueConfig
+                                                                                    .close();
+                                                                            }
+                                                                        )
+                                                                },
+
+                                                            }, {
+                                                                text: "关闭",
+                                                                handler: function () {
+                                                                    NetstarComponent
+                                                                        .dialog
+                                                                        .addPriceGroupDialog
+                                                                        .vueConfig
+                                                                        .close();
+                                                                }
+                                                            }]
+                                                        }
+                                                        vueButtonComponent.init(
+                                                            addGdpGroupBtns);
+                                                        NetStarGrid.init(
+                                                            addGdpGroupGrid)
+                                                    }
+                                                }
+                                                NetstarComponent.dialogComponent.init(
+                                                    addGdpGroupDialog);
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+                                        }
+                                    },
+                                    {
+                                        text: "移除产值组",
+                                        handler: function () {
+                                            var detailCheckedData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid');
+                                            if (detailCheckedData.length != 0) {
+                                                var ids = '';
+                                                for (var i = 0; i < detailCheckedData
+                                                    .length; i++) {
+                                                    ids += detailCheckedData[i].id + ',';
+                                                }
+                                                ids = ids.substring(0, ids.length - 1);
+                                                var ajaxConfig = {
+                                                    url: getRootPath() +
+                                                        '/testPrices/leaveGdpGroup',
+                                                    type: 'GET',
+                                                    data: {
+                                                        ids: ids
+                                                    },
+                                                    contentType: 'application/x-www-form-urlencoded',
+                                                }
+                                                NetStarUtils.ajax(ajaxConfig, function (res,
+                                                    _ajaxConfig) {
+                                                    if (res.success) {
+                                                        nsAlert('移除成功');
+                                                        propertyGrid.refresh(
+                                                    function () {
+                                                            priceGrid.refresh();
+                                                        });
+                                                    }
+                                                })
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+
+                                        }
+
+                                    }
+                                ]
+                            },
+                            {
+                                text: "取样组",
+                                dropdownType: "memoryDropdown",
+                                subdata: [{
+                                        text: "创建取样信息组",
+                                        handler: function () {
+                                            var checkData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid')
+                                            if (checkData.length != 0) {
+                                                var samplingGroupDialog = {
+                                                    id: 'samplingGroupDialog',
+                                                    height: '30%',
+                                                    width: '50%',
+                                                    templateName: 'PC',
+                                                    title: '创建取样信息组',
+                                                    shownHandler: function (data) {
+                                                        var dialogBodyId = data.config
+                                                            .bodyId;
+                                                        var dialogFooterId = data.config
+                                                            .footerIdGroup //footerId
+                                                        $('#' + dialogBodyId).html(
+                                                            ' <div id="data-samplinggroup-from" class="from-data-st"> </div> \
+                                                                '
+                                                        );
+                                                        $('#' + dialogFooterId).html(
+                                                            '<div id="data-samplinggroup-btns" class="btn-fix-st"></div>'
+                                                        )
+                                                        var samplingGroupFrom = {
+                                                            id: 'data-samplinggroup-from',
+                                                            templateName: 'form',
+                                                            componentTemplateName: 'PC',
+                                                            defaultComponentWidth: '50%',
+                                                            isSetMore: false,
+                                                            defaultComponentWidth: "100%",
+                                                            // formStyle: "pt-form-normal",
+                                                            form: [{
+                                                                    id: "descName",
+                                                                    type: "text",
+                                                                    label: "取样信息名称",
+                                                                    rules: "",
+
+                                                                },
+                                                                {
+                                                                    id: "samplingDesc",
+                                                                    type: "text",
+                                                                    label: "取样信息描述",
+                                                                    rules: "",
+
+                                                                }
+                                                            ]
+                                                        };
+                                                        var samplingGroupBtns = {
+                                                            id: 'data-samplinggroup-btns',
+                                                            btns: [{
+                                                                text: '保存',
+                                                                handler: function () {
+                                                                    var _formData = {}
+                                                                    var _checkData =
+                                                                        NetStarGrid
+                                                                        .getCheckedData(
+                                                                            'netstar-lims-pricemanage-property-grid'
+                                                                        )
+                                                                    var treeArray =
+                                                                        NetstarTemplate
+                                                                        .tree
+                                                                        .getSelectedNodes(
+                                                                            'netstar-lims-pricemanage-tree'
+                                                                        )[
+                                                                            0
+                                                                            ];
+                                                                    var formData =
+                                                                        NetstarComponent
+                                                                        .getValues(
+                                                                            'data-samplinggroup-from'
+                                                                        )
+                                                                    _formData
+                                                                        =
+                                                                        formData
+                                                                    _formData
+                                                                        .parentId =
+                                                                        treeArray
+                                                                        .parentId
+                                                                    _formData
+                                                                        .sampleCateId =
+                                                                        treeArray
+                                                                        .id
+                                                                    _formData
+                                                                        .stdId =
+                                                                        _checkData[
+                                                                            0
+                                                                        ]
+                                                                        .stdId
+                                                                    if (_checkData
+                                                                        .length !==
+                                                                        0
+                                                                    ) {
+                                                                        var
+                                                                            idsArray = [];
+                                                                        for (
+                                                                            var i =
+                                                                                0; i <
+                                                                            _checkData
+                                                                            .length; i++
+                                                                        ) {
+                                                                            idsArray
+                                                                                .push(
+                                                                                    _checkData[
+                                                                                        i
+                                                                                    ]
+                                                                                    .id
+                                                                                );
+                                                                        }
+                                                                        _formData
+                                                                            .ids =
+                                                                            idsArray
+                                                                            .toString();
+                                                                        _formData
+                                                                            .samplingDescId =
+                                                                            1
+                                                                    } else {
+
+                                                                    }
+                                                                    _formData
+                                                                        .objectState =
+                                                                        1
+                                                                    var ajaxData = {
+                                                                        url: getRootPath() +
+                                                                            "/testPrices/createAndJoinSampling",
+                                                                        data: _formData,
+                                                                        type: "POST"
+                                                                    }
+                                                                    NetStarUtils
+
+                                                                        .ajax(
+                                                                            ajaxData,
+                                                                            function (
+                                                                                res,
+                                                                                _ajaxConfig
+                                                                            ) {
+                                                                                nsalert
+                                                                                    (
+                                                                                        '保存成功'
+                                                                                    )
+                                                                                propertyGrid
+                                                                                    .refresh(
+                                                                                        function () {
+                                                                                            priceGrid
+                                                                                                .refresh();
+                                                                                        }
+                                                                                    );
+                                                                                NetstarComponent
+                                                                                    .dialog
+                                                                                    .samplingGroupDialog
+                                                                                    .vueConfig
+                                                                                    .close()
+                                                                            }
+                                                                        )
+                                                                }
+                                                            }]
+                                                        }
+                                                        vueButtonComponent.init(
+                                                            samplingGroupBtns);
+                                                        NetstarComponent.formComponent
+                                                            .show(
+                                                                samplingGroupFrom);
+                                                    }
+                                                }
+                                                NetstarComponent.dialogComponent.init(
+                                                    samplingGroupDialog);
+                                                // var url = getRootPath() +
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+                                        }
+
+                                    },
+                                    {
+
+                                        text: "加入取样信息组",
+                                        handler: function () {
+                                            var checkData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid')
+                                            if (checkData.length != 0) {
+                                                var addsamplingGroupDialog = {
+                                                    id: 'addPriceGroupDialog',
+                                                    height: '50%',
+                                                    width: '50%',
+                                                    templateName: 'PC',
+                                                    title: '加入取样信息组',
+                                                    shownHandler: function (data) {
+
+                                                        var dialogBodyId = data.config
+                                                            .bodyId;
+                                                        var dialogFooterId = data.config
+                                                            .footerIdGroup //footerId
+                                                        $('#' + dialogBodyId).html(
+                                                            ' <div id="data-addsamplingGdp-grid" class="from-data-st"> </div> '
+                                                        );
+                                                        $('#' + dialogFooterId).html(
+                                                            '<div id="data-addsamplingGdp-btns" class="btn-fix-st"></div>'
+                                                        )
+                                                        var addPriceId = NetStarGrid
+                                                            .getCheckedData(
+                                                                'netstar-lims-pricemanage-property-grid'
+                                                            )[0]
+                                                        var _ajaxData = {
+                                                            sampleCateId: addPriceId
+                                                                .sampleCateId,
+                                                            stdId: addPriceId.stdId
+                                                        }
+                                                        var addsamplingGroupGrid = {
+                                                            columns: [{
+                                                                field: "descName",
+                                                                title: '取样信息名称',
+                                                                width: 200,
+                                                                editConfig: {
+                                                                    type: 'text',
+                                                                }
+                                                            }, ],
+                                                            data: {
+                                                                dataFormat: "object",
+                                                                idField: "id",
+                                                                tableID: "data-addsamplingGdp-grid",
+                                                                src: getRootPath() +
+                                                                    '/samplingDesc/getList',
+                                                                contentType: 'application/json; charset=utf-8',
+                                                                type: 'POST',
+                                                                dataSrc: 'rows',
+                                                                data: _ajaxData,
+                                                            },
+                                                            ui: {
+                                                                isAutoSerial: true,
+                                                                defaultSelectedIndex: 0,
+                                                                // isHeader: false,
+                                                                minPageLength: 10,
+                                                                isEditMode: true,
+                                                                pageLengthDefault: 300,
+                                                                selectMode: "single",
+                                                                // isHaveEditDeleBtn: true,
+                                                                isAllowAdd: true,
+                                                                // height: 250,
+                                                            }
+                                                        };
+                                                        var addsamplingGroupBtns = {
+                                                            id: 'data-addsamplingGdp-btns',
+                                                            btns: [{
+                                                                text: '保存',
+                                                                handler: function () {
+                                                                    var _checkData =
+                                                                        NetStarGrid
+                                                                        .getCheckedData(
+                                                                            'netstar-lims-pricemanage-property-grid'
+                                                                        )
+                                                                    var treeArray =
+                                                                        NetstarTemplate
+                                                                        .tree
+                                                                        .getSelectedNodes(
+                                                                            'netstar-lims-pricemanage-tree'
+                                                                        )[
+                                                                            0
+                                                                            ];
+                                                                    var addGdpGridData =
+                                                                        NetStarGrid
+                                                                        .getSelectedData(
+                                                                            'data-addsamplingGdp-grid'
+                                                                        )
+                                                                    // var gridBlockData =NetStarGrid.dataManager.getData('mainlist-component-standard-1')[0]
+                                                                    var _ajaxData = {
+                                                                        // gdpGroupId: addPriceGridData.id,
+                                                                        sampleCateId: treeArray
+                                                                            .id,
+                                                                        objectState: 1,
+                                                                        stdId: _checkData
+                                                                            .stdId
+                                                                    }
+                                                                    if (addGdpGridData
+                                                                        .length ==
+                                                                        1
+                                                                    ) {
+                                                                        _ajaxData
+                                                                            .samplingDescId =
+                                                                            addGdpGridData[
+                                                                                0
+                                                                            ]
+                                                                            .id
+                                                                    } else {
+                                                                        nsAlert
+                                                                            (
+                                                                                ''
+                                                                                )
+                                                                        return
+                                                                    }
+                                                                    if (_checkData
+                                                                        .length !==
+                                                                        0
+                                                                    ) {
+                                                                        var
+                                                                            idsArray = [];
+                                                                        for (
+                                                                            var i =
+                                                                                0; i <
+                                                                            _checkData
+                                                                            .length; i++
+                                                                        ) {
+                                                                            idsArray
+                                                                                .push(
+                                                                                    _checkData[
+                                                                                        i
+                                                                                    ]
+                                                                                    .id
+                                                                                );
+                                                                        }
+                                                                        _ajaxData
+                                                                            .ids =
+                                                                            idsArray
+                                                                            .toString();
+                                                                    } else {}
+                                                                    var ajaxConfig = {
+                                                                        url: getRootPath() +
+                                                                            "/testPrices/joinSampling",
+                                                                        data: _ajaxData,
+                                                                        type: "POST",
+                                                                        contentType: 'application/x-www-form-urlencoded',
+                                                                    }
+                                                                    NetStarUtils
+                                                                        .ajax(
+                                                                            ajaxConfig,
+                                                                            function (
+                                                                                res,
+                                                                                _ajaxConfig
+                                                                            ) {
+
+                                                                                propertyGrid
+                                                                                    .refresh(
+                                                                                        function () {
+                                                                                            priceGrid
+                                                                                                .refresh()
+                                                                                        }
+                                                                                    );
+                                                                                NetstarComponent
+                                                                                    .dialog
+                                                                                    .addPriceGroupDialog
+                                                                                    .vueConfig
+                                                                                    .close();
+                                                                            }
+                                                                        )
+                                                                },
+
+                                                            }, {
+                                                                text: "关闭",
+                                                                handler: function () {
+                                                                    NetstarComponent
+                                                                        .dialog
+                                                                        .addPriceGroupDialog
+                                                                        .vueConfig
+                                                                        .close();
+                                                                }
+                                                            }]
+                                                        }
+                                                        vueButtonComponent.init(
+                                                            addsamplingGroupBtns);
+                                                        NetStarGrid.init(
+                                                            addsamplingGroupGrid)
+                                                    }
+                                                }
+                                                NetstarComponent.dialogComponent.init(
+                                                    addsamplingGroupDialog);
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+                                        }
+
+                                    },
+                                    {
+                                        text: "移除取样信息组",
+                                        handler: function () {
+                                            var detailCheckedData = NetStarGrid.getCheckedData(
+                                                'netstar-lims-pricemanage-property-grid');
+                                            if (detailCheckedData.length != 0) {
+                                                var ids = '';
+                                                for (var i = 0; i < detailCheckedData
+                                                    .length; i++) {
+                                                    ids += detailCheckedData[i].id + ',';
+                                                }
+                                                ids = ids.substring(0, ids.length - 1);
+                                                var ajaxConfig = {
+                                                    url: getRootPath() +
+                                                        '/testPrices/leaveSampling',
+                                                    type: 'GET',
+                                                    data: {
+                                                        ids: ids
+                                                    },
+                                                    contentType: 'application/x-www-form-urlencoded',
+                                                }
+                                                NetStarUtils.ajax(ajaxConfig, function (res,
+                                                    _ajaxConfig) {
+                                                    if (res.success) {
+                                                        nsAlert('移除成功');
+                                                        propertyGrid.refresh(
+                                                    function () {
+                                                            priceGrid.refresh();
+                                                        });
+                                                    }
+                                                })
+                                            } else {
+                                                nsalert('未勾选', 'error')
+                                            }
+
+                                        }
+
+                                    }
+                                ]
+                            },
+                            {
+                                text: "复制参数价格",
+                                handler: function () {
+                                    var checkedData = NetStarGrid.getCheckedData(
+                                        'netstar-lims-pricemanage-property-grid');
+                                    if (checkedData.length !== 0) {
+                                        var ajaxData = {
+                                            id: checkedData[0].id,
+                                            sampleCateId: checkedData[0].sampleCateId,
+                                            stdId: checkedData[0].stdId,
+                                            testItemId: checkedData[0].testItemId,
+                                            testMethodId: checkedData[0].testMethodId
+                                        }
+                                        var ajaxConfig = {
+                                            url: getRootPath() + '/testPrices/pastParamPrice',
+                                            type: "POST",
+                                            // dataSrc: "",
+                                            data: ajaxData
+                                        }
+
+                                        NetStarUtils.ajax(ajaxConfig, function (res, _ajaxConfig) {
+                                            nsAlert('复制成功')
+                                            propertyGrid.refresh(function () {
+                                                LimsPriceManager.propertyGrid
+                                                    .refresh(function () {
+                                                        LimsPriceManager
+                                                            .priceGrid.refresh()
+                                                    })
+
+                                            })
+                                        })
+                                    } else {
+                                        nsAlert('没有选中的数据', 'error')
+
+                                    }
+                                }
+                            },
+                            {
+                                text: "操作",
+                                dropdownType: "memoryDropdown",
+                                subdata: [{
+                                        text: "复制",
+                                        handler: function () {
+                                            var mainListSelectedData = NetstarBlockList
+                                                .getSelectedData(
+                                                    'mainlist-component-standard-1');
+                                            if ($.isArray(mainListSelectedData)) {
+                                                if (mainListSelectedData.length == 1) {
+                                                    var checkedData = NetStarGrid
+                                                        .getCheckedData(
+                                                            'netstar-lims-pricemanage-property-grid'
+                                                        );
+                                                    var selectedData = NetStarGrid
+                                                        .getSelectedData(
+                                                            'netstar-lims-pricemanage-property-grid'
+                                                        );
+                                                    if ($.isArray(checkedData)) {
+                                                        if (checkedData.length > 0) {
+                                                            copyListArr = checkedData;
+                                                            nsalert('复制成功', 'success');
+                                                        }
+                                                    }
+                                                } else {
+                                                    nsalert('没有要复制的项目', 'warning');
+                                                }
+                                            } else {
+                                                nsalert('没有要复制的项目', 'warning');
+                                            }
+                                            //store.set('cache-netstar-lims-pricemanage-property-grid',checkedData);//记录到缓存中
+                                        }
+
+                                    },
+                                    {
+                                        text: "粘贴",
+                                        handler: function () {
+                                            var ztreeObj = $.fn.zTree.getZTreeObj(
+                                                'netstar-lims-pricemanage-tree-tree'); //获取树配置
+                                            // var checkedData = store.get('cache-netstar-lims-pricemanage-property-grid');
+                                            if ($.isArray(copyListArr)) {
+                                                var selectNodes = ztreeObj.getSelectedNodes();
+                                                if (copyListArr.length > 0 && selectNodes
+                                                    .length == 1) {
+                                                    var mainListSelectedData = NetstarBlockList
+                                                        .getSelectedData(
+                                                            'mainlist-component-standard-1');
+                                                    if ($.isArray(mainListSelectedData)) {
+                                                        if (mainListSelectedData.length == 1) {
+                                                            var treeConfig = NetstarTemplate
+                                                                .tree
+                                                                .configsById[
+                                                                    'netstar-lims-pricemanage-tree'
+                                                                ];
+                                                            var parentNodes = ztreeObj
+                                                                .getNodeByParam('id',
+                                                                    selectNodes[0][treeConfig
+                                                                        .idField
+                                                                    ], null
+                                                                );
+                                                            var idsArr = [];
+                                                            for (var c = 0; c < copyListArr
+                                                                .length; c++) {
+                                                                idsArr.push(copyListArr[c].id);
+                                                            }
+                                                            var ajaxConfig = {
+                                                                url: getRootPath() +
+                                                                    '/testPrices/pastTestPriceList',
+                                                                type: 'post',
+                                                                contentType: 'application/x-www-form-urlencoded',
+                                                                data: {
+                                                                    sampleCateId: selectNodes[
+                                                                        0][
+                                                                        treeConfig
+                                                                        .idField
+                                                                    ],
+                                                                    stdId: mainListSelectedData[
+                                                                            0]
+                                                                        .stdId,
+                                                                    ids: idsArr.join(','),
+                                                                }
+                                                            };
+                                                            NetStarUtils.ajax(ajaxConfig,
+                                                                function (res) {
+                                                                    if (res.success) {
+                                                                        nsalert('粘贴成功',
+                                                                            'success');
+                                                                        // NetStarGrid.refreshById(
+                                                                        //     'netstar-lims-pricemanage-property-grid'
+                                                                        // );
+                                                                        propertyGrid
+                                                                            .refresh(
+                                                                                function () {
+                                                                                    priceGrid
+                                                                                        .refresh()
+                                                                                })
+                                                                    }
+                                                                }, true)
+                                                        } else {
+                                                            nsalert('请选择要粘贴的主项目', 'warning');
+                                                        }
+                                                    } else {
+                                                        nsalert('请选择要粘贴的主项目', 'warning');
+                                                    }
+                                                    // ztreeObj.addNodes(parentNodes,copyListArr);
+                                                }
+                                            }
+                                            //store.set('cache-netstar-lims-pricemanage-property-grid',[]);//
+                                        }
+
+                                    }
+                                ]
+                            },
+
+                        ]
+                    },
+                    btnsAddGdp: {
+                        title: '检测方法',
+                        keyField: 'GoodsPlatformVo',
+                        idField: 'id',
+                        type: 'list',
+                        data: {
+                            tableID: "data-addGdp-list",
+                            idField: "id",
+                            dataSourc: []
+                        },
+                        ui: {
+                            parentField: "parentId",
+                            selectMode: "single",
+                            height: 400,
+                            selectedHandler: function (data) {}
+                        },
+                        columns: [{
+                                field: "stdId",
+                                width: 200,
+                                editConfig: {
+                                    type: 'text ',
+                                },
+                                hidden: true
+                            },
+                            {
+                                field: "id",
+                                width: 200,
+                                editConfig: {
+                                    type: 'hidden',
+                                },
+                                hidden: true
+                            },
+                            {
+                                field: "sampleCateId",
+                                width: 200,
+                                editConfig: {
+                                    type: 'hidden',
+                                },
+                                hidden: true
+                            },
+                            {
+                                field: "gdpGroupName",
+                                title: "产值组名称",
+                                width: 200,
+                                columType: 'text',
+                                editConfig: {
+                                    type: 'text',
+                                }
+                            }
+                        ],
+                        hide: [
+                            "stdId", "id", "sampleCateId"
+                        ]
+                    }
+                }
+                //树
+                var classTree = {
+                    id: '',
+                    selected: function (id) {
+                        var _this = this;
+                        _this.id = id;
+                        // methodList.refresh();
+                        /*刷新块状表格与两个list */
+                        methodList.refresh(function (resRows) {
+                            console.log('jj', resRows);
+                            propertyGrid.refresh(function () {
+                                priceGrid.refresh();
+                            });
+                        });
+                    },
+                    //树的初始化
+                    init: function () {
+                        NetstarTemplate.tree.init(configs.classTree);
+                    },
+                    //树选中值得id
+                    getId: function () {
+                        return this.id;
+                    }
+                }
+                //块状表格
+                var methodList = {
+                    id: '',
+                    containerId: '',
+                    selected: function (id) {
+                        var _this = this;
+                        _this.id = id;
+                        propertyGrid.refresh(function () {
+                            priceGrid.refresh();
+                        });
+                    },
+                    //块状表格初始化
+                    init: function () {
+                        this.containerId = configs.methodBlock.id;
+                        NetstarBlockList.init(configs.methodBlock);
+                    },
+                    // refreshById:function(classId){
+                    //     NetStarGrid.refreshById(this.containerId , {
+                    //         sampleCateId: classId
+                    //     });
+                    // },
+                    //刷新
+                    refresh: function (cb) {
+                        var url = getRootPath() + '/sampleCateStd/getList.json';
+                        var _this = this;
+                        var ajaxConfig = {
+                            url: url,
+                            type: 'POST',
+                            data: {
+                                sampleCateId: classTree.id
+                            },
+                            contentType: 'application/json; charset=utf-8',
+                            dataSrc: "rows"
+                        }
+                        NetStarUtils.ajax(ajaxConfig, function (res) {
+                            _this.rows = res.rows;
+
+                            NetstarBlockList.refreshDataById(_this.containerId, res.rows);
+                            //延迟执行
+                            setTimeout(function () {
+                                if (typeof (cb) == 'function') {
+                                    cb(res.rows)
+                                }
+                            }, 200)
+                        })
+                    },
+                    //
+                    getId: function () {
+                        var selected = NetstarBlockList.getSelectedData(this.containerId);
+                        var id = false;
+                        if (selected && selected.length == 1) {
+                            id = selected[0].stdId;
+                        }
+                        return id;
+                    }
+                }
+                var propertyGrid = {
+                    id: '',
+                    containerId: '',
+                    selected: function (id) {
+                        var _this = this;
+                        _this.id = id;
+                        priceGrid.refresh();
+                    },
+                    init: function () {
+                        this.containerId = configs.propertyGrid.data.tableID;
+                        NetStarGrid.init(configs.propertyGrid);
+                    },
+
+                    refresh: function (cb) {
+                        // 如果块状表格有数据，拿树id更块状表格Id刷新表格，如果没有数据，拿树Id刷新表格
+                        var ajaxData = {};
+                        ajaxData.sampleCateId = classTree.getId();
+                        var stdId = methodList.getId();
+                        var _this = this;
+                        if (stdId) {
+                            ajaxData.stdId = stdId
+                        }
+                        var ajaxConfig = {
+                            src: getRootPath() + 'testPrices/getList',
+                            type: 'POST',
+                            data: ajaxData,
+                            dataSrc: 'rows',
+                            // contentType: 'application/x-www-form-urlencoded'
+                        }
+                        NetStarUtils.ajax(ajaxConfig, function (res) {
+                            _this.rows = res.rows;
+                            NetStarGrid.refreshDataById(_this.containerId, res.rows);
+                            setTimeout(function () {
+                                if (typeof (cb) == 'function') {
+                                    cb(res.rows)
+                                }
+                            }, 200)
+
+                        })
+
+                    },
+                    getId: function (id) {
+                        var _this = this
+                        var selectproId = NetStarGrid.getSelectedData(_this.containerId);
+                        var id = false
+                        if (selectproId.length == 1) {
+                            id = selectproId[0].id;
+                        }
+                        return id;
+                    }
+                }
+                var priceGrid = {
+                    id: '',
+                    containerId: "",
+                    selected: function (id) {
+                        var _this = this;
+                        _this.id = id
+                    },
+                    init: function () {
+                        NetStarGrid.init(configs.priceGrid);
+                        this.containerId = configs.priceGrid.data.tableID
+                    },
+                    refresh: function (cb) {
+                        var _this = this;
+                        var ajaxData = {}
+                        var testPriceId = propertyGrid.getId();
+
+                        if (testPriceId == false) {
+                            NetStarGrid.refreshDataById(_this.containerId, []);
+                            if (typeof (cb) == 'function') {
+                                cb(res.rows)
+                            }
+                            return;
+                        } else {
+                            ajaxData.testPriceId = testPriceId
+                        }
+
+                        var url = getRootPath() + '/priceDetails/getList';
+                        var ajaxConfig = {
+                            url: url,
+                            type: 'POST',
+                            data: ajaxData,
+                            contentType: 'application/json; charset=utf-8',
+                            dataSrc: "rows"
+                        }
+                        NetStarUtils.ajax(ajaxConfig, function (res) {
+
+                            _this.rows = res.rows;
+                            NetStarGrid.refreshDataById(_this.containerId, res.rows);
+                            if (typeof (cb) == 'function') {
+                                cb(res.rows)
+                            }
+                        })
+                    },
+                }
+                var groupBtns = {
+                    init: function () {
+                        vueButtonComponent.init(configs.groupBtns);
+                    },
+
+
+                }
+
+                function init() {
+                    classTree.init();
+                    methodList.init();
+                    propertyGrid.init();
+                    groupBtns.init();
+                    priceGrid.init();
+                }
+
+                function dialogTemplateByUrl(url, editorType) {
+                    debugger;
+                    if (editorType == 'edit') {
+                        var tempValueName = new Date().getTime();
+                        NetstarTempValues[tempValueName] = {
+                            id: '3333'
+                        };
+                        var urlStr = encodeURIComponent(encodeURIComponent(tempValueName));
+                        url = url + '?templateparam=' + urlStr;
+                    }
+                    var ajaxConfig = {
+                        pageIidenti: url,
+                        url: url,
+                        type: 'GET',
+                        dataType: 'html',
+                        callBackFunc: function (isSuccess, data, _ajaxConfig) {
+                            if (isSuccess) {
+                                if (editorType == 'ids') {
+                                    var detailCheckedData = NetStarGrid.getCheckedData(
+                                        'netstar-lims-pricemanage-property-grid');
+                                    var ids = '';
+                                    for (var i = 0; i < detailCheckedData.length; i++) {
+                                        ids += detailCheckedData[i].id + ',';
+                                    }
+                                    ids = ids.substring(0, ids.length - 1);
+                                }
+                                // var indexOf=function(){}
+                                var funcStr = 'limsTemplatePrice.showTemplateByPageData(pageConfig,"' +
+                                    editorType + '","' + ids + '")';
+                                var starStr = '<container>';
+                                var containerPage = data.substring(data.indexOf(starStr) + starStr
+                                    .length,
+                                    data.indexOf('</container>'));
+                                var exp = /NetstarTemplate\.init\((.*?)\)/;
+                                var funcStrRep = funcStr.replace('pageConfig', containerPage.match(exp)[
+                                    1]);
+                                containerPage = containerPage.replace(containerPage.match(exp)[0],
+                                    funcStrRep);
+                                var $container = nsPublic.getAppendContainer();
+                                $container.append(containerPage);
+                            }
+
+                        }
+                    };
+                    // $.ajax(ajaxConfig);
+                    pageProperty.getAndCachePage(ajaxConfig);
+                }
+
+                init();
+                return {
+                    init: init,
+                    priceGrid: priceGrid,
+                    propertyGrid: propertyGrid,
+                    methodList: methodList
+                }
+            })()
+        </script>
+</container>

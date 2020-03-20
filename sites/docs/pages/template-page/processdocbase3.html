@@ -1,0 +1,592 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <script>
+             var nsPublic = nsPublic ? nsPublic : {};
+            nsPublic.getAppendContainer = function () {
+                var insertLocation = $('container:not(.hidden)').not('.content');
+                if ($('.nswindow .content').length > 0) {
+                    insertLocation = $('.nswindow .content:last');
+                }
+                return insertLocation;
+            }
+        var processDocBase = 
+                {
+                package: "nscloud.writeoffadd",
+                template: "processDocBase",
+                title: "表单表格模板",
+                readonly: false,
+                isShowTitle: true,
+                isFormHidden: true,//????
+                versionNumber: "1",//??????
+                draftBox: {//草稿箱
+                    isUse: false,
+                    isUseSave: true
+                },
+                components: [
+                    {
+                        type: "vo",
+                        voId: "1310605223441473522",
+                        idField: "id",
+                        parent: "root",//???
+                        field: [
+                            {
+                                variableType: "date",///？？？？？
+                                id: "whenCreated",
+                                label: "创建日期",
+                                type: "date",
+                                field: "whenCreated",
+                                title: "创建日期",
+                                mindjetIndexState: 0,//??
+                                ///???
+                            },
+                            {
+                                id: "code",
+                                variableType: "string",
+                                mindjetType: "text",//??
+                                isSet: "是",
+                                displayType: "all",//???
+                                className: "java.lang.String",///???
+                                type: "text",
+                                label: "单号",
+                                rules: "",
+                                disabled: true,
+                                hidden: false,
+                                isDistinct: false,//???/
+                                mindjetIndexState: 1,
+                                
+                            },
+                            {
+                                variableType: "string",
+                                id: "id",
+                                label: "id",
+                                type: "text",
+                                field: "id",
+                                title: "id",
+                                mindjetIndexState: 2,
+                                
+                            },
+                            {
+                                id: "tgtObjectId",
+                                variableType: "string",
+                                mindjetType: "select",
+                                isSet: "是",
+                                displayType: "all",
+                                className: "java.lang.Long",
+                                type: "select",
+                                label: "客户",
+                                rules: "",
+                                textField: "customerName",
+                                valueField: "customerId",
+                                isObjectValue: false,//????
+                                method: "POST",
+                                dataSrc: "rows",
+                                data: "",
+                                contentType: "",
+                                suffix: "/customer/getList",//????
+                                url: "http://10.10.1.234:30000//customer/getList",
+                                mindjetIndexState: 3,
+                                
+                            },
+                            {
+                                variableType: "string",
+                                id: "tgtObjectName",
+                                label: "目标对象名称",
+                                type: "text",
+                                field: "tgtObjectName",
+                                title: "目标对象名称",
+                                mindjetIndexState: 4,
+                                
+                            },
+                            {
+                                id: "type",
+                                variableType: "number",
+                                mindjetType: "select",
+                                isSet: "是",
+                                displayType: "all",
+                                className: "java.lang.Integer",
+                                type: "select",
+                                label: "核销类型",
+                                rules: "",
+                                subdata: [
+                                    {
+                                        isDisabled: false,
+                                        selected: true,
+                                        value: "预收冲应收",
+                                        id: "1"
+                                    }
+                                ],
+                                textField: "value",
+                                valueField: "id",
+                                disabled: true,
+                                hidden: false,
+                                isDistinct: false,
+                                mindjetIndexState: 5,
+                                
+                            }
+                        ],
+                        stateClass: "more",
+                        position: "header-right",
+                        keyField: "root",
+                    },
+                    {
+                        type: "list",
+                        idField: "id",
+                        keyField: "writeOffSourceDetailVOList",
+                        field: [
+                            {
+                                className: "java.lang.Long",
+                                variableType: "string",
+                                chineseName: "源单id",
+                                id: "sourceId",
+                                label: "源单id",
+                                type: "text",
+                                field: "sourceId",
+                                title: "源单id",
+                                editConfig: {
+                                    type: "text",
+                                    formSource: "table",
+                                    templateName: "PC",
+                                    variableType: "string"
+                                },
+                                mindjetIndexState: 0,
+                                width: 200
+                            },
+                            {
+                                field: "sourceCode",
+                                title: "收款单号",   
+                                isSet: "是",
+                                displayType: "all",
+                                editConfig: {
+                                    id: "sourceCode",    
+                                    displayType: "all",              
+                                    type: "business",
+                                    label: "收款单号",
+                                    dialogTitle: "应收款查询",
+                                    selectMode: "checkbox",
+                                    idField: "id",
+                                    textField: "code",
+                                    isOutputString: false,
+                                    selectedKey: "aprVOList",
+                                    disabled: false,
+                                    hidden: false,
+                                    isDistinct: false,
+                                    source: {
+                                        type: "GET",
+                                        suffix:" /templateMindPages/pageConfig/1311233077866922994",
+                                        url: "http://10.10.1.234:30000//templateMindPages/pageConfig/1311233077866922994"
+                                    },
+                                    search: {
+                                        type: "POST",
+                                        dataSrc: "rows",
+                                        suffix: "/actualReceivable/getList",
+                                        url: "http://10.10.1.234:30000//actualReceivable/getList"
+                                    },
+                                    getRowData: {
+                                        type: "POST",
+                                        dataSrc: "rows",
+                                        suffix: "/writeOff/transferSourceDetailFromAPr",
+                                        url: "http://10.10.1.234:30000//writeOff/transferSourceDetailFromAPr"
+                                    }
+                                },
+                                editable: true,
+                                hidden: false,
+                                orderable: true,//?????是否允许列排序
+                                searchable: false,//???是否允许列搜索
+                                tooltip: false,//提示信息
+                                isDefaultSubdataText: true,//???
+                                mindjetIndexState: 1,
+                                width: 200
+                            },
+                            {
+                                variableType: "number",
+                                id: "sourceType",
+                                label: "源单类型",
+                                type: "text",
+                                field: "sourceType",
+                                title: "源单类型",
+                                editConfig: {
+                                    type: "number",
+                                    formSource: "table",
+                                    templateName: "PC",
+                                },
+                                mindjetIndexState: 2,
+                                width: 200
+                            },
+                            {
+                                field: "sourceAmount",
+                                title: "单据金额",
+                              
+                                footer: {
+                                    type: "sum"
+                                },
+                                editConfig: {
+                                    id: "sourceAmount",
+                                  
+                                    type: "number",
+                                    label: "单据金额"
+                                },
+                                formatHandler: {
+                                    type: "money",
+                                    data: {
+                                        format: {
+                                            places: "2",
+                                            symbol: "￥",
+                                            thousand: ",",
+                                            decimal: "."
+                                        }
+                                    }
+                                },
+                                columnType: "money",
+                                mindjetIndexState: 3,
+                                width: 200
+                            },
+                            {
+                                field: "sourceSettledAmount",
+                                title: "已核销金额",
+                                footer: {
+                                    type: "sum"
+                                },
+                                editConfig: {
+                                    id: "sourceSettledAmount",
+                                    type: "number",
+                                    label: "已核销金额"
+                                },
+                                formatHandler: {
+                                    type: "money",
+                                    data: {
+                                        format: {
+                                            places: "2",
+                                            symbol: "￥",
+                                            thousand: ",",
+                                            decimal: "."
+                                        }
+                                    }
+                                },
+                                columnType: "money",
+                                mindjetIndexState: 4,
+                                width: 200
+                            },
+                            {
+                                field: "sourceBalance",
+                                title: "未核销金额",
+                                footer: {
+                                    type: "sum"
+                                },
+                                editConfig: {
+                                    id: "sourceBalance",
+                                    type: "number",
+                                    label: "未核销金额",
+                                    disabled: false,
+                                    hidden: false,
+                                    isDistinct: false
+                                },
+                                editable: false,
+                                hidden: false,
+                                orderable: true,
+                                searchable: false,
+                                tooltip: false,
+                                isDefaultSubdataText: true,
+                                formatHandler: {
+                                    type: "money",
+                                    data: {
+                                        format: {
+                                            places: "2",
+                                            symbol: "￥",
+                                            thousand: ",",
+                                            decimal: "."
+                                        }
+                                    }
+                                },
+                                columnType: "money",
+                                mindjetIndexState: 5,
+                                width: 200
+                            },
+                            {
+                                field: "amount",
+                                title: "本次核销金额",
+                                footer: {
+                                    type: "sum"
+                                },
+                                editConfig: {
+                                    id: "amount",
+                                    type: "number",
+                                    label: "本次核销金额",
+                                    disabled: false,
+                                    hidden: false,
+                                    isDistinct: false
+                                },
+                                editable: true,
+                                hidden: false,
+                                orderable: true,
+                                searchable: false,
+                                tooltip: false,
+                                isDefaultSubdataText: true,
+                                formatHandler: {
+                                    type: "money",
+                                    data: {
+                                        format: {
+                                            places: "2",
+                                            symbol: "￥",
+                                            thousand: ",",
+                                            decimal: "."
+                                        }
+                                    }
+                                },
+                                mindjetIndexState: 6,
+                                width: 200
+                            },
+                        ],
+                        position: "body",
+                    },
+                    {
+                        type: "list",
+                        idField: "id",
+                        keyField: "writeOffTargetDetailVOList",
+                        field: [
+                            {
+                                id: "sourceId",
+                                label: "源单id",
+                                type: "text",
+                                field: "sourceId",
+                                title: "源单id",
+                                editConfig: {
+                                    type: "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                mindjetIndexState: 0,
+                                width: 200
+                            },
+                            {
+                                field: "sourceCode",
+                                title: "应收单号",
+                                editConfig: {
+                                    id: "sourceCode",
+                                    type: "business",
+                                    label: "应收单号",
+                                    dialogTitle: "应收单查询",
+                                    selectMode: "checkbox",
+                                    idField: "bllCode",
+                                    textField: "id",
+                                    isOutputString: false,
+                                    selectedKey: "prVOList",
+                                    disabled: false,
+                                    hidden: false,
+                                    isDistinct: false,
+                                    source: {
+                                        type: "GET",
+                                        url: "http://10.10.1.234:30000//templateMindPages/pageConfig/1310853656161027058"
+                                    },
+                                    search: {
+                                        type: "POST",
+                                        dataSrc: "rows",
+                                        url: "http://10.10.1.234:30000//receivable/getList"
+                                    },
+                                    getRowData: {
+                                        type: "POST",
+                                        dataSrc: "rows",
+                                        url: "http://10.10.1.234:30000//writeOff/transferTargetDetailFromPr"
+                                    }
+                                },
+                                editable: true,
+                                hidden: false,
+                                orderable: true,
+                                searchable: false,
+                                tooltip: false,
+                                isDefaultSubdataText: true,
+                                mindjetIndexState: 1,
+                                width: 200
+                            },
+                            {
+                                id: "sourceType",
+                                label: "源单类型",
+                                type: "text",
+                                field: "sourceType",
+                                title: "源单类型",
+                                editConfig: {
+                                    type: "number",
+                                    formSource: "table",
+                                    templateName: "PC",
+                                    variableType: "number"
+                                },
+                                mindjetIndexState: 2,
+                                width: 200
+                            },
+                            {
+                                field: "sourceAmount",
+                                title: "金额",
+                                editConfig: {
+                                    id: "sourceAmount",
+                                    type: "text",
+                                    label: "金额",
+                                    disabled: false,
+                                    hidden: false,
+                                    isDistinct: false
+                                },
+                                editable: true,
+                                hidden: false,
+                                orderable: true,
+                                searchable: false,
+                                tooltip: false,
+                                isDefaultSubdataText: true,
+                                mindjetIndexState: 3,
+                                width: 200
+                            },
+                            {
+                                field: "sourceSettledAmount",
+                                title: "已核销金额",
+                                footer: {
+                                    type: "sum"
+                                },
+                                editConfig: {
+                                    id: "sourceSettledAmount",
+                                    type: "number",
+                                    label: "已核销金额",
+                                    disabled: false,
+                                    hidden: false,
+                                    isDistinct: false
+                                },
+                                editable: false,
+                                hidden: false,
+                                orderable: true,
+                                searchable: false,
+                                tooltip: false,
+                                isDefaultSubdataText: true,
+                                formatHandler: {
+                                    type: "money",
+                                    data: {
+                                        format: {
+                                            places: "2",
+                                            symbol: "￥",
+                                            thousand: ",",
+                                            decimal: "."
+                                        }
+                                    }
+                                },
+                                columnType: "money",
+                                mindjetIndexState: 4,
+                                width: 200
+                            },
+                            {
+                                field: "sourceBalance",
+                                title: "未核销金额",
+                                footer: {
+                                    type: "sum"
+                                },
+                                editConfig: {
+                                    id: "sourceBalance",
+                                    type: "number",
+                                    label: "未核销金额",
+                                    disabled: false,
+                                    hidden: false,
+                                    isDistinct: false
+                                },
+                                editable: false,
+                                hidden: false,
+                                orderable: true,
+                                searchable: false,
+                                tooltip: false,
+                                isDefaultSubdataText: true,
+                                formatHandler: {
+                                    type: "money",
+                                    data: {
+                                        format: {
+                                            places: "2",
+                                            symbol: "￥",
+                                            thousand: ",",
+                                            decimal: "."
+                                        }
+                                    }
+                                },
+                                columnType: "money",
+                                mindjetIndexState: 5,
+                                width: 200
+                            },
+                            {
+                                field: "amount",
+                                title: "本次核销金额",
+                                footer: {
+                                    type: "sum"
+                                },
+                                editConfig: {
+                                    id: "amount",
+                                    type: "number",
+                                    label: "本次核销金额",
+                                    disabled: false,
+                                    hidden: false,
+                                    isDistinct: false
+                                },
+                                editable: true,
+                                hidden: false,
+                                orderable: true,
+                                searchable: false,
+                                tooltip: false,
+                                isDefaultSubdataText: true,
+                                formatHandler: {
+                                    type: "money",
+                                    data: {
+                                        format: {
+                                            places: "2",
+                                            symbol: "￥",
+                                            thousand: ",",
+                                            decimal: "."
+                                        }
+                                    }
+                                },
+                                columnType: "money",
+                                mindjetIndexState: 6,
+                                width: 200
+                            },
+                            {
+                                field: "id",
+                                title: "id",
+                                editConfig: {
+                                    id: "id",
+                                    type: "hidden",
+                                    label: "id"
+                                },
+                                mindjetIndexState: 7,
+                                width: 200
+                            }
+                        ],
+                        position: "body",  
+                    },
+                    {
+                        type: "btns",
+                        field: [
+                            {
+                                functionConfig: {
+                                    contentType: "application/json",
+                                    dataFormat: "object",
+                                    dataSrc: "data",
+                                    defaultMode: "confirm",
+                                    functionClass: "modal",
+                                    suffix: "/writeOff/save",
+                                    text: "保存",
+                                    title: "保存",
+                                    type: "POST",
+                                    entityName: "writeOff",//????
+                                    isCloseWindow: true,
+                                    isInlineBtn: false,
+                                    successOperate: "refresh",
+                                    matrixVariable: "?params=WRITE_OFF",//????
+                                    isSendPageParams: true,
+                                    isMobileInlineBtn: true,
+                                    isKeepSelected: false,
+                                    dataType: "json",
+                                    defaultData: {},
+                                    url: "http://10.10.1.234:30000//writeOff/save"
+                                },
+                                btn: {
+                                    text: "保存",
+                                    isReturn: true
+                                }
+                            }
+                        ]
+                    }
+                ],
+            }
+NetstarTemplate.init(processDocBase);
+    </script>
+</container>

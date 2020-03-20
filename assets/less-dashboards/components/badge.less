@@ -1,0 +1,124 @@
+@badge-color: #333;
+@badge-bg: rgba(0,0,0, .15);
+@badge-border-color: transparent;
+
+// badge-primary
+@badge-primary-color: #fff;
+@badge-primary-bg: lighten(@primary,15);
+@badge-primary-border-color: transparent;
+
+// badge-info
+@badge-info-color: #fff;
+@badge-info-bg: lighten(@info,15);
+@badge-info-border-color:  transparent;
+
+// badge-success
+@badge-success-color: #fff;
+@badge-success-bg: lighten(@success,15);
+@badge-success-border-color: transparent;
+
+// badge-warning
+@badge-warning-color: #fff;
+@badge-warning-bg: lighten(@warning,15);
+@badge-warning-border-color: transparent;
+
+
+// badge-danger
+@badge-danger-color: #fff;
+@badge-danger-bg: lighten(@danger,15);
+@badge-danger-border-color:  transparent;
+
+@badge-dot-size: 1.2rem;
+@badge-font-size: @font-size-base;
+
+
+.badge-variant(@color, @bg, @border-color,) {
+    color: @color;
+    background: @bg;
+    border: 1px solid @border-color;
+    
+}
+
+.badge {
+    .flex-block(center,center);
+    flex: none;
+    position: relative;
+    text-align: center;
+    padding: 0 .5rem;
+    box-sizing: content-box;
+    min-width: 2rem;
+    min-height: 1rem;
+    // line-height: 2rem;
+    background: #eee;
+    border-radius: 100rem;
+    span{
+        font-size: @badge-font-size;
+    }
+   
+
+    // badge-normal
+    &.badge-default {
+        .badge-variant(@badge-color, @badge-bg, @badge-border-color);
+    }
+
+    // badge-primary
+    &.badge-primary {
+        .badge-variant(@badge-primary-color, @badge-primary-bg, @badge-primary-border-color);
+    }
+
+    // badge-info
+    &.badge-info {
+        .badge-variant(@badge-info-color, @badge-info-bg, @badge-info-border-color);
+    }
+
+    // badge-success
+    &.badge-success {
+        .badge-variant(@badge-success-color, @badge-success-bg, @badge-success-border-color);
+    }
+
+    // badge-warning
+    &.badge-warning {
+        .badge-variant(@badge-warning-color, @badge-warning-bg, @badge-warning-border-color);
+    }
+
+    // badge-danger
+    &.badge-danger {
+        .badge-variant(@badge-danger-color, @badge-danger-bg, @badge-danger-border-color);
+    }
+
+    &.badge-lg {
+        min-width: 3rem;
+        &:before {
+            // .size(3rem, 1.5rem);
+            min-height: 1.5rem;
+
+        }
+    }
+
+    &.badge-dot {
+        &:before {
+            .square(@badge-dot-size);
+            flex: 0 0 @badge-dot-size;
+            border-radius: 100rem;
+        }
+    }
+
+    // 关闭状态
+    &.badge-off{
+        opacity: 0.65;
+        -webkit-filter: grayscale(80%);
+        
+        &:before{
+            box-shadow: 0 0 5px rgba(25, 190, 255, .5);
+        }
+    }
+}
+
+.state {
+    .flex-block(space-between, center);
+    align-content: center;
+
+    &.text-around {
+        .text-around;
+    }
+}

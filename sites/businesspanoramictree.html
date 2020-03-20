@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="description" content="网星云服务" />
+	<meta name="author" content="netstar" />
+	<link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+	<link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+	<title>业务对象全景模板 businessbasePanoramic</title>
+
+	<script type="text/javascript">
+		var language = 'cn';
+		mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+	</script>
+	<!--# include file="/sites/include/login-static-dev.html" -->
+	<!--# include file="/sites/include/preload-static-dev.html" -->
+	<!--# include file="/sites/include/mainpage-static-dev.html" -->
+	<!--# include file="/sites/include/lazy-static-dev.html" -->
+	<style>
+	</style>
+</head>
+<style>
+  
+</style>
+
+    <container>
+        
+        
+        <script type="text/javascript">
+            var localhoseUrl = 'http://ui-pc:2000';
+            var businessbasePanoramicJson = {
+				package:'nsVue.graps.businessbasePanoramic',
+				template:'businessbasePanoramic',
+				title:'businessbasePanoramic',
+				mode:'treegrid',
+				components:[
+					{
+						type:'tree',
+						title:'treelist',
+						idField:'id',
+						isSearch:  true,
+						ajax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree4.json',
+							dataSrc:'rows',
+							type:'GET',
+							contentType:'application/x-www-form-urlencoded',
+							// data:   {parentId:0},
+						},
+						addAjax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree-add.json',
+							dataSrc : 'rows',
+						},
+						editAjax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree-add.json',
+							dataSrc : 'rows',
+						},
+						deleteAjax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree-add.json',
+							dataSrc : 'rows',
+						},
+						moveAjax : {
+							url : localhoseUrl + '/assets/json/ztree/ztree-add.json',
+							dataSrc : 'rows',
+						},
+						textField:              'name',
+						parentField:               'parent',
+						childField:          'children',
+					},{
+						type:'list',//list,vo,tab
+						keyField: 'root',
+						idField:'id',
+						ajax:{
+							src:localhoseUrl + '/assets/json/project-list.json',
+							type:'get',
+							data:{},
+							dataSrc:'row',
+							contentType:'application/x-www-form-urlencoded',
+						},
+						field:[
+							{
+								field: 'itemCode',
+								title: '订单编号',
+								width:80,
+								searchable:true,
+							},{
+								field: 'itemName',
+								title: '经手人',
+								width:60,
+								searchable:true,
+							},{
+								field: 'tableName',
+								title: '部门',
+								width:80,
+								searchable:true,
+							},{
+								field: 'isPrior',
+								title: '交货日期',
+								width:80,
+								searchable:true,
+							},{
+								field: 'isPricing',
+								title: '折前金额',
+								width:60
+							},{
+								field: 'isPricing',
+								title: '金额',
+								width:60,
+								footer:{
+									type:'sum'
+								}
+							}
+						],
+					},{
+						type:'list',//list,vo,tab
+						parent: 'root',
+						keyField:'goodsList',
+						idField:'id',
+						title:'货品明细',
+						ajax:{
+							src:localhoseUrl + '/assets/json/project-list.json',
+							type:'get',
+							data:{},
+							dataSrc:'row',
+							contentType:'application/x-www-form-urlencoded',
+						},
+						field:[
+							{
+								field: 'itemCode',
+								title: '订单编号',
+								width:80,
+								searchable:true,
+							},{
+								field: 'itemName',
+								title: '经手人',
+								width:60,
+								searchable:true,
+							},{
+								field: 'tableName',
+								title: '部门',
+								width:80,
+								searchable:true,
+							},{
+								field: 'isPrior',
+								title: '交货日期',
+								width:80,
+								searchable:true,
+							},{
+								field: 'isPricing',
+								title: '折前金额',
+								width:60
+							},{
+								field: 'isPricing',
+								title: '金额',
+								width:60,
+								footer:{
+									type:'sum'
+								}
+							}
+						],
+					},{
+						type:'list',//list,vo,tab
+						parent: 'root',
+						keyField:'shopGoodsList',
+						idField:'id',
+						title:'商品明细',
+						ajax:{
+							src:localhoseUrl + '/assets/json/project-list.json',
+							type:'get',
+							data:{},
+							dataSrc:'row',
+							contentType:'application/x-www-form-urlencoded',
+						},
+						field:[
+							{
+								field: 'itemCode',
+								title: '订单编号',
+								width:80,
+								searchable:true,
+							},{
+								field: 'itemName',
+								title: '经手人',
+								width:60,
+								searchable:true,
+							},{
+								field: 'tableName',
+								title: '部门',
+								width:80,
+								searchable:true,
+							},{
+								field: 'isPrior',
+								title: '交货日期',
+								width:80,
+								searchable:true,
+							},{
+								field: 'isPricing',
+								title: '折前金额',
+								width:60
+							},{
+								field: 'isPricing',
+								title: '金额',
+								width:60,
+								footer:{
+									type:'sum'
+								}
+							}
+						],
+					},{
+						type:'btns',
+						field:[
+							{
+								btn:{
+									text:'新增,复制新增,编辑',
+									handler:function(){}
+								},
+								functionConfig:{
+									defaultMode:'editorDialog',
+									editorType: "add,copyAdd,edit"
+								}
+							}
+						]
+					}
+				],
+			};
+			NetstarTemplate.init(businessbasePanoramicJson);
+        </script>
+    </container>
+</html>

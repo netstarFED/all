@@ -1,0 +1,224 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+
+<!-- 单据详情模板 -->
+<container>
+        <script type="text/javascript">
+                var nsPublic = nsPublic ? nsPublic : {};
+            nsPublic.getAppendContainer = function () {
+                var insertLocation = $('container:not(.hidden)').not('.content');
+                if ($('.nswindow .content').length > 0) {
+                    insertLocation = $('.nswindow .content:last');
+                }
+                return insertLocation;
+            }
+            $(function(){
+                //nsLayout.init("demos-layout-tree");
+                var componentsJson = {
+                    package:'nsVue.graps.order',
+                    template:'docListViewer',
+                    title:'进货订单管理',
+                    //getValueAjax:{},
+                    components:[
+                        {
+                            type:'vo',
+                            formStyle: "pt-form-normal",//自定义样式
+                            position: 'query-vo',//输出位置   //query-vo query-list 占位 是检索
+                            field:[
+                                {
+                                    id:'orderstate',
+                                    type:'select',
+                                    label:'审核状态：',
+                                    inputWidth: 100,
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    subdata:[
+                                        {
+                                            name:'未审核',
+                                            id:"01"
+                                        },{
+                                            name:'已审核',
+                                            id:"02"
+                                        }
+                                    ]
+                                },{
+                                    id:'businessNumber',
+                                    type:'text',
+                                    label:'业务编号',
+                                    inputWidth: 100,
+                                },{
+                                    id:'businesstype',
+                                    type:'select',
+                                    label:'业务类型',
+                                    inputWidth: 100,
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    subdata:[
+                                        {
+                                            name:'销售',
+                                            id:"01"
+                                        },{
+                                            name:'采购',
+                                            id:"02"
+                                        },{
+                                            name:'采购退货',
+                                            id:"03"
+                                        },{
+                                            name:'销售退货',
+                                            id:"04"
+                                        }
+                                    ]
+                                },{
+                                    id:'type',
+                                    type:'select',
+                                    label:'类型',
+                                    inputWidth: 100,
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    subdata:[
+                                        {
+                                            name:'出库',
+                                            id:"01"
+                                        },{
+                                            name:'入库',
+                                            id:"02"
+                                        }
+                                    ]
+                                },{
+                                    id:'order-type',
+                                    type:'select',
+                                    label:'订单类型',
+                                    inputWidth: 100,
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    subdata:[
+                                        {
+                                            name:'未审核',
+                                            id:"01"
+                                        },{
+                                            name:'已审核',
+                                            id:"02"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },{
+                            type:'list',//list,vo,tab
+                            parent: 'root',
+                            keyField:'orderList',
+                            idField:'id',
+                            ajax:{
+                                src:getRootPath() + '/docs/data/template/template.json',
+                                type:'GET',
+                                data:{},
+                                dataSrc:'rows',
+                                contentType: 'application/x-www-form-urlencoded',
+                            },
+                            field:[
+                                {
+                                    field: 'itemCode',
+                                    title: '订单编号',
+                                    width:80,
+                                    searchable:true,
+                                },{
+                                    field: 'itemName',
+                                    title: '经手人',
+                                    width:60,
+                                    searchable:true,
+                                },{
+                                    field: 'tableName',
+                                    title: '部门',
+                                    width:80,
+                                    searchable:true,
+                                },{
+                                    field: 'isPrior',
+                                    title: '交货日期',
+                                    width:80,
+                                    searchable:true,
+                                },{
+                                    field: 'isPricing',
+                                    title: '折前金额',
+                                    width:60
+                                },{
+                                    field: 'isPricing',
+                                    title: '金额',
+                                    width:60,
+                                    // footer:{
+                                    //     type:'sum'
+                                    // }//合计
+                                }
+        
+                            ],
+                        },{
+                            type:'btns',
+                            position:'text-right',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'退出',
+                                        handler:function(){}
+                                    },
+                                    functionConfig:{
+                                        englishName:"retreat",
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            type:'btns',
+                            position:'text-right',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'查询条件',
+                                        handler:function(){}
+                                    },
+                                    functionConfig:{
+                                        englishName:"querycriteria",
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            type:'btns',
+                            position:'text-right',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'修改 ',
+                                        handler:function(){}
+                                    },
+                                    functionConfig:{
+                                        englishName:"modify",
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            type:'btns',
+                            position:'text-right',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'付定金',
+                                        handler:function(){}
+                                    },
+                                    functionConfig:{
+                                        englishName:"paydeposit",
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                };
+                NetstarTemplate.init(componentsJson);
+            })
+
+            
+        </script>
+        <style>
+            .pt-grid-body .pt-grid-body-footer[nsgirdcontainer="grid-body-footertable"]{
+                position: relative;
+            }
+        </style>
+        
+</container>

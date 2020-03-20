@@ -1,0 +1,712 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <script>
+        var popupTree = {
+                "package": "nscloud.samplecatelist",
+                "template": "businessDataBase",
+                "readonly": false,
+                "isShowTitle": true,
+                "isFormHidden": false,
+                "versionNumber": "1",
+                "components": [
+                    {
+                        "type": "list",
+                        "field": [
+                            {
+                                "englishName": "id",
+                                "className": "java.lang.Long",
+                                "gid": "e51e8978-542b-0aff-e79c-a9a8b7afdaa0",
+                                "variableType": "string",
+                                "chineseName": "id",
+                                "isHaveChineseName": false,
+                                "id": "id",
+                                "label": "id",
+                                "type": "text",
+                                "field": "id",
+                                "title": "id",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 0,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "sampleCateName",
+                                "chineseName": "名称",
+                                "variableType": "string",
+                                "field": "sampleCateName",
+                                "title": "类别",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "ca03721d-1366-68c2-b7d6-899cc9f00a5a",
+                                "voName": "samplestdSampleCateVO",
+                                "editConfig": {
+                                    "id": "sampleCateName",
+                                    "englishName": "sampleCateName",
+                                    "chineseName": "名称",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "ca03721d-1366-68c2-b7d6-899cc9f00a5a",
+                                    "voName": "samplestdSampleCateVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "类别",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": false,
+                                "searchable": true,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "isTreeNode": true,
+                                "mindjetIndexState": 1,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "parentId",
+                                "chineseName": "父ID",
+                                "variableType": "string",
+                                "field": "parentId",
+                                "title": "父类别",
+                                "mindjetType": "treeSelect",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "714c3804-af12-d10f-e1f9-bf24a2c5b34b",
+                                "voName": "samplestdSampleCateVO",
+                                "editConfig": {
+                                    "id": "parentId",
+                                    "englishName": "parentId",
+                                    "chineseName": "父ID",
+                                    "variableType": "string",
+                                    "mindjetType": "treeSelect",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "714c3804-af12-d10f-e1f9-bf24a2c5b34b",
+                                    "voName": "samplestdSampleCateVO",
+                                    "className": "java.lang.Long",
+                                    "type": "treeSelect",
+                                    "label": "父类别",
+                                    "textField": "name",
+                                    "valueField": "id",
+                                    "children": "children",
+                                    "level": 1,
+                                    "isMultiple": false,
+                                    "isTurnTree": false,
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "disabled": false,
+                                    "width": "50%",
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "suffix": "/sampleCate/getSampleCateTreeList",
+                                    "url": "/docs/data/tree/getList.json",
+                                    "type": "GET",
+                                    "dataSrc": "rows",
+                                    "contentType": "application/x-www-form-urlencoded"
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "isTitle": false,
+                                "isValue": false,
+                                "isQuickQuery": false,
+                                "mindjetIndexState": 2,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "sampleCateCode",
+                                "className": "java.lang.String",
+                                "gid": "d35805cc-a920-75c5-8046-06544736a0af",
+                                "variableType": "string",
+                                "chineseName": "编号",
+                                "isHaveChineseName": true,
+                                "id": "sampleCateCode",
+                                "label": "编号",
+                                "type": "text",
+                                "field": "sampleCateCode",
+                                "title": "编号",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 3,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "disOrder",
+                                "chineseName": "显示顺序",
+                                "variableType": "string",
+                                "field": "disOrder",
+                                "title": "显示顺序",
+                                "mindjetType": "number",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "b0f659f8-92cc-bfcd-30ce-5407fb84fd91",
+                                "voName": "samplestdSampleCateVO",
+                                "editConfig": {
+                                    "id": "disOrder",
+                                    "englishName": "disOrder",
+                                    "chineseName": "显示顺序",
+                                    "variableType": "string",
+                                    "mindjetType": "number",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "b0f659f8-92cc-bfcd-30ce-5407fb84fd91",
+                                    "voName": "samplestdSampleCateVO",
+                                    "className": "java.lang.Long",
+                                    "type": "number",
+                                    "label": "显示顺序",
+                                    "decimalDigit": 0,
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": false,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 58,
+                                "formatHandler": {
+                                    "type": "number",
+                                    "data": {
+                                        "format": {
+                                            "places": "0",
+                                            "thousand": ","
+                                        }
+                                    }
+                                },
+                                "columnType": "number",
+                                "mindjetIndexState": 4
+                            },
+                            {
+                                "englishName": "description",
+                                "chineseName": "描述",
+                                "variableType": "string",
+                                "field": "description",
+                                "title": "样品描述",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "76491b66-f246-b6ed-3581-bd540cdcc704",
+                                "voName": "samplestdSampleCateVO",
+                                "editConfig": {
+                                    "id": "description",
+                                    "englishName": "description",
+                                    "chineseName": "描述",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "76491b66-f246-b6ed-3581-bd540cdcc704",
+                                    "voName": "samplestdSampleCateVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "样品描述",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": false,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 190,
+                                "mindjetIndexState": 5
+                            },
+                            {
+                                "englishName": "sampleCateLabels",
+                                "chineseName": "标签",
+                                "variableType": "string",
+                                "field": "sampleCateLabels",
+                                "title": "标签",
+                                "mindjetType": "dict",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "be59c960-8405-5a85-7be3-efe48ebd8bd7",
+                                "voName": "samplestdSampleCateVO",
+                                "dictArguments": "sampleCateLabels",
+                                "editConfig": {
+                                    "id": "sampleCateLabels",
+                                    "englishName": "sampleCateLabels",
+                                    "chineseName": "标签",
+                                    "variableType": "string",
+                                    "mindjetType": "dict",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "be59c960-8405-5a85-7be3-efe48ebd8bd7",
+                                    "voName": "samplestdSampleCateVO",
+                                    "className": "java.lang.String",
+                                    "type": "select",
+                                    "label": "标签",
+                                    "dictArguments": "sampleCateLabels",
+                                    "textField": "value",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "checkbox",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "subdata": [
+                                        {
+                                            "id": "0",
+                                            "value": "标签1",
+                                            "parentId": "-1"
+                                        },
+                                        {
+                                            "id": "1",
+                                            "value": "标签2",
+                                            "parentId": "-1"
+                                        }
+                                    ]
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": false,
+                                "searchable": true,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 190,
+                                "mindjetIndexState": 6,
+                                "formatHandler": {
+                                    "type": "dictionary",
+                                    "data": {
+                                        "0": "标签1",
+                                        "1": "标签2"
+                                    }
+                                },
+                                "columnType": "dictionary"
+                            },
+                            {
+                                "englishName": "propName",
+                                "chineseName": "样品类别多个属性name",
+                                "variableType": "string",
+                                "field": "propName",
+                                "title": "属性",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "31077f33-20ee-fb5b-d260-27888be336f8",
+                                "voName": "samplestdSampleCateVO",
+                                "editConfig": {
+                                    "id": "propName",
+                                    "englishName": "propName",
+                                    "chineseName": "样品类别多个属性name",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "31077f33-20ee-fb5b-d260-27888be336f8",
+                                    "voName": "samplestdSampleCateVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "属性"
+                                },
+                                "mindjetIndexState": 7,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "remark",
+                                "chineseName": "备注",
+                                "variableType": "string",
+                                "field": "remark",
+                                "title": "备注",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "b793cc53-aa0d-a655-64fe-11cd0e096ce7",
+                                "voName": "samplestdSampleCateVO",
+                                "editConfig": {
+                                    "id": "remark",
+                                    "englishName": "remark",
+                                    "chineseName": "备注",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "b793cc53-aa0d-a655-64fe-11cd0e096ce7",
+                                    "voName": "samplestdSampleCateVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "备注",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": false,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 250,
+                                "mindjetIndexState": 8
+                            }
+                        ],
+                        "ajax": {
+                            "src": "/docs/data/tree/getList.json",
+                            "type": "GET",
+                            "dataSrc": "rows",
+                            "contentType": "application/x-www-form-urlencoded",
+                            "data": {}
+                        },
+                        "params": {
+                            "displayMode": "treeGrid",
+                            "parentField": "parentId",
+                            "level": -1
+                        },
+                        "voId": "1306884211952584681",
+                        "idField": "id",
+                        "gid": "495e9a2c-80fa-75f2-9588-3fc36d363295",
+                        "objectState": 2,
+                        "hide": [
+                            "id",
+                            "parentId",
+                            "sampleCateCode"
+                        ],
+                        "fieldById": {
+                            "id": {
+                                "englishName": "id",
+                                "className": "java.lang.Long",
+                                "gid": "e51e8978-542b-0aff-e79c-a9a8b7afdaa0",
+                                "variableType": "string",
+                                "chineseName": "id",
+                                "isHaveChineseName": false,
+                                "id": "id",
+                                "label": "id",
+                                "type": "text",
+                                "field": "id",
+                                "title": "id",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 0,
+                                "width": 200
+                            },
+                            "sampleCateCode": {
+                                "englishName": "sampleCateCode",
+                                "className": "java.lang.String",
+                                "gid": "d35805cc-a920-75c5-8046-06544736a0af",
+                                "variableType": "string",
+                                "chineseName": "编号",
+                                "isHaveChineseName": true,
+                                "id": "sampleCateCode",
+                                "label": "编号",
+                                "type": "text",
+                                "field": "sampleCateCode",
+                                "title": "编号",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 3,
+                                "width": 200
+                            }
+                        }
+                    },
+                    {
+                        "type": "btns",
+                        "field": [
+                            {
+                                "functionConfig": {
+                                    "ajaxDataVaildConfig": "required",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "id",
+                                    "dataSrc": "data",
+                                    "defaultMode": "confirm",
+                                    "functionClass": "modal",
+                                    "id": "1306884210878843881",
+                                    "suffix": "/sampleCate/delSampleCateById",
+                                    "text": "删除",
+                                    "title": "是否删除？",
+                                    "type": "POST",
+                                    "voName": "samplestdSampleCateVO",
+                                    "entityName": "_sampleCate",
+                                    "chineseName": "根据id删除样品类别",
+                                    "englishName": "delSampleCateById",
+                                    "isInlineBtn": true,
+                                    "successMsg": "删除成功！",
+                                    "successOperate": "refresh",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "url": "https://qaapi.wangxingcloud.com//sampleCate/delSampleCateById"
+                                },
+                                "btn": {
+                                    "text": "删除",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxDataVaildConfig": "required",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "ids",
+                                    "dataSrc": "data",
+                                    "defaultMode": "confirm",
+                                    "functionClass": "modal",
+                                    "id": "1306884210878844905",
+                                    "suffix": "/sampleCate/delSampleCateByIds",
+                                    "text": "批量删除",
+                                    "title": "是否删除",
+                                    "type": "POST",
+                                    "voName": "samplestdSampleCateVO",
+                                    "entityName": "_sampleCate",
+                                    "chineseName": "根据ids删除样品类别",
+                                    "englishName": "delSampleCateByIds",
+                                    "requestSource": "checkbox",
+                                    "isInlineBtn": false,
+                                    "successMsg": "删除成功！",
+                                    "successOperate": "refresh",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "url": "https://qaapi.wangxingcloud.com//sampleCate/delSampleCateByIds"
+                                },
+                                "btn": {
+                                    "text": "批量删除",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "rows",
+                                    "defaultMode": "editorDialog",
+                                    "functionClass": "modal",
+                                    "suffix": "/templateMindPages/pageConfig/1317168346860356594",
+                                    "text": "编辑",
+                                    "type": "GET",
+                                    "voName": "samplestdSampleCateVO",
+                                    "entityName": "_sampleCate",
+                                    "chineseName": "样品类别维护",
+                                    "englishName": "sampleCateEdit",
+                                    "editorType": "edit",
+                                    "isInlineBtn": false,
+                                    "isHaveSaveAndAdd": true,
+                                    "isCopyObject": false,
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "isUseAjaxByCopyAdd": true,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1317168346860356594"
+                                },
+                                "btn": {
+                                    "text": "编辑",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "rows",
+                                    "defaultMode": "editorDialog",
+                                    "functionClass": "modal",
+                                    "suffix": "/templateMindPages/pageConfig/1317168346860356594",
+                                    "text": "新增",
+                                    "type": "GET",
+                                    "voName": "samplestdSampleCateVO",
+                                    "entityName": "_sampleCate",
+                                    "chineseName": "样品类别新增",
+                                    "englishName": "newSampleCate",
+                                    "editorType": "add",
+                                    "isInlineBtn": false,
+                                    "isHaveSaveAndAdd": true,
+                                    "isCopyObject": false,
+                                    "formatValueData": "{\"parentId\":\"{listSelected.id}\"}",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "isUseAjaxByCopyAdd": true,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1317168346860356594"
+                                },
+                                "btn": {
+                                    "text": "新增",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "rows",
+                                    "defaultMode": "newtab",
+                                    "functionClass": "modal",
+                                    "suffix": "/templateMindPages/pageConfig/1307058675671630825",
+                                    "text": "属性维护",
+                                    "title": "属性管理",
+                                    "type": "GET",
+                                    "voName": "samplestdSampleCateVO",
+                                    "entityName": "_sampleCate",
+                                    "chineseName": "属性管理",
+                                    "englishName": "propEdit",
+                                    "isEditMode": true,
+                                    "isInlineBtn": false,
+                                    "isSendPageParams": false,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1307058675671630825"
+                                },
+                                "btn": {
+                                    "text": "属性维护",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "rows",
+                                    "defaultMode": "newtab",
+                                    "functionClass": "modal",
+                                    "suffix": "/templateMindPages/toPage/1308911987345851369",
+                                    "text": "样品类别状态",
+                                    "title": "样品类别状态管理",
+                                    "type": "GET",
+                                    "voName": "samplestdSampleCateVO",
+                                    "entityName": "_sampleCate",
+                                    "chineseName": "样品类别状态",
+                                    "englishName": "sampleCateStatus",
+                                    "requestSource": "none",
+                                    "isEditMode": true,
+                                    "isInlineBtn": false,
+                                    "isSendPageParams": false,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "url": "https://qaapi.wangxingcloud.com//templateMindPages/toPage/1308911987345851369"
+                                },
+                                "btn": {
+                                    "text": "样品类别状态",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {
+                                        "arg0": "{arg0}",
+                                        "id": "{id}"
+                                    },
+                                    "data": {
+                                        "arg0": "{arg0}",
+                                        "id": "{id}"
+                                    },
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "functionClass": "modal",
+                                    "id": "1316627550348252146",
+                                    "suffix": "/sampleCate/moveBefore",
+                                    "text": "上移",
+                                    "type": "GET",
+                                    "voName": "samplestdSampleCateVO",
+                                    "entityName": "_sampleCate",
+                                    "chineseName": "样品类别上移",
+                                    "englishName": "moveBefore",
+                                    "requestSource": "selected",
+                                    "isInlineBtn": false,
+                                    "successOperate": "refresh",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": true,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": true,
+                                    "url": "https://qaapi.wangxingcloud.com//sampleCate/moveBefore"
+                                },
+                                "btn": {
+                                    "text": "上移",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {
+                                        "arg0": "{arg0}",
+                                        "id": "{id}"
+                                    },
+                                    "data": {
+                                        "arg0": "{arg0}",
+                                        "id": "{id}"
+                                    },
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "functionClass": "modal",
+                                    "id": "1316627550348253170",
+                                    "suffix": "/sampleCate/moveAfter",
+                                    "text": "下移",
+                                    "type": "GET",
+                                    "voName": "samplestdSampleCateVO",
+                                    "entityName": "_sampleCate",
+                                    "chineseName": "样品类别下移",
+                                    "englishName": "moveAfter",
+                                    "requestSource": "selected",
+                                    "isInlineBtn": false,
+                                    "successOperate": "refresh",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": true,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": true,
+                                    "url": "https://qaapi.wangxingcloud.com//sampleCate/moveAfter"
+                                },
+                                "btn": {
+                                    "text": "下移",
+                                    "isReturn": true
+                                }
+                            }
+                        ],
+                        "gid": "3105e551-2d42-a39d-4a75-77c7dc5ac14b",
+                        "objectState": 2
+                    }
+                ],
+                "draftBox": {
+                    "isUse": false,
+                    "isUseSave": false,
+                    "closeOrClear": true
+                },
+                "title": "样品类别管理",
+                "pageParam": {}
+                }
+NetstarTemplate.init(popupTree);
+    </script>
+</container>

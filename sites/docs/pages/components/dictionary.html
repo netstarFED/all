@@ -1,0 +1,84 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>dictionary</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <!-- <th>必填</th> -->
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>INPUTASSIST</td>
+                                <td>字典</td>
+                                <td>string</td>
+                                <!-- <td></td> -->
+                                <td>快捷键Ctrl+Alt+R  特殊字符添加字典</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-date-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">字典</h3>
+                <span class="intro">快捷键 Ctrl+Alt+R </span>
+                <div id="nsdocs-date-value" class="panel-demo"></div>
+                <script>
+                    /*输入模式value*/
+                    var formJsonValue = {
+                        id: 'nsdocs-date-value',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'value',
+                            label: '字典 :',
+                            type: 'text',
+                            value: "", 
+                        }] 
+                    }
+                    nsVals.dictData.INPUTASSIST = {subdata:[{value:'※'},{value:'▲'},{value:'△'},{value:'■'},{value:'＃'},{value:'＆'}]}
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonValue, {});
+                    NetstarComponent.formComponent.init(component, formJsonValue);
+                    /*输入模式value---end*/
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+        {
+            id: 'value',
+            label: '字典 :',
+            type: 'text',
+            value: "",
+        } 
+        nsVals.dictData.INPUTASSIST = {subdata:[{value:'※'},{value:'▲'},{value:'△'},{value:'■'},{value:'＃'},{value:'＆'}]}
+
+                </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+            $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

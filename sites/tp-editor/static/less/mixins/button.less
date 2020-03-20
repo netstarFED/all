@@ -1,0 +1,105 @@
+.button-variant(@color; @background; @border) {
+    color: @color;
+    background-color: @background;
+    border: 1px solid @border;
+
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active,
+    .open>.dropdown-toggle& {
+        color: @color;
+        background-color: darken(@background, 10%);
+        border-color: darken(@border, 12%);
+
+        span,
+        i {
+            color: @color;
+        }
+    }
+
+    &:active,
+    &.active,
+    .open>.dropdown-toggle& {
+        background-image: none;
+
+        span,
+        i {
+            color: @color;
+        }
+    }
+
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+
+        &,
+        &:hover,
+        &:focus,
+        &.focus,
+        &:active,
+        &.active {
+            background-color: @background;
+            border-color: @border;
+
+            span,
+            i {
+                color: @color;
+            }
+        }
+    }
+
+    span,
+    i {
+        color: @color;
+    }
+
+    .badge {
+        color: @background;
+        background-color: @color;
+    }
+}
+
+// Button sizes
+.button-size(@height; @padding-h; @font-size; @border-radius: 0) {
+    padding: 0 @padding-h;
+    border-radius: @border-radius;
+    height: @height;
+
+    span,
+    i {
+        font-size: @font-size;
+    }
+}
+
+
+//   图标按钮尺寸变量
+.btn-icon-variant(@size) {
+    .square(@size);
+    line-height: @size;
+}
+
+// 深色背景按钮样式
+.btn-dark-theme {
+    .btn {
+        background: transparent;
+        color: @e-text-gray-color;
+
+        span,
+        i {
+            color: @e-text-gray-color;
+        }
+
+        &:hover {
+            background: rgba(0, 0, 0, .75);
+            color: @info;
+            border-color: @info;
+
+            span,
+            i {
+                color: @info;
+            }
+        }
+    }
+}

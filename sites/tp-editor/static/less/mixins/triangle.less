@@ -1,0 +1,67 @@
+@triangle-size: 40px;
+@triangle-color: #000;
+
+.triangle-variant {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+
+}
+
+// 上
+.triangle-top(@border-width: @triangle-size, @border-color: @triangle-color) {
+    .triangle-variant();
+    border-width: 0 @border-width @border-width @border-width;
+    border-color: transparent transparent @border-color transparent;
+}
+
+// 右上
+.triangle-right-top(@border-width: @triangle-size, @border-color: @triangle-color) {
+    .triangle-variant();
+    border-width: 0 @border-width @border-width 0;
+    border-color: transparent @border-color transparent transparent;
+}
+
+// 右
+.triangle-right(@border-width: @triangle-size, @border-color: @triangle-color) {
+    .triangle-variant();
+    border-width: (@border-width / 2) 0 (@border-width / 2) @border-width;
+    border-color: transparent transparent transparent @border-color;
+}
+
+// 右下
+.triangle-right-bottom(@border-width: @triangle-size, @border-color: @triangle-color) {
+    .triangle-variant();
+    border-width: 0 0 @border-width @border-width;
+    border-color: transparent transparent @border-color transparent;
+}
+
+// 下
+.triangle-bottom(@border-width: @triangle-size, @border-color: @triangle-color) {
+    .triangle-variant();
+    border-width: @border-width (@border-width / 2) 0 (@border-width / 2);
+    border-color: @border-color transparent transparent transparent;
+}
+
+// 左下
+.triangle-left-bottom(@border-width: @triangle-size, @border-color: @triangle-color) {
+    .triangle-variant();
+    border-width: @border-width 0 0 @border-width;
+    border-color: transparent transparent transparent @border-color;
+}
+
+// 左
+.triangle-left(@border-width: @triangle-size, @border-color: @triangle-color) {
+    .triangle-variant();
+    border-width: (@border-width / 2) @border-width (@border-width / 2) 0;
+    border-color: transparent @border-color transparent transparent;
+}
+
+// 左上
+.triangle-left-top(@border-width: @triangle-size, @border-color: @triangle-color) {
+    .triangle-variant();
+    border-width: @border-width @border-width 0 0;
+    border-color: @border-color transparent transparent transparent;
+}

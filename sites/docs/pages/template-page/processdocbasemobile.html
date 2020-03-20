@@ -1,0 +1,88 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <script>
+
+var mobile ={
+    package: "nscloud.preparecheckgoodsedit",
+    template : "processDocBaseMobile",
+    readonly: false,
+    isShowTitle: true,
+    isFormHidden: false,
+    versionNumber: "1",
+    isSaveToTemplate: false,
+    
+    components: [
+        {
+            type: "vo",
+            
+            field: [
+                {
+                    id: "thisQuantityDone",
+                    type: "number",
+                    label: "本次完成数量",
+                    rules: "",
+                    width: "100%",
+                    setValueExpression: "({userTaskQuantity}-{quantityAllDone})",
+                    mindjetFieldPosition: "field",
+                    formSource:'staticData',
+                    acts:'label'
+                }
+            ],
+            idField: "id",
+            stateClass: "more",
+
+        },
+        {
+            type: "btns",
+            field: [
+                {
+                    functionConfig: {
+                        "ajaxData": {},
+                        "data": {},
+                        "ajaxDataVaildConfig": "{}",
+                        "contentType": "application/json",
+                        "dataFormat": "object",
+                        "dataSrc": "data",
+                        "defaultMode": "custom",
+                        "functionClass": "modal",
+                        "suffix": "/taskExecutionController/v2/save",
+                        "text": "保存",
+                        "type": "POST",
+                        "voName": "task2Task2UserVO",
+                        "entityName": "taskExecutionController_v2",
+                        "chineseName": "保存任务完成情况手机端",
+                        "englishName": "saveMobile",
+                        "isCloseWindow": true,
+                        "isEditMode": true,
+                        "isInlineBtn": false,
+                        "isSendPageParams": true,
+                        "isIsSave": false,
+                        "isMobileInlineBtn": true,
+                        "url": "https://qaapi.wangxingcloud.com//taskExecutionController/v2/save"
+                    },
+                    btn: {
+                        text: "保存",
+                        isReturn: true
+                    }
+                }
+            ],
+            params: {
+                dbclick: "prepareCheckEditMobile",
+                click: "prepareCheckEditMobile"
+            },
+        }
+    ],
+    draftBox: {
+        isUse: false,
+        isUseSave: true
+    },
+    title: "编辑",
+    pageParam: {
+       
+    }
+}
+ 
+    NetstarTemplate.init(mobile);
+      
+    </script>
+</container>

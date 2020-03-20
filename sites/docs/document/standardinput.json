@@ -1,0 +1,178 @@
+{
+    "operator":{
+        "type":{
+            "chineseName":"组件类型",
+            "validType":"string",
+            "toolType":"select",   
+            "default":"standardInput",
+            "required":true,
+            "subdata":[{
+                "value":"standardInput",
+                "text":"标准值输入"
+            }]
+        },
+        "id":{
+            "chineseName":"字段",
+            "validType":"string",
+            "toolType":"text",
+            "readonly":true,
+            "required":true
+        },      
+        "label":{
+            "chineseName":"标签",
+            "validType":"string",
+            "toolType":"text",
+            "default":""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        }, 
+        "inputHeight":{
+            "chineseName":"文本框高度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100
+        },          
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":100,
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules":{
+            "chineseName":"验证规则",
+            "validType":"string",
+            "toolType":"multi-select",
+            "subdata":[
+                {
+                    "value":"required",
+                    "text":"必填"
+                },{
+                    "value":"",
+                    "text":"无验证"
+                }              
+            ]     
+        },
+        "disabled":{
+            "chineseName":"只读",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "hidden":{
+            "chineseName":"隐藏",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "changeHandler":{
+            "validType":"function",
+            "toolType":"textarea",
+            "chineseName":"变更处理程序"
+        }       
+    },
+    "data":{  
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }  
+    },
+    "prepattern":[
+        {
+            "name":"显示的值",
+            "value": {
+                "id": "valuestandardInput",
+                "label": "显示 :",
+                "type": "standardInput",
+                "value": ""
+            }  
+        },
+        {
+           "name":"只读",
+           "value":{
+                "id": "disabled",
+                "label": "只读 :",
+                "type": "standardInput",
+                "disabled": true
+           }
+        },
+        {
+            "name":"样式宽",
+            "value":{                               
+                "id": "width",
+                "label": "宽:",
+                "type": "standardInput",
+                "inputWidth": 300
+            }
+        },
+        {
+            "name":"验证",
+            "value":{
+                "id": "requied",
+                "label": "验证 :",
+                "type": "standardInput",
+                "rules":"requied"
+            }
+        },
+        {
+            "name":"是否显示更多",
+            "value":[{
+                "mindjetFieldPosition": "field-more", 
+                "id": "mindjetFieldPosition1",
+                "label": "显示1:", 
+                "type": "standardInput",
+                "value": ""
+            },
+            {
+                "mindjetFieldPosition": "field-more",
+                "id": "mindjetFieldPosition2",
+                "label": "显示2 :",
+                "type": "standardInput",
+                "value": ""
+            }]
+        }
+
+    ]
+}

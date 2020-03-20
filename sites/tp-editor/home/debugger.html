@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <title>模板页编辑器debugger</title>
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!-- 引入组件库 -->
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    <style>
+        .mask .hot-type {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            min-width: 30px;
+            min-height: 30px;
+            border: 1px solid #dddddd;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0);
+            z-index: 9;
+        }
+
+        .mask .hot-type.state-active {
+            border: 1px solid #c4c7ca;
+            cursor: pointer;
+            background: rgba(80, 165, 207, 0.1);
+            left: 100px;
+        }
+        .editor-landing{
+            z-index: 0;
+        }
+        body {
+            padding-top: 10px;
+        }
+        #button{
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form"></div>
+    <div id="table"></div>
+	<div id="button"></div>
+	<container></container>
+</body>
+
+<script>
+	var nsPublic = {
+		getAppendContainer : function () {
+			var insertLocation = $('container:not(.hidden)').not('.content');
+			if ($('.nswindow .content').length > 0) {
+				insertLocation = $('.nswindow .content:last');
+			}
+			return insertLocation;
+		}
+	}
+    $(function(){
+        var formConfig = {
+            id : "form",
+            isSetMore : false,
+            form : [
+                {
+                    id : 'num',
+                    label : "min",
+                    type : 'number',
+                    rules : '<num2',
+                },{
+                    id : 'num2',
+                    label : "max",
+                    type : 'number',
+                    rules : '>num',
+                },{
+                    id : 'date',
+                    label : "dateMin",
+                    type : 'date',
+                    rules : '<date2',
+                },{
+                    id : 'select',
+                    label : "select",
+                    type : 'select',
+                    subdata : [
+						{ text : 'select1', value : '0' },
+						{ text : 'select2', value : '1' },
+					]
+                },{
+                    id : 'date2',
+                    label : "dateMax",
+                    type : 'date',
+                    rules : '>date',
+                }
+            ],
+        }
+        NetstarComponent.formComponent.show(formConfig,{
+            num : 5,
+            num2: 1
+        });
+        var tableConfig = {
+            id : 'table',
+            data : {
+                isSearch : true,
+                idField : 'name',
+                dataSource : [
+                    {
+                        name : "lyw",
+                        age : 26,
+                        area : "保定",
+                    },{
+                        name : "sjj",
+                        age : 18,
+                        area : "石家庄",
+                    },{
+                        name : "tmy",
+                        age : 28,
+                        area : "正定",
+                        // netstarSelectedFlag : true
+                    }
+                ],
+            },
+            ui : {
+                isHaveEditDeleteBtn : false,
+                isEditMode : true,
+                selectMode : "single",
+                // defaultSelectIndex : 0,
+                // defaultSelectedId : 'lyw',
+                // height : 1000,
+                // listExpression : '<div>{{name}}</div>',
+                defaultValueOption : {
+                    value : ['lyw']
+                }
+            },
+            columns : [
+                {
+                    field : "name",
+                    title : "姓名",
+                    editable : true,
+                    columnType : "text",
+                },
+                {
+                    field : "age",
+                    title : "年龄",
+                    editable : true,
+                    columnType : "text",
+                    editConfig : {
+                        type : "text"
+                    },
+                },
+                {
+                    field : "area",
+                    title : "地址",
+                    editable : true,
+                    columnType : "textarea",
+                    editConfig : {
+                        type : "textarea"
+                    },
+                },
+                {
+                    field : "date",
+                    title : "日期",
+                    editable : true,
+                    columnType : "text",
+                    editConfig : {
+                        type : "text"
+                    },
+                },
+                {
+                    field : "provinceselect",
+                    title : "省市联动",
+                    editable : true,
+                    columnType : "select",
+                    editConfig : {
+                        type : "select",
+                        subdata : [
+                            { text : '123', value : '123' },
+                            { text : '1234', value : '1234' },
+                        ]
+                    },
+                }
+            ]
+        }
+        NetStarGrid.init(tableConfig);
+        // NetstarBlockList.init(tableConfig);
+    })
+</script>
+
+</html>

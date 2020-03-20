@@ -1,0 +1,139 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+      <container>    
+        <script type="text/javascript">
+            var localhoseUrl = window.location.origin;
+            var blockListJson = {
+				package:'nsVue.graps.listgridlevel3',
+				template:'businesslevellist3',
+                title:'业务对象三级列表模板',
+                mode:'listgrid',//
+				components:[
+					{
+						type:'list',
+						idField:'id', 
+						//plusClass:'pt-block-list-vertical',
+						ajax:{
+							src:                    localhoseUrl+'/sites/docs/data/template/project-list.json',       //数据源地址
+							type:                   "GET",          //GET POST
+                            //contentType:            'application/json; charset=utf-8',          //GET POST
+                            contentType:'application/x-www-form-urlencoded',
+							data:                   {},             //参数对象{id:1,page:100}
+							//isServerMode:         true,           //是否开启服务器模式
+							dataSrc:                'row',
+						},
+						parent:'root',
+						keyField:'',
+						field:[
+							{
+								field : 'itemName',
+								title : '名称',
+								width : 60,
+								searchable:true,
+								orderable:false, 
+								isCommon:true,
+							}, {
+								field : 'itemCateName',
+								title : '所属分类',
+								searchable: true,
+								width:80,
+								orderable:false, 
+							}
+						],
+					},{
+						type:'blockList',
+						idField:'saleId',
+						plusClass:'pt-block-list-vertical',
+						ajax:{
+							src:                    localhoseUrl + '/sites/docs/data/select/radio.json',       //数据源地址
+							type:                   "GET",          //GET POST
+							//contentType:            'application/json; charset=utf-8',          //GET POST
+                            contentType:'application/x-www-form-urlencoded',
+                            data:                   {},             //参数对象{id:1,page:100}
+							//isServerMode:         true,           //是否开启服务器模式
+							dataSrc:                'rows',
+						},
+						parent:'',
+						keyField:'saleList',
+						field:[
+							{
+								field : 'id',
+								title : '名称',
+								width : 150,
+								searchable:false,
+								orderable:false, 
+								formatHandler:{
+									type:'dictionary',
+									data:{
+										'0':'全部',
+										'1':'已解决',
+										'2':'未解决'
+									}
+								}
+							}
+						],
+						listExpression:'<div class="pt-block-content-item">'
+                                            +'<span class="label">未分配记录</span>'
+                                            +'<span class="text">{{num}}</span>'
+                                        +'</div>'
+					},{
+						type:'list',
+						idField:'customerId',
+						//plusClass:'pt-grid-body',
+						ajax:{
+							src:                    localhoseUrl + '/sites/docs/data/template/project-list.json',       //数据源地址
+							type:                   "GET",          //GET POST
+                            //contentType:            'application/json; charset=utf-8',          //GET POST
+                            contentType:'application/x-www-form-urlencoded',
+							data:                   {},             //参数对象{id:1,page:100}
+							//isServerMode:         true,           //是否开启服务器模式
+							dataSrc:                'row',
+						},
+						parent:'saleList',
+						keyField:'customerList',
+						field:[
+							{
+								field : 'itemName',
+								title : '名称',
+								width : 150,
+								searchable:true,
+								orderable:true, 
+								isCommon:true,
+							}, {
+								field : 'itemCateName',
+								title : '所属分类',
+								searchable: true,
+								width:500,
+								orderable:true, 
+							},{
+								field:'py',
+								title:'拼音码',
+								width:200,
+								searchable:true,
+								orderable:true,
+								isCommon:true,
+							}
+						],
+					},{
+						type:'btns',
+						operatorObject:'',
+						field:[
+							{
+								text:'主按钮',
+								isReturn:true,
+								btn:{
+									text:'主按钮',
+									handler:function(data){
+										console.log(data)
+									},
+								},
+								functionConfig:{
+									//isInlineBtn:true,
+								}
+							}
+						]
+					}
+				],
+			};
+			NetstarTemplate.init(blockListJson);
+        </script>
+    </container>

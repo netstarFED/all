@@ -1,0 +1,72 @@
+@step-current-color:#4ad6b0;
+@step-current-bg: @step-current-color;
+.step_process {
+	ul {
+		margin: 0;
+		padding: 15px 0;
+		display: table;
+		width: 100%;
+		table-layout: fixed;
+
+		li {
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+			position: relative;
+			padding: 25px 0 @base-padding;
+
+			span {
+				display: block;
+				padding-top: 30px;
+				background: #fff;
+				position: relative;
+
+				&:before {
+					position: absolute;
+					content: "\f10c";
+					font-family: @icon-font;
+					top: -11px;
+					left: 50%;
+					margin: 0 0 0 -12px;
+					font-size: 18px;
+					border: 5px solid #fff;
+					background: #fff;
+					z-index: 9;
+					color: @ns-border-color;
+				}
+
+				&:after {
+					.border-horizontal(1px, @ns-border-color);
+					top: 5px;
+					left: 0;
+					z-index: 2;
+				}
+
+			}
+
+			&.current{
+				color: @step-current-color;
+				span{
+					&:before{
+						content:"\f192";
+						color: @step-current-color;
+					}
+					&:after{
+						background: @step-current-bg;
+					}
+				}
+			}
+			&.complete{
+				color: #777;
+				span{
+					&:before{
+						content:"\f058";
+					}
+				}
+			}
+
+		}
+
+	}
+
+}

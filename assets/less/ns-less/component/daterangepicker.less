@@ -1,0 +1,760 @@
+@arrow-size:     7px;
+
+// 颜色
+@daterangepicker-color:                      @gray-darker;
+@daterangepicker-bg-color:                   #fafafa;
+
+@daterangepicker-cell-color:                 @daterangepicker-color;
+@daterangepicker-cell-border-color:          transparent;
+@daterangepicker-cell-bg-color:              @daterangepicker-bg-color;
+
+@daterangepicker-cell-hover-color:           @ns-default;
+@daterangepicker-cell-hover-border-color:    @daterangepicker-cell-border-color;
+@daterangepicker-cell-hover-bg-color:        lighten(@ns-info, 40%);
+
+@daterangepicker-in-range-color:             @ns-default;
+@daterangepicker-in-range-border-color:      transparent;
+@daterangepicker-in-range-bg-color:          lighten(@ns-info, 50%);
+
+@daterangepicker-active-color:               #fff;
+@daterangepicker-active-bg-color:            @ns-info;
+@daterangepicker-active-border-color:        transparent;
+
+@daterangepicker-unselected-color:           lighten(@daterangepicker-color, 25%);
+@daterangepicker-unselected-border-color:    transparent;
+@daterangepicker-unselected-bg-color:        transparent;
+
+// 基础设置
+@daterangepicker-width:          278px;
+@daterangepicker-padding:        @base-padding;
+@daterangepicker-z-index:        3000;
+
+@daterangepicker-border-size:    1px;
+@daterangepicker-border-color:   @ns-border-color;
+@daterangepicker-border-radius:  0;
+
+
+// 日期区域
+@daterangepicker-calendar-margin:              0;
+@daterangepicker-calendar-bg-color:            @daterangepicker-bg-color;
+
+@daterangepicker-calendar-border-size:         1px;
+@daterangepicker-calendar-border-color:        @daterangepicker-bg-color;
+@daterangepicker-calendar-border-radius:       @daterangepicker-border-radius;
+
+@daterangepicker-cell-size:           20px;
+@daterangepicker-cell-width:          @daterangepicker-cell-size;
+@daterangepicker-cell-height:         @daterangepicker-cell-size;
+
+@daterangepicker-cell-border-radius:  @daterangepicker-calendar-border-radius;
+@daterangepicker-cell-border-size:    1px;
+
+// 下拉
+@daterangepicker-dropdown-z-index: @daterangepicker-z-index + 1;
+
+// 控制区
+@daterangepicker-control-height:               @ns-input-height;
+@daterangepicker-control-line-height:          @daterangepicker-control-height;
+@daterangepicker-control-color:                @main-border-color;
+
+@daterangepicker-control-border-size:          1px;
+@daterangepicker-control-border-color:         @default-border-color;
+@daterangepicker-control-border-radius:        0;
+
+@daterangepicker-control-active-border-size:   1px;
+@daterangepicker-control-active-border-color:  @ns-info;
+@daterangepicker-control-active-border-radius: @daterangepicker-control-border-radius;
+
+@daterangepicker-control-disabled-color:       @ns-disable;
+
+// 区间选择
+@daterangepicker-ranges-color:                @ns-info;
+@daterangepicker-ranges-bg-color:             #fff;
+
+@daterangepicker-ranges-border-size:          1px;
+@daterangepicker-ranges-border-color:         @default-border-color;
+@daterangepicker-ranges-border-radius:        @daterangepicker-border-radius;
+
+@daterangepicker-ranges-hover-color:          #fff;
+@daterangepicker-ranges-hover-bg-color:       @daterangepicker-ranges-color;
+@daterangepicker-ranges-hover-border-size:    @daterangepicker-ranges-border-size;
+@daterangepicker-ranges-hover-border-color:   @daterangepicker-ranges-hover-bg-color;
+@daterangepicker-ranges-hover-border-radius:  @daterangepicker-border-radius;
+
+@daterangepicker-ranges-active-border-size:   @daterangepicker-ranges-border-size;
+@daterangepicker-ranges-active-border-color:  @daterangepicker-ranges-bg-color;
+@daterangepicker-ranges-active-border-radius: @daterangepicker-border-radius;
+
+//主要样式
+.daterangepicker {
+	position: absolute;
+	color: @daterangepicker-color;
+	background-color: @daterangepicker-bg-color;
+	width: @daterangepicker-width;
+	padding: @daterangepicker-padding;
+	top: 100px;
+	left: 20px;
+
+	i{
+		color: @daterangepicker-color;
+		&:hover,&:active{
+			color:#999;
+		}	
+	}
+	
+	//箭头
+	@arrow-prefix-size: @arrow-size;
+	@arrow-suffix-size: (@arrow-size - @daterangepicker-border-size);
+
+	&:before, &:after {
+		position: absolute;
+		display: inline-block;
+
+		border-bottom-color: rgba(0, 0, 0, 0.2);
+		content: '';
+	}
+	&:before {
+		top: -@arrow-prefix-size;
+		border-right: @arrow-prefix-size solid transparent;
+		border-left: @arrow-prefix-size solid transparent;
+		border-bottom: @arrow-prefix-size solid @daterangepicker-border-color;
+	}
+	&:after {
+		top: -@arrow-suffix-size;
+		border-right: @arrow-suffix-size solid transparent;
+		border-bottom: @arrow-suffix-size solid @daterangepicker-bg-color;
+		border-left: @arrow-suffix-size solid transparent;
+	}
+	&.opensleft {
+		&:before {
+			right: @arrow-prefix-size + 2px;
+		}
+		&:after {
+			right: @arrow-suffix-size + 4px;
+		}
+	}
+	&.openscenter {
+		&:before {
+			left: 0;
+			right: 0;
+			width: 0;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		&:after {
+			left: 0;
+			right: 0;
+			width: 0;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+	
+	&.opensright {
+		&:before {
+			left: @arrow-prefix-size + 2px;
+		}
+		&:after {
+			left: @arrow-suffix-size + 4px;
+		}
+	}
+	//箭头结束
+	&.dropup {
+		margin-top: -5px;
+		&:before {
+			top: initial;
+			bottom: -@arrow-prefix-size;
+			border-bottom: initial;
+			border-top: @arrow-prefix-size solid @daterangepicker-border-color;
+		}
+
+		&:after {
+			top: initial;
+			bottom:-@arrow-suffix-size;
+			border-bottom: initial;
+			border-top: @arrow-suffix-size solid @daterangepicker-bg-color;
+		}
+	}
+
+	&.dropdown-menu {
+		max-width: none;
+		z-index: @daterangepicker-dropdown-z-index;
+		margin: -1px -2px 0 0;
+	}
+
+	&.single {
+		.ranges, .calendar {
+			float: none;
+		}
+	}
+	
+	&.show-calendar {
+		.calendar {
+			display: block;
+		}
+	}
+
+	.calendar {
+		display: none;
+		// max-width: @daterangepicker-width - (@daterangepicker-calendar-margin * 2);
+		margin: @daterangepicker-calendar-margin;
+
+		&.single {
+			.calendar-table {
+				border: none;
+			}
+		}
+
+		th, td {
+			white-space: nowrap;
+			text-align: center;
+			min-width: 32px;
+			i{
+				&:hover,&:active{
+					color:#777;	
+				}
+			}
+		}
+	}
+	
+	//日期选择
+	.calendar-table {
+		border: @daterangepicker-calendar-border-size solid @daterangepicker-calendar-border-color;
+		padding: @daterangepicker-calendar-margin;
+		border-radius: @daterangepicker-calendar-border-radius;
+		background-color: @daterangepicker-calendar-bg-color;
+	}
+
+	table {
+		width: 100%;
+		margin: 0;
+	}
+
+	td, th {
+		text-align: center;
+		width: @daterangepicker-cell-width;
+		height: @daterangepicker-cell-height;
+		border-radius: @daterangepicker-cell-border-radius;
+		border: @daterangepicker-cell-border-size solid @daterangepicker-cell-border-color;
+		white-space: nowrap;
+		cursor: pointer;
+
+		&.available {
+			&:hover {
+				background-color:none;
+				border-color: @daterangepicker-cell-hover-border-color;
+				color: @daterangepicker-cell-hover-color;
+			}
+		}
+
+		&.week {
+			font-size: 80%;
+			color: #ccc;
+		}
+	}
+
+	td {
+		color: @ns-default;
+		&.off {
+				&, 
+				&.in-range, 
+				&.start-date, 
+				&.end-date {
+					background-color: @daterangepicker-unselected-bg-color;
+					border-color: @daterangepicker-unselected-border-color;
+					color: @daterangepicker-unselected-color;
+			}
+		}
+
+		//选择按钮
+		&.in-range {
+			background-color: @daterangepicker-in-range-bg-color;
+			border-color: @daterangepicker-in-range-border-color;
+			color: @daterangepicker-in-range-color;
+			border-radius: 0;
+		}
+
+		&.start-date {
+			border-radius: @daterangepicker-cell-border-radius 0 0 @daterangepicker-cell-border-radius;
+		}
+
+		&.end-date {
+			border-radius: 0 @daterangepicker-cell-border-radius @daterangepicker-cell-border-radius 0;
+		}
+
+	    &.start-date.end-date {
+	      border-radius: @daterangepicker-cell-border-radius;
+	    }
+
+		&.active {
+			&, 
+			&:hover {
+				background-color: @daterangepicker-active-bg-color;
+				border-color: @daterangepicker-active-border-color;
+				color: @daterangepicker-active-color;
+			}
+		}
+	}
+
+	th {
+		font-weight: normal;
+		&.month {
+			width: auto;
+			font-weight: normal;
+		}
+	}
+
+	// 禁用状态
+	td, option {
+		&.disabled {
+			color: @ns-disable;
+			cursor: not-allowed;
+			text-decoration: line-through;
+		}
+	}
+
+	select {
+		&.monthselect, &.yearselect {
+			font-size:@font-size-base;
+			padding:@base-padding / 10;
+			height: auto;
+			margin: 0;
+			cursor: default;
+		}
+
+		&.monthselect {
+			margin-right: 2%;
+			width: 56%;
+		}
+
+		&.yearselect {
+			width: 40%;
+		}
+
+		&.hourselect, &.minuteselect, &.secondselect, &.ampmselect {
+			width: 50px;
+			margin-bottom: 0;
+		}
+	}
+
+	.input-mini {
+		border: @daterangepicker-control-border-size solid @daterangepicker-control-border-color;
+		border-radius: @daterangepicker-control-border-radius;
+		color: @daterangepicker-control-color;
+		height: @daterangepicker-control-line-height;
+		line-height: @daterangepicker-control-height;
+		display: block;
+		vertical-align: middle;
+		font-size:@font-size-base;
+		margin: 0 0 5px 0;
+		padding: 0 6px 0 28px;
+		width: 100%;
+
+		&.active {
+			border: @daterangepicker-control-active-border-size solid @daterangepicker-control-active-border-color;
+			border-radius: @daterangepicker-control-active-border-radius;
+		}
+	}
+
+	.daterangepicker_input {
+		position: relative;
+		i {
+			position: absolute;
+			left: 8px;
+			top: 8px;
+		}
+		.input-mini.active + i{
+			color:@daterangepicker-ranges-hover-border-color;
+		}
+
+	}
+	&.rtl {
+		.input-mini {
+			padding-right: 28px;
+			padding-left: 6px;
+		}
+		.daterangepicker_input i {
+			left: auto;
+			right: 8px;
+		}
+	}
+
+	// 时间选择器
+	.calendar-time {
+		text-align: center;
+		margin: 5px auto;
+		line-height: @daterangepicker-control-line-height;
+		position: relative;
+		padding-left: 28px;
+
+		select {
+			&.disabled {
+				color: @daterangepicker-control-disabled-color;
+				cursor: not-allowed;
+			}
+		}
+	}
+	// 预定义选择区域
+	.ranges {
+		font-size: @font-size-base;
+		float: none;
+		padding-left:@base-padding + 2px;
+		text-align: left;
+		ul {
+			list-style: none;
+			margin: 0 auto;
+			padding: 0;
+			width: 100%;
+			display: table;
+		}
+		li {
+			background-color: @daterangepicker-ranges-bg-color;
+			border: @daterangepicker-ranges-border-size solid @daterangepicker-ranges-border-color;
+			border-radius: @daterangepicker-ranges-border-radius;
+			color: @daterangepicker-ranges-color;
+			text-align: center;
+			margin-bottom: 4px;
+			cursor: pointer;
+			display: block;
+			width: 50%;
+			float: left;
+			margin: 0;
+			height: @ns-btn-height;
+			line-height: @ns-btn-height - 2;
+			margin:0 0 0 0;
+			&:hover {
+				background-color:@daterangepicker-ranges-hover-color;
+				color: @daterangepicker-ranges-color;
+				.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+			}
+			&.active {
+				background-color: @daterangepicker-ranges-hover-bg-color;
+				border: @daterangepicker-ranges-hover-border-size solid @daterangepicker-ranges-hover-border-color;
+				color: @daterangepicker-ranges-hover-color;
+			}		
+			&[data-range-key="默认日期区间"]{
+				width: 161px;
+				margin-top: 10px;
+				border-bottom: none;
+			}
+			&:nth-child(even){
+				border-left: none;
+			}
+			&:nth-child(1),&:nth-child(2),&:nth-child(3),&:nth-child(4),&:nth-child(5),&:nth-child(6){
+				border-bottom: none;
+			}
+			&:last-child{
+				width:162px;
+				border-left: @daterangepicker-ranges-hover-border-size solid @daterangepicker-ranges-border-color;
+				margin:-1px -@daterangepicker-ranges-border-size 0 0;
+				background-color: @daterangepicker-ranges-bg-color;
+				&:hover {
+					background-color:@daterangepicker-ranges-hover-color;
+					color: @daterangepicker-ranges-color;
+					.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+				}
+				&.active {
+					background-color: @daterangepicker-ranges-hover-bg-color;
+					border: @daterangepicker-ranges-hover-border-size solid @daterangepicker-ranges-hover-border-color;
+					color: @daterangepicker-ranges-hover-color;
+				}
+			}
+		}
+
+		.range_inputs {
+			text-align: right;
+			border-top: 1px solid @daterangepicker-border-color;
+			padding-top: @base-padding;
+			margin-top: @base-padding;
+			.btn{
+				width: 60px;
+				height: 30px;
+				&:first-child{
+					width: 75px;
+					height: 30px;
+					padding-right: 15px; 
+					text-align: right;
+					position: relative;
+					&:before{
+						position: absolute;
+						left: 8px; 
+						top: 8px;
+						width: 14px;
+						height: 14px;
+						font-family:"FontAwesome";
+						content:"\f00c";
+						color:#009944;
+					}
+				}
+			}
+		}
+	}
+}
+/*  屏幕规格 */
+@media (min-width: 564px) {
+.daterangepicker {
+	width: auto;
+
+	.ranges {
+		ul {
+			width: 162px;
+		}
+	}
+
+	&.single {
+		.ranges {
+			ul {
+				width: 100%;
+			}
+		}
+
+		.calendar.left {
+			clear: none;
+		}
+
+		&.ltr {
+			.ranges, .calendar {
+				float:left;
+			}
+		}
+		&.rtl {
+			.ranges, .calendar {
+				float:right;
+			}
+		}
+	}
+
+	&.ltr {
+		direction: ltr;
+		text-align: left;
+		.calendar{
+			&.left {
+				clear: left;
+				margin-right: 0;
+
+				.calendar-table {
+					border-right: none;
+					border-top-right-radius: 0;
+					border-bottom-right-radius: 0;
+				}
+			}
+
+			&.right {
+				margin-left: 0;
+
+				.calendar-table {
+					border-left: none;
+					border-top-left-radius: 0;
+					border-bottom-left-radius: 0;
+				}
+			}
+		}
+
+		.left .daterangepicker_input {
+			padding-right:@base-padding + 2px;
+		}
+
+		.calendar.left .calendar-table {
+			padding-right: @base-padding + 2px;
+		}
+
+		.ranges, .calendar {
+			float: left;
+		}
+	}
+	&.rtl {
+		direction: rtl;
+		text-align: right;
+		.calendar{
+			&.left {
+				clear: right;
+				margin-left: 0;
+
+				.calendar-table {
+					border-left: none;
+					border-top-left-radius: 0;
+					border-bottom-left-radius: 0;
+				}
+			}
+
+			&.right {
+				margin-right: 0;
+
+				.calendar-table {
+					border-right: none;
+					border-top-right-radius: 0;
+					border-bottom-right-radius: 0;
+				}
+			}
+		}
+
+		.left .daterangepicker_input {
+			padding-left: @base-padding + 2px;
+		}
+
+		.calendar.left .calendar-table {
+			padding-left: @base-padding + 2px;
+		}
+
+		.ranges, .calendar {
+			text-align: right;
+			float: right;
+		}
+	}
+}
+}
+
+@media (min-width: 730px) {
+.daterangepicker {
+	.ranges {
+		width: auto;
+	}
+	&.ltr {
+		.ranges {
+			float: left;
+		}
+	}
+	&.rtl {
+		.ranges {
+			float: right;
+		}
+	}
+
+	.calendar.left {
+	  clear: none !important;
+	}
+}
+}
+
+//非弹出模式
+.daterange-inline {
+	background: #f5f5f5;
+	border: 1px solid @input-border;
+	padding: @base-padding;
+	cursor: pointer;
+
+	i {
+		color: @text-color;
+		margin-right: @base-padding/2;
+	}
+
+	&:hover {
+		color: @text-color;
+	}
+}
+
+
+// // 移动端模式
+// .page-body[ns-system="mobile"]{
+// 	.daterangepicker{
+// 		top: auto !important;
+// 		left: 0px !important;
+// 		bottom: 0;
+// 		padding: 0;
+// 		border: 0;
+// 		background: #fff;
+// 		&.openscenter{
+// 			&:before,
+// 			&:after{
+// 				display: none;
+// 			}
+// 		}
+// 		.calendar{
+// 			max-width: 100%;
+// 			max-height: 45vh;
+// 			padding: 1rem 0 0;
+// 			.calendar-table{
+// 				border: 0;
+// 			}
+// 			table{
+// 				border: 0;
+// 			}
+// 			th,
+// 			td{
+// 				border: 0;
+// 				padding: .7rem 0;
+// 			}
+// 		}
+// 		 .input-mini{
+// 		 	margin-bottom: 1rem;
+// 		 }
+// 		.daterangepicker_input{
+// 			padding: 0 1rem;
+// 			i{
+// 				left: 1.5rem;
+// 			}
+// 		}
+// 		&:after{
+// 			position: fixed;
+// 			content:"";
+// 			top: 0;
+// 			right: 0;
+// 			bottom: 0;
+// 			left: 0;
+// 			background: rgba(0,0,0, .25);
+// 			z-index: 1;
+// 		}
+// 		.ranges{
+// 			padding: 0;
+// 			border-top: 0;
+// 			box-shadow: 0 -.3rem .3rem	rgba(0, 0, 0, 0.08);
+// 			.range_inputs{
+				
+// 				display: flex;
+// 				flex: 1;
+// 				margin: 0;
+// 				padding: 0;
+// 				justify-content: space-between;
+// 				align-items: center;
+// 				.btn{
+// 					display: flex;
+// 					flex: 1;
+// 					height: 4rem;
+// 					justify-content: center;
+// 					align-items: center;
+// 					&:first-child:before{
+// 						top: 50%;
+// 						left: 50%;
+// 						margin: -.5em 0 0 -3rem;
+// 					}
+// 				}
+
+// 			}
+// 		}
+// 	}
+// }
+
+
+// // 小屏
+// @media screen and (max-width: 320px){
+// 	.page-body[ns-system="mobile"]{
+// 		.daterangepicker{
+// 			.input-mini{
+// 				margin-bottom: .5rem;
+// 			}
+// 			.calendar{
+// 				th,
+// 				td{
+// 					border: 0;
+// 					padding: 0;
+// 				}
+// 			}
+// 		}
+// 	}
+// }
+
+
+// // 中屏
+// @media (min-width: 321px) and (max-width: 376px){
+// 	.page-body[ns-system="mobile"]{
+// 		.daterangepicker{
+// 			.calendar{
+// 				th,
+// 				td{
+// 					border: 0;
+// 					padding: .5rem 0;
+// 				}
+// 			}
+// 		}
+// 	}
+// }

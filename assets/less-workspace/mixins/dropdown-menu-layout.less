@@ -1,0 +1,32 @@
+
+// 下拉菜单列表样式
+.dropdown-menu-li-variant( @bg, @color){
+    &:hover{
+        & > .pt-top-menu-item-row{
+            & > .pt-nav-item{
+                background: @bg;
+                color: @color;
+                &:hover{
+                    background: @bg;
+                    color: @color;
+                }
+            }
+        }
+    }
+    
+}
+// 下拉面板变量样式(背景色/文字颜色/活动文字颜色/活动背景色/文本对齐方式)
+.top-nav-block-variant(@bg-color, @color, @hover-color, @hover-bg, @align: left){
+    background: @bg-color;
+    li {  
+      a.pt-nav-item{
+        text-align: @align;
+        color: @color;
+        &:hover{
+            background: @hover-bg;
+            color: @hover-color;
+        }
+        
+      }
+    }
+  }

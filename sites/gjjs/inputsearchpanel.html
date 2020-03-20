@@ -1,0 +1,316 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>手机端 listMobile</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                NetstarHomePage.defaultServerUrl = 'http://ui-pc:2000';
+                var inputSearchPanelConfig = {
+                    package: "nscloud.inputSearchPanel",
+                    template: "listMobile",
+                    components: [{
+                        type: 'blockList',
+                        idField: 'id',
+                        plusClass: 'pt-block-list-vertical-simple',
+                        ajax: {
+                            src: NetstarHomePage.defaultServerUrl +
+                                '/assets/json/project-list.json', //数据源地址
+                            type: "GET", //GET POST
+                            contentType: 'application/x-www-form-urlencoded', //GET POST
+                            data: {}, //参数对象{id:1,page:100}
+                            //isServerMode:         true,           //是否开启服务器模式
+                            dataSrc: 'row',
+                        },
+                        keyField: 'root',
+                        field: [{
+                            field: 'itemName',
+                            title: '名称',
+                            width: 60,
+                            searchable: true,
+                            orderable: false,
+                            isCommon: true,
+                        }, {
+                            field: 'itemCateName',
+                            title: '所属分类',
+                            searchable: true,
+                            width: 80,
+                            orderable: false,
+                        }],
+                        /*listExpression: "<div class='pt-block-content-item'>" +
+                                            "<span class='tag'>科室：</span>" +
+                                            "<span class='code'>{{itemName}}</span>" +
+                                            "</div>" +
+                                            "<div class='pt-block-content-item'>" +
+                                            "<span class='tag'>床位号：</span>" +
+                                            "<span class='code'>{{itemCode}}</span>" +
+                                        "</div>",*/
+                        listExpression: "<div class='block-list-item'>" +
+                            "<div class='block-list-item-text text-left'><span class=\"info\"><p class='fontWeight'>{{itemName}}</p></span></div>" +
+                            "<div class='block-list-item-text text-left'><span><p style=\"color:#CCCCCC;\">{{itemCode}}</p></span></div>" +
+                            "</div>",
+                        defaultShow: {
+                            isAjax: true, //是否打开时显示列表 默认true
+                            placeholder: "请使用扫码功能或者点击搜索", //默认为空 ''
+                        }
+                    }, {
+                        "type": "btns",
+                        "field": [{
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "defaultMode": "loadPage",
+                                    "functionClass": "modal",
+                                    "suffix": "/templateMindPages/pageConfig/1319020177844601842",
+                                    "text": "样品入库",
+                                    "type": "GET",
+                                    "voName": "sampleSampleVO",
+                                    "entityName": "_sample_accept_samples",
+                                    "chineseName": "样品入库（手机）",
+                                    "englishName": "samplein",
+                                    "isCloseWindow": true,
+                                    "requestSource": "selected",
+                                    "isInlineBtn": false,
+                                    "parameterFormat": "{\"workItemIds\":\"{workItemId}\"}",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    // "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1319020177844601842"
+                                    "url": NetstarHomePage.defaultServerUrl +
+                                        '/sites/gjjs/sampleoutorproblem1.html'
+                                },
+                                "btn": {
+                                    "text": "样品入库",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "defaultMode": "loadPage",
+                                    "functionClass": "modal",
+                                    "suffix": "/templateMindPages/pageConfig/1319024406239904754",
+                                    "text": "问题样品",
+                                    "type": "GET",
+                                    "voName": "sampleSampleVO",
+                                    "entityName": "_sample_accept_samples",
+                                    "chineseName": "问题样品（手机）页面",
+                                    "englishName": "samplewrongpage",
+                                    "isCloseWindow": true,
+                                    "requestSource": "selected",
+                                    "isInlineBtn": false,
+                                    "parameterFormat": "{\"workItemIds\":\"{workItemId}\"}",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    // "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1319024406239904754"
+                                    "url": NetstarHomePage.defaultServerUrl +
+                                        '/sites/gjjs/sampleoutorproblem3.html'
+                                },
+                                "btn": {
+                                    "text": "问题样品",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "defaultMode": "loadPage",
+                                    "functionClass": "modal",
+                                    "suffix": "/templateMindPages/pageConfig/1320630944125683698",
+                                    "text": "样品加工",
+                                    "type": "GET",
+                                    "voName": "sampleSampleVO",
+                                    "entityName": "_sample_accept_samples",
+                                    "chineseName": "样品加工（手机）页面",
+                                    "englishName": "sampledealwithdopage",
+                                    "isCloseWindow": true,
+                                    "requestSource": "selected",
+                                    "isInlineBtn": false,
+                                    "parameterFormat": "{\"workItemIds\":\"{workItemId}\"}",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    // "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1320630944125683698"
+                                    "url": NetstarHomePage.defaultServerUrl +
+                                        '/sites/gjjs/sampledealwith2mobile.html'
+                                },
+                                "btn": {
+                                    "text": "样品加工",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/x-www-form-urlencoded",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "defaultMode": "loadPage",
+                                    "functionClass": "modal",
+                                    "suffix": "/templateMindPages/pageConfig/1317632590949123058",
+                                    "text": "样品详情",
+                                    "title": "/templateMindPages/pageConfig/1317632590949123058",
+                                    "type": "GET",
+                                    "voName": "sampleSampleVO",
+                                    "entityName": "_sample_accept_samples",
+                                    "chineseName": "样品详情v4（手机版）",
+                                    "englishName": "sampleDetail",
+                                    "isCloseWindow": true,
+                                    "requestSource": "selected",
+                                    "isInlineBtn": false,
+                                    "parameterFormat": "{\"id\":\"{id}\"}",
+                                    "isSendPageParams": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    // "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1317632590949123058"
+                                    "url": NetstarHomePage.defaultServerUrl +
+                                        '/sites/gjjs/samplewarehousingphone.html'
+                                },
+                                "btn": {
+                                    "text": "样品详情",
+                                    "isReturn": true
+                                }
+                            }
+                        ],
+                        "gid": "a203f535-30df-a351-c83b-0297175016c4",
+                        "objectState": 2
+                    }, {
+                        //文本搜索面板
+                        type: 'inputSearchPanel',
+                        keyField: 'input', //默认为input
+                        field: [{
+                                type: 'text',
+                                name: 'text', //所有名字默认读取type，绝大多数情况下每一个类型只有显示，所以name默认等于type
+                                text: "搜索,取消", //拆分为两个按钮 默认为"搜索,取消"
+                                placeholder: '按照文本进行检索',
+                                successOperate: 'refresh',
+                                ajax: {
+                                    /***搜索按钮 
+                                     ***默认来自于getValueAjax  
+                                     *      "src": getRootPath() + "/sample/accept/samples/getToDoList",
+                                     *      "dataSrc": "rows",
+                                     *      "type": "POST",
+                                     *      "dataFormat": "object",
+                                     *      "contentType": "application/json",
+                                     *** 重点参数：
+                                     *      data:object 必填
+                                     *      formatter:function 选填 格式化返回结果返回成跟 getValueAjax 相同的结果，然后用于表达式格式化
+                                     */
+                                    data: '{"keyword":"{input.text}","type":2, "modCate":"{filter.cate}"}', //{filter.cate} filter是默认搜索过滤项的名字
+                                    formatter: function (res) {
+                                        return res;
+                                    },
+                                }
+                            },
+                            {
+                                /** 扫码设备类型
+                                 * qrCamera:        二维码摄像头
+                                 * barcodeCamera:   条码摄像头
+                                 * barcodeScan:     蓝牙扫码枪
+                                 * honeywellScan:   霍尼韦尔扫码
+                                 * codeScan:        扫码 所有可用类型的扫码都会触发此
+                                 */
+                                type: 'qrCamera',
+                                name: 'qrCamera',
+                                text: '<i class="icon-qrcode"></i>', //使用html为按钮渲染形式
+                                /** 扫码后执行的动作
+                                 *      refresh     用返回值刷新数据 只显示返回数据
+                                 *      add         添加到当前列表 不区分当前结果
+                                 *      addOnlyScan 添加到当前列表 添加时候打上标识，只显示同一个扫码设备出现的
+                                 */
+                                successOperate: 'refresh',
+                                ajax: {
+                                    /***默认来自于getValueAjax 
+                                     *  qr-camera
+                                     */
+                                    data: '{"qr":"{input.qrCamera}","type":2, "modCate":"{filter.cate}"}',
+                                    formatter: function (res) {
+                                        return res;
+                                    },
+                                }
+                            },
+                            {
+                                /** 普通按钮
+                                 *  
+                                 */
+                                type: 'btn',
+                                name: 'getList',
+                                text: '<i class="icon-all"></i>', //使用html为按钮渲染形式
+                                /** 扫码后执行的动作
+                                 *      refresh     用返回值刷新数据 只显示返回数据
+                                 *      add         添加到当前列表 不区分当前结果
+                                 */
+                                successOperate: 'refresh',
+                                ajax: {
+                                    /***默认来自于getValueAjax 
+                                     *  qr-camera
+                                     */
+                                    data: '{"qr":"{input.qrCamera}","type":2, "modCate":"{filter.cate}"}',
+                                    formatter: function (res) {
+                                        return res;
+                                    },
+                                }
+                            }
+                        ],
+                        searchAjax: {
+                            /***搜索按钮 
+                             ***默认来自于getValueAjax  
+                             *      "src": getRootPath() + "/sample/accept/samples/getToDoList",
+                             *      "dataSrc": "rows",
+                             *      "type": "POST",
+                             *      "dataFormat": "object",
+                             *      "contentType": "application/json",
+                             *** 重点参数：
+                             *      data:object 必填
+                             *      formatter:function 选填 格式化返回结果返回成跟 getValueAjax 相同的结果，然后用于表达式格式化
+                             */
+                            data: '{"keyword":"{input.keyword}","type":2, "mobCate":"{filter.classCate}"}',
+                            formatter: function (res) {
+                                return res;
+                            },
+                        }
+                    }],
+                };
+                NetstarTemplate.init(inputSearchPanelConfig);
+            })
+        </script>
+    </container>
+</body>
+
+</html>

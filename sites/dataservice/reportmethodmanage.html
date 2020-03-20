@@ -1,0 +1,357 @@
+<container>
+    <style>
+        table.table tbody tr td.td-button {
+            text-align: center;
+        }
+    </style>
+
+    <layout id='report-method-list' ns-package='report.method.list'>
+        <nav  ns-id="nav" ns-config="navConfig"></nav>
+        <panel ns-id="method-table" ns-options="col:3,height:auto" ns-config="table:methodTableConfig"></panel>
+        <panel ns-id="method-form" ns-options="col:9,height:auto" ns-config="form:methodFormJson"></panel>
+    </layout>
+    <script type="text/javascript">
+        //测试用，参考 report-main 中的实现
+        var reportMain = {
+            isDialog: function(){return true;},
+            getSelectDatasource: function(){
+                return  [
+                    {
+                        name: '用户表',
+                        id: 'single',
+                        columns: [{
+                            name: '备注',
+                            id: 'single',
+                            jdbcType: 'varchar'
+                        }, {
+                            name: '传真机号',
+                            id: 'oneColumn',
+                            jdbcType: 'number'
+                        }]
+                    }, {
+                        name: '角色表',
+                        id: 'oneColumn',
+                        columns: [
+                            {
+                                name: '电子邮件',
+                                id: 'oneTable',
+                                jdbcType: 'varchar'
+                            }, {
+                                name: '法人代表',
+                                id: 'twoColumn',
+                                jdbcType: 'bigint'
+                            }, {
+                                name: '级别',
+                                id: 'twoTable',
+                                jdbcType: 'int'
+                            }, {
+                                name: '创建日期',
+                                id: 'whenCreated',
+                                jdbcType: 'datetime'
+                            }
+                        ]
+                    }
+                ];
+            }
+        };
+
+        var methodForm = new MethodForm('report-method-list-preview-dialog');
+        var singleMethodForm = new MethodForm('report-method-list-preview-dialog');
+
+        //初始化方法
+        CalculateMethod.init();
+
+        report = {
+            method: {
+                list: {
+                    main: function () {
+                        var methodTableId = 'table-report-method-list-method-table';
+                        var methodFormId = 'report-method-list-method-form';
+
+                        //设置编辑器的值
+                        function setEditorValue(fieldId, value){
+                            nsComponent.codeMirror['form-' + methodFormId + '-' + fieldId].$editor.setValue(value);
+                        }
+
+                        function saveMethod(data){
+                            $.ajax({
+                                data: data,
+                                url: getRootPath() + '/reportSourceMethod/save',
+                                type: 'post',
+                                success: function (data) {
+                                    if (data.success) {
+                                        nsalert('保存成功', 'success');
+                                        baseDataTable.reloadTableAJAX(methodTableId);
+                                    } else {
+                                        var errStr = data.msg;
+                                        nsalert('保存失败，请重试 ' + errStr, 'error');
+                                    }
+                                },
+                                error: function (e) {
+                                    nsalert('保存失败，请重试', 'error');
+                                }
+                            });
+                        }
+
+                        this.navConfig = {
+                            isShowTitle: false,
+                            btns: [
+                                [
+                                    {
+                                        text: '新增',
+                                        handler: function(){
+                                            nsForm.clearData('report-method-list-method-form');
+                                            setEditorValue('formJson', '');
+                                            setEditorValue('jsLogic', '');
+                                        }
+                                    }, {
+                                        text: '保存',
+                                        handler: function () {
+                                            var data = nsForm.getFormJSON(methodFormId);
+                                            if (data) {
+                                                saveMethod(data);
+                                            }
+                                        }
+                                    }, {
+                                        text: '另保存',
+                                        handler: function () {
+                                            var data = nsForm.getFormJSON(methodFormId);
+                                            if (data) {
+                                                delete data.id;
+                                                saveMethod(data);
+                                            }
+                                        }
+                                    }, {
+                                        text: '刷新方法配置',
+                                        handler: function () {
+                                            CalculateMethod.reload();
+                                        }
+                                    }
+                                ]
+                            ]
+                        };
+
+                        var implTypeArray = CalculateMethod.getImplTypeArray();
+                        var implTypeDict = {};
+                        for(var i = 0; i < implTypeArray.length; i++){
+                            implTypeDict[implTypeArray[i].id] = implTypeArray[i].name;
+                        }
+
+                        this.methodFormJson = {
+                            //id: "demo-frame-layout-panel-3",
+                            size: "standard",
+                            format: "standard",
+                            fillbg: true,
+                            form: [
+                                [
+                                    {
+                                        id: 'id',
+                                        label: 'ID',
+                                        type:'text',
+                                        column: 12,
+                                        hidden: true
+                                    }, {
+                                        id: 'name',
+                                        label: '方法名',
+                                        type:'text',
+                                        rules: 'required',
+                                        column: 12
+                                    },{
+                                        id: 'description',
+                                        label: '方法说明',
+                                        type:'textarea',
+                                        mode:'html',
+                                        smartIndent: false,
+                                        column: 12,
+                                        height: 80
+                                    },{
+                                        id: 'implType',
+                                        label: '方法类型',
+                                        type: 'select',
+                                        rules: 'select',
+                                        textField: 'name',
+                                        valueField: 'id',
+                                        column: 12,
+                                        isCloseSearch: -1,
+                                        subdata: implTypeArray,
+                                        changeHandler: function (id, value) {
+                                            console.log(id);
+                                            console.log(value);
+                                        }
+                                    },{
+                                        id: 'implJava',
+                                        label: 'java实现类',
+                                        type:'text',
+                                        rules: 'required',
+                                        column: 12
+                                    },{
+                                        id: 'formJson',
+                                        label: '表单代码',
+                                        type:'codeMirror',
+                                        mode:'javascript',//编辑器脚本输出 例如javascript,
+                                        smartIndent: false,
+                                        column: 12
+                                        //indentUnit
+                                        //smartIndent
+                                    },{
+                                        id: 'jsLogic',
+                                        label: '逻辑代码',
+                                        type:'codeMirror',
+                                        mode:'javascript',//编辑器脚本输出 例如javascript,
+                                        smartIndent: false,
+                                        column: 12
+                                    }
+                                ]
+                            ]
+                        };
+
+                        this.methodTableConfig = {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '主键',
+                                    width: 50,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'name',
+                                    title: '方法名',
+                                    width: 150,
+                                    searchable: true
+                                },
+                                {
+                                    field: 'implType',
+                                    title: '类型',
+                                    width: 100,
+                                    formatHandler:{
+                                        type:'dictionary',
+                                        data:implTypeDict
+                                    }
+                                },
+                                {
+                                    field: 'operation',
+                                    title: '操作',
+                                    width: 60,
+                                    tabPosition: 'after',
+                                    formatHandler: {
+                                        type: 'button',
+                                        data: [
+                                            {
+                                                '预览': function (data) {
+                                                    var row = data.rowData;
+                                                    $.ajax({
+                                                        url: getRootPath() + '/reportSourceMethod/' + row.id,
+                                                        type: 'get',
+                                                        success: function (data) {
+                                                            if (data.success) {
+                                                                var formJson = data.data.formJson;
+                                                                var formArray = eval('(' + formJson + ')');
+                                                                MethodCommon.appendMethodId(formArray, row.id);
+                                                                var previewMethodFormDialog = {
+                                                                    id: 'report-method-list-preview-dialog',
+                                                                    title: row.name,
+                                                                    size: 'b',
+                                                                    form: formArray,
+                                                                    btns: [
+                                                                        {
+                                                                            text: '确认',
+                                                                            handler: function(){
+                                                                                var data = methodForm.getData();
+                                                                                var jsonStr = JSON.stringify(data, null, 4);
+                                                                                console.log(jsonStr);
+                                                                                alert(jsonStr);
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                };
+                                                                nsdialog.initShow(previewMethodFormDialog);
+                                                            } else {
+                                                                var errStr = data.msg;
+                                                                nsalert('获取方法明细失败，请重试 ' + errStr, 'error');
+                                                            }
+                                                        },
+                                                        error: function (e) {
+                                                            nsalert('获取方法明细失败，请重试', 'error');
+                                                        }
+                                                    })
+                                                }
+                                            }, {
+                                                '删除': function (data) {
+                                                    var trData = data.rowData;
+                                                    nsTable.setSelectRows(methodTableId, trData.id);
+                                                    nsmessager.confirm("是否确认删除方法：" + trData.name, function () {
+                                                        $.ajax({
+                                                            data: {id: trData.id},
+                                                            url: getRootPath() + '/reportSourceMethod/delete',
+                                                            success: function (data) {
+                                                                if (data.success) {
+                                                                    nsalert('删除成功', 'success');
+                                                                    baseDataTable.reloadTableAJAX(methodTableId);
+                                                                } else {
+                                                                    var errStr = data.msg;
+                                                                    nsalert('删除失败，请重试 ' + errStr, 'error');
+                                                                }
+                                                            },
+                                                            error: function (e) {
+                                                                nsalert('删除失败，请重试', 'error');
+                                                            }
+                                                        })
+                                                    });
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            data: {
+                                src: getRootPath() + '/reportSourceMethod/getAll',
+                                type: "GET",
+                                data: '',
+                                isServerMode: false,
+                                isSearch: true,
+                                isPage: true,
+                                dataSrc: 'rows'
+                            },
+                            ui: {
+                                searchTitle: "方法搜索",
+                                searchPlaceholder: "名称",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true,
+                                onSingleSelectHandler: function () {
+                                    var row = nsTable.getSingleRowSelectedData(methodTableId);
+                                    $.ajax({
+                                        url: getRootPath() + '/reportSourceMethod/' + row.id,
+                                        type: 'get',
+                                        success: function (data) {
+                                            if (data.success) {
+                                                if(!data.data.description){
+                                                    data.data.description = '';
+                                                }
+                                                nsForm.fillValues(data.data, methodFormId);
+                                            } else {
+                                                var errStr = data.msg;
+                                                nsalert('获取方法明细失败，请重试 ' + errStr, 'error');
+                                            }
+                                        },
+                                        error: function (e) {
+                                            nsalert('获取方法明细失败，请重试', 'error');
+                                        }
+                                    })
+                                }
+                            },
+                            btns: {}
+                        };
+
+                        nsLayout.init("report-method-list");
+                    }
+                }
+            }
+        };
+
+        nsFrame.init(report.method.list);
+    </script>
+</container>

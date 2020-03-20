@@ -1,0 +1,335 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<style>
+    .ns-larout-tree {
+        /* float: left; */
+        width: 244px;
+        margin-top: -34px;
+        margin-left: 6px;
+    }
+
+    .pt-tab-body {
+        height: 484px;
+        clear: both;
+    }
+
+    .ns-larout-from {
+        /* margin-left:249px; */
+        margin-right: 6px;
+    }
+
+    .ns-larout-newly {
+        display: flex;
+    }
+</style>
+<div onclick="dialog()">弹框</div>
+<div>
+    <!-- <div class='pt-tab-header'>
+        <div class="pt-nav">
+            <ul class="pt-tab-list-components-tabs"id="tab-tree-detaillist-nstemplate-layout-nscloud-record">
+                <li class="component-list pt-nav-item current" ns-index="0">
+                    <a href="javascript:void(0);"ns-href-id="nstemplate-layout-nscloud-record-list-1">方法数据元</a>
+                </li>
+                <li class="component-list pt-nav-item " ns-index="1">
+                    <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-2">样品数据元</a>
+                </li>
+                <li class="component-list pt-nav-item " ns-index="2">
+                    <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-3">记录样品数据元</a>
+                </li>
+                <li class="component-list pt-nav-item " ns-index="2">
+                    <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-4">记录数据元</a>
+                </li>
+                <li class="component-list pt-nav-item " ns-index="2">
+                    <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-5">表格数据元</a>
+                </li>
+                <li class="component-list pt-nav-item " ns-index="2">
+                    <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-6">项目数据元</a>
+                </li>
+            </ul>
+        </div>
+    </div> -->
+    <!-- <div class='pt-tab-body'>
+        <div id="pt-tab-content">
+            <div id="nstemplate-layout-nscloud-record-tree-1"  class="ns-larout-tree></div>
+            <div id="nstemplate-layout-nscloud-record-sub-1" class="ns-larout-from"></div>
+        </div>
+        <div id="pt-tab-content">
+            <div id="nstemplate-layout-nscloud-record-tree-2"  class="ns-larout-tree></div>
+            <div id="nstemplate-layout-nscloud-record-sub-2" class="ns-larout-from"></div>
+        </div>
+        <div id="pt-tab-content">
+            <div id="nstemplate-layout-nscloud-record-tree-3"  class="ns-larout-tree></div>
+            <div id="nstemplate-layout-nscloud-record-sub-3" class="ns-larout-from"></div>
+        </div>
+        <div id="pt-tab-content">
+            <div id="nstemplate-layout-nscloud-record-tree-4"  class="ns-larout-tree></div>
+            <div id="nstemplate-layout-nscloud-record-sub-4" class="ns-larout-from"></div>
+        </div>
+        <div id="pt-tab-content">
+            <div id="nstemplate-layout-nscloud-record-tree-5"  class="ns-larout-tree></div>
+            <div id="nstemplate-layout-nscloud-record-sub-5" class="ns-larout-from"></div>
+        </div> 
+        <div id="pt-tab-content">
+            <div id="nstemplate-layout-nscloud-record-tree-6"  class="ns-larout-tree></div>
+            <div id="nstemplate-layout-nscloud-record-sub-6" class="ns-larout-from"></div>
+        </div>
+    </div> -->
+
+</div>
+<script>
+    var dataclick = function (v) {
+        var rowsData = document.getElementsByClassName("tab-conent-layout");
+        for (var i = 0; i < rowsData.length; i++) {
+            var _rowsData = rowsData[i];
+            if (_rowsData == document.getElementById("pt-tab" + v + "-content")) {
+                _rowsData.style.display = "block";
+            } else {
+                _rowsData.style.display = "none";
+            }
+        }
+    }
+</script>
+<script>
+    function dialog() {
+        var dialog = {
+            id: 'xxx',
+            height: '80%',
+            width: '80%',
+            templateName: 'PC',
+            isAllowDrag: true, //允许拖拽
+            title: '新增关联',
+            shownHandler: function (data) {
+                var dialogBodyId = data.config.bodyId;
+
+                $('#' + dialogBodyId).html('\
+                <div class="pt-tab-header" >\
+                    <div class="pt-nav">\
+                        <ul class="pt-tab-list-components-tabs"id="tab-tree-detaillist-nstemplate-layout-nscloud-record">\
+                            <li class="component-list pt-nav-item current" ns-index="0">\
+                                <a href="javascript:void(0);"ns-href-id="nstemplate-layout-nscloud-record-list-1"  onclick="dataclick(1)">方法数据元</a>\
+                            </li>\
+                            <li class="component-list pt-nav-item " ns-index="1">\
+                                <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-2"  onclick="dataclick(2)">样品数据元</a>\
+                            </li>\
+                            <li class="component-list pt-nav-item " ns-index="2">\
+                                <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-3"  onclick="dataclick(3)">记录样品数据元</a>\
+                            </li>\
+                            <li class="component-list pt-nav-item " ns-index="2">\
+                                <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-4"  onclick="dataclick(4)">记录数据元</a>\
+                            </li>\
+                            <li class="component-list pt-nav-item " ns-index="2">\
+                                <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-5"  onclick="dataclick(5)">表格数据元</a>\
+                            </li>\
+                            <li class="component-list pt-nav-item " ns-index="2">\
+                                <a href="javascript:void(0);" ns-href-id="nstemplate-layout-nscloud-record-list-6"  onclick="dataclick(6)">项目数据元</a>\
+                            </li>\
+                        </ul>\
+                    </div>\
+                </div>\
+                <div class="pt-tab-body">\
+                    <div id="pt-tab1-content" class="tab-conent-layout" >\
+                        <div class="ns-larout-newly">\
+                            <div id="newly-tree-methoddata" class="ns-larout-tree"></div>\
+                            <div id="newly-from-methoddata" class="ns-larout-from"></div>\
+                        </div>\
+                    </div>\
+                    <div id="pt-tab2-content" class="tab-conent-layout" style="display:none">\
+                       <div class="ns-larout-newly">\
+                            <div id="newly-tree-sampledata" class="ns-larout-tree"></div>\
+                            <div id="newly-from-sampledata" class="ns-larout-from"></div>\
+                        </div>\
+                    </div>\
+                    <div id="pt-tab3-content" class="tab-conent-layout" style="display:none">\
+                        <div class="ns-larout-newly">\
+                            <div id="newly-tree-recordsample" class="ns-larout-tree"></div>\
+                            <div id="newly-from-recordsample" class="ns-larout-from"></div>\
+                        </div>\
+                    </div>\
+                    <div id="pt-tab4-content" class="tab-conent-layout" style="display:none">\
+                        <div class="ns-larout-newly">\
+                            <div id="newly-tree-recorddata" class="ns-larout-tree"></div>\
+                            <div id="newly-from-recorddata" class="ns-larout-from"></div>\
+                        </div>\
+                    </div>\
+                    <div id="pt-tab5-content" class="tab-conent-layout" style="display:none">\
+                        <div class="ns-larout-newly">\
+                            <div id="newly-tree-griddata" class="ns-larout-tree"></div>\
+                            <div id="newly-from-griddata" class="ns-larout-from"></div>\
+                        </div>\
+                    </div> \
+                    <div id="pt-tab6-content"class="tab-conent-layout" style="display:none">\
+                        <div class="ns-larout-newly">\
+                            <div id="newly-tree-itemdata" class="ns-larout-tree"></div>\
+                            <div id="newly-from-itemdata" class="ns-larout-from"></div>\
+                        <div>\
+                    </div>\
+                </div>');
+
+                var methodDataTreeJson = {
+                    id: "newly-tree-methoddata",
+                    type: "tree", //类型
+                    title: '', //标题  
+                    isSearch: false,
+                    unfieldId: 'unfieldId', //子级id
+                    allfieldId: 'allfieldId', //父子级id 
+                    unfieldText: "柠檬", //子级
+                    allfieldText: '所有', //全部（父子级）
+                    isMultiple: false, //不多选
+                    isClickRoot: true, //选中根节点 
+                    ajax: {
+                        data: {
+                            categoryType: 1,
+                        },
+                        url: getRootPath() + '/docs/data/tree/getList2.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    idField: "id",
+                    textField: "name",
+                    childField: "children", //树数据子级名
+                    fromField: "fromId", //新增时发送的字段
+                    level: "0", //打开层级 
+                    readonly: false, //只读
+                    maxlength: 50, //
+                    formatter: "{\"id\":\"{id}\"}",
+                    addAjax: {
+                        //新增
+                        url: getRootPath() + '/docs/data/tree/from.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    deleteAjax: { //删除
+                        url: getRootPath() + '/docs/data/tree/from.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    editAjax: { //修改
+                        url: getRootPath() + '/docs/data/tree/from.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    moveAjax: { //移动
+                        url: getRootPath() + '/docs/data/tree/from.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    clickHandler: function (obj) {
+                        NetStarUtils.ajax({
+                            url: getRootPath + "/docs/data/tree/from.json",
+                            data: {},
+                            type: 'GET',
+                            contentType: 'application/x-www-form-urlencoded',
+                        }, function (res, ajaxConfig) {
+                            console.warn(res);
+                            var _fromJson = $.extend(true, {}, formJsonMethoddata);
+                            var _fromArray = _fromJson.from;
+                            var resData = res.data;
+                            NetstarComponent.fillValues(resData, "newly-from-methoddata", true)
+                        })
+
+                    },
+                    height: 600, //树高度 
+                    //树宽度
+                }
+
+                NetstarTemplate.tree.init(methodDataTreeJson); //树初始化
+     
+                var sampleDataTreeJson = {
+                    id: "newly-tree-sampledata",
+                    type: "tree", //类型
+                    title: '', //标题  
+                    isSearch: false,
+                    unfieldId: 'unfieldId', //子级id
+                    allfieldId: 'allfieldId', //父子级id 
+                    unfieldText: "柠檬", //子级
+                    allfieldText: '所有', //全部（父子级）
+                    isMultiple: false, //不多选
+                    isClickRoot: true, //选中根节点 
+                    ajax: {
+                        data: {
+                            categoryType: 1,
+                        },
+                        url: getRootPath() + '/docs/data/tree/getList.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    idField: "id",
+                    textField: "name",
+                    childField: "children", //树数据子级名
+                    fromField: "fromId", //新增时发送的字段
+                    level: "0", //打开层级 
+                    readonly: false, //只读
+                    maxlength: 50, //
+                    formatter: "{\"id\":\"{id}\"}",
+                    addAjax: {
+                        //新增
+                        url: getRootPath() + '/docs/data/tree/from.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    deleteAjax: { //删除
+                        url: getRootPath() + '/docs/data/tree/from.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    editAjax: { //修改
+                        url: getRootPath() + '/docs/data/tree/from.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+                    moveAjax: { //移动
+                        url: getRootPath() + '/docs/data/tree/from.json',
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        dataSrc: "rows"
+                    },
+
+                    height: 400, //树高度 
+                    //树宽度
+                }
+
+                NetstarTemplate.tree.init(sampleDataTreeJson);
+           
+                var formJsonMethoddata = {
+                    id: 'newly-from-methoddata',
+                    templateName: 'form',
+                    componentTemplateName: 'PC',
+                    isSetMore: false,
+                    form: [{
+                        id: 'value',
+                        label: '显示 :',
+                        type: 'text',
+                        value: '鸡蛋',
+                    }]
+                }
+                var component = NetstarComponent.formComponent.getFormConfig(formJsonMethoddata, {});
+                NetstarComponent.formComponent.init(component, formJsonMethoddata);
+                var formJsonValue1 = {
+                    id: 'newly-from-sampledata',
+                    templateName: 'form',
+                    componentTemplateName: 'PC',
+                    isSetMore: false,
+                    form: [{
+                        id: 'value',
+                        label: '显示 :',
+                        type: 'text',
+                        value: '鸡蛋',
+                    }]
+                }
+                var component = NetstarComponent.formComponent.getFormConfig(formJsonValue1, {});
+                NetstarComponent.formComponent.init(component, formJsonValue1);
+            }
+
+        }
+
+        NetstarComponent.dialogComponent.init(dialog); //弹框初始化
+    }
+</script>

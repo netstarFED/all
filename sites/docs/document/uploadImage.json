@@ -1,0 +1,283 @@
+{
+    "operator": {
+        "type": {
+            "chineseName": "组件类型",
+            "validType": "string",
+            "toolType": "select",
+            "default": "uploadImage",
+            "required": true,
+            "subdata": [{
+                "value": "uploadImage",
+                "text": "上传图片"
+            }]
+        },
+        "id": {
+            "chineseName": "字段名称",
+            "validType": "string",
+            "toolType": "text",
+            "required": ""
+        },
+        "label": {
+            "chineseName": "标签",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        }, 
+        "inputHeight":{
+            "chineseName":"文本框高度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100
+        },          
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":100,
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules": {
+            "chineseName": "验证规则",
+            "validType": "string",
+            "toolType": "multi-select",
+            "subdata": [{
+                "value": "required",
+                "text": "必填"
+            }, {
+                "value": "",
+                "text": "无验证"
+            }]
+        },
+        "disabled": {
+            "chineseName": "只读",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "hidden": {
+            "chineseName": "隐藏",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "btns": {
+            "chineseName": "显示的按钮",
+            "validType": "string",
+            "toolType": "multi-select",
+            "subdata": [
+                {
+                    "value": "upload",
+                    "text": "上传"
+                },
+                {
+                    "value": "delete",
+                    "text": "删除"
+                },
+                {
+                    "value": "download",
+                    "text": "下载"
+                },
+                {
+                    "value": "print",
+                    "text": "打印"
+                },
+                {
+                    "value": "produce",
+                    "text": "生成"
+                },
+                {
+                    "value": "preview",
+                    "text": "预览"
+                }
+                
+            ],
+            "default": "",
+            "help":"upload(上传), delete(删除),download(下载) , print(打印)"
+        },
+        "isShowThum": {
+            "chineseName": "是否显示缩略图",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": true,
+            "help":""
+        },
+        "isMultiple": {
+            "chineseName": "是否多选",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": true,
+            "help":""
+        },
+        "accept": {
+            "chineseName": "格式",
+            "validType": "string",
+            "toolType": "text",
+            "help":""
+        },
+        "align": {
+            "chineseName": "格式",
+            "validType": "string",
+            "toolType": "select",
+            "default": "common",
+            "subdata":[
+                {
+                    "value":"common",
+                    "text":"通用"
+                },
+                {
+                    "value":"video",
+                    "text":"视频"
+                }
+            ],
+            "help":""
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },  
+        "changeHandler": {
+            "validType": "function",
+            "toolType": "textarea",
+            "chineseName": "变更处理程序"
+        }              
+    },
+    "data": {
+        "produceFileAjax": {
+            "chineseName": "produceFileAjax",
+            "required": true,
+            "validType": "object",
+            "toolType": "ajaxEditor"
+        },
+        "textField":{
+            "chineseName":"显示字段",
+            "validType":"string",
+            "toolType":"text",
+            "default":"value",
+            "required":true,
+            "help":"显示字段"
+        },
+        "valueField":{
+            "chineseName":"保存值",
+            "required":true,
+            "validType":"string",
+            "toolType":"text",
+            "default":"id",
+            "help":"服务器接受到的返回值"
+        },
+        "outputFields":{
+            "chineseName": "输出数据",
+            "validType": "string",
+            "toolType": "textarea",
+            "default": {},
+            "help":"弹出模板时需要" 
+        },
+        "innerFields":{
+            "chineseName": "初始化组件",
+            "validType": "string",
+            "toolType": "textarea",
+            "default": {},
+            "help":"组件赋值时value赋值" 
+        },
+        "uploadAjaxData": {
+            "chineseName": "ajax传参",
+            "validType": "string",
+            "toolType": "textarea",
+            "default": {},
+            "help":""
+        },
+        "visibilityLevel": {
+            "chineseName": "上传级别",
+            "validType": "string",
+            "toolType": "text",
+            "default": "thumUrl",
+            "help":""
+        },
+        "editAjax": {
+            "chineseName": "修改地址配置",
+            "validType": "object",
+            "toolType": "ajaxEditor",
+            "default": {},
+            "help":""
+        },
+        "downloadAjax": {
+            "chineseName": "下载地址配置",
+            "validType": "object",
+            "toolType": "ajaxEditor",
+            "default": {},
+            "help":""
+        },
+        "fileTypeField": {
+            "chineseName": "文件类型字段",
+            "validType": "string",
+            "toolType": "text",
+            "default": "contentType",
+            "help":""
+        },
+        "fileType": {
+            "chineseName": "上传类型",
+            "validType": "string",
+            "toolType": "select",
+            "subdata":[
+                {
+                    "value":"common",
+                    "name":"普通"
+                },
+                {
+                    "value":"video",
+                    "name":"视频"
+                }
+            ],
+            "default": "",
+            "help":""
+        },
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+       
+        
+    },
+    "prepattern": [
+        
+    ]
+}

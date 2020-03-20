@@ -1,0 +1,806 @@
+@pt-upload-media-size: 240px;
+@pt-upload-form-size: 24px;
+@pt-media-mark-size: 48px;
+
+.pt-upload {
+    height: auto;
+    overflow: hidden;
+
+    img {
+        display: block;
+        width: 100%;
+    }
+
+    .pt-form-control {
+        line-height: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+    }
+
+    .pt-input-group-btn {
+        position: absolute;
+        top: 0; //top:0; 上传表单需要做字段截取，display为block，导致按钮换行，所以需要加top:0
+        right: 0;
+    }
+
+
+    @upload-disabled-color: #000;
+
+    // 禁用模式
+    &.disabled {
+
+        // 禁用模式按钮（仅查看）
+        .pt-input-group-btn {
+            .pt-btn-default {
+                &:hover {
+                    background: @warning  !important;
+                    cursor: pointer;
+
+                    i {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
+        .pt-upload-list-container {
+            color: @upload-disabled-color;
+
+            .pt-upload-names {
+                span {
+                    color: @upload-disabled-color;
+                }
+            }
+
+            .pt-btn-link {
+                cursor: pointer;
+
+                span {
+                    color: @upload-disabled-color;
+                }
+            }
+        }
+    }
+}
+
+.pt-upload,
+.pt-upload-list-container {
+
+    // 上传按钮样式
+    .pt-btn {
+        position: relative;
+
+        .pt-upload-control {
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            .square(@pt-upload-form-size - 2);
+            cursor: pointer;
+        }
+    }
+}
+
+
+// 上传组价头部（上传按钮及title）
+.pt-upload-header {
+    height: auto;
+    overflow: hidden;
+    padding: 15px 0;
+
+    .pt-btn-group {
+        .pt-btn.pt-btn-icon {
+            position: relative;
+            .square(60px);
+
+            .pt-upload-control {
+                .square(60px);
+            }
+
+            &:hover {
+                background: @warning;
+            }
+
+            i {
+                font-size: @icon-size-3x;
+            }
+        }
+    }
+
+    .pt-title {
+        font-size: @font-size-h4;
+        margin-left: @base-margin-lg;
+        padding-top: (@base-padding-lg + 3);
+
+        small {
+            font-size: @font-size-h6;
+            color: @warning;
+            display: block;
+        }
+
+        .pt-radio {
+            display: inline-block;
+            line-height: @pt-upload-form-size;
+
+            label.pt-radio-inline {
+                font-size: @font-size-sm;
+            }
+        }
+    }
+
+}
+
+.pt-media-list {
+    margin: 0 -@base-margin;
+    overflow-y: auto;
+}
+
+.pt-media-item {
+    width: 33.3333%;
+    padding: @base-padding;
+    position: relative;
+    float: left;
+
+    .pt-media-image {
+        position: relative;
+        border: 1px solid @border-color;
+        overflow: hidden;
+        display: table-cell;
+        vertical-align: middle;
+
+        img {
+            // height: @pt-upload-media-size;
+            height: auto;
+            width: auto;
+            max-height: 100%;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .pt-media-edit {
+            position: absolute;
+            right: 0;
+            bottom: -34px;
+            left: 0;
+            padding: @padding-sm-v @padding-sm-h;
+            background: rgba(0, 0, 0, .4);
+            color: #fff;
+            transition: ease-in-out all .25s;
+            text-align: right;
+
+            .pt-btn {
+                display: inline-block;
+                background: transparent;
+
+                &:hover {
+                    background: rgba(0, 0, 0, .4);
+                    color: #fff;
+                }
+            }
+        }
+
+        &:hover {
+            .pt-media-edit {
+                bottom: 0;
+            }
+        }
+
+        .pt-media-current & {
+            border-color: @warning;
+        }
+
+        // 封面图片
+        &.favorite {
+            border-color: @warning;
+        }
+    }
+
+    .pt-mark {
+        position: absolute;
+        top: (@pt-upload-form-size / 2);
+        left: 0;
+        .square(@pt-upload-form-size);
+        line-height: @pt-upload-form-size;
+        color: #fff;
+        background: @success;
+        text-align: center;
+
+    }
+
+
+
+}
+
+.pt-media-title {
+    padding: @padding-lg-v 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: relative;
+    padding-right: 30px;
+    line-height: @pt-upload-form-size;
+
+    .pt-btn.pt-btn-link {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-top: -(@pt-upload-form-size / 2);
+        opacity: 0;
+        transition: ease-in-out all .25s;
+
+    }
+
+    &:hover {
+        .pt-btn {
+            opacity: 1;
+            text-decoration: none;
+        }
+    }
+
+    // 编辑模式
+    .pt-upload-edit {
+
+        position: relative;
+
+        // 输入框
+        .pt-form-control {
+            display: inline-block;
+            height: @pt-upload-form-size;
+        }
+
+        // 按钮组
+        .pt-btn-group {
+            display: inline-block;
+
+            .pt-btn {
+                border: 0;
+
+                // 取消按钮
+                &.cancle i {
+                    color: @danger;
+                }
+
+                // 确认按钮
+                &.confirm i {
+                    color: @success;
+                }
+
+                &:hover {
+                    i {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.pt-media-mark {
+    position: absolute;
+    .square(@pt-media-mark-size);
+    line-height: @pt-media-mark-size;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    z-index: 1;
+
+    i {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 9;
+        .square(28px);
+        line-height: 28px;
+        text-align: center;
+        color: #fff;
+    }
+
+    &:after {
+        .triangle-right-top(@pt-media-mark-size, @warning);
+        top: 0;
+        right: 0;
+        z-index: 1;
+    }
+
+}
+
+@pt-upload-header-height: 32px;
+@pt-upload-list-width: 328px;
+@pt-upload-header-checkbox-size: @pt-upload-header-height;
+@pt-upload-checkbox-square: 16px;
+@pt-upload-list-item-height: 45px;
+@pt-upload-list-item-name-width: 220px;
+@pt-upload-list-item-form-height: 24px;
+@pt-upload-footer-form-height: 24px;
+@pt-upload-footer-form-width: 60px;
+@pt-upload-list-item-form-hover-bg: #f8f8f8;
+@pt-upload-list-item-form-current-bg: #fcefe8;
+@pt-upload-thumb-size: 24px;
+
+.pt-upload-checkbox-after() {
+    &:after {
+        position: absolute;
+        content: '';
+        top: 50%;
+        left: (@pt-upload-checkbox-square / 2);
+        .square(@pt-upload-checkbox-square);
+        text-align: center;
+        border: 1px solid @border-color;
+        font-family: @icon-font-icomoon;
+        margin-top: -(@pt-upload-checkbox-square / 2);
+        cursor: pointer;
+    }
+}
+
+
+// 多文件上传
+// 上传组件下拉面板
+.pt-upload-list-container {
+    // width: @pt-upload-list-width;
+    position: fixed;
+    z-index: 999;
+
+    .pt-upload-list {
+        margin-top: -2px;
+        background: #fff;
+        border: 1px solid @border-color;
+
+    }
+
+    // 头部内容
+    .pt-upload-list-header {
+        position: relative;
+        background: @primary;
+        height: @pt-upload-header-height;
+
+        // 复选
+        .pt-checkbox,
+        .pt-checkbox-harf,
+        .pt-checkbox-full {
+            .square(@pt-upload-header-checkbox-size);
+            .pt-upload-checkbox-after();
+            float: left;
+            padding-right: 0;
+        }
+
+        // 半选
+        .pt-checkbox-harf {
+            &:after {
+                background: lighten(@primary, 45);
+                content: '\e9cd';
+                color: #000;
+                border: 0;
+            }
+        }
+
+        // 全选
+        .pt-checkbox-full {
+            &:after {
+                background: #fff;
+                content: '\e95d';
+                border: 0;
+            }
+        }
+
+        // 按钮组
+        .pt-input-group-btn {
+            top: 50%;
+            left: @pt-upload-header-checkbox-size;
+            right: auto;
+            margin-top: -(@pt-upload-list-item-form-height / 2);
+
+            background: transparent;
+
+            .pt-btn {
+                &+.pt-btn {
+                    margin-left: 5px;
+                }
+            }
+
+            .pt-btn-default {
+                background: transparent;
+
+                span,
+                i {
+                    color: #fff;
+                }
+
+                &:hover {
+                    background: @warning;
+                }
+            }
+        }
+
+    }
+
+    // 多文件上传列表
+    .pt-upload-list-body {
+        ul {
+            .pt-upload-list-item {
+                .pt-upload-checkbox-after();
+                position: relative;
+                padding: @base-padding;
+                padding-left: @pt-upload-header-checkbox-size;
+                padding-right: @base-padding;
+                cursor: pointer;
+                min-height: @pt-upload-list-item-height;
+
+                &+.pt-upload-list-item {
+                    border-top: 1px solid @border-color;
+                }
+
+
+                // 只读模式
+                &.readonly {
+                    padding: 10px;
+                    background: #fff;
+                    cursor: default;
+
+                    &:after {
+                        display: none;
+                    }
+
+                    .pt-input-group-btn {
+                        display: none;
+                    }
+
+                    &:hover {
+                        background: #fff;
+                    }
+                }
+
+                &:hover {
+                    background: @pt-upload-list-item-form-hover-bg;
+                }
+
+                // 列表选中状态
+                &.selected {
+                    display: block;
+                    background: @pt-upload-list-item-form-current-bg;
+
+                    &:after {
+                        content: '\e95d';
+                    }
+                }
+
+                // 列表内容模块
+                .pt-list-table {
+                    display: table;
+                    width: 100%;
+                }
+
+                // 列表内容模块-缩略图
+                .pt-upload-thumbs {
+                    display: table-cell;
+                    vertical-align: middle;
+                    width: (@pt-upload-thumb-size + @base-padding);
+
+                    // .pt-image,
+                    // .pt-icon{
+                    //     .square(48px);
+                    //     border-radius: 3px;
+                    // }
+                    .pt-icon {
+                        display: inline-block;
+
+                        i {
+                            font-size: @pt-upload-thumb-size;
+
+                            &.icon-file-o {
+                                color: #6092c6;
+                            }
+
+                            &.icon-file-word {
+                                color: #185abd;
+                            }
+
+                            &.icon-file-excel {
+                                color: #107c41;
+                            }
+
+                            &.icon-file-pdf {
+                                color: #c02434;
+                            }
+
+                            &.icon-image {
+                                color: @warning;
+                            }
+                        }
+                    }
+
+                    .pt-image {
+                        .square(@pt-upload-thumb-size);
+                        display: block;
+                    }
+                }
+
+                // 列表内容模块-文件内容
+                .pt-upload-names {
+                    display: table-cell;
+                    width: @pt-upload-list-item-name-width;
+                    vertical-align: middle;
+                    position: relative;
+
+                    .pt-form-control {
+                        width: 100%;
+                        height: @pt-upload-list-item-form-height;
+                        line-height: @pt-upload-list-item-form-height;
+                        padding-right: @pt-upload-list-item-form-height;
+                        border: 1px solid transparent;
+
+                        &:focus {
+                            border: 1px solid @border-color;
+                        }
+                    }
+
+                    // 文件名称
+                    span {
+                        min-width: @pt-upload-list-item-name-width;
+                        max-width: @pt-upload-list-item-name-width;
+                        display: block;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        line-height: @pt-upload-list-item-form-height ;
+                    }
+
+                    // 列表内容模块-按钮组
+                    .pt-input-group-btn {
+                        right: 0;
+                    }
+
+                    &+.pt-input-group-btn {
+                        .pt-btn-icon {
+                            .square(@pt-upload-list-item-form-height) !important;
+                        }
+                    }
+                }
+
+                // 按钮组
+                .pt-input-group-btn {
+                    background: transparent;
+                    // top: 50%;
+                    // right: 10px;
+                    // margin-top: -11px;
+                    padding-top: @base-padding;
+                    vertical-align: middle;
+
+
+                    .pt-btn-default {
+                        background: transparent;
+
+                        &:hover {
+                            background: @warning;
+
+                            i {
+                                color: #fff;
+                            }
+                        }
+                    }
+
+                    .pt-btn {
+                        position: relative;
+                        display: inline-block;
+                        float: none;
+                    }
+                }
+
+                // 行内按钮
+                .pt-list-table {
+                    &>.pt-input-group-btn {
+                        position: static;
+                        display: table-cell;
+                        text-align: right;
+
+                        .pt-btn {
+                            .square(@pt-upload-list-item-form-height);
+
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    // 上传列表底部内容
+    .pt-upload-list-footer {
+        border-top: 1px solid @border-color;
+        background: #f8f8f8;
+
+        // 分页
+        .pt-page-turn {
+            padding-top: 10px;
+            text-align: right;
+
+            .pt-form-control {
+                width: @pt-upload-footer-form-width  !important;
+                border-color: @border-color;
+            }
+
+
+
+            .pt-btn-group,
+            .pt-form-group {
+                width: auto;
+                margin-left: 5px;
+            }
+
+            .pt-form-group {
+                label.pt-control-label {
+                    width: auto !important;
+                }
+            }
+
+            .pt-input-group {
+                width: auto;
+                margin: 0 5px;
+                display: inherit;
+            }
+
+            .pt-btn {
+                padding: 0 6px;
+            }
+        }
+
+        .pt-input-group-btn {
+            top: 0;
+
+            .pt-btn {
+                &.pt-btn-default {
+                    background: transparent;
+
+                    &:hover {
+                        background: @warning;
+                    }
+                }
+
+                &.pt-btn-link {
+                    text-decoration: none;
+
+                    &:hover,
+                    &:focus {
+
+                        span {
+                            text-decoration: none !important;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        .pt-input-group-select {
+            position: absolute;
+            right: 0;
+            width: (@pt-upload-footer-form-width * 3);
+            left: -1px;
+            bottom: 22px;
+            border: 1px solid @border-color;
+            background: #fff;
+            visibility: visible;
+
+            ul {
+                li {
+                    width: @pt-upload-footer-form-width;
+                    float: left;
+                    height: @pt-upload-footer-form-height;
+                    line-height: (@pt-upload-footer-form-height - 10);
+                    text-align: center;
+                    cursor: pointer;
+
+                    &.active {
+                        background: @warning;
+                        color: #fff;
+                    }
+
+                    &:hover {
+                        background: #f8f8f8;
+                        color: #000;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//图片上传组件
+
+
+.pt-uploadimage {
+    position: relative;
+    margin-left: @base-margin;
+
+    &.disabled {
+        .pt-form-control {
+            border-color: @input-border-disabled  !important;
+            pointer-events: none;
+        }
+    }
+
+    .pt-form-control {
+        width: 100%;
+        height: 100%;
+
+        .uploadimage-contorl {
+            width: 100%;
+            border: none;
+            height: 100%;
+
+            input.pt-upload-control {
+                width: 100%;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                opacity: 0;
+                cursor: pointer;
+                z-index: 2;
+            }
+
+            i {
+                font-size: 50px;
+                z-index: 1;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-left: -25px;
+                margin-top: -25px;
+            }
+        }
+
+        img {
+            height: auto;
+            width: auto;
+            max-height: 100%;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    .pt-input-group-btn {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 30px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 3px;
+        text-align: right;
+
+        button.pt-btn {
+            background: transparent;
+            color: #f1f1f1;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+}
+
+.pt-form-group {
+    &.fg-uploadImage {
+        &.uploadimg-right {
+            float: right;
+            padding-left: @base-padding;
+
+            .pt-uploadimage {
+                float: right;
+            }
+        }
+    }
+}
+
+.pt-form-vertical {
+    .pt-uploadimage {
+        width: 100%;
+    }
+}

@@ -1,0 +1,1251 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>select</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>字段名</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>组件id，实际生成的表单中名称为'form-'+id id不可重复</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>组件类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>select</td>
+                            </tr>
+                            <tr>
+                                <td>textField</td>
+                                <td>显示字段</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>选项显示的字段(默认text)</td>
+                            </tr>
+                            <tr>
+                                <td>valueField</td>
+                                <td>保存值</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>选项value字段，即如果string类型（isObjectValue==false）组件的保存值 (默认value)</td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件的标签，未配置则不显示</td>
+                            </tr>
+                            <tr>
+                                <td>rules</td>
+                                <td>验证规则</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>value</td>
+                                <td>显示的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认显示的值</td>
+                            </tr>
+                            <tr>
+                                <td>disabled</td>
+                                <td>只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否只读(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>inputWidth</td>
+                                <td>宽</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>组件除去label的宽度与width不共存(默认100)</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>宽</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件整体宽度 *% 与inputWidth不共存</td>
+                            </tr>
+                            <tr>
+                                <td>changeHandler</td>
+                                <td>变更处理程序</td>
+                                <td>function</td>
+                                <td></td>
+                                <td>组件值改变时触发 即value值发生改变时触发</td>
+
+                            </tr>
+                            <tr>
+                                <td>hidden</td>
+                                <td>隐藏</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否隐藏(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>subdata</td>
+                                <td>数据</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>选项数组 具体配置见下方：subdata配置 数据类型[]</td>
+                            </tr>
+                            <tr>
+                                <td>url</td>
+                                <td>获取地址</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过ajax获得subdata</td>
+                            </tr>
+                            <tr>
+                                <td>dataSrc</td>
+                                <td>返回的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax返回数据的key值</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax类型，GET/POST (默认GET)</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td>传参</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>ajax传参 关联字段配置（即获得表单中其它字段值作为传输参数）{}</td>
+                            </tr>
+                            <tr>
+                                <td>contentType</td>
+                                <td>ajax的传值类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax的传值类型 ‘application/json’表示传值data转化成字符串</td>
+                            </tr>
+                            <tr>
+                                <td>ajaxConfig</td>
+                                <td>ajax配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>ajax配置</td>
+                            </tr>
+                            <tr>
+                                <td>formSource</td>
+                                <td>组件模式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模式；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认from)</td>
+                            </tr>
+                            <tr>
+                                <td>templateName</td>
+                                <td>组件模式名字</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模板名字；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认pc)</td>
+                            </tr>
+                            <tr>
+                                <td>mindjetFieldPosition</td>
+                                <td>是否在更多种显示</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>是否是更多中显示的数据(默认field)</td>
+                            </tr>
+                            <tr>
+                                <td>panelConfig</td>
+                                <td>面板配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>面板配置 {'text-align':'left'}</td>
+                            </tr>
+                            <tr>
+                                <td>isServerMode</td>
+                                <td>默认本地检索</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>默认本地检索(默认false)当false时可以检索</td>
+                            </tr>
+                            <tr>
+                                <td>relationField</td>
+                                <td>关联字段</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>page./pageVo./row./table./this.</td>
+                            </tr>
+                            <tr>
+                                <td>listArray</td>
+                                <td>列表数据</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>列表数据 []</td>
+                            </tr>
+                            <tr>
+                                <td>filterListArray</td>
+                                <td>检索结果数据</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>检索结果数据 []</td>
+                            </tr>
+                            <tr>
+                                <td>panelStyle</td>
+                                <td>面板样式</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>面板样式 {}</td>
+                            </tr>
+                            <tr>
+                                <td>isObjectValue</td>
+                                <td>默认返回值是否是list</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>服务器端默认返回ids,使用此功能则返回数组 </td>
+                            </tr>
+                            <tr>
+                                <td>listExpression</td>
+                                <td>显示表达式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>显示表达式 </td>
+                            </tr>
+                            <tr>
+                                <td>isAjax</td>
+                                <td>默认调用ajax获取数据</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>默认调用ajax获取数据(默认true)</td>
+                            </tr>
+                            <tr>
+                                <td>selectMode</td>
+                                <td>选择</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>单选 多选 single multi(默认single)</td>
+                            </tr>
+                            <tr>
+                                <td>idField</td>
+                                <td>id字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>id字段(默认value)</td>
+                            </tr>
+                            <tr>
+                                <td>outputFields</td>
+                                <td>获取值</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>获取值</td>
+                            </tr>
+                            <tr>
+                                <td>total</td>
+                                <td>表达式</td>
+                                <td>object</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>isPreloadData</td>
+                                <td>预先加载</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>defaultSelectedIndex</td>
+                                <td>默认选择</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>默认选中第几行</td>
+                            </tr>
+                            <tr>
+                                <td>isReadDefaultWidth</td>
+                                <td>是否读取默认宽度</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>默认true</td>
+                            </tr>
+                            <tr>
+                                <td>isAddLinkhref</td>
+                                <td>是否添加超链接</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>默认false如果超链接设置为true，需要与linkDefaultMode，linkUrlSuffix配合使用</td>
+                            </tr>
+                            <tr>
+                                <td>linkDefaultMode</td>
+                                <td>类型选择</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>dialog/newtab</td>
+                            </tr>
+                            <tr>
+                                <td>linkUrlSuffix</td>
+                                <td>跳转地址</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>isPage</td>
+                                <td>是否翻页</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>默认false</td>
+                            </tr>
+                            <tr>
+                                <td>linkParams</td>
+                                <td>自定义</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>isDistinct</td>
+                                <td>是否有排重字段</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>distinctField</td>
+                                <td>排重字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>valueExpression</td>
+                                <td>value表达式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过表达式设置value值  {page.**}</td>
+                            </tr>
+                            <tr>
+                                <td>placeholder</td>
+                                <td>placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>gridPlaceholder</td>
+                                <td>表格placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>表格默认显示（业务组件：点击新增，其它：可输入）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">显示的值</h3>
+                <span class="intro">默认显示内容:日期组件value值必须是数字</span>
+                <div id="nsdocs-select-value" class="panel-demo"></div>
+                <script>
+                    /*输入模式value*/
+                    var formJsonValue = {
+                        id: 'nsdocs-select-value',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,         
+                        form: [   
+                        {
+                            id: 'value',
+                            label: '显示 :',
+                            type: 'select',
+                            rules:"",
+                            value: '1',
+                            textField: 'name',
+                            valueField: 'id',
+                            width:'110%',
+                            isServerMode:true,
+                            subdata: [{
+                                    id: '1',
+                                    name: '男',
+                                    state: "none"
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ],
+                        }] 
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonValue, {});
+                    NetstarComponent.formComponent.init(component, formJsonValue);
+                    /*输入模式value---end*/
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'value',
+        label: '显示 :',
+        type: 'select',
+        rules:"",
+        value: '',
+        textField: 'name',
+        valueField: 'id',
+        subdata: [{
+                id: '1',
+                name: '男',
+                state: "none"
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ],
+    }
+                    </pre>
+                </div>
+            </div>
+            <!-- 标准输入模式只读disabled -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-disabled"></a>  
+                <h3 class="title-code">只读</h3>
+                <span class="intro">只读，不可编辑 </span>
+                <div id="nsdocs-select-disabled" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonDisbled = {
+                        id: 'nsdocs-select-disabled',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'disabled',
+                            label: '只读 :',
+                            type: 'select',
+                            value: "2",
+                            disabled: true,  //只读
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [
+                                {
+                                    id: '1',
+                                    name: '男',
+                                    state: "none",
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                },
+                            ], 
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonDisbled, {});
+                    NetstarComponent.formComponent.init(component, formJsonDisbled);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'disabled',
+        label: '只读 :',
+        type: 'select',
+        value: "2",
+        disabled: true,//只读
+        textField: 'name',
+        valueField: 'id',
+        subdata: [
+            {
+                id: '1',
+                name: '男',
+                state: "none",
+                disabled: "true",
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            },
+        ], 
+    }
+                     </pre>
+                </div>
+            </div>
+            <!-- 单选 多选  selectMode-->   
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-selectMode"></a>  
+                <h3 class="title-code">单选多选</h3>
+                <span class="intro">单选single 多选multi</span>
+                <div id="nsdocs-select-selectMode" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonSelectMode = {
+                        id: 'nsdocs-select-selectMode',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'selectMode',
+                            label: '多选 :',
+                            type: 'select',
+                            value: "1",
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [{
+                                    id: '1',
+                                    name: '男',
+                                },
+                                {
+                                    id: '2',
+                                    name: '女',
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它',
+                                }
+                            ], 
+                            selectMode:"multi",   //单选single  多选multi              
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonSelectMode, {});
+                    NetstarComponent.formComponent.init(component, formJsonSelectMode);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'selectMode',
+        label: '只读 :',
+        type: 'select',
+        value: "1",
+        textField: 'name',
+        valueField: 'id',
+        subdata: [{
+                id: '1',
+                name: '男',
+            },
+            {
+                id: '2',
+                name: '女',
+            },
+            {
+                id: '3',
+                name: '其它',
+            }
+        ], 
+        selectMode:"multi",   //单选single  多选multi              
+    }
+                     </pre>
+                </div>
+            </div>
+            <!-- 样式宽-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-width"></a>
+                <h3 class="title-code">样式宽</h3>
+                <span class="intro">宽</span>
+                <div id="nsdocs-select-width" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonWidth = {
+                        id: 'nsdocs-select-width',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false, //是否显示更多
+                        form: [{
+                            id: 'width',
+                            label: '宽 :',
+                            type: 'select',
+                            value: "3",
+                            inputWidth: 300, 
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [{
+                                    id: '1',
+                                    name: '男',
+                                },
+                                {
+                                    id: '2',
+                                    name: '女',
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它',
+                                }
+                            ],
+
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonWidth, {});
+                    NetstarComponent.formComponent.init(component, formJsonWidth);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'width',
+        label: '宽 :',
+        type: 'select',
+        value: "3",
+        inputWidth: 300, 
+        textField: 'name',
+        valueField: 'id',
+        subdata: [{
+                id: '1',
+                name: '男',
+            },
+            {
+                id: '2',
+                name: '女',
+            },
+            {
+                id: '3',
+                name: '其它',
+            }
+        ],
+
+    }
+                    </pre>
+                </div>
+            </div>
+            <!--获取数据1 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-subdata"></a>
+                <h3 class="title-code">获取数据1</h3>
+                <span class="intro">用subdata获取数据</span>
+                <div id="nsdocs-select-subdata" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonSubdata = {
+                        id: 'nsdocs-select-subdata',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'subdata',
+                            label: 'subdata传出:',
+                            type: 'select',
+                            value: "1",
+                            textField: 'name',
+                            valueField: 'id',
+      
+                            subdata: [ //通过subdata获取值
+                                {
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ]
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonSubdata, {});
+                    NetstarComponent.formComponent.init(component, formJsonSubdata);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'subdata',
+        label: 'subdata传出:',
+        type: 'select',
+        value: "1",
+        textField: 'name',
+        valueField: 'id',
+        subdata:[               //通过subdata获取值 
+            {id:'1', name:'男'},
+            {id:'2', name:'女'},
+            {id:'3', name:'其它'}
+        ]
+    }
+                </pre>
+                </div>
+            </div>
+            <!--获取数据2 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-subdatatwo"></a>
+                <h3 class="title-code">获取数据2</h3>
+                <span class="intro">用ajax获取数据</span>
+                <div id="nsdocs-select-subdatatwo" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonSubdata2 = {
+                        id: 'nsdocs-select-subdatatwo',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'ajax',
+                            label: 'ajax传出:',
+                            type: 'select',
+                            value: "",
+                            textField: 'name',
+                            valueField: 'id',
+                            
+                            // isSearch:true,
+                            ajaxConfig:{
+                                url: getRootPath() + '/docs/data/select/radio.json' ,
+                                type: 'GET',
+                                contentType: 'application/x-www-form-urlencoded', 
+                                dataSrc: 'rows',
+                            },
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonSubdata2, {});
+                    NetstarComponent.formComponent.init(component, formJsonSubdata2);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+        {
+            id: 'ajax',
+            label: 'ajax传出:',
+            type: 'select',
+            value: "1",
+            textField: 'name',
+            valueField: 'id',
+            ajaxConfig:{
+                
+                url: getRootPath() +'/docs/data/select/radio.json' ,
+                type: 'GET',
+                contentType: 'application/x-www-form-urlencoded', 
+                dataSrc: 'rows',
+            },        
+        }
+           </pre>
+                </div>
+            </div>
+            <!-- 验证 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-rules"></a>  
+                <h3 class="title-code">验证</h3>
+                <span class="intro">验证规则 当前组件仅支持必填验证：required </span>
+                <div id="nsdocs-select-rules" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonrules = {
+                        id: 'nsdocs-select-rules',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,  
+                        form: [{
+                            id: 'requied',
+                            label: '验证 :',
+                            type: 'select',
+                            value: "1", 
+                            rules:"required", 
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [ 
+                                {
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ]  //必填验证              
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonrules, {});
+                    NetstarComponent.formComponent.init(component, formJsonrules);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'requied',
+        label: '验证 :',
+        type: 'select',
+        value: "1", 
+        rules:"requied",//必填验证 
+        textField: 'name',
+        valueField: 'id',
+        subdata: [
+            {
+                id: '1',
+                name: '男'
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ]                      
+    }
+                    </pre>
+                </div>
+            </div>
+            <!-- 是否显示更多 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-mindjetfieldposition"></a>
+                <h3 class="title-code">是否在更多中显示</h3>
+                <span class="intro">是否在更多中显示 </span>
+                <div id="nsdocs-select-mindjetfieldposition" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonmindjetFieldPosition = {
+                        id: 'nsdocs-select-mindjetfieldposition',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: true, 
+                        //是否显示更多
+                        form: [{
+                            mindjetFieldPosition: 'field-more', //在更多中显示
+                            id: 'mindjetFieldPosition1',
+                            label: '显示1:', 
+                            type: 'select',
+                            value: "2",
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [ 
+                                {
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ]
+                        },
+                        {
+                            mindjetFieldPosition: 'field-more',
+                            id: 'mindjetFieldPosition2',
+                            label: '显示2:',
+                            type: 'text',
+                            value: "1",
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [ 
+                                {
+                                    id: '1',
+                                    name: '男'
+                                },
+                                {
+                                    id: '2',
+                                    name: '女'
+                                },
+                                {
+                                    id: '3',
+                                    name: '其它'
+                                }
+                            ]
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonmindjetFieldPosition, {});
+                    NetstarComponent.formComponent.init(component, formJsonmindjetFieldPosition);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        mindjetFieldPosition: 'field-more', //在更多中显示
+        id: 'mindjetFieldPosition1',
+        label: '显示1:', 
+        type: 'select',
+        value: "2",
+        textField: 'name',
+        valueField: 'id',
+        subdata: [ 
+            {
+                id: '1',
+                name: '男'
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ]
+    },
+    {
+        mindjetFieldPosition: 'field-more',
+        id: 'mindjetFieldPosition2',
+        label: '显示2:',
+        type: 'select',
+        value: "1",
+        textField: 'name',
+        valueField: 'id',
+        subdata: [ 
+            {
+                id: '1',
+                name: '男'
+            },
+            {
+                id: '2',
+                name: '女'
+            },
+            {
+                id: '3',
+                name: '其它'
+            }
+        ]
+    }                
+                    </pre>
+                </div>
+            </div>
+            <!-- 多选可搜索 -->
+            <div class="panel content-demo" netstar-doc="sample">
+            <a href="javascript:void(0);" id="sense-nsdocs-select-issearch"></a>
+            <h3 class="title-code">是否允许检索</h3>
+            <span class="intro">是否允许检索() </span>
+            <div id="nsdocs-select-issearch" class="panel-demo"></div>
+            <!-- js块 -->
+            <script>
+                var formJsonIsSearch = {
+                    id: 'nsdocs-select-issearch',
+                    templateName: 'form',
+                    componentTemplateName: 'PC',
+                    isSetMore: true, 
+                    form: [{
+                        id: 'isSearchNative',
+                        label: '本地检索:', 
+                        type: 'select',
+                        selectMode:"multi",
+                        isSearch:false,
+                        isServerMode:true,
+                        value: "",
+                        textField: 'name',
+                        valueField: 'id',
+                        subdata: [ 
+                            {
+                                id: '1',
+                                name: '栗子'
+                            },
+                            {
+                                id: '2',
+                                name: '香蕉'
+                            },
+                            {
+                                id: '3',
+                                name: '苹果'
+                            },
+                            {
+                                id: '4',
+                                name: '梨'
+                            },{
+                                id: '5',
+                                name: '西瓜'
+                            },
+                            {
+                                id: '6',
+                                name: '刺角瓜'
+                            },
+                            {
+                                id: '7',
+                                name: '哈密瓜'
+                            },{
+                                id: '8',
+                                name: '蟠桃'
+                            },{
+                                id: '9',
+                                name: '云莓'
+                            },
+                            {
+                                id: '10',
+                                name: '柚子'
+                            },
+                            {
+                                id: '11',
+                                name: '橙子'
+                            },{
+                                id: '12',
+                                name: '黄皮果'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'isSearchServer',
+                        label: '服务器端检索:', 
+                        type: 'select',
+                        value: "",
+                        textField: 'name',
+                        selectMode:"multi",
+                        isServerMode:false,
+                        valueField: 'id',
+                        ajaxConfig:{
+                                url: getRootPath() + '/docs/data/select/issearch.json' ,
+                                type: 'GET',
+                                contentType: 'application/x-www-form-urlencoded', 
+                                dataSrc: 'rows',
+                            },
+
+                    },]
+                }
+                var component = NetstarComponent.formComponent.getFormConfig(formJsonIsSearch, {});
+                NetstarComponent.formComponent.init(component, formJsonIsSearch);
+            </script>
+            <div class="content language-javascript">
+                <pre>
+    {
+        id: 'isSearchNative',
+        label: '本地检索:', 
+        type: 'select',
+        isSearch:true,  //是否允许检索
+        value: "",
+        textField: 'name',
+        valueField: 'id',
+        subdata: [ 
+            {
+                id: '1',
+                name: '栗子'
+            },
+            {
+                id: '2',
+                name: '香蕉'
+            },
+            {
+                id: '3',
+                name: '苹果'
+            },
+            {
+                id: '4',
+                name: '梨'
+            },{
+                id: '5',
+                name: '西瓜'
+            },
+            {
+                id: '6',
+                name: '刺角瓜'
+            },
+            {
+                id: '7',
+                name: '哈密瓜'
+            },{
+                id: '8',
+                name: '蟠桃'
+            },{
+                id: '9',
+                name: '云莓'
+            },
+            {
+                id: '10',
+                name: '柚子'
+            },
+            {
+                id: '11',
+                name: '橙子'
+            },{
+                id: '12',
+                name: '黄皮果'
+            }
+        ]
+    },
+    {
+        id: 'isSearchServer',
+        label: '服务器端检索:', 
+        type: 'select',
+        value: "",
+        textField: 'name',
+        valueField: 'id',
+        ajaxConfig:{
+                url: getRootPath() + '/docs/data/select/issearch.json' ,
+                type: 'GET',
+                contentType: 'application/x-www-form-urlencoded', 
+                dataSrc: 'rows',
+            },
+
+    }              
+                </pre>
+            </div>
+            </div>
+            <!-- 多选可搜索 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-select-defaultSelectedIndex"></a>
+                <h3 class="title-code">默认选中第几行</h3>
+                <span class="intro">默认选中第几行数据 </span>
+                <div id="nsdocs-select-defaultSelectedIndex" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsondefaultSelectedIndex = {
+                        id: 'nsdocs-select-defaultSelectedIndex',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: true, 
+                        form: [{
+                            id: 'isSearchNative',
+                            label: '本地检索:', 
+                            type: 'select',
+                            selectMode:"multi",
+                            isSearch:false,
+                            isServerMode:true,
+                            value: "",
+                            defaultSelectedIndex:3, //默认选中第四行
+                            textField: 'name',
+                            valueField: 'id',
+                            subdata: [ 
+                                {
+                                    id: '1',
+                                    name: '栗子'
+                                },
+                                {
+                                    id: '2',
+                                    name: '香蕉'
+                                },
+                                {
+                                    id: '3',
+                                    name: '苹果'
+                                },
+                                {
+                                    id: '4',
+                                    name: '梨'
+                                },{
+                                    id: '5',
+                                    name: '西瓜'
+                                },
+                                {
+                                    id: '6',
+                                    name: '刺角瓜'
+                                },
+                                {
+                                    id: '7',
+                                    name: '哈密瓜'
+                                },{
+                                    id: '8',
+                                    name: '蟠桃'
+                                },{
+                                    id: '9',
+                                    name: '云莓'
+                                },
+                                {
+                                    id: '10',
+                                    name: '柚子'
+                                },
+                                {
+                                    id: '11',
+                                    name: '橙子'
+                                },{
+                                    id: '12',
+                                    name: '黄皮果'
+                                }
+                            ]
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsondefaultSelectedIndex, {});
+                    NetstarComponent.formComponent.init(component, formJsondefaultSelectedIndex);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'isSearchNative',
+        label: '本地检索:', 
+        type: 'select',
+        selectMode:"multi",
+        isSearch:false,
+        isServerMode:true,
+        value: "",
+        defaultSelectedIndex:3, //默认选中第四行
+        textField: 'name',
+        valueField: 'id',
+        subdata: [ 
+            {
+                id: '1',
+                name: '栗子'
+            },
+            {
+                id: '2',
+                name: '香蕉'
+            },
+            {
+                id: '3',
+                name: '苹果'
+            },
+            {
+                id: '4',
+                name: '梨'
+            },{
+                id: '5',
+                name: '西瓜'
+            },
+            {
+                id: '6',
+                name: '刺角瓜'
+            },
+            {
+                id: '7',
+                name: '哈密瓜'
+            },{
+                id: '8',
+                name: '蟠桃'
+            },{
+                id: '9',
+                name: '云莓'
+            },
+            {
+                id: '10',
+                name: '柚子'
+            },
+            {
+                id: '11',
+                name: '橙子'
+            },{
+                id: '12',
+                name: '黄皮果'
+            }
+        ]
+    }            
+                    </pre>
+                </div>
+                </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

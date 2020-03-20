@@ -1,0 +1,22 @@
+
+
+@tooltip-bg: rgba(0,0,0, .75);
+@tooltip-border-radius: 4px;
+@tooltip-arrow-size: 10px;
+@tooltip-line-height: 24px;
+
+.pt-nav-tooltips{
+    background: @tooltip-bg;
+    color: #fff;
+    border-radius: @tooltip-border-radius;
+    text-align: center;
+    line-height: @tooltip-line-height;
+    &:after{
+ 
+        .triangle-right-top(@tooltip-arrow-size, @tooltip-bg);
+        top: -(@tooltip-arrow-size / 2);
+        left: 50%;
+        margin-left: -(@tooltip-arrow-size / 2);
+        transform: rotate(-45deg);
+    }
+}

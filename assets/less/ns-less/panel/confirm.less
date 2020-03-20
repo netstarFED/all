@@ -1,0 +1,135 @@
+/*====================================================================*/
+/*nsconfirm*/
+/*====================================================================*/
+@confirm-container-width: 		300px;
+@confirm-container-height: 		100px;
+@confirm-container-bg: 			#fff;
+@confirm-header-height: 		40px;
+@confirm-header-bg:				#f8f8f8;
+@confirm-body-height: 			60px;
+@confirm-footer-height: 		40px;
+
+.ns-confirm-container{
+	position: fixed;
+	top: 30%;
+	left: 50%;
+	width: @confirm-container-width;
+	min-height: @confirm-container-height;
+	margin:-@confirm-container-height 0 0 -@confirm-container-width/2;
+	background: @confirm-container-bg;
+	z-index: (@zindex-modal * 2);
+	.confrim-bg{
+		content:"";
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0,0,0,0.7);
+		z-index: -1;
+
+	}
+	.confirm-header{
+		height: @confirm-header-height;
+		background: @confirm-header-bg;
+		padding: @padding-base-vertical @padding-base-horizontal;
+		border-bottom: 1px solid @ns-border-color;
+		h4{
+			margin: 0;
+			padding: @base-padding;
+			font-size: @font-size-base;
+			color: darken(@gray-darker, 30%);
+		}
+	}
+	.confirm-body{
+		min-height: @confirm-body-height;
+		padding: (@base-padding + 5);
+		line-height: 170%;
+		background-color: #fff;
+		.confirm-icon{
+			display: none;
+		}
+	}
+	.confirm-content{
+		.form-group{
+			position: relative;
+			display: table;
+			width: 100%;
+			&.login-username-icon:after{
+				.ns-icon-right("\f007", 16px, 14px);
+			}
+			&.login-password-icon:after{
+				.ns-icon-right("\f13e", 16px, 14px);
+			}
+			.control-label{
+				display: table-cell;
+				width: 60px;
+			}
+			.form-control{
+				display: table-cell;
+				padding-right: @form-lg-height;
+			}
+		}
+	}
+	.confirm-footer{
+        height: @confirm-footer-height;
+        .btn-group{
+            display: table;
+            width: 100%;
+        }
+		button.btn{
+			margin: 0;
+			height: @confirm-footer-height;
+			float: left;
+			width: 50%;
+			border:none;
+			background-color: #f2f2f2;
+            border-top:1px solid @ns-border-color;
+			&:hover{
+				background-color: #fff;
+				border-top-color:#fff;
+			}
+			&[ns-confirm-type="confirm"]{
+				border-right:1px solid @ns-border-color;
+            }
+            &.btn-info,
+            &.btn-success,
+            &tn-warning,
+            &.btn-danger{
+                span{
+                    color: #000 !important;
+                }
+            }
+		}
+	}
+
+	&.success,
+	&.warning,
+	&.error{
+		.confirm-content{
+			position: relative;
+			padding-left: (@base-padding * 4);
+			&:after{
+				content:"";
+				position: absolute;
+				top: 0;
+				left: 0;
+				font-family: @icon-font;
+				font-size: @font-size-h2;
+			}
+		}
+	}
+
+	&.success .confirm-content:after{
+		content:"\f058";
+		color: @ns-success;
+	}
+	&.warning .confirm-content:after{
+		content:"\f071";
+		color: @ns-warning;
+	}
+	&.error .confirm-content:after{
+		content:"\f057";
+		color: @ns-danger;
+	}
+}

@@ -1,0 +1,44 @@
+@badge-bg: #eee;
+@badge-color: #333;
+@badge-priamry-bg: @mobile-primary;
+@badge-info-bg: @mobile-info;
+@badge-success-bg: @mobile-success;
+@badge-warning-bg: @mobile-warning;
+@badge-danger-bg: @mobile-danger;
+@badge-color-light: #fff;
+
+[ns-system="mobile"] {
+
+    .badge-varitant(@bg, @color) {
+        background: @bg;
+        color: @color  !important;
+    }
+
+    span.badge {
+        background: @badge-bg;
+        color: @badge-color;
+        padding: 3px 2px;
+        min-width: 1.5rem;
+        width: auto;
+
+        &.badge-primary {
+            .badge-varitant(@badge-priamry-bg, @badge-color-light);
+        }
+
+        &.badge-info {
+            .badge-varitant(@badge-info-bg, @badge-color-light);
+        }
+
+        &.badge-success {
+            .badge-varitant(@badge-success-bg, @badge-color-light);
+        }
+
+        &.badge-warning {
+            .badge-varitant(@badge-warning-bg, @badge-color-light);
+        }
+
+        &.badge-danger {
+            .badge-varitant(@badge-danger-bg, @badge-color-light);
+        }
+    }
+}

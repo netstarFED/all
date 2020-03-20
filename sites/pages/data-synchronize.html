@@ -1,0 +1,473 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <style>
+        .btn-fix-st {
+            text-align: right;
+            margin-top: 40px;
+        }
+    </style>
+    <div>
+        <div id="data-synchronize-form"></div>
+        <div id="data-synchronize-list-1"></div>
+        <div id="data-synchronize-list-2"></div>
+        <div id="data-synchronize-btn"></div>
+    </div>
+    <script>
+        $(function () {
+            var getRootPath = function () {
+                return "http://10.10.1.234:30000/";
+            }          
+            var dataSynchronizeFromJson = {
+                id: 'data-synchronize-form',
+                templateName: "form",
+                componentTemplateName: 'PC',
+                isSetMore: false,
+                form: [{
+                    id: 'remoteUrl',
+                    label: '远程地址',
+                    type: 'text',
+                    value:'',
+                }, {
+                    id: 'env',
+                    label: '目标环境',
+                    type: 'text',
+                    disabled: true,
+                    value:'',
+                }, {
+                    id: 'topOrgName',
+                    label: '目标组织',
+                    type: 'text',
+                    disabled: true,
+                    value:'',
+                    inputWidth:300,
+                }]
+            }
+            var component = NetstarComponent.formComponent.getFormConfig(dataSynchronizeFromJson, {});
+            NetstarComponent.formComponent.init(component, dataSynchronizeFromJson);
+            //第一个列表 
+            var dataSynchronizeListJson1 = {
+                columns: [{
+                    field: 'name',
+                    title: '资源名称',
+                    width:400,
+                    editConfig: {
+                        type: 'text',
+                    }
+                }],
+                data: {
+                    idField: 'id',
+                    tableID: 'data-synchronize-list-1',
+                    src:getRootPath() + '/dataSync/resourceConfig/getAll',
+                    type:'GET',
+                    contentType:'application/x-www-form-urlencoded',                   
+                    dataSrc:'rows',
+                    
+                },
+                ui: {
+                    selectMode: 'multi',
+                    isCheckSelect: true,
+                    pageLengthMenu: 10,
+                    isHaveEditDeleteBtn: false,
+                    isHaveAddBtn: true,
+                    isAutoSerial: false,
+                    tableRowBtns: [{
+                        text: '配置',
+                        handler: function (data) {
+
+                        }
+                    }],
+                    selectedHandler:function(rowData){
+                        console.log(rowData);
+                        NetStarUtils.ajax({
+                            url:getRootPath() +'/dataSync/resourceConfig/getDependencyList',
+                            contentType:'application/x-www-form-urlencoded',
+                            type:'POST',
+                            data:{
+                                id:rowData.id,
+                            }
+                        },function(res){
+                            NetStarGrid.refreshDataById("data-synchronize-list-2",res.rows)
+                        })                
+                    }
+                }
+            }
+            NetStarGrid.init(dataSynchronizeListJson1);
+            //第二个列表
+            var dataSynchronizeListJson2 = {
+                columns: [{
+                    field: 'resourceName',
+                    title: '资源名称',
+                    editConfig: {
+                        type: 'text',
+                    }
+                }],
+                data: {
+                    idField: 'id',
+                    tableID: 'data-synchronize-list-2',
+                    dataSource:[],
+                    
+                },
+                ui: {
+                    isAutoSerial:true,
+                    pageLengthMenu: 10,
+                    isHaveEditDeleteBtn: false,
+                    isHaveAddBtn: true,
+                    tableRowBtns: [{
+                        text: '选择',
+                        handler: function (data) {
+
+                        }
+                    }],
+                }
+            }
+            NetStarGrid.init(dataSynchronizeListJson2);
+            //按钮
+
+
+            window.otherToken = '';
+            var pageDataSynchronize = {
+                methods:{
+                    sync:function(){
+                        var resources = NetStarGrid.getCheckedData('data-synchronize-list-1');//选中值
+                        var formData = NetstarComponent.getValues('data-synchronize-form');
+                        var ajaxData = {
+                            resources:resources,
+                            otherToken:window.otherToken,
+                            remoteUrl:formData.remoteUrl,
+                        }
+                        if(window.otherToken == ''){
+                            nsalert('请使用不同组织的人员登录','error')
+                        }else{
+                            if(resources.length == 0){
+                            nsalert('请选选择要同步的资源','warning');
+                            }else{
+                            NetStarUtils.ajax({
+                                url:getRootPath() +'/dataSync/sync',
+                                data:ajaxData,
+                                contentType: 'application/json; charset=utf-8',
+                                type:'POST',
+                            },function(res){
+                                if(res){
+                                    nsalert('同步成功','success');
+                                }
+                            })
+                            }                      
+                        }                     
+                    }
+                }
+            }
+
+            var dataSynchronizeBtnsJson = {
+                id: 'data-synchronize-btn',
+                btns: [
+                    {
+                        text: '同步',
+                        isReturn: true,
+                        handler:pageDataSynchronize.methods.sync, 
+                    },
+                    {
+                        text: '导出数据',
+                        isReturn: true,
+                        handler: function () {
+                            //导出页面
+                            var exportdialogConfig = {
+                                id: 'exportdatasynchronize',
+                                height: '35%',
+                                width: '45%',
+                                templateName: 'PC',
+                                title: '导出',
+                                shownHandler: function (data) {
+                                    var dialogBodyId = data.config.bodyId;
+                                    $('#' + dialogBodyId).html(
+                                        '<div id="data-synchronize-export" class="from-data-st"> </div> \
+                                         <div id="data-synchronize-export-fixbtn" class="btn-fix-st"></div>'
+                                    );
+                                    var exportdataJson = {
+                                        id: 'data-synchronize-export',
+                                        templateName: 'form',
+                                        componentTemplateName: 'PC',
+                                        defaultComponentWidth: '100%',
+                                        isSetMore: false,
+                                        // formStyle: "pt-form-normal",
+                                        form: [{
+                                            id: "password",
+                                            type: "password",
+                                            label: "密码",
+                                            inputWidth: 200,
+                                            rules: "required",
+                                        }, ]
+                                    };
+                                    //导出按钮
+                                    var exportbtnsdataJson = {
+                                        id: 'data-synchronize-export-fixbtn',
+                                        btns: [{
+                                            text: '导出',
+                                            handler: function () {
+                                                var formData = NetstarComponent.getValues('data-synchronize-export');
+                                                NetStarUtils.ajaxForText({
+                                                    url:getRootPath() + '/dataSync/exportData',
+                                                    type:'GET',
+                                                    contentType:'application/x-www-form-urlencoded', 
+                                                    // dataType : 'text',
+                                                },function(data, _ajaxConfig){
+                                                    // if(data.success){
+                                                        nsalert('导出成功')
+                                                        NetstarComponent.dialog.exportdatasynchronize.vueConfig.close();
+                                                    // }else{
+                                                    //     nsalert('导出失败')
+                                                    // }
+                                                })
+                                            }
+                                        }]
+                                    }
+                                    vueButtonComponent.init(exportbtnsdataJson);
+                                    var component = NetstarComponent.formComponent.getFormConfig(exportdataJson, {});
+                                    NetstarComponent.formComponent.init(component,exportdataJson);
+                                }
+                            }
+                            NetstarComponent.dialogComponent.init(exportdialogConfig);
+                        }
+                    },
+                    {
+                        text: '导入数据',
+                        isReturn: true,
+                        handler: function () {
+                            //导入页面
+                            var importdialogConfig = {
+                                id: 'importdatasynchronize',
+                                height: '35%',
+                                width: '45%',
+                                templateName: 'PC',
+                                title: '导入',
+                                shownHandler: function (data) {
+                                    var dialogBodyId = data.config.bodyId;
+                                    $('#' + dialogBodyId).html(
+                                        '<div id="data-synchronize-import" class="from-data-st"></div>\
+                                        <div >\
+                                            <input id="data-synchrinize-upload" class="pt-upload-control" :accept="accept" multiple="multiple" type="file" >\
+                                        <div>\
+                                        <div id="data-synchronize-import-fixbtn"  class="btn-fix-st"></div>'
+                                    );
+                                    var importdataJson = {
+                                        id: 'data-synchronize-import',
+                                        templateName: 'form',
+                                        componentTemplateName: 'PC',
+                                        defaultComponentWidth: '100%',
+                                        isSetMore: false,
+                                        // formStyle: "pt-form-normal",
+                                        form: [{
+                                                id: "password",
+                                                type: "password",
+                                                label: "密码",
+                                                inputWidth: 200,
+                                                rules: "required",
+                                            },
+                                            // {
+                                            //     id: "file",
+                                            //     type: "upload",
+                                            //     label: "文件",
+                                            //     inputWidth: 200,
+                                            //     isMultiple: true,
+                                            //     btns: ['upload', 'delete','download', 'print'],
+                                            //     inputWidth: 200,
+                                            //     ajax: {
+                                            //         url: getRootPath() +
+                                            //             '/docs/data/upload.json',
+                                            //     },
+                                            //     editAjax: {
+                                            //         url: getRootPath() +
+                                            //             '/docs/data/uploadalter.json',
+                                            //     },
+                                            //     downloadAjax: {
+                                            //         url: getRootPath() +
+                                            //             '/docs/data/down/yuan2.rar?',
+                                            //     },
+                                            //     getFileAjax: {
+                                            //         url: getRootPath() +
+                                            //             '/docs/data/upload.json',
+                                            //     },
+                                            // }
+                                        ]
+                                    };
+                                    //上传
+                                    function dataUpload() {
+                                        var dataForm = NetstarComponent.getValues('data-synchrinize-upload');
+                                        $ajax({
+                                            url:'',
+                                            type:'POST',
+                                            contentType:'',
+                                            data:'',
+                                            success:function(res){
+                                                if(res){
+                                                   nsalert("上传成功");
+                                                   console.log(res);
+
+                                                }
+                                            },
+                                            error:function(err){
+                                                nsalert("上传失败",err)
+                                            }
+                                        })
+
+                                    }
+                                    var importbtnsdataJson = {
+                                        id: 'data-synchronize-import-fixbtn',
+                                        btns: [{
+                                            text: '导入',
+                                            handler: function (ev) {
+                                                var formData = NetstarComponent.getValues('data-synchronize-import');
+                                                console.log(111,formData);
+                                        
+                                               //passWord
+                                                //dataFiles 
+                                               NetStarUtils.ajax({
+                                                   url:getRootPath() +'/dataSync/importData',
+                                                   type:'POST',
+                                                //contentType: 'application/json; charset=utf-8',
+                                                contentType: 'application/x-www-form-urlencoded',
+                                                data:{
+                                                   password:formData.password
+                                                },
+                                                   
+                                               },function(res){
+                                                    console.log(res);
+                                                    if(success){
+                                                        nsalert('导入成功');
+                                                        NetstarComponent.dialog.importdialogConfig.vueConfig.close();
+
+                                                    }else{
+                                                        nsalert('导入失败')
+                                                    }
+                                               })
+                                                
+
+                                            }
+                                        }]
+                                    }
+                                    vueButtonComponent.init(importbtnsdataJson);
+                                    var component = NetstarComponent.formComponent.getFormConfig(importdataJson, {});
+                                    NetstarComponent.formComponent.init(component,importdataJson);
+
+                                    $('#data-synchrinize-upload').on('change', function(ev){
+                                        console.log(ev);
+                                        var files = ev.currentTarget.files;
+                                            console.log(files);
+                                        var filesMap = ev.target.value;
+                                            console.log(filesMap);
+                                        // let formData = new FormData(),
+                                        //     fs = $("#data-synchrinize-upload")[0].files;  
+                                        //     console.log(fs)
+                                        $.ajax({
+                                            url: getRootPath() +'/dataSync/import',
+                                            type:'POST',
+                                            contentType:'application/x-www-form-urlencoded',
+                                            data:{
+                                                dataMap : filesMap,
+                                            },                                   
+                                        })
+
+                                    });
+                                    
+                                }
+                            }
+                            NetstarComponent.dialogComponent.init(importdialogConfig);
+                        }
+                    },
+                    //登录
+                    {
+                        text: '登录',
+                        isReturn: true,
+                        handler: function () {
+                            //登录页面
+                            var logondialogConfig = {
+                                id: 'logondatasynchronize',
+                                height: '35%',
+                                width: '45%',
+                                templateName: 'PC',
+                                title: '登录',
+                                shownHandler: function (data) {
+                                    var dialogBodyId = data.config.bodyId;
+                                    $('#' + dialogBodyId).html(
+                                        ' <div id="data-synchronize-logon" class="from-data-st"> </div> \
+                                        <div id="data-synchronize-logon-fixbtn" class="btn-fix-st"></div>'
+                                    );
+                                    var logondataJson = {
+                                        id: 'data-synchronize-logon',
+                                        templateName: 'form',
+                                        componentTemplateName: 'PC',
+                                        defaultComponentWidth: '100%',
+                                        isSetMore: false,
+                                        // formStyle: "pt-form-normal",
+                                        form: [{
+                                                id: "username",
+                                                type: "text",
+                                                label: "用户名",
+                                                rules: "",
+                                            },
+                                            {
+                                                id: "password",
+                                                type: "password",
+                                                label: "密码",
+                                                rules: "",
+                                            }
+                                        ]
+                                    };
+                                    var btnsdataJson = {
+                                        id: 'data-synchronize-logon-fixbtn',
+                                        btns: [{
+                                            text: '登录',
+                                            handler: function () {
+                                                var form = NetstarComponent.getValues('data-synchronize-logon');
+                                                form.login = 1;
+                                                $.ajax({
+                                                    url: getRootPath() +'/system/jwtlogin',//http://api.cloud.netstar-soft.com/system/jwtlogin
+                                                    type: 'POST',
+                                                    contentType: 'application/x-www-form-urlencoded',
+                                                    data: form,   
+                                                    success:function(res){                                                     
+                                                        window.otherToken = res.data;                                                
+                                                        // var token = res.data;
+                                                        // getAllList(token);
+                                                        $.ajax({
+                                                            url:getRootPath() +'/servletContexts/properties ',
+                                                            type:'GET',
+                                                            headers: {
+                                                                Authorization:window.otherToken
+                                                            },
+                                                            contentType: 'application/json; charset=utf-8', 
+                                                            success:function(res){
+                                                                debugger;
+                                                                var env = res.data.context.env
+                                                                var topOrgName = res.data.user.topOrgName
+                                                                console.log(topOrgName);
+                                                                NetstarComponent.fillValues({"env":env,"topOrgName":topOrgName},"data-synchronize-form")
+                                                                // NetstarComponent.fillValues({"sourceOrgId":"3333"}, "data-synchronize-form")
+                                                            }
+                                                        })
+                                                        nsalert('获取token成功','success');
+                                                        NetstarComponent.dialog.logondatasynchronize.vueConfig.close();//关闭弹框
+                                                    },
+                                                    error:function(res){
+                                                        nsalert('登录用户获取token错误','error')
+                                                    }                                             
+                                                })
+                                            }
+                                        }]
+                                    }                                  
+                                    vueButtonComponent.init(btnsdataJson);
+                                    var component = NetstarComponent.formComponent.getFormConfig(logondataJson, {});
+                                    NetstarComponent.formComponent.init(component, logondataJson);
+                                }
+                            }
+                            NetstarComponent.dialogComponent.init(logondialogConfig);
+                        }
+                    },
+                   
+                ]
+            }
+            vueButtonComponent.init(dataSynchronizeBtnsJson)
+
+
+        })
+    </script>
+</container>

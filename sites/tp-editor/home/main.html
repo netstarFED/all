@@ -1,0 +1,852 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <title>模板页编辑器</title>
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!-- 引入组件库 -->
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    <!-- 使用codeMirror必须引入的文件 -->
+    <!--# include file="./codeMirror/codemirror.html" -->
+    <!--# include file="./importLib/importLib.html" -->
+    <style>
+        .mask .hot-type {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            /* min-width: 30px;
+            min-height: 30px; */
+            border: 1px solid #dddddd;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0);
+            z-index: 9;
+        }
+
+        .mask .hot-type.state-active {
+            border: 1px solid #c4c7ca;
+            cursor: pointer;
+            background: rgba(80, 165, 207, 0.1);
+            left: 100px;
+        }
+        .editor-landing{
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body ns-type="editor">
+    <div class="editor-landing" v-if="showWelcome">
+        <h3 class="editor-landing-title">欢迎使用表单编辑器</h3>
+    </div>
+    <!-- 头部内容 -->
+    <div class="editor-header">
+        <!-- 页面标题 -->
+        <div class="panel topbar">
+            <!-- 标题  -->
+            <div class="page-guide"  id='tpeditor-panel-title'></div>
+            <!-- 用户信息 -->
+            <div class="user-info"  id='tpeditor-panel-user'></div>
+        </div>
+        <div class="panel navbar">
+            <!-- 面包屑 页面配置面板 -->
+            <div class="breadcrumbs" id="tpeditor-panel-bread">
+            </div>
+            <!-- 按钮 -->
+            <div class="page-control" id="tpeditor-panel-btns">
+
+            </div>
+        </div>
+    </div>
+    <!-- 组件列表面板 -->
+    <div class="subnav" id="tpeditor-panel-componentlist"></div>
+    <!-- 属性值配置面板 -->
+    <div class="control-panel" id="tpeditor-panel-attr"></div>
+
+    <!--  -->
+    <div class="modals fade">
+    </div>
+    <!-- 所配页面 -->
+    <div class="main">
+        <container class="pageView"></container>
+    </div>
+    <div id="form"></div>
+</body>
+
+<script>
+    $(function(){
+        function toLoginPage(res) {
+            window.location.href = '/tp-editor/';
+        }
+        var authCode = NetStarUtils.OAuthCode.get();
+        if (authCode == false) {
+            //登录信息已经过期需要重新登录
+            toLoginPage();
+        }
+
+        //由于某些特殊情况 config可能出现问题，比如手工删除了 cy 190828
+        var config = store.get('NetstarLoginConfig');
+        if (typeof (config) != 'string') {
+            toLoginPage();
+            return false;
+        }
+        config = JSON.parse(config);
+        var mainPageConfig = {
+            html: '', //页面
+            userMode: config.userMode, //用户模式
+            getLoginProperty: config.getLoginProperty, //获取登录信息地址
+            getDict: config.getDict, //系统字典
+            mainPage: config.mainPage, // 主页面
+            toLoginPage: toLoginPage, //跳转到登录页
+            loginConfig: $.extend(true, {}, config), // 登录保存的全部信息
+        }
+        NetstarHomePage.init(mainPageConfig);
+        // 通用方法
+        var pageCommon = {
+            // 判断页面上的ajax发送到了第几个
+            ajaxIndex : 0,
+            // 总ajax数量
+            ajaxLength : 2,
+            // 所有id
+            ids : {
+                user : 'tpeditor-panel-user',
+                title : 'tpeditor-panel-title',
+                componentlist : 'tpeditor-panel-componentlist',
+                attr : 'tpeditor-panel-attr',
+                btns : 'tpeditor-panel-btns',
+                bread : 'tpeditor-panel-bread',
+            },
+            // 获取属性changHandlerData需要的所有字段
+            getFieldsByName : function(config){
+                var showComponentName = config.showComponentName;
+                if(showComponentName == 'panel'){ return []; }
+                var values = config.value;
+                var _panelConfig = values.types.panel[showComponentName];
+                var panelIndex = _panelConfig.index;
+                var childrenType = _panelConfig.childrenType;
+                var showAttrArr = values.typeArr[childrenType][panelIndex];
+                var arr = [];
+                for(var i=0; i<showAttrArr.length; i++){
+                    var value = showAttrArr[i].value;
+                    var label = value.label ? value.label : value.title;
+                    var id = value.id ? value.id : value.field;
+                    var obj = {
+                        text : label,
+                        value : id,
+                    }
+                    arr.push(obj);
+                }
+                return arr;
+            },
+            // 通过定位展开列表组件/属性组件
+            openEditByPosition : function(positionNode){
+                // 定位的type
+                var positionType = positionNode.type;
+                // 通过定位的type生成打开列表编辑器位置
+                // 面包屑节点id
+                var breadNodeId = false;
+                // 新增属性配置节点位置
+                var addedAttrArrIndex = false;
+                // 刷新列表面板名字
+                var componentListPanelComName = false;
+                switch(positionType){
+                    case 'template':
+                        breadNodeId = 'template';
+                        addedAttrArrIndex = positionNode.typeIndex;
+                        componentListPanelComName = 'panel';
+                        break;
+                    default:
+                        breadNodeId = positionType + '-' + positionNode.typeIndex;
+                        addedAttrArrIndex = positionNode.fieldIndex;
+                        componentListPanelComName = breadNodeId;
+                        break;
+                }
+                // 切换面包屑
+                var breadConfig = NetstarEditorBase.bread.getConfig(pageCommon.ids.bread);
+                var breadNodes = breadConfig.nodes;
+                var breadNode = breadNodes[breadNodeId];
+                if(typeof(breadNode) == "undefined"){
+                    nsAlert('没有找到列表节点', 'error');
+                    console.error('没有找到列表节点');
+                    return false;
+                }
+                NetstarEditorBase.bread.refresh(breadNodeId, pageCommon.ids.bread, false);
+                // 切换列表面板
+                var componentListConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                NetstarTPEditor.componentListPanel.refreshByComName(componentListPanelComName, componentListConfig);
+                if(positionType != "template"){
+                    var fields = pageCommon.getFieldsByName(componentListConfig);
+                    NetstarTPEditor.attrPanel.setChangeSelectData(fields, pageCommon.ids.attr);
+                }
+                // 切换列表面板tab页
+                var tabConfig = NetstarTPEditor.tabPanel.getConfig(pageCommon.ids.componentlist);
+                NetstarTPEditor.tabPanel.switchTabPanel('added', tabConfig);
+                // 获取当前操作属性
+                var addedAttrArr = componentListConfig.tabPanels.added.attrArr;
+                var addFieldNode = addedAttrArr[addedAttrArrIndex];
+                if(typeof(addFieldNode) == "undefined"){
+                    nsAlert('没有找到配置节点', 'error');
+                    console.error('没有找到配置节点');
+                    return false;
+                }
+                var addFieldNodeName = addFieldNode.enName;
+                // 刷新属性配置
+                NetstarTPEditor.componentListPanel.clickNodeEventFunc('added', addFieldNodeName, pageCommon.ids.componentlist);
+            },
+            breadSwitchFunc : function(obj){
+                var componentListConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                var node = obj.node;
+                switch(node.id){
+                    case 'template':
+                        componentListConfig.selectConfig = {
+                            componentName : 'template',
+                        }
+                        NetstarTPEditor.componentListPanel.refreshByComName('panel', componentListConfig);
+                        var templateAttrs = componentListConfig.attrs.types.template.template.attrArr;
+                        NetstarTPEditor.attrPanel.set(templateAttrs, componentListConfig.pageConfig, pageCommon.ids.attr);
+                        break;
+                    default:
+                        NetstarTPEditor.componentListPanel.refreshByComName(node.id, componentListConfig);
+                        var fields = pageCommon.getFieldsByName(componentListConfig);
+                        NetstarTPEditor.attrPanel.setChangeSelectData(fields, pageCommon.ids.attr);
+                        break;
+                }
+            },
+            // 面包屑 页面配置面板
+            initBread : function(data, value){
+                var breadConfig = {
+                    id : pageCommon.ids.bread,
+                    data : data,
+                    currentId : value,
+                    switchHandler : pageCommon.breadSwitchFunc,
+                }
+                NetstarEditorBase.bread.init(breadConfig);
+            },
+            // 编辑模式
+            editModel : function(){
+                // 组件列表面板
+                NetstarEditorBase.btns.setState('componentlist-left', 'tpeditor-panel-btns', true)
+                // 属性值配置面板
+                NetstarEditorBase.btns.setState('attr-right', 'tpeditor-panel-btns', true)
+            },
+            editModelFunc : function(){
+                NetstarEditorBase.btns.setState('model-edit', 'tpeditor-panel-btns', true);
+            },
+            previewModel : function(){
+                // 组件列表面板
+                NetstarEditorBase.btns.setState('componentlist-left', 'tpeditor-panel-btns', false)
+                // 属性值配置面板
+                NetstarEditorBase.btns.setState('attr-right', 'tpeditor-panel-btns', false)
+            },
+            changeTemplateZIndex : function(pageConfig){
+                if(pageConfig.template == 'businessDataBaseEditor'){
+                    var templateId = pageConfig.package.replace(/\./g, '-') + '-businessDataBaseEditor-vue-container-nsdialog-container';
+                    var $template = $('#' + templateId);
+                    if($template.length > 0){
+                        $template.removeAttr('ns-index');
+                        $template.removeAttr('ns-type');
+                        $template.removeAttr('ns-top');
+                        $template.children().children('.pt-container').children().css('z-index', 995);
+                        $template.children().children('.pt-modal-bg').css('z-index', 994);
+                    }
+                }
+                showModule.init(pageConfig,true);
+            },
+            refreshByPageConfig : function(resPageConfig, isCloseDialog){
+                // 组件列表面板
+                var config = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                NetstarTPEditor.componentListPanel.refreshByPageConfig(resPageConfig, config);
+                // 属性配置面板
+                NetstarTPEditor.attrPanel.clearSet(pageCommon.ids.attr);
+                // 面包屑 页面配置面板
+                var breadData = NetstarTPEditor.componentListPanel.getBreadData(resPageConfig);
+                pageCommon.initBread(breadData);
+                if(isCloseDialog){
+                    if(NetstarComponent.dialog['slectpage']){
+                        NetstarComponent.dialog['slectpage'].vueConfig.close();
+                    }
+                }
+                var _pageConfig = NetstarProject.init(resPageConfig);
+                $('container').html('');
+                NetstarTemplate.init(_pageConfig);
+                setTimeout(function(){
+                    pageCommon.changeTemplateZIndex(_pageConfig);
+                },500)
+                NetstarTPEditor.panels.title.refresh({
+                    subtitle : _pageConfig.template,
+                    title : _pageConfig.title,
+                })
+                $('.editor-landing').addClass('hide')
+            },
+            completeHandler : function(){
+                var hrefStr = location.href;
+                var hrefArr = hrefStr.split('?');
+                var pageId = false;
+                if(hrefArr.length > 1){
+                    var endStr = hrefArr[1];
+                    var endArr = endStr.split(/\&|\;/g);
+                    for(var i=0; i<endArr.length; i++){
+                        if(endArr[i].indexOf('pageId') == 0){
+                            var pageArr = endArr[i].split('=');
+                            pageId = pageArr[1];
+                            pageId = pageId.replace(/\#/g, '');
+                        }
+                    }
+                }
+                if(pageId){
+                    NetstarEditorServer.getPageConfig({id : pageId}, function(resPageConfig){
+                        // 编辑模式
+                        pageCommon.editModelFunc();
+                        pageCommon.refreshByPageConfig(resPageConfig);
+                        if(resPageConfig.nsControllerIds){
+                            NetstarTPEditor.api.controller.get({ids : resPageConfig.nsControllerIds}).then(function(controllersData){
+                                // 选择vo数据
+                                if(controllersData){
+                                    NetstarTPEditor.controllerData = controllersData.methodsList;
+                                    NetstarTPEditor.controllersData = controllersData;
+                                }else{
+                                    delete NetstarTPEditor.controllerData;
+                                    delete NetstarTPEditor.controllersData;
+                                }
+                            })
+                        }
+                    })
+                }
+            },
+        }
+        // 标题/用户信息
+        NetstarTPEditor.show();
+        // 面包屑 页面配置面板
+        pageCommon.initBread([]);
+        // 按钮
+        var btnsPanelConfig = {
+            id : 'tpeditor-panel-btns',
+            btnGroups : [
+                // 互斥切换 返回 : ev / 当前选中按钮配置
+                {
+                    type : 'switch',
+                    btns : [
+                        {
+                            id : 'model-edit',
+                            text : '编辑模式',
+                            handler : function(ev, data){
+                                pageCommon.editModel();
+                                var pageConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist).pageConfig;
+                                if(JSON.stringify(pageConfig) != "{}"){
+                                    
+                                    showModule.init(pageConfig,true)
+                                }
+                            },
+                        },{
+                            id : 'model-preview',
+                            text : '预览模式',
+                            defaultState : true,
+                            handler : function(ev, data){
+                                pageCommon.previewModel();
+                                var pageConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist).pageConfig;
+                                
+                                showModule.init(pageConfig,false)
+                            },
+                        },
+                    ]
+                },
+                // 普通 返回 : ev 开/关 返回 : ev / 状态
+                {
+                    type : 'normal',
+                    btns : [
+                        {
+                            id : 'componentlist-left',  // 组件列表面板 显示隐藏
+                            text : '',
+                            isUseState : true,
+                            defaultState : false,
+                            icon : '<i class="fa-panel fa-panel-left"></i>',
+                            handler : function(ev, data){
+                                if(data.currentState){
+                                    NetstarTPEditor.componentListPanel.show(pageCommon.ids.componentlist);
+                                }else{
+                                    NetstarTPEditor.componentListPanel.hide(pageCommon.ids.componentlist);
+                                }
+                            },
+                        },
+                        {
+                            id : 'attr-right',      // 属性值配置面板 显示隐藏
+                            text : '',
+                            isUseState : true,
+                            defaultState : false,
+                            icon : '<i class="fa-panel fa-panel-right"></i>',
+                            handler : function(ev, data){
+                                if(data.currentState){
+                                    NetstarTPEditor.attrPanel.show(pageCommon.ids.attr);
+                                }else{
+                                    NetstarTPEditor.attrPanel.hide(pageCommon.ids.attr);
+                                }
+                            },
+                        },
+                        {
+                            id : 'full-screen',
+                            text : '',
+                            isUseState : true,
+                            icon : '<i class="fa-arrows-alt"></i>',
+                            handler : function(ev, data){
+                            },
+                        },
+                        {
+                            id : 'common-screen',
+                            text : '',
+                            isUseState : true,
+                            icon : '<i class="fa-compress"></i>',
+                            handler : function(ev, data){
+                            },
+                        },
+                        {
+                            id : 'open-help',
+                            text : '',
+                            icon : '<i class="fa-question-circle-o"></i>',
+                            handler : function(ev, data){
+                                var url = NetstarHomePage.config.staticPageRootPath + "/sites/docs/home/";
+                                window.open(url);
+                            },
+                        },
+                        {
+                            id : 'common-power',
+                            text : '权限',
+                            icon : '',
+                            handler : function(ev, data){
+                                var url = getRootPath() + "/formdesigner/formControls/syncRightsAll";
+                                NetStarUtils.ajax({
+                                    url : url,
+                                },function(res, ajaxConfig){
+                                    if(res.success){
+                                        nsAlert('更新权限成功');
+                                    }
+                                })
+                            },
+                        }
+                    ]
+                },
+                // 定制 返回 : ev
+                {
+                    type : 'custom',
+                    btns : [
+                        {
+                            id : 'page-new',
+                            type : 'custom',
+                            text : '<button type="button" class="btn btn-icon btn-primary btn-square"><i class="fa-plus"></i></button>',
+                            handler : function(ev, data){
+                                NetstarTPEditor.api.controllerlist.get().then(function(controllerData){
+                                    NetstarTPEditor.api.templateList.get().then(function(pageListAll){
+                                        var selectPageListConfig = {
+                                            id : 'slectpage',
+                                            type : 'template',
+                                            controllerData : controllerData,
+                                            pageLength : 5,
+                                            pageListAll : pageListAll,
+                                            confirmHandler : function(data, controllersData, config){
+                                                var pageConfig = data.value;
+                                                // 编辑模式
+                                                pageCommon.editModelFunc();
+                                                // 选择vo数据
+                                                if(controllersData){
+                                                    NetstarTPEditor.controllerData = controllersData.methodsList;
+                                                    NetstarTPEditor.controllersData = controllersData;
+                                                }else{
+                                                    delete NetstarTPEditor.controllerData;
+                                                    delete NetstarTPEditor.controllersData;
+                                                }
+                                                if(config.nsControllerIds){
+                                                    pageConfig.nsControllerIds = config.nsControllerIds;
+                                                }
+                                                pageCommon.refreshByPageConfig(pageConfig, true);
+                                                // // 组件列表面板
+                                                // var config = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                                                // NetstarTPEditor.componentListPanel.refreshByPageConfig(pageConfig, config);
+                                                // // 属性配置面板
+                                                // NetstarTPEditor.attrPanel.clearSet(pageCommon.ids.attr);
+                                                // // 面包屑 页面配置面板
+                                                // var breadData = NetstarTPEditor.componentListPanel.getBreadData(pageConfig);
+                                                // pageCommon.initBread(breadData);
+                                                // NetstarComponent.dialog['slectpage'].vueConfig.close();
+                                                // var _pageConfig = NetstarProject.init(pageConfig);
+                                                // $('container').html('');
+                                                // NetstarTemplate.init(_pageConfig);
+                                                // setTimeout(function(){
+                                                //     pageCommon.changeTemplateZIndex(_pageConfig);
+                                                // },0)
+                                                // NetstarTPEditor.panels.title.refresh({
+                                                //     subtitle : _pageConfig.template,
+                                                //     title : _pageConfig.title,
+                                                // })
+                                                // $('.editor-landing').addClass('hide')
+                                            },
+                                        }
+                                        NetstarTPEditor.selectPageList.init(selectPageListConfig);
+                                    })
+                                })
+                            },
+                        },
+                        {
+                            id : 'page-file',
+                            type : 'custom',
+                            text : '<button type="button" class="btn btn-icon btn-primary btn-square"><i class="fa-folder-open"></i></button>',
+                            handler : function(ev, data){
+                                NetstarTPEditor.api.controllerlist.get().then(function(controllerData){
+                                    NetstarTPEditor.api.pageList.get({start:1, length:1000, type:'page'}).then(function(pageListAll){
+                                        var selectPageListConfig = {
+                                            id : 'slectpage',
+                                            pageLength : 5,
+                                            type : 'page',
+                                            controllerData: controllerData,
+                                            pageListAll : pageListAll,
+                                            confirmHandler : function(data, controllersData, config){
+                                                // 编辑模式
+                                                pageCommon.editModelFunc();
+                                                // 选择vo数据
+                                                if(controllersData){
+                                                    NetstarTPEditor.controllerData = controllersData.methodsList;
+                                                    NetstarTPEditor.controllersData = controllersData;
+                                                }else{
+                                                    delete NetstarTPEditor.controllerData;
+                                                    delete NetstarTPEditor.controllersData;
+                                                }
+                                                // 1322220482530903026
+                                                var pageId = data.id;
+                                                NetstarEditorServer.getPageConfig({id : pageId}, (function(selectPageConfig){
+                                                    return function(resPageConfig){
+                                                        if(selectPageConfig.nsControllerIds){
+                                                            resPageConfig.nsControllerIds = selectPageConfig.nsControllerIds;
+                                                        }
+                                                        pageCommon.refreshByPageConfig(resPageConfig, true);
+                                                        // // 组件列表面板
+                                                        // var config = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                                                        // NetstarTPEditor.componentListPanel.refreshByPageConfig(resPageConfig, config);
+                                                        // // 属性配置面板
+                                                        // NetstarTPEditor.attrPanel.clearSet(pageCommon.ids.attr);
+                                                        // // 面包屑 页面配置面板
+                                                        // var breadData = NetstarTPEditor.componentListPanel.getBreadData(resPageConfig);
+                                                        // pageCommon.initBread(breadData);
+                                                        // NetstarComponent.dialog['slectpage'].vueConfig.close();
+                                                        // var _pageConfig = NetstarProject.init(resPageConfig);
+                                                        // $('container').html('');
+                                                        // NetstarTemplate.init(_pageConfig);
+                                                        // setTimeout(function(){
+                                                        //     pageCommon.changeTemplateZIndex(_pageConfig);
+                                                        // },0)
+                                                        // NetstarTPEditor.panels.title.refresh({
+                                                        //     subtitle : _pageConfig.template,
+                                                        //     title : _pageConfig.title,
+                                                        // })
+                                                        // $('.editor-landing').addClass('hide')
+                                                    }
+                                                })(config))
+                                            }
+                                        }
+                                        NetstarTPEditor.selectPageList.init(selectPageListConfig);
+                                    })
+                                })
+                            },
+                        },
+                        {
+                            id : 'page-save',
+                            type : 'custom',
+                            text : '<button type="button" class="btn btn-icon btn-info btn-square"><i class="fa-save"></i></button>',
+                            handler : function(ev, data){
+                                var savePageConfig = NetstarTPEditor.componentListPanel.getPageConfig(pageCommon.ids.componentlist);
+                                NetstarEditorServer.savePageConfig(savePageConfig, function(resPage){
+                                    nsAlert('保存成功');
+                                    console.log('保存成功');
+                                    var pageId = resPage[0].id;
+                                    NetstarEditorServer.getPageConfig({id : pageId}, function(resPageConfig){
+                                        pageCommon.refreshByPageConfig(resPageConfig, false);
+                                        // // 组件列表面板
+                                        // var config = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                                        // NetstarTPEditor.componentListPanel.refreshByPageConfig(resPageConfig, config);
+                                        // // 面包屑 页面配置面板
+                                        // var breadData = NetstarTPEditor.componentListPanel.getBreadData(resPageConfig);
+                                        // pageCommon.initBread(breadData);
+                                        // var _pageConfig = NetstarProject.init(resPageConfig);
+                                        // $('container').html('');
+                                        // NetstarTemplate.init(_pageConfig);
+                                        // setTimeout(function(){
+                                        //     pageCommon.changeTemplateZIndex(_pageConfig);
+                                        // },0)
+                                        // NetstarTPEditor.panels.title.refresh({
+                                        //     subtitle : _pageConfig.template,
+                                        //     title : _pageConfig.title,
+                                        // })
+                                        // $('.editor-landing').addClass('hide')
+                                    })
+                                });
+                            },
+                        }
+                    ]
+                },
+            ]
+        }
+        NetstarEditorBase.btns.init(btnsPanelConfig);
+        // 组件列表面板
+        var attrConfig = {
+            id : pageCommon.ids.attr,
+            componentlistId : pageCommon.ids.componentlist,
+            confirmHandler : function(value){
+                if(!value){
+                    nsAlert('保存数据失败，请检查配置', 'error');
+                    console.error('保存数据失败，请检查配置');
+                    return true;
+                }
+                if($.isEmptyObject(value)){
+                    nsAlert('没有要保存的数据', 'warning');
+                    console.error('没有要保存的数据');
+                    return true;
+                }
+                var _componentListConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                NetstarTPEditor.componentListPanel.formatCurrentOperatorData(_componentListConfig, value, function(_value){
+                    var componentListConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                    NetstarTPEditor.componentListPanel.setCurrentOperatorData(componentListConfig, _value, function(config){
+                        console.warn(config);
+                        var pageConfig = config.pageConfig;
+                        NetstarTPEditor.componentListPanel.refreshByPageConfig(pageConfig, config, config.showComponentName);
+                        var _breadData = NetstarTPEditor.componentListPanel.getBreadData(pageConfig);
+                        pageCommon.initBread(_breadData, config.showComponentName);
+                        var _pageConfig = NetstarProject.init(pageConfig);
+                        $('container').html('');
+                        NetstarTemplate.init(_pageConfig);
+                        setTimeout(function(){
+                            pageCommon.changeTemplateZIndex(_pageConfig);
+                        },500)
+                        NetstarTPEditor.panels.title.refresh({
+                            subtitle : _pageConfig.template,
+                            title : _pageConfig.title,
+                        })
+                        $('.editor-landing').addClass('hide')
+                    });
+                });
+            },
+            closeHandler : function(){
+                NetstarEditorBase.btns.setState('attr-right', 'tpeditor-panel-btns', false);
+            }
+        }
+        NetstarEditorAjax.getList({
+            data : { type:'state' },
+        }, function(list){
+            attrConfig.stateList = list;
+            var stateSubdata = [];
+            for(var i=0; i<list.length; i++){
+                var valueStr = list[i].id;
+                var stateConfig = JSON.parse(list[i].config);
+                var textStr = '';
+                if(typeof(stateConfig.config) != "object"){
+                    continue;
+                }
+                if(typeof(stateConfig.config.chineseName) == "string"){
+                    textStr = stateConfig.config.chineseName;
+                }else{
+                    textStr = '状态'+(stateSubdata.length+1);
+                }
+                stateSubdata.push({
+                    text : textStr,
+                    value : valueStr
+                });
+            }
+            attrConfig.stateSubdata = stateSubdata;
+            NetstarTPEditor.attrPanel.init(attrConfig);
+
+            // 页面上ajax初始化全部完成后执行方法
+            pageCommon.ajaxIndex ++;
+            if(pageCommon.ajaxLength == pageCommon.ajaxIndex){
+                pageCommon.completeHandler();
+            }
+        });
+        // 属性值配置面板
+        NetstarTPEditor.api.getComponents.get().then(function(res){
+            var typeArr = res.typeArr;
+            var panelAttrs = typeArr.panel;
+            for(var i=0; i<panelAttrs.length; i++){
+                var _attrs = panelAttrs[i].attrs;
+                if(_attrs.position){
+                    _attrs.position.subdata = [
+                        {value: "body", text: "body"},
+                        {value: "header-right", text: "header-right"},
+                        {value: "header-body", text: "header-body"},
+                        {value: "footer", text: "footer"},
+                        {value: "footer-right", text: "footer-right"}
+                    ]
+                }
+            }
+            var formAttrs = typeArr.form;
+            for(var i=0; i<formAttrs.length; i++){
+                var _attrs = formAttrs[i].attrs;
+                if(_attrs.isObjectValue){
+                    _attrs.isObjectValue.variableType = 'boolean';
+                }
+                if(_attrs.linkDefaultMode){
+                    _attrs.linkDefaultMode.textField = 'value';
+                    _attrs.linkDefaultMode.valueField = 'list';
+                }
+                if(_attrs.fileType){
+                    _attrs.fileType.textField = 'name';
+                    _attrs.fileType.valueField = 'value';
+                }
+                if(_attrs.changeHandlerData){
+                    _attrs.changeHandlerData.variableType = "object";
+                }
+                if(_attrs.startView){
+                    _attrs.startView.subdata = [
+                        {value: '0', text: "日"},
+                        {value: '1', text: "月->日"},
+                        {value: '2', text: "年->月->日"},
+                    ];
+                }
+            }
+            var gridAttrs = typeArr.grid;
+            for(var i=0; i<gridAttrs.length; i++){
+                var _attrs = gridAttrs[i].attrs;
+                if(_attrs.footer){
+                    _attrs.footer.type = 'text';
+                }
+                if(_attrs['footer.type']){
+                    _attrs['footer.type'].type = 'text';
+                }
+                if(_attrs.columnType){
+                    _attrs.columnType.type = 'select';
+                    if(_attrs.columnType.type != 'select'){
+                        console.error(_attrs);
+                    }
+                }
+            }
+            var btnsAttrs = typeArr.btns;
+            for(var i=0; i<btnsAttrs.length; i++){
+                var _attrs = btnsAttrs[i].attrs;
+                if(_attrs.requestSource){
+                    _attrs.requestSource.textField = 'text';
+                    _attrs.requestSource.valueField = 'value';
+                }
+            }
+            var componentListConfig = {
+                id : pageCommon.ids.componentlist,
+                attrs : res,
+                pageConfig : {},
+                dropHandler : function(config){
+                    var pageConfig = config.pageConfig;
+                    var _breadData = NetstarTPEditor.componentListPanel.getBreadData(pageConfig);
+                    pageCommon.initBread(_breadData, config.showComponentName);
+                    var _pageConfig = NetstarProject.init(pageConfig);
+                    $('container').html('');
+                    NetstarTemplate.init(_pageConfig);
+                    setTimeout(function(){
+                        pageCommon.changeTemplateZIndex(_pageConfig);
+                    },500)
+                    NetstarTPEditor.panels.title.refresh({
+                        subtitle : _pageConfig.template,
+                        title : _pageConfig.title,
+                    })
+                    $('.editor-landing').addClass('hide');
+                },
+                clearNodeHandler : function(node, config){
+                    var selectConfig = typeof(config.selectConfig) == "object" ? config.selectConfig : {};
+                    if(node.index == selectConfig.index){
+                        // 表示删除的字段正在编辑 删除的同时需要清空编辑
+                        NetstarTPEditor.attrPanel.clearSet(pageCommon.ids.attr);
+                        delete config.selectConfig;
+                    }
+                    var config = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist);
+                    var pageConfig = config.pageConfig;
+                    var _breadData = NetstarTPEditor.componentListPanel.getBreadData(pageConfig);
+                    pageCommon.initBread(_breadData, config.showComponentName);
+                    var _pageConfig = NetstarProject.init(pageConfig);
+                    $('container').html('');
+                    NetstarTemplate.init(_pageConfig);
+                    setTimeout(function(){
+                        pageCommon.changeTemplateZIndex(_pageConfig);
+                    },500)
+                    NetstarTPEditor.panels.title.refresh({
+                        subtitle : _pageConfig.template,
+                        title : _pageConfig.title,
+                    })
+                    $('.editor-landing').addClass('hide');
+                },
+                clickNodeHandler : function(node, config){
+                    var value = node.value;
+                    var isAdd = false;
+                    if(typeof(value) == "undefined"){
+  
+                        isAdd = true;
+                        switch(node.componentType){
+                            case 'panel':
+                                if(typeof(node.attrs) == "object"){
+                                    node.attrs.type.value = node.name;
+                                }
+                                break;
+                            case 'form':
+                                if(typeof(node.attrs) == "object"){
+                                    node.attrs.type.value = node.name;
+                                }
+                                break;
+                            case 'grid':
+                                if(typeof(node.attrs) == "object"){
+                                    node.attrs.columnType.value = node.name;
+                                }
+                                break;
+                            case 'btns':
+                                if(typeof(node.attrs) == "object"){
+                                    node.attrs.defaultMode.value = node.name;
+                                }
+                                break;
+                        }
+                    }
+                    var setAttrConfig = {
+                        otherAttrs : config.attrs,
+                    }
+                    NetstarTPEditor.attrPanel.clearSet(pageCommon.ids.attr);
+                    NetstarTPEditor.attrPanel.set(node.attrArr, node.value, pageCommon.ids.attr, config.attrs.types[node.componentType], setAttrConfig);
+                },
+                addNodeHandler : function(node, config){
+                    var value = node.value;
+                    NetstarTPEditor.componentListPanel.addFieldData(value, node, config, function(_config){
+                        var pageConfig = _config.pageConfig;
+                        NetstarTPEditor.componentListPanel.refreshValueByPageConfig(pageConfig, _config);
+                        // 属性配置面板
+                        NetstarTPEditor.attrPanel.clearSet(pageCommon.ids.attr);
+                        var _pageConfig = NetstarProject.init(pageConfig);
+                        $('container').html('');
+                        NetstarTemplate.init(_pageConfig);
+                        setTimeout(function(){
+                            pageCommon.changeTemplateZIndex(_pageConfig);
+                        },500)
+                    });
+                },
+                closeHandler : function(){
+                    NetstarEditorBase.btns.setState('componentlist-left', 'tpeditor-panel-btns', false);
+                }
+            }
+            NetstarTPEditor.componentListPanel.init(componentListConfig);
+
+            // 页面上ajax初始化全部完成后执行方法
+            pageCommon.ajaxIndex ++;
+            if(pageCommon.ajaxLength == pageCommon.ajaxIndex){
+                pageCommon.completeHandler();
+            }
+        })
+        var formConfig = {
+            id : 'form',
+            form : [
+                {
+                    id : 'number',
+                    type : 'numberRange',
+                }
+            ]
+        }
+        NetstarComponent.formComponent.show(formConfig);
+    })
+</script>
+
+</html>

@@ -1,0 +1,52 @@
+.step {
+
+    .panel-header & {
+        float: right;
+        padding: 0 30px;
+
+
+    }
+
+    .step-item {
+        position: relative;
+        display: block;
+        line-height: 3;
+        padding: 0 25px;
+        color: #555;
+        float: left;
+
+        &:before,
+        &:after {
+            position: absolute;
+            top: 50%;
+            content: '';
+            width: 25px;
+            height: 1px;
+            background: @border-color;
+        }
+
+        &:before {
+            left: 0;
+        }
+
+        // 已完成的
+        &.finish {
+            color: @success;
+
+            &:before,
+            &:after {
+                background: @success;
+            }
+        }
+
+        // 正在进行中的
+        &.current {
+            color: @warning;
+
+            &:before,
+            &:after {
+                background: @warning;
+            }
+        }
+    }
+}

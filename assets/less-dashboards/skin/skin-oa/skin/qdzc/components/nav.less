@@ -1,0 +1,168 @@
+@nav-bg: #0035a2;
+@nav-border: 1px solid rgba(34, 133, 255, 0.8);
+@nav-padding: 1rem;
+@nav-width: 18rem;
+
+// 菜单图标
+.nsdv-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+
+    .nsdv-menu-top-item {
+        height: 100%;
+        flex-direction: column;
+
+        .nsdv-topbar {
+            .flex-block(flex-end, center);
+            background: #00318c;
+            width: @nav-width;
+            min-width: @nav-width;
+            padding: 0.5rem 2rem;
+        }
+
+        .nsdv-nav {
+            height: 100%;
+            width: @nav-width;
+            min-width: @nav-width;
+            background-color: @nav-bg;
+
+            .box-shadow();
+
+            .nsdv-menus-contianer {
+                height: 100%;
+                overflow-y: auto;
+
+                ul {
+                    height: 100%;
+
+                    // li
+                    .nsdv-menu-item {
+                        .flex-block(flex-start, flex-start);
+                        // padding: 0.5rem;
+                        border-bottom: 1px solid #00318a;
+
+                        // 父级
+                        .nsdv-menu-item-row {
+                            flex: 0 0 100%;
+
+                            .nsdv-nav-item {
+                                display: block;
+                                padding: 1.5rem;
+                                // background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
+                                // border-radius: 0.4rem;
+                                // box-shadow: inset 0 0.3rem 0.2rem rgba(255, 255, 255, .2), inset 0 -0.3rem 0.2rem rgba(0, 39, 119, .2), 0 0.2rem 0.4rem rgba(0, 39, 119, .2);
+                                // color: #fff;
+                                // // cursor: pointer;
+                                // text-shadow: 0 0.05rem rgba(0, 0, 0, .8), 0 0.3rem 0.4rem rgba(0, 0, 0, .2), 0 -0.2rem 0.4rem rgba(255, 255, 255, .2);
+
+                                span {
+                                    font-size: 1.4rem;
+                                    color: @text-color;
+                                }
+                            }
+
+                            .nsdv-nav-item:active,
+                            .nsdv-nav-item:hover {
+                                // background-image: linear-gradient(to bottom, #002e77, #004fff);
+                                // box-shadow: 0 0 0.8rem 0.6rem rgba(0, 35, 92, 0.5) inset;
+                                background-image: linear-gradient(to bottom, rgba(0, 39, 119, 0) 0%, rgba(3, 48, 139, 0.9) 100%);
+
+                                span {
+                                    color: #00fff6;
+                                }
+                            }
+                        }
+
+                        // 子级
+                        .nsdv-top-nav-block {
+
+                            position: fixed;
+                            top: 212px;
+                            left: 18rem;
+                            z-index: 9999;
+                            // width: @nav-width;
+                            // min-width: @nav-width;
+
+                            ul {
+
+                                .flex-block(flex-start, flex-start);
+                                flex-direction: column;
+                                flex: 1;
+                                background-color: @nav-bg;
+                                border-right: @nav-border;
+                                border-top: @nav-border;
+                                border-bottom: @nav-border;
+                                .box-shadow();
+                                border-radius: 0.4rem;
+
+                                .nsdv-menu-item {
+                                    width: 100%;
+                                    flex: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+    }
+}
+
+// 顶部菜单
+.nsdv-menu.top {
+
+    // 默认无弹窗时样式
+    .nsdv-topbar.nsdv-topbar-default {
+        .flex-block(flex-start, center);
+        background: transparent;
+        width: auto;
+        min-width: auto;
+    }
+}
+
+// 底部部菜单
+.nsdv-menu.bottom {
+
+    // 默认无弹窗时样式
+    .nsdv-topbar.nsdv-topbar-default {
+        .flex-block(flex-start, center);
+        background: transparent;
+        position: absolute;
+        bottom: 0;
+        width: auto;
+        min-width: auto;
+
+        // position: absolute;
+        // top: 0;
+        // left: 4rem;
+        .nsdv-btn {
+            transform: rotate(180deg)
+        }
+    }
+
+    .nsdv-menu-top-item {
+        .nsdv-nav {
+            .nsdv-menus-contianer {
+                ul {
+                    height: 58%;
+                    overflow-y: auto;
+
+                    .nsdv-menu-item {
+                        .nsdv-menu-item-row {
+                            .nsdv-nav-item {
+                                padding: 1rem 1.5rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+}

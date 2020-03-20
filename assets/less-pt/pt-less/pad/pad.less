@@ -1,0 +1,725 @@
+@border-width: 0.05rem;
+
+
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1280px) {
+    .border-pad {
+        border-width: 0;
+        box-shadow: 0 0 0 0.05rem #bfbfbf;
+    }
+
+    .border-bottom-pad {
+        border-width: 0;
+        box-shadow: 0 0.05rem 0 0 #bfbfbf;
+    }
+
+    //欢迎页面边框
+    .netstar-welcome-content {
+        .netstar-welcome-item:nth-child(1) {
+            .border-pad;
+            .border-bottom-pad;
+
+            .netstar-welcome-item-body {
+                .list-block {
+                    .card-task {
+                        .border-pad;
+                        box-shadow: 0 0 0 @border-width#f3f3f3;
+                    }
+                }
+            }
+        }
+    }
+
+    //页面关闭所有书签
+    .pt-dropdown-menu {
+        .border-pad;
+        box-shadow: 0 @border-width @border-width 0 @border-color;
+    }
+
+    //页面右上角下拉框
+    .pt-top-nav-block {
+        .border-pad;
+        box-shadow: 0 @border-width @border-width 0 @border-color;
+    }
+
+    //树菜单
+    .treeform-ztree>ul,
+    .ztree {
+        .border-pad;
+    }
+
+    .tree-node-add {
+        .border-pad;
+
+        .tree-node-add-footer {
+            .border-pad;
+        }
+    }
+
+    //按钮边框
+    .pt-btn {
+        border-width: @border-width;
+    }
+
+    .pt-radio-inline .pt-radio-inline:after,
+    .pt-checkbox-inline .pt-radio-inline:after,
+    .pt-clear-inline .pt-radio-inline:after,
+    .pt-radio-inline .pt-checkbox-inline:after,
+    .pt-checkbox-inline .pt-checkbox-inline:after,
+    .pt-clear-inline .pt-checkbox-inline:after,
+    .pt-radio-inline .pt-clear-inline:after,
+    .pt-checkbox-inline .pt-clear-inline:after,
+    .pt-clear-inline .pt-clear-inline:after {
+        border-width: @border-width;
+    }
+
+    label.pt-radio-inline.checked:after {
+        line-height: 17px
+    }
+
+
+
+
+
+
+
+    //表格表头表格边框
+    .pt-grid-body {
+
+        .pt-grid-body-head,
+        .pt-grid-body-container,
+        .pt-grid-body-footer {
+            border-width: @border-width;
+        }
+
+        .pt-grid-body-head {
+            margin-top: @border-width;
+        }
+    }
+
+    //表格底部
+    .pt-grid-footer {
+        margin-top: -@border-width;
+        .border-pad;
+        box-shadow: inset 0 0 0 @border-width @border-color;
+
+        .pt-pager {
+
+            .pt-page-control,
+            .pt-page-turn {
+                .pt-input-group {
+                    box-shadow: none;
+                    border-width: 0;
+
+                    input.pt-form-control {
+                        height: 19px;
+                        background-color: transparent;
+                        border-bottom: none;
+                        box-shadow: 0 @border-width 0 0 @border-color;
+                    }
+                }
+
+                .pt-btn-group,
+                .pt-input-group-btn {
+                    .pt-btn {
+                        height: 21px;
+                        background-color: transparent;
+                    }
+                }
+            }
+
+        }
+    }
+
+    .pt-form-control {
+        .border-pad;
+    }
+
+    .pt-tree-form-panel,
+    .pt-map {
+        .pt-form-control {
+            box-shadow: none;
+        }
+    }
+
+    .dictionary {
+        label {
+            .border-pad;
+        }
+    }
+
+    //表格底部选择每页条数下拉框
+    .pt-input-group-select {
+        border-width: @border-width 0 0 @border-width;
+
+        &::before {
+            width: @border-width;
+        }
+
+        &::after {
+            height: @border-width;
+        }
+
+        li {
+            border-width: 0 @border-width @border-width 0;
+        }
+    }
+
+    //  表格边框
+    .pt-grid {
+
+        thead,
+        tbody,
+        tfoot {
+            tr {
+
+                td,
+                th {
+                    border-width: 0 @border-width @border-width 0;
+                }
+            }
+        }
+    }
+
+    //表格第一列选择框
+    label {
+
+        &.radio-inline,
+        &.checkbox-inline,
+        .checkbox-inline-none {
+            &:after {
+                .border-pad;
+            }
+        }
+    }
+
+
+
+
+
+    //表单
+
+    //表单外框
+    .pt-form {
+        &.pt-form-inline {
+            .border-pad;
+
+            &.pt-form-normal {
+                box-shadow: none;
+            }
+        }
+    }
+
+    //试验申请的pt-form表单
+    .pt-panel {
+        .pt-panel-col {
+            &.pt-list-collection {
+
+                .pt-components-list,
+                .pt-components-vo {
+                    .pt-form {
+                        &.pt-form-inline {
+                            box-shadow: none;
+                            border: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //表单边框
+    .pt-input-group {
+        .border-pad;
+
+        &:hover,
+        &:focus {
+            .border-pad;
+            border-color: @warning;
+        }
+
+        //快速搜索框下拉框
+        .pt-dropdown {
+            .border-pad;
+            box-shadow: 0 0 0.025rem 0.025rem @border-color  !important;
+            margin-top: -(@border-width * 2);
+            margin-bottom: -(@border-width * 2);
+            margin-left: -0.025rem;
+
+            ul.pt-dropdown-components {
+                border-top-width: 0px;
+            }
+        }
+
+        &.disabled {
+
+            &:hover,
+            &:focus {
+                .border-pad !important;
+            }
+        }
+    }
+
+
+    //表单后跟按钮组搜索框
+    .pt-form.pt-form-normal+.pt-btn-group {
+        margin-left: 1px;
+    }
+
+    //高级搜索框下拉框
+    .pt-btn-dropdown-panel {
+        .border-pad;
+        box-shadow: inset 0 0 0 @border-width @border-color;
+
+    }
+
+    //日期下拉框
+    .datepicker,
+    .datetimepicker {
+        &.dropdown-menu {
+            .border-pad;
+            margin-top: 0.1rem;
+        }
+
+    }
+
+    //表格内的计算器
+    .table-editor-container {
+        .pt-input-group {
+            border: none;
+            box-shadow: 0.05rem 0 0 0.05rem #fff;
+
+            .pt-form-control {
+                box-shadow: none;
+            }
+        }
+    }
+
+    //表单的计算器
+    .netstar-calculator {
+        &.calculator-inline {
+            border-width: @border-width;
+        }
+    }
+
+    //委托登记样品类别属性值
+    .pt-listselectinput {
+        border-width: @border-width;
+
+        .pt-form {
+            &.pt-form-inline {
+                box-shadow: none;
+            }
+        }
+    }
+
+
+
+
+
+
+    //选项卡tab页
+    .pt-tab.pt-tab-noboder {
+        .pt-tab-header {
+            .pt-nav {
+                .pt-nav-item {
+                    .border-bottom-pad;
+                }
+            }
+        }
+    }
+
+    //个人委托业务弹框中邮寄信息编辑tab
+    .pt-modal-body {
+        .pt-othertab-body {
+            border: none;
+
+            .pt-panel {
+                &.pt-grid-body {
+                    table {
+                        margin-left: 0.05rem;
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+    //弹框顶部边框
+    .pt-modal-header {
+        .border-bottom-pad;
+
+        .pt-modal-header-content {
+            .pt-nav {
+                border-width: 0;
+            }
+        }
+
+        .pt-nav {
+            .pt-nav-item {
+                border-width: 0 0 0.05rem 0.05rem;
+            }
+        }
+    }
+
+    //弹框内部tab表单
+    .pt-modal {
+        &.multiDialog {
+            .pt-modal-header {
+                .pt-tab-header {
+                    .pt-nav {
+                        .pt-nav-item {
+                            a {
+                                .border-pad;
+                            }
+
+                            &.current {
+                                a {
+                                    box-shadow: 0 -0.05rem 0 0.05rem #bfbfbf;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .pt-tab-body {
+                    .border-pad;
+                }
+            }
+
+            .pt-modal-body {
+                &.pt-modal-tab {
+                    .pt-tab-header {
+                        .pt-nav {
+                            .pt-nav-item {
+
+                                a {
+                                    .border-pad;
+                                }
+
+                                &.current {
+                                    a {
+                                        box-shadow: 0 -0.05rem 0 0.05rem #bfbfbf;
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
+                    .pt-tab-body {
+                        .border-pad;
+                    }
+                }
+            }
+        }
+    }
+
+    .pt-modal {
+        .pt-form {
+            &.pt-form-inline {
+                box-shadow: none;
+            }
+        }
+    }
+
+
+
+
+
+
+
+    //账号管理-表格设置
+    .pt-formeditor {
+
+        div,
+        span {
+            border-width: 0.05rem 0.05rem 0.05rem 0.05rem !important;
+        }
+
+        .pt-list {
+            li:last-child {
+                border-bottom: 0;
+            }
+        }
+    }
+
+
+    //blocklist
+    //blocklist的边框
+    .pt-block-list {
+        border-width: @border-width;
+
+        &.selected {
+            border-width: @border-width;
+        }
+    }
+
+
+    //blocklist上方的搜索框
+    .limsreg-blocklist-query {
+        .border-pad !important;
+
+        .pt-input-group {
+            box-shadow: none !important;
+
+            .pt-form-control {
+                box-shadow: none !important;
+            }
+        }
+    }
+
+    //新增划价blocklist
+    //无数据状态
+    .panel-emptyrows {
+        &.no-data {
+            border-width: @border-width;
+        }
+    }
+
+    //价格管理blocklist
+    .pt-block-list {
+        &.pt-block-list-transverse {
+            border-width: 0;
+
+
+            .pt-block-content {
+                border-width: @border-width;
+            }
+
+            &.selected {
+                border-width: 0;
+            }
+        }
+    }
+
+    //我的待办任务
+    .pt-block-list {
+        &.card-task {
+            border-width: @border-width;
+        }
+    }
+
+    //结果录入
+    .listgrid.limsresultinput {
+        .pt-block-list {
+            &:first-child {
+                margin-top: 1px;
+            }
+
+            .pt-block-content {
+                .pt-block-content-item {
+                    &.pt-block-content-item-title {
+                        border-width: @border-width;
+                    }
+
+                    //加急状态
+                    .urgent-icon {
+                        border-width: @border-width;
+                    }
+
+                    //加急状态普通
+                    span[ns-icon="urgentstate-icon-normal"] {
+                        .urgent-icon();
+                    }
+
+                    //加急状态加急
+                    span[ns-icon="urgentstate-icon-primary"] {
+                        .urgent-icon();
+                    }
+
+                    //加急状态特急
+                    span[ns-icon="urgentstate-icon-super"] {
+                        .urgent-icon();
+                    }
+
+                    //超期状态、工作流、待办
+
+                    span[ns-icon="workitemstate-icon"] {
+
+                        border-width: @border-width;
+                        transform: scale(1);
+                        zoom: 1;
+                    }
+
+
+                    .input-status {
+                        border-width: @border-width;
+                        transform: scale(1);
+                        zoom: 1;
+                    }
+
+                    //检测
+                    span[ns-icon="input-status-jc"] {
+                        .input-status();
+                    }
+
+                    //工作流
+                    span[ns-icon="input-status-gzl"] {
+                        .input-status();
+                    }
+
+                    //加急
+                    span[ns-icon="input-status-jj"] {
+                        .input-status();
+                    }
+
+                    //超期
+                    span[ns-icon="input-status-cq"] {
+                        .input-status();
+                    }
+                }
+
+
+            }
+
+            &.selected {
+                .pt-block-content {
+                    .pt-block-content-item {
+                        &.pt-block-content-item-title {
+                            border-bottom-width: @border-width;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //收起
+    .pt-main-col {
+
+        .result-control {
+            border-right-width: @border-width;
+
+            a {
+                border-width: @border-width;
+            }
+        }
+    }
+
+
+    //结果录入页面的悬浮备注框
+    .suspension-edit-box {
+        .expand-modal-footer {
+            border-width: @border-width;
+
+            .pt-btn-group {
+                .pt-btn {
+                    border-width: @border-width;
+                }
+            }
+        }
+
+        .back-to-left {
+            border-width: @border-width @border-width @border-width 0;
+        }
+
+        &.expand {
+            .back-to-left {
+                border-width: @border-width;
+            }
+        }
+    }
+
+    //日历页面
+    .pt-calendar-page {
+
+        .pt-calendar-content {
+
+            table {
+
+                thead {
+                    tr.pt-calendar-week {
+                        th {
+                            border-width: @border-width * 2;
+                        }
+                    }
+                }
+
+                tbody {
+                    tr {
+                        td.date {
+                            border-width: @border-width * 2;
+
+                            //鼠标悬浮
+                            //选中日期
+                            &:hover,
+                            &.current {
+                                &:before {
+                                    border-width: @border-width * 2;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+//pdf弹出框页面
+#dialog-dialog-pdf {
+    .pt-modal-header {
+        background-color: #f4f6f9;
+        min-height: 38px;
+        background-image: none;
+        border-bottom: none;
+        padding: 6px 16px;
+
+        .pt-modal-header-content {
+            margin: 7px;
+            padding: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9;
+            background: transparent;
+
+            .btns-container-intitle {
+                float: left;
+
+                .pt-btn-group {
+                    .pt-btn-icon {
+                        background-color: #e9eaea;
+                        border-radius: 13px;
+                        border: none;
+
+                        &:hover {
+                            background-color: @warning;
+
+                        }
+                    }
+                }
+            }
+
+            .select-changepage-intitle {
+                input {
+                    background: #f4f6f9;
+                }
+
+                .pt-input-group {
+                    .pt-input-group-btn {
+
+                        &,
+                        .pt-btn {
+                            background: #f4f6f9;
+
+
+                        }
+
+                        .pt-btn {
+                            &:hover {
+                                background-color: @warning
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

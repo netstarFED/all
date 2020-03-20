@@ -1,0 +1,524 @@
+@accompany-test-padding: @base-padding;
+@accompany-test-margin: @accompany-test-padding;
+@accompany-test-icon-start-color: @info;
+@accompany-test-icon-end-color: @primary;
+@accompany-test-icon-size: 4rem;
+
+// 陪试状态
+.accompany-test {
+    .accompany-test-echarts {
+        .echarts-item {
+            flex: 0 0 50%;
+        }
+    }
+}
+
+// 左侧树
+.accompany-test-tree {
+    position: relative;
+    .flex-block(flex-start, stretch);
+    flex-direction: column;
+    z-index: 1;
+
+    // 路径
+    .accompany-test-path {
+        position: absolute;
+        stroke-width: 2;
+        stroke: @border-color;
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+    }
+
+    .tree-group-horizontal-line {
+        position: absolute;
+        width: calc(~'100% -'(100% / 4));
+        bottom: 0;
+        height: 0.2rem;
+        left: 12.5%;
+        content: '';
+        background: @border-color;
+
+    }
+
+    // 树形菜单组
+    .tree-group {
+        .flex-block();
+        position: relative;
+
+        &:first-child {
+            .tree-item {
+                &:before {
+                    display: none;
+                }
+            }
+
+
+        }
+
+        &:nth-child(1),
+        &:nth-child(5) {
+            &:after {
+                .tree-group-horizontal-line;
+                bottom: 1rem;
+                margin-bottom: -6px;
+            }
+        }
+
+        &:nth-child(4) {
+            .tree-item {
+                &:before {
+                    margin-top: -1rem;
+                    height: 30%;
+                }
+            }
+        }
+
+
+    }
+
+    // 树形结构子菜单
+    .tree-item {
+        .flex-block(center, center);
+        margin: 0 1rem;
+        position: relative;
+
+        // 间距连线
+        &:before {
+            position: absolute;
+            width: 2px;
+            height: 50%;
+            content: '';
+            background: @border-color;
+            left: 50%;
+            margin-left: -1px;
+            top: 0;
+            margin-top: -1.5rem;
+        }
+
+        // 文字居右间距连线样式
+        &.text-right {
+            &:before {
+                left: auto;
+                right: ((@accompany-test-icon-size / 2) + @base-margin);
+                margin-right: -12px;
+            }
+
+            // 个数为复数时样式
+            &:nth-child(2) {
+                &:before {
+                    right: auto;
+                    left: ((@accompany-test-icon-size / 2) + @base-margin);
+                    margin-right: 0;
+                    margin-left: -11px;
+                }
+            }
+        }
+
+        // 树形结构菜单图标样式
+        .icon {
+            .flex-block(center, center);
+            position: relative;
+            font-size: @accompany-test-icon-size;
+            margin: 0 @accompany-test-margin;
+            .rgba-text-shadow(0, .25rem, .5rem, #000, .5);
+            color: @info;
+            zoom: .5;
+
+            // 电路开关
+            &.icon-zc-switch-alt {
+                &:after {
+                    position: absolute;
+                    content: '';
+                    width: .2rem;
+                    height: 1.75rem;
+                    background: @warning;
+                    left: 50%;
+                    top: 50%;
+                    border-radius: 100rem;
+                    transform: rotate(-45deg) scale(.5);
+                    margin-left: 8px;
+                    margin-top: -19px;
+                    transition: ease-in-out all .25s;
+                }
+            }
+
+            // 仪表盘
+            &.icon-zc-current-sensor-alt {
+                &:after {
+                    position: absolute;
+                    content: '';
+                    width: .25rem;
+                    height: 1.5rem;
+                    background: @info;
+                    left: 50%;
+                    top: 50%;
+                    border-radius: 100rem;
+                    transform: rotate(45deg) scale(.5);
+                    margin-left: 3px;
+                    margin-top: -23px;
+
+                }
+            }
+        }
+
+        span {
+            font-size: @font-size-base;
+            transform: scale(.5);
+        }
+
+        // 树形结构菜单表单样式
+        .form {
+            flex: none;
+            transform: scale(.5);
+
+            .form-row {
+                justify-content: center;
+                align-items: center;
+
+                .control-label {
+                    font-size: @font-size-base;
+                }
+
+                .form-control {
+                    min-width: 2.5rem;
+                }
+            }
+        }
+
+        // 偶数排列顺序为倒序
+        &:nth-child(2n) {
+            flex-direction: row-reverse;
+        }
+
+        // 设备
+        .equipment {
+            position: relative;
+
+            // 设备故障告警
+            &.equipment-breakdown-warning {
+                &:after {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    content: '';
+                    border-radius: 100rem;
+                    box-sizing: border-box;
+                    -webkit-animation: equipment-breakdown-warning 1.5s infinite;
+
+                }
+
+                // 设备图标动画样式
+                .icon {
+                    color: @danger;
+
+                    &.icon-zc-alternator-alt {
+                        &:after {
+                            position: absolute;
+                            content: '\e906';
+                            font-size: 1rem;
+                            color: @warning;
+                            bottom: .25rem;
+                            right: 50%;
+                            margin-right: -.25rem;
+                            -webkit-animation: alternator-warning linear 2s infinite;
+                            transform: scale(.5);
+                        }
+                    }
+
+                    &.icon-zc-current-sensor-alt {
+                        &:after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+            // 风扇动画
+            &.fan-switch-on {
+                -webkit-animation: fan-work-on linear 3s infinite;
+
+                .icon {
+                    color: @success;
+                }
+            }
+
+            // 电路
+            &.e-switch-on {
+                .icon-zc-switch-alt {
+                    &:after {
+                        transform: rotate(0deg) scale(.5);
+                        margin-left: 14px;
+                        width: 0.25rem;
+                        background: @success;
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+
+}
+
+
+// 右侧统计图表
+.accompany-test-echarts {
+    .flex-block(flex-start, stretch);
+    flex-wrap: wrap;
+
+    .echarts-item {
+        .flex-block(flex-start, stretch);
+        margin: @accompany-test-margin 0;
+        padding: 0 @accompany-test-padding;
+
+
+        .panel {
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            border: 0.2rem solid @border-color;
+            border-right-width: 0;
+            border-left-width: 0;
+
+            .panel-header {
+                .flex-block();
+                flex: none;
+
+                .title {
+                    .rgba-text-shadow(0, 0, 1rem, @info, 1);
+
+                }
+            }
+        }
+    }
+
+    .form {
+        .form-item {
+            margin-bottom: 0;
+        }
+
+        .control-label {
+            .rgba-text-shadow(0, 0, 1rem, @info, 1);
+            justify-content: flex-start;
+        }
+
+        .form-control {
+            justify-content: center;
+            width: 1.5rem;
+            height: 2rem;
+            min-width: 1.5rem;
+            padding: 0;
+            .rgba-shadow-inset(0, 0, .5rem, @primary, .75);
+            box-shadow: inset;
+            border-color: lighten(@border-color, 10);
+            #gradient>.vertical-three-colors(@primary, lighten(@primary, 25), 50%, @primary);
+
+            &+.form-control {
+                margin-left: (@base-margin / 2);
+            }
+        }
+    }
+}
+
+// 设备故障
+@-webkit-keyframes equipment-breakdown-warning {
+    0% {
+        .square(1rem);
+        border: 0;
+        margin-top: -0.5rem;
+        margin-left: -0.5rem;
+        opacity: 1;
+        background: @danger;
+    }
+
+    100% {
+        transform: scale(5);
+        margin-top: -0.5rem;
+        margin-left: -0.5rem;
+        opacity: 0;
+
+    }
+}
+
+// 风扇动画
+@-webkit-keyframes fan-work-on {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+// // 设备闪电
+@-webkit-keyframes alternator-warning {
+    0% {
+        color: @warning
+    }
+
+    50% {
+        color: @danger
+    }
+
+    100% {
+        color: @warning
+    }
+}
+
+// 屏幕宽度小于Full-HD(1920)less样式
+@media screen and (max-width: @screen-hd) {
+    .fullpage-view {
+        .accompany-test-tree .tree-item {
+
+            .form {
+                margin: 0 15px;
+                zoom: 1;
+            }
+
+            .form,
+            span {
+                transform: scale(1.25);
+            }
+
+            .icon {
+                zoom: 1;
+            }
+
+            &.text-right:before {
+                margin-right: 0;
+            }
+
+
+            &:before {
+                margin-top: -55px;
+            }
+
+            &.text-right:nth-child(2):before {
+                margin-left: 0;
+            }
+
+
+
+        }
+
+        .accompany-test-tree .tree-group:nth-child(1):after,
+        .accompany-test-tree .tree-group:nth-child(5):after {
+            margin-bottom: 11px;
+        }
+
+    }
+}
+
+// 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+@media screen and (min-width: 1921px) and (max-width: @screen-2k) {
+    .accompany-test-tree .tree-item.text-right:before {
+        margin-right: -17px;
+    }
+
+    .accompany-test-tree .tree-item.text-right:nth-child(2):before {
+        margin-left: -17px;
+    }
+
+    .fullpage-view {
+        .accompany-test-tree .tree-item {
+
+            .form {
+                margin: 0 15px;
+                zoom: 1;
+            }
+
+            .form,
+            span {
+                transform: scale(1.25);
+            }
+
+            .icon {
+                zoom: 1;
+            }
+
+            &.text-right:before {
+                margin-right: 0;
+            }
+
+
+            &:before {
+                margin-top: -76px;
+            }
+
+            &.text-right:nth-child(2):before {
+                margin-left: 0;
+            }
+
+
+
+        }
+
+        .accompany-test-tree .tree-group:nth-child(1):after,
+        .accompany-test-tree .tree-group:nth-child(5):after {
+            margin-bottom: 11px;
+        }
+
+    }
+}
+
+// 屏幕宽度在大于2k(2560)less样式
+@media screen and (min-width: 2561px) {
+
+    .accompany-test-tree .tree-group:nth-child(1):after,
+    .accompany-test-tree .tree-group:nth-child(5):after {
+        margin-bottom: -14px;
+    }
+
+    .accompany-test-tree .tree-item:before {
+        margin-top: -33px;
+    }
+
+    .accompany-test-tree .tree-item.text-right:before {
+        margin-right: -25px;
+    }
+
+    .accompany-test-tree .tree-item.text-right:nth-child(2):before {
+        margin-left: -25px;
+    }
+
+    .fullpage-view {
+        .accompany-test-tree .tree-item {
+
+            .form {
+                margin: 0 15px;
+                zoom: 1;
+            }
+
+            .form,
+            span {
+                transform: scale(1.25);
+            }
+
+            .icon {
+                zoom: 1;
+            }
+
+            &.text-right:before {
+                margin-right: 0;
+            }
+
+
+            &:before {
+                margin-top: -76px;
+            }
+
+            &.text-right:nth-child(2):before {
+                margin-left: 0;
+            }
+
+        }
+
+    }
+}

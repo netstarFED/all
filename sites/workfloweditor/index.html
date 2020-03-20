@@ -1,0 +1,862 @@
+<!--
+ * @Desription: 文件说明
+ * @Author: netstar.cy
+ * @Date: 2019-07-02 10:08:00
+ * @LastEditTime: 2019-11-09 15:34:37
+ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="流程图编辑器" />
+    <meta name="author" content="netstar" />
+    <title>流程图编辑器</title>
+    <!--# include file="/sites/include/mainpage-static-editor.html" -->
+    <!-- <style type="text/css" media="screen">
+        .page-loading-overlay {
+            display: none
+        }
+
+        .geFormatContainer > div > div > div {
+            padding-top: 0 !important;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        div.picker {
+            z-index: 10007;
+        }
+
+        .geSidebarContainer .geTitle {
+            color: #505050;
+        }
+
+        .geSidebarContainer .geTitle input {
+            font-size: 8pt;
+            color: #606060;
+        }
+
+        .geBlock {
+            z-index: -3;
+            margin: 100px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .geBlock h1, .geBlock h2 {
+            margin-top: 0px;
+            padding-top: 0px;
+        }
+
+        .geEditor ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        .geEditor ::-webkit-scrollbar-track {
+            background: whiteSmoke;
+            -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .geEditor ::-webkit-scrollbar-thumb {
+            background: #c5c5c5;
+            border-radius: 10px;
+            border: whiteSmoke solid 3px;
+        }
+
+        .geEditor ::-webkit-scrollbar-thumb:hover {
+            background: #b5b5b5;
+        }
+
+        .geTemplate {
+            border: 1px solid transparent;
+            display: inline-block;
+            _display: inline;
+            vertical-align: top;
+            border-radius: 3px;
+            overflow: hidden;
+            font-size: 14pt;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style> -->
+</head>
+<body>
+
+<div id="app-editor-process"></div>
+<div id="placeholder-popupbox"></div>
+<!-- <div id="app-editor-process" style="position: absolute; top:63px; right: 15px; bottom:0; left: 95px"></div> -->
+<link rel="stylesheet" type="text/css" href="/assets/flow/styles/grapheditor.css">
+<script type="text/javascript" src="/sites/workfloweditor/transactor.js"></script>
+<script type="text/javascript" src="/sites/workfloweditor/workflow.js"></script>
+<script type="text/javascript">
+    var urlParams = (function () {
+        var result = new Object();
+        var searchParams = decodeURI(window.location.search);
+        var params = searchParams.slice(1).split('&');
+
+        for (var i = 0; i < params.length; i++) {
+            idx = params[i].indexOf('=');
+
+            if (idx > 0) {
+                result[params[i].substring(0, idx)] = params[i].substring(idx + 1);
+            }
+        }
+
+        return result;
+    })();
+</script>
+<!--[if (IE 9)|(IE 10)]-->
+<script type="text/vbscript">
+			Function mxUtilsBinaryToArray(Binary)
+				Dim i
+				ReDim byteArray(LenB(Binary))
+				For i = 1 To LenB(Binary)
+					byteArray(i-1) = AscB(MidB(Binary, i, 1))
+				Next
+				mxUtilsBinaryToArray = byteArray
+			End Function
+</script>
+<!--<![endif]-->
+<script type="text/javascript">
+    /**
+     * Synchronously adds scripts to the page.
+     */
+    function mxscript(src, onLoad, id, dataAppKey, noWrite) {
+        if (onLoad != null || noWrite) {
+            var s = document.createElement('script');
+            s.setAttribute('type', 'text/javascript');
+            s.setAttribute('src', src);
+            var r = false;
+
+            if (id != null) {
+                s.setAttribute('id', id);
+            }
+
+            if (dataAppKey != null) {
+                s.setAttribute('data-app-key', dataAppKey);
+            }
+
+            if (onLoad != null) {
+                s.onload = s.onreadystatechange = function () {
+                    if (!r && (!this.readyState || this.readyState == 'complete')) {
+                        r = true;
+                        onLoad();
+                    }
+                };
+            }
+
+            var t = document.getElementsByTagName('script')[0];
+            t.parentNode.insertBefore(s, t);
+        }
+        else {
+            var s = document.createElement('script');
+            s.setAttribute('type', 'text/javascript');
+            s.setAttribute('src', src);
+            var t = document.getElementsByTagName('script')[0];
+            t.parentNode.insertBefore(s, t);
+        }
+    }
+
+    /**
+     * Asynchronously adds scripts to the page.
+     */
+    function mxinclude(src) {
+        var g = document.createElement('script');
+        g.type = 'text/javascript';
+        g.async = true;
+        g.src = src;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(g, s);
+    }
+
+    // Checks for local storage
+    var isLocalStorage = false;
+
+    try {
+        isLocalStorage = urlParams['local'] != '1' && typeof(localStorage) != 'undefined';
+    }
+    catch (e) {
+        // ignored
+    }
+
+    //mxscript('/js/workflow.js');
+    var rootPath = '/assets/flow';
+    var appMinJs = rootPath + '/js/app.min.js';
+    var mxBasePath = rootPath;
+    var RESOURCES_PATH = rootPath + '/resources';
+    var SHAPES_PATH = rootPath + '/shapes';
+    var STENCIL_PATH = rootPath + '/xml';
+    var loadScriptCount = 0;
+    var loadScriptTotal = 2;
+    //mxscript(appMinJs);
+    // Electron
+    if (window && window.process && window.process.type) {
+        loadScriptTotal++;
+        mxscript('js/diagramly/ElectronApp.js', function () {
+            loadScriptCount++;
+        });
+    }
+    var xmlJs = rootPath + '/js/xml2json.min.js'
+
+    mxscript(xmlJs, function () {
+        loadScriptCount++;
+    });
+</script>
+<script type="text/javascript">
+
+    /**
+     * Main
+     */
+     $.ajaxSetup({
+        headers:{Authorization:NetStarUtils.OAuthCode.get()}
+    })
+    if(!serverUrl){
+        //var serverUrl = 'http://api.cloud.netstar-soft.com';
+        var serverUrl = getRootPath();
+        var urlConfig = store.get('NetstarResetServerInfo');
+        if(urlConfig && urlConfig.url){
+            serverUrl = urlConfig.url;
+        }
+        getRootPath = function(){
+            return serverUrl;
+        }
+    }
+    var config = {
+        processId:urlParams.processId,
+        processName:urlParams.processName,
+        //processId: '${processId}',
+        //processName: '${processName}',
+        configDialog: function (json) {
+            var dialog = {
+                title:'中间项',
+                // value:{
+                //   "activityName": "开始",//活动名称
+                // },
+                // tabType:'transition',
+                tabType:'dumb',
+                // tabType:'start',
+                // tabType:'end',
+                confirmHandler:function(saveData){
+                    for(var key in saveData){
+                        if(key.lastIndexOf('Def')>0 && typeof(saveData[key])=='object'){
+                            saveData[key] = JSON.stringify(saveData[key]);
+                        }
+                    }
+                    json.api.saveConfig(json.cell.id,saveData); // 保存当前标签配置
+                    // 通过当前标签配置的 汇聚设置的对应的转移字段 保存转移字段的转移设置的对应的汇聚活动
+                    if(typeof(saveData.outgoingDomId)=='string'){
+                        var allProcess = json.api.getAllActivities();
+                        for(var i=0;i<allProcess.length;i++){
+                            if(allProcess[i].domId == saveData.outgoingDomId){
+                                allProcess[i].incomingDomId = json.cell.id;
+                                json.api.saveConfig(allProcess[i].domId,allProcess[i]); // 保存转移字段标签配置
+                                break;
+                            }
+                        }
+                        // json.api.saveConfig(incomingProcess.domId,incomingProcess); // 保存转移字段标签配置
+                    }
+                    nsWorkFlow.page.closePanel();
+                    nsWorkFlow.prototype.addUnsavedStatus();
+                },
+                closeHandler:function(saveData){
+                    nsWorkFlow.prototype.addUnsavedStatus();
+                },
+            };
+            var jsonData = json.data;
+            jsonData.activityType = typeof(jsonData.activityType)=='undefined'?1:jsonData.activityType;
+            // 普通流程标签下拉框数据 当前标签之前
+            dialog.beforeProcessSub = json.api.getBeforeActivities(json.data.domId);
+            // 普通流程标签下拉框数据 当前标签之后
+            dialog.afterProcessSub = json.api.getAfterActivities(json.data.domId);
+            dialog.allProcessSub = json.api.getAllActivities();
+            switch(jsonData.activityType){
+                case 0:
+                    // 开始环节
+                    dialog.title = '开始';
+                    dialog.tabType = 'start';
+                    break;
+                case 1:
+                    // 普通环节
+                    dialog.title = '普通环节';
+                    dialog.tabType = 'transition';
+                    break;
+                case 2:
+                    // 结束环节
+                    dialog.title = '结束环节';
+                    dialog.tabType = 'end';
+                    break;
+                case 3:
+                    // 哑环节
+                    dialog.title = '哑环节';
+                    dialog.tabType = 'dumb';
+                    break;
+                case 4:
+                    // 子流程环节
+                    dialog.title = '子流程环节';
+                    dialog.tabType = 'subprocess';
+                    break;
+                case 5:
+                    // 会签活动
+                    dialog.title = '会签活动';
+                    dialog.tabType = 'transition';
+                    break;
+            }
+            if(json.api.data.processJson[json.data.domId]){
+                dialog.value = $.extend(true,{},json.api.data.processJson[json.data.domId]);
+            }else{
+                dialog.value = $.extend(true,{},jsonData);
+            }
+            nsWorkFlow.init(dialog);
+
+        },
+        lineConfigDialog:function (json) {
+            var formConfig = {
+                id: "lineConfig-form",
+                title:"设置转移线信息",
+                size: "standard",
+                format: "standard",
+                fillbg: true,
+                form: [
+                    {
+                        id: 'transitionTag',
+                        label: '转移标签',
+                        type: 'text',
+                        column: 12,
+                        readonly: true
+                    }, {
+                        type:'html',
+                        html:'<div class="form-group nscomponent-modal"><label class="control-label select-label col-sm-2" >可用参数</label>' +
+                            '<div class="col-sm-10" style="line-height:16px;word-break: break-all">' +
+                            '<p><strong>workitem：</strong>工作项信息，可用属性: id, bllobj,activityId,workitemType,workitemState,passCount,assignToId,rollbackFlag,overtimeFlag,deadlineState,fromWorkitemIds,mergeFlag,emergencyFlag,errorFlag,whenCreated,whenPended,whenCompleted,topOrgId,orgId,orgCode,objectState</p>' +
+                            '<p><strong>params：</strong>工作项参数，所有属性来自于调用工作流方法传递的 workitemParams </p>' +
+                            '<p><strong>instances：</strong>数组，可以通过下标[index]获取，除了流程合并后的环节，默认都只有 1 个，可用属性：id,processId,instanceState,instanceOldState,whenCreated,createdBy,topOrgId,orgId,orgCode,objectState</p>' +
+                            '<p><strong>activity：</strong>当前环节信息，可用属性：id,processId,activityName,activityType,autoComplete,autoForward,incomingWay,outgoinigWay,endFlag,cannotRollback,doWhenForward,chartNode,loopFlag,whenCreated,createdBy,whenModified,modifiedBy,topOrgId,orgId,orgCode,loopDef,transactorsDef,objectState</p>' +
+                            '<p><strong>process：</strong>流程信息，可用属性：id,processName,processCate,isInuse,whenCreated,createdBy,whenModified,modifiedBy,topOrgId,orgId,orgCode,firstActivityId,objectState</p>' +
+                            '<br></div></div>' +
+                            '<div class="form-group nscomponent-modal"><label class="control-label select-label col-sm-2" >条件表达式<br>用法示例</label>' +
+                            '<div class="col-sm-10">' +
+                            '1. workitem.passCount > 3<br>' +
+                            '2. params.money > 1000<br>' +
+                            '3. params.money > 1000 && params.type == \'温度\'<br>' +
+                            '</div></div>'
+                    }, {
+                        id: 'type',
+                        label: '转移方式',
+                        type: 'radio',
+                        column: 12,
+                        textField: 'name',
+                        valueField: 'id',
+                        subdata: [
+                            {
+                                id: 'mvel',
+                                name: '条件表达式',
+                                isChecked: true,
+                            }, {
+                                id: 'bridge',
+                                name: '转移接口',
+                                isChecked: false,
+                            }
+                        ],
+                        changeHandler: function (value) {
+                            var editArr = [
+                                {
+                                    id: 'expression',
+                                },
+                                {
+                                    id: 'application',
+                                },
+                                {
+                                    id: 'group',
+                                }
+                            ]
+                            switch (value) {
+                                case 'mvel':
+                                    editArr[1].hidden = true;
+                                    editArr[2].hidden = true;
+                                    break;
+                                case 'bridge':
+                                    editArr[1].hidden = false;
+                                    editArr[2].hidden = false;
+                                    break;
+                            }
+                            nsForm.edit(editArr, "lineConfig-form");
+                        }
+                    }, {
+                        id: 'expression',
+                        label: '转移表达式',
+                        type: 'text',
+                        column: 12
+                    }, {
+                        id: 'application',
+                        label: '应用名',
+                        type: 'select',
+                        column: 6,
+                        data: {interfaceClazz: 'com.netstar.nsworkflow.engine.transition.TransitionBridge'},
+                        textField: 'name',
+                        valueField: 'name',
+                        dataSrc: 'rows',
+                        hidden: true,
+                        url: serverUrl + '/dubboApi/applications',
+                        changeHandler: function (value) {
+                            var editObjArr = [
+                                {
+                                    id: 'group',
+                                    data: {
+                                        application: value,
+                                        interfaceClazz: 'com.netstar.nsworkflow.engine.transition.TransitionBridge'
+                                    },
+                                }
+                            ]
+                            nsForm.edit(editObjArr, "lineConfig-form");
+                        }
+                    }, {
+                        id: 'group',
+                        label: '接口名',
+                        type: 'select',
+                        column: 6,
+                        data: {},
+                        textField: 'name',
+                        valueField: 'name',
+                        dataSrc: 'rows',
+                        hidden: true,
+                        url: serverUrl + '/dubboApi/groups',
+                    }
+                ],
+                btns:[
+                    {
+                        text: '确认修改',
+                        handler: function () {
+                            var transitionData = nsForm.getFormJSON('lineConfig-form');
+                            if (transitionData['type'] == 'bridge') {
+                                if (transitionData.application && transitionData.group) {
+                                    transitionData['expression'] = JSON.stringify({
+                                        type: transitionData.type,
+                                        application: transitionData.application,
+                                        group: transitionData.group,
+                                        expression: transitionData.expression
+                                    });
+                                    //如果设为bridge方式, 并且application或group没有设置, 则将expression设为空
+                                } else {
+                                    transitionData['expression'] = '';
+                                }
+                            }
+                            json.api.saveConfig(json.cell.id,transitionData);
+                            nsWorkFlow.prototype.addUnsavedStatus();
+                            nsdialog.hide();
+                        }
+                    }
+                ]
+            };
+            var data = json.data;
+            if (data['type'] == 'bridge' && data['expression'] && data['expression'].startsWith("{")) {
+                data['expression'] = JSON.parse(data['expression']) ? JSON.parse(data['expression'])['expression'] : '';
+            }
+            nsdialog.initValueShow(formConfig, data);
+            formConfig.form[2].changeHandler(data['type']);
+            formConfig.form[4].changeHandler(data['application']);
+        },//流程转移线的配置
+        getAjax: {
+            url:  serverUrl+'/wfProcess/getProcessLayout',
+            type: "get"
+        },
+        saveAjax: {
+            url: serverUrl + '/wfProcess/saveProcessLayout',
+            type: 'post',
+            callBack: function (json) {
+                console.log('保存完成');
+            }
+        },
+        shape: {
+            'mxgraph.flowchart.start_1': 0,
+            'mxgraph.flowchart.start_2': 0,
+            'mxgraph.flowchart.terminator': 2,
+            'mxgraph.flowchart.loop_limit': 3,
+            'mxgraph.flowchart.process': 1,
+            'process': 4,
+            'mxgraph.flowchart.multi-document': 5
+        },
+        deadlineDialog: function (json) {
+            var api = json.api;
+            var activityArr = api.getAllActivities();
+            var config = {
+                id: "plane-viewTable",
+                title: "时限设置",
+                size: "b",
+                form: [
+                    {
+                        id: 'timer-table',
+                        type: 'table',
+                        src: serverUrl + '/wfProcess/getProcessDeadlineList?wfProcessDeadlineProcessId=' + this.processId,
+                        srctype: "GET",
+                        dataSrc: "rows",
+                        isSingleSelect: true,
+                        isMulitSelect: false,
+                        primaryID: 'deadlineId',
+                        column: [
+                            {
+                                field: 'deadlineName',
+                                title: '计时器名称',
+                            },
+                            {
+                                field: 'startActivityName',
+                                title: '开始环节',
+                            },
+                            {
+                                field: 'closeActivityName',
+                                title: '结束环节',
+                            }, {
+                                field: 'btns',
+                                title: '操作',
+                                formatHandler: {
+                                    type: 'button',
+                                    data: [
+                                        {
+                                            '删除': function (row) {
+                                                nsConfirm('确定删除吗？', function (isCloseConfirm) {
+                                                    if (isCloseConfirm) {
+                                                        var trObj = row.obj.closest('tr');
+                                                        baseDataTable.delRowData('timer-table', trObj);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                    }
+                ],
+                btns: [
+                    {
+                        text: '新增',
+                        handler: function () {
+                            // 编辑计时器维护的表单数组
+                            var editTimeFormArr = [
+                                {
+                                    id: 'deadlineId',
+                                    label: '计时器名称',
+                                    type: 'select',
+                                    rules: 'required',
+                                    textField: 'wfDeadlineDefDeadlineName',
+                                    valueField: 'wfDeadlineDefId',
+                                    dataSrc: 'rows',
+                                    url: serverUrl + '/wfProcess/getDeadlineDefList'
+                                    /*subdata: [{
+                                     id: '0',
+                                     value: 'A'
+                                     }]*/
+                                }, {
+                                    id: 'startDomId',
+                                    label: '计时器启动环节',
+                                    type: 'select',
+                                    multiple: true,
+                                    textField: 'activityName',
+                                    valueField: 'domId',
+                                    rules: 'required',
+                                    subdata: activityArr,
+                                    commonChangeHandler: function (obj) {
+                                        var id = obj.value;
+                                        var data = api.getAfterActivities(id);
+                                        var editObj = {
+                                            id: 'closeDomId',
+                                            subdata: data,
+                                        }
+                                        nsForm.edit([editObj], 'plane-edit-table');
+                                    }
+                                }, {
+                                    id: 'closeDomId',
+                                    label: '结束环节',
+                                    type: 'select',
+                                    rules: 'required',
+                                    textField: 'activityName',
+                                    valueField: 'domId',
+                                    subdata: [],
+                                }
+                            ];
+                            var addDialog = {
+                                id: 'plane-edit-table',
+                                title: "新增时限计时器维护",
+                                size: "b",
+                                form: editTimeFormArr,
+                                btns: [
+                                    {
+                                        text: '保存',
+                                        handler: function () {
+                                            var addData = nsForm.getFormJSON('plane-edit-table');
+                                            if (addData) {
+                                                var formData = nsForm.getFormData('plane-edit-table');
+                                                addData.deadlineName = formData.deadlineId.text;
+                                                addData.startActivityName = formData.startDomId.text;
+                                                addData.closeActivityName = formData.closeDomId.text;
+                                                baseDataTable.addTableRowData('timer-table', [addData]);
+                                                popupBoxMore.hide();
+                                            }
+                                        },
+                                    }
+                                ]
+                            }
+                            popupBoxMore.initShow(addDialog);
+                        }
+                    },
+                    {
+                        text: '保存',
+                        handler: function () {
+                            var tableData = baseDataTable.allTableData('timer-table');
+                            var saveData = $.extend(true, [], tableData);
+                            for (var i = 0; i < saveData.length; i++) {
+                                delete saveData[i].id;
+                                delete saveData[i].btns;
+                            }
+                            nsdialog.hide();
+                            api.saveDeadlines(saveData);
+                        },
+                    }
+                ]
+            }
+            popupBox.initShow(config);
+        },
+        setcallbackDialog:function(json){
+            //console.log(json)//InstanceCallback
+            var prevUrl = serverUrl+'/dubboApi/applications';
+            var afterUrl = serverUrl+'/dubboApi/groups';
+            var prevAjaxData = {
+                interfaceClazz:'com.netstar.nsworkflow.business.api.callback.InstanceCallback'
+            };
+            var fillValuesData = json.api.data.callbacks ? json.api.data.callbacks : {};
+            var config = {
+                id:"plane-viewFormcallback",
+                title:'回调设置',
+                size:'b',
+                form:[[
+                    {
+                        id:'onStartApp',
+                        label:'开始',
+                        method:'GET',
+                        url:prevUrl,
+                        dataSrc:'rows',
+                        data:prevAjaxData,
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onStartApp,
+                        changeHandler:function(value){
+                            var data = $.extend(true,{},prevAjaxData);
+                            data.application = value;
+                            nsForm.edit([{id:'onStartApi',data:data}],'plane-viewFormcallback');
+                        }
+                    },{
+                        id:'onStartApi',
+                        method:'GET',
+                        url:afterUrl,
+                        dataSrc:'rows',
+                        data:{},
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onStartApi,
+                        data:{application:fillValuesData.onStartApp,interfaceClazz:'com.netstar.nsworkflow.business.api.callback.InstanceCallback'},
+                        changeHandler:function(value){
+                            
+                        }
+                    },{
+                        id:'onEndApp',
+                        label:'结束',
+                        method:'GET',
+                        url:prevUrl,
+                        dataSrc:'rows',
+                        data:prevAjaxData,
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onEndApp,
+                        changeHandler:function(value){
+                            var data = $.extend(true,{},prevAjaxData);
+                            data.application = value;
+                            nsForm.edit([{id:'onEndApi',data:data}],'plane-viewFormcallback');
+                        }
+                    },{
+                        id:'onEndApi',
+                        method:'GET',
+                        url:afterUrl,
+                        dataSrc:'rows',
+                        data:{},
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onEndApi,
+                        data:{application:fillValuesData.onEndApp,interfaceClazz:'com.netstar.nsworkflow.business.api.callback.InstanceCallback'},
+                        changeHandler:function(value){
+
+                        }
+                    },{
+                        id:'onSuspendApp',
+                        label:'挂起',
+                        method:'GET',
+                        url:prevUrl,
+                        dataSrc:'rows',
+                        data:prevAjaxData,
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onSuspendApp,
+                        changeHandler:function(value){
+                            var data = $.extend(true,{},prevAjaxData);
+                            data.application = value;
+                            nsForm.edit([{id:'onSuspendApi',data:data}],'plane-viewFormcallback');
+                        }
+                    },{
+                        id:'onSuspendApi',
+                        method:'GET',
+                        url:afterUrl,
+                        dataSrc:'rows',
+                        data:{},
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onSusendApi,
+                        data:{application:fillValuesData.onSuspendApp,interfaceClazz:'com.netstar.nsworkflow.business.api.callback.InstanceCallback'},
+                        changeHandler:function(value){
+
+                        }
+                    },{
+                        id:'onResumeApp',
+                        label:'回复',
+                        method:'GET',
+                        url:prevUrl,
+                        dataSrc:'rows',
+                        data:prevAjaxData,
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onResumeApp,
+                        changeHandler:function(value){
+                            var data = $.extend(true,{},prevAjaxData);
+                            data.application = value;
+                            nsForm.edit([{id:'onResumeApi',data:data}],'plane-viewFormcallback');
+                        }
+                    },{
+                        id:'onResumeApi',
+                        method:'GET',
+                        url:afterUrl,
+                        dataSrc:'rows',
+                        data:{},
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onResumeApi,
+                        data:{application:fillValuesData.onResumeApp,interfaceClazz:'com.netstar.nsworkflow.business.api.callback.InstanceCallback'},
+                        changeHandler:function(value){
+
+                        }
+                    },{
+                        id:'onTerminateApp',
+                        label:'终止',
+                        method:'GET',
+                        url:prevUrl,
+                        dataSrc:'rows',
+                        data:prevAjaxData,
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onTerminateApp,
+                        changeHandler:function(value){
+                            var data = $.extend(true,{},prevAjaxData);
+                            data.application = value;
+                            nsForm.edit([{id:'onTerminateApi',data:data}],'plane-viewFormcallback');
+                        }
+                    },{
+                        id:'onTerminateApi',
+                        method:'GET',
+                        url:afterUrl,
+                        dataSrc:'rows',
+                        data:{},
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onTerminateApi,
+                        data:{application:fillValuesData.onTerminateApp,interfaceClazz:'com.netstar.nsworkflow.business.api.callback.InstanceCallback'},
+                        changeHandler:function(value){
+
+                        }
+                    },{
+                        id:'onUndoTerminateApp',
+                        label:'撤销终止',
+                        method:'GET',
+                        url:prevUrl,
+                        dataSrc:'rows',
+                        data:prevAjaxData,
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onUndoTerminateApp,
+                        changeHandler:function(value){
+                            var data = $.extend(true,{},prevAjaxData);
+                            data.application = value;
+                            nsForm.edit([{id:'onUndoTerminateApi',data:data}],'plane-viewFormcallback');
+                        }
+                    },{
+                        id:'onUndoTerminateApi',
+                        method:'GET',
+                        url:afterUrl,
+                        dataSrc:'rows',
+                        data:{},
+                        type:'select',
+                        column:6,
+                        textField:'name',
+                        valueField:'name',
+                        value:fillValuesData.onUndoTerminateApi,
+                        data:{application:fillValuesData.onUndoTerminateApp,interfaceClazz:'com.netstar.nsworkflow.business.api.callback.InstanceCallback'},
+                        changeHandler:function(value){
+
+                        }
+                    }
+                ]],
+                btns:[
+                    {
+                        text:'确定',
+                        handler:function(){
+                           var data = nsForm.getFormJSON('plane-viewFormcallback');
+                            json.api.saveSetCallback(data);
+                        }
+                    }
+                ]
+            };
+            nsdialog.initShow(config);
+        },
+    };
+    console.log(config)
+    nsFrame.loading();
+    mxscript(appMinJs, function () {
+        loadScriptCount++;
+    });
+
+    var i = setInterval(function () {
+        if (loadScriptCount == loadScriptTotal) {
+            window.clearInterval(i);
+            App.prototype.process.configFunc(config);
+            App.main(function (ui) {
+                nsFrame.loaded();
+            });
+        }
+    }, 10);
+</script>
+</body>
+</html>

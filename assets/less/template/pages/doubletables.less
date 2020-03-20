@@ -1,0 +1,73 @@
+.doubleTables {
+	.panel-container-content {
+		.service-component {
+			.panel {
+				padding-bottom: 0;
+			}
+			
+			// 快速录入组件
+			.nsui-quicktyping {
+				.input {
+					height: @nspanel-container-form-height;
+				}
+				
+				// 表单label
+				.label-title {
+					height: @nspanel-container-form-height;
+					line-height: (@nspanel-container-form-height - 2);
+				}
+				
+				// 搜索输入框
+				.input {
+					input.input-main {
+						height: @nspanel-container-form-height;
+					}
+
+				}
+				
+				// 搜索结果面板
+				.result-panel{
+					top: 29px;
+				}
+				
+				// 搜素结果标签
+				.tags-container{
+					top: 2px;
+					@quicktyping-tag-height:22px;
+					.quicktyping-tag{
+						height: @quicktyping-tag-height;
+						line-height: @quicktyping-tag-height;
+						.form-control{
+							&.ns-table-input{
+								height: @quicktyping-tag-height;
+							}
+						}
+					}
+				}
+
+			}
+
+			.input-group,
+			.label-title,
+			.form-control,
+			.add-select-input-btn {
+				height: (@nspanel-container-form-height - 2);
+			}
+
+			.label-title {
+				line-height: (@nspanel-container-form-height - 2);
+			}
+
+		}
+
+	}
+
+	&.mode-horizontal{
+		.layout-container-panel-table{
+			& + .layout-container-panel-table{
+				padding-left: @mode-horizontal-gutter;
+			}
+		}
+	}
+
+}

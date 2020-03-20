@@ -1,0 +1,211 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>留样管理</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var reservedSample1 = {
+                    package:"nscloud.reservedsample1",
+                    template:"docListViewerMobile",
+                    components :[
+                        {
+                            type:"blockList",
+                            field:[
+                                {
+                                    field:"locationCode",
+                                    title:"货位",
+                                    mindjetType:'select',
+                                    displayType:'all',
+                                    editConfig:{
+                                        type:'select',
+                                        url:'https://qaapi.wangxingcloud.com//locations/v2/getList',
+                                        contentType:'application/json',
+                                        "textField": "code",
+                                        "valueField": "id",
+                                        method:'POST',
+                                        "dataSrc": "rows",
+                                        data:{
+                                            // "warehouseId": "{this.warehouseId}",
+                                        },
+                                        isDistinct:false
+                                    },
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                    // tooltip:false,
+                                    
+
+                                },
+                                {
+                                    field:"sampleCode",
+                                    title:"样品编号",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },
+                                {
+                                    field:"sampleName",
+                                    title:"样品名称",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },
+                                {
+                                    field:"specification",
+                                    title:"规格型号",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"batchNo",
+                                    title:"批次号",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"sampleQuantity",
+                                    title:"样品数量",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"storeArea",
+                                    title:"存放位置",
+                                    editConfig:{
+                                        type:'select',
+                                        textField:'value',
+                                        valueField:'id',
+                                        "dictArguments": "DICT_SITUATION",
+                                        "isObjectValue": false,
+                                        subdata:[
+                                            {
+                                                id:"1",
+                                                value:'位置1'
+                                            },
+                                            {
+                                                id:"2",
+                                                value:'位置2'
+                                            }
+                                        ],  
+                                        
+                                    },
+                                    orderable:true,
+                                    searchable:false,
+                                    columnType:'dictionary',
+                                    formatHandler:{
+                                        type:'dictionary',
+                                        data:{
+                                            "1": "位置1",
+                                            "2": "位置2"
+                                        }
+                                    },
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"isRetained",
+                                    title:"是否留样",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"whenRetention",
+                                    title:"留样时间",
+                                    orderable:true,
+                                    editConfig:{
+                                        type:'date'
+                                    },
+                                    searchable:false,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"selfBackQuantity",
+                                    title:"自取退还数量",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"selfBackBy",
+                                    title:"自取退还人",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"isPreparation",
+                                    title:"是否制样",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"retentionSampleState",
+                                    title:"留样状态",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"retentionSampleDate",
+                                    title:"留样期限",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                },{
+                                    field:"dealwithTypeId",
+                                    title:"处理类型id",
+                                    orderable:true,
+                                    searchable:true,
+                                    isDefaultSubdataText:true,
+                                }
+                            ],
+                            ajax:{
+                                "src": 'https://qaapi.wangxingcloud.com//sampleDetail/getPage',
+                                "dataSrc": "rows",
+                                "type": "POST",
+                                "dataFormat": "object",
+                                "contentType": "application/json",
+                                "data": {}
+                            },
+                            idField:'id',
+                            "listExpression": "<div class=\"block-list-item\">\n<div class=\"block-list-item-text text-left\"><span class=\"fontWeight\"><p>{{sampleName}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span  class=\"font-text-gary\">样品编号：<p>{{sampleDetailCode}}</p></span><span><p class=\"num\" >{{quantity}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span class=\"font-text-gary\">规格型号：<p>{{specification}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span><p>{{whenRetention}}</p></span><span><p>{{retentionSampleDate}}</p></span><span>留样状态：<p>{{dealwithTypeId}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span><p>{{storeArea}}</p></span></div>\n</div>",
+                            isUseSearchInput:true,
+                            searchInputPlaceholder:"扫码查询",
+                            isUseQRInput:true,
+
+                        },
+                        {
+                            type:'btns',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'留样确认',
+                                        isReturn:true
+                                    },
+                                    functionConfig:{
+                                        defaultMode:'loadPage',
+                                        isInlineBtn:false,
+                                        isMobileInlineBtn:true,
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+                // NETSTAR添加url参数即pageParam
+                var pageConfig = {config:reservedSample1};
+                reservedSample1 = NetstarProject.init(reservedSample1);
+                NetstarTemplate.init(reservedSample1);
+
+            })
+        </script>
+    </container>
+</body>
+
+</html>

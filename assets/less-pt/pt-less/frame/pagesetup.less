@@ -1,0 +1,157 @@
+@pt-setting-width:346px;                                            //设置面板宽
+@pt-setting-icon-height:@topbar-height;                                             //设置按钮高
+@pt-setting-icon-line-height:@pt-setting-icon-height;                      //设置按钮行高
+
+@pt-setting-title-height:@pt-setting-icon-height;                    //标题高度
+@pt-setting-title-line-height:@pt-setting-title-height;        // 标题行高
+
+@pt-setting-title-border:#a9c0df;                                //标题边框颜色
+
+//皮肤切换
+.pt-setting-icon{
+    z-index: 110;
+    .square(@pt-setting-icon-height);
+    position: fixed;
+    top:0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+    cursor: pointer;
+    &:hover{
+        background: #fff;
+        .icon{
+            color: #333;
+        }
+    }
+    .icon{
+        line-height:@pt-setting-icon-line-height;
+        font-size: 14px;
+        color: #fff;
+    }
+    &.active{
+        right:@pt-setting-width; 
+        background: #fff;
+        color: #333;
+        box-shadow: -5px 5px 5px rgba(0,0,0,0.2);
+
+        i{
+            color: #333;
+        }
+    }
+}
+.pt-setting{
+    z-index: 109;
+    position: fixed;
+    top:0;
+    right: 0;
+    width:@pt-setting-width;
+    background: #fff;
+    padding:0 (@base-padding * 3);
+    box-shadow: -5px 5px 5px rgba(0,0,0,0.2);
+    .title{
+        line-height:40px;
+        border-bottom:1px solid @pt-setting-title-border;
+        color: #333;
+        font-size: 16px;
+    }
+    .pt-radio{
+        margin-bottom: @base-margin * 2;
+        // padding-left: @base-padding * 2;
+        .radio-group{
+             padding:(@base-padding * 2) 0;
+            .pt-radio-inline{
+                line-height: 22px;
+                // input#body-skin-form-form-radio1-0 + .icon{
+                //     font-size:@font-size-sm;
+                // }
+                // input#body-skin-form-form-radio1-1 + .icon{
+                //     font-size:@font-size-base;
+                // }
+                // input#body-skin-form-form-radio1-2 + .icon{
+                //     font-size:@font-size-md;
+                // }
+                // .icon{
+                //     background: #3f5161;
+                //     color: #fff;
+                //     padding:@base-padding / 1.5;
+                //     border-radius: 20px;
+                // }
+                input#body-skin-form-form-radio1-0 + span{
+                    font-size:@font-size-sm;
+                }
+                input#body-skin-form-form-radio1-1 + span{
+                    font-size:@font-size-base;
+                }
+                input#body-skin-form-form-radio1-2 + span{
+                    font-size:@font-size-md;
+                }
+            }
+        }
+        .pt-radio-img{
+            width: 100%;
+            padding:0;
+        }
+    }
+    .pt-setting-skin{
+        .pt-setting-skin-group{
+            // padding-left: @base-padding * 2;
+            .pt-setting-skin-group-inline{
+                float: left;
+                .square(45px);
+                display: block;
+                margin:(@base-margin * 2);
+                margin-left: 0;
+                border: 2px solid #ddd;
+                &.pt-setting-skin-group-inline-a{
+                    background-color:#3f5161;
+                }
+                &.pt-setting-skin-group-inline-b{
+                    background-color:#476f9a;
+                }
+                &.pt-setting-skin-group-inline-c{
+                    background-color:#000;
+                }
+                &.pt-setting-skin-group-inline-d{
+                    background-color:#3f566a;
+                }
+                &:hover,
+                &:active,
+                &.active{
+                    border: 2px solid #0bb319;
+                }
+            }
+        }
+    }
+    .pt-btn-group{
+        width: 100%;
+        margin:(@base-margin * 2) 0;
+        .col-xs-4{
+            padding-left: 0;
+            padding-right: 30px;
+            .pt-btn-default{
+                background: #ddd;
+                &:hover,
+                &:active{
+                    border-color:#bfbfbf;
+                    background: #ddd;
+                    color:#424242;
+                }
+            }
+        }
+        .col-xs-8{
+            float: right;
+            padding-left:50px;
+            padding-right: 0;
+        }
+        .pt-btn{
+            height: 32px;
+            line-height: 32px;
+            padding: 0 (@base-padding * 2);
+            &.pt-btn-success{
+                background-color: #2b7c2b;
+                border-color: #2b7c2b;
+                color:#fff;
+            }
+        }
+    }
+}

@@ -1,0 +1,158 @@
+@form-padding: @base-padding;
+@form-color: #333;
+@form-border-color: @border-color;
+@form-height: 3rem;
+@form-gutter: (@base-margin / 2);
+@form-font-size: @font-size-base;
+// control-label
+@control-label-width: 150px;
+@control-label-width-sm: 80px;
+@control-label-padding: @base-padding;
+
+// form-control
+@form-control-padding: (@form-padding / 2) @form-padding;
+@form-control-border-color: @form-border-color;
+@form-control-color: @form-color;
+@form-control-bg: #fff;
+
+// input-group
+@input-group-addon-color: @form-color;
+@input-group-addon-bg: lighten(@form-border-color, 10);
+@input-group-addon-padding: @form-padding;
+@input-group-addon-border-color: @form-border-color;
+
+.form-state-variant(@theme-color) {
+    .form-control {
+        border-color: @theme-color;
+        .rgba-bg(@theme-color, .2);
+        color: @theme-color;
+    }
+
+    .input-group-addon,
+    .input-group-btn {
+        border-color: @theme-color;
+        background: @theme-color;
+    }
+}
+
+.form {
+    .flex-block(flex-start, flex-start);
+
+    form {
+        .flex-block(flex-start, flex-start);
+        padding: 0 @form-padding;
+        flex-wrap: wrap;
+
+        &.form-row {
+            flex-direction: row;
+        }
+
+        &.form-col {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    // 表单列表
+    .form-item {
+        .flex-block(flex-start, stretch);
+        // min-height: @form-height;
+        margin-bottom: @form-gutter;
+        flex: none;
+        font-size: @form-font-size;
+        // padding: (@form-padding / 2) 0;
+
+    }
+
+    // 表单label
+    .control-label {
+        .flex-block(flex-end, center);
+        margin: 0;
+        flex: none;
+        padding: 0 @control-label-padding;
+
+
+    }
+
+
+    .form-control {
+        .flex-block(flex-start, center);
+        padding: @form-control-padding;
+        border: 1px solid @form-control-border-color;
+        color: @form-control-color;
+        background: @form-control-bg;
+        min-width: 4.5rem;
+
+        &+.input-group-addon,
+        &+.input-group-btn {
+            margin-left: -1px;
+        }
+
+        // 相邻的form-congrol
+        &+.form-control {
+            margin-left: -1px;
+        }
+    }
+
+    // 输入组
+    .input-group {
+        .flex-block(flex-start, stretch);
+
+        .input-group-addon {
+            .flex-block(center, center);
+            flex: none;
+            color: @input-group-addon-color;
+            padding: 0 @input-group-addon-padding;
+            border: 1px solid @input-group-addon-border-color;
+            background: @input-group-addon-bg;
+        }
+    }
+
+    // 网格布局表单
+    .form-grid {
+        .form-item {
+            flex: 0 0 50%;
+        }
+
+        .control-label {
+            text-align: right;
+            flex: 0 0 @control-label-width;
+            // justify-content: flex-start;
+
+            // 小尺寸label标签
+            &.control-label-sm {
+                flex: 0 0 @control-label-width-sm;
+            }
+
+        }
+    }
+
+
+    .form-item {
+
+        // 表单状态
+        &.form-primary {
+            .form-state-variant(@primary);
+        }
+
+        &.form-info {
+            .form-state-variant(@info);
+        }
+
+        &.form-success {
+            .form-state-variant(@success);
+        }
+
+        &.form-warning {
+            .form-state-variant(@warning);
+        }
+
+        &.form-danger {
+            .form-state-variant(@danger);
+        }
+
+        &.disabled {
+            .form-state-variant(#555);
+        }
+    }
+}

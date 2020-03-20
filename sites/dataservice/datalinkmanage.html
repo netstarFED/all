@@ -1,0 +1,495 @@
+<container>
+    <style>
+        .td-button ,.td-dictionary {
+            text-align: center;
+        }
+
+        .page-body.skin-autoservice .table tbody > tr > td.error.td-func {
+            color:#e60012;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .page-body.skin-autoservice .table tbody > tr > td.success.td-func {
+            color:#009944;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .page-body.skin-autoservice .table tbody > tr > td.warning.td-func {
+            color:#f39800;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        table.table thead tr th[aria-label="数据库名称"],
+        table.table thead tr th[aria-label="数据库备注"] {
+            text-align: left;
+            padding: 4px;
+        }
+    </style>
+    <layout id='query-database'  ns-package='query.database'>
+        <nav  ns-id="nav" ns-config="navConfig"></nav>
+        <panel ns-id="table" ns-options="col:12,height:auto" ns-config="table:tableConfig"></panel>
+    </layout>
+    <script type="text/javascript">
+        query.database = {
+            main: function () {
+                this.navConfig = {
+                    btns: [
+                        [
+                            {
+                                text: '新增',
+                                handler: addQueryDatabaseDialog
+                            },
+                            {
+                                text: '修改',
+                                handler: editQueryDatabaseDialog
+                            }, {
+                                text: '删除',
+                                handler: delQueryDatabaseDialog
+                            }
+                        ],[
+                            {
+                                text: '加载数据库',
+                                handler: function(){
+                                    loadDatabase('load');
+                                }
+                            }, {
+                                text: '卸载数据库',
+                                handler: function(){
+                                    loadDatabase('unLoad', '确定要卸载该数据库吗?');
+                                }
+                            }, {
+                                text: '重新加载数据库',
+                                handler: function(){
+                                    loadDatabase('reLoad', '确定要重新加载该数据库吗?');
+                                }
+                            }, {
+                                text: '测试连接',
+                                handler: testDatabase
+                            }
+                        ]
+                    ]
+                };
+                var loadStateDict = {"0":"DOWN","1":"UP","2":"ERROR"};
+                var columnsConfig = [
+                    {
+                        field: 'id',
+                        title: '主键',
+                        width: 150,
+                        hidden: true
+                    },
+                    {
+                        field: 'name',
+                        title: '数据库名称',
+                        width: 150
+                    },
+                    {
+                        field: 'remark',
+                        title: '数据库备注',
+                        width: 150
+                    },
+                    {
+                        field: 'dbType',
+                        title: '数据库类型',
+                        width: 150,
+                        formatHandler:	{
+                            type:'dictionary',
+                            data: {"MYSQL":"MYSQL","ORACLE":"ORACLE","HSQL":"HSQL","DB2":"DB2","SYBASE":"SYBASE","MARIADB":"MARIADB","SQLSERVER":"SQLSERVER"}
+                        }
+                    },
+                    {
+                        field: 'loadState',
+                        title: '加载状态',
+                        width: 150,
+                        formatHandler:function(value,row,meta){
+                            if (value == '2') {
+                                $(meta.settings.aoData[meta.row].anCells[meta.col]).addClass('error');
+                            } else if (value == '1') {
+                                $(meta.settings.aoData[meta.row].anCells[meta.col]).addClass('success');
+                            } else if (value == '0') {
+                                $(meta.settings.aoData[meta.row].anCells[meta.col]).addClass('warning');
+                            }
+                            return loadStateDict[value];
+                        }
+                    },
+                    {
+                        field: 'enabled',
+                        title: '使用状态',
+                        width: 150,
+                        formatHandler:	{
+                            type:'dictionary',
+                            data: {"0":"DISABLED","1":"ENABLED"}
+                        }
+                    }
+                ];
+                var dataSrc = getRootPath() + '/databaseDefinitions/getAll';
+                var dataConfig = {
+                    src: dataSrc,		//数据库地址
+                    type: "GET",		//GET POST
+                    data: '',			//参数对象{id:1,page:100}
+                    isServerMode: false,//是否开启服务器模式
+                    isSearch: true,     //是否开启搜索功能
+                    isPage: true,       //是否开启分页
+                    dataSrc: 'rows'
+                };
+                var uiConfig = {
+                    searchTitle: "数据库搜索",				//搜索框前面的文字，默认为检索
+                    searchPlaceholder: "名称",				//搜索框提示文字，默认为可搜索的列名
+                    isSelectColumns: false, 					//是否开启列选择，默认为选择
+                    isAllowExport: false,					//是否允许导出数据，默认允许
+                    pageLengthMenu: 10, 	//可选页面数  auto是自动计算  all是全部
+                    isSingleSelect: true,			 		//是否单选
+                    isMulitSelect: false,
+                    defaultSelect: true
+                };
+                this.tableConfig =
+                    {
+                        columns: columnsConfig,
+                        data: dataConfig,
+                        ui: uiConfig
+                    };
+
+                //修改部分
+                var dialogForm =[
+                    {
+                        id: 'id',
+                        label: '数据库ID',
+                        type: 'hidden'
+                    },
+                    {
+                        id: 'oldName',
+                        label: '原数据库名',
+                        type: 'hidden'
+                    },
+                    {
+                        id: 'loadState',
+                        label: '状态',
+                        type: 'hidden'
+                    },
+                    {
+                        id: 'name',
+                        label: '数据库名称',
+                        type: 'text',
+                        placeholder: '名称唯一，不能和其他数据库相同',
+                        rules: 'required',
+                        changeHandler: function(value){
+                            var formData = nsForm.getFormJSON('query-database-editQueryDatabase-dialog', false);
+                            if(value != formData.oldName){
+                                if(formData.loadState == 1){
+                                    nsForm.fillValues({name: formData.oldName}, 'query-database-editQueryDatabase-dialog')
+                                    nsalert('数据库已经加载，如果想修改名称，请先卸载该数据库!', 'error');
+                                }
+                            }
+                        }
+                    },
+                    {
+                        id: 'remark',
+                        label: '数据库备注',
+                        type: 'text',
+                        rules: ''
+                    },
+                    {
+                        id: 'dbType',
+                        label: '数据库类型',
+                        type: 'radio',
+                        rules: 'required',
+                        textField:'name',
+                        valueField:'id',
+                        value: 'MYSQL',
+                        subdata: [{"id":"MYSQL","name":"MYSQL"},{"id":"ORACLE","name":"ORACLE"},{"id":"HSQL","name":"HSQL"},{"id":"DB2","name":"DB2"},{"id":"SYBASE","name":"SYBASE"},{"id":"MARIADB","name":"MARIADB"},{"id":"SQLSERVER","name":"SQLSERVER"}]
+                    },
+                    {
+                        id: 'jdbcUrl',
+                        label: '数据库URL',
+                        type: 'text',
+                        rules: 'required'
+                    },
+                    {
+                        id: 'jdbcUser',
+                        label: '数据库用户名',
+                        type: 'text',
+                        rules: 'required'
+                    },
+                    {
+                        id: 'jdbcPassword',
+                        label: '数据库密码',
+                        type: 'text',
+                        rules: 'required'
+                    },
+                    {
+                        id: 'initialSize',
+                        label: '数据源连接数初始化大小',
+                        type: 'text',
+                        value: 1,
+                        rules: 'positiveInteger min=1 max=100'
+                    },
+                    {
+                        id: 'minIdle',
+                        label: '数据源最小连接池数量',
+                        type: 'text',
+                        value: 1,
+                        rules: 'positiveInteger min=1 max=100'
+                    },
+                    {
+                        id: 'maxActive',
+                        label: '数据源最大连接池数量',
+                        type: 'text',
+                        value: 20,
+                        rules: 'positiveInteger max=100'
+                    },
+                    {
+                        id: 'maxWait',
+                        label: '获取连接最大等待时间（毫秒）',
+                        type: 'text',
+                        value: 60000,
+                        rules: 'positiveInteger min=1000'
+                    },
+                    {
+                        id: 'validationQuery',
+                        label: '检测连接SQL',
+                        type: 'text',
+                        value: "select 'x'",
+                        rules: ''
+                    },
+                    {
+                        id: 'testOnBorrow',
+                        label: '申请时是否检测有效',
+                        type: 'radio',
+                        rules: '',
+                        textField:'id',
+                        valueField:'value',
+                        value: '0',
+                        subdata: [
+                            {
+                                id: 	'是',
+                                value: 	'1'
+                            },
+                            {
+                                id: 	'否',
+                                value: 	'0'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'testOnReturn',
+                        label: '归还时是否检测有效',
+                        type: 'radio',
+                        rules: '',
+                        textField:'id',
+                        valueField:'value',
+                        value: '0',
+                        subdata: [
+                            {
+                                id: 	'是',
+                                value: 	'1'
+                            },
+                            {
+                                id: 	'否',
+                                value: 	'0'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'enabled',
+                        label: '可用状态',
+                        type: 'radio',
+                        rules: 'required',
+                        textField:'name',
+                        valueField:'id',
+                        value: '1',
+                        subdata: [{"id":0,"name":"DISABLED"},{"id":1,"name":"ENABLED"}]
+                    }
+                ];
+
+                //新增弹框
+                var addQueryDatabaseDialogConfig = {
+                    id: 'query-database-addQueryDatabase-dialog',
+                    title: '新增数据库',
+                    size: 'm',
+                    form: dialogForm,
+                    btns: [
+                        {
+                            text: '确认',
+                            handler: function(){
+                                addOrSaveQueryDatabaseSubmit('query-database-addQueryDatabase-dialog');
+                            }
+                        }
+                    ]
+                };
+                //修改弹框
+                var editQueryDatabaseDialogConfig = {
+                    id: 'query-database-editQueryDatabase-dialog',
+                    title: '修改数据库',
+                    size: 'm',
+                    form: dialogForm,
+                    btns: [
+                        {
+                            text: '确认',
+                            handler: function(){
+                                addOrSaveQueryDatabaseSubmit('query-database-editQueryDatabase-dialog');
+                            }
+                        }
+                    ]
+                };
+
+                function addQueryDatabaseDialog() {
+                    nsdialog.initShow(addQueryDatabaseDialogConfig);
+                }
+
+                function editQueryDatabaseDialog() {
+                    //修改数据库
+                    var trData = baseDataTable.getSingleRowSelectedData('table-query-database-table');
+                    if (!trData) {
+                        return false;
+                    }
+                    $.ajax({
+                        url: getRootPath() + '/databaseDefinitions/' + trData.id,
+                        type: 'get',
+                        success: function (data) {
+                            if (data.success) {
+                                data.data.oldName = data.data.name;
+                                nsdialog.initValueShow(editQueryDatabaseDialogConfig, data.data);
+                            } else {
+                                var errStr = data.msg;
+                                nsalert('获取数据失败，请重试 ' + errStr, 'error');
+                            }
+                        },
+                        error: function (e) {
+                            nsalert('获取数据失败，请重试', 'error');
+                        }
+                    });
+                }
+
+                function addOrSaveQueryDatabaseSubmit(formId) {
+                    var data = nsForm.getFormJSON(formId);
+                    if (data) {
+                        if(/[:="\s]/.test(data.name)){
+                            nsalert('数据库名称中不能包含冒号(:),等号(=),双引号("),空格换行等特殊字符!', 'error');
+                            return;
+                        }
+                        $.ajax({
+                            data: data,
+                            url: getRootPath() + '/databaseDefinitions/save',
+                            type: 'post',
+                            success: function (data) {
+                                if (data.success) {
+                                    nsalert('保存成功', 'success');
+                                    baseDataTable.reloadTableAJAX('table-query-database-table');
+                                    nsdialog.hide();
+                                } else {
+                                    var errStr = data.msg;
+                                    nsalert('保存失败，请重试 ' + errStr, 'error');
+                                }
+                            },
+                            error: function (e) {
+                                nsalert('保存失败，请重试', 'error');
+                            }
+                        })
+                    }
+                }
+
+                function delQueryDatabaseDialog() {
+                    //删除数据库
+                    var trData = baseDataTable.getSingleRowSelectedData('table-query-database-table');
+                    if (!trData) {
+                        return false;
+                    }
+                    nsconfirm("是否确认删除 数据库：" + trData.name, function(answer){
+                        if(answer){
+                            $.ajax({
+                                data: {
+                                    id: trData.id
+                                },
+                                url: getRootPath() + '/databaseDefinitions/delete',
+                                //type: 	'post',
+                                success: function (data) {
+                                    if (data.success) {
+                                        nsalert('删除成功', 'success');
+                                        baseDataTable.delSelectedRowdata('table-query-database-table');
+                                    } else {
+                                        var errStr = data.msg;
+                                        nsalert('删除失败，请重试 ' + errStr, 'error');
+                                    }
+                                },
+                                error: function (e) {
+                                    nsalert('删除失败，请重试', 'error');
+                                }
+                            });
+                        }
+                    });
+                }
+
+                function loadDatabase(type, confirmMsg) {
+                    //删除数据库
+                    var trData = baseDataTable.getSingleRowSelectedData('table-query-database-table');
+                    if (!trData) {
+                        return false;
+                    }
+                    if(confirmMsg){
+                        nsconfirm(confirmMsg, function(answer){
+                            if(answer){
+                                _loadDatabase(type, trData.id);
+                            }
+                        });
+                    } else {
+                        _loadDatabase(type, trData.id);
+                    }
+                }
+
+                function _loadDatabase(type, id){
+                    $.ajax({
+                        data: {
+                            id: id
+                        },
+                        url: getRootPath() + '/databaseDefinitions/' + type,
+                        type: 'post',
+                        success: function (data) {
+                            if (data.success) {
+                                nsalert('操作成功', 'success');
+                                baseDataTable.reloadTableAJAX('table-query-database-table');
+                            } else {
+                                var errStr = data.msg;
+                                nsalert('操作失败：' + errStr, 'error');
+                            }
+                        },
+                        error: function (e) {
+                            console.error(e);
+                            nsalert('操作失败，请重试', 'error');
+                        }
+                    });
+                }
+
+                function testDatabase() {
+                    var trData = baseDataTable.getSingleRowSelectedData('table-query-database-table');
+                    if (!trData) {
+                        return false;
+                    }
+                    $.ajax({
+                        data: {
+                            id: trData.id
+                        },
+                        url: getRootPath() + '/databaseDefinitions/test',
+                        type: 	'post',
+                        success: function (data) {
+                            if (data.success && data.data) {
+                                nsalert('测试连接成功!', 'success');
+                            } else {
+                                var errStr = data.msg;
+                                nsalert('测试连接失败: ' + errStr, 'error');
+                            }
+                        },
+                        error: function (e) {
+                            console.error(e);
+                            nsalert('测试连接失败!', 'error');
+                        }
+                    });
+                }
+
+                nsLayout.init("query-database");
+            }
+        };
+        nsFrame.init(query.database);
+    </script>
+</container>

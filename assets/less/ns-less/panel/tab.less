@@ -1,0 +1,76 @@
+//tab相关
+@ns-nav-tabs-border-color: #c1c8d2;
+@ns-nav-tabs-hover-bg: #fff;
+@ns-nav-tabs-focus-border-color: @ns-nav-tabs-border-color;
+@ns-nav-tabs-active-background-color:#fff;
+.row.layout-planes > .nspanel{
+	.tab-nav-default;
+}
+
+.tab-content{
+	
+	.tab-pane{
+		position: relative;
+	}
+
+	&.tab-content-border{
+		border:1px solid @ns-nav-tabs-border-color;
+	}
+
+}
+.tab-nav-default{
+	.nav.nav-tabs {
+		margin: 0 -1px 5px -1px;
+		padding: 0;
+		border-bottom: 1px solid transparent;
+		position: relative;
+
+		li {
+			padding: 0 1px 0 1px;
+			a {
+				padding: 0 5px;
+				line-height: 30px;
+				text-align: center;
+				background: #f8f8f8;
+				border-color: #dfe2e7;
+				border-bottom: 1px solid #cad0d8;
+				color: #777;
+				&:hover{
+					background: #fff;
+				}
+			}
+			&.active{
+				a{
+					background: #fff;
+				    border-color: @ns-nav-tabs-border-color;
+				    cursor: pointer;
+				    position: relative;
+				    border-bottom-color: #fff;
+				    color: #000;
+				    &:before{
+			    	    position: absolute;
+					    content: "";
+					    width: 100%;
+					    height: 2px;
+					    background: @ns-nav-tabs-border-color;
+					    z-index: 9;
+					    top: 0;
+					    left: 0;
+				    }
+				}
+			}
+
+		}
+
+	}
+
+}
+.layout-customertable.nspanel{
+	
+		.customertable-echart-table{
+			.nav.nav-tabs{
+				margin: -(@base-margin + 5) -2px 0;
+
+			}
+		}
+	}

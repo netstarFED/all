@@ -1,0 +1,69 @@
+
+
+.frame-standard.skin-peis{
+	.peis-table-style(@peis-table-header-bg; #62a7e0; @ns-border-color; #edf6fe);
+}
+
+
+.peis-table-style(@header-bg, @header-color, @border-color, @th-bg){
+	table{
+		&.table{	
+			thead{
+				tr{
+					th{
+						background: @header-bg;
+						
+					}
+				}
+				&:first-child > tr:last-child{
+					th{
+						color: @header-color;
+					}
+				}
+			}
+		}
+
+		// table边框样式
+		&.table-bordered{
+			border-color: @border-color;
+			thead{
+				&:first-child > tr:last-child{
+					th{
+						border-color: @border-color;
+					}
+				}
+			}
+			tbody{
+				tr{
+					th,
+					td{
+						border-color: @border-color;
+					}
+				}
+			}
+		}
+
+		&.table-striped{
+			tbody{
+				tr{
+					th,
+					td:first-child{
+						background: @th-bg;
+					}
+					
+				}
+			}
+		}
+
+	}
+	.nsui-quicktyping .result-panel table{
+			&.table{
+				tr{
+					th{
+						background: #56b1fc;
+						color: #fff !important;
+					}
+				}
+			}
+		}
+}

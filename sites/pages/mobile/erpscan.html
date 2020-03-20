@@ -1,0 +1,214 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>商品详情</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var getRootPath = function () {
+                    return "https://qaapi.wangxingcloud.com";
+                }
+                var goodsPlatformUnitNameArr = [
+                    {
+                        id: '1',
+                        value: '个'
+                    }
+                ];
+                if(nsVals.dictData.unit){
+                    goodsPlatformUnitNameArr = nsVals.dictData.unit.subdata;
+                }
+                var productDetails = {
+                    "package": "nscloud.productdetails",
+                    "template": "listMobile", // //
+                    "readonly": false,
+                    "isShowTitle": true,
+                    "isFormHidden": false,
+                    "versionNumber": "1",
+                    "getValueAjax": {
+                        src: getRootPath() + "/goodsLocationRelationship/v2/getInventoryAllByScanCodeGoods",
+                        dataSrc: "rows",
+                        type: "GET",
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {},
+                    },
+                    "components": [
+                        /* 
+                            字典 ：nsVals.dictData
+                            
+                                单位           unit        nsVals.dictData.unit.subdata
+                                货位类型       locationType
+
+                         */
+
+                        {
+                            type: 'vo',
+                            /* defaultShow: {
+                                isAjax: true, //是否打开时显示列表 默认true
+                                placeholder: "请使用扫码功能或者点击搜索", //默认为空 ''
+                            }, */
+                            field: [{
+                                    id: 'goodsName',
+                                    label: "商品名称",
+                                    type: 'text',
+                                    value:'商品名称'
+                                },
+                                {
+                                    id: 'goodsCode',
+                                    label: "商品编码",
+                                    type: 'text',
+                                    value:'商品编码'
+                                },
+                                {
+                                    id: 'goodsPlatformUnitName',
+                                    label: "单位",
+                                    type: 'radio',
+                                    subdata: goodsPlatformUnitNameArr,
+                                    textField: 'value',
+                                    valueField: 'id',
+                                    value:'1'
+                                },
+                                {
+                                    id: 'goodsPlatformBrandName',
+                                    label: "品牌",
+                                    type: 'text',
+                                    value:'品牌'
+                                },
+                                {
+                                    id: 'goodsPlatformModel',
+                                    label: "型号",
+                                    type: 'text',
+                                    value:'型号'
+                                },
+                                {
+                                    id: 'goodsPlatformOtherCode',
+                                    label: "OEM码",
+                                    type: 'text',
+                                    value:'OEM码'
+                                }
+                            ]
+                        },
+                        {
+                            type: "blockList",
+                            defaultShow: {
+                                isAjax: true, //是否打开时显示列表 默认true
+                                placeholder: "请使用扫码功能或者点击搜索", //默认为空 ''
+                            },
+                            field: [{
+                                field: "locationCode",
+                                text: '货位编码',
+                                orderable: true,
+                                searchable: true,
+                            }, {
+                                field: "warehouseName",
+                                text: '仓库',
+                                orderable: true,
+                                searchable: true,
+                            }],
+                            ajax: {
+                                src: getRootPath() +"/goodsLocationRelationship/v2/getInventoryAllByScanCodeGoods",
+                                dataSrc: "rows",
+                                type: "GET",
+                                dataFormat: "object",
+                                contentType: "application/x-www-form-urlencoded",
+                                data: {platFormCode:'J252006U'}
+                            },
+                            idField: "id",
+                            listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span><p class='fontWeight'>{{warehouseName}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span><p style=\"color:#CCCCCC;\">{{locationCode}}</p></span><span><p style=\"color:#CCCCCC;\">{{handleWay}}</p></span><span><p >{{sampleQuantity}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span class='info'><p style=\"color:#6C6C6C;\"    class=\"block-list-item-text-content\">{{entrustName}}</p></span></div>\n</div>",
+                            isUseSearchInput: true,
+                            searchInputPlaceholder: "扫码查询",
+                            isUseQRInput: true,
+                        },
+                        {
+                            //文本搜索面板
+                            type: 'inputSearchPanel',
+                            keyField: 'input', //默认为input
+                            field: [{
+                                    type: 'text',
+                                    name: 'text', //所有名字默认读取type，绝大多数情况下每一个类型只有显示，所以name默认等于type
+                                    text: "搜索,取消", //拆分为两个按钮 默认为"搜索,取消"
+                                    placeholder: '按照文本进行检索',
+                                    successOperate: 'refresh',
+                                    ajax: {
+                                        type: "GET",
+                                        contentType: "application/x-www-form-urlencoded",
+                                        data: '{"platFormCode":"{input.text}"}',
+                                        formatter: function (res) {
+                                            return res;
+
+                                        },
+                                    }
+                                },
+                                {
+                                    type: 'qrCamera',
+                                    name: 'qrCamera',
+                                    text: '<i class="icon-qrcode"></i>', //使用html为按钮渲染形式
+                                    successOperate: 'refresh',
+                                    ajax: {
+                                        type: "GET",
+                                        contentType: "application/x-www-form-urlencoded",
+                                        data: '{"platFormCode":"{input.qrCamera}"}',
+                                        formatter: function (res,_templateConfig) {
+                                            if(!$.isEmptyObject(_templateConfig.voComponent)){
+                                                $('#'+_templateConfig.voComponent.id).removeClass('hide');
+                                                nsForm.fillValues(res.data,_templateConfig.voComponent.id);
+                                                res = res.data.goodslist;
+                                            }
+                                            return res;
+                                        },
+                                    }
+                                },
+                                {
+                                    type: 'btn',
+                                    name: 'getList',
+                                    text: '<i class="icon-all"></i>', //使用html为按钮渲染形式
+                                    successOperate: 'refresh',
+                                    ajax: {
+                                        type: "GET",
+                                        contentType: "application/x-www-form-urlencoded",
+                                        data: '{"platFormCode":"code}"}',
+                                        formatter: function (res) {
+                                            return res;
+                                        },
+                                    }
+                                }
+                            ],
+                            searchAjax: {
+                                /*     src: getRootPath() +
+                                        "/goodsLocationRelationship/v2/getInventoryAllByScanCodeGoods",
+                                    dataSrc: "rows",
+                                    type: "POST",
+                                    dataFormat: "object",
+                                    contentType: "application/json", */
+                                data: '{"platFormCode":"{input.code}"}',
+                                formatter: function (res) {
+                                    return res;
+                                },
+                            }
+                        }
+                    ],
+                    "draftBox": {
+                        "isUse": false,
+                        "isUseSave": true,
+                        "closeOrClear": true
+                    },
+                    "title": "商品详情",
+                }
+                sampleCustomList2 = NetstarProject.init(productDetails);
+                NetstarTemplate.init(productDetails);
+            })
+        </script>
+    </container>
+</body>
+
+</html>

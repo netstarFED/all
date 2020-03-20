@@ -1,0 +1,55 @@
+@user-info-width: 240px;
+@user-info-padding: @base-padding;
+@user-photo-size: 60px;
+@user-contact-icon-color: #666;
+
+.user {
+    width: @user-info-width;
+    padding: @user-info-padding;
+
+    .user-info {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        padding: @user-info-padding 0;
+        margin-bottom: @base-margin;
+
+        .user-photo {
+            .square(@user-photo-size);
+            float: left;
+            background: #e4eeff;
+            margin-right: @base-margin;
+            border-radius: @border-radius-base;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .user-name {
+            display: block;
+            line-height: 2.5;
+        }
+
+        .btn {
+            font-size: 12px;
+            min-height: 24px;
+            display: inline-block;
+        }
+    }
+
+    .user-contact {
+        width: 100%;
+
+        .user-contact-item {
+            line-height: 2;
+
+            i {
+                padding-right: @base-padding-sm;
+                color: @user-contact-icon-color;
+                color: #a5c9f9;
+            }
+        }
+    }
+}

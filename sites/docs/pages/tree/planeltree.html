@@ -1,0 +1,376 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>tree</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>当前为tree</td>
+                            </tr>
+                            <tr>
+                                <td>ajax</td>
+                                <td>传入数据</td>
+                                <td>object</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>传入的数据</td>
+                            </tr>
+                            <tr>
+                                <td>addAjax</td>
+                                <td>新增ajax</td>
+                                <td>object</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>新增时获取的数据</td>
+                            </tr>
+                            <tr>
+                                <td>moveAjax</td>
+                                <td>移动Ajax</td>
+                                <td>object</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>移动时获取的数据</td>
+                            </tr>
+                            <tr>
+                                <td>editAjax</td>
+                                <td>修改Ajax</td>
+                                <td>object</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>修改时获取的数据</td>
+                            </tr>
+                            <tr>
+                                <td>deleteAjax</td>
+                                <td>删除Ajax</td>
+                                <td>object</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>删除时获取的数据</td>
+                            </tr>
+                            <tr>
+                                <td>height</td>
+                                <td>树高度Ajax</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>树的高度（外边框）</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>树宽度</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>树的宽度（外边框）</td>
+                            </tr>
+                            <tr>
+                                <td>textField</td>
+                                <td>选项显示的字段,</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>选项显示的字段 （默认name）</td>
+                            </tr>
+                            <tr>
+                                <td>parentField</td>
+                                <td>父节点名称</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>父节点的id</td>
+                            </tr>
+                            <tr>
+                                <td>childField</td>
+                                <td>树数据子级名</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>树数据子级名</td>
+                            </tr>
+                            <tr>
+                                <td>fromField</td>
+                                <td>新增时发送字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>新增时发送的id</td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>标题</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>树的标题</td>
+                            </tr>
+                            <tr>
+                                <td>plusClass</td>
+                                <td>样式</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>单独样式</td>
+                            </tr>
+                            <tr>
+                                <td>level</td>
+                                <td>打开层级</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>默认全部关闭</td>
+                            </tr>
+                            <tr>
+                                <td>isSearch</td>
+                                <td>是否允许检索</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否允许检索</td>
+                            </tr>
+                            <tr>
+                                <td>isMultiple</td>
+                                <td>是否多选</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否多选</td>
+                            </tr>
+                            <tr>
+                                <td>readonly</td>
+                                <td>是否只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否只读（只读可点击）</td>
+                            </tr>
+                            <tr>
+                                <td>maxlength</td>
+                                <td>节点name长度</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>节点name长度</td>
+                            </tr>
+                            <tr>
+                                <td>unfieldId</td>
+                                <td>子级id</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>子级名称的id</td>
+                            </tr>
+                            <tr>
+                                <td>unfieldText</td>
+                                <td>子级名</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>新增子级名</td>
+                            </tr>
+                            <tr>
+                                <td>allfieldText</td>
+                                <td>父级名称</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>父级名称</td>
+                            </tr>
+                            <tr>
+                                <td>isClickRoot</td>
+                                <td>是否选中根节点</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>单选</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-date-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code"></h3>
+                <span class="intro"></span>
+                <div id="nsdocs-jsontree" class="panel-demo"></div>
+                <script>
+                      var treeJson =      
+                            {
+                            type: "tree",  //类型
+                            title : '树',  //标题  
+                            unfieldId : 'unfieldId',   //子级id
+                            allfieldId : 'allfieldId',//父子级id 
+                            unfieldText :"柠檬",   //子级
+                            allfieldText : '所有', //全部（父子级）
+                            isMultiple:false,//不多选
+                            isClickRoot : true, //选中根节点 
+                            ajax: {
+                                data: {
+                                    categoryType: 1,
+                                },
+                                url: getRootPath() + '/docs/data/tree/getList.json',
+                                type: "GET",
+                                contentType: "application/x-www-form-urlencoded",
+                                dataSrc: "rows"
+                            },
+                            idField: "id", 
+                            textField: "name",
+                            childField: "children", //树数据子级名
+                            fromField: "fromId", //新增时发送的字段
+                            level: "0", //打开层级 
+                            readonly: false, //只读
+                            maxlength:50,//
+                            formatter: "{\"id\":\"{id}\"}",
+                            addAjax: {
+                                //新增
+                                url: getRootPath() + '/docs/data/tree/from.json',
+                                type: "GET",
+                                contentType: "application/x-www-form-urlencoded",
+                                dataSrc: "rows"
+                            },
+                            deleteAjax: {//删除
+                                url: getRootPath() + '/docs/data/tree/from.json',
+                                type: "GET",
+                                contentType: "application/x-www-form-urlencoded",
+                                dataSrc: "rows"
+                            },
+                            editAjax: {//修改
+                                url: getRootPath() + '/docs/data/tree/from.json',
+                                type: "GET",
+                                contentType: "application/x-www-form-urlencoded",
+                                dataSrc: "rows"
+                            },
+                            moveAjax: { //移动
+                                url: getRootPath() + '/docs/data/tree/from.json',
+                                type: "GET",
+                                contentType: "application/x-www-form-urlencoded",
+                                dataSrc: "rows"
+                            },
+                            id: "nsdocs-jsontree",
+                            height: 400, //树高度 
+                            width : 350,  //树宽度
+                        }
+                        NetstarTemplate.tree.init(treeJson);
+         </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        type: "tree",  //类型
+        title : '树',  //标题  
+        unfieldId : 'unfieldId',   //子级id
+        allfieldId : 'allfieldId',//父子级id 
+        unfieldText :"柠檬",   //子级
+        allfieldText : '所有', //全部（父子级）
+        isMultiple:false,//不多选
+        isClickRoot : true, //选中根节点 
+        ajax: {
+            data: {
+                categoryType: 1,
+            },
+            url: getRootPath() + '/docs/data/tree/getList.json',
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded",
+            dataSrc: "rows"
+        },
+        idField: "id", 
+        textField: "name",
+        childField: "children", //树数据子级名
+        fromField: "fromId", //新增时发送的字段
+        level: "0", //打开层级 
+        readonly: false, //只读
+        maxlength:50,//
+        formatter: "{\"id\":\"{id}\"}",
+        addAjax: {
+            //新增
+            url: getRootPath() + '/docs/data/tree/from.json',
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded",
+            dataSrc: "rows"
+        },
+        deleteAjax: {//删除
+            url: getRootPath() + '/docs/data/tree/from.json',
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded",
+            dataSrc: "rows"
+        },
+        editAjax: {//修改
+            url: getRootPath() + '/docs/data/tree/from.json',
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded",
+            dataSrc: "rows"
+        },
+        moveAjax: { //移动
+            url: getRootPath() + '/docs/data/tree/from.json',
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded",
+            dataSrc: "rows"
+        },
+        id: "nsdocs-jsontree",
+        height: 400, //树高度 
+        width : 350, 
+    }
+                </pre>
+                </div>
+            </div>
+            <!-- 只读的树 -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-date-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code"></h3>
+                <span class="intro"></span>
+                <div id="nsdocs-jsontree-readonly" class="panel-demo"></div>
+                <script>
+                      var treeJsonReadonly =      
+                        {
+                            type: "tree",  //类型
+                            title : '树',  //标题  
+                            unfieldId : 'unfieldId',   //子级id
+                            allfieldId : 'allfieldId',//父子级id 
+                            ajax: {
+                                data: {
+                                    categoryType: 1,
+                                },
+                                url: getRootPath() + '/docs/data/tree/getList.json',
+                                type: "GET",
+                                contentType: "application/x-www-form-urlencoded",
+                                dataSrc: "rows"
+                            },
+                            unfieldText :"柠檬",   //子级
+                            allfieldText : '所有', //全部（父子级）
+                            isMultiple:false,//不多选
+                            isClickRoot : true, //选中根节点 
+                            idField: "id", 
+                            textField: "name",
+                            childField: "children", //树数据子级名
+                            fromField: "fromId", //新增时发送的字段
+                            level: "0", //打开层级 
+                            readonly: true, //只读
+                            maxlength:50,//
+                            formatter: "{\"id\":\"{id}\"}",
+                            id: "nsdocs-jsontree-readonly",
+                            height: 400, //树高度 
+                            width : 350,  //树宽度
+                        }
+                        NetstarTemplate.tree.init(treeJsonReadonly);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+                    </pre>
+                </div>
+            </div>
+            <div>
+                <p style="line-height: px;font-size:16px;">
+                    *普通树 新增/删除/修改/移动 的ajax必填, 如果不需要这些功能，可以将树配成只读（readonly:true）
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script> -->
+</container>
+    
+    <!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

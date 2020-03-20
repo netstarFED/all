@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <title>模板页编辑器</title>
+    <!-- 引入需要的插件vue、jquery等 -->
+    <!--# include file="./importLib/importLib.html" -->
+    <!-- 使用codeMirror必须引入的文件 -->
+    <!--# include file="./codeMirror/codemirror.html" -->
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!-- 引入组件库 -->
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    
+    <script src="/static/libs/handlebars.min.js"></script>
+    <script src="/static/libs/require.js" data-main="js/"></script>
+
+    <script src="js/base.js"></script>
+    <script src="js/api.js"></script>
+    
+
+    <script src="js/tpeditor-config.js"></script>
+    <script src="js/tpeditor.js"></script>
+
+    <!-- <script src="js/user.js"></script> -->
+    <script src="js/test.js"></script>
+    <style>
+        .mask .hot-type {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            min-width: 30px;
+            min-height: 30px;
+            border: 1px solid #dddddd;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0);
+            z-index: 9;
+        }
+
+        .mask .hot-type.state-active {
+            border: 1px solid #c4c7ca;
+            cursor: pointer;
+            background: rgba(80, 165, 207, 0.1);
+            left: 100px;
+        }
+    </style>
+</head>
+
+<body ns-type="editor">
+    <!-- 属性编辑面板 start -->
+    <div id="panel-params" class="control-panel isRightClass" :class="isShow?'show':'close'">
+    </div>
+
+    <script>
+        
+        
+
+        $(function(){
+            NetstarTPEditor.show();
+        })
+        
+    </script>
+    <!-- 属性编辑面板 end -->
+    <div id="app">
+        <div class="editor-landing" v-if="showWelcome">
+            <h3 class="editor-landing-title">欢迎使用表单编辑器</h3>
+        </div>
+        <!-- 头部内容 -->
+        <div class="editor-header">
+            <!-- 页面标题 -->
+            <div class="panel topbar">
+                <!-- 标题  -->
+                <div class="page-guide"  id='tpeditor-panel-title'></div>
+                <!-- 用户信息 -->
+                <div class="user-info"  id='tpeditor-panel-user'></div>
+            </div>
+        </div>
+        
+    </div>
+    <!-- 所配页面 -->
+    <div class="main">
+        <container class="pageView"></container>
+    </div>
+    <script>
+        $(function(){
+            let components = {};
+            NetstarTPEditor.api.getComponents.get().then(function(res){
+                components = res;
+                NetstarTPEditor.api.controller.get({ids:'1302894493352849385'}).then(function(_res){
+                    console.log(components);
+                    console.log(_res);
+                })
+            })
+        })
+        
+    </script>
+</body>
+
+<script>
+
+    // 整体vue框架
+    // Vue.component('treeselect', VueTreeselect.Treeselect);
+
+    // var app = new Vue({
+
+    //     // 绑定的DOM元素
+    //     el: "#app",
+
+    //     // 所需数据 
+    //     data: {
+
+    //         showWelcome: true,                                 // 是否显示欢迎页
+
+    //         /*
+    //             用户的数据
+    //         */ 
+    //         userInfo: "",                                      // 用户信息
+    //         showUserSelect: false,                             // 是否显示用户下拉
+
+    //         /*
+    //             页面json配置数据
+    //         */ 
+    //         dataJson: "",                                       // pageConfig数据
+
+    //         /*
+    //             页面控制(编辑模式选择、模板弹框、文件弹框、帮助等)
+    //         */ 
+    //         isEditModelLeft: true,                              // 编辑模式和预览模式左侧显示选择
+    //         isEditModelRight: true,                             // 编辑模式和预览模式右侧显示选择
+    //         modelSelectData: ["编辑模式", "预览模式"],            // 模式列表
+    //         isLeftClass: true,                                  // 左侧面板样式初始化
+    //         isRightClass: true,                                 // 右侧面板样式初始化
+    //         activeIndex: 0,                                     // 进入页面当前模式的下标
+
+    //         /*
+    //             模板列表弹框
+    //         */ 
+    //         showTemplateModals: false,                          // 模板列表显示控制
+    //         // controller相关属性
+    //         DRHA_EFaultModeTree_value: [],                      // 选择controller的值
+    //         DRHA_EFaultModeTree_lables: [],                     // 选择controller的标签
+    //         DRHA_EFaultModeTree_options: [],                    // 选择controller的选项
+    //         controllerList: [],                                 // 用户所选择的controller
+    //         clearable: true,                                    // 是否显示清除按钮
+    //         // 模板相关属性
+    //         templateList: [],                                   // 模板列表数据
+    //         templateListPage: [],                               // 模板列表分页数据
+    //         modalsTemplateIndex: 1,                             // 模板列表显示模式选中样式属性
+    //         modalsTemplateListMode: "list-normal",              // 模板列表显示模式
+    //         currentTemplateIndex: -1,                           // 选中的模板下标样式属性
+    //         dataJsonTemp: "",                                   // 未确认临时的pageConfig
+
+    //         /* 
+    //             打开文件弹框 
+    //         */ 
+    //         showFilesModals: false,                             // 打开文件页面pageConfig列表显示控制
+    //         showFilesModals: false,                             // 显示打开文件弹出框
+    //         modalsFilesListMode: "list-normal",                 // 打开文件弹出框列表模式
+    //         modalsFilesIndex: 1,                                // 打开文件列表模式下标
+    //         filesList: [],                                      // 打开文件渲染的列表
+    //         currentFiles: -1,                                   // 选中文件下标
+
+    //         /*
+    //             帮助弹出框
+    //         */
+    //         showHelpModals:false,                               // 帮助弹出框的显示控制
+    //         showTipHelp:false,                                  // 显示帮助小提示控制
+
+
+
+    //         /*
+    //             面包屑导航
+    //         */ 
+    //         navList: [],                                        // 面包屑导航层级列表
+    //         showSelect: false,                                  // 根节点下拉显示
+    //         showSelectNext: false,                              // 子节点下拉显示
+    //         currentSecondIndex:-1,                              // 当前第二层级所选择的数组下标
+
+
+    //         /*
+    //             左侧面板功能属性(添加、已添加、数据源)
+    //         */
+    //         leftIndex:1,                                        // 左侧面板初始选项卡选中属性
+    //         // 添加模块的属性
+    //         controlCptArr:[],                                   // 服务器传来所有的添加模块列表
+    //         addComponentList:[],                                // 显示的添加模块列表
+    //         // 已添加模块的属性
+    //         componentSourceList:[],                             // 已添加模块显示列表
+    //         activeCptField: -1,                                 // 已添加模块选中字段下标
+    //             // 拖拽功能的属性
+    //         draging: null,                                      // 被拖拽的对象
+    //         target: null,                                       // 目标对象
+
+    //         // 数据源模块属性
+    //         dataSourceList_value: "",                           // 选择数据源的值
+    //         dataSourceList_lables: "",                          // 选择数据源的标签
+    //         dataSourceList_options: [],                         // 选择数据源的选项
+    //         dataSourceList_controllerList: "",                  // 用户所选择的数据源
+    //         dataSourceList_clearable: true,                     // 是否显示清除按钮
+    //         methodsList: [],                                    // 根据controller获取转化完成数据
+    //         searchVO:"",                                        // 搜索时文本框所输入的关键字
+    //         searchData:"",
+
+
+    //         /*
+    //             右侧面板功能属性
+    //             1.操作属性(组件基本编辑)
+    //             2.数据属性(组件中ajax等编辑)
+    //             3.专业模式(codeMirror编辑器)
+    //             4.预置模式
+    //         */
+    //         rightIndex:1,                                       // 右侧面板初始选项卡选中属性
+    //         addFlag:"",                                         // 添加标识(判断是添加字段还是编辑字段 0:添加,1:编辑)
+
+    //         // 专业模式模块
+    //         professionalModeValue:"",                           // 专业模式数据
+
+
+
+    //         /* 页面和操作面板绑定 */ 
+    //         idBaseHead: "nstemplate-layout-",                   // 拼接id需要的固定部分
+    //         idBasefoot: "-container",                           // 拼接id需要的固定部分
+
+            
+
+    //     },
+
+    //     // 加载数据
+    //     created() {
+    //         var _this = this;
+    //         _this.getUserInfo();        // 获取用户信息
+    //         _this.getControllerList();  // 获取controller数据
+    //         _this.getTemplateList();    // 获取模板列表数据
+    //         _this.getAddFieldList();    // 获取所有要添加模块列表数据
+    //     },
+
+    //     // 挂载后
+    //     mounted() {
+    //         var _this = this;
+    //         // 监听点击事件
+    //         window.addEventListener('click', (e) => {
+    //             this.showUserSelect = false; // 隐藏注销用户下拉框
+    //             this.showTipHelp = false;    // 隐藏帮助按钮小提示
+    //         })
+    //     },
+
+    //     // 方法
+    //     methods: {
+    //         /*
+    //             用户对象的相关操作
+    //               登录信息、功能
+    //         */
+    //         // 获取用户的相关信息
+    //         getUserInfo() {
+    //             var _this = this;
+    //             $.ajax({
+    //                 url: getRootPathUrl() + "/servletContexts/properties",
+    //                 type: "GET",
+    //                 headers: getHeader(0),
+    //                 success: function (res) {
+    //                     console.log("用户信息", res);
+    //                     var userInfo = res.data.user;
+    //                     _this.userInfo = userInfo;
+    //                 }
+    //             });
+    //         },
+    //         // 用户下拉控制
+    //         alertLogout() {
+    //             this.showUserSelect = !this.showUserSelect;
+    //         },
+    //         // 注销用户
+    //         logout() {
+    //             var storage = window.localStorage;
+    //             storage.setItem("Authorization", "false");
+    //             var loginConfig = JSON.parse(storage.NetstarLoginConfig);
+    //             var loginObj = JSON.parse(loginConfig);
+    //             window.location.replace(loginObj.loginUrl);
+    //         },
+
+    //         /*
+    //             页面控制相关按钮的方法、状态
+    //         */
+    //         // 编辑模式和预览模式的切换
+    //         modelSelectClick(index) {
+    //             var _this = this;
+    //             _this.activeIndex = index;
+    //             if (index == 0) {
+    //                 _this.isEditModelLeft = true;
+    //                 _this.isEditModelRight = true;
+    //                 setTimeout(() => {
+    //                     _this.setHotareaPlace();
+    //                 }, 500);
+    //             viewport(JSON.stringify(_this.dataJson))
+    //             } else if (index == 1) {
+    //                 _this.isLeftClass = false;
+    //                 _this.isRightClass = false;
+    //                 _this.isEditModelLeft = false;
+    //                 _this.isEditModelRight = false;
+    //             };
+    //             if (_this.isEditModelLeft == false && _this.isEditModelRight == false) {
+    //                 $(".mask").remove();
+    //             };
+    //             if ((_this.isEditModelLeft == true || _this.isEditModelRight == true) && $(".mask").length ==
+    //                 0) {
+    //                 insertMaskHtml.insertMask();
+    //             }
+    //         },
+    //         // 控制左侧面板
+    //         hiddenLeftPanel() {
+    //             var _this = this;
+    //             _this.isEditModelLeft = !_this.isEditModelLeft;
+    //             _this.isLeftClass = false;
+    //             _this.maskShow();
+    //         },
+    //         // 控制右侧面板 
+    //         hiddenRightPanel() {
+    //             var _this = this;
+    //             _this.isEditModelRight = !_this.isEditModelRight;
+    //             _this.isRightClass = false;
+    //             _this.maskShow();
+    //         },
+    //         // 遮罩层的显示和隐藏
+    //         maskShow() {
+    //             var _this = this;
+    //             if ((_this.isEditModelLeft == true || _this.isEditModelRight == true) && $(".mask").length ==
+    //                 0) {
+    //                 insertMaskHtml.insertMask();
+    //             }
+    //         },
+    //         // 跳转说明文档
+    //         urlToHelp() {
+    //             var url = "http://localhost:2000/sites/docs/home/"
+    //             window.open(url);
+    //         },
+    //         // 模板列表选择弹框
+    //         newTemplate() {
+    //             var _this = this;
+    //             _this.layUIPageTemplate(_this.templateList)
+    //             _this.showTemplateModals = true;
+    //         },
+    //         // 读取所有页面的pageconfig弹出框
+    //         readLocalJsonFile() {
+    //             var _this = this;
+    //             _this.readPageListCounts(1,function(count){
+    //                 _this.layUIPage(count)
+    //             })
+    //             _this.showFilesModals = true;
+
+    //         },
+    //         // 保存pageConfig的数据
+    //         save() {
+    //             var _this = this;
+    //             var pageConfig = _this.dataJson;
+    //             console.log("页面pageConfig", pageConfig);
+    //             // 调用YWLee保存方法
+
+    //             NetstarEditorServer.savePageConfig(pageConfig,function(res){
+    //                 var pageConfigId = res[0].id;
+    //                 NetstarEditorServer.getPageConfig({id : pageConfigId},function(pageConfig){
+    //                     console.log("保存后的pageConfig",pageConfig); 
+    //                     _this.dataJson = pageConfig;
+    //                 });
+    //             });
+    //         },
+
+
+    //         /*
+    //             模板弹框列表中的方法(controller数据、模板列表选择及分页、模板确认、关闭弹框)
+    //         */
+    //         // controller数据相关方法
+    //         // 获取controller数据源数据
+    //         getControllerList() {
+    //             var _this = this;
+    //             $.ajax({
+    //                 url: getRootPathUrl() + "/formdatasources/controllerlist",
+    //                 type: "post",
+    //                 headers: getHeader(0),
+    //                 data: "{}",
+    //                 success: function (res) {
+    //                     // console.log(res);
+    //                     _this.DRHA_EFaultModeTree_options = res.rows
+
+    //                 },
+    //                 fail: function (err) {
+    //                     console.log(err)
+    //                 }
+    //             })
+    //         },
+    //         // 下拉选项显示
+    //         normalizer(node) {
+    //             return {
+    //                 label: node.chineseName + node.controllerName
+    //             }
+    //         },
+    //         // 下拉选择controller
+    //         DRHA_EFaultModeTree_handleSelect(node, instanceId) {
+    //             this.DRHA_EFaultModeTree_lables.push(node.label);
+    //             this.DRHA_EFaultModeTree_value.push(node.id);
+
+    //             this.controllerList.push(node);
+    //             // console.log(this.controllerList);
+
+    //         },
+    //         // 删除所选controller
+    //         DRHA_EFaultModeTree_handleDeSelect(node, instanceId) {
+    //             for (var i = 0; i < this.DRHA_EFaultModeTree_lables.length; i++) {
+    //                 if (node.id == this.DRHA_EFaultModeTree_value[i]) {
+    //                     this.DRHA_EFaultModeTree_lables.splice(i, 1);
+    //                     this.DRHA_EFaultModeTree_value.splice(i, 1);
+    //                     this.controllerList.splice(i, 1)
+    //                 }
+    //             }
+    //             // console.log(this.controllerList)
+    //         },
+    //         // 选择controller数据input框所做处理
+    //         selectValueChange(value) {
+    //             var _this = this;
+    //             if (value.length == 0) { // 点击清空按钮,将数据置空
+    //                 _this.controllerList = [];
+    //             }
+    //             // console.log(this.controllerList, value)
+
+    //         },
+
+    //         /*模板列表选择及分页*/ 
+    //         // 获取模板列表数据
+    //         getTemplateList() {
+    //             var _this = this;
+    //             $.ajax({
+    //                 url: getRootPathUrl() + "/formdesigner/formTemplates/getList",
+    //                 type: "post",
+    //                 headers: getHeader(0),
+    //                 data: "{}",
+    //                 success: function (templateRes) {
+    //                     console.log("模板列表", templateRes);
+    //                     var templateListUse = templateRes.rows;
+    //                     for (var i = 0; i < templateListUse.length; i++) {
+    //                         try {
+    //                             var _config = JSON.parse(templateListUse[i].config);
+    //                             templateListUse[i].config = _config;
+    //                         } catch {
+    //                             console.warn("不是json格式")
+    //                         }
+    //                     }
+    //                     _this.templateList = templateListUse
+
+    //                 },
+    //                 fail: function (err) {
+    //                     console.log(err)
+    //                 }
+    //             })
+    //         },
+    //         // 点击弹出框中切换list-normal模式
+    //         listNormalTemplateClickModals() {
+    //             var _this = this;
+    //             _this.modalsTemplateIndex = 1;
+    //             _this.modalsTemplateListMode = "list-normal";
+    //         },
+    //         // 点击弹出框切换list-blockList模式
+    //         listBlockTemplateClickModals() {
+    //             var _this = this;
+    //             _this.modalsTemplateIndex = 2;
+    //             _this.modalsTemplateListMode = "list-blocklist";
+    //         },
+    //         // 模板列表分页
+    //         layUIPageTemplate(param) {
+    //             var _this = this;
+    //             layui.use('laypage', function () {
+    //                 var laypage = layui.laypage;
+
+    //                 //执行一个laypage实例
+    //                 laypage.render({
+    //                     elem: 'pageTemplate',
+    //                     count: param.length, //数据总数，从服务端得到
+    //                     limit: 5,
+    //                     theme: "#2fa4fd",
+    //                     jump: function (obj, first) {
+    //                         _this.layuiPageTemplateHandler(obj.curr, obj.limit)
+    //                     }
+
+    //                 });
+    //             });
+    //         },
+    //         layuiPageTemplateHandler(curr, limit) {
+    //             var _this = this;
+    //             var arr = _this.templateList;
+    //             _this.templateListPage = arr.slice((curr - 1) * 5, (curr - 1) * 5 + limit);
+    //         },
+    //         // 模板选中
+    //         clickTemplate(param, index) {
+    //             var _this = this;
+    //             console.log("选中模板", param);
+    //             _this.dataJsonTemp = JSON.parse(JSON.stringify(param.config));
+    //             _this.currentTemplateIndex = index;
+    //         },
+    //         // 确认模板(弹出框的按钮点击事件)
+    //         confirmTemplate() {
+    //             var _this = this;
+    //             _this.showWelcome = false;
+    //             _this.showTemplateModals = false;
+    //             // 获取左侧面板数据源模块的数据
+    //             _this.getDataSource();
+    //             _this.currentFiles = -1;
+    //             if (_this.dataJsonTemp != "") {
+    //                 _this.dataJson = _this.dataJsonTemp;
+    //                 _this.clickRoot(_this.dataJson);        // 初始化后直接显示
+    //                 console.log("页面json", _this.dataJson);
+    //             };
+    //             if ($('[ns-type=pt-modal]')) {
+    //                 var modalsList = $('[ns-type=pt-modal]');
+    //                 for (var i = 0; i < modalsList.length; i++) {
+    //                     modalsList[i].remove();
+    //                 }
+    //             }
+    //             if (_this.dataJson) {
+    //                 setTimeout(() => {
+    //                     _this.setHotareaPlace();
+    //                 }, 1000);
+    //                 viewport(JSON.stringify(_this.dataJson));
+    //             }
+
+    //         },
+    //         // 关闭弹框
+    //         close() {
+    //             var _this = this;
+    //             _this.showTemplateModals = false;
+    //             _this.dataJsonTemp = "";
+    //             _this.currentTemplateIndex = -1;
+    //         },
+
+
+    //         /* 
+    //             打开文件弹出框 
+    //              分页渲染、列表模式选择、关闭(取消)
+    //         */
+    //         // 获取文件数量
+    //         readPageListCounts(page,cb){
+    //             var _this = this;
+    //             $.ajax({
+    //                 url: getRootPathUrl() + "/formdesigner/formControls/getPage",
+    //                 type:"post",
+    //                 headers: getHeader(0),
+    //                 data: JSON.stringify({start:page,length:5,type:"page"}),
+    //                 success:function(res){
+    //                     var count = res.total;
+    //                     cb(count)
+    //                 }
+    //             })
+    //         },
+
+    //         // 分页
+    //         layUIPage(param){
+    //             var _this = this;
+    //             layui.use('laypage', function(){
+    //                 var laypage = layui.laypage;
+                    
+    //                 //执行一个laypage实例
+    //                 laypage.render({
+    //                     elem: 'pageFiles', 
+    //                     count: param, //数据总数，从服务端得到
+    //                     limit:5,
+    //                     theme:"#2fa4fd",
+    //                     jump:function(obj,first){
+
+    //                         _this.layuiPageHandler(obj.curr,obj.limit)
+    //                     }
+
+    //                 });
+    //             });
+    //         },
+    //         layuiPageHandler(curr,limit){
+    //             var _this = this;
+    //             $.ajax({
+    //                 url: getRootPathUrl() + "/formdesigner/formControls/getPage",
+    //                 type:"post",
+    //                 headers: getHeader(0),
+    //                 data: JSON.stringify({start:(curr-1)*limit+1,length:limit,type:"page"}),
+    //                 success:function(res){
+    //                     var filesList = res.rows;
+    //                     var arr = []
+    //                     console.log("页面",filesList)
+    //                     // for(var i = 0; i < filesList.length; i ++){
+    //                     //     NetstarEditorServer.getPageConfig({id : filesList[i].id},function(pageConfig){
+    //                     //         arr.push(pageConfig);
+    //                     //     });
+    //                     // };
+    //                     for(var i = 0; i < filesList.length; i ++){
+    //                         var obj = {};
+    //                         obj.package = JSON.parse(filesList[i].config).package;
+    //                         obj.id = filesList[i].id;
+    //                         obj.title = JSON.parse(filesList[i].config).title;
+    //                         obj.versionNumber = JSON.parse(filesList[i].config).versionNumber;
+    //                         arr.push(obj);
+    //                     }
+    //                     _this.filesList = arr
+    //                 }
+    //             })
+                
+    //         },
+    //         // 打开文件弹出框模式选择
+    //         listNormalFilesClickModals() {
+    //             var _this = this;
+    //             _this.modalsFilesIndex = 1;
+    //             _this.modalsFilesListMode = "list-normal";
+    //         },
+    //         // 打开文件弹出框模式选择
+    //         listBlockFilesClickModals() {
+    //             var _this = this;
+    //             _this.modalsFilesIndex = 2;
+    //             _this.modalsFilesListMode = "list-blocklist";
+    //         },
+    //         // 打开文件选择某一个文件
+    //         clickFiles(param, index) {
+    //             var _this = this;
+    //             _this.currentFiles = index;
+    //             console.log(param);
+    //             NetstarEditorServer.getPageConfig({id : param.id},function(pageConfig){
+    //                 _this.dataJsonTemp = pageConfig;
+    //             });
+                
+    //         },
+    //         // 确认选择文件
+    //         confirmFiles() {
+    //             var _this = this;
+    //             _this.showWelcome = false;
+                
+    //             _this.dataJson = _this.dataJsonTemp;
+    //             _this.currentTemplateIndex = -1;
+    //             _this.showFilesModals = false;
+    //             // console.log(11111,$('[ns-type=pt-modal]'));
+    //             if($('[ns-type=pt-modal]')){
+    //                 var modalsList = $('[ns-type=pt-modal]');
+    //                 for(var i = 0; i < modalsList.length; i++){
+    //                     modalsList[i].remove();
+    //                 }
+    //             }
+    //             if (_this.dataJson) {
+    //                 _this.clickRoot(_this.dataJson)
+    //                 setTimeout(() => {
+    //                     _this.setHotareaPlace();
+    //                 }, 1000);
+    //                 viewport(JSON.stringify(_this.dataJson));
+
+    //             }
+    //         },
+    //         // 关闭文件按钮弹窗
+    //         closeFiles() {
+    //             var _this = this;
+    //             _this.currentFiles = -1;
+    //             _this.dataJsonTemp = ""
+    //             _this.showFilesModals = false;
+    //         },
+
+
+    //         /*
+    //             帮助弹出框
+    //         */
+    //         // 帮助按钮弹出框
+    //         isShowHelpModals() {
+    //             var _this = this;
+    //             _this.showHelpModals = true;
+    //         },
+    //         // 关闭帮助弹出框
+    //         closeHelp(){    
+    //             var _this = this;
+    //             _this.showHelpModals = false;
+    //         },
+    //         // 帮助小提示的显隐控制
+    //         isShowTipHelp(){
+    //             var _this = this;
+    //             _this.showTipHelp = !_this.showTipHelp;
+    //         },
+
+
+
+
+    //         /*
+    //             面包屑导航功能
+    //         */
+    //         // 根节点鼠标划上效果
+    //         showDropDown() {
+    //             this.showSelect = true;
+    //         },
+    //         hideDropDown() {
+    //             this.showSelect = false;
+    //         },
+    //         // 子节点鼠标划上效果
+    //         showDropDownNext() {
+    //             this.showSelectNext = true;
+    //         },
+    //         hideDropDownNext() {
+    //             this.showSelectNext = false;
+    //         },
+    //         // 点击根节点
+    //         clickRoot(param) {
+    //             var _this = this;
+    //             _this.navList = [];
+    //             _this.currentSecondIndex = -1;       // 将选中的第二层下标初始化
+    //             _this.activeCptField = -1;           // 将选中的字段状态初始化
+    //             _this.addFlag = 3;
+
+    //             // 渲染左侧面板已添加模块数据
+    //             _this.componentSourceList = param.components;
+    //             // 调用左侧面板添加模块并渲染数据
+    //             _this.showAddFieldList(param);
+    //             // 调用匹配右侧面板并渲染的方法
+    //             _this.matchRight(param)
+
+                
+    //         },
+    //         // 点击第二层
+    //         clickbreadNav(param, index) {
+    //             var arr = this.navList;
+    //             this.navList = arr.slice(0, param1 + 1);
+    //             // 渲染左侧面板已添加模块数据
+    //             _this.componentSourceList = param.field;
+    //         },
+    //         // 添加第二层导航
+    //         addNavSecond(param, index) {
+    //             var _this = this;
+    //             console.log("第二层", param);
+    //             _this.currentSecondIndex = index;           // 记录第二层数组当前选中的下标
+                
+    //             _this.activeCptField = -1;                  // 字段选中初始化下标
+
+    //             _this.navList = [];
+    //             _this.navList.push(param);
+
+    //             // 渲染左侧面板已添加模块数据
+    //             _this.componentSourceList = param.field;
+
+
+    //             // 调用左侧面板添加模块并渲染数据
+    //             _this.showAddFieldList(param)
+
+    //         },
+    //         // 点击第三层导航
+    //         clickThirdNav(param) {
+    //             var _this = this;
+    //             console.log("第三层", param);
+    //             var arr = []
+    //             arr.push(param);
+    //             _this.componentSourceList = arr;
+    //             if (_this.navList.length == 1) {
+    //                 _this.navList.push(param.id);
+    //             } else if (_this.navList.length == 2) {
+    //                 var arr = _this.navList.slice(0, 1)
+    //                 arr.push(param.id)
+    //                 _this.navList = arr
+    //             }
+
+    //         },
+
+
+    //         /*
+    //             左侧面板功能模块(添加、已添加、数据源)
+    //              1. 添加
+    //              2. 已添加
+    //              3. 数据源
+    //         */
+    //         /*
+    //             添加模块方法
+    //         */ 
+    //             // 获取服务器所有添加模块的列表
+    //         getAddFieldList(){
+    //             var _this = this;
+    //             $.ajax({
+    //                 url: getRootPathUrl() + "/formdesigner/controls/getList",
+    //                 type: "post",
+    //                 headers: getHeader(0),
+    //                 data: "{}",
+    //                 success: function (res) {
+    //                     _this.controlCptArr = res.rows
+    //                 },
+    //                 fail: function (err) {
+    //                     console.log(err)
+    //                 }
+    //             })
+    //         },
+
+    //             // 每个添加字段的点击事件(从页面中添加一个字段)
+    //         addCptHandler(param){
+    //             var _this = this;
+    //             var selectJsonData = JSON.parse(param.description);
+    //             var addedCptList = _this.componentSourceList;
+    //             console.log("添加", param);
+    //             console.log("初始化表单Json", selectJsonData);
+    //             _this.addFlag = 0; // 添加标识
+    //             // _this.matchRight(param);
+                
+    //             // 调用右侧面板渲染属性
+    //             _this.renderComponentConfig(_this.properityForm(selectJsonData.operator),_this.properityForm(selectJsonData.data));
+                
+    //             _this.professionalMode({});
+    //         },
+            
+    //             /*
+    //               根据面包屑导航的层级不同来显示不同的添加模块列表
+    //               传参: json对象
+    //               结果: 根据不同的类型来渲染不同的要添加的组件
+    //             */   
+    //         showAddFieldList(param){
+    //             var _this = this;
+    //             var addCptList = _this.controlCptArr;
+    //             var arr = []
+    //             if (param.type == "vo") { // 如果类型为VO
+    //                 for(var i = 0; i < addCptList.length; i ++){
+    //                     if(addCptList[i].controlCateId == 4){
+    //                         arr.push(addCptList[i]);
+    //                     }
+    //                 }
+    //             } else if (param.type == "list") { // 类型为list
+    //                 for(var i = 0; i < addCptList.length; i ++){
+    //                     if(addCptList[i].controlCateId == 6){
+    //                         arr.push(addCptList[i]);
+    //                     }
+    //                 }
+    //             } else if (param.type == "btns") {  // 类型为btns
+    //                 for(var i = 0; i < addCptList.length; i ++){
+    //                     if(addCptList[i].controlCateId == 1){
+    //                         arr.push(addCptList[i]);
+    //                     }
+    //                 }
+    //             } else if (param.type == undefined){
+    //                 for(var i = 0; i < addCptList.length; i ++){
+    //                     if(addCptList[i].controlCateId == 0){
+    //                         arr.push(addCptList[i]);
+    //                     }
+    //                 }
+    //             }
+    //             _this.addComponentList = arr;
+
+    //         },
+
+    //         /*
+    //             数据源模块方法
+    //         */
+    //         // 根据选择的controller数据(模板弹框选择的controller)请求数据源和methodsList转换
+    //         getDataSource() {
+    //             var _this = this;
+    //             var selectControllerList = _this.controllerList;
+    //             var selectControllerListId = _this.DRHA_EFaultModeTree_value;
+    //             var dataJson = selectControllerListId.join(",");
+
+    //             var ajaxData = {ids:selectControllerListId.toString()}
+    //             NetstarTPEditor.api.controller.get(ajaxData).then(function(_res){
+    //                 _this.methodsList = _res.methodsList;
+    //                 _this.dataSourceList_options = _res.dataSourceList_options;
+    //             });
+    //         },
+    //         // 下拉显示
+    //         normalizerDataSource(node) {
+    //             var obj = {}
+    //             if (node.chineseName) {
+    //                 obj.label = node.chineseName
+    //             } else {
+    //                 obj.label = "无"
+    //             }
+    //             return obj;
+    //         },
+    //         // 数据源选择
+    //         dataSourceList_handleSelect(node, instanceId) {
+    //             var _this = this;
+    //             // console.log(111,node);
+    //             _this.dataSourceList_value = node.id;
+    //             _this.dataSourceList_lables = node.label;
+    //             _this.dataSourceList_controllerList = node;
+
+    //         },
+    //         // 所选数据源删除
+    //         dataSourceList_handleDeSelect(node, instanceId) {
+    //             var _this = this;
+    //             _this.dataSourceList_value = "";
+    //             _this.dataSourceList_lables = "";
+    //             _this.dataSourceList_controllerList = "";
+    //         },
+    //         // input框事件
+    //         selectDataSource(value) {
+    //             var _this = this;
+    //             console.log("选择的VO的id", value);
+    //             if (!value) { // 点击清空按钮,将数据置空
+    //                 _this.dataSourceList_controllerList = "";
+    //             } 
+    //         },
+    //         // 搜索要选择的VO
+    //         searchVOHandler(){
+    //             var _this = this;
+    //             var key = _this.dataSourceList_value;
+    //             if(key){
+
+    //             }else{
+    //                 var list = [];
+    //                 var arr = _this.dataSourceList_options;
+    //                 for(var i = 0; i < arr.length; i ++){
+    //                     list = list.concat(arr[i].fieldList)
+    //                 };
+    //                 var search = this.searchVO;  
+    //                 if (search) {
+    //                     return list.filter(function(product) {
+    //                         return Object.keys(product).some(function(key) {
+    //                             return String(product[key]).toLowerCase().indexOf(search) > -1
+    //                         })
+    //                     })
+    //                 }
+    //                 console.log(list);
+    //                 return list;
+
+    //             }
+    //         },
+    //         // 数据源添加到field中
+    //             // 初始方法
+    //         addToComponentList(params){
+    //             var _this = this;
+    //             var _param = JSON.parse(JSON.stringify(params));
+    //             // 获取当前层级下标
+    //             var currentSecondIndex = _this.currentSecondIndex;
+    //             // 获取当前层级下已添加的field
+    //             var componentSourceList = _this.componentSourceList; 
+    //             var tempArr = []
+    //             for (var i = 0; i < componentSourceList.length; i++) {
+    //                 if (componentSourceList[i].englishName) {
+    //                     tempArr.push(componentSourceList[i].englishName);
+    //                 } else if (componentSourceList[i].fieldName) {
+    //                     tempArr.push(componentSourceList[i].fieldName);
+    //                 } else if(componentSourceList[i].id){
+    //                     tempArr.push(componentSourceList[i].id);
+    //                 }else if(componentSourceList[i].field){
+    //                     tempArr.push(componentSourceList[i].field);
+    //                 }
+    //             };
+    //             _this.addDataSourceCptHandler(_param,currentSecondIndex,tempArr)
+    //         },
+    //             /* 
+    //                 添加数据源中字段处理数据
+    //                  传参: param:{} 要添加的字段对象
+    //                        index:int 层级下标
+    //                        tempArr:[] 已添加字段数据(不可再添加) 
+    //             */ 
+    //         addDataSourceCptHandler(param,index,tempArr){
+    //             var _this = this;
+    //             if(index != -1){
+    //                 if(tempArr.indexOf(param.fieldName) == -1){
+    //                     var obj = {};
+    //                     // 不同下标类型不同,字段处理方式不同
+    //                     if (_this.dataJson.components[index].type == "vo") {
+    //                         obj.id = param.fieldName;
+    //                         obj.label = param.chineseName + ":";
+    //                         obj.type = _this.dealDataSourceType(param.dataTypeName);
+    //                     }
+    //                     if (_this.dataJson.components[index].type == "list") {
+    //                         obj.field = param.fieldName;
+    //                         obj.title = param.chineseName;
+    //                     }
+    //                     _this.dataJson.components[index].field.push(obj);
+    //                     setTimeout(() => {
+    //                         _this.setHotareaPlace();
+    //                     }, 500);
+    //                     viewport(JSON.stringify(_this.dataJson));
+    //                 }else{  
+    //                     layui.use('layer', function(){
+    //                         layer.open({
+    //                             title: '提示',
+    //                             content: '已添加该数据源'
+    //                         }); 
+    //                     })
+    //                 }
+    //             }else{
+    //                 layui.use('layer', function(){
+    //                     layer.open({
+    //                         title: '提示',
+    //                         content: '不可添加到该字段下'
+    //                     }); 
+    //                 })    
+  
+    //             }
+    //         },
+    //             // 处理数据源字段类型转换成前端所需的字段类型(目前为text)
+    //         dealDataSourceType(dataTypeName){
+    //             var _this = this;
+    //             return "text"
+    //         },
+            
+
+
+    //         /*
+    //             已添加模块
+    //             拖拽、删除
+    //         */
+    //         /*拖拽功能*/     
+    //         // 拖拽开始
+    //         onDragStart(event) {
+    //             console.log("drag start")
+    //             this.draging = event.target;
+    //         },
+    //         // 拖拽发生
+    //         onDragOver(event) {
+    //             console.log('drag move')
+    //             this.target = event.target;
+    //             var targetTop = event.target.getBoundingClientRect().top;
+    //             var dragingTop = this.draging.getBoundingClientRect().top;
+    //             if (this.target.nodeName === "LI" && this.target !== this.draging) {
+    //                 if (this.target) {
+    //                     if (this.target.animated) {
+    //                         return;
+    //                     }
+    //                 }
+
+    //                 if (this._index(this.draging) < this._index(this.target)) {
+    //                     this.target.parentNode.insertBefore(this.draging, this.target.nextSibling);
+    //                 } else {
+    //                     this.target.parentNode.insertBefore(this.draging, this.target);
+    //                 }
+    //                 this._anim(targetTop, this.target);
+    //                 this._anim(dragingTop, this.draging);
+    //             }
+    //         },
+    //         // 拖拽动画
+    //         _anim(startPos, dom) {
+    //             var offset = startPos - dom.getBoundingClientRect().top;
+    //             dom.style.transition = "none";
+    //             dom.style.transform = `translateY(${offset}px)`;
+
+    //             //触发重绘
+    //             dom.offsetWidth;
+    //             dom.style.transition = "transform .3s";
+    //             dom.style.transform = ``;
+    //             clearTimeout(dom.animated);
+    //             dom.animated = setTimeout(() => {
+    //                 dom.style.transition = "";
+    //                 dom.style.transform = ``;
+    //                 dom.animated = false;
+    //             }, 300)
+    //         },
+    //         // 拖拽结束
+    //         onDragEnd(event) {
+    //             var _this = this;
+    //             // console.log('drag end');
+    //             var rowList = $(".subnav .tabs .tabs-body .tabs-content .list .row li");
+    //             var arrCptList = [];
+    //             // console.log(rowList);
+    //             for (var i = 0; i < rowList.length; i++) {
+    //                 var fieldObj = JSON.parse(rowList[i].dataset.item);
+    //                 arrCptList.push(fieldObj);
+    //                 // console.log(fieldObj)
+    //             }
+    //             console.log("拖拽后的数据", arrCptList);
+    //             console.log("原始json数据", _this.dataJson);
+    //             // console.log(_this.currentSecondIndex);
+    //             _this.activeCptField = -1;
+    //             setTimeout(() => {
+    //                 _this.setHotareaPlace();
+    //             }, 500);
+
+    //             viewport(JSON.stringify(_this.dragEndJsonData(arrCptList)));
+
+    //         },
+    //         // 拖拽后改变的页面json数据
+    //         dragEndJsonData(param) {
+    //             var _this = this;
+    //             var dataJsonCptList = _this.dataJson.components;
+    //             _this.componentSourceList = param;
+    //             var currentSecondIndex = _this.currentSecondIndex;
+    //             var changeJsonCptList = param;
+    //             // if (dataJsonCptList.toString() == changeJsonCptList.toString()) {
+    //             //     _this.dataJson.components = changeJsonCptList;
+    //             //     // console.log(_this.dataJson);
+    //             // } else {
+    //             //     for (var i = 0; i < dataJsonCptList.length; i++) {
+    //             //         if (dataJsonCptList[i].field.toString() == changeJsonCptList.toString()) {
+    //             //             dataJsonCptList[i].field = changeJsonCptList;
+    //             //             _this.dataJson.components = dataJsonCptList
+    //             //         }
+    //             //     }
+    //             // }
+    //             if(currentSecondIndex == -1){
+    //                 _this.dataJson.components = changeJsonCptList;
+    //             }else{
+    //                 _this.dataJson.components[currentSecondIndex].field = changeJsonCptList;
+    //             }
+    //             return _this.dataJson
+    //         },
+    //         // 拖拽找数组的下标
+    //         _index(el) {
+    //             var domData = Array.from(this.$refs.parentNode.childNodes);
+    //             return domData.findIndex(i => i.innerText == el.innerText);
+    //         },
+
+    //         /* 删除已添加字段*/
+    //         deleteFieldList(param,index){
+    //             var _this = this;
+    //             var currentSecondIndex = _this.currentSecondIndex;
+    //             // 判断要删除哪一层的数据
+    //             if (currentSecondIndex != -1) {
+    //                 _this.dataJson.components[currentSecondIndex].field.splice(index, 1);
+    //                 _this.addNavSecond(_this.dataJson.components[currentSecondIndex],currentSecondIndex)
+
+    //             } else {
+    //                 _this.dataJson.components.splice(index, 1);
+    //                 _this.clickRoot(_this.dataJson)
+    //             }
+    //             setTimeout(() => {
+    //                 _this.setHotareaPlace();
+    //             }, 500);
+    //             viewport(JSON.stringify(_this.dataJson))
+    //         },
+
+    //         /*
+    //             已添加模块每个字段的点击事件
+    //             1. 点击效果
+    //             2. 在页面中显示该字段
+    //             3. 匹配右侧面板(编辑)
+
+    //         */
+    //         clickAddedCptList(param,index){
+    //             var _this = this;
+    //             _this.clickFieldsActive(param,index);
+    //             _this.showOnPageActive(param);
+    //             _this.matchRight(param)
+    //         },
+    //         // 点击效果
+    //         clickFieldsActive(param,index){
+    //             var _this = this;
+    //             _this.activeCptField = index;
+    //         },
+            
+    //         /* 反显在页面中 */
+    //             // 初始化
+    //         showOnPageActive(param){
+    //             var _this = this;
+    //             var dataJsonCptList = _this.dataJson.components;
+    //             for (var i = 0; i < dataJsonCptList.length; i++) {
+    //                 if (diff(param, dataJsonCptList[i])) {
+    //                     _this.showPageOnType(param);
+    //                 } else if(dataJsonCptList[i].field){
+    //                     for (var j = 0, fieldList = dataJsonCptList[i].field; j < fieldList.length; j++) {
+    //                         if (diff(param, fieldList[j])) {
+    //                             _this.showPageOnField(param);
+    //                         }
+    //                     }
+    //                 }
+
+    //             }
+    //         },
+    //             // 选中左侧面板field在页面中反显
+    //         showPageOnField(param) {
+    //             console.log("要反显的字段", param);
+    //             var arrayField = $(".main .mask .hot-area .hot-point");
+    //             // console.log("小块",arrayField);
+    //             for (var i = 0; i < arrayField.length; i++) {
+    //                 var dataItem = JSON.parse(arrayField[i].getAttribute('data-item'));
+    //                 if (diff(dataItem, param)) {
+    //                     arrayField[i].classList.add("state-active");
+    //                 } else {
+    //                     arrayField[i].classList.remove("state-active");
+    //                 }
+    //             }
+    //         },
+    //             // 选中左侧面板components在页面中反显
+    //         showPageOnType(param) {
+    //             console.log("要反显的字段", param);
+    //             var arrayField = $(".main .mask .hot-type");
+    //             for (var i = 0; i < arrayField.length; i++) {
+    //                 var dataItem = JSON.parse(arrayField[i].getAttribute('data-item'));
+    //                 if (diff(dataItem, param)) {
+    //                     arrayField[i].classList.add("state-active");
+    //                 } else {
+    //                     arrayField[i].classList.remove("state-active");
+    //                 }
+    //             }
+    //         },
+            
+
+    //         /*
+    //             匹配右侧面板
+    //              入参: pageConfig或pageConfig中的字段
+    //         */ 
+    //         matchRight(param){
+    //             var _this = this;
+
+    //             console.log("选中字段",param);
+    //             _this.addFlag = 1;  // 编辑标识
+    //             var controlCptList = _this.controlCptArr; // 获取所有录入的控件列表
+    //             // 判断传来的字段的类型,根据类型判断加载不同的操作属性和数据属性以及预置模式
+    //             var operatorConfig,dataConfig;
+    //             if(param.type){ // components或field字段
+    //                 var sendType = param.type;
+    //                 for(var i = 0; i < controlCptList.length; i++){
+    //                     if(sendType == controlCptList[i].enName){
+    //                         var editorConfig = JSON.parse(controlCptList[i].description);
+    //                         operatorConfig = editorConfig.operator;
+    //                         dataConfig = editorConfig.data
+    //                     }
+    //                 }
+    //             }else if(param.hasOwnProperty('package')){  // 包名(pageConfig最外层的属性)
+    //                 for(var i = 0; i < controlCptList.length; i ++){
+    //                     if(controlCptList[i].enName == "template"){
+    //                         var editorConfig = JSON.parse(controlCptList[i].description);
+    //                         operatorConfig = editorConfig.operator;
+    //                         dataConfig = editorConfig.data;
+    //                     }
+    //                 }
+    //             }else if(param.hasOwnProperty("functionConfig")){
+    //                 var type = param.functionConfig.type
+    //                 for(var i = 0; i < controlCptList.length; i ++){
+    //                     if(controlCptList[i].enName == type){
+    //                         var editorConfig = JSON.parse(controlCptList[i].description);
+    //                         operatorConfig = editorConfig.operator;
+    //                         dataConfig = editorConfig.data;
+    //                     }
+    //                 }
+    //             }
+    //             // 调用右侧面板渲染属性并将其匹配给定初始值
+    //             _this.renderComponentConfig(_this.properityDefault(_this.properityForm(operatorConfig),param),_this.properityDefault(_this.properityForm(dataConfig),param));
+
+    //             // 调用右侧面板专业模式赋值
+    //               // 传参: 匹配的字段
+    //             _this.professionalMode(param);
+    //         },
+            
+
+    //         /*
+    //             右侧面板功能
+    //             1.操作属性(组件基本编辑)
+    //             2.数据属性(组件中ajax等编辑)
+    //             3.专业模式(codeMirror编辑器)
+    //             4.预置模式
+    //         */
+    //         /*
+    //             渲染图形化组件配置(操作属性、数据属性)
+    //             传参: operatorConfig [] 操作属性的配置
+    //                   dataConfig []    数据属性的配置
+    //         */ 
+              
+    //         renderComponentConfig(operatorConfig,dataConfig){
+    //             // 清空操作属性和数据属性
+    //             $("#form-vertical-operator").empty();
+    //             $("#form-vertical-data").empty();
+    //             // 配置操作属性
+    //             var operator = {
+    //                     id: "form-vertical-operator",
+    //                     templateName: "form",
+    //                     componentTemplateName: "PC",
+    //                     defaultComponentWidth: "100%",
+    //                     isSetMore: false,
+    //                     form: operatorConfig
+    //                 }
+    //             // 配置数据属性
+    //             var dataProperity = {
+    //                     id: "form-vertical-data",
+    //                     templateName: "form",
+    //                     componentTemplateName: "PC",
+    //                     defaultComponentWidth: "100%",
+    //                     isSetMore: false,
+    //                     form: dataConfig
+    //                 }
+    //             var componentOperator = NetstarComponent.formComponent.getFormConfig(operator, {});
+    //             NetstarComponent.formComponent.init(componentOperator, operator);
+    //             var componentData = NetstarComponent.formComponent.getFormConfig(dataProperity, {});
+    //             NetstarComponent.formComponent.init(componentData, dataProperity);
+    //         },
+
+    //         // 操作属性和数据属性字段转换成组件需要的形式
+    //         properityForm(param) {
+    //             var _this = this;
+    //             var dataJson = param;
+    //             console.log("待转换字段",dataJson);
+    //             var arr = [];
+    //             for (var key in dataJson) {
+    //                 var obj = {};
+    //                 obj.id = key;
+    //                 obj.label = dataJson[key].chineseName;
+    //                 if (dataJson[key].toolType == "check") {
+    //                     obj.type = "checkbox";
+    //                     if (dataJson[key].validType == "boolean") {
+    //                         obj.subdata = [{
+    //                             value: dataJson[key].default == ""? false : dataJson[key].default
+    //                         }];
+    //                         obj.valueField = "value"
+    //                     }
+    //                 } else if (dataJson[key].toolType.indexOf("select") != -1) {
+    //                     obj.type = "select";
+    //                     if (dataJson[key].toolType == "single-select") {
+    //                         obj.selectMode = "single";
+    //                     } else if (dataJson[key].toolType == "multi-select") {
+    //                         obj.selectMode = "multi";
+    //                     }
+    //                 } else if (dataJson[key].toolType == "ajaxEditor") {
+    //                     obj.type = "ajaxApi";
+    //                     // console.log(dataJson[key],_this.methodsList);
+    //                     obj.treeTextField = 'text';
+    //                     obj.treeValueField = 'id';
+    //                     obj.treeEditorField = 'url';
+    //                     obj.treeOutputFields = {};
+    //                     obj.treeChildren = 'children'; // 树数据子级名
+    //                     obj.treeParentId = ''; // 树数据pId
+    //                     if (_this.methodsList != []) {
+    //                         obj.subdata = _this.methodsList;
+    //                     } else {
+    //                         obj.subdata = []
+    //                     }
+    //                     obj.value = {
+    //                         datasourceType: "static",
+    //                         filterData: "",
+    //                         filterType: "",
+    //                         staticdata: '[{"id": 123}]',
+    //                     }
+
+    //                 } else if (dataJson[key].toolType == "dataEditor" || dataJson[key].toolType ==
+    //                     "expressionEditor") {
+    //                     obj.type = "textarea"
+
+    //                 } else {
+    //                     obj.type = dataJson[key].toolType;
+    //                 }
+    //                 if (dataJson[key].required) {
+    //                     obj.rules = "required";
+    //                 };
+    //                 if (dataJson[key].readonly) {
+    //                     obj.disabled = true;
+    //                 }
+    //                 if (dataJson[key].subdata) {
+    //                     obj.textField = "text";
+    //                     obj.valueField = "value";
+    //                     obj.subdata = dataJson[key].subdata
+    //                 }
+    //                 if (dataJson[key].hasOwnProperty("default")) {
+    //                     if(dataJson[key].validType == "boolean"){
+    //                         obj.value = dataJson[key].default == ""? false: dataJson[key].default;
+    //                     }else if(dataJson[key].validType == "object"){
+    //                         obj.value = dataJson[key].default == ""? {}:JSON.parse(dataJosn[key].default);
+    //                     }else if(dataJson[key].validType == "string"){
+    //                         obj.value = dataJson[key].default;
+    //                     }
+    //                 }
+
+    //                 arr.push(obj);
+    //             }
+    //             console.log("转成表单配置项", arr);
+    //             return arr;
+    //         },
+
+    //         /*
+    //             操作属性模块 数据属性模块
+    //         */ 
+    //         // 匹配字段在操作属性和数据属性中给其默认值
+    //             // 传参: 已转换的操作、数据属性的组件配置[]  匹配字段{}
+    //         properityDefault(config,param){
+    //             console.log("12345",config,param)
+    //             var _this = this;
+    //             for (var i = 0; i < config.length; i++) {
+    //                 if (config[i].value) {
+    //                     config[i].value = ""
+    //                 }
+    //                 for (var key in param) {
+    //                     if (config[i].id == key) {
+    //                         config[i].value = param[key]
+    //                     }
+    //                 }
+    //             }
+
+    //             for (var j = 0; j < config.length; j++) {
+    //                 if (config[j].value == undefined) {
+    //                     config[j].value = ""
+    //                 }
+    //             }
+    //             return config;
+    //         },
+
+
+
+    //         // 操作属性和数据属性提交
+    //         properitySubmit(){
+    //             var _this = this;
+    //             var formOperatorValue = NetstarComponent.getValues("form-vertical-operator");
+    //             var formDataValue = NetstarComponent.getValues("form-vertical-data");
+    //             console.log("操作属性的值"+formOperatorValue,"数据属性的值"+formDataValue);
+    //             var newObj = {};
+    //             var obj = {};
+    //             obj.field = [];
+    //             Object.assign(newObj,formOperatorValue,formDataValue,obj);
+    //             // 获取是新增还是编辑的状态
+    //             var addFlag = _this.addFlag;
+    //             // 获取当前层级下标
+    //             var currentSecondIndex = _this.currentSecondIndex;
+    //             // 获取当前字段下标
+    //             var activeCptField = _this.activeCptField;
+    //             // 判断是新增还是编辑
+    //             if(addFlag == 1){   // 编辑
+    //                 obj.field = [];
+    //                 Object.assign(newObj,formOperatorValue,formDataValue,obj);
+    //                 if(currentSecondIndex == -1){
+    //                     _this.dataJson.components[activeCptField] = newObj;
+    //                 }else{
+    //                     delete newObj.field;
+    //                     _this.dataJson.components[currentSecondIndex].field[activeCptField] = newObj;
+    //                 }
+    //             }else if(addFlag == 0){              // 添加
+    //                 obj.field = [];
+    //                 Object.assign(newObj,formOperatorValue,formDataValue,obj);
+    //                 if(currentSecondIndex == -1){
+    //                     _this.dataJson.components.push(newObj);
+    //                 }else{
+    //                     delete newObj.field;
+    //                     _this.dataJson.components[currentSecondIndex].field.push(newObj);
+    //                 }
+
+    //             }else if(addFlag == 3){ // 整个页面
+    //                 obj.components = [];
+    //                 Object.assign(newObj,formOperatorValue,formDataValue,obj);
+    //                 _this.dataJson = newObj;
+    //             }
+    //             setTimeout(() => {
+    //                 _this.setHotareaPlace();
+    //                 if(_this.addFlag != 3){
+    //                     _this.clickAddedCptList(newObj,_this.componentSourceList.length-1);
+    //                 }
+    //             }, 500);
+    //             viewport(JSON.stringify(_this.dataJson));
+
+    //         },
+
+    //         // 专业模式模块
+    //             // 专业模式渲染数据
+    //         professionalMode(param) {
+    //             var _this = this;
+    //             // console.log(110,param);
+    //             var editor = CodeMirror.fromTextArea(document.getElementById("form-mode-pro-textarea"), {
+    //                 mode: "application/json",
+    //                 lineNumbers: true,
+    //                 smartIndent: true, // 是否智能缩进
+    //                 autofocus: true,
+    //                 autoRefresh: true, // 自动刷新
+    //                 // 代码折叠
+    //                 // foldGutter:true,   
+    //                 // lineWrapping:true,
+    //                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter",
+    //                     "CodeMirror-lint-markers"
+    //                 ], //CodeMirror-lint-markers是实现语法报错功能
+    //                 lint: true,
+
+    //                 theme: "default",
+    //                 matchBrackets: true,
+    //                 extraKeys: {
+    //                     "Esc": function (cm) {
+    //                         var fullScreen = cm.getOption("fullScreen");
+    //                         cm.setOption("fullScreen", !fullScreen);
+    //                     },
+    //                     "Ctrl-Q": "autocomplete",
+    //                     "F7": function autoFormat(editor) {
+    //                         var totalLines = editor.lineCount();
+    //                         editor.autoFormatRange({
+    //                             line: 0,
+    //                             ch: 0
+    //                         }, {
+    //                             line: totalLines
+    //                         });
+    //                     } //代码格式化
+    //                 },
+    //                 mode: {
+    //                     name: "javascript",
+    //                     globalVars: true
+    //                 }
+    //             });
+    //             editor.setValue(JSON.stringify(param,null,2));
+    //             setTimeout(() => {
+    //                 editor.refresh();
+    //             }, 1000);
+
+    //             editor.setSize('100%', '800px');
+    //             editor.on('keyup', function (cm, name, Event) {
+    //                 // console.log("name",name);
+    //                 // console.log("cm",cm);
+    //                 // console.log("Event",Event)
+    //                 //定义按哪些键时弹出提示框
+    //                 if (isShow(name.keyCode)) {
+
+    //                     // 页面模板配置项
+    //                     /*
+    //                             字符串string: ['""']
+    //                             布尔值boolean: ['true','false']
+    //                             方法function:['function(){}']
+    //                             obj{}:['{}']
+    //                             数值number: ['']
+    //                             数组[]: []
+
+    //                             */
+    //                     var datas = {};
+    //                     var cur = cm.getCursor();
+    //                     var ch = cur.ch;
+    //                     var line = cur.line;
+    //                     var lineStr = cm.getLine(line);
+    //                     var fromS = lineStr.lastIndexOf(" ");
+    //                     var fromSD = lineStr.lastIndexOf(":");
+    //                     var endS = lineStr.length;
+    //                     var obj = {};
+    //                     var packgeArrary = [];
+    //                     //自定义的API关键字
+
+    //                     for (var key in config) {
+    //                         packgeArrary.push(key);
+    //                         obj[key] = config[key]
+    //                     }
+    //                     // console.log("packgeArrary",packgeArrary)
+    //                     if (fromS > -1) {
+    //                         if (fromSD > -1) {
+    //                             if (fromS < fromSD) {
+    //                                 var lineEnd = lineStr.substring(endS - 1, endS);
+    //                                 if (lineEnd == ":") {
+    //                                     lineStr = lineStr.substring(fromS + 1, endS - 1);
+    //                                     var list = obj[lineStr];
+
+    //                                     if (typeof (list) != "undefined") {
+
+    //                                         datas.list = list;
+    //                                         datas.from = {};
+    //                                         datas.from.line = line;
+    //                                         datas.from.ch = ch;
+    //                                         datas.to = {};
+    //                                         datas.to.line = line;
+    //                                         datas.to.ch = ch + 1;
+
+    //                                         editor.showHint1({
+    //                                             completeSingle: false
+    //                                         }, datas);
+    //                                     }
+    //                                 } else {
+    //                                     var packge = lineStr.substring(fromS + 1, fromSD);
+    //                                     var functioStr = lineStr.substring(fromSD + 1, endS)
+    //                                         .toLowerCase();
+    //                                     var packgeList = obj[packge];
+    //                                     var showList = [];
+    //                                     var showList2 = [];
+    //                                     for (var a = 0; a < packgeList.length; a++) {
+    //                                         var info = packgeList[a];
+    //                                         if (info.toLowerCase().lastIndexOf(functioStr) > -1) {
+    //                                             showList.push(info);
+    //                                             showList2.push(a);
+    //                                         }
+    //                                     }
+    //                                     datas.list = showList;
+    //                                     datas.showList = showList2;
+    //                                     datas.key = packgeList[0];
+    //                                     datas.from = {};
+    //                                     datas.from.line = line;
+    //                                     datas.from.ch = ch;
+    //                                     datas.to = {};
+    //                                     datas.to.line = line;
+    //                                     datas.to.ch = fromSD + 1;
+    //                                     editor.showHint1({
+    //                                         completeSingle: false
+    //                                     }, datas);
+    //                                 }
+
+    //                             } else {
+    //                                 editor.showHint(); //满足自动触发自动联想功能
+    //                             }
+    //                         } else {
+    //                             var showList = [];
+
+    //                             var packgeS = lineStr.substring(fromS + 1, endS).toLowerCase();
+    //                             if (packgeS == "" || packgeS == null) {
+    //                                 datas.list = packgeArrary;
+    //                             } else {
+    //                                 for (var a = 0; a < packgeArrary.length; a++) {
+    //                                     var info = packgeArrary[a];
+    //                                     if (info.toLowerCase().lastIndexOf(packgeS) > -1) {
+    //                                         showList.push(info);
+    //                                     }
+    //                                 }
+    //                                 datas.list = showList;
+    //                             }
+
+    //                             datas.from = {};
+    //                             datas.from.line = line;
+    //                             datas.from.ch = ch;
+    //                             datas.to = {};
+    //                             datas.to.line = line;
+    //                             datas.to.ch = fromS + 1;
+    //                             editor.showHint1({
+    //                                 completeSingle: false
+    //                             }, datas);
+    //                         }
+    //                     } else {
+    //                         editor.showHint(); //满足自动触发自动联想功能
+    //                     }
+    //                 }
+    //             });
+    //             $(".CodeMirror:not(:first-of-type)").remove() // 删除除第一个外其他的codemirror实例
+
+    //             editor.addKeyMap({
+    //                 name: 'autoInsertParentheses',
+    //                 "'{'": (cm) => {
+    //                     const cur = cm.getCursor()
+
+    //                     cm.replaceRange('{}', cur, cur, '+insert')
+    //                     cm.doc.setCursor({
+    //                         line: cur.line,
+    //                         ch: cur.ch + 1
+    //                     })
+    //                 }
+    //             })
+    //             _this.professionalModeValue = editor;
+    //             console.log(_this.professionalModeValue,_this.currentSecondIndex,_this.activeCptField);
+    //         },
+    //             // 专业模式提交
+    //         professionalModeSubmit(){
+    //             var _this = this;
+    //             // 获取是新增还是编辑的状态
+    //             var addFlag = _this.addFlag;
+    //             // 获取codeMirror中的值
+    //             var editorValue = JSON.parse(_this.professionalModeValue.getValue());
+    //             // 获取当前层级下标
+    //             var currentSecondIndex = _this.currentSecondIndex;
+    //             // 获取当前字段下标
+    //             var activeCptField = _this.activeCptField;
+    //             // 判断是新增还是编辑
+    //             if(addFlag == 1){   // 编辑
+    //                 if(currentSecondIndex == -1){
+    //                     if(activeCptField != -1){
+    //                         _this.dataJson.components[activeCptField] = editorValue;
+    //                     }else{
+    //                         _this.dataJson = editorValue
+    //                     }
+    //                 }else{
+    //                     _this.dataJson.components[currentSecondIndex].field[activeCptField] = editorValue;
+    //                 }
+    //             }else if(addFlag == 0){              // 添加
+    //                 if(currentSecondIndex == -1){
+    //                     _this.dataJson.components.push(editorValue);
+    //                 }else{
+    //                     _this.dataJson.components[currentSecondIndex].field.push(editorValue);
+    //                 }
+
+    //             }
+    //             setTimeout(() => {
+    //                 _this.setHotareaPlace();
+    //                 if(_this.currentSecondIndex != -1 && _this.activeCptField != -1){
+    //                     _this.clickAddedCptList(editorValue,_this.componentSourceList.length-1);
+    //                 }
+    //             }, 500);
+    //             viewport(JSON.stringify(_this.dataJson));
+
+    //         },
+
+
+    //         // 预置模式模块
+
+
+
+
+
+
+
+    //         /* 实现页面和操作面板绑定(画出页面中的每个字段) */
+    //         /*
+    //             功能:获取整个面板的id属性
+    //             返回值:处理好的面板id值
+    //             过程:包名的部分 + 固定的部分
+    //         */
+    //         getPackageNameId() {
+    //             var _this = this;
+    //             var packageName = _this.dataJson.package;
+    //             var packageId = packageName.replace(/\./g, "-");
+    //             return packageId
+    //         },
+    //         getDomIdPanel(templateName) {
+    //             var _this = this;
+    //             var panelId = _this.idBaseHead + _this.getPackageNameId();
+    //             if (templateName == "processDocBase") {
+    //                 panelId = _this.idBaseHead + _this.getPackageNameId() + _this.idBasefoot
+    //             } else if (templateName == "businessDataBase") {
+    //                 panelId = _this.idBaseHead + _this.getPackageNameId();
+    //             } else if (templateName == "statisticsList") {
+    //                 panelId = "dialog-dialog-" + _this.idBaseHead + _this.getPackageNameId();
+    //             }
+    //             console.log("该页面容器的id值", panelId);
+    //             return panelId;
+    //         },
+
+    //         /*
+    //             功能: 将整个功能面板通过小块圈出来
+    //             返回值: 当前面板的位置,宽度、高度、相对位置组成的对象
+            
+    //         */
+    //         getDomIdPosition(templateName) {
+    //             var _this = this;
+    //             var domId = _this.getDomIdPanel(templateName);
+    //             var domPlace = $("#" + domId).offset();
+    //             // var domSize = $("#" + domId).width();
+    //             var domSize = {
+    //                 width: $("#" + domId).width(),
+    //                 height: $("#" + domId).height()
+    //             }
+    //             var currentDom = {};
+    //             Object.assign(currentDom, domPlace, domSize);
+    //             console.log("当前页面字段的容器大小和位置", currentDom);
+    //             return currentDom;
+    //         },
+
+    //         /*
+    //             功能:获取页面中每个vo和list的字段的大小和位置
+    //             返回值: 每个vo和list中的字段的大小和位置对象组成的数组
+    //         */
+    //         getPageFieldDom() {
+    //             var _this = this;
+    //             var domArr = [];
+    //             var domType = [];
+    //             var domPlace = [];
+    //             var domTypePlace = [];
+    //             var pageJsonCpt = _this.dataJson.components;
+    //             for (var i = 0; i < pageJsonCpt.length; i++) {
+    //                 var typeObj = {
+    //                     type: pageJsonCpt[i].type,
+    //                     elseAttr: pageJsonCpt[i]
+    //                 }
+    //                 domType.push(typeObj);
+    //                 var fieldList = pageJsonCpt[i].field;
+    //                 console.log("不同类型components下的Field", fieldList)
+    //                 if (fieldList instanceof Array) {
+    //                     for (var j = 0; j < fieldList.length; j++) {
+    //                         var obj = {
+    //                             id: fieldList[j].id ? fieldList[j].id : fieldList[j].field ?
+    //                                 fieldList[j].field : fieldList[j].englishName ? fieldList[j].englishName : fieldList[j].functionConfig.englishName,
+    //                             elseAttr: fieldList[j]
+    //                         }
+    //                         domArr.push(obj)
+    //                     }
+    //                 }
+
+    //             };
+    //             console.log("提出的components", domType);
+    //             console.log("提出NSField", domArr);
+    //             for (var i = 0; i < domType.length; i++) {
+    //                 if (domType[i].type) {
+    //                     var domTypeData = $("#" + _this.idBaseHead + _this.getPackageNameId() + "-" + domType[i]
+    //                         .type + "-" + i);
+    //                     var nsCpt = JSON.stringify(domType[i].elseAttr);
+    //                     // console.log("当前cpt", domTypeData);
+    //                     for (var j = 0; j < domArr.length; j++) {
+    //                         if (domArr[j].id) {
+    //                             var domTypeDataTemp = "#" + _this.idBaseHead + _this.getPackageNameId() + "-" +
+    //                                 domType[i].type + "-" + i;
+    //                             if (domType[i].type == "list") {
+    //                                 domTypeDataTemp = "#" + _this.idBaseHead + _this.getPackageNameId() + "-" +
+    //                                     domType[i].type + "-" + i + "-headertable";
+    //                             } else if (domType[i].type == "vo") {
+    //                                 domTypeDataTemp = "#" + "form" + "-" + _this.idBaseHead + _this
+    //                                     .getPackageNameId() + "-" + domType[i].type + "-" + i;
+    //                             }
+    //                             var domData = $(domTypeDataTemp + " " + "[ns-field='" + domArr[j].id + "']");
+    //                             var nsField = JSON.stringify(domArr[j].elseAttr);
+    //                             // console.log(123,domData);
+    //                             if (domData[0]) {
+    //                                 if (domData[0].className.indexOf("hide") == -1) {
+    //                                     $("<div class='hot-point state-default' onclick='findCurrentField(this)' data-item='" +
+    //                                         nsField + "'></div>").appendTo($(".mask .hot-area"))
+
+    //                                     var domSize = {
+    //                                         width: domData.width(),
+    //                                         height: domData.height(),
+    //                                     }
+    //                                     var domOffset = domData.offset();
+    //                                     var currentDomPlace = {};
+    //                                     Object.assign(currentDomPlace, domSize, domOffset);
+    //                                     // console.log(234,currentDomPlace);
+    //                                     domPlace.push(currentDomPlace)
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                     if (domTypeData[0]) {
+    //                         $("<div class='hot-type state-default' onclick='findCurrentCpt(this)' data-item='" +
+    //                             nsCpt + "'></div>").appendTo($(".mask .hot-area"))
+
+    //                         var domTypeDataSize = {
+    //                             width: domTypeData.width(),
+    //                             height: domTypeData.height(),
+    //                         }
+    //                         var domTypeDataOffset = domTypeData.offset();
+    //                         var currentDomTypePlace = {};
+    //                         Object.assign(currentDomTypePlace, domTypeDataSize, domTypeDataOffset);
+    //                         // console.log(234,currentDomTypePlace);
+    //                         domPlace.push(currentDomTypePlace)
+    //                     }
+    //                 }
+    //             }
+    //             // console.log("当前cpt的dom位置", domPlace);
+    //             return domPlace;
+    //         },
+
+    //         /*
+    //             功能:根据面板的位置设定滑块的位置属性
+    //             结果:操作DOM元素生成小块,画到页面上
+    //         */
+    //         setHotareaPlace() {
+    //             var _this = this;
+    //             var templateName = _this.dataJson.template;
+    //             var placeAll = _this.getDomIdPosition(templateName); // 获取整个面板位置方法
+    //             // console.log("整个面板位置", placeAll);
+    //             var voPlaceList = _this.getPageFieldDom();
+    //             console.log("field位置", voPlaceList);
+    //             if (templateName == "statisticsList") { // 判断模板是否带弹框
+    //                 $(".pt-modal-bg").css("display", "none");
+    //                 var idName = _this.getDomIdPanel(templateName);
+    //                 $("#" + idName).css("z-index", "6");
+    //             }
+    //             var mask = $(".mask .hot-area");
+    //             for (var key in placeAll) {
+    //                 mask.css(key, placeAll[key] + "px");
+    //             }
+    //             var voPlaceDealList = [];
+    //             for (var i = 0; i < voPlaceList.length; i++) {
+    //                 voPlaceList[i].top = voPlaceList[i].top - placeAll.top;
+    //                 voPlaceList[i].left = voPlaceList[i].left - placeAll.left;
+    //                 voPlaceDealList.push(voPlaceList[i]);
+    //             }
+
+    //             for (var i = 0; i < voPlaceDealList.length; i++) {
+    //                 var pointDefault = $(".mask .hot-area .state-default").eq(i);
+    //                 for (var key in voPlaceDealList[i]) {
+    //                     pointDefault.css(key, voPlaceDealList[i][key] + "px")
+    //                 }
+    //             }
+    //         },
+
+
+    //         /*
+    //             功能:获取生成页面的中点击的components字段,并匹配左侧面板和右侧面板
+
+    //         */
+    //         getPageCptData(param) {
+    //             var _this = this;
+    //             var pageDataCpt = JSON.parse(param);
+    //             var index = _this.findCptField(pageDataCpt);
+    //             // console.log("寻找当前下标", index);
+    //             _this.clickRoot(_this.dataJson);
+    //             _this.clickAddedCptList(pageDataCpt,index);
+    //         },
+
+    //         /*
+    //             功能:获取生成页面的中点击的field字段,并匹配左侧面板和右侧面板
+
+    //         */
+    //         getPageFieldData(param) {
+    //             var _this = this;
+    //             var pageDataField = JSON.parse(param);
+    //             // console.log(pageDataField);
+    //             var obj = _this.findCptField(pageDataField)
+    //             // console.log(obj);
+    //             _this.clickRoot(_this.dataJson);
+    //             _this.addNavSecond(obj.secondNav,obj.indexFirst);
+    //             _this.clickAddedCptList(obj.secondNav.field[obj.indexSecond],obj.indexSecond)
+
+    //         },
+
+    //         /*
+    //             功能: 查找该对象在哪个类型下,该类型下field数组中下标为多少
+    //             返回值: obj {类型,下标}
+    //         */
+    //         findCptField(param) {
+    //             var _this = this
+    //             var dataJsonCptList = _this.dataJson.components;
+    //             for (var i = 0; i < dataJsonCptList.length; i++) {
+    //                 if (diff(param, dataJsonCptList[i])) {
+    //                     return i
+    //                 } else if(dataJsonCptList[i].field){
+    //                     for (var j = 0, fieldList = dataJsonCptList[i].field; j < fieldList.length; j++) {
+    //                         if (diff(param, fieldList[j])) {
+    //                             var obj = {
+    //                                 secondNav: dataJsonCptList[i],
+    //                                 indexSecond: j,
+    //                                 indexFirst: i,
+    //                             };
+    //                             return obj
+    //                         }
+    //                     }
+    //                 }
+
+    //             }
+
+    //         }
+
+        
+    //     },
+
+    // })
+
+    // 预览函数
+    // function viewport(editorValue) {
+    //     $(".main").empty();
+    //     insertMaskHtml.insertMask();
+    //     $(".main").append('<container class="pageView"></container>');
+    //     var pageConfig = (new Function("return" + editorValue))();
+    //     console.log("pageConfig", pageConfig);
+    //     $(".pageView").append(NetstarTemplate.init(pageConfig));
+
+    // }
+
+    // // codemirror键盘按键
+    // function isShow(z) {
+    //     if (z == "8" || z == "173" || z == "190" || z == "189" || z == "110" || z == "65" || z == "66" || z ==
+    //         "67" || z == "68" || z == "69" || z == "70" || z == "71" || z == "72" || z == "73" || z == "74" || z ==
+    //         "75" || z == "76" || z == "77" || z == "78" || z == "79" || z == "80" || z == "81" || z == "82" || z ==
+    //         "83" || z == "84" ||
+    //         z == "85" || z == "86" || z == "87" || z == "88" || z == "89" || z == "90" || z == "219" || z == "186" ||
+    //         z == "13" || z == "32") {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    // // 每个小块的点击事件
+    // function findCurrentField(e) {
+    //     var currentFieldStr = e.getAttribute('data-item');
+    //     var currentFieldObj = JSON.parse(currentFieldStr);
+    //     var parent = e.parentNode.children;
+    //     for (var i = 0; i < parent.length; i++) {
+    //         parent[i].classList.remove("state-active");
+    //     }
+    //     e.classList.add("state-active");
+
+    //     // console.log(currentFieldObj);
+    //     // console.log(1111,e);
+    //     app.getPageFieldData(currentFieldStr);
+    // }
+
+    // // 每个大块的点击事件
+    // function findCurrentCpt(e) {
+    //     // console.log(e);
+    //     var currentTypeStr = e.getAttribute('data-item');
+    //     var parent = e.parentNode.children;
+    //     for (var i = 0; i < parent.length; i++) {
+    //         parent[i].classList.remove("state-active");
+    //     }
+    //     e.classList.add("state-active");
+    //     app.getPageCptData(currentTypeStr);
+    // }
+
+    // // 判断对象是否相等
+    // function diff(obj1, obj2) {
+    //     var o1 = obj1 instanceof Object;
+    //     var o2 = obj2 instanceof Object;
+    //     // 判断是不是对象
+    //     if (!o1 || !o2) {
+    //         return obj1 === obj2;
+    //     }
+
+    //     //Object.keys() 返回一个由对象的自身可枚举属性(key值)组成的数组,
+    //     //例如：数组返回下表：let arr = ["a", "b", "c"];console.log(Object.keys(arr))->0,1,2;
+    //     if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+    //         return false;
+    //     }
+
+    //     // for (var k in obj1) {
+    //     //     var t1 = obj1[k] instanceof Object;
+    //     //     var t2 = obj2[k] instanceof Object;
+    //     //     if (t1 && t2) {
+    //     //         return diff(obj1[k], obj2[k]);
+    //     //     } else if (obj1[k] !== obj2[k]) {
+    //     //         return false;
+    //     //     }
+    //     // };
+    //     // console.log(JSON.stringify(obj1));
+    //     if (JSON.stringify(obj1) != JSON.stringify(obj2)) {
+    //         return false
+    //     }
+    //     return true;
+    // }
+
+</script>
+
+</html>

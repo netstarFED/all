@@ -1,0 +1,72 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <div id="mobile-blocklist"></div>
+    <script>
+         var mobileBlocklist = {
+            id:'mobile-blocklist',
+            type:'list',
+            data:{
+                isSearch: true,
+                isPage :true,
+                idField:'id',
+                src:'/docs/data/mobile/moblie-blocklist.json',
+                dataSrc:'rows',
+                type:'GET',
+                contentType:'application/x-www-form-urlencoded'
+            },
+            columns:[
+                {
+                    field:'sampleCode',
+                    title:'样品编号',
+                    editConfig:{
+                        type:'text',
+                    },
+                    orderable:true,
+                    searchable:true,
+                    formateHandler:{
+                        type:'href',
+                        data:{
+                            "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1316994910712234994?editModel=2&saveParams=1",
+                            "title": "合同明细",
+                            "field": "sampleCode",
+                            "readonly": false,
+                            "templateName": "limsReg"
+                        }
+                    }
+
+                },
+                {
+                    field:'sampleName',
+                    title:'样品名称',
+                    oberable:true,
+                    searchable:true,
+                },
+                {
+                    field:'entrustName', 
+                    title:'委托方',
+                    oberable:true,
+                    searchable:true,
+                },
+                {
+                    field:'sampleQuantity',
+                    title:'样品数量',
+                    oberable:true,
+                    searchable:true,    
+                }
+            ],
+            ui:{
+                isInlineBtn:true,//是否行内按钮
+                isHaveAddBtn:true,//是否有添加按钮
+                // displayMode:'treeGrid',
+                // isCheckSelect:true,  
+                isMobileInlineBtn:true,
+                height:559,
+                listExpression:"<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>样品编号：<p style=\"font-weight:700;margin:0px;\">{{sampleCode}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span>处理方式：<p style=\"margin:0\">{{handleWay}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span>样品名称：<p style=\"font-weight:700;margin:0px;\" class=\"block-list-item-text-content\">{{sampleName}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span>委托方：<p style=\"font-weight:700;margin:0px;\" class=\"block-list-item-text-content\">{{entrustName}}</p></span></div>\n<div class=\"block-list-item-text text-left\"><span>样品数量：<p style=\"margin:0\">{{sampleQuantity}}</p></span></div>\n</div>"
+            }
+
+         }
+       
+
+NetstarBlockListM.init(mobileBlocklist)
+    </script>
+</container>

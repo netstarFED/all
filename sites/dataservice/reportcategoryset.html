@@ -1,0 +1,486 @@
+<container>
+    <style>
+        table.table tbody tr td.td-button, #table-report-main-choose-table .td-checkbox {
+            text-align: center;
+        }
+        #table-report-main-choose-table .td-checkbox .checkbox-inline{
+            margin-left: 0;
+        }
+        .methods-form-inline{
+            float: right;
+
+        }
+        .methods-form-inline .fillbg{
+            background: transparent;
+            padding: 0;
+        }
+        .methods-form-inline .panel-form .form-td {
+            display: inline-block;
+            background-color: transparent;
+            border: 0;
+            height: 30px;
+            width: 300px !important;
+            margin: 0;
+        }
+        .methods-form-inline .panel-form .form-td .form-group{
+            min-height: 30px;
+            height: 30px;
+        }
+        .methods-form-inline .panel-form .form-td .form-item{
+            background-color: transparent;
+            border: 1px solid #ddd;
+        }
+        .methods-form-inline .panel-form .form-td .form-item:before{
+            display: none;
+        }
+        .methods-form-inline .panel-form .form-td .control-label{
+            width: 60px;
+            max-width: 60px;
+            background-color: transparent;
+            border: 0;
+        }
+        .methods-form-inline .panel-form .form-td .form-item .select2-container .select2-selection--single{
+            height: 30px;
+        }
+        .methods-form-inline .panel-form .form-td .form-item .select2-container--default .select2-selection--single .select2-selection__rendered{
+            line-height: 30px;
+        }
+        .methods-form-inline .panel-form .form-td .form-item .select2-container--default .select2-selection--single .select2-selection__arrow{
+            height: 30px;
+            line-height: 30px;
+        }
+        .methods-form-inline .panel-form .form-td .form-item .select2-container--default .select2-selection--single .select2-selection__clear{
+            height: 30px;
+        }
+        .methods-form-inline .panel-form .form-td .form-item .select2-container--default .select2-selection--single .select2-selection__clear:after{
+            top: 8px;
+        }
+        .methods-form-inline .panel-form .form-td .form-item .select2-container--default .select2-selection--single .select2-selection__arrow b:after{
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .methods-form-inline + .page-title.nav-form{
+            background-color: transparent;
+            border: 0;
+            height: 35px;
+        }
+        .methods-form-inline + .page-title.nav-form .btn-group{
+            padding: 0;
+        }
+
+        .methods-ul {
+            list-style: none;
+            padding: 4px;
+            margin: 0;
+        }
+        .methods-ul li {
+            display: inline-block;
+            width: 160px;
+            padding: 8px;
+        }
+        .methods-ul li:hover {
+            background-color: #eff5fd;
+        }
+        .methodInfo td {
+            padding: 0 !important;
+        }
+        .methodInfo pre {
+            margin: 0;
+        }
+    </style>
+    <input type="hidden" id="reportcategory-id" name="reportcategoryId" value=""/>
+    <layout id='report-main' ns-package='report.main'>
+        <nav ns-id="nav" ns-config='navConfig'></nav>
+        <tabs  ns-options="col:12,height:30px" ns-config="nstabs:tabs">
+            <tab ns-id="choose" ns-options="title:选择数据源"></tab>
+            <tab ns-id="result" ns-options="title:加工后"></tab>
+            <tab ns-id="dressup" ns-options="title:加工处理"></tab>
+            <tab ns-id="calculate" ns-options="title:单值计算"></tab>
+        </tabs>
+        <panel ns-id="choose-table" ns-options="col:4,height:auto,class:can-hide" ns-config="table:chooseTableTableConfig"></panel>
+        <panel ns-id="choose-column" ns-options="col:8,height:auto,class:can-hide" ns-config="table:chooseColumnTableConfig"></panel>
+        <panel ns-id="result-table" ns-options="col:4,height:auto,class:can-hide hide" ns-config="table:resultTableTableConfig"></panel>
+        <panel ns-id="result-column" ns-options="col:8,height:auto,class:can-hide hide" ns-config="table:resultColumnTableConfig"></panel>
+        <panel ns-id="dressup-methods" ns-options="col:4,height:auto,class:can-hide hide" ns-config="table:dressupTableConfig"></panel>
+        <panel ns-id="dressup-panel" ns-options="col:8,height:auto,class:can-hide hide">
+            <!-- <div id="methods-select"></div> -->
+        </panel>
+        <panel ns-id="calculate-methods" ns-options="col:4,height:auto,class:can-hide hide" ns-config="table:calculateTableConfig"></panel>
+        <panel ns-id="calculate-panel" ns-options="col:8,height:auto,class:can-hide hide"></panel>
+    </layout>
+    <script type="text/javascript">
+        var reportMain;
+        var methodForm = new MethodForm('dressup-methods-form');
+        var singleMethodForm = new MethodForm('calculate-methods-form');
+        report = {
+            main: {
+                main: function () {
+                    var pageData = this.pageData ? this.pageData : {};
+                    var dressupHtml =
+                        '<div id="dressup-methods-select-form" class="methods-form-inline"></div>' +
+                        '<div id="dressup-methods-select-btns" class="page-title nav-form">' +
+                        '<div class="btn-group"><button type="button" class="btn btn-success" fid="0" onclick="reportMain.addMethod(\'dressup\');"><i class="fa-plus"></i><span>添加</span></button></div>' +
+                        '<div class="btn-group"><button type="button" class="btn btn-success" fid="0" onclick="reportMain.editMethod(\'dressup\');"><i class="fa-pencil"></i><span>修改</span></button></div>' +
+                        '</div>' +
+                        '<div id="dressup-methods-form"></div>';
+                    var calculateHtml =
+                        '<div id="calculate-methods-select-form" class="methods-form-inline"></div>' +
+                        '<div id="calculate-methods-select-btns" class="page-title nav-form">' +
+                        '<div class="btn-group"><button type="button" class="btn btn-success" fid="0" onclick="reportMain.addMethod(\'calculate\');"><i class="fa-plus"></i><span>添加</span></button></div>' +
+                        '<div class="btn-group"><button type="button" class="btn btn-success" fid="0" onclick="reportMain.editMethod(\'calculate\');"><i class="fa-pencil"></i><span>修改</span></button></div>' +
+                        '</div>' +
+                        '<div id="calculate-methods-form"></div>';
+
+                    var layoutOptions = {
+                        choose: {
+                            table: 'table-report-main-choose-table',
+                            column: 'table-report-main-choose-column'
+                        },
+                        result: {
+                            table: 'table-report-main-result-table',
+                            column: 'table-report-main-result-column'
+                        },
+                        dressup: {
+                            table: 'table-report-main-dressup-methods',
+                            panel: 'report-main-dressup-panel',
+                            form: methodForm,
+                            method: new MethodForm('dressup-methods-select-form')
+                        },
+                        calculate: {
+                            table: 'table-report-main-calculate-methods',
+                            panel: 'report-main-calculate-panel',
+                            form: singleMethodForm,
+                            method: new MethodForm('calculate-methods-select-form')
+                        }
+                    };
+
+                    reportMain = ReportMain(layoutOptions);
+
+                    //表格的公共配置
+                    var tableBaseConfig = {
+                        table: {
+                            data: {
+                                isServerMode: false,
+                                isSearch: true,
+                                isPage: false,
+                                info: false,
+                                dataSrc: 'rows',
+                                primaryID: 'name'
+                            },
+                            ui: {
+                                searchTitle: "",
+                                searchPlaceholder: "",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true,
+                                tableHeightType: 'compact'
+                            }
+                        },
+                        sourceTable: {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '主键',
+                                    width: 150,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'name',
+                                    title: '数据源',
+                                    width: 150
+                                }
+                            ],
+                            ui: {
+                                searchTitle: "",
+                                searchPlaceholder: "",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true,
+                                onSingleSelectHandler: reportMain.onSingleSelectHandler,
+                                tableHeightType: 'compact'
+                            }
+                        },
+                        sourceColumn: {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '列ID',
+                                    width: 150,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'name',
+                                    title: '列名',
+                                    width: 150,
+                                    searchable: true
+                                },
+                                {
+                                    field: 'jdbcType',
+                                    title: '类型',
+                                    width: 150
+                                },
+                                {
+                                    field: 'remark',
+                                    title: '备注',
+                                    width: 150,
+                                    searchable: true
+                                }
+                            ],
+                            ui: {}
+                        },
+                        methodsTable: {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '主键',
+                                    width: 150,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'name',
+                                    title: '加工方法',
+                                    width: 150
+                                },
+                                {
+                                    field: 'operation',
+                                    title: '操作',
+                                    width: 120,
+                                    tabPosition: 'after',
+                                    formatHandler: {
+                                        type: 'button',
+                                        data: [
+                                            {
+                                                '上移': reportMain.moveUp
+                                            },
+                                            {
+                                                '下移': reportMain.moveDown
+                                            },
+                                            {
+                                                '删除': reportMain.deleteMethod
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            ui: {
+                                searchTitle: "",
+                                searchPlaceholder: "",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true,
+                                onSingleSelectHandler: reportMain.onSingleSelectHandler,
+                                tableHeightType: 'compact'
+                            }
+                        }
+                    };
+
+                    this.tabs = {
+                        defaultTab:'choose',
+                        changeTabCallback:function(event, data){
+                            $('#layout-report-main .can-hide').removeClass('hide').addClass('hide');
+                            switch (data.tabID){
+                                case 'choose':
+                                    $('#report-main-choose-table').removeClass('hide');
+                                    $('#report-main-choose-column').removeClass('hide');
+                                    console.log('选择数据源');
+                                    break;
+                                case 'result':
+                                    $('#report-main-result-table').removeClass('hide');
+                                    $('#report-main-result-column').removeClass('hide');
+                                    console.log('加工后');
+                                    break;
+                                case 'dressup':
+                                    $('#report-main-dressup-methods').removeClass('hide');
+                                    $('#report-main-dressup-panel').removeClass('hide');
+                                    console.log('加工处理');
+                                    break;
+                                case 'calculate':
+                                    $('#report-main-calculate-methods').removeClass('hide');
+                                    $('#report-main-calculate-panel').removeClass('hide');
+                                    console.log('单值计算');
+                                    break;
+                            }
+                        }
+                    };
+
+                    this.navConfig = {
+                        isShowTitle: false,
+                        btns: [
+                            [
+                                {
+                                    text: '保存',
+                                    handler: reportMain.save
+                                }/*,{
+                                    text: '撤销',
+                                    handler: reportMain.history.undo
+                                },{
+                                    text: '重做',
+                                    handler: reportMain.history.redo
+                                }*/
+                            ]
+                        ]
+                    };
+
+                    this.chooseTableTableConfig = {
+                        columns: [{
+                            field: 'checkedFlag',
+                            title: '选择',
+                            width: 30,
+                            formatHandler:{
+                                type:'checkbox',
+                                rules:'required',
+                                data:
+                                    [
+                                        {
+                                            textField:'name',
+                                            valueField:'id',
+                                            handler: reportMain.onChooseTableChecked,
+                                            checkedFlag:'1',
+                                            uncheckedFlag:'0',
+                                            isDisabledFlage:'state',
+                                            value:'0'
+                                        }
+                                    ]
+                            }
+                        }].concat(tableBaseConfig.sourceTable.columns),
+                        data: tableBaseConfig.table.data,
+                        ui: $.extend({}, tableBaseConfig.sourceTable.ui, {
+                            //isOpenCheck: true
+                        }),
+                        btns: {}
+                    };
+
+                    this.chooseColumnTableConfig = {
+                        columns: tableBaseConfig.sourceColumn.columns,
+                        data: tableBaseConfig.table.data,
+                        ui: tableBaseConfig.table.ui,
+                        btns: {
+                        }
+                    };
+
+                    this.resultTableTableConfig = {
+                        columns: tableBaseConfig.sourceTable.columns.concat({
+                            field: 'isShow',
+                            title: '是否显示',
+                            width: 50,
+                            formatHandler: {
+                                type: 'checkbox',
+                                rules: 'required',
+                                data: [
+                                    {
+                                        textField: 'name',
+                                        valueField: 'id',
+                                        handler: function (row, state, value) {
+                                            row.isShow = (state == 'selected' ? 1 : 0);
+                                        },
+                                        checkedFlag: '1',
+                                        uncheckedFlag: '0',
+                                        isDisabledFlage: 'state',
+                                        value: '0'
+                                    }
+                                ]
+                            }
+                        }),
+                        data: tableBaseConfig.table.data,
+                        ui: tableBaseConfig.sourceTable.ui,
+                        btns: {}
+                    };
+
+                    this.resultColumnTableConfig = {
+                        columns: tableBaseConfig.sourceColumn.columns,
+                        data: tableBaseConfig.table.data,
+                        ui: tableBaseConfig.table.ui,
+                        btns: {}
+                    };
+
+                    this.dressupTableConfig = {
+                        columns: tableBaseConfig.methodsTable.columns,
+                        data: $.extend({}, tableBaseConfig.table.data, {primaryID: 'guid'}),
+                        ui: tableBaseConfig.methodsTable.ui,
+                        btns: {}
+                    };
+
+                    this.calculateTableConfig = {
+                        columns: tableBaseConfig.methodsTable.columns,
+                        data: $.extend({}, tableBaseConfig.table.data, {primaryID: 'guid'}),
+                        ui: tableBaseConfig.methodsTable.ui,
+                        btns: {}
+                    };
+
+                    nsLayout.init("report-main");
+
+                    //初始化加载方法
+                    CalculateMethod.init(function(){
+                        //加载完方法后，初始化数据
+                        var id =  pageData.reportcategoryId;
+                        reportMain.initData(id);
+                        //处理方法表单
+                        var singles = CalculateMethod.getSingles();
+                        var dressups = CalculateMethod.getDressups();
+                        $('#' + layoutOptions.dressup.panel).html(dressupHtml);
+                        $('#' + layoutOptions.calculate.panel).html(calculateHtml);
+                        nsForm.init({
+                            id: "dressup-methods-select-form",
+                            size: "standard compactmode",
+                            format: "standard",
+                            fillbg: true,
+                            form: [[{
+                                id: 'id',
+                                label: '加工方法',
+                                type: 'select',
+                                rules: 'select',
+                                textField: 'name',
+                                valueField: 'id',
+                                column: 11,
+                                subdata: dressups,
+                                changeHandler: function (methodId) {
+                                    reportMain.initMethodForm(methodForm, methodId);
+                                }
+                            },{
+                                id: 'help',
+                                type: 'html',
+                                html: '<button type="button" class="btn btn-success" fid="0" onclick="reportMain.showMethodDescription(\'dressup\');"><i class="fa fa-question-circle"></i><span>帮助</span></button>'
+                            }]]
+                        });
+                        nsForm.init({
+                            id: "calculate-methods-select-form",
+                            size: "standard compactmode",
+                            format: "standard",
+                            fillbg: true,
+                            form: [[{
+                                id: 'id',
+                                label: '计算方法',
+                                type: 'select',
+                                rules: 'select',
+                                textField: 'name',
+                                valueField: 'id',
+                                column: 12,
+                                subdata: singles,
+                                changeHandler: function (methodId) {
+                                    reportMain.initMethodForm(singleMethodForm, methodId);
+                                }
+                            },{
+                                id: 'help',
+                                type: 'html',
+                                html: '<button type="button" class="btn btn-success" fid="0"  onclick="reportMain.showMethodDescription(\'calculate\');"><i class="fa fa-question-circle"></i><span>帮助</span></button>'
+                            }]]
+                        });
+                    });
+                }
+            }
+        };
+        // nsFrame.init(report.main);
+        var pageParams = report.main;
+        NetstarDataService.initToPage(pageParams);
+    </script>
+</container>

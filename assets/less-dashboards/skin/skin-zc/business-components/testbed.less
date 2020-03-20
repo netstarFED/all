@@ -1,0 +1,512 @@
+// 电机定制页面
+@electric-motor-number-size: 5rem;
+@electric-motor-number-bg: @primary;
+@electric-motor-padding: (@base-padding * 2);
+@electric-motor-margin: (@base-margin * 2);
+@electric-motor-equipment-size: 5rem;
+@electric-motor-equipment-margin: 1rem;
+@electric-motor-equipment-bg: @body-bg;
+@electric-motor-tree-line-color: @primary;
+@electric-motor-tree-line-size: 2px;
+// 电机状态
+@electric-motor-state-off: @primary;
+@electric-motor-state-on: @success;
+@electric-motor-state-warning: @danger;
+
+// 隐藏按钮（电机组切换附加隐藏按钮）
+@em-hide-btn-size: 4rem;
+
+// 电机树形菜单边框样式(伪类)
+.electric-motor-tree-line {
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: @electric-motor-tree-line-color;
+    z-index: -1;
+}
+
+.electric-motor {
+    @base-padding: .25rem;
+
+    // 电机组切换隐藏按钮
+
+    .em-hide-btn {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 999;
+        .square(@em-hide-btn-size);
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+    }
+
+    // 发电机页面网格样式
+    .grid {
+        padding: @electric-motor-padding 0;
+
+        .cell {
+            margin: 0;
+        }
+    }
+
+    .panel-body {
+        margin: 0;
+    }
+
+    // 发电机页面表单样式
+    .form {
+
+
+        .form-col {
+
+            // 表单背景色
+            .form-item {
+                margin-bottom: 0;
+
+                .form-control {
+                    justify-content: center;
+                }
+
+                .input-group {
+                    .input-group-addon {
+                        padding: 0 @electric-motor-padding;
+                        width: 4.5rem;
+                    }
+                }
+
+                &+.form-item {
+                    margin-top: .75rem;
+
+
+                }
+
+                .control-label {
+                    &.control-label-lg {
+                        width: 7rem;
+                    }
+                }
+            }
+
+            // 表单背景
+            .panel-normal-bg();
+        }
+    }
+
+
+    // 第一部分（四组电机表单及电机相关控制器样式）
+    .electric-motor-row-01 {
+        padding: 0 2rem;
+
+        // 控制器数据
+        .form {
+            margin: 0 @electric-motor-equipment-margin;
+
+            // 电机名称
+            .title {
+                .panel-normal-bg();
+                font-size: 1.75rem;
+                padding: @electric-motor-padding (@electric-motor-padding * 2);
+            }
+
+            // 电机数据
+            .form-col {
+                padding: @electric-motor-padding (@electric-motor-padding * 2);
+
+                // 表单分组间距
+                .form-item {
+                    &:nth-child(4) {
+                        margin-top: (@electric-motor-margin * 3);
+                    }
+                }
+            }
+        }
+
+        // 电机控制器树形结构
+        .electric-motor-tree-group-body {
+            .flex-block();
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+
+
+        // 树菜单设备
+        .electric-motor-tree-group {
+            .flex-block();
+            flex-wrap: wrap;
+            flex-direction: column;
+
+            .form {
+
+                .form-col {
+                    padding: 0;
+                }
+
+                .form-item {
+                    flex: none;
+                }
+
+                .input-group {
+                    min-width: 8rem;
+                }
+            }
+
+            // 树形菜单顶部内容
+            .electric-motor-tree-group-header {
+                .flex-block(center, center);
+                flex: none;
+                position: relative;
+                height: 4rem;
+                width: 100%;
+
+                &:after {
+                    .electric-motor-tree-line();
+                    top: auto;
+                    left: 50%;
+                    width: 60%;
+                    height: @electric-motor-tree-line-size;
+                    margin-left: -30%;
+                }
+
+                .form .form-col {
+                    background: transparent;
+                }
+            }
+
+
+            // 树形菜单列表内容
+            .electric-motor-tree-group-item {
+                .flex-block(flex-end, center);
+                flex: none;
+                width: 50%;
+                position: relative;
+                z-index: 1;
+                padding: @electric-motor-padding 0;
+
+                &:before {
+                    .electric-motor-tree-line();
+                    right: ((@electric-motor-equipment-size / 2) + @electric-motor-equipment-margin);
+                    left: auto;
+                    width: @electric-motor-tree-line-size;
+                }
+
+                .form {
+                    margin: 0;
+                }
+
+                // 列数为偶数时样式（树菜单右侧）
+                &:nth-child(2n) {
+                    justify-content: flex-end;
+                    flex-direction: row-reverse;
+
+                    &:before {
+                        right: auto;
+                        left: ((@electric-motor-equipment-size / 2) + @electric-motor-equipment-margin);
+                    }
+
+                    .form-item {
+                        flex-direction: row-reverse;
+                    }
+                }
+
+                &:nth-last-child(1),
+                &:nth-last-child(2) {
+                    &:before {
+                        height: 90%;
+                    }
+                }
+
+                // 设备名称
+                .electric-motor-equipment-name {
+                    padding: 0;
+                }
+
+                // 控制器图标-默认关闭状态（外部调用svg代码片段）
+                .electric-motor-icon {
+                    fill: none;
+                    stroke: @electric-motor-state-off;
+                    stroke-width: 3;
+                    stroke-linecap: round;
+                    stroke-miterlimit: 10;
+                }
+
+
+                // 设备
+                .electric-motor-equipment {
+                    padding: @base-padding;
+                    .square(@electric-motor-equipment-size);
+                    border-radius: @electric-motor-equipment-size;
+                    margin: 0 @electric-motor-equipment-margin;
+                    background: @electric-motor-equipment-bg;
+
+                    // 进线断路器
+                    &.electric-motor-equipment-01 {}
+
+                    // 风扇
+                    &.electric-motor-equipment-02 {
+                        &.on {
+                            -webkit-animation: fan-work-on linear 3s infinite;
+                        }
+                    }
+
+                    // 电表仪表盘
+                    &.electric-motor-equipment-03 {
+                        &.on {
+                            .point {
+                                // stroke: #ffa800;
+                                transform: rotate(0deg);
+                                transform-origin: -35px 25px;
+                                animation: point-on 2s infinite linear;
+                            }
+
+                            @keyframes point-on {
+                                0% {
+                                    transform: rotate(0deg);
+                                }
+
+                                50% {
+                                    transform: rotate(-135deg);
+                                }
+
+                                100% {
+                                    transform: rotate(0deg);
+                                }
+                            }
+                        }
+                    }
+
+                    // 隔离开关
+                    &.electric-motor-equipment-04 {
+                        padding-top: 0;
+                        padding-bottom: 0;
+                        height: (@electric-motor-equipment-size - 1);
+
+                        svg {
+                            margin-left: -4px;
+                        }
+
+                        &.on {
+                            .switch-on {
+                                transform: rotate(0deg);
+                                transform-origin: 35px 46px;
+                                animation: switch-on 1s 1 alternate forwards;
+
+                            }
+
+                            @keyframes switch-on {
+                                0% {
+                                    transform: rotate(0deg);
+                                    transform-origin: 35px 46px;
+                                }
+
+                                100% {
+                                    transform: rotate(24deg);
+                                    transform-origin: 35px 46px;
+                                }
+                            }
+                        }
+                    }
+
+
+                    // 关闭状态
+                    &.off {
+                        .electric-motor-icon {
+                            stroke: @electric-motor-state-on;
+                        }
+                    }
+
+                    // 开启状态
+                    &.on {
+                        .electric-motor-icon {
+                            stroke: @electric-motor-state-on;
+                        }
+                    }
+
+                    // 告警或故障状态
+                    &.warning {
+                        position: relative;
+
+                        .electric-motor-icon {
+                            stroke: @electric-motor-state-warning;
+                        }
+
+                        &:after {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            content: '';
+                            border-radius: 100rem;
+                            box-sizing: border-box;
+                            -webkit-animation: equipment-breakdown-warning 3s infinite;
+                        }
+                    }
+
+                }
+
+                // 树形菜单表单背景
+                .form {
+                    .form-col {
+                        background: transparent;
+                    }
+                }
+            }
+
+
+        }
+
+
+
+    }
+
+
+    // 电机第二部分内容样式（编号，图片，电机状态及电机设备数值）
+    .electric-motor-row-02 {
+        .col {
+            &:first-child {
+                .electric-motor-panel {
+                    &:before {
+                        left: 50%;
+                    }
+                }
+            }
+
+            &:last-child {
+                .electric-motor-panel {
+                    &:before {
+                        right: 50%;
+                    }
+                }
+            }
+        }
+
+        // 电机信息
+        .electric-motor-infomation {
+
+            // 电机状态（电机油泵风机等是否已开启）
+
+            .electric-motor-state {
+                .flex-block();
+                padding: (@electric-motor-padding * 2) 0;
+                flex: none;
+                margin: @panel-gutter 1.5rem;
+
+                .electric-motor-state-item {
+                    .flex-block(center, center)
+                }
+
+                .panel-normal-bg();
+            }
+
+            // 电机运转数据表单
+            .form {
+                align-items: stretch;
+                margin: 0 1.5rem;
+
+                .form-col {
+                    padding: @electric-motor-padding (@electric-motor-padding * 2);
+
+                    .panel-normal-bg();
+
+                    &+.form-col {
+                        margin-left: @electric-motor-margin;
+                    }
+                }
+
+                &+.form {
+                    margin-top: @electric-motor-equipment-margin;
+                }
+            }
+
+
+
+            // 电机编号
+            .electric-motor-number {
+                line-height: (@electric-motor-number-size * 1.5);
+                height: (@electric-motor-number-size * 1.5);
+                text-align: center;
+                margin: 0 auto;
+                font-weight: bold;
+                position: relative;
+                font-size: 2.5rem;
+
+                &:before {
+                    .electric-motor-tree-line();
+                    left: 50%;
+                    width: @electric-motor-tree-line-size;
+                    background: @electric-motor-tree-line-color;
+                    margin-left: -(@electric-motor-tree-line-size / 2);
+                }
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    .square(@electric-motor-number-size);
+                    line-height: @electric-motor-number-size;
+                    border-radius: @electric-motor-number-size;
+                    background: @electric-motor-number-bg;
+                    z-index: -1;
+                    top: 50%;
+                    left: 50%;
+                    margin: -(@electric-motor-number-size / 2);
+                }
+
+            }
+
+            // 电机图片
+            .electric-motor-media {
+                img {
+                    width: 50%;
+                    display: block;
+                    margin: 1rem auto;
+                }
+            }
+
+            // 电机第二部分 （电机图片及电机值）
+            .electric-motor-panel {
+                position: relative;
+
+                &:before {
+                    .electric-motor-tree-line();
+                    bottom: auto;
+                    height: @electric-motor-tree-line-size;
+                }
+            }
+        }
+
+    }
+
+}
+
+// 风扇运转 
+@-webkit-keyframes fan-work-on {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+// 设备故障
+@-webkit-keyframes equipment-breakdown-warning {
+    0% {
+        .square(1rem);
+        border: 0;
+        margin-top: -0.5rem;
+        margin-left: -0.5rem;
+        opacity: 1;
+        background: @danger;
+    }
+
+    100% {
+        transform: scale(15);
+        margin-top: -0.5rem;
+        margin-left: -0.5rem;
+        opacity: 0;
+
+    }
+}

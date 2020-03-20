@@ -1,0 +1,271 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <script type="text/javascript">
+        $(function () {
+            //nsLayout.init("demos-layout-tree");
+            var listJson = {
+                package: 'nsVue.graps.product', //包名
+                template: 'businessDataBase', //模板 doclistviewer  单据详情模板businessDataBase 表单表格模板businesslevellist3 3级模板
+                //processdocbase   businessdatabaseeditor
+                title: '商品分类', //标题
+                components: [ {
+                            type: "tree",//类型  tab list vo bolcklist
+                            idField: 'id',//id
+                            formatter: {
+                                "id": "{id}"
+                            },
+                            isSearch:   true,//是否检索（搜索框）
+                            ajax: {
+                                url: '/docs/data/tree/getList.json',
+                                dataSrc: 'rows',
+                                type: 'GET',//请求方式  GET  POST  
+                                contentType: 'application/x-www-form-urlencoded',//application/json; charset=utf-8',
+                            },
+                            addAjax: {
+                                url: getRootPath() + '/data/tree/getList.json',
+                                dataSrc: 'rows',
+                            },
+                            editAjax: {
+                                url: getRootPath() + '/data/select/radio.json',
+                                dataSrc: 'rows',
+                            },
+                            deleteAjax: {
+                                url: getRootPath() + '/data/select/radio.json',
+                                dataSrc: 'rows',
+                            },
+                            moveAjax: {
+                                url: getRootPath() + '/data/select/radio.json',
+                                dataSrc: 'rows',
+                            },
+
+                    },
+                    
+                    {
+                        type: 'list',
+                        idField: 'id',
+                        ajax: {
+                            src: getRootPath() + '/docs/data/template/businessDataBase.json', //数据源地址
+                            type: "GET", //GET POST
+                            //contentType:            'application/json; charset=utf-8',          //GET POST
+                            data: {}, //参数对象{id:1,page:100}
+                            //isServerMode:         true,           //是否开启服务器模式
+                            dataSrc: 'rows',
+                            contentType: 'application/x-www-form-urlencoded',
+                        },
+                        params: { //必填
+                            dragWidth: false,
+                            styleExpress: {
+
+                            }
+                        },
+                        field: [{
+                            field: 'startdate',
+                            title: '开始时间',
+                            width: 120,
+                            searchable: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'date',
+                                data: {
+                                    formatDate: 'YYYY-MM-DD'
+                                }
+                            }
+                        }, {
+                            field: 'imgId',
+                            title: '单个缩略图',
+                            width: 150,
+                            formatHandler: {
+                                type: 'thumb',
+                            }
+                        }, {
+                            field: 'num',
+                            title: '数量',
+                            width: 45,
+                            searchable: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'number',
+                            }
+                        }, {
+                            field: 'unitname',
+                            title: '单位',
+                            width: 45,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'dictionary',
+                                data: {
+                                    1: '个',
+                                    2: '桶',
+                                    3: '套',
+                                    4: '对',
+                                    5: '片',
+                                    6: '包',
+                                    7: '组',
+                                    8: '米',
+                                    9: '件',
+                                }
+                            }
+                        }, {
+                            field: 'price',
+                            title: '价格',
+                            width: 60,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'money'
+                            }
+                        }, {
+                            field: 'cityname',
+                            title: '省市区',
+                            width: 180,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'codeToName'
+                            }
+                        }, {
+                            field: 'customername',
+                            title: '超链接',
+                            width: 180,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'href',
+                                data: {
+                                    url: 'www.baidu.com'
+                                }
+                            }
+                        }]
+
+                    },{
+                        type: 'btns',
+                        position: 'text-left',
+                        field: [{
+                                text: '空白新增',
+                                isReturn: true,
+                                shortcutKey: 'ALT+A',
+                                handler: function () { //点击
+                                    var dialogConfig = {
+                                        template: 'tabFormList', //模板
+                                        package: 'nserp.sale.formtable', //包名
+                                        title: '产品项目', //标题
+                                        closeHandler: function () {},
+                                        isHaveSaveAndAdd: true,
+                                        readonly: false,
+                                        size: "lg", //size有 lg(大) md(中) sm(小) xs(极小) fullscreen(铺满屏幕)
+                                        components: [{
+                                                title: '项目选择',
+                                                type: 'vo', //类型
+                                                idField: 'listForm',
+                                                keyField: 'root',
+                                                parent: "root",
+                                                defaultComponentWidth: "35%", //宽
+                                                field: [{
+                                                        id: 'sqid',
+                                                        label: '产品项目名称',
+                                                        type: 'number',
+                                                        rules: '',
+                                                        value: '',
+                                                        column: 12,
+                                                    },
+                                                    {
+                                                        id: 'sqdate',
+                                                        label: '产品标准章节',
+                                                        type: 'text',
+                                                        rules: '', //required有小红星*
+                                                        column: 12,
+                                                    },
+                                                    {
+                                                        id: 'id',
+                                                        label: '产品英文名称',
+                                                        type: 'text',
+                                                        value: '',
+                                                        column: 10,
+                                                    },
+                                                    {
+                                                        id: 'simplename',
+                                                        label: '简项目标签名',
+                                                        type: 'text',
+                                                        value: '',
+                                                        column: 4,
+                                                    }, {
+                                                        id: 'tel',
+                                                        label: '项目名称',
+                                                        type: 'text',
+                                                        value: '',
+                                                        column: 4,
+                                                    },
+
+                                                ]
+                                            },
+                                            {
+                                                title: '方法选择',
+                                                type: 'list',
+                                                idField: 'cartypeBrand',
+                                                keyField: 'goodsPlatformCartypeVoList',
+                                                parent: "root",
+                                                flagField: 'flag',
+                                                field: [{
+                                                        field: 'cartypeBrand',
+                                                        title: '方法编码',
+                                                        orderable: true,
+                                                        searchable: true,
+                                                        width: 300
+                                                    },
+                                                    {
+                                                        field: 'cartypeName',
+                                                        title: '方法名称',
+                                                        orderable: true,
+                                                        searchable: true,
+                                                    },
+                                                    {
+                                                        field: 'cartypeName',
+                                                        title: '方法英文名称',
+                                                        orderable: true,
+                                                        searchable: true,
+                                                    },
+                                                    {
+                                                        field: 'cartypeName',
+                                                        title: '受控号',
+                                                        orderable: true,
+                                                        searchable: true,
+                                                    },
+                                                    {
+                                                        field: 'cartypeName',
+                                                        title: '是否允许更新',
+                                                        orderable: true,
+                                                        searchable: true,
+                                                    },
+                                                ]
+                                            },
+                                        ]
+                                    }
+                                    NetstarTemplate.templates.businessDataBaseEditor.init(
+                                        dialogConfig);
+                                }
+
+                            }
+
+                            , {
+                                text: '选中',
+                                isReturn: true,
+                                shortcutKey: 'ALT+S',
+                            }, {
+                                text: '选中并关闭',
+                                isReturn: true,
+                                shortcutKey: 'ALT+C'
+                            }, {
+                                text: '添加',
+                                isReturn: true,
+                                shortcutKey: 'ALT+R'
+                            }
+                        ]
+                    }
+                ],
+            };
+            NetstarTemplate.init(listJson);
+        })
+    </script>
+</container>
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

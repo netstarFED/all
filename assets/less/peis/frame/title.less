@@ -1,0 +1,256 @@
+@peis-title-font-size-sm: 14px;								//14px
+@peis-title-font-size: (@peis-title-font-size-sm + 2);		//16px
+@peis-title-font-size-md: (@peis-title-font-size + 2);		//18px
+@peis-title-font-size-lg: (@peis-title-font-size-md + 2);	//20px
+@peis-title-style-color: #4b6d87;
+@peis-icon-size-sm: @peis-title-font-size;					//16px
+@peis-icon-size: @peis-title-font-size-md;					//18px
+@peis-icon-size-md: @peis-title-font-size-lg;				//20px
+@peis-icon-size-lg: (@peis-title-font-size-lg + 2);			//22px
+
+// 标题基本样式
+.peis-title{
+	position: relative;
+	color: @peis-title-style-color;
+	&:before{
+		position: absolute;
+		content: "";
+		.square(@peis-icon-size);
+		text-align: center;
+		line-height: @peis-icon-size;
+		font-family: @icon-font;
+		font-size: @peis-title-font-size;
+		top: 50%;
+		left: 0;
+		color: @ns-info;
+		margin: -(@peis-icon-size / 2) 0 0 0;
+	}
+}
+
+
+// 标题基本样式-lg
+.peis-title-lg{
+	.peis-title();
+	padding: 12px 0 12px @icon-title-padding ;
+	margin: 0;
+	font-size: @peis-title-font-size;
+	&:before{
+		content: "\f009";
+	}
+}
+
+// 标题基本样式-sm
+.peis-title-sm{
+	.peis-title();
+	padding-left: @icon-title-padding-sm;
+	font-size: @peis-title-font-size-sm;
+	&:before{
+		.square(@peis-icon-size-sm);
+		content: "\f142";
+	}
+}
+
+
+
+
+// 标题-lg
+
+
+	// form表单title样式
+	.panel-form .element-title .title-label{
+		.peis-title-lg();
+		padding: 0 @base-padding;
+		padding-left: @icon-title-padding;
+		
+	}
+
+	.peis-form label.grouplable {
+		.peis-title-lg();
+		margin-left: -2px;
+		border: 0;
+		text-indent: 0;
+		font-weight: normal !important;
+	}
+
+	// 结果录入手风琴表格title样式
+	.overall-layout-project.result-table{
+		.accordion-group{
+			.accordion-title{
+				.peis-title-lg();
+				margin-bottom:@peis-padding;
+				padding: 0;
+				padding-left: 30px;
+			}
+		}
+	}
+
+	//主检页面疾病列表title样式
+	.overall-layout-project{
+		.peis-diseases{
+			.peis-diseases-title{
+				.peis-title-lg();
+				padding: 0;
+				padding-left: 30px;
+				line-height: 30px;
+			}	
+		}
+	}
+
+	//主检标题
+	.peis-header{
+		vertical-align: middle;
+		margin-bottom: (@base-margin / 4);
+		& > div{
+			display:inline-block;
+			&:last-child{
+				float: right;
+				&.peis-inspect-doctor{
+					.panel.panel-form{
+						.form-td{
+							padding-right:6px!important; 
+							.form-group{
+								label.control-label{
+									color: #999!important;
+									padding-right: 0!important;
+								}
+								.form-item{
+									input.form-control{
+										color: #999!important;
+										font-weight: normal;
+										padding: 6px!important;
+									}
+									&.text{
+										width: 50px;
+										input.form-control{
+											width: 50px!important;
+										}
+									}
+									&.date{
+										width: 80px;
+										input.form-control{
+											width: 80px!important;
+										}
+									}
+								}
+							}
+						}
+					}	
+				}
+			}
+		}
+		.peis-list-title{
+			.peis-title-sm();
+			line-height: 30px;
+		}
+	}
+
+	// 结果录入右侧顶部固定位置title样式
+	.peis-results{
+		.peis-results-title{
+			.peis-title-lg();
+			position: fixed;
+			right: 0;
+			top: @header-height;
+			background-color: #56b1fc;
+			width: (@overall-layout-cell-md-width + @base-padding);
+			height:43px;
+			line-height:43px;
+			padding: 0 0 0 30px;
+			color:#fff;
+			margin: 0;
+			z-index: 103;
+			&:before{
+				color: #fff;
+				margin-left: (@base-margin / 4);
+			}
+		}
+	}
+
+	// 表格内容部分title样式
+
+	.peis-table-body{
+		h3{
+			.peis-title-lg();
+		}
+	}
+
+
+//完检样式
+.user-info{
+	.user-info-body{
+		position: relative;
+		.icon-finish-check{
+		position: absolute;
+		top:242px;
+		right:@base-padding;
+		width: 110px;
+		height:100px;
+		font-size:110px;
+		color:#1cc397;
+		}
+	}
+}
+	
+// 体检状态
+.accordion-content{
+	position: relative;
+	.pies-state-group{
+		// 体检状态样式
+		position: absolute;
+		top:2px;
+		right: 2px;
+		width:60px;
+		height: 32px;
+		z-index: 100;
+		overflow: hidden;
+		transition: ease-in-out all .03s;
+		i{
+			font-size: 60px;
+			// 弃检状态
+			&.nouser-state{
+				color:#9b9b9b; 
+			}
+			// 小结状态
+			&.commite-state{
+				color: #1d81d8;
+			}
+			// 未检状态
+			&.noyet-state{
+				color:#1cc397;
+			}
+		} 
+	}
+	.in + .pies-state-group{
+		height: 60px;
+
+	}
+	.panel-heading{
+		.panel-title{
+			float: left;
+		}
+		// .not-complate-check,
+		// .nouser-state,
+		// .commite-state{
+		// 	width: 30px;
+		// 	height: 30px;
+		// 	border: 1px solid @ns-border-color;
+		// }
+		.pies-main-state{
+			@pies-height: 22px;
+			float: left;
+			margin-left: @base-margin;
+			padding:6px 0 0;
+			// 主检状态
+			span.readonly-mainchecked{
+				&:after{
+					display: inline-block;
+					text-align: center;
+					line-height: (@pies-height - 5);
+					font-size:14px;
+					content: '[已主检]';
+					color: #3f82ad;
+				}
+			}	
+		}
+	}	
+}

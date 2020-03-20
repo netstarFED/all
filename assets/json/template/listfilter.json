@@ -1,0 +1,4788 @@
+{
+   "system": {
+        "user": {
+            "id": "id",
+            "name": "name"
+        },
+        "prefix": {
+            "root": "http://10.10.1.91:8080/dr",
+            "dict": "/basDictController/getDictByTableName?tableName="
+        },
+        "rowState": {
+            "expedited": "expedited",
+            "goback": "goback",
+            "reminders": "reminders",
+            "overdue": "overdue",
+            "destroy": "destroy",
+            "quality": "quality",
+            "recheck": "recheck",
+            "outsource": "outsource",
+            "notes": "notes"
+        }
+    },
+    "default": {
+        "now": {
+            "year ": "今年",
+            "day": "今天"
+        },
+        "ajaxType": {},
+        "ajaxDataSrc": {},
+        "ajaxCache": {},
+        "ajax": {
+            "dataSrc": "rows",
+            "type": "GET",
+            "dataType": "json",
+            "defaultData": {}
+        }
+    },
+    "pages": {
+        "customer": {},
+        "contact": {},
+        "chance": {},
+        "touch": {}
+    },
+    "customer": {
+        "controller": {
+            "new": {
+                "test": {
+                    "suffix": "/assets/json/template/savedata-add.json",
+                    "interfaceDoc": "客户/新建/录入新建",
+                    "text":"新建测试",
+                    "dataSrc":"modal",
+                    "defaultMode": "dialog",
+                    "dataLevel":"brothers",
+                    "ajaxDataParamSource":"all",
+                    "ajaxDataParamFormat":"{city:\"{modal2.provincelinkCity}\", form: \"{presonalCustomer}\"}",
+                    "dataFormat":"custom",
+                    "functionField": {
+                        "name": {},
+                        "remark": {}
+                    },
+                    "functionClass": "new"
+                },
+                "myCustomer": {
+                    "suffix": "/crm/customer/save",
+                    "interfaceDoc": "客户/新建/录入新建",
+                    "text":"新建客户",
+                    "defaultMode": "dialog",
+                    "functionField": {
+                        "name": {},
+                        "signedFlag": {},
+                        "otherGoodsFlag": {},
+                        "otherGoodsDes": {},
+                        "industry": {},
+                        "source": {},
+                        "regionalLocationId": {},
+                        "address": {},
+                        "level": {},
+                        "state": {},
+                        "gdp": {},
+                        "tag": {},
+                        "phone": {},
+                        "fax": {},
+                        "website": {},
+                        "zipcode": {},
+                        "scale": {},
+                        "bottomPrice": {},
+                        "topPrice": {},
+                        "parentId": {},
+                        "empolyeesQuantity": {},
+                        "postAddressId": {
+                        "省": {},
+                        "城市": {},
+                        "街道": {},
+                        "详细地址": {}
+                        },
+                        "billingAddressId": {
+                        "省": {},
+                        "城市": {},
+                        "街道": {},
+                        "详细地址": {}
+                        },
+                        "deliveryAddresssId": {
+                        "省": {},
+                        "城市": {},
+                        "街道": {},
+                        "详细地址": {}
+                        },
+                        "ownerId": {},
+                        "remark": {}
+                    },
+                    "functionClass": "new"
+                },
+                "clue": {
+                    "suffix": "/crm/customer/save",
+                    "interfaceDoc": "客户/新建/录入新建",
+                    "text":"新建客户",
+                    "defaultMode": "dialog",
+                    "functionField": {
+                        "name": {},
+                        "parentId": {},
+                        "signedFlag": {},
+                        "otherGoodsFlag": {},
+                        "otherGoodsDes": {},
+                        "goods": {},
+                        "state": {},
+                        "source": {},
+                        "phone": {},
+                        "homephone": {},
+                        "regionalLocationId": {},
+                        "address": {},
+                        "zipcode": {},
+                        "website": {},
+                        "remark": {},
+                        "ownerId": {}
+                    },
+                    "functionClass": "new"
+                },
+                "import": {
+                    "suffix": "/crm/customer/import",
+                    "interfaceDoc": "客户/新建/批量导入验证",
+                    "text":"导入客户",
+                    "defaultMode": "dialog",
+                    "functionField": {
+                        "url": {},
+                        "interfacetype": {}
+                    },
+                    "functionClass": "new"
+                },
+                "importConfirm": {
+                    "suffix": "/crm/customer/importconfirm",
+                    "interfaceDoc": "客户/新建/批量导入确认",
+                    "defaultMode": "dialog",
+                    "functionField": {
+                        "Interfacetype": {}
+                    },
+                    "functionClass": "new"
+                },
+                "buildingimport": {
+                    "suffix": "/crm/customer/import",
+                    "interfaceDoc": "客户/新建/批量导入确认",
+                    "functionField": {
+                        "url": {},
+                        "interfacetype": {}
+                    },
+                    "text":"确认",
+                    "ajaxDataParamSource":"all",
+                    "ajaxDataParamFormat":"{\"city\":\"{modal2.provincelinkCity}\", \"form\": \"{presonalCustomer}\"}",
+                    "dataFormat":"custom",
+                    "defaultMode":"confirm",
+                    "functionClass": "new"
+                }
+            },
+            "modify": {
+                "modify": {
+                    "suffix": "/crm/customer/save",
+                    "interfaceDoc": "客户/修改/修改",
+                    "text":"修改客户",
+                    "defaultMode": "valueDialog,tablebtn",
+                    "functionClass": "modify"
+                },
+                "touchnew": {
+                    "suffix": "/crm/touch/save",
+                    "interfaceDoc": "接触/新增",
+                    "defaultMode": "dialog",
+                    "functionClass": "modify"
+                },
+                "changeOwnerByPublic": {
+                    "suffix": "/crm/customer/changeCustomerToPublic",
+                    "interfaceDoc": "客户/修改/转移为公海客户",
+                    "defaultMode": "confirm",
+                    "functionClass": "modify"
+                },
+                "changeOwnerByOther": {
+                    "suffix": "/crm/customer/changeCustomerOwner",
+                    "interfaceDoc": "客户/修改/转移客户",
+                    "defaultMode": "valueDialog",
+                    "functionField": {
+                        "ownerId": {}
+                    },
+                    "functionClass": "modify"
+                },
+                "changeOwnerToOtherBymanager": {
+                    "suffix": "/crm/customer/changeCustomerOwner",
+                    "interfaceDoc": "客户/修改/转移客户",
+                    "defaultMode": "valueDialog",
+                    "functionField": {
+                        "ownerId": {}
+                    },
+                    "functionClass": "modify"
+                },
+                "changeOwnerToMyself": {
+                    "suffix": "/crm/customer/changeCustomerOwner",
+                    "interfaceDoc": "客户/修改/转为我的客户",
+                    "defaultMode": "valueDialog,tablebtn",
+                    "functionField": {
+                        "name": {},
+                        "phone": {}
+                    },
+                    "functionClass": "modify"
+                }
+            },
+            "delete": {
+                "delete": {
+                    "suffix": "/crm/customer/deleteByIds",
+                    "interfaceDoc": "客户/修改/转移客户",
+                    "text":"删除客户",
+                    "defaultMode": "confirm,tablebtn",
+                    "functionClass": "delete"
+                }
+            },
+            "query": {
+                "basicquery": {
+                    "suffix": "/crm/customer/getList",
+                    "interfaceDoc": "查询/线索、客户、公海客户查询",
+                    "functionClass": "query"
+                },
+                "heavyquery": {
+                    "suffix": "/crm/customer/getList",
+                    "interfaceDoc": "客户/查询/线索、客户、联系人排重查询",
+                    "defaultMode": "dialog",
+                    "select": "公海客户",
+                    "functionField": {
+                        "phone": {},
+                        "homephone": {},
+                        "name": {}
+                    },
+                    "functionClass": "query"
+                },
+                "detailedquery": {
+                    "suffix": "/crm/customer/getById",
+                    "data": {
+                        "name": {}
+                    },
+                    "interfaceDoc": "客户/查询/客户详细页查询",
+                    "functionClass": "query"
+                }
+            },
+            "statistics": {
+                "cluestatistics": {
+                    "suffix": "/crm/clueconversion/statistics",
+                    "interfaceDoc": "统计/线索转化率",
+                    "functionField": {
+                        "ownerId": {}
+                    },
+                    "functionClass": "statistics"
+                },
+                "accountstatistics": {
+                    "suffix": "/crm/customer/customerstatistic",
+                    "interfaceDoc": "统计/客户量统计",
+                    "functionField": {
+                        "ownerId": {}
+                    },
+                    "functionClass": "statistics"
+                }
+            }
+        },
+        "state": {
+            "teststate": {
+                "field": {
+                    "name": {
+                        "mindjetIndexState": 390
+                    },
+                    "remark": {
+                        "mindjetIndexState": 406
+                    },
+                    "selectTree":{
+                        "mindjetIndexState": 407
+                    }
+                }
+            },
+            "customertopublic": {
+                "field": {
+                "name": {
+                    "mindjetIndexState": 390
+                },
+                "level": {
+                    "mindjetIndexState": 391
+                },
+                "source": {
+                    "mindjetIndexState": 392
+                },
+                "parentId": {
+                    "mindjetIndexState": 393
+                },
+                "parentName": {
+                    "mindjetIndexState": 394
+                },
+                "regionalLocationId": {
+                    "mindjetIndexState": 395
+                },
+                "address": {
+                    "mindjetIndexState": 396
+                },
+                "industry": {
+                    "mindjetIndexState": 397
+                },
+                "scale": {
+                    "mindjetIndexState": 398
+                },
+                "signedFlag": {
+                    "mindjetIndexState": 399
+                },
+                "otherGoodsFlag": {
+                    "mindjetIndexState": 400
+                },
+                "otherGoodsDes": {
+                    "mindjetIndexState": 401
+                },
+                "phone": {
+                    "mindjetIndexState": 402
+                },
+                "fax": {
+                    "mindjetIndexState": 403
+                },
+                "website": {
+                    "mindjetIndexState": 404
+                },
+                "zipcode": {
+                    "mindjetIndexState": 405
+                },
+                "remark": {
+                    "mindjetIndexState": 406
+                }
+                }
+            },
+            "clue": {
+                "field": {
+                "name": {
+                    "mindjetIndexState": 410
+                },
+                "phone": {
+                    "mindjetIndexState": 411
+                },
+                "parentId": {
+                    "mindjetIndexState": 412
+                },
+                "parentName": {
+                    "mindjetIndexState": 413
+                }
+                },
+                "field-more": {
+                "otherGoodsFlag": {
+                    "mindjetIndexState": 415
+                },
+                "otherGoodsDes": {
+                    "mindjetIndexState": 416
+                },
+                "state": {
+                    "mindjetIndexState": 417
+                },
+                "source": {
+                    "mindjetIndexState": 418
+                },
+                "homephone": {
+                    "mindjetIndexState": 419
+                },
+                "regionalLocationId": {
+                    "mindjetIndexState": 420
+                },
+                "address": {
+                    "mindjetIndexState": 421
+                },
+                "zipcode": {
+                    "mindjetIndexState": 422
+                },
+                "remark": {
+                    "mindjetIndexState": 423
+                },
+                "website": {
+                    "mindjetIndexState": 424
+                }
+                }
+            },
+            "presonalCustomer": {
+                "field": {
+                "name": {
+                    "mindjetIndexState": 427
+                },
+                "ownerName": {
+                    "mindjetIndexState": 428
+                },
+                "ownerId": {
+                    "mindjetIndexState": 429
+                },
+                "area": {
+                    "mindjetIndexState": 430
+                },
+                "level": {
+                    "mindjetIndexState": 431
+                },
+                "phone": {
+                    "mindjetIndexState": 432
+                },
+                "remark": {
+                    "mindjetIndexState": 433
+                },
+                "parentId": {
+                    "mindjetIndexState": 434
+                },
+                "parentName": {
+                    "mindjetIndexState": 435
+                }
+                },
+                "field-more": {
+                "signedFlag": {
+                    "mindjetIndexState": 437
+                },
+                "otherGoodsFlag": {
+                    "mindjetIndexState": 438
+                },
+                "otherGoodsDes": {
+                    "mindjetIndexState": 439
+                },
+                "industry": {
+                    "mindjetIndexState": 440
+                },
+                "goods": {
+                    "mindjetIndexState": 441
+                },
+                "source": {
+                    "mindjetIndexState": 442
+                },
+                "regionalLocationId": {
+                    "mindjetIndexState": 443
+                },
+                "address": {
+                    "mindjetIndexState": 444
+                },
+                "state": {
+                    "mindjetIndexState": 445
+                },
+                "gdp": {
+                    "mindjetIndexState": 446
+                },
+                "tag": {
+                    "mindjetIndexState": 447
+                },
+                "fax": {
+                    "mindjetIndexState": 448
+                },
+                "website": {
+                    "mindjetIndexState": 449
+                },
+                "zipcode": {
+                    "mindjetIndexState": 450
+                },
+                "scale": {
+                    "mindjetIndexState": 451
+                },
+                "empolyeesQuantity": {
+                    "mindjetIndexState": 452
+                },
+                "budget": {
+                    "mindjetIndexState": 453
+                }
+                }
+            },
+            "importCustomer": {
+                "field": {
+                "phone": {
+                    "mindjetIndexState": 456
+                },
+                "homephone": {
+                    "mindjetIndexState": 457
+                },
+                "website": {
+                    "mindjetIndexState": 458
+                },
+                "fax": {
+                    "mindjetIndexState": 459
+                },
+                "zipcode": {
+                    "mindjetIndexState": 460
+                }
+                }
+            },
+            "importHighSeasCustomer": {
+                "field": {
+                "phone": {
+                    "mindjetIndexState": 463
+                },
+                "homephone": {
+                    "mindjetIndexState": 464
+                },
+                "website": {
+                    "mindjetIndexState": 465
+                },
+                "fax": {
+                    "mindjetIndexState": 466
+                },
+                "zipcode": {
+                    "mindjetIndexState": 467
+                },
+                "address": {
+                    "mindjetIndexState": 468
+                }
+                }
+            },
+            "heavyqueryCustomer": {
+                "field": {
+                "phone": {
+                    "mindjetIndexState": 471
+                },
+                "homephone": {
+                    "mindjetIndexState": 472
+                },
+                "website": {
+                    "mindjetIndexState": 473
+                },
+                "fax": {
+                    "mindjetIndexState": 474
+                },
+                "zipcode": {
+                    "mindjetIndexState": 475
+                },
+                "address": {
+                    "mindjetIndexState": 476
+                }
+                }
+            }
+        },
+        "fields": {
+            "id": {
+                "id": "id",
+                "type": "hidden",
+                "des": "客户ID,自动生成",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "hidden",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 28,
+                "label": "id"
+            },
+            "whenCreated": {
+                "id": "whenCreated",
+                "type": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 70,
+                "label": "创建时间"
+            },
+            "selectTree": {
+                "id": "selectTree",
+                "type": "treeSelect",
+                "url":"/NPE/assets/json/ztree/ztree.json",
+                "data":{"parentId":0},
+                "treeType":"GET",
+                "async":"false",
+                "dataSrc":"list",
+                "textField":"text",
+                "valueField":"cateid",
+                "fullnameField":"fullcatename",
+                "value":"03",
+                "text":"水",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "treeSelect",
+                "mindjetType": "treeSelect",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 71,
+                "label": "下拉树"
+            },
+            "whenSystem": {
+                "id": "whenSystem",
+                "type": "datetime",
+                "des": "数据进入系统的服务器时间",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 49,
+                "label": "进入系统时间"
+            },
+            "whenOwnerModified": {
+                "id": "whenOwnerModified",
+                "type": "datetime",
+                "des": " 未发生过转移操作之前,此时间为新增客户的操作时间",
+                "subdata": [
+                {
+                    "value": 0,
+                    "text": "转入公海"
+                },
+                {
+                    "value": 1,
+                    "text": "转出公海到自己"
+                },
+                {
+                    "value": 2,
+                    "text": "转出线索到自己"
+                },
+                {
+                    "value": 3,
+                    "text": "转移客户所属人"
+                }
+                ],
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "plusClass": "width:140",
+                "plusClassIsWithCol": true,
+                "mindjetIndex": 52,
+                "label": "当前所属人修改时间"
+            },
+            "lastModifiedtime": {
+                "id": "lastModifiedtime",
+                "type": "datetime",
+                "des": " \n最近的一次修改客户资料的时间。\n新增客户时,最近修改时间等于新增客户的操作时间。\n添加联系人算修改,机会、合同、接触不算修改。\n欢迎页和部分统计会经常使用此时间 。",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 60,
+                "label": "最近修改时间"
+            },
+            "touchTime": {
+                "id": "touchTime",
+                "type": "datetime",
+                "des": " 客户的接触,及客户下属的机会、合同所涉及到的或者跟进的时间都会更新此数据\n欢迎页和部分统计会使用此时间",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 63,
+                "label": "最近接触时间"
+            },
+            "contractTime": {
+                "id": "contractTime",
+                "type": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 66,
+                "label": "最近合同时间"
+            },
+            "opportunityTime": {
+                "id": "opportunityTime",
+                "type": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 68,
+                "label": "最近机会时间"
+            },
+            "deletetime": {
+                "id": "deletetime",
+                "type": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 72,
+                "label": "删除时间"
+            },
+            "whenStateCreated": {
+                "id": "whenStateCreated",
+                "type": "datetime",
+                "des": "\n记录客户、线索每个状态创建的时间。多个",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "datetime",
+                "mindjetClass": "fieldBusiness",
+                "mindjetIndex": 74,
+                "label": "状态创建时间"
+            },
+            "regionalOwnerById": {
+                "id": "regionalOwnerById",
+                "type": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "hidden",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 78,
+                "label": "负责人区域"
+            },
+            "ownerId": {
+                "id": "ownerId",
+                "type": "select2",
+                "value": " 登录人ID",
+                "suffix": "/netStarRights/basUserController-getAllUser",
+                "res": " 销售小组模式、客户打开可选管理人功能、当前登录人拥有可选管理人权限的情况下,这里是个select2下拉框,数据源是组织机构",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "select2",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 80,
+                "label": "负责人"
+            },
+            "name": {
+                "id": "name",
+                "rules": "required",
+                "type": "text",
+                "width": "170",
+                "rowState": true,
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 93,
+                "label": "客户名称"
+            },
+            "type": {
+                "id": "type",
+                "type": "select",
+                "subdata": [
+                {
+                    "value": 0,
+                    "text": "个人客户"
+                },
+                {
+                    "value": 1,
+                    "text": "线索"
+                },
+                {
+                    "value": 2,
+                    "text": "公海客户"
+                }
+                ],
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "select",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 88,
+                "label": "数据类别"
+            },
+            "signedFlag": {
+                "id": "signedFlag",
+                "type": "radio",
+                "subdata": [
+                {
+                    "value": 0,
+                    "text": "是"
+                },
+                {
+                    "value": 1,
+                    "text": "否"
+                }
+                ],
+                "des": "是否老客户,如果合同签了,则自动转为老客户",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "radio",
+                "mindjetClass": "fieldControl",
+                "value": 0,
+                "mindjetIndex": 98,
+                "label": "已签单"
+            },
+            "otherGoodsFlag": {
+                "id": "otherGoodsFlag",
+                "type": "radio",
+                "subdata": [
+                {
+                    "value": 0,
+                    "text": "是"
+                },
+                {
+                    "value": 1,
+                    "text": "否"
+                }
+                ],
+                "des": "是否已经使用类似的商品,如果有则填写类似商品",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "radio",
+                "mindjetClass": "fieldControl",
+                "value": 0,
+                "mindjetIndex": 103,
+                "label": "使用竞品"
+            },
+            "otherGoodsDes": {
+                "id": "otherGoodsDes",
+                "type": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "textarea",
+                "mindjetClass": "fieldControl",
+                "column": 12,
+                "mindjetIndex": 108,
+                "label": "竞品描述"
+            },
+            "industry": {
+                "id": "industry",
+                "type": "select",
+                "valuetype": "valuename",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "dict",
+                "mindjetClass": "fieldControl",
+                "dataSrc": "rows",
+                "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+                "urlDictArguments": "DICT_INDUSTRY",
+                "url": "/NPE/uiTest/getJson",
+                "data": {
+                "keyName": "DICT_DEMO_DATA"
+                },
+                "method": "post",
+                "textField": "name",
+                "valueField": "value",
+                "mindjetIndex": 110,
+                "label": "行业"
+            },
+            "source": {
+                "id": "source",
+                "type": "select",
+                "valuetype": "valuename",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "dict",
+                "mindjetClass": "fieldControl",
+                "dataSrc": "rows",
+                "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+                "urlDictArguments": "DICT_SOURCE",
+                "url": "/NPE/uiTest/getJson",
+                "data": {
+                "keyName": "DICT_DEMO_DATA"
+                },
+                "method": "post",
+                "textField": "name",
+                "valueField": "value",
+                "mindjetIndex": 113,
+                "label": "信息来源"
+            },
+            "regionalLocationId": {
+                "id": "regionalLocationId",
+                "rules": "required",
+                "value": "当前登录人区域属性",
+                "type": "province-select",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "省市区",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 116,
+                "label": "区域位置"
+            },
+            "address": {
+                "id": "address",
+                "type": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "textarea",
+                "mindjetClass": "fieldControl",
+                "column": 12,
+                "mindjetIndex": 120,
+                "label": "详细地址"
+            },
+            "level": {
+                "id": "level",
+                "value": "1",
+                "type": "select",
+                "des": "后期可能调整为单独维护,以添加相关功能",
+                "valuetype": "valuename",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "dict",
+                "mindjetClass": "fieldControl",
+                "dataSrc": "rows",
+                "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+                "urlDictArguments": "DICT_RATING",
+                "url": "/NPE/uiTest/getJson",
+                "data": {
+                "keyName": "DICT_DEMO_DATA"
+                },
+                "method": "post",
+                "textField": "name",
+                "valueField": "value",
+                "mindjetIndex": 122,
+                "label": "分级"
+            },
+            "state": {
+                "id": "state",
+                "value": "1",
+                "type": "select",
+                "valuetype": "valuename",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "dict",
+                "mindjetClass": "fieldControl",
+                "dataSrc": "rows",
+                "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+                "urlDictArguments": "DICT_CLUESTATE",
+                "url": "/NPE/uiTest/getJson",
+                "data": {
+                "keyName": "DICT_DEMO_DATA"
+                },
+                "method": "post",
+                "textField": "name",
+                "valueField": "value",
+                "mindjetIndex": 131,
+                "label": "状态"
+            },
+            "createdWayId": {
+                "id": "createdWayId",
+                "type": "hidden",
+                "des": "记录数据创建的来源",
+                "subdata": [
+                {
+                    "value": "1",
+                    "text": "公海"
+                },
+                {
+                    "value": "2",
+                    "text": "线索"
+                },
+                {
+                    "value": "3",
+                    "text": "客户"
+                },
+                {
+                    "value": "4",
+                    "text": "其他"
+                }
+                ],
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "hidden",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 135,
+                "label": "新建来源"
+            },
+            "transferdirection": {
+                "id": "transferdirection",
+                "type": "hidden",
+                "des": "记录数据转化方向",
+                "subdata": [
+                {
+                    "value": "1",
+                    "text": "公海"
+                },
+                {
+                    "value": "2",
+                    "text": "客户"
+                },
+                {
+                    "value": "3",
+                    "text": "线索"
+                }
+                ],
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "hidden",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 142,
+                "label": "转移方向"
+            },
+            "accountOwnerFormerByid": {
+                "id": "accountOwnerFormerByid",
+                "type": "hidden",
+                "des": "记录客户原所属人",
+                "value": "客户前负责人id",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "hidden",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 148,
+                "label": "客户前负责人"
+            },
+            "ownerName": {
+                "id": "ownerName",
+                "type": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "hidden",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 152,
+                "label": "负责人姓名"
+            },
+            "lastOwnerName": {
+                "id": "lastOwnerName",
+                "type": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldControl",
+                "plusClass": "width:140",
+                "plusClassIsWithCol": true,
+                "mindjetIndex": 154,
+                "label": "客户前负责人姓名"
+            },
+            "gdp": {
+                "id": "gdp",
+                "rules": "number",
+                "type": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 156,
+                "label": "年收入"
+            },
+            "createdBy": {
+                "id": "createdBy",
+                "rules": "hidden",
+                "type": "text",
+                "value": "创建人id",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 159,
+                "label": "创建人"
+            },
+            "deleteById": {
+                "id": "deleteById",
+                "rules": "hidden",
+                "type": "text",
+                "value": "删除人id",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 163,
+                "label": "删除人"
+            },
+            "budget": {
+                "id": "budget",
+                "rules": "number",
+                "type": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldControl",
+                "mindjetIndex": 170,
+                "label": "预算"
+            },
+            "tag": {
+                "id": "tag",
+                "des": "可以multiple",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "",
+                "mindjetClass": "fieldControl",
+                "type": "text",
+                "mindjetIndex": 173,
+                "label": "标签"
+            },
+            "goods": {
+                "id": "goods",
+                "type": "select2",
+                "value": "产品ID",
+                "valuetype": "valuename",
+                "multiple": true,
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "dict",
+                "mindjetClass": "fieldControl",
+                "dataSrc": "rows",
+                "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+                "urlDictArguments": "DICT_PRODUCTS",
+                "url": "/NPE/uiTest/getJson",
+                "data": {
+                "keyName": "DICT_DEMO_DATA"
+                },
+                "method": "post",
+                "textField": "name",
+                "valueField": "value",
+                "mindjetIndex": 175,
+                "label": "产品"
+            },
+            "remark": {
+                "id": "remark",
+                "type": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "文本域",
+                "mindjetClass": "fieldVisual",
+                "column": 12,
+                "mindjetIndex": 181,
+                "label": "备注"
+            },
+            "phone": {
+                "id": "phone",
+                "des": "****-*******,“-”前最多4位数字,“-”后最多8位数字,且固定电话也可以不输“-”前区号,直接输入号码。",
+                "type": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 183,
+                "label": "电话"
+            },
+            "homephone": {
+                "id": "homephone",
+                "type": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 186,
+                "label": "座机"
+            },
+            "fax": {
+                "id": "fax",
+                "rules": "maxlength=11",
+                "type": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 188,
+                "label": "传真"
+            },
+            "website": {
+                "id": "website",
+                "rules": "url",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "",
+                "mindjetClass": "fieldVisual",
+                "type": "text",
+                "mindjetIndex": 191,
+                "label": "网址"
+            },
+            "zipcode": {
+                "id": "zipcode",
+                "rules": "postalcode",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "",
+                "mindjetClass": "fieldVisual",
+                "type": "text",
+                "mindjetIndex": 193,
+                "label": "邮编"
+            },
+            "scale": {
+                "id": "scale",
+                "type": "select",
+                "valuetype": "allname",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "dict",
+                "mindjetClass": "fieldVisual",
+                "dataSrc": "rows",
+                "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+                "urlDictArguments": "DICT_SCALE",
+                "url": "/NPE/uiTest/getJson",
+                "data": {
+                "keyName": "DICT_DEMO_DATA"
+                },
+                "method": "post",
+                "textField": "name",
+                "valueField": "name",
+                "mindjetIndex": 195,
+                "label": "规模"
+            },
+            "bottomPrice": {
+                "id": "bottomPrice",
+                "type": "text",
+                "des": "承受价格范围的最低价",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldVisual",
+                "plusClass": "width:140",
+                "plusClassIsWithCol": true,
+                "mindjetIndex": 198,
+                "label": "承受价格范围开始"
+            },
+            "topPrice": {
+                "id": "topPrice",
+                "type": "text",
+                "des": "承受价格范围的最高价",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldVisual",
+                "plusClass": "width:140",
+                "plusClassIsWithCol": true,
+                "mindjetIndex": 201,
+                "label": "承受价格范围结束"
+            },
+            "parentId": {
+                "id": "parentId",
+                "type": "select2",
+                "suffix": "/crm/customer/getlist",
+                "dataSrc": "rows",
+                "textField": "name",
+                "valueField": "id",
+                "des": "会影响多张统计表,暂不实现",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "select2",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 204,
+                "label": "母公司"
+            },
+            "parentName": {
+                "id": "parentName",
+                "type": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "hidden",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 211,
+                "label": "母公司名称"
+            },
+            "empolyeesQuantity": {
+                "id": "empolyeesQuantity",
+                "rules": "number",
+                "type": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "text",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 213,
+                "label": "员工数量"
+            },
+            "postAddress": {
+                "id": "postAddress",
+                "type": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "textarea",
+                "mindjetClass": "fieldVisual",
+                "column": 12,
+                "mindjetIndex": 216,
+                "label": "邮寄详细地址"
+            },
+            "postAddressId": {
+                "id": "postAddressId",
+                "type": "province-select",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "省市区",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 218,
+                "label": "邮寄地址"
+            },
+            "billingAddress": {
+                "id": "billingAddress",
+                "type": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "textarea",
+                "mindjetClass": "fieldVisual",
+                "column": 12,
+                "mindjetIndex": 220,
+                "label": "开票详细地址"
+            },
+            "billingAddressId": {
+                "id": "billingAddressId",
+                "type": "province-select",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "省市区",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 222,
+                "label": "开票地址"
+            },
+            "deliveryAddress": {
+                "id": "deliveryAddress",
+                "type": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "textarea",
+                "mindjetClass": "fieldVisual",
+                "column": 12,
+                "mindjetIndex": 224,
+                "label": "发货详细地址"
+            },
+            "deliveryAddresssId": {
+                "id": "deliveryAddresssId",
+                "type": "province-select",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "省市区",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 226,
+                "label": "发货地址"
+            },
+            "otherAddress": {
+                "id": "otherAddress",
+                "type": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "textarea",
+                "mindjetClass": "fieldVisual",
+                "column": 12,
+                "mindjetIndex": 228,
+                "label": "其它详细地址"
+            },
+            "otherAddressId": {
+                "id": "otherAddressId",
+                "type": "province-select",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "省市区",
+                "mindjetClass": "fieldVisual",
+                "mindjetIndex": 230,
+                "label": "其他地址"
+            },
+            "area": {
+                "id": "area",
+                "type": "select",
+                "valuetype": "allname",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "mindjetType": "dict",
+                "mindjetClass": "fieldVisual",
+                "dataSrc": "rows",
+                "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+                "urlDictArguments": "DICT_SECTION",
+                "url": "/NPE/uiTest/getJson",
+                "data": {
+                "keyName": "DICT_DEMO_DATA"
+                },
+                "method": "post",
+                "textField": "name",
+                "valueField": "name",
+                "mindjetIndex": 232,
+                "label": "地域"
+            }
+        },
+        "columns": {
+            "id": {
+                "field": "id",
+                "title": "id",
+                "inputType": "hidden",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 28,
+                "mindjetType": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "whenCreated": {
+                "field": "whenCreated",
+                "title": "创建时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 70,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "whenSystem": {
+                "field": "whenSystem",
+                "title": "进入系统时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 49,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "whenOwnerModified": {
+                "field": "whenOwnerModified",
+                "title": "当前所属人修改时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 52,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "lastModifiedtime": {
+                "field": "lastModifiedtime",
+                "title": "最近修改时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 60,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "touchTime": {
+                "field": "touchTime",
+                "title": "最近接触时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 63,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "contractTime": {
+                "field": "contractTime",
+                "title": "最近合同时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 66,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "opportunityTime": {
+                "field": "opportunityTime",
+                "title": "最近机会时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 68,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "deletetime": {
+                "field": "deletetime",
+                "title": "删除时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 72,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "whenStateCreated": {
+                "field": "whenStateCreated",
+                "title": "状态创建时间",
+                "inputType": "datetime",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 74,
+                "mindjetType": "datetime",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "regionalOwnerById": {
+                "field": "regionalOwnerById",
+                "title": "负责人区域",
+                "inputType": "hidden",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 78,
+                "mindjetType": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "ownerId": {
+                "field": "ownerId",
+                "title": "负责人",
+                "inputType": "select2",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 80,
+                "mindjetType": "select2",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            },
+            "name": {
+                "field": "name",
+                "title": "客户名称",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 93,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 170,
+                "inputColumnsType": "columnState",
+                "formatHandler": {
+                "type": "columnState",
+                "data": {
+                    "expedited": "expedited",
+                    "goback": "goback",
+                    "reminders": "reminders",
+                    "overdue": "overdue",
+                    "destroy": "destroy",
+                    "quality": "quality",
+                    "recheck": "recheck",
+                    "outsource": "outsource",
+                    "notes": "notes"
+                }
+                }
+            },
+            "type": {
+                "field": "type",
+                "title": "数据类别",
+                "inputType": "select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 88,
+                "mindjetType": "select",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace",
+                "formatHandler": {
+                "type": "stringReplace",
+                "data": {
+                    "formatDate": {
+                    "0": "客户",
+                    "1": "联系人",
+                    "2": "机会",
+                    "3": "合同",
+                    "4": "线索"
+                    }
+                }
+                }
+            },
+            "signedFlag": {
+                "field": "signedFlag",
+                "title": "已签单",
+                "inputType": "radio",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 98,
+                "mindjetType": "radio",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace",
+                "formatHandler": {
+                "type": "stringReplace",
+                "data": {
+                    "formatDate": {
+                    "0": "客户",
+                    "1": "联系人",
+                    "2": "机会",
+                    "3": "合同",
+                    "4": "线索"
+                    }
+                }
+                }
+            },
+            "otherGoodsFlag": {
+                "field": "otherGoodsFlag",
+                "title": "使用竞品",
+                "inputType": "radio",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 103,
+                "mindjetType": "radio",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace",
+                "formatHandler": {
+                "type": "stringReplace",
+                "data": {
+                    "formatDate": {
+                    "0": "客户",
+                    "1": "联系人",
+                    "2": "机会",
+                    "3": "合同",
+                    "4": "线索"
+                    }
+                }
+                }
+            },
+            "otherGoodsDes": {
+                "field": "otherGoodsDes",
+                "title": "竞品描述",
+                "inputType": "textarea",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 108,
+                "mindjetType": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "industry": {
+                "field": "industry",
+                "title": "行业",
+                "inputType": "select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 110,
+                "mindjetType": "dict",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            },
+            "source": {
+                "field": "source",
+                "title": "信息来源",
+                "inputType": "select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 113,
+                "mindjetType": "dict",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            },
+            "regionalLocationId": {
+                "field": "regionalLocationId",
+                "title": "区域位置",
+                "inputType": "province-select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 116,
+                "mindjetType": "省市区",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "address": {
+                "field": "address",
+                "title": "详细地址",
+                "inputType": "textarea",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 120,
+                "mindjetType": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "level": {
+                "field": "level",
+                "title": "分级",
+                "inputType": "select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 122,
+                "mindjetType": "dict",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            },
+            "state": {
+                "field": "state",
+                "title": "状态",
+                "inputType": "select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 131,
+                "mindjetType": "dict",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            },
+            "createdWayId": {
+                "field": "createdWayId",
+                "title": "新建来源",
+                "inputType": "hidden",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 135,
+                "mindjetType": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "transferdirection": {
+                "field": "transferdirection",
+                "title": "转移方向",
+                "inputType": "hidden",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 142,
+                "mindjetType": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "accountOwnerFormerByid": {
+                "field": "accountOwnerFormerByid",
+                "title": "客户前负责人",
+                "inputType": "hidden",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 148,
+                "mindjetType": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "ownerName": {
+                "field": "ownerName",
+                "title": "负责人姓名",
+                "inputType": "hidden",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 152,
+                "mindjetType": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "lastOwnerName": {
+                "field": "lastOwnerName",
+                "title": "客户前负责人姓名",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 154,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "gdp": {
+                "field": "gdp",
+                "title": "年收入",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 156,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "createdBy": {
+                "field": "createdBy",
+                "title": "创建人",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 159,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "deleteById": {
+                "field": "deleteById",
+                "title": "删除人",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 163,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "budget": {
+                "field": "budget",
+                "title": "预算",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 170,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "tag": {
+                "field": "tag",
+                "title": "标签",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 173,
+                "mindjetType": "",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "goods": {
+                "field": "goods",
+                "title": "产品",
+                "inputType": "select2",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 175,
+                "mindjetType": "dict",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            },
+            "remark": {
+                "field": "remark",
+                "title": "备注",
+                "inputType": "textarea",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 181,
+                "mindjetType": "文本域",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "phone": {
+                "field": "phone",
+                "title": "电话",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 183,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "homephone": {
+                "field": "homephone",
+                "title": "座机",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 186,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "fax": {
+                "field": "fax",
+                "title": "传真",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 188,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "website": {
+                "field": "website",
+                "title": "网址",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 191,
+                "mindjetType": "",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "zipcode": {
+                "field": "zipcode",
+                "title": "邮编",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 193,
+                "mindjetType": "",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "scale": {
+                "field": "scale",
+                "title": "规模",
+                "inputType": "select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 195,
+                "mindjetType": "dict",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            },
+            "bottomPrice": {
+                "field": "bottomPrice",
+                "title": "承受价格范围开始",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 198,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "topPrice": {
+                "field": "topPrice",
+                "title": "承受价格范围结束",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 201,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "parentId": {
+                "field": "parentId",
+                "title": "母公司",
+                "inputType": "select2",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 204,
+                "mindjetType": "select2",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            },
+            "parentName": {
+                "field": "parentName",
+                "title": "母公司名称",
+                "inputType": "hidden",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 211,
+                "mindjetType": "hidden",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "empolyeesQuantity": {
+                "field": "empolyeesQuantity",
+                "title": "员工数量",
+                "inputType": "text",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 213,
+                "mindjetType": "text",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "postAddress": {
+                "field": "postAddress",
+                "title": "邮寄详细地址",
+                "inputType": "textarea",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 216,
+                "mindjetType": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "postAddressId": {
+                "field": "postAddressId",
+                "title": "邮寄地址",
+                "inputType": "province-select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 218,
+                "mindjetType": "省市区",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "billingAddress": {
+                "field": "billingAddress",
+                "title": "开票详细地址",
+                "inputType": "textarea",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 220,
+                "mindjetType": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "billingAddressId": {
+                "field": "billingAddressId",
+                "title": "开票地址",
+                "inputType": "province-select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 222,
+                "mindjetType": "省市区",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "deliveryAddress": {
+                "field": "deliveryAddress",
+                "title": "发货详细地址",
+                "inputType": "textarea",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 224,
+                "mindjetType": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "deliveryAddresssId": {
+                "field": "deliveryAddresssId",
+                "title": "发货地址",
+                "inputType": "province-select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 226,
+                "mindjetType": "省市区",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "otherAddress": {
+                "field": "otherAddress",
+                "title": "其它详细地址",
+                "inputType": "textarea",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 228,
+                "mindjetType": "textarea",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "otherAddressId": {
+                "field": "otherAddressId",
+                "title": "其他地址",
+                "inputType": "province-select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 230,
+                "mindjetType": "省市区",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100
+            },
+            "area": {
+                "field": "area",
+                "title": "地域",
+                "inputType": "select",
+                "searchable": true,
+                "orderable": true,
+                "mindjetIndex": 232,
+                "mindjetType": "dict",
+                "mindjetTargetType": "all",
+                "ajaxDataType": "text",
+                "width": 100,
+                "inputColumnsType": "stringReplace"
+            }
+        }
+    },
+    "contact": {
+        "controller": {
+            "new": {
+                "new": {
+                    "suffix": "/crm/customer/save",
+                    "interfaceDoc": "联系人/新增/录入新增",
+                    "defaultMode": "dialog",
+                    "functionClass": "new"
+                },
+                "import": {
+                    "suffix": "/crm/contact/import",
+                    "interfaceDoc": "联系人/新增/导入验证",
+                    "defaultMode": "dialog",
+                    "functionClass": "new"
+                },
+                "importConfirm": {
+                    "suffix": "/crm/contact/importConfirm",
+                    "interfaceDoc": "联系人/新增/导入确认",
+                    "defaultMode": "dialog",
+                    "functionClass": "new"
+                }
+            },
+            "modify": {
+                "modify": {
+                "suffix": "/crm/customer/save",
+                "interfaceDoc": "联系人/修改",
+                "defaultMode": "valueDialog,tablebtn",
+                "functionClass": "modify"
+                }
+            },
+            "delete": {
+                "delete": {
+                "suffix": "/crm/customer/deleteContactByIds",
+                "interfaceDoc": "联系人/删除",
+                "defaultMode": "confirm,tablebtn",
+                "functionClass": "delete"
+                }
+            },
+            "statistics": {
+                "statistics": {
+                "suffix": "--",
+                "functionClass": "statistics"
+                }
+            },
+            "query": {
+                "basicquery": {
+                "suffix": "/crm/customer/getContactList",
+                "interfaceDoc": "查询/联系人查询",
+                "functionClass": "query"
+                },
+                "detailedquery": {
+                "suffix": "/crm/customer/getContactById",
+                "interfaceDoc": "查询/联系人详细页查询",
+                "functionClass": "query"
+                },
+                "heavyquery": {
+                "suffix": "/crm/customer/getContactList",
+                "interfaceDoc": "客户/查询/线索、客户、联系人排重查询",
+                "defaultMode": "dialog",
+                "select": "个人客户",
+                "functionField": {
+                    "qq": {},
+                    "homephone": {},
+                    "appellation": {}
+                },
+                "functionClass": "query"
+                }
+            }
+        },
+        "state": {
+            "onOffice": {
+                "filed": {
+                "name": {
+                    "mindjetIndexState": 633
+                },
+                "title": {
+                    "mindjetIndexState": 634
+                },
+                "phone": {
+                    "mindjetIndexState": 635
+                },
+                "homephone": {
+                    "mindjetIndexState": 636
+                },
+                "remark": {
+                    "mindjetIndexState": 637
+                }
+                },
+                "field-more": {
+                "sex": {
+                    "mindjetIndexState": 639
+                },
+                "address": {
+                    "mindjetIndexState": 640
+                },
+                "birthday": {
+                    "mindjetIndexState": 641
+                },
+                "isremind": {
+                    "mindjetIndexState": 642
+                },
+                "ondutyFlag": {
+                    "mindjetIndexState": 643
+                },
+                "leavedate": {
+                    "mindjetIndexState": 644
+                },
+                "mailbox": {
+                    "mindjetIndexState": 645
+                },
+                "pictureAttachId": {
+                    "mindjetIndexState": 646
+                },
+                "qq": {
+                    "mindjetIndexState": 647
+                },
+                "weixin": {
+                    "mindjetIndexState": 648
+                },
+                "department": {
+                    "mindjetIndexState": 649
+                },
+                "appellation": {
+                    "mindjetIndexState": 650
+                },
+                "leader": {
+                    "mindjetIndexState": 651
+                },
+                "hobby": {
+                    "mindjetIndexState": 652
+                },
+                "habit": {
+                    "mindjetIndexState": 653
+                },
+                "social": {
+                    "mindjetIndexState": 654
+                },
+                "spouse": {
+                    "mindjetIndexState": 655
+                },
+                "children": {
+                    "mindjetIndexState": 656
+                },
+                "consumption": {
+                    "mindjetIndexState": 657
+                },
+                "ownerId": {
+                    "mindjetIndexState": 658
+                }
+                }
+            },
+            "importContact": {
+                "field": {
+                "weixin": {
+                    "mindjetIndexState": 661
+                },
+                "qq": {
+                    "mindjetIndexState": 662
+                },
+                "title": {
+                    "mindjetIndexState": 663
+                },
+                "department": {
+                    "mindjetIndexState": 664
+                },
+                "sex": {
+                    "mindjetIndexState": 665
+                }
+                }
+            },
+            "contact": {
+                "field": {
+                "customerId": {
+                    "mindjetIndexState": 668
+                },
+                "type": {
+                    "mindjetIndexState": 669
+                },
+                "customerName": {
+                    "mindjetIndexState": 670
+                },
+                "name": {
+                    "mindjetIndexState": 671
+                },
+                "id": {
+                    "mindjetIndexState": 672
+                },
+                "title": {
+                    "mindjetIndexState": 673
+                },
+                "phone": {
+                    "mindjetIndexState": 674
+                },
+                "homephone": {
+                    "mindjetIndexState": 675
+                },
+                "remark": {
+                    "mindjetIndexState": 676
+                },
+                "ownerName": {
+                    "mindjetIndexState": 677
+                }
+                },
+                "field-more": {
+                "sex": {
+                    "mindjetIndexState": 679
+                },
+                "address": {
+                    "mindjetIndexState": 680
+                },
+                "birthday": {
+                    "mindjetIndexState": 681
+                },
+                "isremind": {
+                    "mindjetIndexState": 682
+                },
+                "ondutyFlag": {
+                    "mindjetIndexState": 683
+                },
+                "leavedate": {
+                    "mindjetIndexState": 684
+                },
+                "mailbox": {
+                    "mindjetIndexState": 685
+                },
+                "qq": {
+                    "mindjetIndexState": 686
+                },
+                "weixin": {
+                    "mindjetIndexState": 687
+                },
+                "department": {
+                    "mindjetIndexState": 688
+                },
+                "appellation": {
+                    "mindjetIndexState": 689
+                },
+                "leader": {
+                    "mindjetIndexState": 690
+                },
+                "hobby": {
+                    "mindjetIndexState": 691
+                },
+                "habit": {
+                    "mindjetIndexState": 692
+                },
+                "social": {
+                    "mindjetIndexState": 693
+                },
+                "spouse": {
+                    "mindjetIndexState": 694
+                },
+                "children": {
+                    "mindjetIndexState": 695
+                },
+                "consumption": {
+                    "mindjetIndexState": 696
+                },
+                "ownerId": {
+                    "mindjetIndexState": 697
+                }
+                }
+            }
+        },
+        "fields": {
+        "id": {
+            "id": "id",
+            "des": "自动生成",
+            "type": "hidden",
+            "value": "联系人ID",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 480,
+            "label": "id"
+        },
+        "whenCreated": {
+            "id": "whenCreated",
+            "type": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "datetime",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 487,
+            "label": "创建时间"
+        },
+        "lastModifiedtime": {
+            "id": "lastModifiedtime",
+            "type": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "datetime",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 489,
+            "label": "最近修改时间"
+        },
+        "touchTime": {
+            "id": "touchTime",
+            "type": "datetime",
+            "des": " 联系人的接触",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "datetime",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 491,
+            "label": "最近接触时间"
+        },
+        "deletetime": {
+            "id": "deletetime",
+            "type": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "datetime",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 494,
+            "label": "删除时间"
+        },
+        "name": {
+            "id": "name",
+            "rules": "required",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 497,
+            "label": "姓名"
+        },
+        "phone": {
+            "id": "phone",
+            "rules": "number required",
+            "type": "text",
+            "des": "Telephone,必填",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 500,
+            "label": "电话"
+        },
+        "value": {
+            "id": "value",
+            "type": "select",
+            "valuetype": "valuename",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "dict",
+            "mindjetClass": "fieldControl",
+            "dataSrc": "rows",
+            "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+            "urlDictArguments": "DICT_TYPE",
+            "url": "/NPE/uiTest/getJson",
+            "data": {
+            "keyName": "DICT_DEMO_DATA"
+            },
+            "method": "post",
+            "textField": "name",
+            "valueField": "value",
+            "mindjetIndex": 504,
+            "label": "联系人类别"
+        },
+        "address": {
+            "id": "address",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "textarea",
+            "mindjetClass": "fieldControl",
+            "column": 12,
+            "mindjetIndex": 509,
+            "label": "详细地址"
+        },
+        "birthday": {
+            "id": "birthday",
+            "type": "date",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "date",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 511,
+            "label": "生日"
+        },
+        "isremind": {
+            "id": "isremind",
+            "type": "radio",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "是"
+            },
+            {
+                "value": 1,
+                "text": "否"
+            }
+            ],
+            "des": "若是选择是,将数据展示在首页的日历框中；",
+            "value": "默认否",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "radio",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 513,
+            "label": "是否提醒"
+        },
+        "ondutyFlag": {
+            "id": "ondutyFlag",
+            "type": "radio",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "是"
+            },
+            {
+                "value": 1,
+                "text": "否"
+            }
+            ],
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "radio",
+            "mindjetClass": "fieldControl",
+            "value": 0,
+            "mindjetIndex": 519,
+            "label": "是否在职"
+        },
+        "leavedate": {
+            "id": "leavedate",
+            "type": "date",
+            "des": " 设置是否在职为否时,可填写",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "date",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 523,
+            "label": "离职日期"
+        },
+        "ownerId": {
+            "id": "ownerId",
+            "type": "select2",
+            "suffix": "/netStarRights/basUserController-getAllUser",
+            "res": " 销售小组模式、客户打开可选管理人功能、当前登录人拥有可选管理人权限的情况下,这里是个select2下拉框,数据源是组织机构",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select2",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 526,
+            "label": "负责人"
+        },
+        "ownerName": {
+            "id": "ownerName",
+            "type": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 530,
+            "label": "负责人姓名"
+        },
+        "createdBy": {
+            "id": "createdBy",
+            "type": "text",
+            "value": "登录人ID",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 532,
+            "label": "创建人"
+        },
+        "lastOwner": {
+            "id": "lastOwner",
+            "type": "text",
+            "value": "转移客户前的负责人",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 535,
+            "label": "前负责人"
+        },
+        "customerId": {
+            "id": "customerId",
+            "type": "select2",
+            "suffix": "/crm/customer/getlist",
+            "dataSrc": "rows",
+            "textField": "name",
+            "valueField": "id",
+            "des": "会影响多张统计表,暂不实现",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select2",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 538,
+            "label": "客户id"
+        },
+        "customerName": {
+            "id": "customerName",
+            "type": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 545,
+            "label": "对应客户名称"
+        },
+        "qq": {
+            "id": "qq",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 548,
+            "label": "qq"
+        },
+        "weixin": {
+            "id": "weixin",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 550,
+            "label": "微信"
+        },
+        "title": {
+            "id": "title",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 552,
+            "label": "职务"
+        },
+        "department": {
+            "id": "department",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 554,
+            "label": "部门"
+        },
+        "sex": {
+            "id": "sex",
+            "type": "radio",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "男"
+            },
+            {
+                "value": 1,
+                "text": "女"
+            }
+            ],
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "radio",
+            "mindjetClass": "fieldVisual",
+            "value": 0,
+            "mindjetIndex": 556,
+            "label": "性别"
+        },
+        "appellation": {
+            "id": "appellation",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 560,
+            "label": "称谓"
+        },
+        "leader": {
+            "id": "leader",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 562,
+            "label": "上级"
+        },
+        "homephone": {
+            "id": "homephone",
+            "rules": "number",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldVisual",
+            "type": "text",
+            "mindjetIndex": 564,
+            "label": "座机"
+        },
+        "hobby": {
+            "id": "hobby",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "文本域",
+            "mindjetClass": "fieldVisual",
+            "column": 12,
+            "mindjetIndex": 566,
+            "label": "兴趣爱好"
+        },
+        "habit": {
+            "id": "habit",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "文本域",
+            "mindjetClass": "fieldVisual",
+            "column": 12,
+            "mindjetIndex": 568,
+            "label": "习惯"
+        },
+        "disposition": {
+            "id": "disposition",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "文本域",
+            "mindjetClass": "fieldVisual",
+            "column": 12,
+            "mindjetIndex": 570,
+            "label": "性格"
+        },
+        "social": {
+            "id": "social",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "文本域",
+            "mindjetClass": "fieldVisual",
+            "column": 12,
+            "mindjetIndex": 572,
+            "label": "社交特点"
+        },
+        "spouse": {
+            "id": "spouse",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 574,
+            "label": "配偶"
+        },
+        "children": {
+            "id": "children",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 576,
+            "label": "子女"
+        },
+        "consumption": {
+            "id": "consumption",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "文本域",
+            "mindjetClass": "fieldVisual",
+            "column": 12,
+            "mindjetIndex": 578,
+            "label": "消费习惯"
+        },
+        "pictureAttachId": {
+            "id": "pictureAttachId",
+            "des": "图片\n（BMP、fpx、eps、pcx、svg、al、wmf、lic、emc、tiff、\npsd、png、gif、cdr、hdri、jpeg、pcd、raw、tga、dxf、\nraw、exif、ufo）",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldVisual",
+            "type": "text",
+            "mindjetIndex": 580,
+            "label": "照片"
+        },
+        "mailbox": {
+            "id": "mailbox",
+            "des": "mail",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldVisual",
+            "mindjetIndex": 582,
+            "label": "邮箱"
+        },
+        "remark": {
+            "id": "remark",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "textarea",
+            "mindjetClass": "fieldVisual",
+            "column": 12,
+            "mindjetIndex": 585,
+            "label": "备注"
+        }
+        },
+        "columns": {
+        "id": {
+            "field": "id",
+            "title": "id",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 480,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "whenCreated": {
+            "field": "whenCreated",
+            "title": "创建时间",
+            "inputType": "datetime",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 487,
+            "mindjetType": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "lastModifiedtime": {
+            "field": "lastModifiedtime",
+            "title": "最近修改时间",
+            "inputType": "datetime",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 489,
+            "mindjetType": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "touchTime": {
+            "field": "touchTime",
+            "title": "最近接触时间",
+            "inputType": "datetime",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 491,
+            "mindjetType": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "deletetime": {
+            "field": "deletetime",
+            "title": "删除时间",
+            "inputType": "datetime",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 494,
+            "mindjetType": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "name": {
+            "field": "name",
+            "title": "姓名",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 497,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "phone": {
+            "field": "phone",
+            "title": "电话",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 500,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "value": {
+            "field": "value",
+            "title": "联系人类别",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 504,
+            "mindjetType": "dict",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "address": {
+            "field": "address",
+            "title": "详细地址",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 509,
+            "mindjetType": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "birthday": {
+            "field": "birthday",
+            "title": "生日",
+            "inputType": "date",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 511,
+            "mindjetType": "date",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "isremind": {
+            "field": "isremind",
+            "title": "是否提醒",
+            "inputType": "radio",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 513,
+            "mindjetType": "radio",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "ondutyFlag": {
+            "field": "ondutyFlag",
+            "title": "是否在职",
+            "inputType": "radio",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 519,
+            "mindjetType": "radio",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "leavedate": {
+            "field": "leavedate",
+            "title": "离职日期",
+            "inputType": "date",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 523,
+            "mindjetType": "date",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "ownerId": {
+            "field": "ownerId",
+            "title": "负责人",
+            "inputType": "select2",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 526,
+            "mindjetType": "select2",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "ownerName": {
+            "field": "ownerName",
+            "title": "负责人姓名",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 530,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "createdBy": {
+            "field": "createdBy",
+            "title": "创建人",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 532,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "lastOwner": {
+            "field": "lastOwner",
+            "title": "前负责人",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 535,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "customerId": {
+            "field": "customerId",
+            "title": "客户id",
+            "inputType": "select2",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 538,
+            "mindjetType": "select2",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "customerName": {
+            "field": "customerName",
+            "title": "对应客户名称",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 545,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "qq": {
+            "field": "qq",
+            "title": "qq",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 548,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "weixin": {
+            "field": "weixin",
+            "title": "微信",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 550,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "title": {
+            "field": "title",
+            "title": "职务",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 552,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "department": {
+            "field": "department",
+            "title": "部门",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 554,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "sex": {
+            "field": "sex",
+            "title": "性别",
+            "inputType": "radio",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 556,
+            "mindjetType": "radio",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "appellation": {
+            "field": "appellation",
+            "title": "称谓",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 560,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "leader": {
+            "field": "leader",
+            "title": "上级",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 562,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "homephone": {
+            "field": "homephone",
+            "title": "座机",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 564,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "hobby": {
+            "field": "hobby",
+            "title": "兴趣爱好",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 566,
+            "mindjetType": "文本域",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "habit": {
+            "field": "habit",
+            "title": "习惯",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 568,
+            "mindjetType": "文本域",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "disposition": {
+            "field": "disposition",
+            "title": "性格",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 570,
+            "mindjetType": "文本域",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "social": {
+            "field": "social",
+            "title": "社交特点",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 572,
+            "mindjetType": "文本域",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "spouse": {
+            "field": "spouse",
+            "title": "配偶",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 574,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "children": {
+            "field": "children",
+            "title": "子女",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 576,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "consumption": {
+            "field": "consumption",
+            "title": "消费习惯",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 578,
+            "mindjetType": "文本域",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "pictureAttachId": {
+            "field": "pictureAttachId",
+            "title": "照片",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 580,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "mailbox": {
+            "field": "mailbox",
+            "title": "邮箱",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 582,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "remark": {
+            "field": "remark",
+            "title": "备注",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 585,
+            "mindjetType": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        }
+        }
+    },
+    "chance": {
+        "controller": {
+        "new": {
+            "new": {
+            "suffix": "/crm/customer/save",
+            "interfaceDoc": "机会/新增/录入新增",
+            "functionClass": "new"
+            }
+        },
+        "modify": {
+            "modify": {
+            "suffix": "/crm/customer/save",
+            "interfaceDoc": "机会/修改/修改",
+            "functionClass": "modify"
+            },
+            "touchnew": {
+            "suffix": "/crm/touch/save",
+            "interfaceDoc": "接触/新增",
+            "functionClass": "modify"
+            },
+            "changeOwnerByOther": {
+            "suffix": "/crm/customer/changeOpportunityOwner",
+            "interfaceDoc": "机会/修改/转移给他人",
+            "functionClass": "modify"
+            },
+            "changeOwnerToOtherBymanager": {
+            "suffix": "/crm/customer/changeOpportunityOwner",
+            "interfaceDoc": "机会/修改/转移给他人",
+            "functionClass": "modify"
+            },
+            "changeContract": {
+            "suffix": "/crm/opportunity/changeopportunitytocontract",
+            "interfaceDoc": "机会/修改/转移为合同",
+            "functionClass": "modify"
+            },
+            "changeState": {
+            "suffix": "/crm/customer/changeOpportunityStage",
+            "interfaceDoc": "机会/修改/更改机会状态",
+            "functionClass": "modify"
+            }
+        },
+        "delete": {
+            "delete": {
+            "suffix": "/crm/customer/deleteOpportunity",
+            "interfaceDoc": "机会/删除",
+            "functionClass": "delete"
+            }
+        },
+        "query": {
+            "basicquery": {
+            "suffix": "/crm/customer/getOpportunityList",
+            "interfaceDoc": "查询/机会查询",
+            "functionClass": "query"
+            },
+            "heavyquery": {
+            "suffix": "/crm/customer/getOpportunityList",
+            "interfaceDoc": "机会查重",
+            "functionClass": "query"
+            },
+            "detailedquery": {
+            "suffix": "/crm/customer/getOpportunityById",
+            "data": {
+                "name": {}
+            },
+            "interfaceDoc": "查询/机会户详细页查询",
+            "functionClass": "query"
+            }
+        },
+        "statistics": {
+            "signedStatisticsTable": {
+            "suffix": "/crm/opportunity/opportunitytocontractstatistic",
+            "interfaceDoc": "机会/统计/赢单机会汇总表",
+            "functionClass": "statistics"
+            },
+            "predictSaleTable": {
+            "suffix": "/crm/opportunity/forecastopportunitytocontractstatistic",
+            "interfaceDoc": "机会/统计/销售预测报表",
+            "functionClass": "statistics"
+            },
+            "stateStatistics": {
+            "suffix": "/crm/opportunity/opportunitystatistic",
+            "interfaceDoc": "机会/统计/机会量统计报表",
+            "functionClass": "statistics"
+            }
+        }
+        },
+        "state": {
+        "firstTouch": {},
+        "confirmNeed": {},
+        "projectAndOffer": {},
+        "negotiationReview": {},
+        "customerSigned": {},
+        "projectFaure": {},
+        "chance": {
+            "field": {
+            "relativeCustomer": {
+                "mindjetIndexState": 854
+            },
+            "customerName": {
+                "mindjetIndexState": 855
+            },
+            "name": {
+                "mindjetIndexState": 856
+            },
+            "ownerId": {
+                "mindjetIndexState": 857
+            },
+            "ownerName": {
+                "mindjetIndexState": 858
+            },
+            "predictSaleAmounts": {
+                "mindjetIndexState": 859
+            },
+            "whenPredictSigned": {
+                "mindjetIndexState": 860
+            },
+            "stage": {
+                "mindjetIndexState": 861
+            },
+            "signedPossibility": {
+                "mindjetIndexState": 862
+            },
+            "remark": {
+                "mindjetIndexState": 863
+            }
+            }
+        }
+        },
+        "fields": {
+        "chance": {
+            "id": "chance",
+            "rules": "required",
+            "vale": "机会ID",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldBusiness",
+            "type": "text",
+            "mindjetIndex": 701,
+            "label": "机会"
+        },
+        "contract": {
+            "id": "contract",
+            "rules": "创建合同,关联机会时,自动生成",
+            "type": "hidden",
+            "value": "合同ID",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 704,
+            "label": "合同"
+        },
+        "contact": {
+            "id": "contact",
+            "type": "select",
+            "suffix": "/contact",
+            "method": "GET",
+            "value": "联系人ID",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 708,
+            "label": "联系人"
+        },
+        "time": {
+            "id": "time",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldBusiness",
+            "type": "text",
+            "mindjetIndex": 713,
+            "label": "时间"
+        },
+        "name": {
+            "id": "name",
+            "rules": "required",
+            "width": "170",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldControl",
+            "type": "text",
+            "mindjetIndex": 715,
+            "label": "机会名称"
+        },
+        "relativeContact": {
+            "id": "relativeContact",
+            "type": "select",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "SQL查询"
+            }
+            ],
+            "suffix": "/crm/contact/getlist",
+            "method": "GET",
+            "value": "联系人ID",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 718,
+            "label": "关联联系人"
+        },
+        "predictSaleAmounts": {
+            "id": "predictSaleAmounts",
+            "rules": "required number",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "数字",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 724,
+            "label": "预计销售金额"
+        },
+        "whenPredictSigned": {
+            "id": "whenPredictSigned",
+            "rules": "required",
+            "type": "date",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "date",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 727,
+            "label": "预计签单日期"
+        },
+        "stage": {
+            "id": "stage",
+            "type": "select",
+            "rules": "required",
+            "valuetype": "valuename",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "dict",
+            "mindjetClass": "fieldControl",
+            "dataSrc": "rows",
+            "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+            "urlDictArguments": "DICT_OPPORTUNITYSTAGE",
+            "url": "/NPE/uiTest/getJson",
+            "data": {
+            "keyName": "DICT_DEMO_DATA"
+            },
+            "method": "post",
+            "textField": "name",
+            "valueField": "value",
+            "mindjetIndex": 730,
+            "label": "销售阶段"
+        },
+        "signedPossibility": {
+            "id": "signedPossibility",
+            "type": "hidden",
+            "des": "取决于销售阶段,不同阶段对应选择数值",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "初步接洽"
+            },
+            {
+                "value": 1,
+                "text": "确认需求"
+            },
+            {
+                "value": 2,
+                "text": "报价"
+            },
+            {
+                "value": 3,
+                "text": "谈判审核"
+            },
+            {
+                "value": 4,
+                "text": "客户签单"
+            },
+            {
+                "value": 5,
+                "text": "项目失败"
+            }
+            ],
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 734,
+            "label": "签单可能性"
+        },
+        "type": {
+            "id": "type",
+            "type": "select",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "高价值机会"
+            },
+            {
+                "value": 1,
+                "text": "普遍机会"
+            },
+            {
+                "value": 2,
+                "text": "低价值机会"
+            }
+            ],
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 743,
+            "label": "机会类型"
+        },
+        "whenGettedData": {
+            "id": "whenGettedData",
+            "type": "date",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "date",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 748,
+            "label": "机会获取日期"
+        },
+        "whenChanceStateCreated": {
+            "id": "whenChanceStateCreated",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldControl",
+            "type": "text",
+            "plusClass": "width:140",
+            "plusClassIsWithCol": true,
+            "mindjetIndex": 750,
+            "label": "机会状态创建时间"
+        },
+        "sourceId": {
+            "id": "sourceId",
+            "type": "select",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "广告"
+            },
+            {
+                "value": 1,
+                "text": "社交推广"
+            },
+            {
+                "value": 2,
+                "text": "研讨会"
+            },
+            {
+                "value": 3,
+                "text": "搜索引擎"
+            },
+            {
+                "value": 4,
+                "text": "客户介绍"
+            },
+            {
+                "value": 5,
+                "text": "代理商"
+            },
+            {
+                "value": 6,
+                "text": "其他"
+            }
+            ],
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 751,
+            "label": "机会来源"
+        },
+        "lastOwner": {
+            "id": "lastOwner",
+            "des": "永远记录最新转移前的负责人",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldControl",
+            "type": "text",
+            "mindjetIndex": 760,
+            "label": "原负责人"
+        },
+        "whyFailure": {
+            "id": "whyFailure",
+            "rules": "required",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "文本域",
+            "mindjetClass": "fieldControl",
+            "column": 12,
+            "mindjetIndex": 762,
+            "label": "项目失败原因"
+        },
+        "contractFlag": {
+            "id": "contractFlag",
+            "type": "radio",
+            "subdata": [
+            {
+                "value": "0",
+                "text": "是"
+            },
+            {
+                "value": "1",
+                "text": "否"
+            }
+            ],
+            "isChangeRightMark": "1",
+            "des": "若是执行了转为合同动作,此字段置为是。转为合同按钮隐藏；",
+            "value": "默认为1",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "radio",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 765,
+            "label": "是否转为合同"
+        },
+        "relativeCustomer": {
+            "id": "relativeCustomer",
+            "rules": "required",
+            "type": "select2",
+            "suffix": "/crm/customer/getList",
+            "dataSrc": "rows",
+            "method": "GET",
+            "textField": "name",
+            "valueField": "id",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select2",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 772,
+            "label": "对应客户"
+        },
+        "customerName": {
+            "id": "customerName",
+            "type": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 780,
+            "label": "对应客户名称"
+        },
+        "goods": {
+            "id": "goods",
+            "rules": "",
+            "type": "select",
+            "value": "产品ID",
+            "valuetype": "valuename",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "dict",
+            "mindjetClass": "fieldControl",
+            "dataSrc": "rows",
+            "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+            "urlDictArguments": "DICT_PRODUCTS",
+            "url": "/NPE/uiTest/getJson",
+            "data": {
+            "keyName": "DICT_DEMO_DATA"
+            },
+            "method": "post",
+            "textField": "name",
+            "valueField": "value",
+            "mindjetIndex": 782,
+            "label": "产品"
+        },
+        "ownerId": {
+            "id": "ownerId",
+            "type": "select2",
+            "suffix": "/netStarRights/basUserController-getAllUser",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select2",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 787,
+            "label": "负责人"
+        },
+        "ownerName": {
+            "id": "ownerName",
+            "type": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 790,
+            "label": "负责人姓名"
+        },
+        "remark": {
+            "id": "remark",
+            "type": "textarea",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "文本域",
+            "mindjetClass": "fieldVisual",
+            "column": 12,
+            "mindjetIndex": 793,
+            "label": "备注"
+        }
+        },
+        "columns": {
+        "chance": {
+            "field": "chance",
+            "title": "机会",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 701,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "contract": {
+            "field": "contract",
+            "title": "合同",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 704,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "contact": {
+            "field": "contact",
+            "title": "联系人",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 708,
+            "mindjetType": "select",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "time": {
+            "field": "time",
+            "title": "时间",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 713,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "name": {
+            "field": "name",
+            "title": "机会名称",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 715,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 170
+        },
+        "relativeContact": {
+            "field": "relativeContact",
+            "title": "关联联系人",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 718,
+            "mindjetType": "select",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "predictSaleAmounts": {
+            "field": "predictSaleAmounts",
+            "title": "预计销售金额",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 724,
+            "mindjetType": "数字",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "whenPredictSigned": {
+            "field": "whenPredictSigned",
+            "title": "预计签单日期",
+            "inputType": "date",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 727,
+            "mindjetType": "date",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "stage": {
+            "field": "stage",
+            "title": "销售阶段",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 730,
+            "mindjetType": "dict",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "signedPossibility": {
+            "field": "signedPossibility",
+            "title": "签单可能性",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 734,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "type": {
+            "field": "type",
+            "title": "机会类型",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 743,
+            "mindjetType": "select",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "whenGettedData": {
+            "field": "whenGettedData",
+            "title": "机会获取日期",
+            "inputType": "date",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 748,
+            "mindjetType": "date",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "whenChanceStateCreated": {
+            "field": "whenChanceStateCreated",
+            "title": "机会状态创建时间",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 750,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "sourceId": {
+            "field": "sourceId",
+            "title": "机会来源",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 751,
+            "mindjetType": "select",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "lastOwner": {
+            "field": "lastOwner",
+            "title": "原负责人",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 760,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "whyFailure": {
+            "field": "whyFailure",
+            "title": "项目失败原因",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 762,
+            "mindjetType": "文本域",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "contractFlag": {
+            "field": "contractFlag",
+            "title": "是否转为合同",
+            "inputType": "radio",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 765,
+            "mindjetType": "radio",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "relativeCustomer": {
+            "field": "relativeCustomer",
+            "title": "对应客户",
+            "inputType": "select2",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 772,
+            "mindjetType": "select2",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "customerName": {
+            "field": "customerName",
+            "title": "对应客户名称",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 780,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "goods": {
+            "field": "goods",
+            "title": "产品",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 782,
+            "mindjetType": "dict",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "ownerId": {
+            "field": "ownerId",
+            "title": "负责人",
+            "inputType": "select2",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 787,
+            "mindjetType": "select2",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "ownerName": {
+            "field": "ownerName",
+            "title": "负责人姓名",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 790,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "remark": {
+            "field": "remark",
+            "title": "备注",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 793,
+            "mindjetType": "文本域",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        }
+        }
+    },
+    "touch": {
+        "controller": {
+        "new": {
+            "new": {
+            "suffix": "/crm/touch/save",
+            "interfaceDoc": "接触/新增",
+            "functionClass": "new"
+            }
+        },
+        "modify": {
+            "modify": {
+            "suffix": "/crm/touch/save",
+            "interfaceDoc": "接触/修改",
+            "functionClass": "modify"
+            }
+        },
+        "delete": {
+            "delete": {
+            "suffix": "/crm/touch/deleteByIds",
+            "interfaceDoc": "接触/删除",
+            "functionClass": "delete"
+            }
+        },
+        "query": {
+            "basicquery": {
+            "suffix": "/crm/touch/getList",
+            "interfaceDoc": "查询/机会查询",
+            "functionClass": "query"
+            },
+            "detailedquery": {
+            "suffix": "/crm/touch/getById",
+            "data": {
+                "name": {}
+            },
+            "interfaceDoc": "查询/机会户详细页查询",
+            "functionClass": "query"
+            }
+        },
+        "statistics": {
+            "touchRecordStatistics": {
+            "suffix": "/crm/touch/coustomerstatistic",
+            "data": {
+                "whenCreated": {},
+                "whenActualTouch": {},
+                "ownerId": {}
+            },
+            "interfaceDoc": "统计/接触记录统计",
+            "functionClass": "statistics"
+            }
+        }
+        },
+        "state": {
+        "customer": {},
+        "chance": {},
+        "contract": {},
+        "touch": {
+            "field": {
+            "dataType": {
+                "mindjetIndexState": 996
+            },
+            "dataId": {
+                "mindjetIndexState": 997
+            },
+            "dataName": {
+                "mindjetIndexState": 998
+            },
+            "newState": {
+                "mindjetIndexState": 999
+            },
+            "type": {
+                "mindjetIndexState": 1000
+            },
+            "permitDeletedFlag": {
+                "mindjetIndexState": 1001
+            },
+            "permitModifiedFlag": {
+                "mindjetIndexState": 1002
+            },
+            "whenTouch": {
+                "mindjetIndexState": 1003
+            },
+            "whenTouchNextime": {
+                "mindjetIndexState": 1004
+            },
+            "description": {
+                "mindjetIndexState": 1005
+            },
+            "remindBy": {
+                "mindjetIndexState": 1006
+            },
+            "remindToName": {
+                "mindjetIndexState": 1007
+            }
+            }
+        }
+        },
+        "fields": {
+        "whenCreated": {
+            "id": "whenCreated",
+            "type": "datetime",
+            "des": "接触信息创建时间",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "datetime",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 890,
+            "label": "创建时间"
+        },
+        "lastModifiedtime": {
+            "id": "lastModifiedtime",
+            "type": "datetime",
+            "des": "接触信息最近修改时间",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "datetime",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 893,
+            "label": "最近修改时间"
+        },
+        "createdBy": {
+            "id": "createdBy",
+            "type": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "text",
+            "mindjetClass": "fieldBusiness",
+            "mindjetIndex": 896,
+            "label": "创建人"
+        },
+        "state": {
+            "id": "state",
+            "type": "select",
+            "valuetype": "valuename",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "dict",
+            "mindjetClass": "fieldControl",
+            "dataSrc": "rows",
+            "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+            "urlDictArguments": "GGGGG",
+            "url": "/NPE/uiTest/getJson",
+            "data": {
+            "keyName": "DICT_DEMO_DATA"
+            },
+            "method": "post",
+            "textField": "name",
+            "valueField": "value",
+            "mindjetIndex": 899,
+            "label": "状态"
+        },
+        "newState": {
+            "id": "newState",
+            "type": "select",
+            "valuetype": "valuename",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "dict",
+            "mindjetClass": "fieldControl",
+            "dataSrc": "rows",
+            "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+            "urlDictArguments": "HHHH",
+            "url": "/NPE/uiTest/getJson",
+            "data": {
+            "keyName": "DICT_DEMO_DATA"
+            },
+            "method": "post",
+            "textField": "name",
+            "valueField": "value",
+            "mindjetIndex": 902,
+            "label": "新状态"
+        },
+        "dataId": {
+            "id": "dataId",
+            "type": "select",
+            "rules": "required",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 905,
+            "label": "名称"
+        },
+        "dataName": {
+            "id": "dataName",
+            "type": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 908,
+            "label": "显示名称"
+        },
+        "chanceState": {
+            "id": "chanceState",
+            "type": "select",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "初步接洽"
+            },
+            {
+                "value": 1,
+                "text": "确认需求"
+            },
+            {
+                "value": 2,
+                "text": "方案"
+            },
+            {
+                "value": 3,
+                "text": "谈判审核"
+            },
+            {
+                "value": 4,
+                "text": "客户签单"
+            },
+            {
+                "value": 5,
+                "text": "项目失败"
+            }
+            ],
+            "des": "动态获取,状态获取的是机会、合同、客户、线索的状态",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 910,
+            "label": "机会的状态"
+        },
+        "type": {
+            "id": "type",
+            "type": "select",
+            "valuetype": "valuename",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "dict",
+            "mindjetClass": "fieldControl",
+            "dataSrc": "rows",
+            "urlSuffix": "/basDictController/getDictByTableName?tableName=",
+            "urlDictArguments": "DICT_TOUCHTYPE",
+            "url": "/NPE/uiTest/getJson",
+            "data": {
+            "keyName": "DICT_DEMO_DATA"
+            },
+            "method": "post",
+            "textField": "name",
+            "valueField": "value",
+            "mindjetIndex": 919,
+            "label": "接触方式"
+        },
+        "whenTouch": {
+            "id": "whenTouch",
+            "type": "datetime",
+            "format": "yyyy-mm-dd hh",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "datetime",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 922,
+            "label": "接触时间"
+        },
+        "whenTouchNextime": {
+            "id": "whenTouchNextime",
+            "type": "datetime",
+            "format": "yyyy-mm-dd hh",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "datetime",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 925,
+            "label": "下次接触时间"
+        },
+        "description": {
+            "id": "description",
+            "type": "textarea",
+            "rules": "required",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "文本域",
+            "mindjetClass": "fieldControl",
+            "column": 12,
+            "mindjetIndex": 928,
+            "label": "拜访描述"
+        },
+        "permitDeletedFlag": {
+            "id": "permitDeletedFlag",
+            "type": "radio",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "是"
+            },
+            {
+                "value": 1,
+                "text": "否"
+            }
+            ],
+            "des": "若是接触修改了关联对象状态,字段置为否",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "radio",
+            "mindjetClass": "fieldControl",
+            "value": 0,
+            "mindjetIndex": 931,
+            "label": "是否允许删除"
+        },
+        "permitModifiedFlag": {
+            "id": "permitModifiedFlag",
+            "type": "radio",
+            "subdata": [
+            {
+                "value": 0,
+                "text": "是"
+            },
+            {
+                "value": 1,
+                "text": "否"
+            }
+            ],
+            "des": "若是接触修改了关联对象状态,字段置为否",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "radio",
+            "mindjetClass": "fieldControl",
+            "value": 0,
+            "mindjetIndex": 936,
+            "label": "是否允许修改"
+        },
+        "dataType": {
+            "id": "dataType",
+            "des": "判断数据类型",
+            "subdata": [
+            {
+                "value": "0",
+                "text": "客户"
+            },
+            {
+                "value": "1",
+                "text": "联系人"
+            },
+            {
+                "value": "2",
+                "text": "机会"
+            },
+            {
+                "value": "3",
+                "text": "合同"
+            },
+            {
+                "value": "4",
+                "text": "线索"
+            }
+            ],
+            "type": "select",
+            "rules": "required",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 941,
+            "label": "数据类型"
+        },
+        "pictureAttachmentIds": {
+            "id": "pictureAttachmentIds",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldControl",
+            "type": "text",
+            "mindjetIndex": 950,
+            "label": "图片上传"
+        },
+        "attachmentIds": {
+            "id": "attachmentIds",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "",
+            "mindjetClass": "fieldControl",
+            "type": "text",
+            "mindjetIndex": 951,
+            "label": "附件上传"
+        },
+        "remindToName": {
+            "id": "remindToName",
+            "type": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "hidden",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 952,
+            "label": "被提醒人姓名"
+        },
+        "remindBy": {
+            "id": "remindBy",
+            "type": "select2",
+            "suffix": "/netStarRights/basUserController-getAllUser",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "mindjetType": "select2",
+            "mindjetClass": "fieldControl",
+            "mindjetIndex": 954,
+            "label": "被提醒人"
+        }
+        },
+        "columns": {
+        "whenCreated": {
+            "field": "whenCreated",
+            "title": "创建时间",
+            "inputType": "datetime",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 890,
+            "mindjetType": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "lastModifiedtime": {
+            "field": "lastModifiedtime",
+            "title": "最近修改时间",
+            "inputType": "datetime",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 893,
+            "mindjetType": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "createdBy": {
+            "field": "createdBy",
+            "title": "创建人",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 896,
+            "mindjetType": "text",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "state": {
+            "field": "state",
+            "title": "状态",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 899,
+            "mindjetType": "dict",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "newState": {
+            "field": "newState",
+            "title": "新状态",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 902,
+            "mindjetType": "dict",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "dataId": {
+            "field": "dataId",
+            "title": "名称",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 905,
+            "mindjetType": "select",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "dataName": {
+            "field": "dataName",
+            "title": "显示名称",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 908,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "chanceState": {
+            "field": "chanceState",
+            "title": "机会的状态",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 910,
+            "mindjetType": "select",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "type": {
+            "field": "type",
+            "title": "接触方式",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 919,
+            "mindjetType": "dict",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        },
+        "whenTouch": {
+            "field": "whenTouch",
+            "title": "接触时间",
+            "inputType": "datetime",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 922,
+            "mindjetType": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "whenTouchNextime": {
+            "field": "whenTouchNextime",
+            "title": "下次接触时间",
+            "inputType": "datetime",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 925,
+            "mindjetType": "datetime",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "description": {
+            "field": "description",
+            "title": "拜访描述",
+            "inputType": "textarea",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 928,
+            "mindjetType": "文本域",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "permitDeletedFlag": {
+            "field": "permitDeletedFlag",
+            "title": "是否允许删除",
+            "inputType": "radio",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 931,
+            "mindjetType": "radio",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "permitModifiedFlag": {
+            "field": "permitModifiedFlag",
+            "title": "是否允许修改",
+            "inputType": "radio",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 936,
+            "mindjetType": "radio",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "dataType": {
+            "field": "dataType",
+            "title": "数据类型",
+            "inputType": "select",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 941,
+            "mindjetType": "select",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace",
+            "formatHandler": {
+            "type": "stringReplace",
+            "data": {
+                "formatDate": {
+                "0": "客户",
+                "1": "联系人",
+                "2": "机会",
+                "3": "合同",
+                "4": "线索"
+                }
+            }
+            }
+        },
+        "pictureAttachmentIds": {
+            "field": "pictureAttachmentIds",
+            "title": "图片上传",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 950,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "attachmentIds": {
+            "field": "attachmentIds",
+            "title": "附件上传",
+            "inputType": "text",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 951,
+            "mindjetType": "",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "remindToName": {
+            "field": "remindToName",
+            "title": "被提醒人姓名",
+            "inputType": "hidden",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 952,
+            "mindjetType": "hidden",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100
+        },
+        "remindBy": {
+            "field": "remindBy",
+            "title": "被提醒人",
+            "inputType": "select2",
+            "searchable": true,
+            "orderable": true,
+            "mindjetIndex": 954,
+            "mindjetType": "select2",
+            "mindjetTargetType": "all",
+            "ajaxDataType": "text",
+            "width": 100,
+            "inputColumnsType": "stringReplace"
+        }
+        }
+    }
+}

@@ -1,0 +1,181 @@
+.tabFormList {
+	.panel-container-content {
+		.service-component {
+			.nsui-quicktyping {
+				background: #fff !important;
+
+				.label-title {
+					height: @nspanel-container-form-height;
+					line-height: @nspanel-container-form-height;
+					border: 1px solid @ns-border-color;
+					background: transparent;
+				}
+
+				.input {
+					height: @nspanel-container-form-height;
+					border: 1px solid @ns-border-color;
+					margin-left: -1px;
+
+					.form-control {
+						height: (@nspanel-container-form-height - 2);
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	.panel-container-panel {
+		.dataTables_filter {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+
+	}
+
+	.nsui-quicktyping {
+		.input input.input-main {
+			height: 30px;
+			border-right: 0;
+			&:focus{
+				border-color: darken(@border-color, 10);
+			}
+		}
+		.result-panel{
+			top: 29px;
+		}
+
+	}
+
+	// 增查一体输入框表单样式
+	.addSelectInput {
+		margin-right: 0;
+
+		.panel-container-content {
+			padding-right: 0;
+		}
+
+	}
+
+	
+
+	// tab标签页组件
+	.tabs {
+		.nav.nav-tabs {
+			& > li {
+				background-color: transparent;
+
+				a {
+					position: relative;
+					display: block;
+					border: 1px solid @ns-nav-tabs-border-color;
+					border-bottom: 0;
+					line-height: 30px;
+					text-align: center;
+
+					&:after {
+						display: none;
+					}
+
+					&:hover {
+						background-color: transparent;
+						border-color: @ns-nav-tabs-border-color;
+						color: #000;
+
+					}
+
+					.tips {
+						@tip-size: 7px;
+						position: absolute;
+						display: block;
+						top: 8px;
+						right: 5px;
+						.square(@tip-size);
+						line-height: @tip-size;
+						border-radius: 18px;
+						background: #35ce84;
+						color: transparent;
+						&.empty{
+							background: #ddd;
+						}
+					}
+
+				}
+
+				&.active {
+					 & > a{
+						background: #fff;
+						border-color: @ns-nav-tabs-border-color;
+						cursor: pointer;
+						position: relative;
+						color: #000;
+						z-index: 9;
+
+						&:before {
+							.border-horizontal(2px, @ns-nav-tabs-border-color);	
+							top: 0;
+							left: 0;
+						}
+						&:after {
+							.border-horizontal(1px, #000);	
+							top: auto;
+							bottom: 0;
+							left: 0;
+						}
+
+
+					}
+					
+				}
+
+			}
+			&.nav-tabs-fixedwidth{
+				& > li{
+					a{
+						width: 160px;
+					}
+				}
+			}
+
+		}
+
+		.tab-content {
+			border: 1px solid @ns-border-color;
+			margin-top: -1px;
+		}
+
+		&.nspanel {
+			margin-bottom: 0;
+
+			.nav.nav-tabs {
+				margin-bottom: 0;
+			}
+
+		}
+
+	}
+	// tabs标签组件内容部分
+	.variablelist{
+		@variablelist-padding: 10px;
+		background: #fff;
+		padding: @variablelist-padding;
+		border: 1px solid @ns-nav-tabs-border-color;
+		margin-top: -2px;
+		
+		// 搜索框
+		.dataTables_filter{
+			top: @variablelist-padding;
+			right: @variablelist-padding;
+		}
+
+	}
+
+}
+.nspop-container .nswindow .nspanel.variablelist{
+	border: 1px solid @ns-nav-tabs-border-color;
+	margin-bottom: 0;
+}

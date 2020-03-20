@@ -1,0 +1,424 @@
+//单选按钮和多选按钮组
+//check radio
+@checkradio-icon-size: 16px;
+@checkradio-label-size: @form-lg-height; //40px;
+@checkradio-label-size-compactmode: (@checkradio-label-size - 10); //30px
+@checkradio-padding-size: @default-padding;
+@checkradio-icon-color: @default-color;
+@checkradio-icon-border-color: @default-border-color;
+@checkradio-icon-background-color: @default-background-color;
+@checkradio-disabled-icon-color: lighten(@checkradio-icon-color, 20%);
+@checkradio-disabled-icon-border-color: lighten(@checkradio-icon-border-color, 20%);
+@checkradio-disabled-icon-background-color: darken(@checkradio-icon-background-color, 20%);
+@checkradio-active-icon-border-color: @default-border-active-color;
+
+// switch
+@switch-size: 20px;
+@switch-control-size: (@switch-size - 2);
+@switch-width: (@switch-size * 2);
+@switch-height: @switch-size;
+@switch-close-bg: @border-color;
+@switch-open-bg: #36e0a2;
+
+//外框
+div.form-item.radio {
+	margin: 0;
+
+	.radio-clear {
+		color: transparent;
+		position: relative;
+
+		&:after,
+		.after {
+			position: absolute;
+			left: 22px;
+			font-family: 'FontAwesome';
+			content: "\f057";
+			font-size: (@checkradio-icon-size + 2);
+			color: #cccccc;
+		}
+
+		&:hover {
+			&:after {
+				color: #f39800;
+			}
+		}
+	}
+}
+
+
+
+//input组件隐藏
+input[type="radio"],
+input[type="checkbox"] {
+	display: none;
+
+	.dropdown-menu & {
+		display: block !important;
+	}
+}
+
+label.radio-inline,
+label.checkbox-inline,
+label.checkbox-inline-none {
+	height: @checkradio-label-size;
+	line-height: @checkradio-label-size;
+	position: relative;
+	margin-left: @checkradio-padding-size;
+	float: left;
+	overflow: hidden;
+
+	&:after {
+		display: block;
+		position: absolute;
+		content: "";
+		font-family: 'FontAwesome';
+		top: (@checkradio-label-size - @checkradio-icon-size) / 2;
+		left: 2px;
+		width: @checkradio-icon-size;
+		height: @checkradio-icon-size;
+		border: 1px solid #ccc;
+		background-color: #fff;
+		line-height: @checkradio-icon-size;
+		text-align: center;
+		color: @gray-darker;
+
+		.compactmode &,
+		.form-wide-panel &,
+		table>tbody>tr>td &,
+		.col-none &,
+		.user-panel &,
+		.input-checkboxajax-container & {
+			top: @btn-icon-after-top-compactmode;
+		}
+	}
+
+	&.disabled {
+		cursor: not-allowed;
+		color: @ns-disable;
+		background: transparent;
+
+		// background: #fff;
+		&:after {
+			border-color: #ddd;
+			cursor: not-allowed;
+			color: #bbb;
+			background-color: #eee;
+		}
+	}
+
+	&.active {
+		border-color: @default-border-active-color;
+	}
+
+	.compactmode &,
+	.form-wide-panel &,
+	table>tbody>tr>td &,
+	.col-none &,
+	.user-panel &,
+	.input-checkboxajax-container & {
+		height: @checkradio-label-size-compactmode;
+		line-height: @checkradio-label-size-compactmode;
+	}
+
+	table>tbody>tr>td & {
+		float: none;
+	}
+
+	// // 半选模式
+	&.half-checked {
+
+		&,
+		&.checked {
+			&:after {
+				background: #fff;
+				content: '\f068';
+			}
+		}
+
+	}
+
+
+
+
+}
+
+.radio-single,
+.checkbox-single {
+	text-align: center;
+
+	label.radio-inline,
+	label.checkbox-inline {
+		float: none;
+	}
+}
+
+label.checkbox-inline {
+	&.th-check.checked {
+		&:after {
+			content: "\f00c";
+		}
+	}
+}
+
+
+//清空按钮
+label.radio-clear,
+label.checkbox-clear {
+	line-height: @checkradio-label-size;
+	position: relative;
+	cursor: pointer;
+	color: transparent;
+	margin: 0 0 0 5px;
+
+	&:after {
+		.ns-icon-close();
+		right: 0;
+		top: 1px;
+		font-size: @checkradio-icon-size + 2;
+		line-height: @checkradio-label-size;
+
+		.compactmode & {
+			line-height: @checkradio-label-size-compactmode;
+		}
+	}
+
+	&:hover {
+		&:after {
+			color: @ns-warning;
+		}
+	}
+
+	.compactmode & {
+		line-height: @checkradio-label-size-compactmode;
+	}
+
+}
+
+//区别
+label.radio-inline {
+	&:after {
+		border-radius: 100%;
+	}
+
+	&.checked:after {
+		content: "\f111";
+		font-size: 10px;
+		line-height: @checkradio-icon-size - 2;
+	}
+}
+
+label.checkbox-inline {
+	&.checked:after {
+		content: "\f00c";
+	}
+}
+
+label.checkbox-inline-none {
+	&:after {
+		display: none;
+	}
+
+	&.checked {
+		&:after {
+			display: none;
+		}
+	}
+}
+
+.td-radio,
+.td-checkbox {
+	.form-block {
+		display: inline-block;
+	}
+
+	.cbr-input {
+		display: none;
+	}
+}
+
+.form-horizontal {
+
+	label.checkbox-inline,
+	label.radio-inline,
+	.radio,
+	.checkbox {
+		padding-top: 0;
+	}
+}
+
+//特殊指定的样式
+//plusClass:'center' 暂时只调整了checkbox
+.form-td.center {
+	.checkbox-inline {
+		width: 100%;
+		padding: 0;
+		margin: 0;
+
+		&:after {
+			left: 50%;
+			margin-left: -8px;
+		}
+	}
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>th {
+
+	label.radio-inline,
+	label.checkbox-inline {
+		float: none;
+		margin: 0 auto;
+		height: 34px;
+		line-height: 34px;
+	}
+}
+
+
+// 行选中状态checkbox默认选中
+.table>tbody>tr.selected {
+	label.checkbox-inline {
+		&.th-check {
+			&:after {
+				content: "\f00c";
+			}
+		}
+	}
+}
+
+// switch开关
+.switch-inline {
+	&:before {
+		position: absolute;
+		content: "";
+		top: 50%;
+		left: @base-margin;
+		.square(@switch-control-size);
+		margin: -(@switch-control-size / 2) 0 0 -(@switch-control-size / 2);
+		border-radius: @switch-control-size;
+		background: #fff;
+		z-index: 2;
+		transition: ease-in-out all .35s;
+		cursor: pointer;
+	}
+
+	&:after {
+		position: absolute;
+		content: "";
+		top: 50%;
+		left: @base-margin;
+		width: @switch-width;
+		height: @switch-height;
+		line-height: @switch-height;
+		margin: -(@switch-size / 2);
+		border-radius: @switch-size;
+		background-color: @switch-close-bg;
+		transition: ease-in-out all .35s;
+
+	}
+
+	&.checked {
+		&:before {
+			margin-left: ((@switch-size / 2) + 1);
+		}
+
+		&:after {
+			background-color: @switch-open-bg;
+		}
+	}
+
+}
+
+
+
+// 模态框中使用
+.form-horizontal {
+	.switch-inline {
+		&:before {
+			left: (@base-margin + 5);
+			margin: 0 0 0 -9px;
+		}
+
+		&:after {
+			margin-top: -1px;
+			margin-left: -5px;
+		}
+
+		&.checked:before {
+			margin-left: 11px;
+		}
+
+	}
+
+}
+
+.form-horizontal td,
+td {
+	.switch-inline {
+		&:before {
+			left: 50%;
+			margin-top: -((@switch-height / 2) - 1);
+			margin-left: -(@switch-size - 1);
+		}
+
+		&:after {
+			left: 50%;
+			margin-top: -(@switch-height / 2);
+			margin-left: -(@switch-width / 2);
+		}
+
+		&.checked:before {
+			margin-left: 1px;
+		}
+
+	}
+
+}
+
+
+// 单选复选输入框组件
+.radiocheckstring {
+	@input-height: 26px;
+
+	.radio-options,
+	.checkbox-options {
+		border: 0;
+		border-bottom: 1px solid @ns-border-color;
+		padding: (@padding-base-vertical / 2) (@padding-base-horizontal / 2);
+		padding-top: 8px;
+		height: @input-height;
+
+		&[disabled] {
+			background: transparent;
+			cursor: not-allowed;
+		}
+
+		&:focus {
+			border-color: @ns-info;
+		}
+	}
+}
+
+//按钮组开关
+.switch-btn {
+	display: inline-table;
+	margin-left: 30px;
+	margin-top: 2px;
+
+	span {
+		display: table-cell;
+		text-align: right;
+		padding-right: 0;
+		padding-left: 0;
+		vertical-align: middle;
+	}
+
+	.switch-inline {
+		display: table-cell;
+		display: table;
+		width: 40px;
+		height: 20px;
+		margin-top: 2px;
+		position: relative;
+	}
+}

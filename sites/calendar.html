@@ -1,0 +1,237 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+    <link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+    <title>日程表</title>
+
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    <style>
+    </style>
+</head>
+<style>
+
+</style>
+
+<body class="body-sm">
+    
+    <container>
+        <div class="pt-main">
+            <div class="pt-container">
+                <div class="pt-main-row">
+                    <div class="pt-main-col">
+                        <div class="pt-panel">
+                            <div id="calendar-query" class="calendar-query"></div> <!--根据年份查询-->
+                        </div>
+                    </div>
+                    <div class="pt-main-col text-right">
+                        <div class="pt-panel">
+                            <div class="pt-panel" component-type="mainbtns">
+                                <div id="calendar-btns" class="nav-form"><!--设置按钮-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-main-row">
+                    <div class="pt-main-col pt-calendar-page" id="calendar"><!--输出年的12个月份-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            nsPublic = {
+                getAppendContainer:function () {
+                    var insertLocation = $('container:not(.hidden)').not('.content');
+                    if ($('.nswindow .content').length > 0) {
+                        insertLocation = $('.nswindow .content:last');
+                    }
+                    return insertLocation;
+                }
+            }
+            var rangeYear = NetstarUI.holiday.getRangeYearByStartYearAndEndYear(1970,2019);
+            var queryFormConfig = {
+                id:'calendar-query',
+                formStyle:'pt-form-normal',
+                plusClass:'pt-custom-query',
+                isSetMore:false,
+                form:[
+                    {
+                        id:'year',
+                        label:'年份',
+                        type:'select',
+                        subdata:rangeYear,
+                        textField:'name',
+                        valueField:'value',
+                        value:2019,
+                        variableType:'number',
+                        commonChangeHandler:function(_componentData){
+                            console.log(_componentData)
+                            var year = _componentData.value;
+                            NetstarUI.holiday.getFullYearData(year,'calendar');
+                        }
+                    }
+                ]
+            };
+            NetstarComponent.formComponent.show(queryFormConfig,{});
+            var btnConfig = {
+                id:'calendar-btns',
+                isShowTitle:false,
+                btns:[
+                    {
+                        text:'设置默认',
+                        handler:function(data){
+                            var ajaxConfig = {
+                                url:"https://qaapi.wangxingcloud.com//system/holiday/setDefaultDayOff",
+                                type:"post",
+                                data:{dayOfWeeks: '1,7'},
+                                contentType:'application/x-www-form-urlencoded',
+                            };
+                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                if(res.success){
+                                    console.log(res)
+                                }
+                            },true)
+                        }
+                    },{
+                        text:'设置节假日',
+                        handler:function(data){
+                            var dates = NetstarUI.holiday.currentSelectedArr.join(',');
+                            var dialogConfig = {
+                                id: 'setHolidays-dialog-component',
+                                title: '设置节假日',
+                                templateName: 'PC',
+                                height:520,
+                                width : 420,
+                                shownHandler : function(_shownData){
+                                    var formConfig = {
+                                        id: _shownData.config.bodyId,
+                                        formStyle: 'pt-form-normal',
+                                        plusClass: 'pt-custom-query',
+                                        isSetMore: false,
+                                        form:[
+                                            {
+                                                id:'holidayName',
+                                                label:'节假日名称',
+                                                type:'text'
+                                            }
+                                        ],
+                                    };
+                                    NetstarComponent.formComponent.show(formConfig, {});
+                                    var btnConfig = {
+                                        id:_shownData.config.footerIdGroup,
+                                        isShowTitle:false,
+                                        btns:[
+                                        {
+                                            text:'确定',
+                                            handler:function(data){
+                                                var formJson = NetStarGrid.dataManager.getData('dialog-setHolidays-dialog-component-body');
+                                                var ajaxConfig = {
+                                                    url:"https://qaapi.wangxingcloud.com//system/holiday/setHolidays",
+                                                    type:"post",
+                                                    data:{
+                                                        dates:dates,
+                                                        holidayName:formJson.holidayName,
+                                                    },
+                                                    contentType:'application/x-www-form-urlencoded',
+                                                };
+                                                NetStarUtils.ajax(ajaxConfig,function(res){
+                                                    if(res.success){
+                                                        console.log(res)
+                                                        //NetstarComponent.dialog['setHolidays-dialog-component'].vueConfig.close();//关闭弹出框
+                                                    }
+                                                },true)
+                                            }
+                                        },{
+                                            text:'取消',
+                                            handler:function(data){
+                                                NetstarComponent.dialog['setHolidays-dialog-component'].vueConfig.close();//关闭弹出框
+                                            }
+                                        }
+                                        ]
+                                    };
+                                    vueButtonComponent.init(btnConfig);
+                                }
+                            };
+                            NetstarComponent.dialogComponent.init(dialogConfig);
+                        }
+                    },{
+                        text:'取消节假日',
+                        handler:function(data){
+                            var dates = NetstarUI.holiday.currentSelectedArr.join(',');
+                            var ajaxConfig = {
+                                url:"https://qaapi.wangxingcloud.com//system/holiday/candelHolidays",
+                                type:"post",
+                                data:{
+                                    dates:dates,
+                                },
+                                contentType:'application/x-www-form-urlencoded',
+                            };
+                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                if(res.success){
+                                    console.log(res)
+                                }
+                            },true)
+                        }
+                    },{
+                        text:'设置休息日',
+                        handler:function(data){
+                            var dates = NetstarUI.holiday.currentSelectedArr.join(',');
+                            var ajaxConfig = {
+                                url:"https://qaapi.wangxingcloud.com//system/holiday/setDayOff",
+                                type:"post",
+                                data:{dates:dates},
+                                contentType:'application/x-www-form-urlencoded',
+                            };
+                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                if(res.success){
+                                    console.log(res)
+                                }
+                            },true)
+                        }
+                    },{
+                        text:'取消休息日',
+                        handler:function(data){
+                            var dates = NetstarUI.holiday.currentSelectedArr.join(',');
+                            var ajaxConfig = {
+                                url:"https://qaapi.wangxingcloud.com//system/holiday/candelDayOff",
+                                type:"post",
+                                data:{dates:dates},
+                                contentType:'application/x-www-form-urlencoded',
+                            };
+                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                if(res.success){
+                                    console.log(res)
+                                }
+                            },true)
+                        }
+                    }
+                ]
+            };
+            vueButtonComponent.init(btnConfig);
+            var commonHeight = $(window).outerHeight() - 34 - 35;
+            $('#calendar').css('height',commonHeight+'px');
+            var _config = {
+                year:2019,
+                id:'calendar',
+            };
+            NetstarUI.holiday.init(_config);
+        </script>
+    </container>
+</body>
+
+</html>

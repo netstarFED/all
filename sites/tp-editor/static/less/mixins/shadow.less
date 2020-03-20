@@ -1,0 +1,22 @@
+
+// 阴影变量（纵向位置-上下，横向位置-左右，布尔值，阴影颜色，阴影透明度）
+.box-shadow(@v-size, @h-size, @size, @color, @alpha:.45){
+    @color-rgba: rgba(red(@color), green(@color), blue(@color), @alpha);
+    box-shadow: @v-size @h-size @size @color-rgba;
+}
+
+
+// input-group阴影样式
+.form-shadow{
+    .box-shadow(0,0, 5px, @gray);
+}
+
+// 下拉菜单面板阴影
+.dropdown-shadow{
+    @dropdown-shadow-size: 3px;
+    .box-shadow( @dropdown-shadow-size, @dropdown-shadow-size, @dropdown-shadow-size, #000, .15);
+}
+
+.panel-shadow{
+    .box-shadow( 2px, 2px, 5px, #000, .25);
+}

@@ -1,0 +1,169 @@
+{
+    "operator": {
+        "type": {
+            "chineseName": "组件类型",
+            "validType": "string",
+            "toolType": "select",
+            "default": "provinceselect",
+            "required": true,
+            "subdata": [{
+                "value": "provinceselect",
+                "text": "省市联动"
+            }]
+        },
+        "id": {
+            "chineseName": "字段名称",
+            "validType": "string",
+            "toolType": "text",
+            "readonly": true,
+            "required": true
+        },
+        "label":{
+            "chineseName":"标签",
+            "validType":"string",
+            "toolType":"text",
+            "default":""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        }, 
+        "inputHeight":{
+            "chineseName":"文本框高度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100
+        },          
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":100,
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules":{
+            "chineseName":"验证规则",
+            "validType":"string",
+            "toolType":"multi-select",
+            "subdata":[
+                {
+                    "value":"required",
+                    "text":"必填"
+                },{
+                    "value":"",
+                    "text":"无验证"
+                }              
+            ]     
+        },
+        "disabled":{
+            "chineseName":"只读",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "hidden":{
+            "chineseName":"隐藏",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },   
+        "changeHandler": {
+            "validType": "function",
+            "toolType": "textarea",
+            "chineseName": "变更处理程序"
+        }         
+    },
+    "data": {
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+    },
+    "prepattern": [
+        {
+            "name": "显示的值",
+            "value": {
+                "id": "valueprovinceselect",
+                "label": "显示 :",
+                "type": "provinceselect",
+                "rules": "",
+                "value": "24"
+            }
+        },
+        {
+            "name": "只读",
+            "value": {
+                "id": "disabled",
+                "label": "只读 :",
+                "type": "provinceselect",
+                "value": "1",
+                "disabled":true
+            }
+        },
+        {
+            "name": "宽",
+            "value": {
+                "id": "width",
+                "label": "provinceselect :",
+                "type": "number",
+                "value": "1",
+                "inputWidth":500
+            }
+        },
+        {
+            "name":"是否显示更多",
+            "value":[{
+                "mindjetFieldPosition": "field-more", 
+                "id": "mindjetFieldPosition1",
+                "label": "显示1:", 
+                "type": "provinceselect"
+            },
+            {
+                "mindjetFieldPosition": "field-more",
+                "id": "mindjetFieldPosition2",
+                "label": "显示2 :",
+                "type": "provinceselect"
+            }]
+        }
+    ]
+}

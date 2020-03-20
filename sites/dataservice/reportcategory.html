@@ -1,0 +1,570 @@
+<container>
+    <style>
+        table.table tbody tr td.td-button, table.table tbody tr td.td-dictionary {
+            text-align: center;
+        }
+    </style>
+    <layout id='report-category-list' ns-package='report.category.list'>
+        <panel ns-id="category-table" ns-options="col:4,height:auto" ns-config="table:categoryTableConfig"></panel>
+        <panel ns-id="report-table" ns-options="col:8,height:auto" ns-config="table:reportTableConfig"></panel>
+    </layout>
+    <iframe id="report-category-download-template" src="" style="display: none;"></iframe>
+    <script type="text/javascript">
+        report = {
+            category: {
+                list: {
+                    main: function () {
+                        var categoryTableId = 'table-report-category-list-category-table';
+                        var reportTableId = 'table-report-category-list-report-table';
+
+                        var categoryForm = [
+                            {
+                                id: 'id',
+                                label: '类别ID',
+                                type: 'hidden'
+                            }, {
+                                id: 'name',
+                                label: '类别名称',
+                                type: 'text',
+                                rules: 'required'
+                            }, {
+                                id: 'ordered',
+                                label: '顺序',
+                                type: 'text'
+                            }
+                        ];
+
+                        var addCategoryDialogConfig = {
+                            id: 'report-category-list-category-dialog',
+                            title: '添加类别',
+                            size: 'm',
+                            form: categoryForm,
+                            btns: [
+                                {
+                                    text: '确认',
+                                    handler: saveCategoryDialog
+                                }
+                            ]
+                        };
+
+                        var editCategoryDialogConfig = {
+                            id: 'report-category-list-category-dialog',
+                            title: '修改类别',
+                            size: 'm',
+                            form: categoryForm,
+                            btns: [
+                                {
+                                    text: '确认',
+                                    handler: saveCategoryDialog
+                                }
+                            ]
+                        };
+
+                        function saveCategoryDialog() {
+                            var data = nsForm.getFormJSON('report-category-list-category-dialog');
+                            if (data) {
+                                $.ajax({
+                                    data: data,
+                                    url: getRootPath() + '/reportSourceCategory/save',
+                                    type: 'post',
+                                    success: function (data) {
+                                        if (data.success) {
+                                            nsalert('保存成功', 'success');
+                                            baseDataTable.reloadTableAJAX(categoryTableId);
+                                            nsdialog.hide();
+                                        } else {
+                                            var errStr = data.msg;
+                                            nsalert('保存失败，请重试 ' + errStr, 'error');
+                                        }
+                                    },
+                                    error: function (e) {
+                                        nsalert('保存失败，请重试', 'error');
+                                    }
+                                })
+                            }
+                        }
+
+                        this.categoryTableConfig = {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '主键',
+                                    width: 150,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'name',
+                                    title: '类别'
+                                },
+                                {
+                                    field: 'operation',
+                                    title: '操作',
+                                    width: 100,
+                                    tabPosition: 'after',
+                                    formatHandler: {
+                                        type: 'button',
+                                        data: [
+                                            {
+                                                '修改': function (data) {
+                                                    var trData = data.rowData;
+                                                    nsdialog.initValueShow(editCategoryDialogConfig, trData);
+                                                }
+                                            }, {
+                                                '删除': function (data) {
+                                                    var trData = data.rowData;
+                                                    nsTable.setSelectRows(categoryTableId, trData.id);
+                                                    nsmessager.confirm("是否确认删除类别：" + trData.name, function () {
+                                                        $.ajax({
+                                                            data: {id: trData.id},
+                                                            url: getRootPath() + '/reportSourceCategory/delete',
+                                                            success: function (data) {
+                                                                if (data.success) {
+                                                                    nsalert('删除成功', 'success');
+                                                                    baseDataTable.delSelectedRowdata(categoryTableId);
+                                                                } else {
+                                                                    var errStr = data.msg;
+                                                                    nsalert('删除失败，请重试 ' + errStr, 'error');
+                                                                }
+                                                            },
+                                                            error: function (e) {
+                                                                nsalert('删除失败，请重试', 'error');
+                                                            }
+                                                        })
+                                                    });
+                                                }
+                                            }, {
+                                                '查询': function (data) {
+                                                    var trData = data.rowData;
+                                                    //nsFrame.loadPage(getRootPath() + '/reportSourceView/' + trData.id);
+                                                    NetstarUI.labelpageVm.loadPage2('/reportSourceView/' + trData.id, trData.name + " - 查询", true);
+                                                }
+                                            }, {
+                                                '类别数据源维护': function (data) {
+                                                    var trData = data.rowData;
+                                                    //nsFrame.loadPage(getRootPath() + '/reportSourceCategory/edit/' + trData.id);
+                                                    // NetstarUI.labelpageVm.loadPage('/reportSourceCategory/edit/' + trData.id, trData.name + "类别数据源维护", true);
+                                                    NetstarUI.labelpageVm.loadPage2(location.origin + '/sites/dataservice/categorydatasourcemaintain.html', trData.name + "类别数据源维护", true, {categorydatasourceId : trData.id}); 
+
+                                                }
+                                            }/*, {
+                                                '同步': function(data) {
+                                                    var trData = data.rowData;
+                                                }
+                                            }*/
+                                        ]
+                                    }
+                                }
+                            ],
+                            data: {
+                                src: getRootPath() + '/reportSourceCategory/getAll',
+                                type: "GET",
+                                data: '',
+                                isServerMode: false,
+                                isSearch: true,
+                                isPage: true,
+                                dataSrc: 'rows'
+                            },
+                            ui: {
+                                searchTitle: "类别搜索",
+                                searchPlaceholder: "名称",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true,
+                                onSingleSelectHandler: function () {
+                                    var row = nsTable.getSingleRowSelectedData(categoryTableId);
+                                    if (row) {
+                                        nsTable.reloadTableAJAX(reportTableId, {
+                                            categoryId: row.id
+                                        });
+                                    }
+                                }
+                            },
+                            btns: {
+                                selfBtn: [
+                                    {
+                                        text: '新增类别',
+                                        handler: function () {
+                                            nsdialog.initShow(addCategoryDialogConfig);
+                                        }
+                                    }
+                                ]
+                            }
+                        };
+
+                        //上传模板
+                        var uploadTemplateDialogConfig = {
+                            id: 'report-category-list-uploadTemplate-dialog',
+                            title: '上传模板',
+                            size: 'm',
+                            form: [
+                                {
+                                    id: 'reportSourceId',
+                                    type: 'hidden'
+                                },{
+                                    id: 'name',
+                                    label: '模板名',
+                                    type: 'text',
+                                    placeholder:'默认使用上传文件名'
+                                },
+                                {
+                                    id: 'templateFile',
+                                    label: '请选择模板文件',
+                                    type: 'upload_single',
+                                    uploadSrc: getRootPath() + '/reportSource/uploadTemplate',
+                                    changeHandler: function(data){
+                                        data = data.data;
+                                        var initFileName = function(){
+                                            var formData = nsForm.getFormJSON('report-category-list-uploadTemplate-dialog', false);
+                                            //如果没有设置文件名，就改为默认的文件名
+                                            if(!formData.name){
+                                                nsForm.fillValues({
+                                                    name: data.name
+                                                }, 'report-category-list-uploadTemplate-dialog');
+                                            }
+                                        };
+                                        setTimeout(initFileName, 100);
+                                        return data;
+                                    },
+                                    supportFormat:'.docx,.frx',
+                                    isAllowFiles: 1,
+                                    ismultiple: false,
+                                    valueField: 'id',
+                                    textField: 'name'
+                                }
+                            ],
+                            btns: [
+                                {
+                                    text: '上传',
+                                    handler: function () {
+                                        var data = nsForm.getFormJSON('report-category-list-uploadTemplate-dialog');
+                                        if (data) {
+                                            $.ajax({
+                                                data: data,
+                                                url: getRootPath() + '/reportSource/saveTemplate',
+                                                type: 'post',
+                                                success: function (data) {
+                                                    if (data.success) {
+                                                        nsalert('上传成功', 'success');
+                                                        nsdialog.hide();
+                                                    } else {
+                                                        var errStr = data.msg;
+                                                        nsalert('上传失败，请重试 ' + errStr, 'error');
+                                                    }
+                                                },
+                                                error: function (e) {
+                                                    console.log(e);
+                                                    nsalert('上传失败，请重试' + e, 'error');
+                                                }
+                                            })
+                                        }
+                                    }
+                                }
+                            ]
+                        };
+
+                        this.reportTableConfig = {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '报表ID',
+                                    width: 150,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'name',
+                                    title: '报表名称'
+                                },
+                                {
+                                    field: 'reportType',
+                                    title: '类型',
+                                    width: 150,
+                                    formatHandler:{
+                                        type:'dictionary',
+                                        data:
+                                            {
+                                                'word':'Word',
+                                                'fastreport':'FastReport'
+                                            }
+                                    }
+                                },
+                                {
+                                    field: 'mergeFlag',
+                                    title: '是否合并',
+                                    width: 150,
+                                    formatHandler:{
+                                        type:'dictionary',
+                                        data: {
+                                            '0':'否',
+                                            '1':'是'
+                                        }
+                                    }
+                                },
+                                {
+                                    field: 'defaultFlag',
+                                    title: '是否默认',
+                                    width: 150,
+                                    formatHandler:{
+                                        type:'dictionary',
+                                        data: {
+                                            '0':'否',
+                                            '1':'是'
+                                        }
+                                    }
+                                },
+                                {
+                                    field: 'operation',
+                                    title: '操作',
+                                    width: 200,
+                                    tabPosition: 'after',
+                                    formatHandler: {
+                                        type: 'button',
+                                        data: [
+                                            {
+                                                '设置': function(data){
+                                                    var trData = data.rowData;
+                                                    // NetstarUI.labelpageVm.loadPage('/reportSource/' + trData.id, trData.name + " - 配置", true);
+                                                    NetstarUI.labelpageVm.loadPage2(location.origin + '/sites/dataservice/reportcategoryset.html', trData.name + "-配置", true, {reportcategoryId : trData.id});  
+                                                }
+                                            }, {
+                                                '编辑': function(data){
+                                                    var row = data.rowData;
+                                                    nsdialog.initValueShow(addQueryDatasourceDialogConfig, row);
+                                                }
+                                            }, {
+                                                '复制': function(data){
+                                                    var trData = data.rowData;
+                                                    nsmessager.confirm("是否确认复制报表：" + trData.name, function () {
+                                                        $.ajax({
+                                                            data: {
+                                                                id: trData.id
+                                                            },
+                                                            type: 'post',
+                                                            url: getRootPath() + '/reportSource/copy',
+                                                            success: function (data) {
+                                                                if (data.success) {
+                                                                    nsalert('复制成功', 'success');
+                                                                    nsTable.reloadTableAJAX(reportTableId);
+                                                                } else {
+                                                                    var errStr = data.msg;
+                                                                    nsalert('复制失败，请重试 ' + errStr, 'error');
+                                                                }
+                                                            },
+                                                            error: function (e) {
+                                                                nsalert('复制失败，请重试', 'error');
+                                                            }
+                                                        })
+                                                    });
+                                                }
+                                            }, {
+                                                '删除': function (data) {
+                                                    var trData = data.rowData;
+                                                    nsmessager.confirm("是否确认删除报表：" + trData.name, function () {
+                                                        $.ajax({
+                                                            data: {
+                                                                id: trData.id
+                                                            },
+                                                            type: 'post',
+                                                            url: getRootPath() + '/reportSource/delete',
+                                                            success: function (data) {
+                                                                if (data.success) {
+                                                                    nsalert('删除成功', 'success');
+                                                                    nsTable.reloadTableAJAX(reportTableId);
+                                                                } else {
+                                                                    var errStr = data.msg;
+                                                                    nsalert('删除失败，请重试 ' + errStr, 'error');
+                                                                }
+                                                            },
+                                                            error: function (e) {
+                                                                nsalert('删除失败，请重试', 'error');
+                                                            }
+                                                        })
+                                                    });
+                                                }
+                                            }, {
+                                                '编辑模板': function(data){
+                                                    if (data) {
+                                                        var id = data.rowData.id;
+                                                        nschat.websocket.wsConnect(function(){
+                                                            nschat.websocket.send('{"command":"报表模板编辑","templateId":'+id+'}');
+                                                        },function(wsData){});
+                                                    }
+                                                }
+                                            }, {
+                                                '上传 模 板': function(data){
+                                                    nsdialog.initValueShow(uploadTemplateDialogConfig, {reportSourceId: data.rowData.id});
+                                                }
+                                            }, {
+                                                '下载模板': function(data){
+                                                    // document.getElementById('report-category-download-template').src = getRootPath() + '/reportSource/downloadTemplate?reportSourceId=' + data.rowData.id;
+                                                    NetStarUtils.download({
+                                                        url : getRootPath() + "/reportSource/downloadTemplate?reportSourceId=" + data.rowData.id,
+                                                        fileName : data.rowData.id + '.xlsx',
+                                                    })
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            data: {
+                                src: getRootPath() + '/reportSource/getByCategoryId',
+                                type: "GET",
+                                data: '',
+                                isServerMode: false,
+                                isSearch: true,
+                                isPage: true,
+                                dataSrc: 'rows'
+                            },
+                            ui: {
+                                searchTitle: "报表搜索",
+                                searchPlaceholder: "名称",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true
+                            },
+                            btns: {
+                                selfBtn: [
+                                    {
+                                        text: '新增报表',
+                                        handler: function () {
+                                            var category = nsTable.getSingleRowSelectedData(categoryTableId);
+                                            if (!category || !category.id) {
+                                                nsalert('请选择类别!', 'error');
+                                                return;
+                                            }
+                                            nsdialog.initValueShow(addQueryDatasourceDialogConfig, {categoryId: category.id});
+                                        }
+                                    }
+                                ]
+                            }
+                        };
+
+                        //新增弹框
+                        var addQueryDatasourceDialogConfig = {
+                            id: 'report-category-list-report-dialog',
+                            title: '报表信息',
+                            size: 'm',
+                            form: [
+                                {
+                                    id: 'id',
+                                    label: 'ID',
+                                    type: 'hidden'
+                                }, {
+                                    id: 'categoryId',
+                                    label: '类别ID',
+                                    type: 'hidden'
+                                }, {
+                                    id: 'name',
+                                    label: '名称',
+                                    type: 'text',
+                                    rules: 'required'
+                                }, {
+                                    id: 'reportType',
+                                    label: '类型',
+                                    type: 'select',
+                                    rules: 'select',
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    value: 'word',
+                                    subdata: [
+                                        {
+                                            id: 'word',
+                                            name: 'Word'
+                                        },
+                                        {
+                                            id: 'fastreport',
+                                            name: 'FastReport'
+                                        }
+                                    ]
+                                }, {
+                                    id: 'mergeFlag',
+                                    label: '是否合并',
+                                    type: 'radio',
+                                    rules: 'required',
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    value: '0',
+                                    subdata: [
+                                        {
+                                            id: '1',
+                                            name: '是'
+                                        },
+                                        {
+                                            id: '0',
+                                            name: '否'
+                                        }
+                                    ]
+                                }, {
+                                    id: 'defaultFlag',
+                                    label: '是否默认',
+                                    type: 'radio',
+                                    rules: 'required',
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    value: '0',
+                                    subdata: [
+                                        {
+                                            id: '1',
+                                            name: '是'
+                                        },
+                                        {
+                                            id: '0',
+                                            name: '否'
+                                        }
+                                    ]
+                                }, {
+                                    id: 'ordered',
+                                    label: '顺序号',
+                                    type: 'text',
+                                    rules: ''
+                                }
+                            ],
+                            btns: [
+                                {
+                                    text: '保存',
+                                    handler: function () {
+                                        var data = nsForm.getFormJSON('report-category-list-report-dialog');
+                                        if (data) {
+                                            $.ajax({
+                                                data: data,
+                                                url: getRootPath() + '/reportSource/save',
+                                                type: 'post',
+                                                success: function (data) {
+                                                    if (data.success) {
+                                                        nsalert('保存成功', 'success');
+                                                        nsdialog.hide();
+                                                        nsTable.reloadTableAJAX(reportTableId);
+                                                    } else {
+                                                        var errStr = data.msg;
+                                                        nsalert('保存失败，请重试 ' + errStr, 'error');
+                                                    }
+                                                },
+                                                error: function (e) {
+                                                    nsalert('保存失败，请重试', 'error');
+                                                }
+                                            })
+                                        }
+                                    }
+                                }
+                            ]
+                        };
+
+                        nsLayout.init("report-category-list");
+                    }
+                }
+            }
+        };
+        nsFrame.init(report.category.list);
+        $(window).on('close beforeunload',function(){
+            if(typeof(nschat.websocket.ws) != 'undefined'){
+                nschat.websocket.ws.close();
+            }
+        });
+    </script>
+</container>

@@ -1,0 +1,53 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <div id="inlinesrceen-provinceselect"></div>
+    <script>
+        var inlineSrceen = {
+            id: "inlinesrceen-provinceselect",
+            size: "standard compactmode",
+            format: "standard",
+            fillbg: true,
+            plusClass: 'commonwidth',
+            formSource: 'inlineScreen',
+            form: [ {
+                    id: 'btns',
+                    label: '按钮 :',
+                    type: 'uploadImage',
+                    rules: "",
+                    height:200,
+                    textField: 'name',
+                    valueField: 'id',
+                    btns: ['upload', 'delete', 'download', 'print'],
+                    inputWidth: 200,
+                    ajax: {
+                        url: getRootPath() + '/docs/data/upload.json',
+                    },
+                    editAjax: {
+                        url: getRootPath() + '/docs/data/uploadalter.json',
+                    },
+                    downloadAjax: {
+                        url: getRootPath() + '/docs/data/down/yuan2.rar?',
+                    },
+                    getFileAjax: {
+                        url: getRootPath() + '/docs/data/upload.json',
+                    },
+                }
+                /*  {
+                                    id: 		 	'mindjetFieldPosition',
+                                    label: 		 	'更多',
+                                    type: 		 	'provinceselect',
+                                    column: 	 	6,
+                                    subdata:[
+                                        { text:'石家庄',value:'0' },
+                                        { text:'小红',value:'1' },
+                                        { text:'小刚',value:'2' },
+                                    ],
+                                    rules:            'required',
+                                    mindjetFieldPosition:'field',
+                                    value:'0'   
+                                }  */
+            ]
+        };
+        formPlane.formInit(inlineSrceen);
+    </script>
+</container>

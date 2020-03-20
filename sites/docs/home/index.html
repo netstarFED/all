@@ -1,0 +1,96 @@
+<!--
+ * @Desription: 文件说明
+ * @Author: netstar.cy
+ * @Date: 2019-08-22 16:17:01
+ * @LastEditTime: 2019-10-22 18:16:47
+ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+ <meta name="description" content="网星云服务" />
+ <meta name="author" content="netstar" />
+ <!-- <link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css"> -->
+ <!-- <link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css"> -->
+ <link rel="stylesheet" href="/static/dev/style/standard-common.css?v=1.0.1" id="body-link-skin-manager">
+ <link rel="stylesheet" href="/sites/docs/static/style/docs.css">
+ <title>DEV.网星云.HOME</title>
+ <!--# include file="/sites/include/login-static-dev.html" -->
+ <!--# include file="/sites/include/preload-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-dev.html" -->
+ <!--# include file="/sites/include/lazy-static-dev.html" -->
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+ <!-- 主页的内容 start -->
+ <div id="netstar-main-page" class="netstar-main-page netstar-project-erp">
+     <!-- 头部 包含logo 主菜单 start -->
+     <div class="pt-header">
+         <div class="pt-container">
+             <div class="pt-topbar">
+                 <div class="pt-container">
+                     <div class="pt-logo">
+                         <img src="/static/dev/images/erp/logo.png" alt="LOGO">
+                     </div>
+                     <div id="mainpage-systeminfo-contianer"></div>
+                 </div>
+             </div>
+             <div class="pt-navbar">
+                 <div class="pt-container">
+                     <!-- 主菜单 -->
+                     <div id="mainpage-menus-contianer" class="pt-nav pt-dropdown"></div>
+                 </div>
+             </div>
+             <div id="labelPages" class="pt-tabbar"></div>
+         </div>
+     </div>
+     <!-- 头部 包含logo 主菜单 end ---->
+     <!-- 主页的内容 end   -->
+     <container>
+     </container>
+     <script src="/sites/docs/static/script/netstar-docs.js"></script>
+     <script type="text/javascript">
+        $(function () {
+            var mainPageConfig = {
+                // 是否需要token
+                isNeedToken : false,
+                //页面
+                html: '',
+                // 菜单配置
+                mainMenus: {
+                    menuType : 'left',
+                    // 菜单返回数据是否需要转化树
+                    convertToTree : false,
+                    id: "mainpage-menus-contianer",  //插入主菜单的容器ID 例如 <div id="mainpage-menus-contianer" class="pt-nav pt-dropdown"></div>
+                    ajax:{
+                        url: getRootPath() + '/docs/data/mainmenu.json',
+                        contentType: 'application/x-www-form-urlencoded',
+                        data:{
+                            isPc : true,
+                        },
+                        dataSrc:'rows',
+                        type:'GET'
+                    },
+                    menuChildIdField: "children",
+                    menuIdField: "id",
+                    menuNameField: "name",
+                    menuParentIdField: "parentId",
+                    menuUrlField: "url",
+                    defaultServerUrl : getRootPath(),
+                },
+                //用户模式
+                userMode: 'dev', 
+                // 主页面
+                mainPage:{
+                    url:'home/'
+                },
+            }
+            NetstarHomePage.init(mainPageConfig);
+         })
+     </script>
+</body>
+
+</html>

@@ -1,0 +1,571 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>treeselect</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>字段名</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>组件id，实际生成的表单中名称为'form-'+id id不可重复</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>组件类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>treeSelect</td>
+                            </tr>
+                            <tr>
+                                <td>textField</td>
+                                <td>显示字段</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>选项显示的字段(默认text)</td>
+                            </tr>
+
+                            <tr>
+                                <td>valueField</td>
+                                <td>保存值</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>选项value字段，即如果string类型（isObjectValue==false）组件的保存值 (默认value)</td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件的标签，未配置则不显示</td>
+                            </tr>
+                            <tr>
+                                <td>rules</td>
+                                <td>验证规则</td>
+                                <td>string</td>
+                                <td><i></i></td>
+                                <td>当前组件仅支持 必填验证：required</td>
+                            </tr>
+                            <tr>
+                                <td>value</td>
+                                <td>显示的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认显示的值</td>
+                            </tr>
+                            <tr>
+                                <td>disabled</td>
+                                <td>只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否只读(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>inputWidth</td>
+                                <td>宽</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>组件除去label的宽度与width不共存(默认100)</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>宽</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件整体宽度 *% 与inputWidth不共存</td>
+                            </tr>
+                            <tr>
+                                <td>changeHandler</td>
+                                <td>变更处理程序</td>
+                                <td>function</td>
+                                <td></td>
+                                <td>组件值改变时触发 即value值发生改变时触发</td>
+
+                            </tr>
+                            <tr>
+                                <td>hidden</td>
+                                <td>隐藏</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否隐藏(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>subdata</td>
+                                <td>数据</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>选项数组 具体配置见下方：subdata配置 数据类型[]</td>
+                            </tr>
+                            <tr>
+                                <td>url</td>
+                                <td>获取地址</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过ajax获得subdata</td>
+                            </tr>
+                            <tr>
+                                <td>dataSrc</td>
+                                <td>返回的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax返回数据的key值</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax类型，GET/POST (默认GET)</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td>传参</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>ajax传参 关联字段配置（即获得表单中其它字段值作为传输参数）{}</td>
+                            </tr>
+                            <tr>
+                                <td>contentType</td>
+                                <td>ajax的传值类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax的传值类型 ‘application/json’表示传值data转化成字符串</td>
+                            </tr>
+                            <tr>
+                                <td>formSource</td>
+                                <td>组件模式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模式；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认from)</td>
+                            </tr>
+                            <tr>
+                                <td>templateName</td>
+                                <td>组件模式名字</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模板名字；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认pc)</td>
+                            </tr>
+                            <tr>
+                                <td>mindjetFieldPosition</td>
+                                <td>是否在更多种显示</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>是否是更多中显示的数据(默认field)</td>
+                            </tr>
+                            <tr>
+                                <td>async</td>
+                                <td>是否同步</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否同步(默认false) </td>
+                            </tr>
+                            <tr>
+                                <td>level</td>
+                                <td>打开层级</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>打开层级默认全部关闭</td>
+                            </tr>
+                            <tr>
+                                <td>isMultiple</td>
+                                <td>多选</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否多选</td>
+                            </tr>
+                            <tr>
+                                <td>children</td>
+                                <td>树数据子级名</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>树数据子级名(默认children)</td>
+                            </tr>
+                            <tr>
+                                <td>parentId</td>
+                                <td>树数据pId</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>树数据pId(默认树数据pId)</td>
+                            </tr>
+                            <tr>
+                                <td>isDistinct</td>
+                                <td>是否有排重字段</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>distinctField</td>
+                                <td>排重字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>valueExpression</td>
+                                <td>value表达式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过表达式设置value值  {page.**}</td>
+                            </tr>
+                            <tr>
+                                <td>placeholder</td>
+                                <td>placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>gridPlaceholder</td>
+                                <td>表格placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>表格默认显示（业务组件：点击新增，其它：可输入）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-treeselect-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">显示的值</h3>
+                <span class="intro">默认显示内容:日期组件value值必须是数字</span>
+                <div id="nsdocs-treeselect-value" class="panel-demo"></div>
+                <script>
+                    /*输入模式value*/
+                    var formJsonValue = {
+                        id: 'nsdocs-treeselect-value',
+                        isSetMore: false,
+                        form: [
+                        {
+                            id: 'value',
+                            label: '显示 :',
+                            type: 'treeSelect',
+                            rules: "",
+                            textField: 'name',
+                            valueField: 'id',
+                            value: "",
+                            level: 1,             
+                            url: getRootPath() +'/docs/data/tree/getList.json', 
+                            contentType: 'application/x-www-form-urlencoded',
+                            method:"GET",
+                            dataSrc: 'rows',
+                            isMultiple: true,
+                            // disabled:               true,
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            }
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonValue, {});
+                    NetstarComponent.formComponent.init(component, formJsonValue);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+        {
+            id: 'value',
+            label: '显示 :',
+            type: 'treeSelect',
+            rules:"",
+            value: '',
+            textField: 'name',
+            valueField: 'id',
+            subdata: [{
+                    id: '1',
+                    name: '男',
+                    state: "none"
+                },
+                {
+                    id: '2',
+                    name: '女'
+                },
+                {
+                    id: '3',
+                    name: '其它'
+                }
+            ],
+        }
+                        </pre>
+                </div>
+            </div>
+            <!-- 打开层级 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-tree-level"></a>
+                <h3 class="title-code">打开层级</h3>
+                <span class="intro">默认打开层级</span>
+                <div id="nsdocs-tree-level" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonLevel= {
+                        id: 'nsdocs-tree-level',
+                        isSetMore: false,
+                        form: [{
+                            id: 'value',
+                            label: '打开层级 :',
+                            type: 'treeSelect',
+                            textField: 'name',
+                            valueField: 'id',
+                            level: 1,    //打开层级第一层            
+                            url: getRootPath() +'/docs/data/tree/getList.json',
+                            dataSrc: 'rows',
+                            contentType: 'application/x-www-form-urlencoded',
+                            method:"GET",
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            }
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonLevel, {});
+                    NetstarComponent.formComponent.init(component, formJsonLevel);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'value',
+        label: '打开层级 :',
+        type: 'treeSelect',
+        textField: 'name',
+        valueField: 'id',
+        level: 1,    //打开层级第一层            
+        url: getRootPath() +'/docs/data/tree/getList.json',
+        dataSrc: 'rows',
+        contentType: 'application/x-www-form-urlencoded',
+        method:"GET",
+        changeHandler: function (obj) {
+            console.log(obj);
+        }
+                         </pre>
+                </div>
+            </div>
+            <!-- 是否多选-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-treeselect-ismultiple"></a>
+                <h3 class="title-code">是否多选</h3>
+                <span class="intro">是否可以多选</span>
+                <div id="nsdocs-treeselect-ismultiple" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonIsMultipe= {
+                        id: 'nsdocs-treeselect-ismultiple',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [ {
+                                    id: 'value',
+                                    label: '是否多选 :',
+                                    type: 'treeSelect',
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    isMultiple: true,    //可以多选         
+                                    url: getRootPath() +'/docs/data/tree/getList.json',
+                                    dataSrc: 'rows',
+                                    contentType: 'application/x-www-form-urlencoded',
+                                    method:"GET",
+                                    changeHandler: function (obj) {
+                                        console.log(obj);
+                                    }
+                                 }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonIsMultipe, {});
+                    NetstarComponent.formComponent.init(component, formJsonIsMultipe);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'value',
+        label: '是否多选 :',
+        type: 'treeSelect',
+        textField: 'name',
+        valueField: 'id',
+        isMultiple: true,    //可以多选         
+        url: getRootPath() +'/docs/data/tree/getList.json',
+        dataSrc: 'rows',
+        contentType: 'application/x-www-form-urlencoded',
+        method:"GET",
+
+        changeHandler: function (obj) {
+            console.log(obj);
+        }
+        }
+                         </pre>
+                </div>
+            </div>
+            <!-- 样式宽-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-treeselect-width"></a>
+                <h3 class="title-code">样式宽</h3>
+                <span class="intro">宽</span>
+                <div id="nsdocs-treeselect-width" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonWidth = {
+                        id: 'nsdocs-treeselect-width',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false, //是否显示更多
+                        form: [{
+                            id: 'width',
+                            label: '宽 :',
+                            type: 'treeSelect',
+                            value: "3",
+                            inputWidth: 300,
+                            textField: 'name',
+                            valueField: 'id',
+                            isMultiple: true,
+                            url: getRootPath() +'/docs/data/tree/getList.json',
+                            dataSrc: 'rows',
+                            contentType: 'application/x-www-form-urlencoded',
+                            method:"GET",
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonWidth, {});
+                    NetstarComponent.formComponent.init(component, formJsonWidth);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'width',
+        label: '宽 :',
+        type: 'treeSelect',
+        value: "3",
+        inputWidth: 300,
+        textField: 'name',
+        valueField: 'id',
+        isMultiple: true,
+        url: getRootPath() +'/docs/data/tree/getList.json',
+        dataSrc: 'rows',
+        contentType: 'application/x-www-form-urlencoded',
+        method:"GET",
+    }
+                    </pre>
+                </div>
+            </div>
+            <!--获取数据1 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-treeselect-subdata"></a>
+                <h3 class="title-code">获取数据1</h3>
+                <span class="intro">用subdata获取数据</span>
+                <div id="nsdocs-treeselect-subdata" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonSubdata = {
+                        id: 'nsdocs-treeselect-subdata',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{id: 'width',
+                            label: '宽 :',
+                            type: 'treeSelect',
+                            value: "3",
+                            inputWidth: 300,
+                            textField: 'name',
+                            valueField: 'id',
+                            isMultiple: true,
+                            url: getRootPath() +'/docs/data/tree/getList.json',
+                            dataSrc: 'rows',
+                            contentType: 'application/x-www-form-urlencoded',
+                            method:"GET",}]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonSubdata, {});
+                    NetstarComponent.formComponent.init(component, formJsonSubdata);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {id: 'width',
+    label: '宽 :',
+    type: 'treeSelect',
+    value: "3",
+    inputWidth: 300,
+    textField: 'name',
+    valueField: 'id',
+    isMultiple: true,
+    url: getRootPath() +'/docs/data/tree/getList.json',
+    dataSrc: 'rows',
+    contentType: 'application/x-www-form-urlencoded',
+    method:"GET",}
+               </pre>
+                </div>
+            </div>
+            <!--获取数据2 -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-treeselect-subdatatwo"></a>
+                <h3 class="title-code">获取数据2</h3>
+                <span class="intro">用ajax获取数据</span>
+                <div id="nsdocs-treeselect-subdatatwo" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var formJsonSubdatatwo = {
+                        id: 'nsdocs-treeselect-subdatatwo',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        form: [{
+                            id: 'ajax',
+                            label: 'ajax获取:',
+                            type: 'treeSelect',
+                            value: "1",
+                            textField: 'name',
+                            valueField: 'id',
+                            isSearch: true,
+                            ajaxConfig: {
+                                url: getRootPath() + '/docs/data/select/radio.json',
+                                type: 'GET',
+                                contentType: 'application/x-www-form-urlencoded',
+                                dataSrc: 'rows',
+                            },
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonSubdatatwo, {});
+                    NetstarComponent.formComponent.init(component, formJsonSubdatatwo);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+            {
+                id: 'ajax',
+                label: 'ajax传出:',
+                type: 'treeSelect',
+                value: "1",
+                textField: 'name',
+                valueField: 'id',
+                ajaxConfig:{
+                    url: '/docs/data/select/radio.json' ,
+                    type: 'GET',
+                    contentType: 'application/x-www-form-urlencoded', 
+                    dataSrc: 'rows',
+                },
+                
+            }
+               </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

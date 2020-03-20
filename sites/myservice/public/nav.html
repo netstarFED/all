@@ -1,0 +1,63 @@
+<div class="nav nav-veritical" id="nav-mainmenus">
+    <ul class="nav-group">
+        <li class="nav-item">
+            <div class="title">
+                <i class="icon-user"></i>
+                <span>个人中心</span>
+            </div>
+            <ul class="nav-group">
+                <li class="nav-item">
+                    <a href="home.html">我的产品</a>
+                </li>
+                <li class="nav-item">
+                    <a href="order.html">我的订单</a>
+                </li>
+                <li class="nav-item">
+                    <a href="bill.html">我的发票</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <div class="title">
+                <i class="icon-setting"></i>
+                <span>设置</span>
+            </div>
+            <ul class="nav-group">
+                <li class="nav-item">
+                    <a href="attestation.html">公司认证</a>
+                </li>
+                <li class="nav-item">
+                    <a href="company-info.html">公司信息</a>
+                </li>
+                <li class="nav-item">
+                    <a href="setting.html">账号设置</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <div class="title">
+                <i class="icon-password"></i>
+                <span>管理员专区</span>
+            </div>
+            <ul class="nav-group">
+                <li class="nav-item">
+                    <a href="organization.html">组织机构</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a href="">角色权限</a>
+                </li> -->
+            </ul>
+        </li>
+    </ul>
+</div>
+<script>
+    //获取当前页面定位 根据当前页面url来定位nav设置为current
+    NswUtils.setCurrentNav = (function () {
+        var href = window.location.href;
+        var pageName = href.substr(href.indexOf('/myservice/') + 11);
+        var htmlPageName = pageName.substr(0, pageName.indexOf('.html') + 5);
+        console.log('htmlPageName:' + htmlPageName);
+
+        $('#nav-mainmenus .nav-item a[href="' + htmlPageName + '"]').parent().addClass('current');
+    })()
+</script>

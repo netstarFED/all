@@ -1,0 +1,168 @@
+// 地图
+@map-mark-inline-height: @input-group-base;
+@map-position-bg: @gray-light;
+@map-position-color: @gray-dark;
+@map-control-width: 240px;
+
+.pt-map {
+
+    .map-input {
+        display: table;
+        width: 100%;
+
+        .pt-form-control {
+            display: block;
+            float: left;
+
+            &:nth-child(3),
+            &:nth-child(4) {
+                width: 80px;
+            }
+        }
+
+    }
+
+    &.disabled {
+        .pt-btn {
+            &.pt-btn-default {
+                cursor: pointer;
+
+                &:hover,
+                &:focus,
+                &.focus,
+                &:active,
+                &.active {
+                    background-color: @warning  !important;
+                }
+            }
+
+        }
+    }
+
+    // 地图组件左侧控制面板
+    .pt-map-control {
+        padding-right: 18px;
+        width: @map-control-width;
+
+        // 地图组件控制面板搜索框
+        .map-search {
+            width: 100%;
+            padding: @base-padding;
+            background: #eee;
+
+            .pt-form-control {
+                width: 100%;
+
+                &:focus {
+                    border-color: @warning;
+                }
+            }
+
+            .pt-input-group-btn {
+                padding-right: 0;
+                width: 34px;
+            }
+
+            &.pt-input-group {
+
+                &:hover {
+                    box-shadow: none;
+                }
+            }
+        }
+
+        // 地图组件搜索结果列表
+        .pt-map-results {
+            @map-results-list-border-color: #eee;
+            @map-results-list-hover-bg: #f8f8f8;
+            @map-results-list-current-bg: #fff3ef;
+            @map-results-list-color: @gray;
+            overflow-y: auto;
+            border-top: 2px solid @map-results-list-border-color;
+            border-bottom: 1px solid @map-results-list-border-color;
+
+            li {
+                padding: @base-padding;
+
+                &+li {
+                    border-top: 1px solid @map-results-list-border-color;
+                }
+
+                &:last-child {
+                    border-bottom: 1px solid @map-results-list-border-color;
+                }
+
+                &:hover {
+                    background: @map-results-list-hover-bg;
+                    cursor: pointer;
+                }
+
+                &.current {
+                    background: @map-results-list-hover-bg;
+                }
+
+                div {
+                    color: @map-results-list-color;
+
+                    &:first-child {
+                        font-weight: bold;
+                        color: darken(@map-results-list-color, 30);
+                    }
+
+                }
+            }
+        }
+    }
+
+    // 地图组件右侧坐标
+    .pt-map-location {
+        @location-gutter: @base-padding;
+        position: absolute;
+        top: @location-gutter;
+        right: @location-gutter;
+        bottom: @location-gutter;
+        left: (@map-control-width + @location-gutter);
+
+    }
+}
+
+// 纵向表单模式
+
+.map-position {
+    display: block;
+    background: @map-position-bg;
+    padding: @base-padding-sm;
+    margin-bottom: @base-margin;
+    text-align: left;
+
+    &>div {
+        display: inline-block;
+        margin-left: @base-margin;
+        line-height: @map-mark-inline-height;
+        color: @map-position-color;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+
+    }
+}
+
+
+
+.map-search {
+    border: 0;
+    margin-bottom: @base-margin;
+
+    &:hover,
+    &:focus {
+        border: 0;
+    }
+
+    .pt-form-control,
+    .pt-btn {
+        height: (@input-height-base + 2) !important;
+
+    }
+}

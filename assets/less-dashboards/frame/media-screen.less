@@ -1,0 +1,33 @@
+// @media screen and (@screen-xs) {
+//     html {
+//         font-size: .5rem;
+//     }
+
+// }
+
+
+@full-screen-font-size: .75rem;
+@2k-screen-font-size: ((@full-screen-font-size / 3) * 4);
+@4k-screen-font-size: (@full-screen-font-size * 2);
+
+
+// 屏幕宽度小于Full-HD(1920)less样式
+@media screen and (max-width: @screen-hd) {
+    html {
+        font-size: @full-screen-font-size;
+    }
+}
+
+// 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+@media screen and (min-width: 1921px) and (max-width: @screen-2k) {
+    html {
+        font-size: @2k-screen-font-size;
+    }
+}
+
+// 屏幕宽度在大于2k(2560)less样式
+@media screen and (min-width: 2561px) {
+    html {
+        font-size: @4k-screen-font-size;
+    }
+}

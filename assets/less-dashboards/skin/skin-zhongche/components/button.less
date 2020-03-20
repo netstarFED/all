@@ -1,0 +1,30 @@
+.button-variant(@color; @background; @border){
+    color: darken(@background, 30);
+    font-weight: bold;
+    background-color: @background;
+    border-color: @border;
+    #gradient .horizontal(darken(@background, 10), lighten(@background, 15));
+    border-width: .2rem;
+    border-style: solid;
+    border-color: lighten(@background, 15) darken(@background, 10) darken(@background, 10) lighten(@background, 15);
+    .rgba-shadow(0, 0, .25rem, lighten(@background, 15), 1);
+    .rgba-text-shadow(1px, 1px, 1px, lighten(@background, 15), 1);
+
+
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active,
+    .open>.dropdown-toggle& {
+        color: @color;
+        background-color: @background;
+        border-color: @border;
+        #gradient .horizontal(darken(@background, 20), lighten(@background, 10));
+        border-width: .2rem;
+        border-style: solid;
+        border-color: lighten(@background, 20) darken(@background, 15) darken(@background, 15) lighten(@background, 20);
+        .rgba-shadow(0, 0, .5rem, lighten(@background, 20), 1);
+        .rgba-text-shadow(1px, 1px, 1px, darken(@background, 15), 1);
+    }
+}

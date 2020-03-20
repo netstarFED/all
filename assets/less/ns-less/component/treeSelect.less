@@ -1,0 +1,472 @@
+/*====================================================================*/
+/*treeSelect*/
+/*====================================================================*/
+
+@tree-btn-height: @form-group-btn-size; //40px
+@tree-btn-width: @form-group-btn-width; //32px
+@tree-btn-height-compactmode: @form-group-btn-size-compactmode; //30px
+@tree-btn-width-compactmode: @form-group-btn-width-compactmode; //24px
+@tree-dropdwon-panel-padding-left: @form-td-label-width; //100px
+
+
+.tree-close {
+    .ns-icon-close-normal();
+    .form-btn-base;
+    .size(@tree-btn-width, @tree-btn-height);
+    position: absolute;
+    top: 1px;
+    right: (@tree-btn-width + 16);
+    background: #fff;
+
+    &:after {
+        .size(@tree-btn-width, @tree-btn-height);
+        line-height: @tree-btn-height;
+        color: #ccc;
+        background: #fff;
+        top: 0;
+        right: 0;
+
+        .compactmode &,
+        .form-wide-panel &,
+        .table>tbody>tr>td &,
+        .col-none &,
+        .user-panel & {
+            .size(@tree-btn-width-compactmode, @tree-btn-height-compactmode);
+            line-height: @tree-btn-height-compactmode;
+        }
+    }
+
+    &:hover {
+        &:after {
+            color: @ns-warning;
+        }
+    }
+
+    .form-td & {
+        right: @tree-btn-width;
+
+        .compactmode &,
+        .form-wide-panel &,
+        .table>tbody>tr>td &,
+        .col-none &,
+        .user-panel & {
+            right: @tree-btn-width-compactmode;
+        }
+    }
+
+    .compactmode &,
+    .form-wide-panel &,
+    .table>tbody>tr>td &,
+    .col-none &,
+    .user-panel & {
+        .size(@tree-btn-width-compactmode, @tree-btn-height-compactmode);
+        line-height: @tree-btn-height-compactmode;
+        right: (@tree-btn-width-compactmode + 16);
+    }
+}
+
+.treeselect-arrow {
+    .ns-icon-right("");
+
+    .form-btn-base;
+    .size(@tree-btn-width, @tree-btn-height);
+    top: 1px;
+    right: (15px + 1);
+    background: #fff;
+
+    i {
+        color: @form-btn-color;
+        transition: ease-in-out all .5s;
+    }
+
+    &:hover {
+        .box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+
+        i {
+            color: @form-btn-active-color;
+        }
+    }
+
+    .form-td & {
+        right: 1px;
+    }
+
+    .compactmode &,
+    .form-wide-panel &,
+    .table>tbody>tr>td &,
+    .col-none &,
+    .user-panel & {
+        .square(@tree-btn-height-compactmode);
+        line-height: @tree-btn-height-compactmode;
+    }
+}
+
+
+.ztree-icon(@color; @top; @left; @content; ) {
+    position: absolute;
+    font-family: @icon-font;
+    content: @content;
+    top: @top;
+    left: @left;
+    color: @color;
+    font-size: 14px;
+}
+
+.treeform-ztree>ul,
+.ztree {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0;
+    min-height: 30px;
+    max-height: 360px;
+    padding: @base-padding;
+    border: 1px solid @ns-border-color;
+    margin-top: 1px;
+    background: #fff;
+    overflow-y: scroll;
+    overflow-x: auto;
+    z-index: 21;
+
+    .form-td & {
+        margin: 0;
+    }
+
+    li {
+        list-style-type: none;
+        min-width: 100px;
+
+        &:focus {
+            outline: 0;
+        }
+
+        a {
+            padding: 0;
+
+            &.curSelectedNode {
+                border: 0;
+                background: none;
+                color: @gray-dark;
+                opacity: 1;
+
+                .node_name {
+                    background: #cbdde6;
+                    color: #000;
+                }
+            }
+
+        }
+
+        ul {
+            padding: 0 0 0 16px;
+        }
+
+        span {
+            @false-part-color: #bbb;
+            cursor: pointer;
+
+            &.button {
+                position: relative;
+                width: 14px;
+                height: 14px;
+                display: inline-block;
+                background: none;
+
+                &:after {
+                    position: absolute;
+                    top: 0 !important;
+                }
+
+                &.chk {
+                    margin: 0 2px 0 0;
+                    cursor: pointer;
+
+                    // 禁用模式
+                    &.checkbox_false_disable,
+                    &.checkbox_true_disable {
+                        -webkit-filter: grayscale(100%);
+                        -moz-filter: grayscale(100%);
+                        -ms-filter: grayscale(100%);
+                        -o-filter: grayscale(100%);
+                        filter: grayscale(100%);
+                        filter: gray;
+
+                        cursor: not-allowed;
+
+                        &:after {
+                            color: #ddd;
+                        }
+                    }
+                }
+
+                &.root_open:after,
+                &.roots_open:after,
+                &.center_open:after,
+                &.bottom_open:after {
+                    .ztree-icon(@gray-dark; 7px; 3px; "\f0d7")
+                }
+
+                &.root_close:after,
+                &.roots_close:after,
+                &.center_close:after,
+                &.bottom_close:after {
+                    .ztree-icon(@gray-dark; 8px; 6px; "\f0da")
+                }
+
+                // 单选-未选
+                &.radio_false_full,
+                &.radio_false_full_focus {
+                    &:after {
+                        .ztree-icon(#999; 6px; 0; "\f10c");
+                    }
+                }
+
+                // 单选-已选
+                &.radio_true_full,
+                &.radio_true_full_focus {
+                    &:after {
+                        .ztree-icon(#ff7800; 6px; 0; "\f192");
+                    }
+                }
+
+                // 单选-半选-未选
+                &.radio_false_part,
+                &.radio_false_part_focus {
+                    &:after {
+                        .ztree-icon(@false-part-color; 6px; 0; "\f111");
+                    }
+                }
+
+                // 单选-半选-已选
+                &.radio_true_part,
+                &.radio_true_part_focus {
+                    &:after {
+                        .ztree-icon(#ff7600; 6px; 0; "\f192");
+                    }
+                }
+
+                // 多选-未选
+                &.checkbox_false_full,
+                &.checkbox_false_full_focus,
+                &.checkbox_false_disable {
+                    &:after {
+                        .ztree-icon(#666; 6px; 0; "\f096");
+                    }
+                }
+
+                // 多选-已选选
+                &.checkbox_true_full,
+                &.checkbox_true_full_focus,
+                &.checkbox_true_disable {
+                    &:after {
+                        .ztree-icon(#ff7800; 6px; 0; "\f14a");
+                    }
+                }
+
+                // 多选半选-未选
+                &.checkbox_false_part,
+                &.checkbox_false_part_focus {
+                    &:after {
+                        .ztree-icon(@false-part-color; 6px; 0; "\f0c8");
+                    }
+                }
+
+                // 多选半选-已选
+                &.checkbox_true_part,
+                &.checkbox_true_part_focus {
+                    &:after {
+                        .ztree-icon(@false-part-color; 6px; 0; "\f14a");
+                    }
+                }
+
+                &.ico_close:after {
+                    .ztree-icon(@gray-dark; 8px; 0; "\f07b");
+                }
+
+                &.ico_open:after {
+                    .ztree-icon(@gray-dark; 8px; 0; "\f07c");
+                }
+
+                &.ico_docu:after {
+                    .ztree-icon(@gray-dark; 8px; 0; "\f1c2");
+                }
+
+            }
+
+            &.node_name {
+                padding: 1px 3px;
+                border-radius: 3px;
+
+                &:hover {
+                    background: #fcefe8;
+                    color: #ff6500;
+                }
+            }
+        }
+    }
+
+    .tree-plane & {
+        position: relative;
+    }
+}
+
+.treeform-ztree.modal {
+    display: block;
+    margin-left: 15px;
+}
+
+ul {
+    .treeform-ztree.form>& {
+        margin-left: @tree-dropdwon-panel-padding-left;
+    }
+
+    .treeform-ztree.modal>& {
+        // margin-left: 25%;
+        // margin-right: 15px;
+        // top: -2px;
+        // right: 2px;
+        // left: 15px;
+    }
+
+    .modal .treeform-ztree>& {
+        // margin-left: @tree-dropdwon-panel-padding-left - 3;
+        // margin-right: 3px;
+    }
+}
+
+
+.form-control[nstype="treeSelect"] {
+    padding-right: @tree-btn-width;
+
+    &[readonly="readonly"]+.treeselect-arrow {
+        .disabled-style();
+        color: darken(@gray-lighter, 20%) !important;
+
+        &:hover,
+        &:focus {
+            color: darken(@gray-lighter, 20%) !important;
+        }
+    }
+}
+
+.person-select-plane {
+    .ztree {
+        border-width: 0 0 0 1px;
+    }
+}
+
+.nstree-btns-container {
+    height: 36px;
+    width: 100%;
+    padding: 3px (@base-padding / 2);
+    border: 1px solid @ns-border-color;
+    border-width: 1px 1px 0;
+    background: #f8f8f8;
+
+    .btn {
+        background-color: transparent;
+
+        &:hover {
+            .box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+        }
+    }
+}
+
+// 拖动子项样式
+.ztree {
+
+    &.zTreeDragUL {
+        border: 0;
+        padding: 0;
+        overflow-y: auto;
+        right: auto;
+    }
+}
+
+[ns-system="pad"] {
+    @pad-btn-size: 32px;
+
+    .treeform-ztree {
+        &>ul {
+            padding: 0;
+
+            li {
+                a {
+                    line-height: @pad-btn-size;
+                }
+
+                span.button {
+                    .square(@pad-btn-size);
+                    text-align: center;
+                    display: block;
+                    float: left;
+
+                    &:after {
+                        left: 50% !important;
+                        margin-left: -5px !important;
+                    }
+
+                    &.root_close,
+                    &.roots_close,
+                    &.center_close,
+                    &.bottom_close,
+                    &.root_open,
+                    &.roots_open,
+                    &.center_open,
+                    &.bottom_open {
+                        &:after {
+                            top: 50% !important;
+                            margin-top: -10px !important;
+                        }
+                    }
+                }
+
+                .node_name {
+                    display: block;
+                    line-height: @pad-btn-size;
+                    padding: 0;
+                }
+
+                ul {
+                    padding-left: @pad-btn-size;
+                }
+            }
+        }
+    }
+}
+
+//弹框里的竖表单
+.pt-modal-body {
+    .pt-tree-position {
+        display: inline-table;
+        width: 100%;
+        margin-bottom: @base-margin / 2;
+
+        .pt-form-control,
+        .pt-btn-group {
+            display: table-cell;
+        }
+
+        .pt-form-control {
+            width: 100%;
+        }
+
+        .pt-btn-group {
+            width: 22px;
+
+            .pt-btn {
+                border: none;
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
+
+    ul.ztree {
+        max-height: 400px;
+        overflow-y: auto;
+        left: 16px;
+        right: 16px;
+        border-color: #bfbfbf;
+    }
+}

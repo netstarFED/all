@@ -1,0 +1,354 @@
+@fixed-cell-right-width: @user-info-width;
+@fixed-cell-right-top: @header-height + (@plane-s-height + 6);
+@panel-gutter: (@grid-gutter-width / 2);
+@user-info-primary: #56b1fc;
+@user-info-bg: #fff;
+@user-info-width: 220px;
+@user-photo-text-height: 34px;
+@user-photo-text-height-lg:40px;
+@user-info-text-color: #0f6cb9;
+@user-photo-text-bg: #56b1fc;
+@user-photo-import-height: @user-photo-text-height;
+@male-bg: #0b8efb;					//男性背景色
+@female-bg: #884de9 ;					//女性背景色
+@user-number-layout-font-size: 14px;   //体检编码字号
+@user-number-layout-font-size-lg: 18px;   //体检编码字号
+
+// user-number
+@user-number-layout-height: 34px;
+@user-number-layout-height-lg:40px;
+@user-number-mark-size: 5px;
+// user-photo-size
+@user-photo-width: 190px;
+@user-photo-height: 232px;
+@user-photo-width-lg: 210px;
+@user-photo-height-lg:256px;
+@user-photo-width-sm: (@user-photo-width * .6);
+@user-male-mark: #008cff;
+@user-female-mark: #884de9;
+@user-info-label-width: 80px;
+@user-info-icon-size: 56px;
+
+
+
+// 右侧面板定位
+.fixed-cell-right {
+	position: fixed;
+	top: @fixed-cell-right-top;
+	right: @panel-gutter;
+	bottom: @panel-gutter;
+	width: @fixed-cell-right-width;
+	background: @nav-accordion;
+}
+
+.user-info {
+	padding: 0;
+	background: @user-info-bg;
+
+	.user-info-body{
+		border: 1px solid @ns-border-color;
+		margin-bottom: (@base-margin / 2);
+	}
+}
+// 体检编号
+.user-number-layout-size(@height; @font-size) {
+	position: relative;
+	display: table;
+	margin: (@base-margin / 2) 0 0;
+	padding: 7px @base-padding;
+	height:@height;
+	background: @ns-primary;
+	color: #fff;
+	text-align: right;
+	z-index: 2;
+	.user-number-label,
+	.user-number {
+		display: table-cell;
+		vertical-align: middle;
+		font-size: @font-size;
+		font-weight:normal;
+		.form-control{
+			background-color: transparent;
+			border-color: transparent;
+			border-bottom: 1px solid lighten(@ns-primary, 15%);
+			height: 24px;
+			margin: (@base-padding / 2) 0;
+			padding: 0;
+			color: #fff;
+			font-size: @font-size;
+			&:focus{
+				box-shadow: none;
+			}
+		}
+	}
+	// 编号标题
+	.user-number-label{
+		text-align: left;
+		padding-left: @base-padding;
+		min-width: 80px;
+	}
+
+	// 编号内容
+	.user-number{
+		padding-right: @base-padding;
+	}
+
+	// &:before {
+	// 	position: absolute;
+	// 	top: 0;
+	// 	right: -@user-number-mark-size;
+	// 	content: "";
+	// 	width: @user-number-mark-size;
+	// 	height: 100%;
+	// 	background: darken(@user-info-primary, 5%);
+	// }
+	// &:after{
+	// 	position: absolute;
+	// 	content: "";
+	// 	right: -@user-number-mark-size;
+	// 	bottom: -@user-number-mark-size;
+	// 	.size(0,0);
+	// 	width: 0;
+	// 	height: 0;
+	// 	border: 3px solid darken(@user-info-primary, 25%);
+	// 	border-color: transparent transparent darken(@user-info-primary, 25%) darken(@user-info-primary, 25%);
+	// 	transform: rotate(90deg);
+	// }
+
+}
+
+.user-number-layout{
+	.user-number-layout-size(@user-number-layout-height; @user-number-layout-font-size) 
+}
+
+
+// 用户头像
+.user-photo-size(@width; @height; @margin){
+	position: relative;
+	width: @width;
+	height: @height;
+	margin: @margin auto;
+	overflow: hidden;
+	background: #f8f8f8;
+
+	// 用户照片
+	&-img{
+		position: relative;
+		height: @height;
+		border: 1px solid #b0d5f3;
+		box-sizing: border-box;
+		z-index: 1;
+		img{
+			position: relative;
+			display: block;
+			width: 100%;
+			z-index: 2;
+		}
+		&:after{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			content: "\f2be";
+			font-family: @icon-font;
+			.square(@user-info-icon-size);
+			color: darken(@ns-border-color, 10%);
+			font-size: ((@user-info-icon-size / 5) * 4);
+			margin: (-(@user-info-icon-size / 2) - (@user-photo-text-height / 2))  0 0 -(@user-info-icon-size / 2);
+			z-index: 1;
+		}
+	}
+
+	// 用户照片上传
+	.upload-control{
+		// 照片上传
+		.user-photo-upload{
+			position: relative;
+			width: @user-photo-width;
+			height: @user-photo-height;
+			border: 1px solid @ns-border-color;
+			background: #f8f8f8;
+			cursor: pointer;
+
+			&:after{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				content: "\f030";
+				font-family: @icon-font;
+				.square(@user-info-icon-size);
+				color: darken(@ns-border-color, 10%);
+				font-size: ((@user-info-icon-size / 5) * 4);
+				text-align: center;
+				margin: (-(@user-info-icon-size / 2) - (@user-photo-text-height / 2))  0 0 -(@user-info-icon-size / 2);
+				z-index: 1;
+
+			}
+		}
+		// 去除伪类
+		.remove-pseudo-class{
+			&:before,
+			&:after{
+				display: none !important;
+			}	
+		}
+		// 照片导入
+		.user-photo-import{
+			position: absolute;
+			width: 100%;
+			height: @user-photo-import-height;
+			text-align: center;
+			bottom: 0;
+			left: 0;
+			border: 1px solid @ns-border-color;
+			border-top: 0;
+			background: lighten(@ns-border-color, 5%);
+			z-index: 3;
+			&:hover{
+				background: @ns-border-color;
+			}
+			i{
+				padding-right: (@base-padding/ 2);
+				color: @ns-info;
+			}
+		}
+
+	}
+}
+.user-photo{
+	.user-photo-size(@user-photo-width; @user-photo-height; @peis-margin)
+}
+.template-btn{
+	.btn-group{
+		padding: (@base-padding / 2) @base-padding;
+		.btn{
+			height: 34px;
+			line-height: 20px;
+		}
+	}
+	
+}
+// 用户照片信息
+.user-photo-text-size(@height; @line-height){
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: @height;
+	line-height: @line-height;
+	background: @user-photo-text-bg;
+	z-index: 2;
+	// 用户名
+	.user-name{
+		display: block;
+		float: left;
+		padding: 0 @base-padding;
+		font-size: 16px;
+		color: #fff;
+	}
+	// 用户性别
+	.user-sex{
+		display: block;
+		float: right;
+		color: #fff;
+		.square(@height);
+		text-align: center;
+		line-height: @line-height;
+		&.user-sex-male{
+			background: @male-bg;
+		}
+		&.user-sex-female{
+			background: @female-bg;
+		}
+		i{
+			font-size: 24px;
+			line-height:@line-height;
+		}
+	}
+}
+.user-photo-text{
+	.user-photo-text-size(@user-photo-text-height; @user-photo-text-height;)
+	
+}
+
+// 基本信息
+.user-info-list-size(@label-width; @font-size){
+	padding: 0 @base-padding;
+	margin-bottom: 0;
+	ul{
+		padding: 0;
+		li{
+			display: table;
+			width: 100%;
+			height: 28px;
+			list-style-type: none;
+			color: @user-info-text-color;
+			label{
+				display: table-cell;
+				width:@label-width;
+				// vertical-align: middle;
+				margin: 0;
+			}
+			.user-info-list-item{
+				display: table-cell;
+				vertical-align: middle;
+			}
+			label,
+			span{
+				font-size:@font-size;
+			}
+		}
+	}
+}
+
+.user-info-list{
+	.user-info-list-size(85px; 12px);
+	.user-info-list-item{
+		.content{
+			padding: 0;
+		}
+	}
+}
+
+//字体放大版
+.overall-layout-line{
+	.overall-layout-cell {
+		&.overall-layout-cell-sm{
+			.user-info{
+				width:480px;
+				.user-info-body{
+					border:none;
+					display: table;
+					& > div{
+						display: table-cell;
+						vertical-align: top;
+					}
+				}
+			}
+			//体检编号
+			.user-number-layout{
+				.user-number-layout-size(@user-number-layout-height-lg; @user-number-layout-font-size-lg);
+				width:460px - @user-photo-width-lg;
+				float: right;
+				.user-number-label{
+					min-width: 105px;
+				}
+			}
+			//照片
+			.user-photo{
+				.user-photo-size( @user-photo-width-lg; @user-photo-height-lg; 0;);
+				margin-top:-@user-number-layout-height-lg;
+			}
+			//人名信息
+			.user-photo-text{
+				.user-photo-text-size(@user-photo-text-height-lg; @user-photo-text-height-lg;);
+			}
+			//照片信息
+			.user-info-list{
+				.user-info-list-size(100px; @font-size-lg);
+				
+			}
+		}
+	}
+}
+
+

@@ -1,0 +1,32 @@
+@icon-size: 1.5rem;
+@icon-size-md: 2.5rem;
+@icon-size-lg: 4rem;
+
+
+// 定制图标
+.list-item{
+    i{
+        &.icon-oa-dot-circle{
+            color: @warning;
+            .rgba-text-shadow(0, 0, 1rem, @warning, .75);
+
+        }
+    }
+    // 列表消息类型分类
+    i{
+        &.icon-oa-{
+            // 设备
+            &equipment{
+                color: @primary;
+            }
+            // 药剂
+            &medicine{
+                color: @warning;
+            }
+            // 库存
+            &stock{
+                color: @info;
+            }
+        }
+    }
+}

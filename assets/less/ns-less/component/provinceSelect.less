@@ -1,0 +1,85 @@
+/*====================================================================*/
+/*provinceSelect*/
+/*====================================================================*/
+
+input[nstype="select-province"]{
+	border: 0;
+	
+}
+
+.provinceSelect{
+	.close{
+		&:after{
+			.ns-icon-close();
+			color: #000;
+			width: @ns-input-height;
+			height: @ns-input-height;
+			line-height: @ns-input-height;
+			text-align: center;
+			top: 5px;
+			right: 5px;
+		}
+
+		&:hover{
+			opacity: .8;
+			&:after{
+				color: @ns-warning;
+			}
+		}
+	}
+}
+.province-plane{
+	position: absolute;
+	width: 100%;
+	top: @base-input-height;
+	left: -1px;
+	padding-top: 1px;
+	border: 1px solid @ns-border-color;
+	border-width: 0 1px;
+	box-sizing: content-box;
+	background: @ns-border-color;
+	z-index: 20;
+	overflow: hidden;
+
+	.pro-sel-content{
+		position: relative;
+		display: block;
+		float: left;
+		min-width: 20%;
+		padding: 6px;
+		margin: -1px -7px 0;
+		background: #fff;
+		cursor: pointer;
+		box-sizing: content-box;
+		border: 1px solid @ns-border-color;
+		text-indent: -3px;
+		text-align: center;
+		&:hover{
+			background: #eee;
+			color: #444;
+		}
+
+		&:nth-child(5n):after{
+			display: none;
+		}
+		&:last-child:after{
+			position: absolute;
+			content: '';
+			width: 13px;
+			height: 100%;
+			top: 0;
+			right: 0;
+			background: @ns-border-color;
+		}
+	}
+}
+
+
+
+.layout-form{
+	.form-td{
+		.province-plane{
+			top: @base-height;
+		}
+	}	
+}

@@ -1,0 +1,67 @@
+@page-item-size: 24px;
+@page-item-border-color: @border-color;
+@page-item-padding: 5px;
+@page-item-gutter: 2px;
+@page-item-current-bg: darken(@border-color, 15);
+
+[ns-type="editor"] {
+    .page {
+        display: block;
+        text-align: right;
+        float: right;
+        .inline-block-hack();
+
+        .page-item {
+            display: inline-block;
+            text-align: center;
+            min-width: @page-item-size;
+            height: @page-item-size;
+            line-height: @page-item-size;
+            padding: 0 @page-item-padding;
+            // border: 1px solid @page-item-border-color;
+            margin: 0 @page-item-gutter;
+            font-size: @font-size-sm;
+            border-radius: @page-item-size;
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            span,
+            i {
+                line-height: @page-item-size;
+            }
+
+            &:hover {
+                background: #eee;
+                color: #000;
+            }
+
+            // 禁用状态
+            &.disabled {
+                border: 0;
+                background: transparent;
+                color: @link-color;
+
+                &:hover {
+                    color: @link-color;
+
+                    i {
+                        color: @link-color;
+                    }
+                }
+            }
+
+            // 当前页
+            &.current {
+                background: @page-item-current-bg;
+                color: #fff;
+            }
+
+        }
+    }
+}

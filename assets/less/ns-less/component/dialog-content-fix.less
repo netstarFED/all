@@ -1,0 +1,73 @@
+@common-fixed-simple-panel-width: 900px;
+@common-fixed-simple-panel-height: 100px;
+@common-fixed-simple-panel-header-height: 40px;
+@common-fixed-simple-panel-btn-size: @common-fixed-simple-panel-header-height;
+@common-fixed-zindex: 1049;
+.common-fixed-simple-panel {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: @common-fixed-simple-panel-width;
+	min-height: @common-fixed-simple-panel-height;
+	margin: -200px 0 0 -(@common-fixed-simple-panel-width / 2);
+	box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+	background-color: #fff;
+	z-index: @common-fixed-zindex;
+	&:before {
+		position: absolute;
+		content: "";
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: #fff;
+	}
+	&:after {
+		position: fixed;
+		content: "";
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: -1;
+		background: rgba(0, 0, 0, .3);
+	}
+	.panel-title {
+		.base-title-style;
+		position: relative;
+		z-index: (@common-fixed-zindex + 1);
+		border-bottom: 1px solid @ns-border-color;
+		padding: (@base-padding - 2) 15px (@base-padding - 1);
+		background: #fff;
+	}
+	.panel-body {
+		position: relative;
+		z-index: (@common-fixed-zindex + 1);
+		background: #fff;
+	}
+	.close-btn {
+		.btn-close();
+		.square(@common-fixed-simple-panel-btn-size);
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: (@common-fixed-zindex + 2);
+		&:before {
+			.square(@common-fixed-simple-panel-btn-size);
+			line-height: @common-fixed-simple-panel-btn-size;
+		}
+		&:hover {
+			&:before {
+				.square(@common-fixed-simple-panel-btn-size);
+			}
+		}
+	}
+}
+
+.common-fixed-simple-panel .panel-footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 50px;
+	width: 100%;
+}

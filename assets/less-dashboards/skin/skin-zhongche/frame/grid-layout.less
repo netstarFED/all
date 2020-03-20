@@ -1,0 +1,93 @@
+// 大屏背景色
+
+@dashboard-header-title-font-size: 3rem;
+@dashboard-header-height: (@dashboard-header-title-font-size + (@base-padding * 3));
+@dashboard-header-nav-after-height: (@dashboard-header-height - 1);
+@dashboard-header-nav-after-start-color: lighten(@primary, 10);
+@dashboard-header-nav-after-mid-color: @primary;
+@dashboard-header-nav-after-end-color: @dashboard-header-nav-after-start-color;
+
+.ns-dashboard {
+    // .rgba-bg(darken(@primary, 20), 1);
+    background: url("../images/bg.jpg") center center no-repeat;
+    background-size: cover;
+
+    .ns-dashboard-header {
+        .flex-block(center, stretch);
+        flex: 0 0;
+        padding: 0;
+        flex: 0 0 @dashboard-header-height;
+        background: transparent;
+
+        .title {
+            .flex-block(center, center);
+            font-size: @dashboard-header-title-font-size;
+            font-weight: bold;
+            position: relative;
+            .title-gradient();
+
+            span {
+                .flex-block(center, center);
+                margin-top: -0.75rem;
+            }
+
+            &:after {
+                position: absolute;
+                content: '';
+                width: 100%;
+                height: @dashboard-header-height;
+                background: transparent;
+                transform: perspective(4rem) rotateX(-7deg);
+                border: .2rem solid @info;
+                .rgba-shadow-inset(0, 0, 4rem, @info, .75);
+                box-sizing: border-box;
+            }
+
+            &+.nav {
+                &:after {
+                    left: auto;
+                    right: -1rem;
+                }
+            }
+        }
+
+        .nav {
+            .flex-block(center, stretch);
+            position: relative;
+            z-index: 1;
+
+            .nav-group {
+                .flex-block(space-between, stretch);
+                position: relative;
+                z-index: 2;
+
+                .nav-item {
+                    .flex-block(center, stretch);
+
+                    a {
+                        .flex-block(center, center);
+                        font-size: 1.75rem;
+                        font-weight: bold;
+                        .title-gradient();
+                    }
+                }
+            }
+
+            &:after {
+                position: absolute;
+                left: -1rem;
+                top: 8%;
+                content: '';
+                width: 100%;
+                height: @dashboard-header-nav-after-height;
+                transform: perspective(4rem) rotateX(7deg);
+                // #gradient .vertical-three-colors(rgba(51, 80, 112, .5), lighten(@primary, 15), 50%, rgba(51, 80, 112, .5));
+                .rgba-shadow-inset(0, 0, 4rem, @primary, .75);
+            }
+
+            .nav-line {
+                position: absolute;
+            }
+        }
+    }
+}

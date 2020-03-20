@@ -1,0 +1,48 @@
+// 看起来像表格的列表模式
+// bg
+@list-table-item-bg: #fff;
+@list-table-item-hover-bg: @table-td-hover-bg;
+@list-table-header-bg: @table-thead-bg;
+@list-table-footer-bg: @table-foot-bg;
+// border
+@list-table-border-color: @table-border-color;
+@list-table-td-padding: @base-padding-sm @base-padding;
+@list-table-td-first-width: 28px;
+
+.pt-list-table {
+    .pt-list-table-item {
+        display: table;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        table-layout: fixed;
+        background: #fff;
+
+        &:hover {
+            @list-table-item-bg: @bg-primary;
+        }
+
+        span {
+            display: table-cell;
+            padding: @list-table-td-padding;
+            border: 1px solid @list-table-border-color;
+            border-width: 0 1px 1px 0;
+
+            &:first-child {
+                width: @list-table-td-first-width;
+            }
+
+            &:last-child {
+                border-right: 0;
+            }
+        }
+    }
+
+    .pt-list-table-header {
+        background: @list-table-header-bg;
+    }
+
+    .pt-list-table-footer {
+        background: @list-table-footer-bg;
+    }
+}

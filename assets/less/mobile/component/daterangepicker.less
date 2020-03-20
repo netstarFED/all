@@ -1,0 +1,115 @@
+
+// 移动端模式
+.page-body[ns-system="mobile"]{
+	.daterangepicker{
+		top: auto !important;
+		left: 0px !important;
+		bottom: 0;
+		padding: 0;
+		border: 0;
+		background: #fff;
+		&.openscenter{
+			&:before,
+			&:after{
+				display: none;
+			}
+		}
+		.calendar{
+			max-width: 100%;
+			max-height: 45vh;
+			padding: 1rem 0 0;
+			.calendar-table{
+				border: 0;
+			}
+			table{
+				border: 0;
+			}
+			th,
+			td{
+				border: 0;
+				padding: .7rem 0;
+			}
+		}
+		 .input-mini{
+		 	margin-bottom: 1rem;
+		 }
+		.daterangepicker_input{
+			padding: 0 1rem;
+			i{
+				left: 1.5rem;
+			}
+		}
+		&:after{
+			position: fixed;
+			content:"";
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background: rgba(0,0,0, .25);
+			z-index: 1;
+		}
+		.ranges{
+			padding: 0;
+			border-top: 0;
+			box-shadow: 0 -.3rem .3rem	rgba(0, 0, 0, 0.08);
+			.range_inputs{
+				
+				display: flex;
+				flex: 1;
+				margin: 0;
+				padding: 0;
+				justify-content: space-between;
+				align-items: center;
+				.btn{
+					display: flex;
+					flex: 1;
+					height: 4rem;
+					justify-content: center;
+					align-items: center;
+					&:first-child:before{
+						top: 50%;
+						left: 50%;
+						margin: -.5em 0 0 -3rem;
+					}
+				}
+
+			}
+		}
+	}
+}
+
+
+// 小屏
+@media screen and (max-width: 320px){
+	.page-body[ns-system="mobile"]{
+		.daterangepicker{
+			.input-mini{
+				margin-bottom: .5rem;
+			}
+			.calendar{
+				th,
+				td{
+					border: 0;
+					padding: 0;
+				}
+			}
+		}
+	}
+}
+
+
+// 中屏
+@media (min-width: 321px) and (max-width: 376px){
+	.page-body[ns-system="mobile"]{
+		.daterangepicker{
+			.calendar{
+				th,
+				td{
+					border: 0;
+					padding: .5rem 0;
+				}
+			}
+		}
+	}
+}

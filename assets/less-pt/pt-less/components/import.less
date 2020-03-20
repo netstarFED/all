@@ -1,0 +1,440 @@
+@pt-import-text-link-padding: 5px;
+@pt-import-text-link-color: #666;
+
+.pt-excel-import {}
+
+.pt-excel-import-body {
+    @text-link-margin: 30px;
+
+    .text-link {
+        padding: @pt-import-text-link-padding 0;
+        text-align: center;
+
+        a {
+            display: inline-block;
+            margin: @text-link-margin auto;
+            text-align: center;
+            text-decoration: underline;
+            color: @pt-import-text-link-color;
+
+            i {
+                padding-right: 5px;
+            }
+        }
+    }
+
+    // 上传提示
+    .pt-import-content-tips {
+        padding: 30px 0 15px 30px;
+        color: #666;
+    }
+
+    // 上传表单
+    .input-file {
+        position: relative;
+        z-index: 2;
+        border: 1px solid @border-color;
+
+        input[type="file"] {
+            opacity: 0;
+            position: relative;
+            z-index: 3;
+        }
+
+        @input-file-button-width: 70px;
+        @input-file-button-height: 26px;
+        @input-file-button-border-radius: 3px;
+        @input-file-button-text: "选择文件";
+        @input-file-button-bg: #eee;
+        @input-file-button-color: #222;
+
+        &:before {
+            position: absolute;
+            content: @input-file-button-text;
+            width: @input-file-button-width;
+            height: @input-file-button-height;
+            top: 7px;
+            right: 11px;
+            background: @input-file-button-bg;
+            color: @input-file-button-color;
+            text-align: center;
+            line-height: @input-file-button-height;
+            z-index: 1;
+            border-radius: @input-file-button-border-radius
+        }
+
+        .file-name {
+            position: absolute;
+            height: 30px;
+            line-height: 30px;
+            top: 5px;
+            left: 15px;
+        }
+    }
+
+    // tab标签页
+    .nav.nav-tabs {
+        @nav-tabs-border-color: #dfe2e7;
+        @nav-tabs-active-border-color: darken(@nav-tabs-border-color, 20);
+        margin: 0 0 5px 0;
+        padding: 0;
+        // border-bottom: 1px solid #c1c8d2;
+        position: relative;
+        display: block;
+        float: left;
+        border-bottom: 0;
+
+
+        li {
+            position: relative;
+            display: block;
+            float: left;
+            margin-bottom: -1px;
+            padding: 0 2px 0 0;
+            cursor: pointer;
+
+            a {
+                padding: 0 5px;
+                line-height: 30px;
+                text-align: center;
+                background: #f8f8f8;
+                border-color: @nav-tabs-border-color;
+                // border-bottom: 1px solid #cad0d8;
+                color: #777;
+                border-radius: 0;
+                border-bottom: 0;
+
+                &:hover {
+                    background: #f5f5f5;
+                    color: #000;
+                    border-color: @nav-tabs-active-border-color;
+                }
+
+                &:after {
+                    position: absolute;
+                    content: "";
+                    width: 100%;
+                    height: 2px;
+                    background: #c1c8d2;
+                    z-index: 9;
+                    top: 0;
+                    left: 0;
+                }
+
+                .pt-badge {
+                    margin-left: .5rem;
+                    width: 18px;
+                    height: 18px;
+                    line-height: 18px;
+                    padding: 0;
+
+                }
+            }
+
+            &.current {
+                a {
+                    color: #000;
+                    border-color: @nav-tabs-active-border-color;
+
+                    &:after {
+                        background: @nav-tabs-active-border-color;
+                    }
+                }
+            }
+        }
+    }
+
+    @pt-import-state-icon-size: 48px;
+    @pt-import-state-success: @success; //导入成功图标颜色
+    @pt-import-state-failed: @danger; //导入失败图标颜色
+    @pt-import-loadding-icon-color: #666;
+
+    .loading-data {
+        text-align: center;
+        padding: 25px 0 50px;
+
+        i {
+            font-size: @pt-import-state-icon-size;
+
+            &.icon-check-circle {
+                color: @pt-import-state-success;
+            }
+
+            &.icon-close-circle {
+                color: @pt-import-state-failed;
+            }
+        }
+
+        h4 {
+            margin-top: 15px;
+        }
+
+        .pt-loading {
+            &:after {
+                color: @pt-import-loadding-icon-color;
+            }
+        }
+    }
+
+    @statistics-bg: #f9f9f9;
+    @statistics-color: #ddd;
+
+    .statistics {
+        background: @statistics-bg;
+        border-color: @statistics-color;
+
+        .statistics-item {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            padding: 15px 0;
+
+            span {
+
+                color: #333;
+                display: block;
+                margin-bottom: 10px;
+
+                &:first-child {
+                    font-size: 22px;
+                }
+            }
+        }
+    }
+
+    // 版本2
+    &.pt-excel-import-ver2 {
+        .text-link {
+            text-align: right;
+
+            a {
+                margin: 0;
+            }
+        }
+
+        .fixd-offside {
+            display: block;
+            height: auto;
+            overflow: hidden;
+            margin-top: -40px;
+            text-align: right;
+            padding-right: 150px;
+
+            .checkbox-inline {
+                display: inline-block;
+                float: none;
+                margin-left: 0;
+                margin-right: @base-margin;
+            }
+        }
+    }
+}
+
+//modal-import
+.import-card {
+    width: 100%;
+    margin: 0 auto;
+
+    .import-heade {
+        width: 100%;
+        margin-top: @base-margin;
+        display: table;
+
+        .import-title {
+            width: 50%;
+            font-size: @font-size-base;
+            padding: 5px;
+            border: 1px solid @border-color;
+            text-align: center;
+            display: table-cell;
+
+            &:first-child {
+                position: relative;
+
+                &:after {
+                    z-index: 99;
+                    content: "";
+                    width: 0px;
+                    height: 0px;
+                    border-top: 15px solid transparent;
+                    border-bottom: 15px solid transparent;
+                    border-left: 15px solid #eee;
+                    position: absolute;
+                    top: 0px;
+                    right: -15px;
+                }
+            }
+
+            &.current {
+                background-color: @warning;
+                border-color: @warning;
+                color: #fff;
+
+                &:after {
+                    border-left-color: @warning;
+                    right: -16px;
+                }
+            }
+
+            &.complete {
+                color: #bfbfbf;
+                background-color: #eee;
+                border-color: transparent;
+
+                &:after {
+                    border-left-color: #eee;
+                }
+            }
+
+            &+& {
+                margin-left: -1px;
+                border-left-color: transparent;
+            }
+        }
+
+        //d导入详情标题
+        title {
+            font-size: @font-size-lg;
+            padding-left: @base-padding;
+        }
+    }
+
+    .import-content {
+        padding: 20px 5px;
+
+        &.current {
+            display: block;
+        }
+    }
+
+    //下载按钮
+    .import-content-operation {
+        margin: 15px 0;
+        height: 24px;
+
+        label {
+            font-size: @font-size-base;
+            margin-bottom: 0;
+            margin-right: @base-margin;
+            vertical-align: middle;
+            color: #424242;
+
+        }
+
+        .input-file {
+            display: inline;
+            position: relative;
+
+            input {
+                opacity: 0;
+                z-index: 3;
+                position: relative;
+                display: inline;
+            }
+
+            &:before {
+                position: absolute;
+                content: "选择文件";
+                width: 90px;
+                height: 24px;
+                top: -2px;
+                left: 0;
+                background: #fff;
+                color: darken(@success, 3%);
+                border: darken(@success, 3%) 1px solid;
+                text-align: center;
+                line-height: 22px;
+                z-index: 1;
+                border-radius: 0px;
+                font-size: @font-size-base;
+            }
+
+            span.tips {
+                color: darken(@success, 3%);
+                position: absolute;
+                height: 24px;
+                line-height: 24px;
+                top: 0;
+                left: 105px;
+            }
+        }
+
+
+
+
+
+        .pt-btn {
+            &.pt-btn-default {
+                border: none;
+                padding: 0;
+
+                a {
+                    color: darken(@success, 3%);
+                    font-size: @font-size-base;
+                }
+
+                &:hover,
+                &:active,
+                &:focus {
+                    text-decoration: underline;
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    //详情说明
+    .import-nstructions {
+        margin-top: 30px;
+        border: 1px solid #dedede;
+        border-radius: 5px;
+
+        .title {
+            color: #424242;
+            padding: 0;
+            vertical-align: middle;
+            font-size: 14px;
+            margin-top: -10px;
+            background: #fff;
+            width: 80px;
+            text-align: center;
+            margin-left: 10px;
+
+            .pt-btn-link {
+                text-decoration: underline;
+                margin-top: -3px;
+                font-size: 12px;
+                margin-top: 5px;
+
+                a {
+                    color: @danger;
+                }
+            }
+        }
+
+        .import-nstructions-content {
+
+            padding: 10px 25px;
+            color: #424242;
+
+            .sub-title {
+                font-weight: bold;
+                margin-bottom: @base-margin / 2;
+            }
+
+            .import-nstructions-list {
+                font-size: @font-size-base;
+
+                ul {
+                    margin-left: @base-margin;
+
+                    li {
+                        line-height: 22px;
+                        list-style-type: disc;
+
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,178 @@
+@list-padding: @base-padding;
+@list-margin: @base-margin;
+@list-item-bg: lighten(@primary, 25);
+@list-text-color: darken(@primary, 40);
+@list-group-height: @panel-body-height;
+@list-gutter: (@base-margin / 2);
+.list {
+    .list-group {
+        flex: 1;
+        flex-direction: column;
+        width: 100%;
+        .list-item {
+            flex: none;
+            &+.list-item {
+                border: 0;
+            }
+
+            .list-text {
+                color: @list-text-color;
+            }
+
+        }
+    }
+
+    // 带点装饰的列表
+    &.list-dot {
+        @list-dot-size: .5rem;
+        @list-dot-padding-left: (@base-padding * 3);
+
+        .list-item {
+            position: relative;
+            padding-left: @list-dot-padding-left;
+
+            &:before {
+                position: absolute;
+                content: '';
+                top: 50%;
+                left: @list-padding;
+                margin-top: -(@list-dot-size / 2);
+                background: @primary;
+                .square(@list-dot-size);
+                border-radius: @list-dot-size;
+
+            }
+        }
+    }
+
+    // 带时间节点的列表
+    &.list-timeline {
+        @list-timeline-padding-left: (@base-padding * 3);
+        @list-timeline-margin: @base-margin;
+        @list-timeline-dot-size: .8rem;
+        margin-bottom: .5rem;
+        // @list-timeline-item-height: calc(~"25% -" @list-gutter);
+        .list-group {
+            position: relative;
+            padding-left: @list-timeline-padding-left;
+            &:before {
+                position: absolute;
+                content: '';
+                top: 0;
+                bottom: 0;
+                left: @base-padding;
+                background: @border-color;
+                width: 2px;
+            }
+
+            .list-item {
+                position: relative;
+                background: @list-item-bg;
+                border: 1px solid transparent;
+                // height: @list-timeline-item-height;
+                &+.list-item {
+                    margin-top: (@list-margin / 2);
+                }
+
+                .list-text-title {
+                    font-weight: bold;
+                }
+
+                &:before {
+                    position: absolute;
+                    content: '';
+                    top: 50%;
+                    left: -(@list-timeline-padding-left - (@list-timeline-dot-size / 2));
+                    margin-top: -(@list-timeline-dot-size / 2);
+                    background: @primary;
+                    .square(@list-timeline-dot-size);
+                    border-radius: @list-timeline-dot-size;
+                    border: .25rem solid #fff;
+                }
+
+                &.current {
+                    border: 1px solid @border-color;
+
+                    &:before {
+                        background: @success;
+                    }
+                }
+            }
+        }
+    }
+
+    // 列表状态
+    &.list-state {
+        @list-state-padding-left: (@base-padding * 3);
+        @list-state-mark-size: .8rem;
+        @list-state-item-height: calc(~"33.3333% -" @list-gutter);
+
+        .list-group {
+            .list-item {
+                background: @list-item-bg;
+                height: @list-state-item-height;
+                &+.list-item {
+                    margin-top: (@list-margin / 2);
+                }
+
+                .list-text-title {
+                    font-weight: bold;
+                }
+
+                // 状态标记
+                .list-item-state {
+                    .square(@list-state-mark-size);
+                    border-radius: @list-state-mark-size;
+                    background: @border-color;
+                    margin: .4rem;
+
+                    &.state-primary {
+                        background: @primary;
+                    }
+
+                    &.state-success {
+                        background: @success;
+                    }
+
+                    &.state-info {
+                        background: @info;
+                    }
+
+                    &.state-warning {
+                        background: @warning;
+                    }
+
+                    &.state-danger {
+                        background: @danger;
+                    }
+
+                    &.state-normal {
+                        background: @primary;
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    // 圆角列表
+    &.list-circle {
+        @list-circle-item-height: calc(~"20% -" @list-gutter);
+        .list-group {
+            .list-item {
+                background: @list-item-bg;
+                border-radius: @border-radius-circle;
+                height: @list-circle-item-height;
+                & + .list-item{
+                    margin-top: (@list-margin / 2);
+                    
+                }
+                .list-before{
+                    padding-left: @list-padding;
+                }
+            }
+        }
+    }
+
+}

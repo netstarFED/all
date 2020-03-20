@@ -1,0 +1,830 @@
+@modal-header-height: 48px;
+
+@modal-bg-zindex: (@zindex-modal - 1);
+@modal-margin: 100px;
+@modal-size-xs: 320px;
+@modal-size-sm: 480px;
+@modal-size-base: 640px;
+@modal-size-md: 800px;
+@modal-size-lg: 1170px;
+@modal-size-full: 98%;
+@modal-body-height: calc(~"100% -"(@modal-margin * 4));
+@modal-footer-height: (@btn-size-base + (@padding-lg-v * 2));
+@modal-min-height: 320px;
+@modal-header-title-lineheight: (@modal-header-height - (@padding-lg-v * 2));
+@modal-scroll-height: 400px;
+
+.pt-modal {
+    .pt-modal-bg {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        content: '';
+        z-index: @modal-bg-zindex;
+        background: rgba(0, 0, 0, .5);
+        animation: modal-bg-flash .5s;
+        -webkit-animation: modal-bg-flash .5s;
+
+    }
+
+}
+
+// 模态框内容部分
+@modal-content-margin: 100px;
+@modal-content-zindex: (@zindex-modal + 1);
+
+
+.modal-size(@width) {
+    width: @width;
+    margin-left: -(@width / 2);
+}
+
+.pt-modal-content {
+    background: #fff;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    margin-top: @modal-margin;
+    margin-bottom: @modal-margin;
+    z-index: @modal-content-zindex;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .35);
+    // height: 400px;
+    .modal-size(@modal-size-md);
+    min-width: 360px;
+    min-height: 100px;
+
+    // padding-bottom: @modal-footer-height;
+    .pt-panel:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    &.pt-modal-content-fullscreen {
+        .modal-size(@modal-size-full);
+    }
+
+    &.pt-modal-content-lg {
+        .modal-size(@modal-size-lg);
+    }
+
+    &.pt-modal-content-md {
+        .modal-size(@modal-size-md);
+    }
+
+    &.pt-modal-content-sm {
+        .modal-size(@modal-size-sm);
+    }
+
+    &.pt-modal-content-xs {
+        .modal-size(@modal-size-xs);
+    }
+
+    .pt-form {
+        &.pt-form-inline {
+            border-width: 0;
+            padding: 0;
+        }
+    }
+
+
+}
+
+.pt-modal-header,
+.pt-modal-body,
+.pt-modal-footer {
+    padding: @padding-lg-v @padding-lg-h;
+    background: #fff;
+}
+
+// modal-header模态框头部
+.pt-modal-header-bg {
+    #gradient .vertical(@gray-lighter, @gray-light, 0%, 100%);
+}
+
+.pt-modal-header {
+    border-bottom: 1px solid @border-color;
+    // height: @modal-header-height;
+    min-height: @modal-header-height;
+    text-align: right;
+    .pt-modal-header-bg();
+
+    .pt-title {
+        float: left;
+
+        h4 {
+            line-height: @modal-header-title-lineheight;
+        }
+    }
+
+    .pt-modal-header-content {
+        margin: 10px -16px -11px;
+        background: #fff;
+
+        .pt-nav {
+            border-top: 1px solid @border-color;
+
+            ul {
+                margin-top: -1px;
+            }
+        }
+
+        &#dialog-dialog-pdf-header {
+            padding-top: @base-padding;
+            padding-right: @base-padding;
+        }
+    }
+
+    .pt-nav {
+        height: 30px;
+        overflow: hidden;
+        background: #f8f8f8;
+
+        ul {
+            display: table;
+            width: 100%;
+            height: 30px;
+        }
+
+        .pt-nav-item {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            float: none;
+            border-left: 1px solid @border-color;
+            border-bottom: 1px solid @border-color;
+
+            &:hover {
+                background: #f2f2f2;
+            }
+
+            &:first-child {
+                border-left: 0;
+            }
+
+            &.current {
+                background: #fff;
+                border-bottom-color: #fff;
+            }
+        }
+    }
+
+    .pt-close {
+        display: inline-block;
+    }
+
+}
+
+// modal-body模态框中间内容
+.pt-modal-body {
+    position: relative;
+    overflow-y: auto;
+
+    &.pt-modal-scroll {
+        // max-height: @modal-scroll-height;
+    }
+
+}
+
+// modal-footer模态框底部
+.pt-modal-footer {
+    // border-top: 1px solid @border-color;
+    text-align: right;
+    position: relative;
+
+    .pt-btn-group {
+        .pt-btn {
+            margin-bottom: 0;
+
+            &+.pt-btn {
+                margin-left: @base-margin;
+            }
+        }
+    }
+
+    .pt-panel {
+        .pt-panel-col {
+            text-align: left;
+
+            &:last-child {
+                text-align: right;
+            }
+        }
+    }
+
+}
+
+// modal-bg-flash
+@-webkit-keyframes modal-bg-flash
+
+/*Safari and Chrome*/
+    {
+    0% {
+        opacity: 0;
+        ;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+// 弹框内容为tab标签页时，在modal-body标签追加class：modal-tab
+.pt-modal-body.pt-modal-tab {
+    // margin-top: @tab-header-height;
+
+    &.no-tab-nav,
+    &.pt-modal-tab-hidetitle {
+        margin-top: 0;
+
+        .pt-tab-header {
+            border-bottom: 1px solid transparent;
+        }
+    }
+
+    .pt-tab-header {
+        position: fixed;
+        top: ((@modal-margin + @modal-header-height));
+        left: 50%;
+        border-bottom: 1px solid @border-color;
+        .tab-header-veriant(@modal-size-md);
+
+        .pt-nav {
+
+            // background: #fff;
+            &>ul {
+                display: table;
+                width: 100%;
+            }
+
+            .pt-nav-item {
+                display: table-cell;
+                float: none;
+
+                a {
+                    border-width: 0 1px 0 0;
+                    line-height: @tab-header-height;
+                }
+
+                &:not(.current) {
+                    a {
+                        border-bottom-color: transparent;
+                    }
+                }
+
+                &:last-child {
+                    a {
+                        border-right: 0;
+                    }
+                }
+
+                &.current {
+                    position: relative;
+
+                    a {
+                        font-weight: bold;
+                    }
+
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        height: 1px;
+                        background: #fff;
+                        left: 0;
+                        right: 1px;
+                        bottom: -1px;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .pt-tab-body {
+        margin-top: 0;
+        border: 0;
+    }
+
+
+}
+
+// modal弹框中tab标签页导航宽度变量
+.tab-header-veriant(@width) {
+    width: @width;
+    margin-left: -(@width / 2);
+}
+
+.pt-modal-body.pt-modal-tab .pt-tab-header {
+
+    // 大尺寸弹框tab-header宽度
+    .pt-modal-content-lg & {
+        .tab-header-veriant(@modal-size-lg);
+    }
+
+    // 大尺寸弹框tab-header宽度
+    .pt-modal-content-md & {
+        .tab-header-veriant(@modal-size-md);
+    }
+
+    // 大尺寸弹框tab-header宽度
+    .pt-modal-content-base & {
+        .tab-header-veriant(@modal-size-base);
+    }
+
+    // 大尺寸弹框tab-header宽度
+    .pt-modal-content-sm & {
+        .tab-header-veriant(@modal-size-sm);
+    }
+
+    // 大尺寸弹框tab-header宽度
+    .pt-modal-content-xs & {
+        .tab-header-veriant(@modal-size-xs);
+    }
+}
+
+// 弹框窗口拖动标识
+
+@window-control-size: 20px;
+@window-control-mark-size: (@window-control-size / 2);
+@window-control-color: @gray;
+@window-control-hover-color: @warning;
+
+.pt-window-control {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: @window-control-size;
+    height: @window-control-size;
+    cursor: pointer;
+
+    &:after {
+        right: 1px;
+        bottom: 1px;
+        .triangle-right-bottom(@window-control-mark-size, @window-control-color);
+    }
+
+    &:hover,
+    &:focus {
+        &:after {
+            .triangle-right-bottom(@window-control-mark-size, @window-control-hover-color);
+        }
+    }
+
+}
+
+// confirm弹框样式
+.pt-modal {
+    &.pt-confirm {
+        .pt-modal-header {
+            height: 28px;
+            padding: 0 @base-padding;
+            border-bottom: 0;
+            background: #e5edf3;
+            padding-top: 5px;
+
+            .pt-title {
+                font-size: 14px;
+
+                h4 {
+                    font-size: 14px;
+                    line-height: 18px;
+                }
+            }
+
+            .pt-close {
+                .pt-btn.pt-btn-icon {
+                    .square(18px);
+                    line-height: 18px;
+                }
+            }
+        }
+
+        .pt-modal-body {
+            border-top: 0;
+            background: #fff;
+            padding-top: 20px;
+            padding-bottom: 20px;
+
+            p {
+                font-size: 14px;
+
+                i {
+                    font-size: 24px;
+                    display: block;
+                    float: left;
+                    color: @primary;
+                    margin-right: @base-margin;
+                }
+            }
+        }
+
+        .pt-modal-footer {
+            background: #fff;
+
+            .pt-btn-group {
+                .btn-default {
+                    .button-variant(#333, #f5f5f5, #ddd);
+                }
+            }
+
+        }
+    }
+}
+
+
+
+.pt-modal {
+
+    //鼠标拖动下弹框时tab页结构
+    .pt-dragging {
+        .pt-modal-body.pt-modal-tab {
+            position: static;
+
+            .pt-tab {
+                position: static;
+
+                .pt-tab-header {
+                    position: absolute;
+                    top: @modal-header-height;
+                }
+            }
+
+            //受理页面双tab页外层单独写结构的tab页
+            .pt-othertab {
+                position: static;
+
+                .pt-othertab-header {
+                    position: absolute;
+                    top: @modal-header-height;
+                    width: 100%;
+                    left: 0;
+                    margin-left: 0;
+                }
+            }
+        }
+
+        //受理页面双tab页内层tab页
+        &.multiDialog {
+            .pt-modal-body.pt-modal-tab {
+                .pt-tab {
+                    position: relative;
+                }
+            }
+        }
+    }
+
+    //tab页在弹框标题状态下
+    &.pt-business-dialog {
+        .pt-container {
+            .pt-modal-content>.pt-modal-header {
+
+                // padding:0;
+                .pt-title {
+                    float: left;
+
+                    .pt-nav {
+                        width: 100%;
+
+                        &>ul {
+                            display: table;
+                            width: 100%;
+                        }
+
+                        .pt-nav-item {
+                            display: table-cell;
+                            float: none;
+
+                            a {
+                                font-weight: bold;
+                                font-size: @font-size-md;
+                                border-bottom: 3px solid transparent;
+                                line-height: @modal-header-height - 3px;
+                                padding: 0 @padding-lg-v;
+                            }
+
+                            &.current {
+                                a {
+                                    font-weight: bold;
+                                    color: @warning;
+                                    border-bottom: 3px solid @warning;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.pt-modal-header {
+    .pt-title {
+        padding: 0;
+    }
+}
+
+
+//弹框中带tab的模板没有tab的情况，任务分配-查看人员
+.pt-modal-content {
+    &.pt-modal-notab {
+        .pt-modal-header {
+            .pt-tab-header {
+                display: none;
+            }
+        }
+
+        .pt-modal-body {
+            &.pt-modal-tab {
+                margin-top: 0;
+
+                .pt-othertab {
+                    .pt-othertab-body {
+                        padding: 0;
+                        border: none;
+
+                        .pt-othertab-content {
+                            .pt-main {
+                                padding: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+//弹框内提示文字
+.pt-modal-body {
+
+    .tip-content {
+        // position: absolute;
+        // top: @padding-lg-v;
+        // left: @padding-lg-h;
+        margin-bottom: @base-margin;
+        z-index: 999;
+
+        span {
+            &.warn {
+                color: @warning;
+            }
+
+            &.error {
+                color: @danger;
+            }
+
+            &.success {
+                color: @success;
+            }
+
+            &.info {
+                color: #000;
+            }
+        }
+    }
+}
+
+.pt-modal {
+    &.pt-wxtprint-setting {
+        .pt-modal-body {
+            .pt-wxtprint-panel {
+                height: 100%;
+
+                .pt-main-row {
+                    &:last-child {
+                        height: 100%;
+                    }
+                }
+            }
+
+            .pt-components-btns {
+                margin-bottom: 15px;
+
+                .pt-btn-group {
+                    width: 240px;
+
+                    .pt-btn {
+                        text-align: right;
+                        vertical-align: bottom;
+                        border-radius: 5px !important;
+                        padding: 0 15px;
+                        border-radius: 0;
+                        height: 28px;
+
+                        &:first-child {
+                            background: @success;
+                            border-color: @success;
+
+                            span {
+                                color: #fff;
+                            }
+
+                            &:hover,
+                            &:active {
+                                background: darken(@success, 10%);
+                                border-color: darken(@success, 10%);
+                            }
+                        }
+
+                        //     i{
+                        //         display: block;
+                        //         font-size: 20px;
+                        //         color: #666;
+                        //         margin-bottom: 5px;
+                        //     }
+                        //     span{
+                        //         padding-left: 0;
+                        //     }
+                        //     &:hover{
+                        //         background-color: #fff;
+                        //         box-shadow: 5px 4px 5px rgba(0, 0, 0, .15);
+                        //         border-color:#9e9e9e;
+                        //         i,
+                        //         span{
+                        //             color:#424242;
+                        //         }
+                        //     }
+                        // }
+                        &:last-child {
+                            border-color: lighten(@success, 45%);
+
+                            &:hover,
+                            &:active {
+                                border-color: lighten(@success, 20%);
+                                background: #fff;
+                                color: #000;
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            .pt-form {
+                &.pt-form-inline {
+                    &.pt-form-print {
+                        .pt-form-group {
+                            width: 100%;
+
+                            label {
+                                display: inline-block;
+                                text-align: left;
+                                width: 100%;
+                                font-size: 14px;
+                                color: #424242;
+                                height: 32px;
+                            }
+
+                            &+.pt-form-group {
+                                margin-left: 0 !important;
+                            }
+
+                            .pt-input-group {
+                                width: 100%;
+                            }
+
+                            input.pt-form-control {
+                                width: 100%;
+                            }
+
+                            &:first-child {
+                                position: relative;
+
+                                &:before {
+                                    position: absolute;
+                                    bottom: 7px;
+                                    left: 7px;
+                                    width: 30px;
+                                    height: 30px;
+                                    content: "\e9ef";
+                                    font-family: 'icomoon';
+                                    color: #666;
+                                    font-size: 18px;
+                                    z-index: 9;
+                                }
+
+                                &:after {
+                                    text-align: center;
+                                    border-radius: 5px;
+                                    background: #fff;
+                                    position: absolute;
+                                    bottom: 12px;
+                                    left: 19px;
+                                    width: 15px;
+                                    height: 15px;
+                                    content: "\e95f";
+                                    font-family: 'icomoon';
+                                    color: green;
+                                    font-size: 12px;
+                                    z-index: 10;
+                                }
+
+                                input.pt-form-control {
+                                    height: 48px;
+                                    padding-left: 40px;
+
+                                }
+
+                                .pt-input-group-btn {
+                                    .pt-btn {
+                                        &.pt-btn-icon {
+                                            height: 48px;
+
+                                            &:hover {
+                                                background: #fff;
+
+                                                i,
+                                                span {
+                                                    color: #424242;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            .pt-main-col {
+                &.wxtprint-right {
+                    padding-top: 0;
+                    margin-top: 0;
+                    border-left: 1px solid #dedede;
+                    padding-left: 10px;
+
+                    .pt-components-pdf-title {
+                        font-size: 14px;
+                        line-height: 30px;
+                    }
+
+                    .pt-pdfview-footer {
+                        position: absolute;
+                        bottom: 0;
+                        padding-top: 10px;
+                    }
+
+                    .pt-components-pdf {
+                        overflow: auto;
+                        border: 1px solid #dedede;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.pt-dropdown {
+    ul.pt-dropdown-components {
+        li.pt-list-table {
+            &.pt-dropdown-print {
+                padding-left: 36px;
+                border-bottom: 1px solid #bfbfbf;
+                width: 100%;
+
+                span {
+                    border: none;
+                    padding-left: 0;
+
+                    &:first-child {
+
+                        display: table-caption;
+                        width: 100%;
+                        padding-bottom: 0;
+                        padding-left: 36px;
+                    }
+
+                    &.note,
+                    &.page {
+                        color: #999;
+                        padding-top: 0;
+                    }
+                }
+
+                &.active {
+                    &.selected {
+                        background-color: #f8f8f8;
+
+                        span {
+                            &.title {
+                                color: #000;
+                                background-color: #f8f8f8;
+                            }
+
+                            &.note,
+                            &.page {
+                                color: #999;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

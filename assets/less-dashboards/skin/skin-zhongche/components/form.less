@@ -1,0 +1,102 @@
+@form-padding: @base-padding;
+@form-control-color: #fff;
+@control-label-color: #fff;
+@form-color: #fff;
+@form-control-bg: @primary;
+
+.form {
+    align-items: center;
+
+    .control-label {
+        color: @control-label-color;
+    }
+
+    .form-control {
+        .rgba-bg(@primary, .35);
+    }
+
+}
+
+
+
+// 屏幕宽度小于Full-HD(1920)less样式
+@media screen and (max-width: @screen-hd) {
+    .form {
+        .form-item {
+            font-size: 0.85rem;
+        }
+    }
+
+    .fullpage-view {
+
+        .form,
+        .table,
+        .list {
+            zoom: 2;
+        }
+
+        .form .form-item {
+            margin-bottom: 1rem;
+        }
+
+        .btn-group.btn-group-vertical .btn+.btn {
+            margin-top: 1.25rem;
+        }
+    }
+}
+
+// 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+@media screen and (min-width: 1921px) and (max-width: @screen-2k) {
+    .form {
+        .form-item {
+            font-size: 0.85rem;
+        }
+    }
+
+    .fullpage-view {
+
+        .form,
+        .table,
+        .list {
+            zoom: 2;
+        }
+
+        .form .form-item {
+            margin-bottom: 1rem;
+        }
+
+        .btn-group.btn-group-vertical .btn+.btn {
+            margin-top: 1.25rem;
+        }
+    }
+}
+
+// 屏幕宽度在大于2k(2560)less样式
+@media screen and (min-width: 2561px) {
+    .dashboard-box .dash-board-mark-number {
+        font-size: .35rem !important;
+    }
+
+    .form {
+        .form-item {
+            font-size: 0.85rem;
+        }
+    }
+
+    .fullpage-view {
+
+        .form,
+        .table,
+        .list {
+            zoom: 1.5;
+        }
+
+        .form .form-item {
+            margin-bottom: 1rem;
+        }
+
+        .btn-group.btn-group-vertical .btn+.btn {
+            margin-top: 1.25rem;
+        }
+    }
+}

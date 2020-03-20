@@ -1,0 +1,50 @@
+	// 模板页面右侧主体面板
+.content-box{
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	@content-box-padding: 15px;
+	display: block;
+	padding: (@header-height + @content-box-padding) @content-box-padding @content-box-padding  (@sidebar-menu-horizontal-width + @content-box-padding);
+	background: @body-bg;
+	overflow-y: auto;
+	.layout-planes{
+		padding: 0 15px;
+
+	}
+
+	.nspanel{
+		background-color: transparent;
+		.nspanel-title,
+		.nspanel-body{
+			background: transparent;
+			padding: @base-padding 0;
+		}
+	}
+}
+
+.panel-form .row-close{
+	margin: 0;
+}
+
+.panel{
+	background-color: transparent;
+}
+.nspanel{
+	background-color: transparent;
+	.nspanel-title{
+		background-color: transparent;
+	}
+}
+
+// 水平布局模式
+@mode-horizontal-gutter: @base-padding;
+.mode-horizontal{
+	display: table;
+	width: 100%;
+	& > div{
+		display: table-cell;
+	}
+}

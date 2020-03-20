@@ -1,0 +1,1562 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-10-19 16:32:28
+ * @LastEditTime: 2019-10-19 17:16:28
+ * @LastEditors: Please set LastEditors
+ -->
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <style>
+
+        .pt-container-files {
+            padding: 10px;
+        }
+
+        .pt-files-title {
+            line-height: 42px;
+            font-size: 14px;
+        }
+
+        .pt-files-s-title {
+            text-align: center;
+            font-size: 12px;
+            line-height: 26px;
+            width: 100px;
+            height: 26px;
+            background: #fbfbfb;
+            border: 1px solid #ccc;
+            margin-top: 12px;
+        }
+        .pt-files-title-bottom {
+            display: block;
+            font-size: 14px;
+            padding-top: 11px;
+        }
+    </style>
+    <div class="pt-container-files">
+        <span class="pt-files-title" id="demo">人员信息</span>
+        <div id="netstar-pages-files-information"></div>
+        <span class="pt-files-title" id="demo"> 月经史</span>
+        <div id="netstar-pages-files-menses"></div>
+        <span class="pt-files-title" id="demo">婚姻史</span>
+        <div id="netstar-pages-files-marriage"></div>
+        <span class="pt-files-title" id="demo">生育史</span>
+        <div id="netstar-pages-files-bear"></div>
+        <span class="pt-files-title" id="demo">烟酒史</span>
+        <div id="netstar-pages-files-alcohol"></div>
+        <span class="pt-files-title" id="demo">其他</span>
+        <div id="netstar-pages-files-other"></div>
+        <span class="pt-files-title" id="demo">职业史信息</span>
+        <div id="netstar-pages-files-grid-telcher"></div>
+        <!-- <span class="pt-files-title"> 既往病史信息</span>
+    <div id="netstar-pages-files-grid-medical"></div> -->
+        <span class="pt-files-title" id="demo"> 反射工作史信息</span>
+        <div id="netstar-pages-files-grid-reflex"></div>
+        <span class="pt-files-title" id="demo"> 职业病史、既往病史信息</span>
+        <div id="netstar-pages-files-grid-cupational"></div>
+        <span class="pt-files-title" id="demo">危害职业信息</span>
+        <div id="netstar-pages-files-grid-contact"></div> 
+        <span class="pt-files-title" id="demo">自觉症状</span>
+        <div id="netstar-pages-files-grid-conscious"></div> 
+        <span class="pt-files-title" id="demo">问诊</span>
+        <div id="netstar-pages-files-grid-interrogation"></div>
+        <span class="pt-files-title-bottom" id="demo">项目结果信息</span>
+        <div id="netstar-pages-files-grid"></div>
+        <span class="pt-files-title" id="demo">项目结论信息</span>
+        <div id="netstar-pages-form-files-epilog"></div>
+        <div id="netstar-pages-files-btns"></div>
+    </div>
+    <script>
+        $(function () {
+            /* {
+                "root":"id",
+                "root.diseaseHistoryVOList":"id",//itemClassResultVOList
+                "root.hazardResultVOList":"id",
+                "root.itemResultVOList" :"id",
+                "root.inquiryVO":"id",
+                "root.itemClassResultVOList":"id", 
+                "root.itemClassResultVOList.itemClassResultVOList":"id"
+                "root.occupationHistoryVOList":"id",
+                "root.personalRecordOccuVO":"id"
+                "root.symptomInquiryVOList":"id"
+                "root.targetDiseaseVOList"；"id"
+
+            } */         
+            var url = NetstarUI.labelpageVm.currentUrl;
+            var paraStr = url.substr(url.indexOf('?') + 1);
+            var paraArr = paraStr.split('&');
+            var paraObj = {};
+            for (var paraI = 0; paraI < paraArr.length; paraI++) {
+                var equalIndex = paraArr[paraI].indexOf('=');
+                var paraName = paraArr[paraI].substr(0, equalIndex);
+                var paraValue = paraArr[paraI].substr(equalIndex + 1);
+                paraObj[paraName] = paraValue;
+            }
+            console.log(paraObj); 
+            // if(typeof(paraObj.codId) != 'object'){
+            //     nsalert("节点id不存在");
+            //     return;
+            // }    
+            var NetstarPageDatafiles = {
+                //列表  vo
+                /*
+                   * NetstarInformation   "netstar-pages-files-information"    //人员信息
+                   * NetstarMenses         netstar-pages-files-menses      //月经史
+                   * NetstarMarriage      'netstar-pages-files-marriage'    //婚姻史
+                   * NetstarBear           'netstar-pages-files-bear'      //生育史
+                   * NetstarAlcohol        'netstar-pages-files-alcohol'    //烟酒史
+                   * NetstarOther         'netstar-pages-files-other'      //其他
+                   * NetstarOtherItemEpilog      'netstar-pages-form-files-epilog'    //结论
+                */
+                vo: {
+                    initVo: function (resData) {
+                        /// 人员信息
+                        var NetstarInformation = {
+                            id: 'netstar-pages-files-information',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            defaultComponentWidth: "25%", 
+                            form: [
+                                {
+                                    id: 'peDate',
+                                    label: '体检日期 ',
+                                    type: 'text',
+                                    // value: ,
+                                },
+                                {
+                                    id: 'peNo',
+                                    label: '体检编号',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'empName',
+                                    label: '姓名',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'orgGender',
+                                    label: '性别',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'idcard',
+                                    label: '身份证号',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'birthday',
+                                    label: '出生年月',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'age',
+                                    label: '年龄',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'phoneNo',
+                                    label: '联系电话',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'employerOrgName',
+                                    label: '工作单位',
+                                    type: 'text',
+                                    inputWidth: 600,
+                                },
+                                {
+                                    id: 'dept',
+                                    label: '车间部门',
+                                    type: 'text',
+                                    value: resData.personalRecordOccuVO.dept,
+                                },
+
+                                {
+                                    id: 'orgWorkName',
+                                    label: '工种',
+                                    type: 'text',
+                                    value: resData.personalRecordOccuVO.orgWorkName,
+                                },
+                                {
+                                    id: 'empNo',
+                                    label: '工号',
+                                    type: 'text',
+                                    value: resData.personalRecordOccuVO.empNo,
+                                },
+                                {
+                                    id: 'date',
+                                    label: '入场日期',
+                                    type: 'text',
+                                    value: '',
+                                },
+                                {
+                                    id: 'workYears',
+                                    label: '总工龄年',
+                                    type: 'text',
+                                    value: resData.personalRecordOccuVO.workYears,
+                                },
+                                {
+                                    id: 'workMonths',
+                                    label: '总工龄月',
+                                    type: 'text',
+                                    value: resData.personalRecordOccuVO.workMonths,
+                                },
+                                {
+                                    id: 'hazardYears',
+                                    label: '按害工龄年',
+                                    type: 'text',
+                                    value: resData.personalRecordOccuVO.hazardYears,
+                                },
+                                {
+                                    id: 'hazardMonths',
+                                    label: '按害工龄月',
+                                    type: 'text',
+                                    value: resData.personalRecordOccuVO.hazardMonths,
+                                },
+                                {
+                                    id: 'orgNation',
+                                    label: '民族',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'orgMarriage',
+                                    label: '婚姻状态',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'degree',
+                                    label: '学历',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'zipcode',
+                                    label: ' 邮政编码',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'nativePlace',
+                                    label: ' 籍贯',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'nativePlace',
+                                    label: ' 出生地',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'homeAdd',
+                                    label: '家庭住址',
+                                    type: 'text',
+                                    inputWidth: 600
+                                },
+
+                                {
+                                    id: 'remarks',
+                                    label: '备注 ',
+                                    type: 'text',
+                                    inputWidth: 600
+                                },
+                           
+                            ]
+                        }
+                        ///月经史
+                        var NetstarMenses = {
+                            id: 'netstar-pages-files-menses',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            defaultComponentWidth: "25%",             
+                            form: [{
+                                    id: 'menarcheAge',
+                                    label: '初潮（岁） :',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'period',
+                                    label: '经期 （天）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'cycle',
+                                    label: '周期（天）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'menopauseage',
+                                    label: '停经年龄（岁）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'lmp',
+                                    label: '末次月经时间',
+                                    type: 'text',
+                                    value: '',
+                                },                               
+                 
+                            ]
+                        }
+                        ///婚姻史
+                        var NetstarMarriage = {
+                            id: 'netstar-pages-files-marriage',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            defaultComponentWidth: "25%",                   
+                            form: [{
+                                    id: 'maritalDate',
+                                    label: '结婚日期',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'spouse',
+                                    label: '配偶出生年月',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'rayInfo',
+                                    label: '接触放射线',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'spouseInto',
+                                    label: '职业及健康',
+                                    type: 'text',
+                                },
+                          
+                            ]
+                        }
+                        //生育史
+                        var NetstarBear = {
+                            id: 'netstar-pages-files-bear',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            defaultComponentWidth: "25%",
+                        
+                            form: [{
+                                    id: 'children',
+                                    label: '现有子女（人）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'abortion',
+                                    label: '流产（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'premature',
+                                    label: '早产（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'stillBirth',
+                                    label: '死产（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'abnormalFetal',
+                                    label: '异常胎（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'pregnancy',
+                                    label: '孕（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'period',
+                                    label: '活产（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'naturalabortion',
+                                    label: '自然流产（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'polyembryony',
+                                    label: '多胎（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'smokingYears',
+                                    label: '异位妊娠（次）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'nfertile',
+                                    label: '不孕不育原因',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'boys',
+                                    label: '现有男孩',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'birthday',
+                                    label: '出生日期',
+                                    type: 'text',
+                                    value: '',
+                                },
+                                {
+                                    id: 'girl',
+                                    label: '现有女孩',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'birthdy',
+                                    label: '出生日期',
+                                    type: 'text',
+                                    value: '',
+                                },
+                                {
+                                    id: 'childHealth',
+                                    label: '健康状况',
+                                    type: 'text',
+                                },
+
+                            ]
+                        }
+                        //烟酒史
+                        var NetstarAlcohol = {
+                            id: 'netstar-pages-files-alcohol',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            defaultComponentWidth: "25%",                       
+                            form: [{
+                                    id: 'smoking',
+                                    label: '吸烟情况',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'smokingQuantity',
+                                    label: '只/每天',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'smokingYears',
+                                    label: '共（年）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'quitsmoking',
+                                    label: '戒烟（年）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'drinking',
+                                    label: '饮酒情况',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'drinkingQuantity',
+                                    label: 'ml/每天',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'drinkingYears',
+                                    label: '共（年）',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'quitsmoking2',
+                                    label: '戒酒（年）',
+                                    type: 'text',
+                                },
+                            ]
+                        }
+                        //其他
+                        var NetstarOther = {
+                            id: 'netstar-pages-files-other',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            defaultComponentWidth: "25%",
+                         
+                            form: [{
+                                    id: 'lifeHis',
+                                    label: '个人生活史',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'infectious diseases',
+                                    label: '传染病史',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'bloodtransfusion',
+                                    label: '输血史',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'historyoperation',
+                                    label: '手术史',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'familyHis',
+                                    label: '家族史',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'allergyhistory',
+                                    label: '过敏史',
+                                    type: 'text',
+                                },
+                                {
+                                    id: 'other',
+                                    label: '其他',
+                                    type: 'text',
+                                },
+                            ]
+                        }
+                        //结论
+                        var NetstarOtherItemEpilog = {
+                            id: 'netstar-pages-form-files-epilog',
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            defaultComponentWidth: "80%",
+                            isSetMore: false,
+                            formStyle: "pt-form-normal",
+                            form: [
+                                {
+                                    id: 'mainCheckDate',
+                                    label: '主检时间',
+                                    type: 'date',
+                                    inputHeight : 35,
+                                },{
+                                    id: 'orgPeConclusionName',
+                                    label: '主检结论',
+                                    type: 'textarea',
+                                },
+                                {
+                                    id: 'peResult',
+                                    label: '体检结果',
+                                    type: 'textarea',
+                                    height: 100,
+                                },
+                                {
+                                    id: 'propose',
+                                    label: '主检建议',
+                                    type: 'textarea',
+                                },
+                                {
+                                    id: 'mainCheckDoc',
+                                    label: '主键医生',
+                                    type: 'textarea',
+                                },
+                            ]
+                        }
+                        console.warn(paraObj);
+                        //表格
+                        //  通过readonly判断页面是否只读 readonly = true (只读)  readonly = false (不只读)  
+                        //  readonly = half ( 半只读)
+                        switch(paraObj.readonly){
+                            case 'true':
+                                NetstarInformation.readonly = true;
+                                NetstarMenses.readonly = true;
+                                NetstarMarriage.readonly = true;
+                                NetstarBear.readonly = true;
+                                NetstarAlcohol.readonly = true;
+                                NetstarOther.readonly = true;
+                                NetstarOtherItemEpilog.readonly = true;
+                                break;
+                            case 'false':
+                                NetstarInformation.readonly = false;
+                                NetstarMenses.readonly = false;
+                                NetstarMarriage.readonly = false;
+                                NetstarBear.readonly = false;
+                                NetstarAlcohol.readonly = false;
+                                NetstarOther.readonly = false;
+                                NetstarOtherItemEpilog.readonly = false;
+                                break;
+                            case 'half':
+                                NetstarInformation.readonly = false;
+                                NetstarMenses.readonly = false;
+                                NetstarMarriage.readonly = false;
+                                NetstarBear.readonly = false;
+                                NetstarAlcohol.readonly = false;
+                                NetstarOther.readonly = false;
+                                NetstarOtherItemEpilog.readonly = true;
+                                break;
+                        }
+                        resData = $.extend(false, resData, resData.inquiryVO);
+                        NetstarComponent.formComponent.show(NetstarInformation, resData);
+                        NetstarComponent.formComponent.show(NetstarMenses, resData.inquiryVO);
+                        NetstarComponent.formComponent.show(NetstarMarriage, resData.inquiryVO);
+                        NetstarComponent.formComponent.show(NetstarBear, resData.inquiryVO);
+                        NetstarComponent.formComponent.show(NetstarAlcohol, resData.inquiryVO);
+                        NetstarComponent.formComponent.show(NetstarOther, resData.inquiryVO);
+                        NetstarComponent.formComponent.show(NetstarOtherItemEpilog, resData);//项目结论信息
+                    },
+                    init: function (resData) {
+                        var _this = this;
+                        _this.initVo(resData);
+                    }
+                },
+                list: {
+                    initList: function (resData) {
+                        //职业史信息 
+                        var NetstarDocumentTelcher = {
+                            columns: [{
+                                    field: 'employerOrgName',
+                                    title: '工作单位',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+
+                                    }
+                                },
+                                {
+                                    field: 'whenStart',
+                                    title: '起始年月',
+                                    columnType: 'date',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'date',
+                                        format: "YYYY-MM-DD",
+                                       
+                                    },
+                                    formatHandler: {
+                                        type: 'date',
+                                        data: {
+                                            formatDate: "YYYY-MM-DD",
+                                        }
+                                    },
+                                },
+                                {
+                                    field: 'whenEnd',
+                                    title: '终止年月',
+                                    columnType: 'date',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'date',
+                                        format: "YYYY-MM-DD",
+                                       
+                                    },
+                                    formatHandler: {
+                                        type: 'date',
+                                        data: {
+                                            formatDate: "YYYY-MM-DD",
+                                        }
+                                    },
+                                },
+                                {
+                                    field: 'dept',
+                                    title: '车间部门',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'typeOfWork',
+                                    title: '工种',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'hazardNames',
+                                    title: '接害因素',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'concentration',
+                                    title: '浓度',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'protection',
+                                    title: '防护措施',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                            ],
+                            data: {
+                                idField: 'id',
+                                tableID: 'netstar-pages-files-grid-telcher',
+                                dataSource : resData.jobHistoryList,   // lyw
+                            },
+                            ui: {
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: true,
+                                isEditMode: true,
+                                isAllowAdd: true,
+                                isHaveEditDeleteBtn: true,
+                                tableRowBtns: []
+                            }
+                        }
+                        //职业病史
+                        var NetstarOccupation = {
+                            columns: [
+                                {
+                                    field: 'orgDiseaseName',
+                                    title: '疾病名称',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+
+                                    }
+                                },
+                                {
+                                    field: 'targetDisease',
+                                    columnType: 'hidden',
+                                    editConfig: {
+                                        type: 'hidden',
+
+                                    }
+                                },
+                                {
+                                    field: 'diagnoseDate',
+                                    title: '诊断时间',
+                                    editable: true,
+                                    columType: 'text',
+                                    editConfig: {
+                                        type: 'text',
+
+                                    }
+                                 
+                                },
+                                {
+                                    field: 'diagnoseUnit',
+                                    title: '诊断医院',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'diagnosticLevel',
+                                    title: '诊断级别',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'cureProcess',
+                                    title: '治疗经过',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'healedFlag',
+                                    title: '是否痊愈',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'sequelae',
+                                    title: '转归',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'dept',
+                                    title: '备注',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                            ],
+                            data: {
+                                idField: 'id',
+                                tableID: 'netstar-pages-files-grid-cupational',
+                                dataSource: resData.diseaseHistoryVOList, // lyw
+                            },
+                            ui: {
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: true,
+
+                                isEditMode: true,
+                                isAllowAdd: true,
+                                isHaveEditDeleteBtn: true,
+                                tableRowBtns: []
+                            }
+                        }
+                        //  //接害Contact damage
+                        var NetstarDocumentContact= {
+                            columns: [{
+                                    field: 'guardianName',
+                                    title: '监护种类',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+
+                                    }
+                                },
+                                {
+                                    field: 'hazardName',
+                                    title: '危害因素',
+                                    editable: true,
+                                    columnType: 'text',
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'peConclusionName',
+                                    title: '体检结论',
+                                    editable: true,
+                                    columnType: 'text',
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+
+                            ],
+                            data: {
+                                idField: 'id',
+                                tableID: 'netstar-pages-files-grid-contact',
+                                dataSource : resData.hazardResultVOList,   // lyw
+                            },
+                            ui: {
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: true,
+
+                                isEditMode: true,
+                                isAllowAdd: true,
+                                isHaveEditDeleteBtn: true,
+                                tableRowBtns: []
+                            }
+                        }
+                        //反射工作史信息
+                        var NetstarReflex = {
+                            columns: [{
+                                    field: 'employerOrgName',
+                                    title: '工作单位',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+
+                                    }
+                                },
+                                {
+                                    field: 'whenStart',
+                                    title: '起始年月',
+                                    editable: true,
+                                    columType: 'date',
+                                    editConfig: {
+                                        type: 'date',
+                                        format: "YYYY-MM-DD",
+                                       
+                                    },
+                                    formatHandler: {
+                                        type: 'date',
+                                        data: {
+                                            formatDate: "YYYY-MM-DD",
+                                        }
+                                    },
+                                },
+                                {
+                                    field: 'whenEnd',
+                                    title: '终止年月',
+                                    columnType: 'date',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'date',
+                                        format: "YYYY-MM-DD",
+                                       
+                                    },
+                                    formatHandler: {
+                                        type: 'date',
+                                        data: {
+                                            formatDate: "YYYY-MM-DD",
+                                        }
+                                    },
+                                },
+                                {
+                                    field: 'dept',
+                                    title: '车间部门',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'typeOfWork',
+                                    title: '工种',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'rayType',
+                                    title: '射线种类',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'concentration',
+                                    title: '日常受照射量',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'protection',
+                                    title: '累计受照射量',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'rayHistory',
+                                    title: '过量照射史',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'rayTotal',
+                                    title: '佩戴个人剂量计',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'rayTotal',
+                                    title: '是否痊愈',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                            ],
+                            data: {
+                                idField: 'id',
+                                tableID: 'netstar-pages-files-grid-reflex',
+                                dataSource: resData.reflectJobHistoryList, // lyw
+                            },
+                            ui: {
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: true,
+
+                                isEditMode: true,
+                                isAllowAdd: true,
+                                isHaveEditDeleteBtn: true,
+                                tableRowBtns: []
+                            }
+                        }                  
+                        // 自觉症状
+                        var NetstarDocumentConscious = {
+                            columns: [{
+                                    field: 'Symptom',
+                                    title: '症状',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+
+                                    }
+                                },
+                                {
+                                    field: 'diagnoseDate',
+                                    title: '程度',
+                                    editable: true,
+                                    columnType: 'text',
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'diseaseId',
+                                    title: '诊断级别',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'Remarks',
+                                    title: '备注',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                            ],
+                            data: {
+                                idField: 'id',
+                                tableID: 'netstar-pages-files-grid-conscious',
+                                dataSource : resData,   // lyw
+                            },
+                            ui: {
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: true,
+
+                                isEditMode: true,
+                                isAllowAdd: true,
+                                isHaveEditDeleteBtn: true,
+                                tableRowBtns: []
+                            }
+                        }
+                        //问诊
+                        var NetstarDocumentInterrogation = {
+                            columns: [{
+                                    field: 'symptomName',
+                                    title: '症状',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+
+                                    }
+                                },
+                                {
+                                    field: 'result',
+                                    title: '程度',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                            ],
+                            data: {
+                                idField: 'id',
+                                tableID: 'netstar-pages-files-grid-interrogation',
+                                dataSource : resData.symptomInquiryVOList,   // lyw
+                            },
+                            ui: {
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: true,
+
+                                isEditMode: false,
+                                isAllowAdd: true,
+                                isHaveEditDeleteBtn: true,
+                                tableRowBtns: []
+                            }
+                        }
+                        // for (var i = 0; i < resData.diseaseHistoryVOList.length; i++) {
+                        //     debugger;
+                        //     var resData = resData.diseaseHistoryVOList[i].radiateHistoryFlag
+                        //     if (resData == 0) {
+                        //         NetstarDocumentTelcher.data.dataSource = resData.occupationHistoryVOList;
+                        //     } else {
+                        //         NetstarOccupation.data.dataSource = resData.occupationHistoryVOList;
+                        //     }
+                        // }
+                        /*  表格
+                            * 通过readonly判断页面是否只读 readonly = true (只读)  readonly = false (不只读)  
+                            * readonly = half ( 半只读)
+                        */
+                        switch(paraObj.readonly){                        
+                            case 'true':
+                            NetstarDocumentTelcher.ui.isEditMode = false;
+                            NetstarDocumentTelcher.ui.isHaveEditDeleteBtn = false;
+                            NetstarDocumentConscious.ui.isEditMode = false;
+                            NetstarDocumentConscious.ui.isHaveEditDeleteBtn = false;
+                            NetstarDocumentInterrogation.ui.isEditMode = false;
+                            NetstarDocumentInterrogation.ui.isHaveEditDeleteBtn  = false;
+                            NetstarOccupation.ui.isEditMode = false;
+                            NetstarOccupation.ui.isHaveEditDeleteBtn  = false;
+                            NetstarReflex.ui.isEditMode = false;
+                            NetstarReflex.ui.isHaveEditDeleteBtn  = false;
+                            NetstarDocumentContact.ui.isEditMode = false;
+                            NetstarDocumentContact.ui.isHaveEditDeleteBtn = false;
+                                break;
+                            case 'false':
+                            NetstarDocumentTelcher.ui.isEditMode = true;
+                            NetstarDocumentConscious.ui.isEditMode = true;
+                            NetstarDocumentInterrogation.ui.isEditMode = true;
+                            NetstarOccupation.ui.isEditMode = true;
+                            NetstarReflex.ui.isEditMode = true; 
+                            NetstarDocumentContact.ui.isEditMode = true;   
+                                break;
+                            case 'half':
+                            NetstarDocumentTelcher.ui.isEditMode = true;
+                            NetstarDocumentConscious.ui.isEditMode = true;
+                            NetstarDocumentInterrogation.ui.isEditMode = false;
+                            NetstarDocumentInterrogation.ui.isHaveEditDeleteBtn = false;
+                            NetstarOccupation.ui.isEditMode = true;
+                            NetstarReflex.ui.isEditMode = true;
+                            NetstarDocumentContact.ui.isEditMode = true;    
+                                break;
+                        }
+                        NetStarGrid.init(NetstarDocumentTelcher); //职业史
+                        // NetStarGrid.init(NetstarDocumentMedical);//既往病史
+                        NetStarGrid.init(NetstarDocumentConscious); //自觉症状
+                        NetStarGrid.init(NetstarDocumentInterrogation); //问诊
+                        NetStarGrid.init(NetstarOccupation); //职业病史
+                        NetStarGrid.init(NetstarReflex); //反射史信息
+                        NetStarGrid.init(NetstarDocumentContact);//接害
+                        // NetStarGrid.init(NetstarDocumentItemComposeName);
+
+
+                    },
+                    init: function (resData) {
+                        var _this = this;
+                        _this.initList(resData);
+                    }
+                },
+                btns: {
+                    initbtns: function (footerId) {
+                        var btns = {                       
+                            id: "netstar-pages-files-btns",
+                            btns: [
+                                {
+                                text: '保存',
+                                handler: function () {
+                                    //获取表单.表格值
+                                    var formDataInformation = NetstarComponent.getValues('netstar-pages-files-information');//人员信息1
+                                    var formDataMenses = NetstarComponent.getValues('netstar-pages-files-menses');//月经史1
+                                    var formDataMarriage = NetstarComponent.getValues('netstar-pages-files-marriage');//婚姻史1
+                                    var formDataBear = NetstarComponent.getValues('netstar-pages-files-bear');//生育史1
+                                    var formDataAlcohol = NetstarComponent.getValues('netstar-pages-files-alcohol');//烟酒史1
+                                    var formDataOther = NetstarComponent.getValues( 'netstar-pages-files-other');//其他1
+                    
+                                    var gridDataTelcher = NetStarGrid.dataManager.getData('netstar-pages-files-grid-telcher');//职业史信息1
+                                    for(var i =0 ; i<gridDataTelcher.length ; i++){
+                                        if(typeof(gridDataTelcher[i].radiateHistoryFlag) != 'number'){
+                                            gridDataTelcher[i].radiateHistoryFlag = 0
+                                        }
+                                    }                                   
+                                    var gridDataConscious = NetStarGrid.dataManager.getData("netstar-pages-files-grid-conscious");//自觉症状
+                                    var gridDataInterrogation = NetStarGrid.dataManager.getData( "netstar-pages-files-grid-interrogation");//问诊1
+                                    var formDataEpilog = NetstarComponent.getValues('netstar-pages-form-files-epilog');//项目结论信息1
+                                    var gridReflex = NetStarGrid.dataManager.getData('netstar-pages-files-grid-reflex');//反射史信息1
+                                    for(var i =0 ; i<gridReflex.length ;i++){
+                                        if(typeof(gridReflex[i].radiateHistoryFlag) != 'number'){
+                                            gridReflex[i].radiateHistoryFlag = 1
+                                        }
+                                    }
+                                    var gridCupational = NetStarGrid.dataManager.getData( "netstar-pages-files-grid-cupational");//职业病史、既往病史信息1
+                                    
+                                    var gridContact= NetStarGrid.dataManager.getData( "netstar-pages-files-grid-contact");//接害
+                                    var data = {};//传参
+                                    formDataInformation = $.extend(false, formDataInformation, formDataEpilog)//项目结论信息                            
+                                    data = formDataInformation;////人员信息
+                                    // inquiryVO
+                                    var _formData = {
+                                        abnormalFetal: '',
+                                        abortion: '',
+                                        children: '',
+                                        cycle: '',
+                                        drinking: '',
+                                        drinkingQuantity: '',
+                                        drinkingYears: '',
+                                        familyHis: '',
+                                        id: '',
+                                        lifeHis: '',
+                                        maritalDate: '',
+                                        menarcheAge: '',
+                                        objectCheckState: '',
+                                        objectState:'',
+                                        other: '',
+                                        peOrgCode: '',
+                                        peOrgId: '',
+                                        peTopOrgId: '',
+                                        period:'',
+                                        personalRecordId: '',
+                                        premature:'',
+                                        smoking:'',
+                                        smokingQuantity: '',
+                                        smokingYears: '',
+                                        stillBirth:'',
+                                    };
+                                    var __formData = {};
+                                    for(var key in _formData){
+                                        if(typeof(formDataInformation[key]) != "undefined"){
+                                            __formData[key] = formDataInformation[key];
+                                        }
+                                    }
+                                    //月经史
+                                    __formData = $.extend(false, __formData, formDataMarriage)//婚姻史
+                                    __formData = $.extend(false, __formData, formDataAlcohol)//烟酒史
+                                    __formData = $.extend(false, __formData, formDataOther)//其他
+                                    __formData = $.extend(false, __formData, formDataBear)//生育史
+                                    for(var key in __formData){
+                                        if(__formData[key] === ''){
+                                            delete __formData[key]
+                                        }
+                                    }
+                                    data.inquiryVO = __formData
+                                    // personalRecordOccuVO
+                                    var formDataByPersonalRecordOccuVO = {
+                                        dept: '',
+                                        empNo: '',
+                                        hazardMonths: '',
+                                        hazardYears: '',
+                                        id: '',
+                                        objectCheckState: '',
+                                        objectState: '',
+                                        orgWorkName: '',
+                                        peOrgCode: '',
+                                        peOrgId: '',
+                                        peTopOrgId: '',
+                                        workMonths: '',
+                                        workYears: '',
+                                    };
+                                    var _formDataByPersonalRecordOccuVO = {};
+                                    for(var key in formDataByPersonalRecordOccuVO){
+                                        if(typeof(formDataInformation[key]) != "undefined"){
+                                            _formDataByPersonalRecordOccuVO[key] = formDataInformation[key];
+                                        }
+                                    }
+                                    // for(var key in _formDataByPersonalRecordOccuVO){
+                                    //     if(_formDataByPersonalRecordOccuVO[key] === ''){
+                                    //         delete _formDataByPersonalRecordOccuVO[key]
+                                    //     }
+                                    // }
+                                    //HazardResultVOList 
+                                            
+                                    data.personalRecordOccuVO = _formDataByPersonalRecordOccuVO;
+                                    data.hazardResultVOList = gridContact;//接害
+                                    data.occupationHistoryVOList = gridDataTelcher.concat(gridReflex);////职业史信息1反射史信息
+                                    data.diseaseHistoryVOList = gridCupational;////职业病史、既往病史信息
+                                    data.symptomInquiryVOList = gridDataInterrogation //问诊
+                                    // 循环表单获取值
+                                    data.itemClassResultVOList = NetstarPageDatafiles.titlelist.getValues();
+                                    
+                                    data.targetDiseaseVOList = [];
+                                    //获取表单ID
+                                    // data.hazardResultVOList.id = footerId.personalRecordOccuVO.id
+                                    // data.itemClassResultVOList.id = footerId.itemClassResultVOList.id
+                                    data.inquiryVO.id = footerId.inquiryVO.id
+                                    data.id = footerId.id
+                                    // data.objectState = 2
+                                    delete data.objectState
+                                    function run(_footerId, _data){
+                                        for(var key in _footerId){
+                                            if(typeof(_data[key]) == 'object'){
+                                                run(_footerId[key], _data[key]);
+                                                return ;
+                                            }
+                                            if(typeof(_data[key]) != typeof(_footerId[key])){
+                                                console.warn(key , _data[key] , _footerId[key])
+                                                if(typeof(_data[key]) == 'undefined' ){
+                                                    _data[key] = _footerId[key];
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                    run(footerId, data);
+                                    //获取idFieldNames
+                                     var idFieldNames = {
+                                         root : 'id',
+                                    };
+                                     for(var key in data){
+                                         if(typeof(data[key]) == "object"){  
+                                             idFieldNames['root.' + key] = 'id'                 
+                                         }
+                                     } 
+                                     idFieldNames['root.itemClassResultVOList.itemResultVOList'] = 'id'; 
+                                    var _data = nsServerTools.getObjectStateData(NetstarPageDatafiles.sourceData, data, idFieldNames);
+                               
+                                    NetStarUtils.ajax({
+                                        url: getRootPath() + '/personalRecord/save',
+                                        type: 'POST',
+                                        data: _data,
+                                    }, function (res, _ajaxConfig) {
+                                        nsalert("保存成功", 'success');
+                          
+                                        // NetStarGrid.refreshById('netstar-pages-files-grid-reflex')
+                                        NetStarGrid.refreshDataById('netstar-pages-files-grid-telcher', footerId);
+                                        NetStarGrid.refreshDataById('netstar-pages-files-grid-reflex', footerId);
+                                    })
+                                }
+                            }]
+                        }
+                        switch(paraObj.readonly){                        
+                                case 'true':
+                                btns.btns[0].disabled =true
+                                    break;
+                                case 'false':
+                                btns.btns[0].disabled =false
+                                    break;
+                                case 'half':
+                                btns.btns[0].disabled =false
+                                    break;
+                            }
+                        vueButtonComponent.init(btns);
+                    },
+                    init: function (resData) {
+                        this.initbtns(resData);
+                    }
+                },
+                titlelist: {
+                    ids : {
+                        vo : [],
+                        list : [],
+                    },
+                    getValues : function(){
+                        var voIds = this.ids.vo;
+                        var listIds = this.ids.list;
+                        var dataList = [];
+                        var _dataList = this.root.sourceData.itemClassResultVOList
+                     
+                        dataList = $.extend(true, dataList, _dataList)
+                         
+                        // for(var i=0; i<voIds.length; i++){
+                        //     dataList.push(NetstarComponent.getValues(voIds[i]));
+                        // }
+                        
+                        for (var i = 0 ; i <_dataList.length ; i ++){
+                            var  itemResultVOList= _dataList[i].itemResultVOList
+                                for(var j = 0 ; j <itemResultVOList.length ; j++ ){
+                                    if(typeof(itemResultVOList[j].objectState) === undefined){
+                                    itemResultVOList[j].objectState = 1
+                                }
+                            }
+                        }
+     
+                        for(var i=0; i<listIds.length; i++){
+                            dataList[i].resultMemo = NetstarComponent.getValues(voIds[i]).resultMemo;
+                            dataList[i].itemResultVOList = NetStarGrid.dataManager.getData(listIds[i]);
+                        }
+                        return dataList;
+                    },
+                    getHtml: function (list) {
+                        list = $.isArray(list) ? list : [];
+                        var html = '';
+                        var containerId = 'netstar-pages-files-grid';
+                        for (var i = 0; i < list.length; i++) {
+                            var data = list[i];
+                            html += '<div class="">' +
+                            '<div>' +
+                            '<h5 class="pt-files-s-title">' + data.itemClassName + '</h5>' +
+                            '</div>' +
+                            '<div id="' + containerId + '-list-' + i + '">' +
+                            '</div>' +
+                            '<div id="' + containerId + '-form-' + i + '">' +
+                            '</div>'
+                            +
+                            '</div>';
+                        }
+                        return html;
+                    },
+                    getGridConfig: function (data, index) {
+                        var containerId = 'netstar-pages-files-grid';
+                        var NetstarDocumentItemComposeName = {
+                            columns: [{
+                                    field: 'itemName',
+                                    title: '项目名称',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'result',
+                                    title: '结果',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'upperLimit',
+                                    title: '上限',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'lowerLimit',
+                                    title: '下限',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                                {
+                                    field: 'unit',
+                                    title: '计量单位',
+                                    columnType: 'text',
+                                    editable: true,
+                                    editConfig: {
+                                        type: 'text',
+                                    }
+                                },
+                            ],
+                            data: {
+                                idField: 'id',
+                                tableID: containerId + '-list-' + index,
+                                dataSource: data.itemResultVOList,
+                            },
+                            ui: {
+                                isCheckSelect: false,
+                                isHeader: false,
+                                isPage: true,
+                                isEditMode: true,
+                                isAllowAdd: true,
+                                isHaveEditDeleteBtn: true,
+                            }
+                        }
+                        return NetstarDocumentItemComposeName;
+                    },
+                    getFormConfig: function (index) {
+                        var containerId = 'netstar-pages-files-grid';
+                        var NetstarOtherItemComposeName = {
+                            id: containerId + '-form-' + index,
+                            templateName: 'form',
+                            componentTemplateName: 'PC',
+                            isSetMore: false,
+                            defaultComponentWidth: "100%",
+                            form: [{
+                                id: 'resultMemo',
+                                label: '小结',
+                                type: 'textarea',
+                            }]
+                        }
+                        return NetstarOtherItemComposeName;
+                    },
+                    init: function (resData) {
+                        var _this = this;
+                        var containerId = 'netstar-pages-files-grid';
+                        var _itemClassResultVoList = resData.itemClassResultVOList;
+                        var itemClassResultVoList = $.extend(true , [], _itemClassResultVoList);
+                        var html = this.getHtml(itemClassResultVoList);
+                        var $container = $('#' + containerId);
+                        $container.html(html);
+                        for (var i = 0; i < itemClassResultVoList.length; i++) {
+                            _this.ids.vo.push(containerId + '-form-' + i);
+                            _this.ids.list.push(containerId + '-list-' + i);
+                            var gridConfig = this.getGridConfig(itemClassResultVoList[i], i);
+                            var formConfig = this.getFormConfig(i);
+                            switch(paraObj.readonly){                        
+                                case 'true':
+                                formConfig.readonly = true;
+                                gridConfig.ui.isHaveEditDeleteBtn = false;
+                                gridConfig.ui.isEditMode = false;
+                                    break;
+                                case 'false':
+                                formConfig.readonly = false;
+                                
+                                gridConfig.ui.isEditMode = true;
+                                    break;
+                                case 'half':
+                                formConfig.readonly = false
+                                gridConfig.ui.isEditMode = false
+                                gridConfig.ui.isHaveEditDeleteBtn = false;
+                                    break;
+                            }               
+                            NetStarGrid.init(gridConfig);
+                            NetstarComponent.formComponent.show(formConfig, itemClassResultVoList[i]);                     
+                                var itemResultVOList = itemClassResultVoList[i].itemResultVOList
+                                    for(var j = 0 ; j <itemResultVOList.length ; j++ ){
+                                        if(typeof(itemResultVOList[j].objectState) === undefined){
+                                        itemResultVOList[j].objectState = 1
+                                    }
+                                }
+                        }
+                    },
+                },
+                init: function () {
+                    var _this = this;
+                    NetStarUtils.ajax({
+                        url: getRootPath() + '/personalRecord/getDetailById',
+                        type: 'POST',
+                        contentType: 'application/x-www-form-urlencoded',
+                        data: {
+                            id: paraObj.docId
+                        },
+                    }, function (res, _ajaxConfig) {
+
+                        if (res) {
+                            //页面标题
+                            // var demo = ['人员信息','月经史']
+                            // for(var key in demo){
+                            //     document.getElementById("demo").innerHTML = demo
+                            // }
+                           
+                            var resData = res.data;
+                            _this.titlelist.root = _this;
+                            NetstarPageDatafiles.sourceData = resData;
+                            //拆分病史信息，根据radiateHistoryFlag  0 => 职业史 1 => 反射职业史
+                            // diseaseHistoryVOList => jobHistoryList(职业史) / reflectJobHistoryList(反射职业史)
+                            var jobHistoryList = [];
+                            var reflectJobHistoryList = [];
+                            resData.jobHistoryList = jobHistoryList;
+                            resData.reflectJobHistoryList = reflectJobHistoryList;
+                            for(var i = 0;i < resData.occupationHistoryVOList.length; i++) {
+                                var _obj = resData.occupationHistoryVOList[i];
+                                if(_obj.radiateHistoryFlag === 0){
+                                    jobHistoryList.push(_obj);
+                                }else if(_obj.radiateHistoryFlag == 1){
+                                    reflectJobHistoryList.push(_obj);
+                                }
+                            }
+                            _this.vo.init(resData);
+                            _this.list.init(resData);
+                            _this.titlelist.init(resData);
+                            _this.btns.init(resData);
+                        }
+                        if(resData){
+                            
+                        }else{
+
+                        }
+                    })
+                }
+            }
+            NetstarPageDatafiles.init();
+        })
+    </script>
+</container>

@@ -1,0 +1,117 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <script type="text/javascript">
+        $(function () {
+            //nsLayout.init("demos-layout-tree");
+            var listJson = {
+                package: 'nsVue.graps.product',//包名
+                template: 'businessDataBaseEditor',//模板 doclistviewer  单据详情模板businessdatabase 表单表格模板businesslevellist3 3级模板
+                title: '基本业务对象编辑'  ,//标题
+               components: [
+                    {
+                        type: 'list',
+                        idField: 'id',
+                        ajax: {
+                            src: getRootPath() + '/docs/data/template/businessDataBase.json', //数据源地址
+                            type: "GET", //GET POST
+                            //contentType:            'application/json; charset=utf-8',          //GET POST
+                            data: {}, //参数对象{id:1,page:100}
+                            //isServerMode:         true,           //是否开启服务器模式
+                            dataSrc: 'rows',
+                            contentType: 'application/x-www-form-urlencoded',
+                        },
+                        params: {//必填
+                            dragWidth: false,
+                            styleExpress: {
+
+                            }
+                        },
+                        field: [
+                        {
+                            field: 'startdate',
+                            title: '开始时间',
+                            width: 120,
+                            searchable: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'date',
+                                data: {
+                                    formatDate: 'YYYY-MM-DD'
+                                }
+                            }
+                        }, {
+                            field: 'imgId',
+                            title: '单个缩略图',
+                            width: 150,
+                            formatHandler: {
+                                type: 'thumb',
+                            }
+                        }, {
+                            field: 'num',
+                            title: '数量',
+                            width: 45,
+                            searchable: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'number',
+                            }
+                        }, {
+                            field: 'unitname',
+                            title: '单位',
+                            width: 45,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'dictionary',
+                                data: {
+                                    1: '个',
+                                    2: '桶',
+                                    3: '套',
+                                    4: '对',
+                                    5: '片',
+                                    6: '包',
+                                    7: '组',
+                                    8: '米',
+                                    9: '件',
+                                }
+                            }
+                        }, {
+                            field: 'price',
+                            title: '价格',
+                            width: 60,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'money'
+                            }
+                        }, {
+                            field: 'cityname',
+                            title: '省市区',
+                            width: 180,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'codeToName'
+                            }
+                        }, {
+                            field: 'customername',
+                            title: '超链接',
+                            width: 180,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'href',
+                                data: {
+                                    url: 'www.baidu.com'
+                                }
+                            }
+                        }]
+
+                    }, 
+                ],
+            };
+            NetstarTemplate.init(listJson);
+        })
+    </script>
+</container>
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

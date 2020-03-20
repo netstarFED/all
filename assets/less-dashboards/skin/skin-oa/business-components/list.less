@@ -1,0 +1,27 @@
+@list-name-mark-bg: lighten(@primary, 5);
+@list-name-mark-padding: @base-padding;
+@list-name-mark-size: 5rem;
+@list-name-mark-triangle-size: .75rem;
+@font-size-base: 1rem;
+.list{
+   
+    .list-name-mark{
+        position: relative;
+        background: @list-name-mark-bg;
+        color:#fff;
+        padding: @list-name-mark-padding;
+        min-width: @list-name-mark-size;
+        font-size: @font-size-base;
+        margin: 0 @base-margin;
+        &:before{
+            top: 0;
+            right: 0;
+            .triangle-right-top(@list-name-mark-triangle-size,  @list-item-bg);
+        }
+        &:after{
+            top: 0;
+            right: 0;
+            .triangle-left-bottom(@list-name-mark-triangle-size, darken(@list-name-mark-bg, 10));
+        }
+    }
+}

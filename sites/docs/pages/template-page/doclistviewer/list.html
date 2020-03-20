@@ -1,0 +1,450 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <script>
+        var doclistviewerlist ={
+    "package": "nscloud.abnormallist2.-0-1320325969235414002",
+    "template": "docListViewer",
+    "readonly": false,
+    "isShowTitle": true,
+    "isFormHidden": false,
+    "versionNumber": "1",
+    "getValueAjax": {
+        "src": getRootPath() +"/docs/data/template/doclistviewer-list.json",
+        "dataSrc": "rows",
+        "type": "GET",
+        "dataFormat": "object",
+        "contentType": "application/x-www-form-urlencoded",
+        "data": {}
+    },
+    "components": [
+        {
+            "type": "list",
+            "field": [
+                {
+                    "englishName": "abnormalNo",
+                    "chineseName": "异常单号",
+                    "variableType": "string",
+                    "field": "abnormalNo",
+                    "title": "异常单号",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "c575e4dc-46d9-0899-0115-e83a4a54e012",
+                    "voName": "labLabAbnormalReportVO",
+                    "editConfig": {
+                        "id": "abnormalNo",
+                        "englishName": "abnormalNo",
+                        "chineseName": "异常单号",
+                        "variableType": "string",
+                        "mindjetType": "text",
+                        "isSet": "是",
+                        "displayType": "all",
+                        "gid": "c575e4dc-46d9-0899-0115-e83a4a54e012",
+                        "voName": "labLabAbnormalReportVO",
+                        "className": "java.lang.String",
+                        "type": "text",
+                        "label": "异常单号",
+                        "disabled": false,
+                        "hidden": false,
+                        "isDistinct": false
+                    },
+                    "editable": false,
+                    "hidden": false,
+                    "orderable": true,
+                    "searchable": true,
+                    "tooltip": false,
+                    "isDefaultSubdataText": true,
+                    "isTitle": false,
+                    "isValue": false,
+                    "isQuickQuery": true,
+                    "width": 130,
+                    "formatHandler": {
+                        "type": "href",
+                        "data": {
+                            "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1320324299566875634",
+                            "title": "异常提报详情",
+                            "field": "abnormalNo",
+                            "readonly": false,
+                            "templateName": "docListViewer"
+                        }
+                    },
+                    "columnType": "href",
+                    "mindjetIndexState": 0
+                },
+                {
+                    "englishName": "reporter",
+                    "chineseName": "记录人",
+                    "variableType": "string",
+                    "field": "reporter",
+                    "title": "记录人",
+                    "mindjetType": "select",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "0bf7bbc1-a128-308d-0d47-e93b17c755f8",
+                    "voName": "labLabAbnormalReportVO",
+                    "editConfig": {
+                        "id": "reporter",
+                        "englishName": "reporter",
+                        "chineseName": "记录人",
+                        "variableType": "string",
+                        "mindjetType": "select",
+                        "isSet": "是",
+                        "displayType": "all",
+                        "gid": "0bf7bbc1-a128-308d-0d47-e93b17c755f8",
+                        "voName": "labLabAbnormalReportVO",
+                        "className": "java.lang.Long",
+                        "type": "select",
+                        "label": "记录人",
+                        "textField": "userName",
+                        "valueField": "id",
+                        "isObjectValue": false,
+                        "selectMode": "single",
+                        "isReadDefaultWidth": true,
+                        "isAddLinkhref": false,
+                        "isPage": false,
+                        "method": "POST",
+                        "dataSrc": "rows",
+                        "disabled": false,
+                        "hidden": false,
+                        "isDistinct": false,
+                        "suffix": "/system/users/getList",
+                        "url": "https://qaapi.wangxingcloud.com//system/users/getList"
+                    },
+                    "editable": false,
+                    "hidden": false,
+                    "orderable": true,
+                    "searchable": false,
+                    "tooltip": false,
+                    "isDefaultSubdataText": true,
+                    "isTitle": false,
+                    "isValue": false,
+                    "isQuickQuery": false,
+                    "width": 82,
+                    "mindjetIndexState": 1
+                },
+                {
+                    "englishName": "whenReport",
+                    "chineseName": "记录时间",
+                    "variableType": "date",
+                    "field": "whenReport",
+                    "title": "记录时间",
+                    "mindjetType": "date",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "4275f7c2-877b-116c-e241-d8252d92e612",
+                    "voName": "labLabAbnormalReportVO",
+                    "isDefaultDate": true,
+                    "editConfig": {
+                        "id": "whenReport",
+                        "englishName": "whenReport",
+                        "chineseName": "记录时间",
+                        "variableType": "date",
+                        "mindjetType": "date",
+                        "isSet": "是",
+                        "displayType": "all",
+                        "gid": "4275f7c2-877b-116c-e241-d8252d92e612",
+                        "voName": "labLabAbnormalReportVO",
+                        "className": "java.util.Date",
+                        "type": "date",
+                        "label": "记录时间",
+                        "isDefaultDate": true,
+                        "ranges": true
+                    },
+                    "width": 100,
+                    "formatHandler": {
+                        "type": "date",
+                        "data": {
+                            "formatDate": "YYYY-MM-DD",
+                            "isDefaultDate": true
+                        }
+                    },
+                    "columnType": "date",
+                    "mindjetIndexState": 2
+                },
+                {
+                    "englishName": "areaName",
+                    "chineseName": "区域名称",
+                    "variableType": "string",
+                    "field": "areaName",
+                    "title": "区域名称",
+                    "mindjetType": "select",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "1220176d-020d-703c-e5e4-4617216d1bac",
+                    "voName": "labLabAbnormalReportVO",
+                    "editConfig": {
+                        "id": "areaName",
+                        "englishName": "areaName",
+                        "chineseName": "区域名称",
+                        "variableType": "string",
+                        "mindjetType": "select",
+                        "isSet": "是",
+                        "displayType": "all",
+                        "gid": "1220176d-020d-703c-e5e4-4617216d1bac",
+                        "voName": "labLabAbnormalReportVO",
+                        "className": "java.lang.String",
+                        "type": "select",
+                        "label": "区域名称",
+                        "rules": "required",
+                        "textField": "labName",
+                        "valueField": "id",
+                        "isObjectValue": false,
+                        "selectMode": "single",
+                        "isReadDefaultWidth": true,
+                        "isAddLinkhref": false,
+                        "isPage": false,
+                        "method": "POST",
+                        "dataSrc": "rows",
+                        "disabled": false,
+                        "hidden": false,
+                        "isDistinct": false,
+                        "suffix": "/lab/labs/getList",
+                        "url": "https://qaapi.wangxingcloud.com//lab/labs/getList"
+                    },
+                    "editable": false,
+                    "hidden": false,
+                    "orderable": true,
+                    "searchable": true,
+                    "tooltip": false,
+                    "isDefaultSubdataText": true,
+                    "isTitle": false,
+                    "isValue": false,
+                    "isQuickQuery": true,
+                    "width": 130,
+                    "mindjetIndexState": 3
+                },
+                {
+                    "englishName": "abnormalDescription",
+                    "chineseName": "异常内容描述",
+                    "variableType": "string",
+                    "field": "abnormalDescription",
+                    "title": "异常内容描述",
+                    "mindjetType": "textarea",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "044daddd-39a6-9a55-9a03-f5a42750eb47",
+                    "voName": "labLabAbnormalReportVO",
+                    "editConfig": {
+                        "id": "abnormalDescription",
+                        "englishName": "abnormalDescription",
+                        "chineseName": "异常内容描述",
+                        "variableType": "string",
+                        "mindjetType": "textarea",
+                        "isSet": "是",
+                        "displayType": "all",
+                        "gid": "044daddd-39a6-9a55-9a03-f5a42750eb47",
+                        "voName": "labLabAbnormalReportVO",
+                        "className": "java.lang.String",
+                        "type": "textarea",
+                        "label": "异常内容描述",
+                        "column": 12
+                    },
+                    "mindjetIndexState": 4,
+                    "width": 200
+                },
+                {
+                    "englishName": "abnormalType",
+                    "chineseName": "异常类型",
+                    "variableType": "number",
+                    "field": "abnormalType",
+                    "title": "异常类型",
+                    "mindjetType": "dict",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "6f8390c4-f8af-154d-6d03-7975d1934c48",
+                    "voName": "labLabAbnormalReportVO",
+                    "dictArguments": "abnormalType",
+                    "editConfig": {
+                        "id": "abnormalType",
+                        "englishName": "abnormalType",
+                        "chineseName": "异常类型",
+                        "variableType": "number",
+                        "mindjetType": "dict",
+                        "isSet": "是",
+                        "displayType": "all",
+                        "gid": "6f8390c4-f8af-154d-6d03-7975d1934c48",
+                        "voName": "labLabAbnormalReportVO",
+                        "className": "java.lang.Short",
+                        "type": "select",
+                        "label": "异常类型",
+                        "rules": "required",
+                        "dictArguments": "abnormalType",
+                        "textField": "value",
+                        "valueField": "id",
+                        "isObjectValue": false,
+                        "selectMode": "single",
+                        "isReadDefaultWidth": true,
+                        "isAddLinkhref": false,
+                        "isPage": false,
+                        "disabled": false,
+                        "hidden": false,
+                        "isDistinct": false,
+                        "subdata": [
+                            {
+                                "id": "1",
+                                "value": "设备故障",
+                                "selected": true,
+                                "isChecked": true
+                            },
+                            {
+                                "id": "2",
+                                "value": "安全事故"
+                            }
+                        ]
+                    },
+                    "editable": false,
+                    "hidden": false,
+                    "orderable": true,
+                    "searchable": true,
+                    "tooltip": false,
+                    "isDefaultSubdataText": true,
+                    "isTitle": false,
+                    "isValue": false,
+                    "isQuickQuery": true,
+                    "width": 82,
+                    "mindjetIndexState": 5,
+                    "formatHandler": {
+                        "type": "dictionary",
+                        "data": {
+                            "1": "设备故障",
+                            "2": "安全事故"
+                        }
+                    },
+                    "columnType": "dictionary"
+                },
+                {
+                    "englishName": "id",
+                    "className": "java.lang.Long",
+                    "gid": "d69f4741-727c-cfa9-9426-eac6c7d311c8",
+                    "variableType": "string",
+                    "chineseName": "id",
+                    "isHaveChineseName": false,
+                    "id": "id",
+                    "label": "id",
+                    "type": "text",
+                    "field": "id",
+                    "title": "id",
+                    "editConfig": {
+                        "type": "text",
+                        "formSource": "table",
+                        "templateName": "PC",
+                        "variableType": "string"
+                    },
+                    "mindjetIndexState": 6,
+                    "width": 200
+                }
+            ],
+            "ajax": {
+                "src": getRootPath() +"/docs/data/template/doclistviewer-list.json",
+                "dataSrc": "rows",
+                "type": "GET",
+                "dataFormat": "object",
+                "contentType": "application/x-www-form-urlencoded",
+                "data": {}
+            },
+            "voId": "1320317621966481394",
+            "idField": "id",
+            "parent": "root",
+            "gid": "44405987-1c23-ca9c-13fc-afeb626cb348",
+            "objectState": 2,
+            "hide": [
+                "id"
+            ],
+            "defaultComponentWidth": "30%",
+            "stateClass": "more",
+            "fieldById": {
+                "id": {
+                    "englishName": "id",
+                    "className": "java.lang.Long",
+                    "gid": "d69f4741-727c-cfa9-9426-eac6c7d311c8",
+                    "variableType": "string",
+                    "chineseName": "id",
+                    "isHaveChineseName": false,
+                    "id": "id",
+                    "label": "id",
+                    "type": "text",
+                    "field": "id",
+                    "title": "id",
+                    "editConfig": {
+                        "type": "text",
+                        "formSource": "table",
+                        "templateName": "PC",
+                        "variableType": "string"
+                    },
+                    "mindjetIndexState": 6,
+                    "width": 200
+                }
+            }
+        },
+        {
+            "type": "btns",
+            "field": [
+                {
+                    "functionConfig": {
+                        "text": "流程监控",
+                        "defaultMode": "workflowViewer",
+                        "englishName": "nsWorkflowViewer"
+                    },
+                    "btn": {
+                        "text": "流程监控",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "text": "提交",
+                        "defaultMode": "workflowSubmit",
+                        "workflowType": "submit",
+                        "englishName": "nsWorkflowSubmit"
+                    },
+                    "btn": {
+                        "text": "提交",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "text": "驳回",
+                        "defaultMode": "workflowSubmit",
+                        "workflowType": "reject",
+                        "englishName": "nsWorkflowReject"
+                    },
+                    "btn": {
+                        "text": "驳回",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "text": "查看办理意见",
+                        "defaultMode": "workflowSubmit",
+                        "workflowType": "findHandleRec",
+                        "englishName": "nsWorkflowFindHandleRec"
+                    },
+                    "btn": {
+                        "text": "查看办理意见",
+                        "isReturn": true
+                    }
+                }
+            ],
+            "gid": "1df920b2-cc81-b01a-019e-4e77ade2715f",
+            "objectState": 2
+        }
+    ],
+    "draftBox": {
+        "isUse": false,
+        "isUseSave": true,
+        "closeOrClear": true
+    },
+    "pageParam": {
+        "activityName": "异常内容审核",
+        "workflowType": "0",
+        "packageSuffix": "-0-1320325969235414002",
+        "processId": "1320325353981465586",
+        "activityId": "1320325969235414002"
+    }
+}
+
+        NetstarTemplate.init(doclistviewerlist);
+    </script>
+</container>

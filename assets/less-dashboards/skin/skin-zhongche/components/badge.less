@@ -1,0 +1,84 @@
+@badge-color: #333;
+@badge-bg: rgba(0,0,0, .15);
+@badge-border-color: rgba(0,0,0, .15);
+
+// badge-primary
+@badge-primary-color: #fff;
+@badge-primary-bg: lighten(@primary,15);
+@badge-primary-border-color: darken(@badge-primary-bg,20);
+
+// badge-info
+@badge-info-color: #fff;
+@badge-info-bg: lighten(@info,15);
+@badge-info-border-color:  darken(@badge-info-bg, 20);
+
+// badge-success
+@badge-success-color: #fff;
+@badge-success-bg: lighten(@success,15);
+@badge-success-border-color: darken(@badge-success-bg, 20);
+
+// badge-warning
+@badge-warning-color: #fff;
+@badge-warning-bg: lighten(@warning,15);
+@badge-warning-border-color: darken(@badge-warning-bg, 20);
+
+
+// badge-danger
+@badge-danger-color: #fff;
+@badge-danger-bg: lighten(@danger,15);
+@badge-danger-border-color:  darken(@badge-danger-bg, 20);
+.badge{
+    color: #fff;
+    display: inline-block;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    &:before {
+        .flex-block();
+        content: '';
+        flex: none;
+        box-sizing: border-box;
+        min-height: 1rem;
+        border-width: .2rem;
+        
+    }
+
+    &:before{
+        box-shadow: 0 0 10px rgba(25, 190, 255, 1), -3px -3px 10px rgba(0,0,0, .35) inset;
+    }
+    &.badge-primary{
+        &:before{
+            .badge-variant(@badge-primary-color, @badge-primary-bg, @badge-primary-border-color);
+            box-shadow: 0 0 10px rgba(116, 185, 197, 0.9), -3px -3px 10px rgba(0, 64, 148, 0.75) inset;
+
+        }
+    }
+    &.badge-info{
+        &:before{
+            .badge-variant(@badge-info-color, @badge-info-bg, @badge-info-border-color);
+            box-shadow: 0 0 10px rgba(46, 224, 255, .9), -3px -3px 10px rgba(0, 77, 150, 0.75) inset;
+
+        }
+    }
+    &.badge-success{
+        &:before{
+            .badge-variant(@badge-success-color, @badge-success-bg, @badge-success-border-color);
+            box-shadow: 0 0 10px rgba(46, 255, 109, .9), -3px -3px 10px rgba(0, 107, 32, 0.75) inset;
+
+        }
+    }
+    &.badge-warning{
+        &:before{
+            .badge-variant(@badge-warning-color, @badge-warning-bg, @badge-warning-border-color);
+            box-shadow: 0 0 10px rgba(255, 219, 60, .9), -3px -3px 10px rgba(175, 85, 0, 0.75) inset;
+
+        }
+    }
+    &.badge-danger{
+        &:before{
+            .badge-variant(@badge-danger-color, @badge-danger-bg, @badge-danger-border-color);
+            box-shadow: 0 0 10px rgba(255, 110, 110, .9), -3px -3px 10px rgba(128, 0, 0, 0.75) inset;
+
+        }
+    }
+}

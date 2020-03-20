@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js lt-ie10"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>体检系统</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="NetStar Manager System">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<link rel="stylesheet" href="../css/fonts/linecons/css/linecons.css?v=1">
+	<link rel="stylesheet" href="../css/fonts/fontawesome/css/font-awesome.min.css?v=4.6.3">
+	<link rel="stylesheet" href="../css/bootstrap.css?v=3.0.1">
+	<link rel="stylesheet" href="../css/netstar-core.css?v=1">
+	<link rel="stylesheet" href="../css/netstar-forms.css?v=1">
+	<link rel="stylesheet" href="../css/netstar-components.css?v=1">
+	<link rel="stylesheet" href="../css/netstar-skins.css?v=0.1">
+	<link rel="stylesheet" href="../js/datatables/css/dataTables.bootstrap.css?v=1.10.2">
+	<link rel="stylesheet" href="../css/netstar-common.css?v=0.1">
+
+	<script src="../js/jquery.min.js?v=1.11.1"></script>
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="../js/ie/html5shiv.min.js"></script>
+		<script src="../js/ie/respond.min.js"></script>
+	<![endif]-->
+
+	<script src="../js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="../js/TweenMax.min.js?v=1.13.1"></script>
+	<script src="../js/resizeable.js?v=1"></script>
+	<script src="../js/joinable.js?v=1.18.9"></script>
+
+
+	<script src="../js/jquery-validate/jquery.validate.js?v=1.15.0"></script>
+	<script src="../js/datatables/js/jquery.dataTables.min.js?v=1.10.2"></script>
+	<script src="../js/datatables/yadcf/jquery.dataTables.yadcf.js?v=0.8.3"></script>
+	<script src="../js/datatables/tabletools/dataTables.tableTools.min.js?v=2.2.3"></script>
+	<script src="../js/datatables/js/dataTables.bootstrap.min.js?v=1.10.2"></script>
+
+	<script src="../js/base64/jquery.base64.js?v=10.0.0"></script>
+	<script src="../js/export/tableExport.js?v=10.0.0"></script>
+	<script src="../js/dropzone/dropzone.min.js"></script>
+	<script src="../js/datepicker/bootstrap-datepicker.js?v=10.0.0"></script>
+	<script src="../js/toastr/toastr.min.js?v=2.1.2"></script>
+
+	<script src="../js/netstar-api.js?v=1.0.0"></script>
+	<script src="../js/netstar-toggles.js?v=1.0.0"></script>
+	<script src="../js/netstar-widgets.js?v=1.0.0"></script>
+	<script src="../js/netstar-custom.js?v=1.0.0"></script>
+
+	<script src="../js/select2/select2.min.js?v=3.5.1"></script>
+	<script src="../js/jquery-ui/jquery-ui.min.js?v=1.11.1"></script>
+	<script src="../js/selectboxit/jquery.selectBoxIt.min.js?v=3.8.1"></script>
+	<script src="../js/netstar-common.js?v=0.1.0"></script>
+	<script src="../js/netstar-datatable.js?v=0.1.0"></script>
+	<script src="../js/store.min.js?v=0.1.0"></script>
+	<script src="../js/moment.js?v=0.1.0"></script>
+	<script src="../js/fnReloadAjax.js"></script>
+	<sitemesh:write property='head'/>
+</head>
+<body class="page-body skin-health frame-standard">
+<div class="settings-pane">
+	<a class="close-btn" href="#" data-toggle="settings-pane" data-animate="true">
+		&times;
+	</a>
+	<div class="settings-pane-inner">
+		<div class="row">
+			<div class="col-md-8">
+				<p>网星体检信息管理平台 <small>Copyright © 1998 - 2016 NetStar All Rights Reserved. 网星软件 版权所有</small></ps>
+			</div>
+			<div class="col-md-4 link-blocks-env">
+				<p class="text-right">
+					河北网星软件有限公司<br>
+					<strong>
+						<i class="fa fa-phone-square"></i>
+						400-6683-663
+					</strong>
+				</p>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<div class="page-container">
+	<div class="sidebar-menu toggle-others fixed">
+		<div class="sidebar-menu-inner">	
+			<header class="logo-env">
+				<!-- logo -->
+				<div class="logo">
+					<a href="#" class="logo-expanded">
+						<img src="../images/netstar/logo-shiyanshi-160160.png" width="80" alt="" />
+					</a>
+					<a href="dashboard-1.html" class="logo-collapsed">
+						<img src="../images/netstar/logo-shiyanshi-6464.png" width="32" alt="" />
+					</a>
+				</div>
+				<div class="settings-icon">
+					<a href="#" data-toggle="settings-pane" data-animate="true">
+						<i class="fa fa-copyright" ></i>
+					</a>
+				</div>
+			</header>
+					
+			<ul id="main-menu" class="main-menu">
+				<li class="active opened active">
+						<a href="dashboard-1.html">
+							<i class="linecons-cog"></i>
+							<span class="title">系统管理</span>
+						</a>
+						<ul>
+							<li class="active">
+								<a href="dashboard-1.html">
+									<span class="title">菜单管理</span>
+								</a>
+							</li>
+							<li>
+								<a href="dashboard-2.html">
+									<span class="title">权限管理</span>
+								</a>
+							</li>
+							<li>
+								<a href="dashboard-3.html">
+									<span class="title">科室管理</span>
+								</a>
+							</li>
+							<li>
+								<a href="dashboard-4.html">
+									<span class="title">科室管理</span>
+								</a>
+							</li>
+							<li>
+								<a href="skin-generator.html">
+									<span class="title">用户管理</span>
+								</a>
+							</li>
+							<li>
+								<a href="skin-generator.html">
+									<span class="title">角色管理</span>
+								</a>
+							</li>
+							<li>
+								<a href="skin-generator.html">
+									<span class="title">系统参数</span>
+								</a>
+							</li>
+							<li>
+								<a href="skin-generator.html">
+									<span class="title">组织机构管理</span>
+								</a>
+							</li>
+							<li>
+								<a href="skin-generator.html">
+									<span class="title">体检</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="layout-variants.html">
+							<i class="linecons-desktop"></i>
+							<span class="title">基础信息管理</span>
+						</a>
+						<ul>
+							<li>
+								<a href="layout-variants.html">
+									<span class="title">Layout Variants &amp; API</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-collapsed-sidebar.html">
+									<span class="title">Collapsed Sidebar</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-static-sidebar.html">
+									<span class="title">Static Sidebar</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-horizontal-menu.html">
+									<span class="title">Horizontal Menu</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-horizontal-plus-sidebar.html">
+									<span class="title">Horizontal &amp; Sidebar Menu</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-horizontal-menu-click-to-open-subs.html">
+									<span class="title">Horizontal Open On Click</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-horizontal-menu-min.html">
+									<span class="title">Horizontal Menu Minimal</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-right-sidebar.html">
+									<span class="title">Right Sidebar</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-chat-open.html">
+									<span class="title">Chat Open</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-horizontal-sidebar-menu-collapsed-right.html">
+									<span class="title">Both Menus &amp; Collapsed</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-boxed.html">
+									<span class="title">Boxed Layout</span>
+								</a>
+							</li>
+							<li>
+								<a href="layout-boxed-horizontal-menu.html">
+									<span class="title">Boxed &amp; Horizontal Menu</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="ui-panels.html">
+							<i class="linecons-inbox"></i>
+							<span class="title">项目管理</span>
+						</a>
+						<ul>
+							<li>
+								<a href="ui-panels.html">
+									<span class="title">Panels</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-buttons.html">
+									<span class="title">Buttons</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-tabs-accordions.html">
+									<span class="title">Tabs &amp; Accordions</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-modals.html">
+									<span class="title">Modals</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-breadcrumbs.html">
+									<span class="title">Breadcrumbs</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-blockquotes.html">
+									<span class="title">Blockquotes</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-progressbars.html">
+									<span class="title">Progress Bars</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-navbars.html">
+									<span class="title">Navbars</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-alerts.html">
+									<span class="title">Alerts</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-pagination.html">
+									<span class="title">Pagination</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-typography.html">
+									<span class="title">Typography</span>
+								</a>
+							</li>
+							<li>
+								<a href="ui-other-elements.html">
+									<span class="title">Other Elements</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="ui-widgets.html">
+							<i class="linecons-wallet"></i>
+							<span class="title">报表管理</span>
+						</a>
+					</li>
+			</ul>
+
+
+		</div>
+	</div>
+		<div class="main-content table-content">
+			<nav class="navbar user-info-navbar" role="navigation">
+				<ul class="user-info-menu left-links list-inline list-unstyled">
+					<li class="hidden-sm hidden-xs navbar-icon-btn">
+						<a href="#" data-toggle="sidebar">
+							<i class="fa-bars"></i>
+						</a>
+					</li>
+					<li class="hidden-sm hidden-xs navbar-icon-btn">
+						<a href="javascript:nsfullscreen();">
+							<i class="fa-arrows-alt" id="icon-fullscreen"></i>
+						</a>
+					</li>
+					
+					<li class="dropdown hover-line navbar-icon-btn">
+						<a href="#" data-toggle="dropdown">
+							<i class="fa-tags"></i>
+							<span class="badge badge-green">15</span>
+						</a>
+							
+						<ul class="dropdown-menu messages">
+							<li>
+									
+								<ul class="dropdown-menu-list list-unstyled ps-scrollbar">
+								
+									<li class="active">
+										<a href="#">
+											<span class="line">
+												<strong>疾病类别管理</strong>
+												<span class="light small">- 18:14:23</span>
+											</span>
+											
+											<span class="line desc small">
+												项目类别管理 - 疾病类别管理
+											</span>
+										</a>
+									</li>
+									
+									<li>
+										<a href="#">
+											<span class="line">
+												<strong>体检类别管理</strong>
+												<span class="light small">- 18:14:23</span>
+											</span>
+											
+											<span class="line desc small">
+												项目类别管理 - 体检类别管理
+											</span>
+										</a>
+									</li>
+									
+									<li>
+										<a href="#">
+											<span class="line">
+												<strong>体检类别管理</strong>
+												<span class="light small">- 18:14:23</span>
+											</span>
+											
+											<span class="line desc small">
+												项目类别管理 - 体检类别管理
+											</span>
+										</a>
+									</li>
+									
+									<li>
+										<a href="#">
+											<span class="line">
+												<strong>体检类别管理</strong>
+												<span class="light small">- 18:14:23</span>
+											</span>
+											
+											<span class="line desc small">
+												项目类别管理 - 体检类别管理
+											</span>
+										</a>
+									</li>
+									
+									<li>
+										<a href="#">
+											<span class="line">
+												<strong>体检类别管理</strong>
+												<span class="light small">- 18:14:23</span>
+											</span>
+											
+											<span class="line desc small">
+												项目类别管理 - 体检类别管理
+											</span>
+										</a>
+									</li>
+									
+									<li>
+										<a href="#">
+											<span class="line">
+												<strong>体检类别管理</strong>
+												<span class="light small">- 18:14:23</span>
+											</span>
+											
+											<span class="line desc small">
+												项目类别管理 - 体检类别管理
+											</span>
+										</a>
+									</li>
+									
+								</ul>
+								
+							</li>
+							
+							<li class="external">
+								<a href="javascript:void(0);">
+									<span>清空操作记录</span>
+									<i class="fa-link-ext"></i>
+								</a>
+							</li>
+						</ul>
+					</li>
+					
+				</ul>
+				
+				
+				<!-- Right links for user info navbar -->
+				<ul class="user-info-menu right-links list-inline list-unstyled">
+					<li>
+						<div class="breadcrumb-env" id="breadcrumb-env">
+							<ol class="breadcrumb bc-1">
+								<li>
+									<a href="index.php"><i class="fa-home"></i>主界面</a>
+								</li>
+								<li>
+									<a href="#">查询统计</a>
+								</li>
+								<li class="active">
+									<strong>仪表设备使用率分析</strong>
+								</li>
+							</ol>
+						</div>
+					</li>
+					<li class="dropdown user-profile">
+						<a href="#" data-toggle="dropdown">
+							
+							<span>
+								<i class="fa-user"></i> <shiro:principal property="userName" />
+								<i class="fa-angle-down"></i>
+							</span>
+						</a>
+						
+						<ul class="dropdown-menu user-profile-menu list-unstyled">
+							<li>
+								<a href="javascript:openPasswordChange();">
+									<i class="fa-edit"></i>
+									修改密码
+								</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);">
+									<i class="fa-user"></i>
+									个人设置
+								</a>
+							</li>
+							<li class="last">
+								<a href="javascript:logout();">
+									<i class="fa-lock"></i>
+									退出系统
+								</a>
+							</li>
+
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<!-- 代码写这里 -->
+		</div>
+	</div>	
+	<div class="page-loading-overlay">
+		<div class="loader-2"></div>
+	</div>
+	
+</div>
+<div id="placeholder-popupbox"></div>
+<script type="text/javascript">
+function openPasswordChange(){
+	var config = {
+		id: 	"plane-passwordchange",
+		title: 	"修改密码",
+		size: 	"s",
+		form:[
+			{
+				id: 		'username',
+				label: 		'用户名',
+				type: 		'text',
+				readonly: 	true,
+				value: 		'<shiro:principal property="userAccount" />',
+				placeholder:'登录用户名',
+			},{
+				id: 		'oldpassword',
+				label: 		'现有密码',
+				type: 		'password',
+				rules: 		'required minlength=6',
+				placeholder:''
+			},{
+				html: 		'<hr>',
+			},{
+				note: 		'各地相继公布的上半年经济“成绩单”，印证了权威人士的预判：“经济分化趋势在延续，甚至在加剧，确实是‘几家欢乐几家愁’。',
+			},{
+				id: 		'newpassword',
+				label: 		'新密码',
+				type: 		'password',
+				rules: 		'required minlength=6'
+			},{
+				id: 		'newpassword2',
+				label: 		'重复密码',
+				type: 		'password',
+				rules: 		'required minlength=6 equalTo=newpassword',
+				placeholder:'请重复输入新密码'
+			}
+		],
+		btns:[
+			{
+				text: 		'确认修改',
+				handler: 	'abc',
+			},{
+				text: 		'确认修改',
+				type: 		'success',
+				iconCls: 	'fa-check',
+				handler: 	'abc',
+			}
+		]
+	}
+	popupBox.initShow(config);
+}
+
+function logout() {
+	top.location = getRootPath() + "/LogOut";
+}
+</script>
+	
+</body>
+
+</html>

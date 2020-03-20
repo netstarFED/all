@@ -1,0 +1,32 @@
+@panel-border-radius: 10px;
+@panel-bg: transparent;
+// @panel-bg: darken(@primary, 25);
+@panel-border-width: 2px;
+@panel-border-color: @primary;
+@panel-normal-bg: rgba(32, 120, 180, .3);
+
+.panel {
+    .rgba-shadow-inset(0, 0, 3rem, @primary, .75);
+    color: #fff;
+
+    &.panel-normal {
+        border: 0;
+        box-shadow: none;
+        border-radius: 0;
+        .rgba-bg(@primary, .2);
+    }
+
+    &.panel-none {
+        flex: none;
+    }
+
+    &.panel-bg {
+        background: @panel-normal-bg;
+    }
+
+    .grid.level-2 & {
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+}

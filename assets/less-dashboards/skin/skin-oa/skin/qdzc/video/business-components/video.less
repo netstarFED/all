@@ -1,0 +1,89 @@
+@base-margin: 2rem;
+
+// 监控
+.video-content {
+    padding: (@base-margin+1) @base-margin;
+    height: 100%;
+
+    .nsvideo-list {
+        .flex-block(space-between, stretch);
+        flex-wrap: wrap;
+        align-content: stretch;
+        height: 100%;
+
+        // 视频监控布局
+        .list-item {
+            .flex-block();
+            position: relative;
+            color: #fff;
+            font-size: 1.14rem;
+            padding: 0.2rem;
+
+            // 监控
+            canvas {
+                width: 100%;
+                height: 100%;
+            }
+
+            // 监控信息(顶部)
+            .info-top {
+                position: absolute;
+                padding: 1rem;
+                top: 0;
+                left: 0;
+                right: 0;
+                .flex-block(space-between, flex-end);
+                flex-direction: column;
+            }
+
+            // 监控信息(底部）
+            .info-bottom {
+                .flex-block();
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 1rem;
+                margin: 0.2rem;
+                background: rgba(0, 27, 62, 0.7);
+
+                .info-buttom-right {
+                    i {
+                        font-size: 1.5rem;
+                        padding-left: 2rem;
+                    }
+
+                }
+            }
+        }
+
+        // 页面分割 9（默认）
+        &.list-grid-9 {
+            .list-item {
+                flex: 0 0 33.3%;
+                height: 33.3%;
+            }
+        }
+
+        // 页面分割 4 
+        &.list-grid-4 {
+            .list-item {
+                flex: 0 0 50%;
+                height: 50%;
+            }
+        }
+
+        // 页面分割 1+6
+        &.list-grid-7 {
+            .list-item {
+                flex: 0 0 25%;
+                height: 33.3%;
+            }
+
+            .list-item:nth-child(1) {
+                flex: 0 0 75%;
+                height: 66.6%;
+            }
+        }
+    }
+}

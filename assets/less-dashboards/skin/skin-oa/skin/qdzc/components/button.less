@@ -1,0 +1,80 @@
+@nsdv-top-btn-top: 0.5rem;
+@nsdv-top-btn-padding: 0.2rem 0.5rem;
+@nsdv-top-color: @text-color;
+@ns-btn-default-color: #01629e;
+@qdzc-btn-bg: @primary;
+
+button {
+    background: transparent;
+    border: none;
+}
+
+// 屏幕图标按钮
+.nsdv-btn {
+    background: transparent;
+    border: 0;
+    color: @text-color;
+
+    i {
+        font-size: 2rem;
+    }
+
+    i:hover {
+        color: @qdzc-sub-light-color;
+    }
+}
+
+// 文字按钮
+.nsdv-text-btn {
+    position: absolute;
+    top: @nsdv-top-btn-top;
+    left: 6rem;
+    border: 1px solid @primary;
+    color: @primary;
+    border-radius: 10rem;
+
+    span {
+        display: block;
+        padding: 0.2rem 0.8rem;
+    }
+}
+
+.nsdv-text-btn:hover {
+    color: @qdzc-sub-light-color;
+    border: 1px solid @qdzc-sub-light-color;
+}
+
+.pt-btn {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 0 12px;
+    border-radius: 0;
+    height: @qdzc-btn-height;
+    background-color: @qdzc-btn-bg;
+    text-align: center;
+
+    span {
+        color: #fff;
+        position: relative;
+    }
+
+    &:hover,
+    &:focus,
+    &.focus {
+        color: #fff;
+        text-decoration: none;
+        .box-shadow();
+    }
+
+    &:active,
+    &.active {
+        outline: 0;
+        background-image: none;
+    }
+}

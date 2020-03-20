@@ -1,0 +1,414 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>制样入库</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var sampleOutorProblem2 = {
+                    "package": "nscloud.sampleoutorproblem2",
+                    "template": "processDocBaseMobile",
+                    "readonly": false,
+                    "isShowTitle": true,
+                    "isFormHidden": false,
+                    "versionNumber": "1",
+                    "components": [{
+                            "type": "vo",
+                            "field": [{
+                                    "id": "sampleId",
+                                    "type": "hidden",
+                                    "value": "1319813228523424754"
+                                },
+                                {
+                                    "id": "warehouseId",
+                                    "englishName": "warehouseId",
+                                    "chineseName": "库房",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "42c6073d-1e61-8c40-ec0d-72719e973e90",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "库房",
+                                    "rules": "",
+                                    "textField": "name",
+                                    "valueField": "id",
+                                    "relationField": "locationCode",
+                                    "outputFields": {
+                                        "warehouseId": "{id}"
+                                    },
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": "",
+                                    "contentType": "",
+                                    "suffix": "/warehouse/v2/getList",
+                                    "url":getRootPath() + "/warehouse/v2/getList",
+                                    "mindjetIndexState": 0,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "id": "locationCode",
+                                    "englishName": "locationCode",
+                                    "chineseName": "货位",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "1ab4a5dc-1327-30bd-3d44-52fdc7685537",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.String",
+                                    "type": "select",
+                                    "label": "货位",
+                                    "rules": "",
+                                    "textField": "code",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": {
+                                        "warehouseId": "{this.warehouseId}"
+                                    },
+                                    "contentType": "application/json",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "suffix": "/locations/v2/getList",
+                                    "url": getRootPath() + "/locations/v2/getList",
+                                    "mindjetIndexState": 1,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "englishName": "putInQuantity",
+                                    "className": "java.math.BigDecimal",
+                                    "gid": "211131aa-0456-1608-eb3d-54c02ed34791",
+                                    "variableType": "number",
+                                    "chineseName": "入库数量",
+                                    "isHaveChineseName": true,
+                                    "id": "putInQuantity",
+                                    "label": "入库数量",
+                                    "type": "text",
+                                    "field": "putInQuantity",
+                                    "title": "入库数量",
+                                    "mindjetIndexState": 2,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "id": "handleWay",
+                                    "englishName": "handleWay",
+                                    "chineseName": "处理状态",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "05205a54-987a-5452-dd30-3e428407b2a1",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "处理方式",
+                                    "rules": "",
+                                    "subdata": [{
+                                        "isDisabled": false,
+                                        "selected": true,
+                                        "value": "制样入库",
+                                        "id": "3"
+                                    }],
+                                    "textField": "value",
+                                    "valueField": "id",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "mindjetIndexState": 3,
+                                    "mindjetFieldPosition": "field"
+                                }
+                            ],
+                            "ajax": {
+                                "src": getRootPath() + "/sample/accept/samples/getById",
+                                "dataSrc": "data",
+                                "type": "GET",
+                                "dataFormat": "object",
+                                "isInlineBtn": false,
+                                "contentType": "application/x-www-form-urlencoded",
+                                "isSendPageParams": true,
+                                "data": {}
+                            },
+                            "voId": "1309183777171316713",
+                            "idField": "id",
+                            "keyField": "root",
+                            "parent": "root",
+                            "gid": "9fb93672-e606-71c0-1eef-bbae64a56f04",
+                            "objectState": 2,
+                            "stateClass": "more",
+                            "fieldById": {
+                                "warehouseId": {
+                                    "id": "warehouseId",
+                                    "englishName": "warehouseId",
+                                    "chineseName": "库房",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "42c6073d-1e61-8c40-ec0d-72719e973e90",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "库房",
+                                    "rules": "",
+                                    "textField": "name",
+                                    "valueField": "id",
+                                    "relationField": "locationCode",
+                                    "outputFields": {
+                                        "warehouseId": "{id}"
+                                    },
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": "",
+                                    "contentType": "",
+                                    "suffix": "/warehouse/v2/getList",
+                                    "url": getRootPath() + "/warehouse/v2/getList",
+                                    "mindjetIndexState": 0,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "locationCode": {
+                                    "id": "locationCode",
+                                    "englishName": "locationCode",
+                                    "chineseName": "货位",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "1ab4a5dc-1327-30bd-3d44-52fdc7685537",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.String",
+                                    "type": "select",
+                                    "label": "货位",
+                                    "rules": "",
+                                    "textField": "code",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": {
+                                        "warehouseId": "{this.warehouseId}"
+                                    },
+                                    "contentType": "application/json",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "suffix": "/locations/v2/getList",
+                                    "url": getRootPath() + "/locations/v2/getList",
+                                    "mindjetIndexState": 1,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "putInQuantity": {
+                                    "englishName": "putInQuantity",
+                                    "className": "java.math.BigDecimal",
+                                    "gid": "211131aa-0456-1608-eb3d-54c02ed34791",
+                                    "variableType": "number",
+                                    "chineseName": "入库数量",
+                                    "isHaveChineseName": true,
+                                    "id": "putInQuantity",
+                                    "label": "入库数量",
+                                    "type": "text",
+                                    "field": "putInQuantity",
+                                    "title": "入库数量",
+                                    "mindjetIndexState": 2,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "handleWay": {
+                                    "id": "handleWay",
+                                    "englishName": "handleWay",
+                                    "chineseName": "处理状态",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "05205a54-987a-5452-dd30-3e428407b2a1",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "处理方式",
+                                    "rules": "",
+                                    "subdata": [{
+                                        "isDisabled": false,
+                                        "selected": true,
+                                        "value": "制样入库",
+                                        "id": "3"
+                                    }],
+                                    "textField": "value",
+                                    "valueField": "id",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "mindjetIndexState": 3,
+                                    "mindjetFieldPosition": "field"
+                                }
+                            }
+                        },
+                        {
+                            "type": "btns",
+                            "field": [{
+                                "functionConfig": {
+                                    "ajaxData": {},
+                                    "data": {},
+                                    "ajaxDataVaildConfig": "{}",
+                                    "contentType": "application/json",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "defaultMode": "custom",
+                                    "functionClass": "modal",
+                                    "suffix": "/sample/accept/samples/chooseAndSubmit",
+                                    "text": "制样入库",
+                                    "title": "制样入库",
+                                    "type": "GET",
+                                    "voName": "sampleSampleVO",
+                                    "entityName": "_sample_accept_samples",
+                                    "chineseName": "制样入库（手机）",
+                                    "englishName": "sampledealwithin",
+                                    "isCloseWindow": true,
+                                    "isInlineBtn": false,
+                                    "isHaveSaveAndAdd": true,
+                                    "isCopyObject": false,
+                                    "successOperate": "refresh",
+                                    "isSendPageParams": true,
+                                    "isIsSave": false,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "isUseAjaxByCopyAdd": true,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    "url": getRootPath() + "/sample/accept/samples/chooseAndSubmit"
+                                },
+                                "btn": {
+                                    "text": "制样入库",
+                                    "isReturn": true
+                                }
+                            }],
+                            "gid": "2e8f4370-d1b5-c382-18ad-340a59b5201a",
+                            "objectState": 2
+                        }
+                    ],
+                    "draftBox": {
+                        "isUse": false,
+                        "isUseSave": true,
+                        "closeOrClear": true
+                    },
+                    "title": "样品确认",
+                   /*  "pageParam": {
+                        "data": {
+                            "entrustAddress": "河北省张家口市怀来县三堡街",
+                            "acceptBy": "1310954084307594226",
+                            "acceptId": "1319813228523422706",
+                            "batchId": "1319813228523423730",
+                            "sampleCode": "JC191204053",
+                            "sampleCateId": "1311810923840668658",
+                            "sampleCateName": "钢及合金【测试1】",
+                            "sampleName": "钢及合金【测试1】",
+                            "stdIds": "1312067197023028210",
+                            "stdNames": "企业标准001",
+                            "urgentState": 0,
+                            "sampleQuantity": "1",
+                            "sampleStatusId": "1311812495798698994",
+                            "isJudge": 0,
+                            "isRetained": 1,
+                            "createdBy": "1310954084307594226",
+                            "createdByName": "Lims管理员",
+                            "whenCreated": 1575471691000,
+                            "modifiedBy": "1310954084307594226",
+                            "modifiedByName": "Lims管理员",
+                            "whenModified": 1575471691000,
+                            "otherRequirements": "HY0011《企业标准001》",
+                            "reportSendWay": "1",
+                            "propertyValue": "[{\"propName\":\"钢属性1\",\"isNumerical\":0,\"propCate\":\"\",\"objectState\":0,\"objectCheckState\":0,\"id\":\"1311810574874575858\",\"customValue\":\"\"},{\"propName\":\"钢属性2\",\"isNumerical\":1,\"propCate\":\"\",\"objectState\":0,\"objectCheckState\":0,\"id\":\"1311810594201928690\",\"customValue\":\"\"},{\"propName\":\"钢合金属性3\",\"isNumerical\":0,\"propCate\":\"\",\"objectState\":0,\"objectCheckState\":0,\"id\":\"1311810616750506994\",\"customValue\":\"\"}]",
+                            "handleWay": "1",
+                            "entrustContactPhone": "13657209197",
+                            "customerSignState": "0",
+                            "acceptCode": "SL191204026",
+                            "entrustName": "中铁大桥局集团有限公司新建京张铁路五标项目部",
+                            "entrustContactName": "蒋小群",
+                            "entrustSignBy": "签字人",
+                            "sampleState": "2",
+                            "otherProperty": "钢属性1:;钢属性2:;钢合金属性3:;",
+                            "testTypeId": "0",
+                            "workItemId": "1319814343067441138",
+                            "workItemState": 2,
+                            "hasRollback": false,
+                            "hasOvertime": false,
+                            "hasEmergency": false,
+                            "hasSuspend": false,
+                            "instanceIds": "1319813247850783730",
+                            "instanceStates": "1",
+                            "objectState": 0,
+                            "objectCheckState": 0,
+                            "id": "1319813228523424754",
+                            "systemInfo": {
+                                "context": {
+                                    "env": "qa",
+                                    "staticurl": "https://qa.wangxingcloud.com/assets",
+                                    "weburl": "getRootPath() + ",
+                                    "loginUrl": "https://qa.wangxingcloud.com/sites/base/test.html",
+                                    "rabbitmq": {
+                                        "wsAddresses": "wss://qa.wangxingcloud.com/ws",
+                                        "virtualHost": "/"
+                                    }
+                                },
+                                "user": {
+                                    "topOrgId": "1310954084307567602",
+                                    "topOrgCode": "0001",
+                                    "topOrgName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "orgId": "1310954084307567602",
+                                    "orgCode": "0001",
+                                    "orgName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "deptId": "1310954084307567602",
+                                    "deptCode": "0001",
+                                    "deptName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "userId": "1310954084307594226",
+                                    "userName": "Lims管理员",
+                                    "account": "lims"
+                                }
+                            },
+                            "workItemIds": "1319814343067441138"
+                        },
+                        "url": "getRootPath() + /templateMindPages/pageConfig/1319025568028558322;activityId=1316911228643186674;activityName=入库;processId=1316834328327488498;workflowType=0"
+                    } */
+                }
+
+                // NETSTAR添加url参数即pageParam
+                
+                var componentsArr = pageConfig.config.components;
+                for(var componentI=0; componentI<componentsArr.length; componentI++){
+                    var componentData = componentsArr[componentI];
+                    switch(componentData.type){
+                        case 'blockList':
+                            componentData.scandSource = 'getToDoList';
+                            break;
+                    }
+                }
+                var pageConfig = {config:sampleOutorProblem2};
+                sampleOutorProblem2 = NetstarProject.init(sampleOutorProblem2);
+                NetstarTemplate.init(sampleOutorProblem2);
+
+            })
+        </script>
+    </container>
+</body>
+
+</html>

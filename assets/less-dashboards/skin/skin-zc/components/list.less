@@ -1,0 +1,86 @@
+@list-color: @text-color;
+@list-padding: @base-padding;
+@list-item-padding-v: (@list-padding / 2);
+@list-item-padding-h: @list-padding;
+@list-gutter: @base-margin;
+@modal-list-font-size: 1.25rem;
+
+.list {
+
+    .list-item {
+        padding: @list-item-padding-v 0;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+
+        &+.list-item {
+            border-top: 0;
+        }
+
+        span {
+            &+.state {
+                margin-left: @list-gutter;
+            }
+        }
+
+        .state {
+            flex: none;
+
+            &+span {
+                margin-left: @list-gutter;
+            }
+        }
+
+        &.list-item-vertical {
+
+            .list-label {
+                flex: 0 0 100%;
+                margin-bottom: @list-gutter;
+            }
+        }
+    }
+
+
+    // 有条纹的列表
+    &.list-striped {
+        .list-item {
+            &:nth-child(odd) {
+                .rgba-bg(@primary, .5);
+            }
+
+            padding: @list-padding (@list-padding / 2);
+        }
+    }
+
+    &+& {
+        margin-top: @list-gutter;
+    }
+}
+
+.modal {
+    .list {
+
+        .list-item {
+            font-size: @modal-list-font-size;
+            padding-top:0;
+            padding-bottom: @list-padding;
+            justify-content: flex-start;
+            max-width: 24rem;
+            .list-label {
+                padding-right: @list-padding;
+            }
+        }
+    }
+}
+
+// 屏幕宽度小于Full-HD(1920)less样式
+@media screen and (max-width: @screen-hd) {}
+
+// 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+@media screen and (min-width: 1921px) and (max-width: @screen-2k) {}
+
+// 屏幕宽度在大于2k(2560)less样式
+@media screen and (min-width: 2561px) {
+    .list .list-group .list-text.list-text-title {
+        font-size: 1rem;
+    }
+}

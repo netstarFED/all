@@ -1,0 +1,55 @@
+@charset "UTF-8";
+@base-padding: 10px;
+@list-text-fontSize: 14px;
+@list-text-lineHeight: 2;
+@list-text-color: #555555;
+// list列表
+.container {
+   padding: 0;
+   height: 100%;
+}
+
+.fileList {
+   .list-group {
+      .list-title {
+         border-bottom: 1px solid #efefef;
+         background: rgba(239,239,239,0.5);
+         .list-text {
+            padding: @base-padding @base-padding+5px;
+            font-size: 16px;
+            font-weight: 600;
+         }
+      }
+      .list-item {
+         border-bottom: 1px solid #efefef;
+         .list-body {
+            padding: @base-padding @base-padding+5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .list-before{
+               flex:0 0 80%;
+               .list-text {
+                  font-size: @list-text-fontSize ;
+                  line-height: @list-text-lineHeight;
+                  color: @list-text-color;
+                  .fontWeight {
+                     font-weight: 600;
+                  }
+               } // .list-text.fontWeight {
+               //    font-weight: 600;
+               // }
+            }
+            .list-after{
+               flex: 0 0 20%;
+               text-align: right;
+               margin: auto;
+            }
+           
+         }
+      }
+      .list-item:hover {
+         background: #f4f4f4;
+      }
+   }
+}

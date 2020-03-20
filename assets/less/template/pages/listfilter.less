@@ -1,0 +1,202 @@
+
+// 列表筛选
+@listFilter-form-height: @form-sm-height;
+
+.listFilter{
+	// 筛选模式表单样式
+	.filter-mode-form();
+	.nspanel.layout-form form.compactmode .form-td {
+		@label-width: 100px;
+		@form-width: 220px;
+		clear: both;
+		.form-group .tree-close{
+			left: 169px;
+		}
+		&.nscomponent-type-treeSelect{
+			max-width: (@label-width + @form-width);
+		}
+
+		// 省市县三级联动
+		&.nscomponent-type-provincelinkSelect{
+			.provincelinkage{
+				select + .selectboxit-container{
+					width: auto;
+					min-width: 150px;
+					border-right: 0;
+					margin-right: -1px;
+				}
+			}
+		}
+	}
+	// 表格顶部表单
+	.nspanel-container{
+		.panel-container-content{
+			// 快速录入
+			.nsui-quicktyping{
+				&,
+				& > .label-title,
+				& > .input,
+				& > .input .input-main{
+					height: @listFilter-form-height;
+				}
+				& > .label-title{
+					line-height: @listFilter-form-height;
+				}
+				.result-panel{
+					top:  (@listFilter-form-height - 1);
+				}
+			}		}
+		// 表单
+		.nspanel-container-forms{
+			display: block;
+			float: none;
+			.btn-container-panel{
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+
+		}
+
+		&.layout-container-panel-table{
+			.nspanel-container-forms-inline{
+				
+				.col-none.form-td{
+					margin: 0;
+					.form-item{
+						height: (30px - 1);
+					}
+				}
+				.container-panel-customerform{
+					.form-td{
+						& + .form-td{
+							margin-left: -1px;
+						}
+					}
+					.input-group-btn.text-btn{
+						.btn{
+							i{
+								padding-right: 0;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		 
+		// 按钮
+		.container-form-btns{
+			.form-container-panel{
+				position: absolute;
+				right: 0;
+				& + .btn-container-panel{
+					margin-left: -1px;
+				}
+
+				.container-panel-customerform{
+					padding: 0;
+				}
+			}
+		}
+	}
+	
+	.panel-container-panel{
+		// 表格搜索
+		.dataTables_filter{
+			display: none;
+		}
+	}
+
+	.layout-container-panel-forms{
+		.container-form-btns{
+			// position: absolute;
+			top: 40px;
+			right: 5px;
+			z-index: 9;
+		}
+
+	}
+	
+
+	.btn.btn-primary{
+		background: #fff;
+		border:1px solid transparent !important;
+		span,i{
+			color: #333;
+			
+
+		}
+		&:hover{
+			background: #fff;
+			span,i{
+				color: #333;
+			}
+		}
+	}
+	// 水平布局模式
+	&.mode-horizontal{
+		& > div{
+			// 左侧表单面板
+			@layout-container-panel-forms-width: 280px;
+			&.layout-container-panel-forms{
+				position: relative;
+				width: @layout-container-panel-forms-width;
+				padding-bottom: 40px;
+				.container-form-btns{
+					top: auto;
+					right: 0;
+					bottom: 5px;
+					.btn-primary{
+						float: right;
+						background: @ns-primary;
+						i,
+						span{
+							color: #fff;
+						}
+					}
+					
+				}
+				// 控制按钮
+				.search-expand{
+					display: none;
+				}
+			}
+			// 右侧表格面板
+			&.layout-container-panel-table{
+				width:calc(~'100% -' @layout-container-panel-forms-width);
+				padding-left: @mode-horizontal-gutter;
+				.container-panel-customerform{
+					display: none;
+				}
+			}
+		}
+
+		// 列表过滤左右布局表单样式
+		.nspanel.layout-form{
+
+			form.compactmode{
+				@form-height: 26px;
+			// label控制
+				label.control-label{
+					padding: 0;
+				}
+				.form-td{
+					& + .form-td{
+						padding-top: 4px;
+					}
+					.form-group{
+						height: @form-height;
+						min-height: @form-height;
+					}
+				}
+				.form-control{
+					height: @form-height;
+				}
+			}
+
+		}
+		
+	}
+	
+}

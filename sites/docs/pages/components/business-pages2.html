@@ -1,0 +1,75 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+
+    <script>
+    $(function(){
+        var businessTemplate = {
+            package:'nsVue.graps.product',
+            template:'businessDataBase',
+            title:'业务组件',
+            // readonly:false,
+            // isShowTitle:false,
+            // isFormHidden:false,
+            // isListTabs:true,
+            components:[
+            {
+                type: 'list',
+                idField: 'id',
+                ajax: {
+                    src: getRootPath() + '/docs/data/template/businessDataBase.json', //数据源地址
+                    type: "GET", //GET POST
+                    //contentType:            'application/json; charset=utf-8',          //GET POST
+                    data: {}, //参数对象{id:1,page:100}
+                    //isServerMode:         true,           //是否开启服务器模式
+                    dataSrc: 'rows',
+                    contentType: 'application/x-www-form-urlencoded',
+                },
+                params: {//必填
+                    dragWidth: false,
+                    styleExpress: {
+    
+                    }
+                },
+                field: [{
+                    field: 'itemName',
+                    title: '检测项目',
+                    width: 120,
+                    searchable: true,
+                    orderable: true,
+                    formatHandler: {
+                        type: 'text',
+                    }
+                }, {
+                    field: 'methodName',
+                    title: '检测方法',
+                    width: 500,
+                    formatHandler: {
+                        type: 'text',
+                    }
+                }, {
+                    field: 'methodCode',
+                    title: '方法编号',
+                    width: 100,
+                    searchable: true,
+                    orderable: true,
+                    formatHandler: {
+                        type: 'number',
+                    }
+                }, {
+                    field: 'groupPrice',
+                    title: '价格组价格',
+                    width: 150,
+                    search: true,
+                    orderable: true,
+                    formatHandler: {
+                        type: 'text',
+                    }
+                }]
+    
+            }
+        ]
+        }
+        NetstarTemplate.init(businessTemplate);
+    })
+    </script>
+    </container>

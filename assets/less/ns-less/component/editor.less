@@ -1,0 +1,269 @@
+/*====================================================================*/
+
+/*editor-编辑器*/
+
+/*====================================================================*/
+
+/*左侧浮动面板*/
+.menus-cover-left {
+	background-color: #fafafa;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 240px;
+	bottom: 0;
+	z-index: 2000;
+	border-right: 1px solid #eee;
+	overflow: auto;
+	// 左侧标题
+	h2{                                                                    
+		height: 24px;
+		line-height: 14px;
+		font-size: 16px;
+		margin: 0;
+		background: #fff;
+		padding: 5px;
+		box-shadow: 0 1px 1px rgba(0,0,0, .05);
+	}
+	.substr{
+		margin: 5px auto;
+		padding: 0 5px;
+		height: 24px;
+		line-height: 24px;	
+	}
+	/*左侧浮动面板 最小化按钮*/
+	.btn-close {
+		position: absolute;
+		font-family: @icon-font;
+		content:"";
+		right: 0;
+		top: 0;
+		width: 30px;
+		height: 24px;
+		background: #fff;
+		cursor: pointer;
+		&:after{
+			position: absolute;
+			content: "\f0d9";
+			width: 30px;
+			height: 24px;
+			line-height: 24px;
+			text-align: center;
+
+		}
+	}
+
+	/*左侧浮动面板最小化状态*/
+	&.min {
+		top: 0;
+		bottom: auto;
+		left: 0;
+		width: 30px;
+		height: 100%;
+		overflow: hidden;
+		& + .attr + .canvas{
+			left: 45px;
+		}
+		& + .attr + .canvas + .background{
+			left: 45px;
+		}
+		/*左侧浮动面板最小化状态 最小化按钮*/
+		.btn-close {
+			&:after{
+				position: absolute;
+				content: "\f0da";
+				width: 30px;
+				height: 24px;
+				line-height: 24px;
+				text-align: center;
+
+			}
+		}
+		.menus-cover-left{
+			h2{
+				display: none;
+			}
+		}
+	}
+
+	
+
+	/*左侧浮动面板 Tab*/
+	.nav > li > a {
+		padding: 3px 8px;
+	}
+
+	/*左侧浮动面板 组件*/
+	ul.components {
+		margin: 0;
+		padding: 5px;
+		list-style: none;
+
+		li {
+			float: left;
+			width: 50%;
+			text-align: center;
+			height: 31px;
+
+			a {
+				width: 100%;
+				text-align: center;
+				height: 30px;
+				background-color: #eee;
+				line-height: 30px;
+				display: block;
+			}
+
+		}
+
+	}
+
+	/*表单*/
+	&.attr {
+		width: 280px;
+	}
+
+	.panel-attrform {
+		margin-right: -1px;
+	}
+
+	.panel-attrform .panel-form .form-td label.control-label {
+		width: 80px;
+		margin-right: -1px;
+	}
+
+}
+
+/*输出画板*/
+
+.nseditor-board {
+	width: 100%;
+	background-color: #eee;
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	overflow: auto;
+	z-index: 99;
+	/* 顶部工具条 */
+	.control-panel{
+		position: fixed;
+		height: 24px;
+		top: 0;
+		right: 0;
+		left: 0;
+		z-index: 100;
+		background: #fff;
+		text-align: right;
+		box-shadow: 0 1px 1px rgba(0,0,0, .05);
+		padding-right: 15px;
+		.btn-group{
+			display: inline-block;
+			border-right: 1px solid #eee;
+			border-left: 1px solid #eee;
+			.btn{
+				padding: 0;
+				width: 28px;
+				height: 24px;
+				line-height: 24px;
+				border: 0;
+				i{
+					padding-right: 0;
+					color: #999;
+				}
+				&:hover{
+					box-shadow: none;
+					background: #4a4a4a;
+					i{
+						color: #fff;
+					}
+				}
+			}
+			& + .btn-group{
+				margin-left: -1px;
+			}
+		}
+	}
+	/*输出面板拖拽对象*/
+	&-dragitem {
+		width: 100px;
+		height: 50px;
+		background-color: #ddd;
+		position: absolute;
+		z-index: 3000;
+		cursor: pointer;
+
+		&.available {
+			background-color: #66CD00;
+		}
+
+	}
+	/*画板*/
+	.canvas {
+		background-color: rgba(255, 255, 255, 0.5);
+		position: absolute;
+		left: 255px;
+		right: 15px;
+		top: 40px;
+		bottom: 15px;
+		z-index: 101;
+		& > .row >.nspanel+.nspanel {
+			padding-left: 0;
+			padding-right: 0;
+		}
+		&.editstate {
+			opacity: 0.5;
+		}
+		/*画板上的布局组件*/
+		.page-title {
+			background-color: #F0FFF0;
+			border: 1px solid #fff;
+		}
+		.nspanel {
+			background-color: #BBFFFF;
+			border: 1px solid #fff;
+			cursor: pointer;
+			&:hover{
+				background-color: #4DFFFF;
+			}
+			&.tabs {
+				background-color: #E6E6F2;
+			}
+		}
+	}
+
+	/*背景*/
+	.background {
+		background-color: #fff;
+		position: absolute;
+		left: 255px;
+		right: 15px;
+		top: 40px;
+		bottom: 15px;
+		z-index: 100;
+
+		/*可用区域*/
+		.availablezone {
+			background-color: rgba(0, 255, 0, 0.5);
+		}
+	}
+
+	/*拖拽手柄*/
+	.drag-widget {
+		position: absolute;
+		background-color: rgba(0, 0, 0, 0.1);
+		z-index: 900;
+		&:hover {
+			background-color: rgba(0, 0, 0, 0.3);
+		}
+
+	}
+	.drag-widget-width {
+		width: 10px;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		cursor: e-resize;
+	}
+}
+

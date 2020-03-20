@@ -1,0 +1,521 @@
+	// 容器面板
+@nspanel-container-form-height: 30px;
+@nspanel-container-component-padding: 10px;
+@nspanel-container-title-height: @nspanel-container-form-height;
+@nspanel-container-dataTables_filter-width: 172px;
+@nspanel-container-title-color: #49638a;
+// 模板页标题
+.nspanel[nsid="templateTitle"]{
+	min-height: auto;
+	margin: 0;
+}
+.templateTitle{
+	padding: (@base-padding / 2) 0;
+	color: @text-info;
+	font-size: 16px;
+	font-weight: bold;
+	
+}
+.panel-container-content{
+	min-height: 35px;
+
+		.title-container-panel{
+			display: inline-block;
+			float: left;
+			height: @nspanel-container-form-height;
+			line-height: @nspanel-container-form-height;
+			padding: 0 @nspanel-container-component-padding;
+			padding-left: 0;
+			font-size: 16px;
+			font-weight: bold;
+			color: @title-color;
+
+
+		}
+
+		& > div:last-child{
+			padding-right: 0;
+			margin-right: 0;
+		}
+		& > div:first-child{
+			padding-left: 0;
+			margin-left: 0;
+		}
+		// 自定义组件
+		.service-component{
+			display: inline-block;
+			margin: 0 (@base-margin / 2);
+			.label-title{
+				background: #fff;
+				text-align: left;
+			}
+			.form-td{
+				.form-control{
+					height: @nspanel-container-form-height;
+				}
+			}
+
+		}
+		// form
+		.container-form-btns{
+			display: inline-block;
+			min-height: 30px;
+			// padding: 0 @nspanel-container-component-padding;
+			// 表单
+			.form-container-panel{
+
+				float: left;
+				.panel-form{
+					.form-td{
+						label.control-label{
+							background-color: transparent;
+						}
+					}
+				}
+				
+				// 按钮
+				& + .btn-container-panel{
+					display: inherit;
+					// margin-left: (@base-margin / 2);
+					
+				}
+			}
+			
+			& > div:first-child{
+				&.container-form-btns{
+					padding-top: 40px;
+				}
+
+			}
+
+			.btn-group{
+				display: inline;
+				.btn{
+					height: @nspanel-container-form-height;
+				}
+			}
+
+
+			.form-group,
+			.form-control,
+			.compactmode label.checkbox-inline,
+			.compactmode label.radio-inline{
+				height: (@nspanel-container-form-height - 2);
+				min-height: (@nspanel-container-form-height - 2);
+
+			}
+			
+		}
+
+		// 单行表单
+		&.nspanel-container-forms-inline{
+			border: 0;
+			padding: 0;
+			.panel-form{
+				.row-close{
+					padding-left: 0 ;
+					&.container-panel-customerform{
+						.form-td{
+							width: auto;
+							min-width: 140px;
+							float: left;
+							display: inline-block;
+							border: 0;
+							margin-left: 0;
+							& + .form-td{
+								margin-left: (@base-margin / 2);
+							}
+
+							label.control-label{
+								border: 1px solid @ns-border-color;
+								& + .form-item{
+									border: 1px solid @ns-border-color;
+									margin-left: -1px;
+									.form-control{
+										height: (@nspanel-container-form-height - 2);
+									}
+									&.radio,
+									&.checkbox{
+										padding-right: @base-padding;
+									}
+								}
+							}
+							.input-group{
+								.input-group-btn.text-btn .btn{
+									height: 28px;
+									span{
+										display: none;
+										
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			.form-container-panel{
+				padding-right: 0;
+			}
+
+		}
+
+		// 多行表单
+		&.nspanel-container-forms{
+			// title
+			.title-container-panel{
+				display: block;
+				float: none;
+				padding: 0;
+				margin-bottom: (@base-margin / 4);
+				text-align: left;
+				font-weight: bold;
+
+			}
+			& > div:first-child{
+				&.container-form-btns{
+					padding-top: 34px;
+					
+					.btn-container-panel{
+						
+						margin: 0;
+					}
+				}
+				&.title-container-panel{
+					& + .container-form-btns{
+						.btn-container-panel{
+							right: 6px;
+							margin: 0;
+						}
+					}
+				}
+			}
+			// form
+			.container-form-btns{
+				display: block;
+				float: none;
+				padding: 0;
+				.nspanel-container-forms{
+					padding-top: @nspanel-container-component-padding;
+				}
+				.form-container-panel{
+					float: none;
+					display: block;
+					padding: 0 0  @nspanel-container-component-padding;
+					& + .btn-container-panel{
+						position: absolute;
+						top: 0;
+						right: (@nspanel-container-dataTables_filter-width + 10);
+					}
+				}
+				
+			}
+		}
+
+
+	}
+.nspanel-container {	
+	// 标签页
+	.tab-container-panel {
+		&.tabs {
+			.nav.nav-tabs {
+				margin: 0 0 -1px !important;
+				padding-top: 0 !important;
+			}
+
+			.tab-content {
+				border: 1px solid @ns-nav-tabs-border-color;
+				padding: @base-padding;
+				margin: 0 1px (@base-margin / 2);
+				background: #fff;
+			}
+
+		}
+
+	}
+
+	//下拉
+	.form-item.select {
+		.selectboxit-container {
+			min-width: 0px;
+
+			.selectboxit {
+				min-width: 100px;
+				border: none;
+
+				.selectboxit-text {
+					text-indent: 6px;
+				}
+
+			}
+
+			.selectboxit-options {
+				li {
+					a.selectboxit-option-anchor {
+						padding: 0 (@base-padding / 2);
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	//搜索
+
+	.form-item.textBtn {
+		// width: 100px;
+
+		.input-group-btn.text-btn {
+			width: @form-sm-height;
+
+			.btn {
+				width: @nspanel-container-form-height;
+				height: @form-sm-height;
+			}
+
+		}
+
+		.form-control {
+			height: @form-sm-height;
+		}
+
+	}
+
+	.dropdown-menu {
+		margin-left: -1px;
+	}
+
+	//多选
+	.form-item.checkbox {
+		min-width: 100px;
+		height: @form-sm-height;
+		padding-right: @base-padding;
+	}
+
+	&.layout-simplepanel {
+		position: relative;
+		padding: @base-padding;
+		padding-top: 0;
+	}
+
+	// 表格面板容器
+	&.layout-container-panel-table {
+		position: relative;
+
+		.form-container-panel {
+			display: inline-block;
+			// border: 1px solid @ns-border-color;
+
+			form {
+				.container-panel-customerform {
+					&.row-close {
+						margin: 0;
+					}
+
+					&.fillbg {
+						background: transparent;
+					}
+
+				}
+
+			}
+
+		}
+
+		.panel-container-panel {
+			margin-top: -1px;
+
+			.dataTables_filter {
+				position: absolute;
+				top: 0;
+				right: 0;
+				
+				margin-right: 0;
+				i{
+					top: 9px;
+				}
+
+				label {
+					margin: 0;
+				}
+
+				.form-control {
+					height: @nspanel-container-form-height;
+				}
+
+			}
+
+		}
+
+	}
+
+	&.layout-container-panel-simplepanel {
+		position: relative;
+
+		.nspanel-container-forms-inline {
+			position: absolute;
+			top: 0;
+			right: 193px;
+
+			.panel-form.panel {
+				background-color: transparent;
+			}
+
+			.col-none.form-td {
+				float: left;
+
+				.input-group-addon {
+					width: @nspanel-container-form-height;
+				}
+
+			}
+
+		}
+
+	}
+
+	// 凭证模版
+	@voucher-title-bg: #fff;
+	@voucher-border-color: @ns-border-color;
+	@voucher-bg: #fff;
+
+	.mode-voucher & {
+		.title-container-panel {
+			font-size: 16px;
+			color: @nspanel-container-title-color;
+		}
+
+		.btn-container-panel {
+			.btn {
+				border-color: @voucher-border-color !important;
+			}
+
+		}
+
+		.nspanel-container-forms {
+						
+			.container-form-btns{
+				background: @voucher-bg;
+				border: 0;
+				padding-top: 0;
+				label.control-label {
+					background: #fff;
+				}
+				.form-container-panel{
+					padding: 10px;
+				}
+				.form-td {
+					border-color: @voucher-border-color;
+
+					.form-item:before {
+						background: @voucher-border-color;
+					}
+
+				}
+			}
+
+		}
+
+		.panel-container-panel {
+			padding: @base-padding;
+			background: @voucher-bg;
+			padding-top: 0;
+			height: auto;
+			overflow: hidden;
+			border-width: 0 2px 2px;
+
+			.table-responsive {
+				margin-bottom: 0;
+			}
+
+			table {
+				border-top: 1px solid @table-header-border-color;
+				thead {
+					tr {
+						th {
+							border-color: @table-header-border-color;
+						}
+
+					}
+
+				}
+
+				tbody {
+					tr {
+						th,
+						td {
+							background: #fff;
+							border-color: @voucher-border-color !important;
+						}
+
+					}
+
+				}
+
+				&.table-bordered {
+					border-color: @voucher-border-color;
+				}
+
+				// 奇偶行表格样式
+				&.table-striped {
+
+					tr.odd,
+					tr.even,
+					tr.tr-empty-row {
+						&:hover {
+							th,
+							td {
+								background: darken(@voucher-bg, 1%);
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+			.dataTables_filter {
+				.form-control {
+					border-color: @voucher-border-color;
+				}
+
+			}
+
+			.nstable-bottom {
+				clear: both;
+				background: #fff;
+				border-color: @voucher-border-color;
+			}
+
+		}
+
+	}
+
+}
+
+.managerForms {
+	.layout-form {
+		.row-close {
+			margin: 0;
+		}
+
+	}
+
+	.layout-table {
+		margin-top: 0 !important;
+	}
+
+}
+
+
+// form表单
+.layout-container-panel-forms {
+	.panel-container-content{
+		padding-right: 0 !important;
+	}
+}
+

@@ -1,0 +1,444 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>grid</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>field</td>
+                                <td>id</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>字段id </td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>标题</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>{}</td>
+                            </tr>
+                            <tr>
+                                <td>columnType</td>
+                                <td> 类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>表格设置</td>
+                            </tr>
+                            <tr>
+                                <td>editConfig</td>
+                                <td>组件配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>组件配置参数</td>
+                            </tr>
+                            <tr>
+                                <td>editable</td>
+                                <td> 编辑</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否可以编辑</td>
+                            </tr>
+                            <tr>
+                                <td>formatHandler</td>
+                                <td> 格式化</td>
+                                <td>object</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class=" panel content-demo">
+               
+                <h3 class="title-code"></h3>
+                <span class="intro"></span>
+                <div id="" class="panel-demo"></div>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        "field": "money",
+        "title": "金额", //标题
+        "columnType": "money",
+        "editable": true,
+        "variableType": "number",
+        "editConfig": { 
+            ...配置参数
+        },
+        formatHandler:{
+            ...详见对应参数
+        }
+        "formatType": {
+            ...详见以下参数            
+        },
+        "footer": {
+        }
+    }                    
+                    </pre>
+                </div>
+            </div>
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-grid-upload"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">上传</h3>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>类型 upload</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <span class="intro"></span>
+                <div id="nsdocs-grid-upload" class="panel-demo"></div>
+                    <script>
+                    var gridConfig = {
+                        columns: [{
+                                field: 'upload',
+                                title: 'upload',
+                                columType: 'upload',
+                                width: 200,
+                                editable: true,
+                                editConfig: {
+                                    type: "upload",
+                                    btns: ["upload", "edit", "delete", "download", "print"],
+                                    isShowThun: false,
+                                    isMultiple: true,
+                                },
+                            },
+                            {
+                                field: 'upload1',
+                                title: 'upload',
+                                columType: 'upload',
+                                width: 200,
+                                editable: true,
+                                editConfig: {
+                                    type: "upload",
+                                    btns: ["upload", "edit", "delete", "download", "print"],
+
+                                },
+                            }
+                        ],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-upload',
+                            dataSource: [{
+                                id: 1,
+                            }]
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: false,
+                            minPageLength: 3,
+                            isEditMode: true,
+                            pageLengthDefault: 1,
+                            selectMode: "single",
+                            isHanrEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 120,
+                        }
+                    }
+                    NetStarGrid.init(gridConfig);
+                </script>
+               
+                <div class="content language-javascript">
+                    <pre>
+    columns: [{
+        field: 'upload',
+        title: 'upload',
+        columType: 'upload',
+        width: 200,
+        editable: true,
+        editConfig:{
+            type:"upload",
+            btns:["upload","edit","delete","download","print"],
+            isShowThun:false,
+            isMultiple:true,
+            },
+        },
+        {
+        field: 'upload1',
+        title: 'upload',
+        columType: 'upload',
+        width: 200,
+        editable: true,
+        editConfig:{
+            type:"upload",
+            btns:["upload","edit","delete","download","print"],
+
+            },
+        }
+    ],
+    data: {......详见对应参数},
+    ui: {......详见对应参数 }
+                    }
+                </pre>
+                </div>
+            </div>
+            <!-- thumb-->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-grid-dictionary"></a>
+                <h3 class="title-code">字典</h3>
+                <span class="intro">dictionary,switch,stringReplace用法相同</span>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>type</td>
+                                <td> 类型</td>
+                                <td></td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td> dictionary,switch,stringReplace类型</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td> </td>
+                                <td>object</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="nsdocs-grid-dictionary" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var gridConfigMoney = {
+                        columns: [{
+                                field: 'Gender',
+                                title: '性别',
+                                width: 70,
+                                columType: 'switch',
+                                editable: false,
+                                formatHandler: {
+                                    type: 'switch',
+                                    data: {
+                                        1: "男",
+                                        2: "女",
+                                        3: "未登记"
+                                    }
+                                }
+                            }, {
+                                field: 'Gender2',
+                                title: '性别',
+                                width: 70,
+                                columType: 'dictionary',
+                                editable: false,
+                                formatHandler: {
+                                    type: 'dictionary',
+                                    data: {
+                                        1: "男",
+                                        2: "女",
+                                        3: "未登记"
+                                    }
+
+                                }
+                            }, {
+                                field: 'icon',
+                                title: '图标',
+                                width: 70,
+                                columType: 'switch',
+                                editable: false,
+                                formatHandler: {
+                                    type: 'switch',
+                                    data: {
+                                        "men": '<i class="fa fa-bandcamp" style="color:#ff0000"></i>',
+                                        "car": '<i class="fa fa-car" style="color:#ff0000"></i>',
+                                        "carblue": '<i class="fa fa-car" style="color:blue"></i>',
+
+                                    }
+                                },
+                            }, {
+                                field: 'selectedFlag',
+                                title: '是否选中',
+                                width: 120,
+                                columType: 'switch',
+                                editable: false,
+                                formatHandler: {
+                                    type: 'switch',
+                                    data: {
+                                        "close": '<i class="fa fa-close"></i>',
+                                        "check": '<i class="fa fa-check" style="color:#ff0000"></i>',
+                                        "closered": '<i class="fa fa-check"></i>',
+                                    }
+                                },
+                            }
+
+                        ],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-dictionary',
+                            dataSource: [{
+                                Gender: 1,
+                                Gender2: 1,
+                                icon: "car",
+                                selectedFlag: "close",
+                            }, {
+                                Gender: 2,
+                                Gender2: 2,
+                                icon: "men",
+                                selectedFlag: "check",
+                            }, {
+                                Gender: 3,
+                                Gender2: 3,
+                                icon: "carblue",
+                                selectedFlag: "closered",
+                            }]
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: true,
+                            minPageLength: 3,
+                            isEditMode: true,
+                            pageLengthDefault: 1,
+                            selectMode: "multi",
+                            isHanrEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 240,
+                        }
+                    }
+                    NetStarGrid.init(gridConfigMoney);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    columns: [{
+        field: 'Gender',
+        title: '性别',
+        width: 70,
+        columType: 'switch',
+        editable: true,
+        formatHandler: {
+            type: 'switch',
+            data: {
+                1:"男",
+                2:"女",
+                3:"未登记"
+            }
+        }
+    },{
+        field: 'Gender2',
+        title: '性别',
+        width: 70,
+        columType: 'dictionary',
+        editable: true,
+        formatHandler: {
+            type: 'dictionary',
+            data: {
+                1:"男",
+                2:"女",
+                3:"未登记"
+            }
+            
+        }
+    },{
+        field: 'icon',
+        title: '图标',
+        width: 70,
+        columType: 'switch',
+        editable: true,
+        formatHandler: {
+            type: 'switch',
+            data: {
+                "men":'<i class="fa fa-bandcamp" style="color:#ff0000"></i>',
+                "car":'<i class="fa fa-car" style="color:#ff0000"></i>',
+                "carblue":'<i class="fa fa-car" style="color:blue"></i>',
+
+            }
+        },
+    },{
+        field: 'selectedFlag',
+        title: '是否选中',
+        width: 120,
+        columType: 'switch',
+        editable: true,
+        formatHandler: {
+            type: 'switch',
+            data: {
+                "close":'<i class="fa fa-close"></i>',
+                "check":'<i class="fa fa-check" style="color:#ff0000"></i>',
+                "closered":'<i class="fa fa-check"></i>',
+            }
+
+        },
+    },
+],
+data: {
+    idField: 'id',
+    tableID: 'grid-base-money',
+    dataSource: [
+    {
+        Gender:1,
+        icon:"car",
+        selectedFlag:"close",
+    },{
+        Gender:2,
+        icon:"men",
+        selectedFlag:"check",
+    },{
+        Gender:3,
+        icon:"carblue",
+        selectedFlag:"closered",
+    }
+    ]    
+},
+ui: {......详见对应参数}
+} 
+        </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

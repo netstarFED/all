@@ -1,0 +1,152 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>样品出库</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var outorinbillMobile ={
+                    "package":"nscloud.out",
+                    template:'processDocBaseMobile',
+                    components:[
+                        {
+                            type:'vo',
+                            field:[
+                                {
+                                    id:'deptName',
+                                    type:'select',
+                                    label:'领用科室',
+                                    textField:'name',
+                                    valueField:'id',
+                                    method:'POST',
+                                    data:'',
+                                    dataSrc:'rows',
+                                    url:'https://qaapi.wangxingcloud.com//system/orgs/getFirstLevelChildrenOfTopOrg'
+                                },
+                                {
+                                    id:"operatorId",
+                                    type:'select',
+                                    url:'https://qaapi.wangxingcloud.com//system/users/getList',
+                                    method:'POST',
+                                    label:'领用人',
+                                    data:{
+                                        // deptId:"{this.deptName}"
+                                    },
+                                    textField:'userName',
+                                    valueField:'id',
+                                    dataSrc:'rows'
+                                },
+                                {
+                                    id:"operator",
+                                    type:'text',
+                                    label:'办理人',
+                                },
+                                {
+                                    id:'warehouseId',
+                                    type:'select',
+                                    label:'仓库',
+                                    textField:'name',
+                                    valueField:'id',
+                                    dataSrc:'rows',
+                                    url:'https://qaapi.wangxingcloud.com//warehouse/v2/getList',
+                                    data:'',
+                                    method:'POST',
+                                }
+                            ],
+                            idField:'id',
+                            keyField:'root',
+                            title:'出库信息',
+                            stateClass:'more'
+                        },
+                        {
+                            type:'blockList',
+                            idField:'id',
+                            keyField:'outOrInDetailVOList',
+                            title:'出库样品选择',
+                            field:[
+                                {
+                                    field:'str1',
+                                    title:'样品委托编号',
+                                    editConfig:{
+                                        type:'business',
+                                        label:'样品委托编号',
+                                        selectMode:'checkbox',
+                                        idField:'id',
+                                        textField:'str1',
+                                        "source": {
+                                            "type": "GET",
+                                            "suffix": "/templateMindPages/pageConfig/1318013717757093874",
+                                            //"url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1318013717757093874"
+                                            "url" : NetstarHomePage.defaultServerUrl + '/sites/gjjs/outorinbillmobilelist.html'
+                                        },
+                                        "search": {
+                                            "type": "POST",
+                                            "dataSrc": "rows",
+                                            "data": {
+                                                "warehouseId": "{page.warehouseId}"
+                                            },
+                                            "suffix": "/inventoryBatchDetail/v2/getList",
+                                            "url": getRootPath() + "/inventoryBatchDetail/v2/getList"
+                                        },
+                                        "getRowData": {
+                                            "type": "GET",
+                                            "dataSrc": "rows",
+                                            "data": {
+                                                "ids": "{selectedList.id}"
+                                            },
+                                            "contentType": "application/x-www-form-urlencoded",
+                                            "suffix": "/outOrIn/v2/getOutOrInDetailByBatchDetailIds",
+                                            "url": getRootPath() + "/outOrIn/v2/getOutOrInDetailByBatchDetailIds"
+                                        },
+
+                                    },
+                                    "orderable": true,
+                                    "searchable": false,
+                                    
+                                },
+                            ]
+                        },
+                        {
+                            type:'tab',
+                            field:'root,outOrInDetailVOList',
+                        },{
+                            type:'btns',
+                            field:[
+                                {
+                                    functionConfig:{
+                                        defaultMode:'custom',
+                                        text:'保存',
+                                        successMsg:'保存成功',
+                                        isMobileInlineBtn:true,
+                                        url:'https://qaapi.wangxingcloud.com//sampleDetail/outInventory'
+                                    },
+                                    btn:{
+                                        text:'保存'
+
+                                    }
+                                }
+                            ],
+                        }
+                    ]
+                }
+                // NETSTAR添加url参数即pageParam
+                var pageConfig = {config:outorinbillMobile};
+                outorinbillMobile = NetstarProject.init(outorinbillMobile);
+                NetstarTemplate.init(outorinbillMobile);
+            })
+        </script>
+    </container>
+</body>
+
+</html>

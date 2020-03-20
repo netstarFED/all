@@ -1,0 +1,108 @@
+
+{
+    "operator":{
+        "defaultMode": {
+            "chineseName": "类型",
+            "validType": "string",
+            "toolType": "select",
+            "required":true,
+            "default":"business",
+            "subdata": [{
+                "value":"business",
+                "text":"业务组件"
+            }],
+            "help":""           
+        },
+        "text": {
+            "chineseName": "按钮文字",
+            "validType": "sting",
+            "toolType": "text",
+            "default": "",
+            "help":"按钮中所显示的内容"
+        },
+        "dialogTitle": {
+            "chineseName": "弹框标题",
+            "validType": "sting",
+            "toolType": "text",
+            "default": "",
+            "help":""
+        },
+        "targetField": {
+            "chineseName": "目标字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":"目标字段 （keyField）"
+        },
+        "selectMode":{
+            "chineseName":"选择模式",
+            "validType":"string",
+            "toolType":"select",
+            "default":"single",
+            "subdata":[{
+                "value":"single",
+                "text":"单选"
+            },{
+                "value":"checkbox",
+                "text":"多选"
+            },{
+                "value":"noSelect",
+                "text":"不能选"
+            }]
+        },
+        "operatorMode":{
+            "chineseName":"",
+            "validType":"string",
+            "toolType":"select",
+            "default":"single",
+            "subdata":[{
+                "value":"add",
+                "text":"新增"
+            },{
+                "value":"edit",
+                "text":"编辑"
+            }]
+        }
+    },
+    "data":{
+        "getPanelDataAjax":{
+            "chineseName":"获取数据ajax",
+            "required":true,
+            "validType":"object",
+            "toolType":"ajaxEditor"
+        }, 
+        "requestSource": {
+            "chineseName": "请求参数来源",
+            "validType": "string",
+            "toolType": "select",
+            "default":""  ,
+            "subdata":[
+                {
+                    "value":"selected",
+                    "text":"选中行（单选）"
+                },
+                {
+                    "value":"checkbox",
+                    "text":"勾选行（多选）"
+                },
+                {
+                    "value":"thisVo",
+                    "text":"当前数据"
+                },
+                {
+                    "value":"none",
+                    "text":"无"
+                }
+            ],
+            "help":"selected checkbox thisvo none"       
+        },
+        "targetField": {
+            "chineseName": "",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        }
+        
+    }
+}

@@ -1,0 +1,248 @@
+{
+    "operator":{
+        "type":{
+            "chineseName":"组件类型",
+            "validType":"string",
+            "toolType":"select",   
+            "default":"select",
+            "required":true,
+            "subdata":[{
+                "value":"dataRangePicker",
+                "text":"日期区间"
+            }]
+        },
+        "id":{
+            "chineseName":"字段名称",
+            "validType":"string",
+            "toolType":"text",
+            "readonly":true,
+            "required":true
+        },
+        "label":{
+            "chineseName":"标签",
+            "validType":"string",
+            "toolType":"text",
+            "default":""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":"当前value只支持数字"    
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        }, 
+        "inputHeight":{
+            "chineseName":"文本框高度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100
+        },          
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":100,
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules":{
+            "chineseName":"验证规则",
+            "validType":"string",
+            "toolType":"multi-select",
+            "subdata":[
+                {
+                    "value":"required",
+                    "text":"必填"
+                },{
+                    "value":"",
+                    "text":"无验证"
+                }              
+            ]     
+        },
+        "disabled":{
+            "chineseName":"只读",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },     
+       
+        "format":{
+            "chineseName":"日期格式",
+            "validType":"string",
+            "default": "nsVals.default.dateFormat",
+            "toolType":"textarea",
+            "help":"日期格式： yyy-mm-dd. yyyy年MM月dd日 HH时mm分ss秒 "
+        },
+        "ranges":{
+            "chineseName":"默认范围",
+            "validType":"boolean",
+            "toolType":"check",
+            "default": true,
+            "help":""
+        },
+        "isRelativeTime":{
+            "chineseName":"是否保存相对时间",
+            "validType":"boolean",
+            "toolType":"check",
+            "default": false,
+            "help":""
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+       
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "changeHandler":{
+            "validType":"function",
+            "toolType":"textarea",
+            "chineseName":"变更处理程序"
+        }
+
+    },
+    "data":{
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+
+    },
+    "prepattern":[
+        {
+            "name":"显示的值",
+            "value": {
+                "id": "valuedataRangePicker",
+                "label": "显示 :",
+                "type": "dataRangePicker",
+                "value": 1544148749870
+            }  
+        },
+        {
+           "name":"只读",
+           "value":{
+                "id": "disabled",
+                "label": "只读 :",
+                "type": "dataRangePicker",
+                "disabled": true
+           }
+        },
+        {
+            "name":"样式宽",
+            "value":{                               
+                "id": "width",
+                "label": "宽:",
+                "type": "dataRangePicker",
+                "inputWidth": 300
+            }
+        },
+        {
+            "name":"验证",
+            "value":{
+                "id": "requied",
+                "label": "验证 :",
+                "type": "dataRangePicker",
+                "rules":"requied"
+            }
+        },
+        {
+            "name":"是否显示时间",
+            "value":{
+                "isHasClose": false,
+                "id": "isTime",
+                "label": "显示时间:",
+                "type": "dataRangePicker",
+                "isTime":true
+            }
+        },
+        {
+            "name":"添加按钮",
+            "value":{
+                "id": "addvalue",
+                "label": "显示时间:",
+                "type": "date",
+                "addvalue":{ 
+                    "value":"添加按钮",
+                    "id":"1"
+                }
+            }
+        },
+        {
+            "name":"默认日期",
+            "value":{
+                "id": "isdefaultdate",
+                "label": "默认日期:",
+                "type": "date",
+                "isDefaultDate":true
+            }
+        },
+        {
+            "name":"开始视图",
+            "value":{
+                "id": "startView",
+                "label": "开始视图:",
+                "type": "date",
+                "startView": 2 
+            }
+        },
+        {
+            "name":"日期格式",
+            "value":{
+                "id": "date1",
+                "label": "日期:",
+                "type": "date",
+                "value": 1564761383000,
+                "format": "HH:mm:ss"
+            }
+        },
+        {
+            "name":"日期格式",
+            "value":[{
+                "mindjetFieldPosition": "field-more", 
+                "id": "mindjetFieldPosition1",
+                "label": "显示1:", 
+                "type": "date",
+                "value": 1544148749870
+            },
+            {
+                "mindjetFieldPosition": "field-more",
+                "id": "mindjetFieldPosition2",
+                "label": "显示2 :",
+                "type": "date",
+                "value": 1544148749870
+            }]
+        }
+
+    ]
+}

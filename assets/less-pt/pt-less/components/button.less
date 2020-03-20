@@ -1,0 +1,333 @@
+//btn-themes
+// btn-default
+@btn-default-color: @gray-dark;
+@btn-default-bg: @gray-light;
+@btn-default-border: @border-color;
+
+// btn-primary
+@btn-primary-color: @primary;
+@btn-primary-bg: @primary;
+@btn-primary-border: @primary;
+
+// btn-success
+@btn-success-color: @success;
+@btn-success-bg: @success;
+@btn-success-border: @success;
+
+// btn-info
+@btn-info-color: @info;
+@btn-info-bg: @info;
+@btn-info-border: @info;
+
+// btn-warning
+@btn-warning-color: @warning;
+@btn-warning-bg: @warning;
+@btn-warning-border: @warning;
+
+// btn-danger
+@btn-danger-color: @danger;
+@btn-danger-bg: @danger;
+@btn-danger-border: @danger;
+
+@btn-link-color: @gray-dark;
+@btn-link-disabled-color: @disabled-color;
+
+@btn-size-sm: @input-group-sm;
+@btn-size-base: @input-group-base;
+@btn-size-md: @input-group-md;
+@btn-size-lg: @input-group-lg;
+
+
+// btn-padding
+@btn-padding-sm-v: 1px;
+@btn-padding-sm-h: @padding-sm-h;
+
+@btn-padding-base-v: 4px;
+@btn-padding-base-h: @padding-base-h;
+
+@btn-padding-md-v: 4px;
+@btn-padding-md-h: @padding-base-h;
+
+@btn-padding-lg-v: 10px;
+@btn-padding-lg-h: @padding-lg-h;
+
+
+
+
+.pt-btn {
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    .pt-btn-base();
+    .transition(.15s);
+    // .user-select(none);
+
+    &,
+    &:active,
+    &.active {
+
+        &:focus,
+        &.focus {
+            // .tab-focus();
+        }
+    }
+
+    &:hover,
+    &:focus,
+    &.focus {
+        color: @btn-default-color;
+        text-decoration: none;
+    }
+
+    &:active,
+    &.active {
+        outline: 0;
+        background-image: none;
+        //   .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+    }
+
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        cursor: @cursor-disabled;
+        // pointer-events: none;
+        //   .opacity(.65);
+        //   .box-shadow(none);
+    }
+
+    span {
+        position: relative;
+    }
+
+}
+
+
+// 按钮状态变量
+
+//   btn-default
+.pt-btn-default {
+    .button-variant(@btn-default-color, @btn-default-bg, @btn-default-border);
+
+    // 特定按-默认default色调，鼠标经过为副色
+    &:focus,
+    &.focus {
+        color: @btn-default-color;
+        background: #fff;
+        border-color: @btn-default-border;
+    }
+
+    &:hover,
+    .open>.dropdown-toggle& {
+        color: #fff;
+        background-color: @warning;
+        border-color: @warning;
+    }
+
+
+
+}
+
+//btn-primary
+.pt-btn-primary {
+    .button-variant(@btn-primary-color, @btn-primary-bg, @btn-primary-border);
+}
+
+// btn-success
+.pt-btn-success {
+    .button-variant(@btn-success-color, @btn-success-bg, @btn-success-border);
+}
+
+// btn-info
+.pt-btn-info {
+    .button-variant(@btn-info-color, @btn-info-bg, @btn-info-border);
+}
+
+// btn-warning
+.pt-btn-warning {
+    .button-variant(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
+}
+
+// btn-danger
+.pt-btn-danger,
+.pt-btn-error {
+    .button-variant(@btn-danger-color, @btn-danger-bg, @btn-danger-border);
+}
+
+
+
+.pt-btn-link {
+    .button-variant(@btn-link-color, transparent, transparent);
+    border: 0;
+    background: transparent;
+
+    &:hover,
+    &:focus {
+        color: @warning;
+        text-decoration: underline;
+        background: transparent;
+    }
+}
+
+// Link buttons
+// .pt-btn-link {
+//     color: @link-color;
+//     font-weight: normal;
+//     border-radius: 0;
+
+//     &,
+//     &:active,
+//     &.active,
+//     &[disabled],
+//     fieldset[disabled] & {
+//         background-color: transparent;
+//         //   .box-shadow(none);
+//     }
+
+//     &,
+//     &:hover,
+//     &:focus,
+//     &:active {
+//         border-color: transparent;
+//     }
+
+//     &:hover,
+//     &:focus {
+//         color: @link-hover-color;
+//         text-decoration: underline;
+//         background-color: transparent;
+//     }
+
+//     &[disabled],
+//     fieldset[disabled] & {
+
+//         &:hover,
+//         &:focus {
+//             color: @btn-link-disabled-color;
+//             text-decoration: none;
+//         }
+//     }
+// }
+
+
+// Button Sizes
+.pt-btn-lg {
+    @font-size-lg: 16px;
+    .button-size(@btn-size-lg, @btn-padding-lg-h, @font-size-lg);
+}
+
+.pt-btn-md {
+    .button-size(@btn-size-md, @btn-padding-md-h, @font-size-base);
+}
+
+.pt-btn-base {
+    .button-size(@btn-size-base, @btn-padding-base-h, @font-size-sm);
+}
+
+.pt-btn-sm {
+    .button-size(@btn-size-sm, @btn-padding-sm-h, @font-size-sm);
+}
+
+
+
+// Block button
+
+.pt-btn-block {
+    display: block;
+    width: 100%;
+}
+
+// Vertically space out multiple block buttons
+.pt-btn-block+.pt-btn-block {
+    margin-top: 5px;
+}
+
+// Specificity overrides
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    &.pt-btn-block {
+        width: 100%;
+    }
+}
+
+
+// 图标按钮
+.pt-btn-icon {
+    padding: 0 !important;
+
+    &.pt-btn-circle {
+        .border-radius(100px);
+        border-radius: 100px;
+    }
+
+    span {
+        display: none;
+    }
+
+}
+
+// 按钮图标
+i {
+    .pt-btn &+span {
+        padding-left: @base-padding-sm;
+    }
+
+    &[class=""] {
+        &+span {
+            padding: 0;
+        }
+    }
+
+}
+
+.pt-btn-icon-sm {
+    .btn-icon-variant(@btn-size-sm);
+}
+
+.pt-btn-icon-base {
+    .btn-icon-variant(@btn-size-base);
+}
+
+.pt-btn-icon-md {
+    .btn-icon-variant(@btn-size-md);
+}
+
+.pt-btn-icon-lg {
+    .btn-icon-variant(@btn-size-lg);
+}
+
+
+
+// 清空按钮
+@btn-clear-color: @gray;
+@btn-clear-hover-color: @warning;
+
+.pt-btn-clear {
+    display: inline-block;
+
+    &.show {
+        display: table-cell !important;
+    }
+
+    i {
+        color: @btn-clear-color;
+    }
+
+    &:hover {
+        i {
+            color: @btn-clear-hover-color;
+        }
+    }
+}
+
+
+// 紧凑型按钮（与前一个按钮无外间距）
+.pt-btn-compact {
+    margin-left: -1px !important;
+}

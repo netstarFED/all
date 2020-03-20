@@ -1,0 +1,207 @@
+{
+    "operatar": {
+        "type": {
+            "chineseName": "组件类型",
+            "validType": "string",
+            "toolType": "select",
+            "default": "treeSelect",
+            "required": true,
+            "subdata": [{
+                "value": "treeSelect",
+                "text": "下拉树"
+            }]
+        },
+        "id": {
+            "chineseName": "字段",
+            "validType": "string",
+            "toolType": "text",
+            "required": true
+        },
+  
+        "label": {
+            "chineseName": "标签",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        },
+        "rules": {
+            "chineseName": "验证",
+            "validType": "string",
+            "toolType": "multi-select",
+            "subdata": [{
+                "value": "required",
+                "text": "必填"
+            }, {
+                "value": "",
+                "text": "无验证"
+            }]
+        },
+        "disabled": {
+            "chineseName": "只读",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "inputWidth": {
+            "chineseName": "宽",
+            "validType": "number",
+            "toolType": "text",
+            "default": 100
+        },
+        "width": {
+            "chineseName": "宽",
+            "validType": "string",
+            "toolType": "text",
+            "default": 100,
+            "placeholder": "可以输入百分比：如70%"
+        },
+        "changeHandler": {
+            "validType": "function",
+            "toolType": "textarea",
+            "chineseName": "变更处理程序"
+        },
+        "hidden": {
+            "chineseName": "隐藏",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "async": {
+            "chineseName": "是否同步",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "level": {
+            "chineseName": "打开层级",
+            "validType": "number",
+            "default": 0,
+            "toolType": "text"
+        },
+        "isMultiple": {
+            "chineseName": "多选",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "children": {
+            "chineseName": "树数据子级名",
+            "validType": "string",
+            "toolType": "text",
+            "default": "children"
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "parentId": {
+            "chineseName": "树数据pId",
+            "validType": "string",
+            "toolType": "text",
+            "default":  "parentId"
+        }
+    },
+    "data": {
+        "ajax": {
+            "chineseName": "ajax",
+            "required": true,
+            "validType": "object",
+            "toolType": "ajaxEditor"
+        },
+
+        "textField": {
+            "chineseName": "显示字段",
+            "validType": "string",
+            "toolType": "text",
+            "default": "text",
+            "required": true
+        },
+        "valueField": {
+            "chineseName": "保存值",
+            "required": true,
+            "validType": "string",
+            "toolType": "text",
+            "default": "value"
+        },
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+    },
+    "prepattern": [
+        {
+            "name": "显示的值",
+            "value": {
+                "id": "value",
+                "label": "显示 :",
+                "type": "treeSelect",
+                "rules": "",
+                "textField": "name",
+                "valueField": "id",
+                "value": "",             
+                "url": "getRootPath() +'/docs/data/tree/getList.json'", 
+                "contentType": "application/x-www-form-urlencoded",
+                "method":"GET",
+                "dataSrc": "rows"
+            }
+        },
+        {
+            "name": "打开层级",
+            "value":{
+                "id": "value",
+                "label": "打开层级 :",
+                "type": "treeSelect",
+                "textField": "name",
+                "valueField": "id",
+                "level": 1,             
+                "url": "getRootPath() +'/docs/data/tree/getList.json'", 
+                "contentType": "application/x-www-form-urlencoded",
+                "method":"GET",
+                "dataSrc": "rows"
+            }
+        },
+        {
+            "name": "是否多选",
+            "value": {
+                "id": "value",
+                "label": "是否多选 :",
+                "type": "treeSelect",
+                "textField": "name",
+                "valueField": "id",          
+                "url": "getRootPath() +'/docs/data/tree/getList.json'", 
+                "contentType": "application/x-www-form-urlencoded",
+                "method":"GET",
+                "dataSrc": "rows",
+                "isMultiple": true
+            }
+        }
+        
+    ]
+}

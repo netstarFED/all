@@ -1,0 +1,190 @@
+.frame-standard{
+	.cb-table-skin(#e8f0f7; #f3f8fd; #eff5fd; #333; #000; #1b64b7; #000; #d5e0ef;)
+}
+
+// 表格行活动背景色， 表格行选中背景色， 文字颜色 活动文字颜色，选中文字颜色，头部描边颜色，通用描边颜色
+.cb-table-skin(@bg-color, @bg-hover, @bg-active, @text-color, @text-hover-color, @text-active-color, @text-color-primary, @border-color,){
+
+	table{
+		border-color: @border-color;
+		border-top-color: @border-color;
+
+		// 带边框的表格
+		&.table{
+			thead{
+				tr{
+					th{
+						background: @bg-color;
+					}
+				}
+			}
+		}
+		&.table-bordered{
+			thead{
+
+				&:first-child > tr:last-child > th{
+					border-color: @border-color;
+					color: @text-color-primary;
+				}
+			}
+			tbody{
+				tr{
+					th,
+					td{
+						border-color: @border-color;
+						color: @text-color;
+					}
+					th{
+						background: #f2f7fb;
+					}
+
+					&:hover{
+						th,
+						td{
+							background: @bg-hover;
+							color: @sidebar-menu-bg;
+						}
+						th{
+							background: darken(@bg-hover, 2);
+						}
+			
+					}
+
+					// 选中行样式
+					&.selected{
+						th,
+						td{
+							background:  @bg-active;
+							border-color: @border-color;
+							color: @text-active-color;
+						}
+						&:hover{
+							th,
+							td{
+								background: @bg-active;
+								color: @text-active-color;
+							}
+						}
+					}
+					
+					// 表格行状态
+					// &.info {
+					// 	& > td {
+					// 		background: @ns-info;
+					// 		color: #fff ;
+					// 	}
+					// 	&:hover {
+					// 		& > td {
+					// 			background: darken(@ns-info, 5%);
+					// 		}
+					// 	}
+					// }
+					// &.success {
+					// 	& > td {
+					// 		background: @ns-success;
+					// 		color: #fff;
+					// 	}
+					// 	&:hover {
+					// 		& > td {
+					// 			background: darken(@ns-success, 5%);
+					// 		}
+					// 	}
+					// }
+					// &.warning {
+					// 	& > td {
+					// 		background: @ns-warning;
+					// 		color: #fff;
+					// 	}
+					// 	&:hover {
+					// 		& > td {
+					// 			background: darken(@ns-warning, 5%);
+					// 		}
+					// 	}
+					// }
+					// &.danger,
+					// &.error {
+					// 	& > td {
+					// 		background: @ns-danger;
+					// 		color: #fff;
+					// 	}
+					// 	&:hover {
+					// 		& > td {
+					// 			background: darken(@ns-danger, 5%);
+					// 		}
+					// 	}
+					// }
+					// 表格列状态
+					// & > td {
+					// 	&.info {
+					// 		background: @ns-info;
+					// 	}
+					// 	&.success {
+					// 		background: @ns-success;
+					// 	}
+					// 	&.warning {
+					// 		background: @ns-warning;
+					// 	}
+					// 	&.error {
+					// 		background: @ns-danger;
+					// 	}
+					// }
+
+					// &.info,
+					// &.success,
+					// &.warning,
+					// &.error{
+					// 	&:hover{
+					// 		td{
+					// 			color: #fff;
+					// 		}
+					// 	}
+					// }
+
+					// & > td{
+					// 	&.info,
+					// 	&.success,
+					// 	&.warning,
+					// 	&.error{
+					// 		color: #fff;
+					// 	}
+					// }
+
+				}
+			}
+				
+		}
+		// 斑马线表格
+		.table-striped{
+			&> tbody > tr:nth-child(odd){
+				& > td.success{
+					background: #000;
+				}
+			}
+		}
+
+
+
+
+	}
+	.nstable-plus-panel {
+		& > .nstable-plus-panel-tabs{
+			& > a.nstable-plus-panel-tabs-tab{
+				border-color: @border-color;
+				&:hover{
+					background: darken( @bg-active, 2);
+				}
+			}
+		}
+
+		& > .nstable-plus-panel-btns{
+			.btn i{
+				color: darken(@border-color, 15)!important;
+			}
+		}
+	}
+
+	.nstable-bottom{
+		border-color: @border-color;
+	}
+
+}

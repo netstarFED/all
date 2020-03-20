@@ -1,0 +1,46 @@
+@simple-table-height: 30px;
+
+.simple-table{
+	padding: 15px;
+	border: 1px solid #eee;
+	table.table{
+		& > thead {
+			&:first-child{
+				& > tr{
+					& > th{
+						height: @simple-table-height;
+					}
+				}
+			}
+		}
+		& > tbody{
+			& > tr {
+				&:nth-child(odd){
+					th,
+					td{
+						background: #fff;
+					}
+				}
+				& > th{
+					height: @simple-table-height;
+				}
+				& > td{
+					height: @simple-table-height;
+				}
+				&:hover{
+					th,
+					td{
+						background: #f8f8f8;
+					}
+				}
+			}
+		}
+	}
+	.nstable-bottom{
+		height: @simple-table-height;
+		padding: 0;
+		.dataTables_info{
+			line-height: 28px;
+		}
+	}
+}

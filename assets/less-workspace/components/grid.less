@@ -1,0 +1,52 @@
+@grid-padding: @base-padding-lg;
+@grid-image-size: 64px;
+
+.grid {
+    height: auto;
+    overflow: hidden;
+    padding: 0 @grid-padding 1px;
+
+    .grid-item {
+        display: block;
+        float: left;
+        border: 1px solid @border-color;
+        width: 25%;
+
+        text-align: center;
+        margin-left: -1px;
+        margin-bottom: -1px;
+
+        a {
+            display: block;
+            max-height: 140px;
+            padding: (@grid-padding * 2) @grid-padding;
+            transition: ease-in-out all .25s;
+
+            img {
+                display: block;
+                margin: 0 auto;
+                max-height: 42px;
+                -webkit-filter: grayscale(100%);
+                transition: ease-in-out all .25s;
+                opacity: 0.5;
+
+                &+span {
+                    display: block;
+                    margin: @base-margin-lg auto 0;
+                }
+
+            }
+
+            &:hover {
+                background: #f8f8f8;
+
+                img {
+                    -webkit-filter: grayscale(0%);
+                    opacity: 1;
+                }
+            }
+        }
+
+
+    }
+}

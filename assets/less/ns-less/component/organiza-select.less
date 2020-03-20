@@ -1,0 +1,47 @@
+/*====================================================================*/
+/*Organiza-Select*/
+/*====================================================================*/
+
+
+.organizaSelect{
+	.organiza-plane{
+		position: absolute;
+		top: @base-input-height;
+		left: -1px;
+		display: table;
+		width: 100%;
+		background: #fff;
+		border:1px solid @ns-border-color;
+		z-index: 25;
+		box-sizing: content-box;
+		.plane-content-style();
+
+		.empty{
+			padding: @base-padding;
+		}
+	}
+	.state{
+		.state-style();
+	}
+
+	.handler-btn{
+		right: (@form-group-btn-size * 2);
+		z-index: 22;
+		.compactmode &{
+			right: (@form-group-btn-size-compactmode * 2);
+		}
+	}
+
+	label.has-error{
+		position: absolute;
+		top: 0;
+		right: (@form-control-height-base *3);
+		line-height: @form-control-height-base;
+		margin: 0;
+		z-index: 22;
+		.compactmode &{
+			right: (@form-control-height-compactmode * 3);
+			line-height: @form-control-height-compactmode;
+		}
+	}
+}

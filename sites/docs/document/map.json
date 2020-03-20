@@ -1,0 +1,217 @@
+{
+    "operator":{
+        "type":{
+            "chineseName":"组件类型",
+            "validType":"string",
+            "toolType":"select",   
+            "default":"map",
+            "required":true,
+            "subdata":[{
+                "value":"map",
+                "text":"地图"
+            }]
+        },
+        "id":{
+            "chineseName":"字段名称",
+            "validType":"string",
+            "toolType":"text",
+            "readonly":true,
+            "required":true
+        },
+        
+        "label":{
+            "chineseName":"标签",
+            "validType":"string",
+            "toolType":"text",
+            "default":""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        },         
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules":{
+            "chineseName":"验证规则",
+            "validType":"string",
+            "toolType":"multi-select",
+            "subdata":[
+                {
+                    "value":"required",
+                    "text":"必填"
+                },{
+                    "value":"",
+                    "text":"无验证"
+                }              
+            ]     
+        },
+        "disabled":{
+            "chineseName":"只读",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "subFields-longitude":{
+            "chineseName":"经度",
+            "validType":"string",
+            "toolType":"text",
+            "default":""
+        },
+        "subFields-latitude":{
+            "chineseName":"纬度",
+            "validType":"string",
+            "toolType":"text",
+            "default":""
+        },
+        "subFields-code":{
+            "chineseName":"code",
+            "validType":"string",
+            "toolType":"text",
+            "default":""
+        },
+        "hidden":{
+            "chineseName":"隐藏",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },      
+        "mapType":{
+            "chineseName":"地图类型",
+            "validType":"string",
+            "toolType":"select",
+            "default":"qq",
+            "subdata": [{
+                "value": "qq",
+                "text": "腾讯"
+            }, {
+                "value": "baidu",
+                "text": "百度地图"
+            }]
+        },
+        
+        "changeHandler":{
+            "validType":"function",
+            "toolType":"textarea",
+            "chineseName":"变更处理程序"
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        }
+        
+      
+    },
+    "data":{
+
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+    },
+    "prepattern":[
+        {
+            "name":"显示的值",
+            "value": {
+                "id": "valuemap",
+                "label": "显示 :",
+                "type": "map",
+                "value": "石家庄市金石工业园"
+            }  
+        },
+        {
+           "name":"只读",
+           "value":{
+                "id": "disabled",
+                "label": "只读 :",
+                "type": "map",
+                "disabled": true
+           }
+        },
+        {
+            "name":"样式宽",
+            "value":{                               
+                "id": "inputwidth",
+                "label": "宽 :",
+                "type": "map",
+                "inputWidth": 300
+            }
+        },
+        {
+            "name":"验证",
+            "value":{
+                "id": "requied",
+                "label": "验证 :",
+                "type": "map",
+                "rules":"requied"
+            }
+        },
+        {
+            "name":"地图类型",
+            "value":{                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                "id": "maptype",
+                "label": "显示时间:",
+                "type": "date",
+                "maptype": "qq"
+            }
+        },
+        {
+            "name":"是否显示更多",
+            "value":[{
+                "mindjetFieldPosition": "field-more", 
+                "id": "mindjetFieldPosition1",
+                "label": "显示1:", 
+                "type": "date",
+                "value": 1544148749870
+            },
+            {
+                "mindjetFieldPosition": "field-more",
+                "id": "mindjetFieldPosition2",
+                "label": "显示2 :",
+                "type": "date",
+                "value": 1544148749870
+            }]
+        }
+
+    ]
+}

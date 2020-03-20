@@ -1,0 +1,158 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>工作流（nsWorkflowVo）</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>英文名称</th>
+                                <th>按钮文字</th>
+                                <th>类型</th>
+                                <th>工作流类型</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                            <tr>
+                                <td>nsWorkflowViewer</td>
+                                <td>流程监控</td>
+                                <td>workflowViewer</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowViewerById</td>
+                                <td>流程监控</td>
+                                <td>workflowViewerById</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowSubmit</td>
+                                <td>提交</td>
+                                <td>workflowSubmit</td>
+                                <td>submit</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowSubmitClose</td>
+                                <td>提交并关闭</td>
+                                <td>workflowSubmit</td>
+                                <td>submit</td>
+                                <td>isCloseWindow：true</td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowMultiSubmit</td>
+                                <td>批量提交</td>
+                                <td>workflowSubmit</td>
+                                <td>multiSubmit</td>
+                                <td>requestSource:'checkbox'</td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowReject</td>
+                                <td>驳回</td>
+                                <td>workflowSubmit</td>
+                                <td>reject</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowCancelSign</td>
+                                <td>取消签收</td>
+                                <td>workflowSubmit</td>
+                                <td>cancelSign</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowWithdraw</td>
+                                <td>撤回</td>
+                                <td>workflowSubmit</td>
+                                <td>withdraw</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowRollback</td>
+                                <td>回退</td>
+                                <td>workflowSubmit</td>
+                                <td>rollback</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowRebook</td>
+                                <td>改签</td>
+                                <td>workflowSubmit</td>
+                                <td>rebook</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowHasten</td>
+                                <td>催办</td>
+                                <td>workflowSubmit</td>
+                                <td>hasten</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowEmergency</td>
+                                <td>应急</td>
+                                <td>workflowSubmit</td>
+                                <td>emergency</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowComplete</td>
+                                <td>签收</td>
+                                <td>workflowSubmit</td>
+                                <td>emergency</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowForWard</td>
+                                <td>提交</td>
+                                <td>workflowSubmit</td>
+                                <td>forWard</td>
+                                <td>先签收后提交</td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowSubmitAllBatch</td>
+                                <td>提交</td>
+                                <td>workflowSubmit</td>
+                                <td>submitAllBatch</td>
+                                <td>批量提交批次</td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowFindHandleRec</td>
+                                <td>查看办理意见</td>
+                                <td>workflowSubmit</td>
+                                <td>findHandleRec</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>nsWorkflowUnduComplete</td>
+                                <td>取消结束</td>
+                                <td>workflowSubmit</td>
+                                <td>unduComplete</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                    <p style = "font-size:16px; line-height: 32px; width: 996px;"><span style="color:red">*</span>&nbsp;&nbsp;添加工作流按钮，添加代码时要添加 functionConfig:{defaultMode:'workflowSubmit'}，</br>&nbsp;&nbsp;原因根据页面参数(已办/完结)判断非工作流按钮只读，所以如果是工作流按钮需要添加 <br>&nbsp;&nbsp;functionConfig:{defaultMode:'workflowSubmit'}</p>
+                </div>
+            </div>
+        </div>
+        <!-- <script>
+            $(function () {
+                NetstarDocs.init();
+            })
+        </script> -->
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

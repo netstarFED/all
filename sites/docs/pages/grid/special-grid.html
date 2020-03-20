@@ -1,0 +1,737 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>grid</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>field</td>
+                                <td>id</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>字段id </td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>标题</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>{}</td>
+                            </tr>
+                            <tr>
+                                <td>columnType</td>
+                                <td> 类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>表格设置</td>
+                            </tr>
+                            <tr>
+                                <td>editConfig</td>
+                                <td>组件配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>组件配置参数</td>
+                            </tr>
+                            <tr>
+                                <td>editable</td>
+                                <td> 编辑</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否可以编辑</td>
+                            </tr>
+                            <tr>
+                                <td>formatHandler</td>
+                                <td> 格式化</td>
+                                <td>object</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class=" panel content-demo">
+                <a href="javascript:void(0);" id="sense-nsdocs-number-value"></a>
+                <h3 class="title-code"></h3>
+                <span class="intro"></span>
+                <div id="" class="panel-demo"></div>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        "field": "money",
+        "title": "金额", //标题
+        "columnType": "money",
+        "editable": true,
+        "variableType": "number",
+        "editConfig": { 
+            ...配置参数
+        },
+        formatHandler:{
+            ...详见对应参数
+        }
+        "formatType": {
+            ...详见以下参数            
+        },
+        "footer": {
+        }
+    }                    
+                    </pre>
+                </div>
+            </div>
+            <!-- 输入模式 value -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-grid-tree"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">树</h3>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>isTreeNode</td>
+                                <td>是否有树节点</td>
+                                <td>boolean</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <span class="intro"></span>
+                <div id="nsdocs-grid-istreenode" class="panel-demo"></div>
+                <script>
+                    var gridConfig = {
+                        columns: [
+                            {
+                                field: 'industryName',
+                                title: '行业名称',
+                                chineseName:"行业名称",
+                                isTreeNode:true,
+                                width: 300,
+                                columnType:"text",
+                                isNeedRowData:true,
+                                editable: false,
+                                orderType:"default",
+                                orderable:true,
+                                searchable:true,
+                                tooltip:false,
+                                editConfig: {
+                                    type: 'text',
+                                },
+                                styleObj:{
+                                    width:"153px",
+
+                                }
+                            }
+                        ],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-istreenode',
+                            dataSource:  [{
+                                "children": [
+                                    {
+                                        "industryName": "第一方检测机构",
+                                        "parentId": "1310139427795764210",
+                                        "mallType": 0,
+                                        "industryCode": "00010001",
+                                        "productIds": "",
+                                        "productNames": "",
+                                        "disOrder": "1",
+                                        "createdBy": "1",
+                                        "createdByName": "超级管理员",
+                                        "whenCreated": 1566462219000,
+                                        "modifiedBy": "1",
+                                        "modifiedByName": "超级管理员",
+                                        "whenModified": 1566462219000,
+                                        "children": [
+                                            {
+                                                "industryName": "家用电器研发",
+                                                "parentId": "1310139447123117042",
+                                                "mallType": 0,
+                                                "industryCode": "000100010001",
+                                                "productIds": "",
+                                                "productNames": "",
+                                                "disOrder": "1",
+                                                "createdBy": "1",
+                                                "createdByName": "超级管理员",
+                                                "whenCreated": 1566546752000,
+                                                "modifiedBy": "1",
+                                                "modifiedByName": "超级管理员",
+                                                "whenModified": 1566546752000,
+                                                "objectState": 0,
+                                                "objectCheckState": 0,
+                                                "id": "1310230212666983410",
+                                                "netstarLevel": 2,
+                                                "netstarOpen": true,
+                                                "netstarExpand": true,
+                                                "netstarStyleObj": {
+                                                    "margin-left": "7.5px"
+                                                },
+                                                "isParent": false
+                                            },
+                                            {
+                                                "industryName": "汽车研发",
+                                                "parentId": "1310139447123117042",
+                                                "mallType": 0,
+                                                "industryCode": "000100010002",
+                                                "productIds": "1306779230066967529,1307532378352124905",
+                                                "productNames": "CRM,OA系统",
+                                                "disOrder": "2",
+                                                "createdBy": "1",
+                                                "createdByName": "超级管理员",
+                                                "whenCreated": 1566546775000,
+                                                "modifiedBy": "1",
+                                                "modifiedByName": "超级管理员",
+                                                "whenModified": 1570092402000,
+                                                "objectState": 0,
+                                                "objectCheckState": 0,
+                                                "id": "1310230237363045362",
+                                                "netstarLevel": 2,
+                                                "netstarOpen": true,
+                                                "netstarExpand": true,
+                                                "netstarStyleObj": {
+                                                    "margin-left": "7.5px"
+                                                },
+                                                "isParent": false
+                                            }
+                                        ],
+                                        "objectState": 0,
+                                        "objectCheckState": 0,
+                                        "id": "1310139447123117042",
+                                        "netstarLevel": 1,
+                                        "netstarOpen": true,
+                                        "netstarExpand": true,
+                                        "netstarStyleObj": {
+                                            "margin-left": "7.5px"
+                                        },
+                                        "isParent": true
+                                    },
+                                    {
+                                        "industryName": "第三方检测机构",
+                                        "parentId": "1310139427795764210",
+                                        "mallType": 0,
+                                        "industryCode": "00010002",
+                                        "productIds": "",
+                                        "productNames": "",
+                                        "disOrder": "2",
+                                        "createdBy": "1",
+                                        "createdByName": "超级管理员",
+                                        "whenCreated": 1566546735000,
+                                        "modifiedBy": "1",
+                                        "modifiedByName": "超级管理员",
+                                        "whenModified": 1566546735000,
+                                        "children": [
+                                            {
+                                                "industryName": "工程检测机构",
+                                                "parentId": "1310230194413372402",
+                                                "mallType": 0,
+                                                "industryCode": "000100020001",
+                                                "productIds": "1306779230066967529,1309947479264855026,1309953815415358450,1310137498281706482,1310695172941546482,1308724124402582505,1307532378352124905",
+                                                "productNames": "CRM,系统管理,网星开发平台,LIMS,财务管理,ERP企业版,OA系统",
+                                                "disOrder": "1",
+                                                "createdBy": "1",
+                                                "createdByName": "超级管理员",
+                                                "whenCreated": 1566546791000,
+                                                "modifiedBy": "1",
+                                                "modifiedByName": "超级管理员",
+                                                "whenModified": 1573732973000,
+                                                "objectState": 0,
+                                                "objectCheckState": 0,
+                                                "id": "1310230255616656370",
+                                                "netstarLevel": 2,
+                                                "netstarOpen": true,
+                                                "netstarExpand": true,
+                                                "netstarStyleObj": {
+                                                    "margin-left": "7.5px"
+                                                },
+                                                "isParent": false
+                                            },
+                                            {
+                                                "industryName": "食品检测机构",
+                                                "parentId": "1310230194413372402",
+                                                "mallType": 0,
+                                                "industryCode": "000100020002",
+                                                "productIds": "",
+                                                "productNames": "",
+                                                "disOrder": "2",
+                                                "createdBy": "1",
+                                                "createdByName": "超级管理员",
+                                                "whenCreated": 1566546804000,
+                                                "modifiedBy": "1",
+                                                "modifiedByName": "超级管理员",
+                                                "whenModified": 1566546804000,
+                                                "objectState": 0,
+                                                "objectCheckState": 0,
+                                                "id": "1310230269575300082",
+                                                "netstarLevel": 2,
+                                                "netstarOpen": true,
+                                                "netstarExpand": true,
+                                                "netstarStyleObj": {
+                                                    "margin-left": "7.5px"
+                                                },
+                                                "isParent": false
+                                            },
+                                            {
+                                                "industryName": "ghcs",
+                                                "parentId": "1310230194413372402",
+                                                "mallType": 0,
+                                                "industryCode": "000100020003",
+                                                "productIds": "1304283337598174185,1309947479264855026",
+                                                "productNames": "ERP门店版,系统管理",
+                                                "disOrder": "3",
+                                                "createdBy": "1",
+                                                "createdByName": "超级管理员",
+                                                "whenCreated": 1569807912000,
+                                                "modifiedBy": "1",
+                                                "modifiedByName": "超级管理员",
+                                                "whenModified": 1569807912000,
+                                                "objectState": 0,
+                                                "objectCheckState": 0,
+                                                "id": "1313731856553739250",
+                                                "netstarLevel": 2,
+                                                "netstarOpen": true,
+                                                "netstarExpand": true,
+                                                "netstarStyleObj": {
+                                                    "margin-left": "7.5px"
+                                                },
+                                                "isParent": false
+                                            }
+                                        ],
+                                        "objectState": 0,
+                                        "objectCheckState": 0,
+                                        "id": "1310230194413372402",
+                                        "netstarLevel": 1,
+                                        "netstarOpen": true,
+                                        "netstarExpand": true,
+                                        "netstarStyleObj": {
+                                            "margin-left": "7.5px"
+                                        },
+                                        "isParent": true
+                                    }
+                                ]
+                            }]
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: true,
+                            minPageLength: 3,
+                            isEditMode: true,
+                            pageLengthDefault: 300,
+                            selectMode: "single",
+                            isHaveEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 140,
+                           
+                        }
+                    }
+                    NetStarGrid.init(gridConfig);
+                </script>
+               
+                <div class="content language-javascript">
+                    <pre>
+    columns: [{
+        field: 'upload',
+        title: 'upload',
+        columType: 'upload',
+        width: 200,
+        editable: true,
+        editConfig:{
+            type:"upload",
+            btns:["upload","edit","delete","download","print"],
+            isShowThun:false,
+            isMultiple:true,
+            },
+        },
+        {
+        field: 'upload1',
+        title: 'upload',
+        columType: 'upload',
+        width: 200,
+        editable: true,
+        editConfig:{
+            type:"upload",
+            btns:["upload","edit","delete","download","print"],
+
+            },
+        }
+    ],
+    data: {......详见对应参数},
+    ui: {......详见对应参数 }
+                    }
+                </pre>
+                </div>
+            </div>
+            <!-- -->
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-grid-business"></a>
+                <h3 class="title-code">业务组件</h3>
+                <span class="intro"></span>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>isTreeNode</td>
+                                <td>是否有树节点</td>
+                                <td>boolean</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="nsdocs-grid-business" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var gridConfig = {
+                        columns: [
+                            {
+                                field: 'cityname',
+                                title: '项目名称',
+                                // chineseName:"行业名称",
+                                width: 200,
+                                columnType:"ren",
+                                isNeedRowData:false,
+                                editable: true,
+                                orderType:"renderField",
+                                orderable:true,
+                                formatHandler:{
+                                    data:"{{}}",
+                                    type:"renderField"
+                                },
+                                searchable:true,
+                                tooltip:false,
+                                editConfig: {
+                                    id: 'value',
+                                    label: '默认显示',
+                                    dialogTitle:"业务组件弹框1",
+                                    type: 'business',
+                                    textField: 'cityname',
+                                    valueField:"id",
+                                    idField: 'id',
+                                    value: {
+                                        cityname : '可点击'
+                                    },
+                                    source: {
+                                        url: getRootPath() + '/docs/pages/components/business-pages.html',
+                                        data: [
+                                            {aa:111},
+                                            {bb:111},
+                                            {cc:111},
+                                        ],
+                                    },
+                                    search: {
+                                        url: getRootPath() + '/assets/json/newcomponent/search.json',
+                                        dataSrc: 'rows',
+                                    },
+                                },
+                                styleObj:{
+                                    width:"153px",
+
+                                }
+                            }
+                        ],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-business',
+                            dataSource: [ {
+                                   
+                                }] 
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: true,
+                            minPageLength: 3,
+                            isEditMode: true,
+                            pageLengthDefault: 300,
+                            selectMode: "single",
+                            isHaveEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 140,
+                           
+                        }
+                    }
+                    NetStarGrid.init(gridConfig);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    columns: [{
+        field: 'projectName',
+        title: '项目名称',
+        // chineseName:"行业名称",
+        width: 200,
+        columnType:"placeholder",
+        isNeedRowData:true,
+        editable: true,
+        orderType:"default",
+        orderable:true,
+        searchable:true,
+        tooltip:false,
+        editConfig: {
+            id: 'value',
+            label: '默认显示',
+            dialogTitle:"业务组件弹框1",
+            type: 'business',
+            textField: 'cityname',
+            idField: 'id',
+            value: {
+                cityname : '可点击'
+            },
+            source: {
+                url: getRootPath() + '/docs/pages/components/business-pages.html',
+                data: [
+                    {aa:111},
+                    {bb:111},
+                    {cc:111},
+                ],
+            },
+            search: {
+                url: getRootPath() + '/assets/json/newcomponent/search.json',
+                dataSrc: 'rows',
+            },
+        },
+        styleObj:{
+            width:"153px",
+
+        }
+    }
+],
+data: {
+    idField: 'id',
+    tableID: 'grid-base-money',
+    dataSource: [
+    {
+        Gender:1,
+        icon:"car",
+        selectedFlag:"close",
+    },{
+        Gender:2,
+        icon:"men",
+        selectedFlag:"check",
+    },{
+        Gender:3,
+        icon:"carblue",
+        selectedFlag:"closered",
+    }
+    ]    
+},
+ui: {......详见对应参数}
+} 
+        </pre>
+                </div>
+            </div>
+            <div class="panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-grid-business"></a>
+                <h3 class="title-code">业务组件</h3>
+                <span class="intro"></span>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th>必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>isTreeNode</td>
+                                <td>是否有树节点</td>
+                                <td>boolean</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="nsdocs-grid-select" class="panel-demo"></div>
+                <!-- js块 -->
+                <script>
+                    var gridConfig = {
+                        columns: [
+                            {
+                                field: 'projectName',
+                                title: '项目名称',
+                                // chineseName:"行业名称",
+                                width: 200,
+                                columnType:"textFieldReplace",
+                                isNeedRowData:true,
+                                editable: true,
+                                orderType:"default",
+                                orderable:true,
+                                searchable:true,
+                                tooltip:false,
+                                formatHandler : {
+                                    type : 'textFieldReplace',
+                                    data : {
+                                        textField : 'aa',
+                                    }
+                                },
+                                editConfig: {
+                                    id: 'value',
+                                    label: '默认显示',
+                                    dialogTitle:"业务组件弹框1",
+                                    textField:"name",
+                                    valueField:"id",
+                                    type: 'select',
+                                    outputFields:{
+                                        // ste:"{name}",
+                                        projectName:"{id}",
+                                    } ,
+                                    subdata:[
+                                        {
+                                            id:"1",
+                                            name:"男"
+                                        },
+                                        {
+                                            id:"2",
+                                            name:"女"
+                                        }
+
+                                    ]
+                                },
+                                styleObj:{
+                                    width:"153px",
+
+                                }
+                            }
+                        ],
+                        data: {
+                            idField: 'id',
+                            tableID: 'nsdocs-grid-select',
+                            dataSource: [ {
+                                   
+                                }] 
+                        },
+                        ui: {
+                            isAutoSerial: true,
+                            isCheckSelect: false,
+                            isHeader: false,
+                            isPage: true,
+                            minPageLength: 3,
+                            isEditMode: true,
+                            pageLengthDefault: 300,
+                            selectMode: "single",
+                            isHaveEditDeleteBtn: true,
+                            isAllowAdd: true,
+                            height: 140,
+                           
+                        }
+                    }
+                    NetStarGrid.init(gridConfig);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    columns: [{
+        field: 'projectName',
+        title: '项目名称',
+        // chineseName:"行业名称",
+        width: 200,
+        columnType:"placeholder",
+        isNeedRowData:true,
+        editable: true,
+        orderType:"default",
+        orderable:true,
+        searchable:true,
+        tooltip:false,
+        editConfig: {
+            id: 'value',
+            label: '默认显示',
+            dialogTitle:"业务组件弹框1",
+            type: 'business',
+            textField: 'cityname',
+            idField: 'id',
+            value: {
+                cityname : '可点击'
+            },
+            source: {
+                url: getRootPath() + '/docs/pages/components/business-pages.html',
+                data: [
+                    {aa:111},
+                    {bb:111},
+                    {cc:111},
+                ],
+            },
+            search: {
+                url: getRootPath() + '/assets/json/newcomponent/search.json',
+                dataSrc: 'rows',
+            },
+        },
+        styleObj:{
+            width:"153px",
+
+        }
+    }
+],
+data: {
+    idField: 'id',
+    tableID: 'grid-base-money',
+    dataSource: [
+    {
+        Gender:1,
+        icon:"car",
+        selectedFlag:"close",
+    },{
+        Gender:2,
+        icon:"men",
+        selectedFlag:"check",
+    },{
+        Gender:3,
+        icon:"carblue",
+        selectedFlag:"closered",
+    }
+    ]    
+},
+ui: {......详见对应参数}
+} 
+        </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

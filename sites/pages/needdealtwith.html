@@ -1,0 +1,266 @@
+<container>
+    <div class="pt-main" style="background: #f6f8fa;">
+        <div class="pt-main-row">
+            <div class="pt-main-col">
+                <div class="pt-panel">
+                    <!-- 待办任务 -->
+                    <div class="pt-title">
+                        <h4>我的待办任务</h4>
+                    </div>
+                    <div class="pt-btn-group" style="float: right;">
+                        <button class="pt-btn pt-btn-default" type="button" id="myWaitingCount-btn">
+                            <i class=""></i>
+                            <span>全部展示</span>
+                        </button>
+                    </div>
+                    <div id="myWaitingCount"></div>
+                    <div id="myWaitingCount-categroy" class="hide classified-show"></div>
+                    <!-- 待办任务-end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        waitingList = {
+            showStyle: 'processName',
+            open: function (activityName, activityId, processId, formUrl) {
+                if (formUrl.indexOf('/') != 0) {
+                    formUrl = '/' + formUrl;
+                }
+                if (formUrl.indexOf(',') >= 0) {
+                    var urls = formUrl.split(',');
+                    formUrl = urls[0];
+                }
+                var packageSuffix = '-0-' + activityId;
+                var url = formUrl + ';activityName=' + activityName + ";workflowType=0;packageSuffix=" +
+                    packageSuffix + ";";
+                if (activityId != "undefined" && processId != "undefined") {
+                    url = url + ';processId=' + processId + ";activityId=" + activityId;
+                }
+                // nsFrame.loadPage(url);
+                NetstarUI.labelpageVm.loadPage(url, activityName);
+            },
+            more: function () {
+                nsalert('TODO: 显示更多（完整）任务', 'success');
+            },
+            showNormal: function (domId, rows, showCount) {
+                var str = '<ul style="list-style-type: decimal" >';
+                var i;
+                // var index = rows.length < showCount ? rows.length : showCount;
+                var index = rows.length;
+                for (i = 0; i < index; i++) {
+                    str = str +
+                        '<li style="font-size: 12px;">' +
+                        '<a style="font-size: 12px;text-decoration:none;color:#666666" href="javascript:waitingList.open(\'' +
+                        rows[i].activityName + '\',\'' +
+                        rows[i].activityId + '\',\'' +
+                        rows[i].processId + '\',\'' +
+                        rows[i].formUrl + '\')">' +
+                        rows[i].processName;
+                    str = str +
+                        '->' +
+                        rows[i].activityName +
+                        '(' + rows[i].workitemCount + ')' +
+                        '</a></li>';
+                }
+                /* if (rows.length > showCount) {
+                     str = str
+                         + '<span style="float:right;"><a style="font-size: 12px;text-decoration:none;color:#666666" href="javascript:waitingList.more()">更多...</a><span>';
+                 }*/
+                str = str + "</ul>";
+                $(domId).empty();
+                $(domId).append(str);
+            },
+            showByName: function (domId, rows, showCount) {
+                //处理数据，改为按照环节名称进行分组
+                var nameMap = {};
+                var nameRows = [];
+                for (var i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+                    var name = row.activityName;
+                    if (!nameMap[name]) {
+                        nameMap[name] = {
+                            activityName: name,
+                            activityId: row.activityId,
+                            processId: row.processId,
+                            workitemCount: 0,
+                            formUrl: row.formUrl,
+                            processName: row.processName,
+                            latestTime: row.latestTime,
+                            rows: []
+                        };
+                        nameRows.push(nameMap[name]);
+                    } else {
+                        //有重复的activityName时
+                        // delete nameMap[name].activityId;
+                        // delete nameMap[name].processId;
+                    }
+                    if (!nameMap[name].formUrl && row.formUrl) {
+                        nameMap[name].formUrl = row.formUrl;
+                    }
+                    nameMap[name].rows.push(row);
+                    nameMap[name].workitemCount += row.workitemCount;
+                }
+                var categroyRowsJson = {};
+                for (var i = 0; i < nameRows.length; i++) {
+                    var data = nameRows[i];
+                    if (typeof (categroyRowsJson[data.processName]) == 'undefined') {
+                        categroyRowsJson[data.processName] = [];
+                    }
+                    categroyRowsJson[data.processName].push(data);
+                }
+                var html = '';
+                for (var processN in categroyRowsJson) {
+                    var titleHtml = '<div class="pt-list-block-classify-title"><i class="icon-history"></i>' +
+                        processN + '</div>';
+                    var processDataArr = categroyRowsJson[processN];
+                    var proHtml = '';
+                    for (var p = 0; p < processDataArr.length; p++) {
+                        var proData = processDataArr[p];
+                        proHtml += '<div class="pt-block-list card-task" onclick="waitingList.open(\'' +
+                        proData.activityName + '\',\'' +
+                        proData.activityId + '\',\'' +
+                        proData.processId + '\',\'' +
+                        proData.formUrl + '\')">' +
+                            '<div class="pt-block-content">' +
+                            '<div class="card-task-top">' +
+                            '<div class="card-task-title">' +
+                            '<a href="javascript:void(0);" title="' + proData.activityName + '">' + proData
+                            .activityName + '</a>' +
+                            '</div>' +
+                            '<span class="card-task-number">' + proData.workitemCount + '</span>' +
+                            '</div>' +
+                            '<div class="card-task-tag">' +
+                            '<div class="card-task-sub-title">' + proData.processName + '</div>' +
+                            '<div class="card-task-time">' + NetStarUtils.getDiffByTimeUnit(proData
+                                .latestTime) + '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    }
+                    html += '<div class="pt-list-block-classify">' + titleHtml + proHtml + '</div>';
+                }
+               
+                var homePageOffset = $('#netstar-main-page').offset();
+                var commonHeight = $(window).outerHeight() - homePageOffset.top - 48 - 10;
+                $('#myWaitingCount-categroy').css('height',commonHeight+'px');
+                $('#myWaitingCount-categroy').html(html);
+            },
+            initBlockList: function (domId, rows, showCount) {
+                var nameMap = {};
+                var nameRows = [];
+                for (var i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+                    var name = row.activityName;
+                    if (!nameMap[name]) {
+                        nameMap[name] = {
+                            activityName: name,
+                            activityId: row.activityId,
+                            processId: row.processId,
+                            workitemCount: 0,
+                            formUrl: row.formUrl,
+                            processName: row.processName,
+                            latestTime: row.latestTime,
+                            rows: []
+                        };
+                        nameRows.push(nameMap[name]);
+                    } else {
+                        //有重复的activityName时
+                        // delete nameMap[name].activityId;
+                        // delete nameMap[name].processId;
+                    }
+                    if (!nameMap[name].formUrl && row.formUrl) {
+                        nameMap[name].formUrl = row.formUrl;
+                    }
+                    nameMap[name].rows.push(row);
+                    nameMap[name].workitemCount += row.workitemCount;
+                }
+
+                var homePageOffset = $('#netstar-main-page').offset();
+                var gridHeight = $(window).outerHeight() - homePageOffset.top - 48 - 10;
+                var gridConfig = {
+                    id: 'myWaitingCount',
+                    idField: 'activityId',
+                    plusClass: 'card-task',
+                    data: {
+                        isSearch: false,
+                        isPage: false,
+                        isServerMode: false,
+                        dataSource: nameRows,
+                        primaryID: 'activityId',
+                    },
+                    columns: [{
+                        field: 'activityName',
+                        title: '环节名称'
+                    }, {
+                        field: 'processName',
+                        title: '所属流程'
+                    }, {
+                        field: 'latestTime',
+                        title: '时间差',
+                        formatHandler: {
+                            type: 'diffUnit'
+                        }
+                    }],
+                    ui: {
+                        pageLengthDefault: 1000000000000,
+                        display: 'block',
+                        isHaveEditDeleteBtn: false,
+                        isHeader: false,
+                        isPage: false,
+                        isThead: false,
+                        height: gridHeight,
+                        selectMode: 'single',
+                        selectedHandler: function (data, $data, _vueData, _gridConfig, _rowIndex) {
+                            NetstarBlockList.configs[_gridConfig.id].vueObj.$data.rows[_rowIndex]
+                                .netstarSelectedFlag = false;
+                            NetstarBlockList.configs[_gridConfig.id].vueObj.originalRows[_rowIndex]
+                                .netstarSelectedFlag = false;
+                            waitingList.open(data.activityName, data.activityId, data.processId, data
+                                .formUrl);
+                        },
+                        listExpression: ' <div class="card-task-top">' +
+                            '<div class="card-task-title"><a href="javascript:void(0);" title={{activityName}}>{{activityName}}</a></div>' +
+                            '<span class="card-task-number">{{workitemCount}}</span>' +
+                            '</div>' +
+                            '<div class="card-task-tag">' +
+                            '<div class="card-task-sub-title">{{processName}}</div>' +
+                            '<div class="card-task-time">{{latestTime}}</div>' +
+                            '</div>'
+                    }
+                };
+                NetstarBlockList.init(gridConfig);
+            },
+            show: function (domId, showCount) {
+                showCount = showCount || 50;
+                nsEngine.getSimpleWaitingList(null, function (rows) {
+                    if (rows != null) {
+                        //if (waitingList.showStyle == 'processName') {
+                            waitingList.showByName(domId, rows, showCount);
+                        //} else {
+                            waitingList.initBlockList(domId, rows, showCount);
+                        //}
+                    }
+                }, function (msg) {
+                    nsalert(msg, 'error');
+                });
+            }
+        };
+        $(function () {
+            waitingList.show('#myWaitingCount');
+            $('#myWaitingCount-btn').on('click',function(ev){
+                var $this = $(this);
+                $this.toggleClass('categroy-btn');
+                if($this.hasClass('categroy-btn')){
+                    $('#myWaitingCount-categroy').removeClass('hide');
+                    $('#myWaitingCount').addClass('hide');
+                    $this.children('span').html('分类展示');
+                }else{
+                    $('#myWaitingCount').removeClass('hide');
+                    $('#myWaitingCount-categroy').addClass('hide');
+                    $this.children('span').html('全部展示');
+                }
+            })
+        });
+    </script>
+</container>

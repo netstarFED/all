@@ -1,0 +1,572 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+<div style="padding: 10px;">
+    <div id='ns-image-zc' style="margin-bottom: 10px;"></div>
+    <div id='ns-btn-zc' style="margin-bottom: 10px;"></div>
+    <div id='ns-vo-screenshots' style="margin-bottom: 10px;"></div>
+    <div id='ns-list-screenshots' style="margin-bottom: 10px;"></div>
+</div>
+    <script>
+        var zcImage={
+    type: "tree",  //类型
+    title : '温湿度历史查询数据二',  //标题  摄像头列表  抓图记录  噪音监控 //用户开门记录  门开闭异常记录  门状态设置   报警类型  温湿度历史查询数据一
+    unfieldId : 'unfieldId',   //子级id  
+    allfieldId : 'allfieldId',//父子级id 
+    unfieldText :"柠檬",   //子级
+    allfieldText : '所有', //全部（父子级） 
+    isMultiple:false,//不多选
+    isClickRoot : true, //选中根节点 
+    ajax: {
+        data: {
+            categoryType: 1,
+        },
+        url: getRootPath() + '/docs/pages/zctree.json',
+        type: "GET",
+        contentType: "application/x-www-form-urlencoded",
+        dataSrc: "rows"
+    },
+    idField: "id", 
+    textField: "name",
+    childField: "children", //树数据子级名
+    fromField: "fromId", //新增时发送的字段
+    level: "0", //打开层级 
+    readonly: false, //只读
+    maxlength:50,//
+    formatter: "{\"id\":\"{id}\"}",
+    addAjax: {
+        //新增
+        url: getRootPath() + '/docs/data/tree/from.json',
+        type: "GET",
+        contentType: "application/x-www-form-urlencoded",
+        dataSrc: "rows"
+    },
+    deleteAjax: {//删除
+        url: getRootPath() + '/docs/data/tree/from.json',
+        type: "GET",
+        contentType: "application/x-www-form-urlencoded",
+        dataSrc: "rows"
+    },
+    editAjax: {//修改
+        url: getRootPath() + '/docs/data/tree/from.json',
+        type: "GET",
+        contentType: "application/x-www-form-urlencoded",
+        dataSrc: "rows"
+    },
+    moveAjax: { //移动
+        url: getRootPath() + '/docs/data/tree/from.json',
+        type: "GET",
+        contentType: "application/x-www-form-urlencoded",
+        dataSrc: "rows"
+    },
+    id: "ns-image-zc",
+    height: 540, //树高度 
+    width : 350,  //树宽度
+}
+NetstarTemplate.tree.init(zcImage);
+ var nsdocsBtns={      
+                        id: "ns-btn-zc",
+                        btns: [
+                          /*   {
+                                text: "1",
+                                shortcutkey:'ALT+C',
+                                isReturn:false,//
+                                disabled:true,
+                                handler:function(){                                  
+                                }
+                            },
+                            {
+                                text: "4",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "9",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "16",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "其它",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "全屏",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },{
+                                text: "开始所有",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },{
+                                text: "停止多有",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },{
+                                text: "视频回放",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },{
+                                text: "报警记录",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },{
+                                text: "抓图记录",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            } */
+
+                            /* {
+                                text: "查询所有",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },{
+                                text: "图片下载",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            }, */
+                            {
+                                text: "查询",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "清空",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                           /*  {
+                                text: "目录新增",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "目录修改",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "目录删除",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },{
+                                text: "规则新增",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "规则修改",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "规则删除",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            }, */
+
+                           /*  {
+                                text: "设置门常开",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "设置门常闭",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            },
+                            {
+                                text: "设置门在线",
+                                shortcutkey:"alt+l",
+                                isReturn:true,
+                            } */
+                        ]
+                    }
+  vueButtonComponent.init(nsdocsBtns); 
+    </script>
+    <script>
+        var Screenshots={
+            id: 'ns-vo-screenshots',
+            templateName: 'form',
+            componentTemplateName: 'PC',
+            isSetMore: false,
+            // formStyle:'pt-form-normal',
+            form: [
+               /*  {
+                    id: 'value',
+                    type: 'select',
+                    textField: 'name',
+                    valueField:'id',
+                    subdata:[
+                        {
+                            id:'1' ,
+                            name:'摄像头'
+                        }
+                    ],
+                    value:'1'
+                }, */
+                /* {
+                    id: 'value',
+                    type: 'select',
+                    textField: 'name',
+                    valueField:'id',
+                    placeholder:'报警类型',
+                    subdata:[
+                        {
+                            id:'1' ,
+                            name:'44 '
+                        }
+                    ],
+                    value:'1'
+                }, */
+             /*    {
+                    id: 'value',
+                    type: 'select',
+                    textField: 'name',
+                    valueField:'id',
+                    placeholder:'门禁状态',
+                    subdata:[
+                        {
+                            id:'1' ,
+                            name:'44 '
+                        }
+                    ],
+                    value
+                    :'1'
+                }, */
+           
+                {
+                id: '2',
+                    type: 'text',
+                    textField: 'name',
+                    valueField:'id',
+                    placeholder:'',
+                    value:'设备名称'
+                },
+                {
+                id: 'value',
+                    type: 'select',
+                    textField: 'name',
+                    valueField:'id',
+                    placeholder:'日期间隔',
+                    subdata:[
+                        {
+                            id:'1' ,
+                            name:'44 '
+                        }
+                    ],
+                    value:'1'
+                }, 
+                {
+                    id: 'statedate',
+                    type: 'date',
+                    // value:'开始时间',
+                    placeholder:'开始时间',
+                    subdata:[
+                        {
+                            id:'1' ,
+                            name:'4545'
+                        }
+                    ]
+                },
+                {
+                    id: 'enddate',
+                    type: 'date',
+                    // value:'开始时间',
+                    placeholder:'结束时间',
+                    subdata:[
+                        {
+                            id:'1' ,
+                            name:'4545'
+                        }
+                    ]
+                },{
+                    // id: 'enddate',
+                    type: 'label',
+                    label:"抓图记录"
+                  
+                }
+            ]
+        }
+     NetstarComponent.formComponent.show(Screenshots);
+
+     var gridConfig = {
+        columns: [
+           /*  {
+                field: 'date1',
+                title: '抓图时间',
+                columType: 'date',
+                width: 400,
+                editable: true,
+            },
+            {
+                field: 'date2',
+                title: '摄像头名称',
+                columType: '',
+                width: 400,
+                editable: true,
+
+                editConfig: {
+                    type: 'select',
+                    format: "YYYY/M-DD HH:mm:ss",
+                }
+            } */
+            /* {
+                field: 'date1',
+                title: '区域',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '2',
+                title: '地址',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '3',
+                title: '报警类型',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '4',
+                title: '报警值',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '5',
+                title: '话术',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },   */
+           /*  {
+                field: 'date1',
+                title: '区域',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '2',
+                title: '地址',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '4',
+                title: '报警值',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '5',
+                title: '话术',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },  */
+           /*  {
+                field: 'date1',
+                title: '用户卡号',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '2',
+                title: '姓名',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '4',
+                title: '时间',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '5',
+                title: '地点',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+             {
+                field: '6',
+                title: '进出',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            }, 
+            {
+                field: '7',
+                title: '状态',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },  */
+
+           /*  {
+                field: 'date1',
+                title: '设备类型',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '2',
+                title: '设备名称',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '4',
+                title: '报警类型',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '5',
+                title: '报警时间',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            }, */
+
+
+            /* 门状态设置 */
+            /* {
+                field: 'date1',
+                title: '门禁名称',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '2',
+                title: '门紧状态',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '4',
+                title: '设置时间',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            },
+            {
+                field: '5',
+                title: '设置人',
+                columType: 'date',
+                width: 120,
+                editable: true,
+            }, */
+            /* 报警类型 */
+           /*  {
+                field: 'date1',
+                title: '设备类型',
+                columType: 'date',
+                width: 240,
+                editable: true,
+            },
+            {
+                field: '2',
+                title: '设备名称',
+                columType: 'date',
+                width: 240,
+                editable: true,
+            },
+            {
+                field: '4',
+                title: '报警类型',
+                columType: 'date',
+                width: 240,
+                editable: true,
+            },
+            {
+                field: '5',
+                title: '报警时间',
+                columType: 'date',
+                width: 240,
+                editable: true,
+                isResizeWidth:false
+            },
+            {
+                field: '5',
+                title: '特记事项',
+                columType: 'date',
+                width: 240,
+                editable: true,
+                isResizeWidth:false
+            },*/
+            {
+                field: 'date1',
+                title: '温湿度设备名称',
+                columType: 'date',
+                width: 240,
+                editable: true,
+            },
+            {
+                field: '2',
+                title: '平均温度',
+                columType: 'date',
+                width: 240,
+                editable: true,
+            },
+            {
+                field: '4',
+                title: '平均湿度',
+                columType: 'date',
+                width: 240,
+                editable: true,
+            },
+        ], 
+        data: {
+            idField: 'id',
+            tableID:'ns-list-screenshots',
+/*             dataSource: [{
+                id: 1,
+                date1: 1565841937709,
+                date2: 1565841937709,
+                date3: 1565841937709
+            }, ] */
+        },
+        ui: {
+            isAutoSerial: true,
+            isCheckSelect: false,
+            isHeader: false,
+            isPage: true,
+            minPageLength: 20,
+            isEditMode: true,
+            // pageLengthDefault: 500,
+            selectMode: "single",
+            // isHaveEditDeleteBtn: true,
+            isAllowAdd: true,
+           /*  height: 580 , */
+           height:200,
+            // dragWidth:false  
+            
+        }
+    }
+    NetStarGrid.init(gridConfig);
+    </script>
+</container>

@@ -1,0 +1,127 @@
+.dashboard-view {
+    .flex-block(center, center);
+    flex-wrap: wrap;
+}
+
+.dashboard-box {
+    .flex-block(center, center);
+    flex-direction: column;
+    flex: 0 0 100%;
+    transform: scale(1);
+    position: relative;
+    overflow: hidden;
+
+    svg {
+        .flex-block();
+        flex: none;
+    }
+
+    // 指针及刻度样式
+    .dash-board-mark-normal {
+        fill: #fff;
+    }
+
+    // 指针及刻度数字
+    .dash-board-mark-number {
+        font-size: .45rem;
+        fill: #fff;
+    }
+
+    // 刻度告警区域
+    .dash-board-mark-warning {
+        fill: @danger;
+    }
+
+    // 仪表盘边框
+    .dash-board-border {
+        fill: @primary;
+    }
+
+    // 仪表盘指针区域
+    .dash-board-circle-group {
+        .circle-bg {
+            fill: lighten(@primary, 20);
+        }
+
+        .circle-zindex-1 {
+            fill: darken(@primary, 25);
+        }
+
+        .circle-zindex-2 {
+            fill: darken(@primary, 22);
+        }
+
+        // 渐变颜色
+        // 起始颜色
+        .start-color {
+            stop-color: darken(@primary, 20);
+            stop-opacity: 1;
+        }
+
+        // 结束颜色
+        .end-color {
+            stop-color: lighten(@primary, 20);
+            stop-opacity: .1;
+        }
+    }
+
+    // 仪表盘指针
+    .dashboard-points {
+        .flex-block(center, center);
+        flex-direction: column;
+        position: absolute;
+        height: 110%;
+        top: 50%;
+        left: 50%;
+        background: transparent;
+        width: 2px;
+        z-index: 1;
+        margin-top: -13.3%;
+        transform: rotate(-95deg);
+        transition: ease-in-out all .25s;
+
+        &:before {
+            position: absolute;
+            content: '';
+            .square(1rem);
+            border-radius: 1rem;
+            background: @danger;
+            z-index: 9;
+            top: 50%;
+            left: 50%;
+            margin-top: -.5rem;
+            margin-left: -.5rem;
+        }
+
+        &:after {
+            position: absolute;
+            content: '';
+            top: 0;
+            right: 0;
+            bottom: 50%;
+            left: 0;
+            background: @danger;
+            border-radius: 100rem;
+
+        }
+
+        .dash-board-points {
+            fill: #fff;
+        }
+
+        svg {
+            flex: 1;
+        }
+    }
+}
+
+
+.dashboard-box-title {
+    .flex-block(center, center);
+    flex: 0 0 100%;
+    font-size: 1rem;
+    font-weight: bold;
+    .rgba-color(#fff, .8);
+    .rgba-text-shadow(0, 0, 1rem, @info, 1);
+
+}

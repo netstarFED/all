@@ -1,0 +1,411 @@
+
+@import "../../bs-less/variables.less";
+@import "../../bs-less/mixins.less";
+@import "../../ns-less/variables.less";
+@import "../../ns-less/mixins.less";
+@import "../../other-less/global-classes.less";
+@import "../../other-less/lesshat.less"; 			//通用LESS类库
+
+
+@form-editor-font-color:#5b5b5b;
+@form-editor-border-color:@ns-border-color;
+
+@form-editor-component-title-height:@plane-s-height;
+@form-editor-component-title-background-color:#fafafa;
+
+@form-editor-component-nav-background-color:@form-editor-component-title-background-color;
+@form-editor-component-nav-tabs-li-a-color:#5aa0c5;
+
+@form-editor-component-width:20%;
+@form-editor-component-background-color:#fff;
+
+@form-editor-component-list-height:30px;
+@form-editor-component-list-li-active-color:@form-editor-component-background-color;
+@form-editor-component-list-li-background-color:#f4f4f4;
+@form-editor-component-list-li-active-background-color:#7f7f7f;
+@form-editor-component-list-li-active-color:@form-editor-component-nav-tabs-li-a-color;
+
+@form-editor-component-list-before-color:#c3c3c3;
+@form-editor-component-list-li-after-color:@form-editor-component-list-before-color;
+
+@form-editor-component-list-li-after-border-color:@form-editor-component-background-color;
+
+@form-editor-component-list-li-sub-color:#7b7b7b;
+@form-editor-component-list-li-sub-active-color:@form-editor-component-nav-tabs-li-a-color;
+@form-editor-component-list-li-sub-background:@form-editor-component-background-color;
+@form-editor-component-list-li-sub-border-color:#fff;
+
+
+@form-editor-board-bottom: 240px;
+@form-editor-board-background-color:#eee;
+@form-editor-board-padding:10px;
+@form-editor-board-thead-height: @table-thead-height;
+
+@form-editor-attribute-panel-height: @form-editor-board-bottom;
+@form-editor-attribute-panel-background-color:#fff;
+
+.form-editor{ 
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left:20px;
+	bottom: 0;
+	background-color:@form-editor-component-background-color;
+	color:@form-editor-font-color;	
+	li{
+		list-style-type:none;
+	}
+	.component-panel{
+		width:@form-editor-component-width;
+		background-color:@form-editor-component-background-color;
+		position: absolute;
+		top: 0;
+		left:0;
+		bottom: 0;
+		border-right: 1px solid @form-editor-border-color;
+		border-left: 1px solid @form-editor-border-color;
+		overflow-x:hidden;
+		.title{
+			height: @form-editor-component-title-height + 3px;
+			line-height: @form-editor-component-title-height + 3px;
+			background: @form-editor-component-title-background-color;
+			color:@form-editor-font-color;
+			width: 100%;
+			float: left;
+			text-indent:14px;
+			font-size: @font-size-base + 1px;
+			border-bottom: 1px solid @form-editor-border-color;
+			a{
+				height: @form-editor-component-title-height;
+				line-height: @form-editor-component-title-height;
+				color:lighten(@form-editor-font-color, 20%);
+				padding-right: 15px;
+				font-size: @font-size-base + 3px;
+				float: right;
+			}
+		}
+		ul.nav-tabs{
+			background-color: @form-editor-component-nav-background-color;
+			li{
+				width:50%;
+				height:@form-editor-component-list-height + 4px;
+				border-bottom: 2px solid @form-editor-border-color;
+				padding: 0px;
+				text-align: center;
+				font-weight: bold;
+				display: block;
+				a{
+					padding: 7px 0px;
+					margin-right:0px;
+					border-top:none;	
+				} 
+				&:hover,&:active,&.active{
+					height:@form-editor-component-list-height + 4px;
+					font-weight:bold;
+					border-bottom: 2px solid @form-editor-component-nav-tabs-li-a-color;
+					a{
+						color:@form-editor-component-nav-tabs-li-a-color;
+						margin:0px -1px;
+					}
+				}	
+			}	
+		}
+		.tab-content{
+			.tab-pane{
+				ul.list{
+					list-style: none;
+					padding: 0;
+					margin: 0;
+					width: 90%;
+					margin: 9px 5%;
+					display: table;
+					float: left;
+					position: relative;
+					&:before{
+						display: inline-block;
+						content: "";
+						position: absolute;
+						top: 0px;
+						bottom:@form-editor-component-list-height/2;
+						left: 0;
+						border: 1px dotted @form-editor-component-list-before-color;
+						border-width: 0 0 0 1px;
+						z-index: 1;
+					}
+					li.dDemo{
+						&:after{
+							position: absolute;
+							top: 0px;
+							left:-15px;
+							width: 15px;
+							height: @form-editor-component-list-height;	
+							font-size: @font-size-base + 2px;							
+							font-family:'fontawesome';
+							content:"\f196";
+							color:@form-editor-component-list-li-after-color;
+							transition: transform 0.3s ease-out;	
+						}
+						&:hover{
+							&:after{
+								content:"\f147";
+							}
+						}
+					}
+					li{
+						width: 100%;
+						margin:0px;
+						min-height: @form-editor-component-list-height;
+						line-height: @form-editor-component-list-height;
+						float: left;
+						font-size: @font-size-base;
+						text-indent:39px;
+						position: relative;
+						&:before{
+							display: inline-block;
+							content: "";
+							position: absolute;
+							top: 14px;
+							left: 1px;
+							width: 20px;
+							height: 0;
+							border-top: 1px dotted @form-editor-component-list-before-color;
+							z-index: 1;
+						}
+						.info{
+							.used{
+								position: absolute;
+								top: 0px;
+								right:@form-editor-component-list-height;
+								color:#1fab3d;					
+							}
+						}
+
+						&:after{
+							position: absolute;
+							top: 0px;
+							left:-15px;
+							width: 15px;
+							height: @form-editor-component-list-height;	
+							font-size: @font-size-base;							
+							font-family:'fontawesome';
+							content:"\f15b";
+							color:@form-editor-component-list-li-after-color;
+						}
+
+						&:hover,&:active,&.active{
+							cursor:pointer;
+							//background: #f0f7fc;
+							
+						}
+						ul.sub{
+							width:100%;
+							display: table;
+							margin-left: 20px;
+							-webkit-padding-start:0px;
+							position: relative;
+							&:before{
+								display: inline-block;
+								content: "";
+								position: absolute;
+								top:-@form-editor-component-list-height/2;
+								bottom:@form-editor-component-list-height/2;
+								left:0px;
+								border: 1px dotted @form-editor-component-list-before-color;
+								border-width: 0 0 0 1px;
+								z-index: 1;
+							}
+							li.dDemo{
+								&:after{
+									position: absolute;
+									top: 0px;
+									left:-15px;
+									width: 15px;
+									height: @form-editor-component-list-height;	
+									font-size: @font-size-base + 2px;							
+									font-family:'fontawesome';
+									content:"\f196";
+									color:@form-editor-component-list-li-after-color;
+									transition: transform 0.3s ease-out;	
+								}
+								&:hover{
+									&:after{
+										content:"\f147";
+									}
+								}
+							}
+							li{
+								margin:0px;
+								padding:0px;
+								background: @form-editor-component-list-li-sub-background;
+								color:@form-editor-component-list-li-sub-color;
+								min-height: @form-editor-component-list-height;
+								line-height: @form-editor-component-list-height;	
+								font-weight: normal;
+								position: relative;
+								&:before{
+									display: inline-block;
+									content: "";
+									position: absolute;
+									top: 14px;
+									left: 1px;
+									width:20px;
+									height: 0;
+									border-top: 1px dotted @form-editor-component-list-before-color;
+									z-index: 1;
+								}		
+								&:hover,&:active,&.active{
+									background: @form-editor-component-list-li-sub-background;
+									//background: #f0f7fc;
+								}
+							}
+							ul.three{
+								width:100%;
+								display:table;
+								-webkit-padding-start:0px;
+								margin-left: 20px;
+								position: relative;
+								&:before{
+									display: inline-block;
+									content: "";
+									position: absolute;
+									top:-@form-editor-component-list-height/2;
+									bottom:@form-editor-component-list-height/2;
+									left: 0;
+									border: 1px dotted @form-editor-component-list-before-color;
+									border-width: 0 0 0 1px;
+									z-index: 1;
+								}
+								li.dDemo{
+									&:after{
+										position: absolute;
+										top: 0px;
+										left:-15px;
+										width: 15px;
+										height: @form-editor-component-list-height;	
+										font-size: @font-size-base + 2px;							
+										font-family:'fontawesome';
+										content:"\f196";
+										color:@form-editor-component-list-li-after-color;
+										transition: transform 0.3s ease-out;	
+									}
+									&:hover{
+										&:after{
+											content:"\f147";
+										}
+									}
+								}
+								li{
+									border:none;
+									&:hover,&:active,&.active{
+										background: #f0f7fc;
+										&:after{
+											color:@form-editor-component-list-li-active-color;	
+										}	
+									}						
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.form-editor-right{
+		width:100% - @form-editor-component-width;
+		background: #ff0000;		
+		overflow-x: auto;
+		position: absolute;
+		top: 0; 
+		right: 0;
+		bottom:0;
+
+		.board{
+			position: absolute;
+			width:100%;
+			top: 0; 
+			right: 0;
+			bottom: @form-editor-board-bottom;
+			background-color: @form-editor-board-background-color;
+		}
+		.attribute-panel{
+			position: absolute;
+			width:100%;
+			height: @form-editor-attribute-panel-height;
+			right: 0;
+			bottom: 0;
+			background-color: @form-editor-attribute-panel-background-color;
+		}
+		.unused{
+			.opacity(0.5); 
+		}
+		.plus{
+			width: 100%;
+			height: 50px;
+			background-color: #cccccc;
+			text-align: center;
+			color: #fff;
+		}
+		.table-container{
+			display: inline-block;
+			padding:@form-editor-board-padding;
+			&.unused{
+				padding-bottom: 0;
+			}
+		}
+		table thead th{
+			&:hover{
+				background-color: @table-thead-background-hover-color;
+				cursor: pointer;
+			}
+			&.active {
+				background-color: @table-thead-background-active-color;
+			}
+			&.moving{
+				background-color: #ff0000;
+			}
+			&.move-target{
+				background-color: #ffff00;
+			}
+			.config-handler,
+			.close-btn{
+				display: block;
+				position: absolute;
+				top:0;
+				right: 20px;
+				width: 18px;
+				height: 18px;
+				line-height: 18px;
+				background-color: #ccc;
+				border-radius: 100%;
+			}
+			.config-handler{
+				right: 40px;
+			}
+		}
+	}
+
+	.retract{
+		background: @form-editor-component-title-background-color;
+		overflow:hidden;
+		.title{
+			width: 100%;
+			overflow:hidden;
+			text-indent: 0px;
+			span{
+				display: none;
+			}
+			a{
+				width: 100%;
+				text-align: center;
+				padding: 0px;
+			}
+			i{
+				transform:rotate(180deg);
+			}
+		}
+		.editor-component-panel-body{
+			display: none;
+		}
+
+	} 
+}

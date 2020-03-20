@@ -1,0 +1,193 @@
+@e-form-height: 24px;
+@e-form-border-color: @border-color;
+@e-form-hover-border-color: darken(@e-form-border-color, 10);
+@e-form-btn-height: @e-form-height;
+@e-control-label-width: 100px;
+@e-form-control-height: @e-form-height;
+@e-form-gutter: @base-margin;
+@e-form-padding: @base-padding;
+// input-group
+@e-input-group-height: @e-form-height;
+@e-input-group-border-color: @e-form-border-color;
+@e-input-group-hover-border-color: @e-form-hover-border-color;
+@e-input-group-btn-bg: #f5f5f5;
+
+
+
+.editor-input-group {
+    border-color: @e-form-border-color;
+
+    &:hover,
+    &:focus {
+        box-shadow: none;
+        border-color: darken(@e-form-border-color, 35);
+    }
+
+    .pt-input-group-btn {
+        .pt-btn {
+            &:hover {
+                background: darken(@e-form-border-color, 35);
+
+                span,
+                i {
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+[ns-type="editor"] {
+    textarea {
+        min-height: 120px;
+    }
+
+    .pt-form-group {
+
+        // 帮助文档tooltip
+        .pt-control-label {
+            position: relative;
+
+            .fa-question-circle {
+                opacity: 0;
+                margin-left: (@base-margin / 2);
+                transition: ease-in-out all .25s;
+            }
+
+            &:hover,
+            &:active,
+            &:focus {
+                .fa-question-circle {
+                    opacity: 1;
+                }
+            }
+
+        }
+
+        .tooltips {
+            margin-top: (@e-form-gutter / 2);
+
+        }
+    }
+
+
+
+    // .form,
+    // form {
+    //     height: auto;
+    //     overflow: hidden;
+    // }
+
+    // .form-group {
+    //     height: auto;
+    //     margin-bottom: 0;
+    //     min-height: @e-form-height;
+
+    //     // 表单列表
+    //     .form-item {
+    //         width: 100%;
+    //         float: none;
+    //         margin-top: @e-form-gutter;
+
+    //         &:first-child {
+    //             margin-top: 0;
+    //         }
+
+    //     }
+    // }
+
+    // .form-inline {
+    //     display: inline-block;
+    // }
+
+    // .form-normal {
+    //     .form-group {
+    //         margin-bottom: 0;
+    //         min-height: auto;
+
+    //         .form-item {
+    //             margin-top: 0;
+    //         }
+    //     }
+    // }
+
+    // // 表单title
+    // .control-label {
+    //     display: block;
+    //     width: @e-control-label-width;
+    //     margin: 0;
+    //     padding-left: 0;
+    //     float: left;
+    // }
+
+
+    // // 输入框组
+    // .input-group {
+    //     display: table;
+    //     width: calc(~"100% - "@e-control-label-width);
+    //     height: auto;
+    //     border: 1px solid @e-input-group-border-color;
+    //     background: #fff;
+
+    //     &:hover {
+    //         border: 1px solid @e-input-group-hover-border-color;
+    //     }
+
+    //     // 输入框组按钮
+    //     .input-group-btn {
+    //         display: table-cell;
+    //         width: @e-form-btn-height;
+
+    //         &:hover {
+    //             box-shadow: none;
+    //         }
+
+    //         .btn {
+    //             height: @e-form-btn-height;
+    //             border: 0;
+    //             background: transparent;
+
+    //             &:hover {
+    //                 background: @e-input-group-btn-bg;
+    //             }
+
+    //             &.btn-icon {
+    //                 .square(@e-form-btn-height);
+    //                 padding: 0;
+    //             }
+    //         }
+    //     }
+    // }
+
+    // // 表单样式
+    // .form-control {
+    //     height: @e-form-control-height;
+    //     display: block;
+    //     width: 100%;
+    //     border: 0;
+    //     float: none;
+
+    //     &:focus {
+    //         box-shadow: none;
+    //     }
+
+    // }
+
+    // // 文本域
+    // textarea {
+    //     &.form-control {
+    //         height: auto;
+    //     }
+    // }
+
+
+    // // 纵向表单
+    // .form-vertical {
+
+    //     .control-label,
+    //     .input-group {
+    //         width: 100%;
+    //         float: none;
+    //     }
+    // }
+}

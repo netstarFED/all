@@ -1,0 +1,291 @@
+// 图片编辑器画笔工具
+@imgeditor-tools-size: 20px;
+@editor-pen-size: 6px;
+@eidtor-pen-size-md: (@editor-pen-size * 2);
+@eidtor-pen-size-lg: (@editor-pen-size * 3);
+@imgeditor-primary-color: #56b1fc;
+@imgeditor-default-color: #666;
+
+.imgeditor {
+	.imgeditor-header {
+		.imgeditor-header-after {
+			display: inline-block;
+
+			.btn {
+				padding: 7px;
+			}
+
+			.dropdown {
+				display: inline-block;
+
+				.dropdown-menu {
+					min-width: 311px;
+					box-shadow: 1px 4px 10px rgba(0, 0, 0, .15);
+					border: 5px solid @imgeditor-primary-color;
+					padding: 0 15px;
+				}
+
+				&.open {
+					& > .dropdown-toggle.btn-info {
+						background: @imgeditor-primary-color;
+						border-color: @imgeditor-primary-color;
+
+						&:hover {
+							box-shadow: 0 0 5px rgba(0, 0, 0, .15) inset;
+						}
+
+						i {
+							color: #fff;
+						}
+
+					}
+
+				}
+
+			}
+
+			.eidtor-tools {
+				.eidtor-tools-item {
+					padding: 15px 0;
+
+					& + .eidtor-tools-item {
+						border-top: 1px solid #f5f5f5;
+					}
+
+					span {
+						display: inline-block;
+						position: relative;
+						.square(@imgeditor-tools-size);
+						transition: ease-in-out all .35s;
+						cursor: pointer;
+
+						& + span {
+							margin-left: (@base-margin / 2);
+						}
+
+						// 形状
+						&:after {
+							display: block;
+							position: absolute;
+							content: "";
+							z-index: 9;
+						}
+
+						&.editor-line {
+							&:after {
+								.border-horizontal(1px, @imgeditor-default-color);
+								top: 9px;
+							}
+
+							&.checked,
+							&:hover {
+								&:after {
+									background: @imgeditor-primary-color;
+								}
+
+							}
+
+						}
+
+						&.editor-circle {
+							&:after {
+								.square(@imgeditor-tools-size);
+								top: 0;
+								left: 0;
+								border: 1px solid @imgeditor-default-color;
+								border-radius: @imgeditor-tools-size;
+							}
+
+							.checked,
+							&:hover {
+								&:after {
+									border-color: @imgeditor-primary-color;
+								}
+
+							}
+
+						}
+
+						&.editor-dot {
+							&:after {
+								.square(6px);
+								top: 50%;
+								left: 50%;
+								border-radius: @imgeditor-tools-size;
+								background: @imgeditor-default-color;
+								margin: -3px;
+							}
+
+							&.checked,
+							&:hover {
+								&:after {
+									background: @imgeditor-primary-color;
+								}
+
+							}
+
+						}
+
+						// 颜色
+						.color-style(@color, @border-color) {
+							background: @color;
+
+							&.checked,
+							&:hover {
+								border-color: @border-color;
+							}
+
+						}
+
+						&.editor-color {
+							.square((@imgeditor-tools-size - 2));
+							border-color: transparent;
+							@red: #f00;
+							@orange: #ff7800;
+							@yellow: #ffc600;
+							@green: #10df41;
+							@cyan: #00bad6;
+							@blue: #1800ff;
+							@purple: #a800ff;
+							@dark: #000;
+							@light: #f0f0f0;
+
+							&.red {
+								.color-style(@red, @red);
+							}
+
+							&.orange {
+								.color-style(@orange, @orange);
+							}
+
+							&.yellow {
+								.color-style(@yellow, @yellow);
+							}
+
+							&.green {
+								.color-style(@green, @green);
+							}
+
+							&.cyan {
+								.color-style(@cyan, @cyan);
+							}
+
+							&.blue {
+								.color-style(@blue, @blue);
+							}
+
+							&.purple {
+								.color-style(@purple, @purple);
+							}
+
+							&.dark {
+								.color-style(@dark, @dark);
+							}
+
+							&.light {
+								.color-style(@light, lighten(@ns-border-color, 5));
+							}
+
+							&.checked,
+							&:hover {
+								border: 5px solid @ns-border-color;
+								background-color: transparent;
+							}
+
+						}
+
+						// 画笔大小
+						&.editor-pen {
+							&:after {
+								position: absolute;
+								display: block;
+								content: "";
+								border-radius: @imgeditor-tools-size;
+								background: @imgeditor-default-color;
+								z-index: 9;
+								top: 50%;
+								left: 50%;
+								transition: ease-in-out all .35s;
+							}
+
+							&.light {
+								&:after {
+									.square(@editor-pen-size);
+									margin: -(@editor-pen-size / 2);
+								}
+
+							}
+
+							&.normal {
+								&:after {
+									.square(@eidtor-pen-size-md);
+									margin: -(@eidtor-pen-size-md / 2);
+								}
+
+							}
+
+							&.bold {
+								&:after {
+									.square(@eidtor-pen-size-lg);
+									margin: -(@eidtor-pen-size-lg / 2);
+								}
+
+							}
+
+							&.checked,
+							&:hover {
+								&:after {
+									background: @imgeditor-primary-color;
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	.imgeditor-body {
+		@imgeditor-border-width: 3px;
+		@imgeditor-border-style: dashed;
+		@imgeditor-border-color: @ns-border-color;
+		padding-top: 5px;
+
+		.imgeditor-area {
+			display: table;
+			width: 100%;
+			height: 100%;
+			// min-height: 480px;
+			// border: @imgeditor-border-width @imgeditor-border-style @imgeditor-border-color;
+
+			.imgeditor-area-item {
+				display: table-cell;
+				width: 50%;
+				height: 100%;
+				vertical-align: middle;
+				// text-align: center;
+				// padding: 15px;
+				// background: #fff;
+
+				& + .imgeditor-area-item {
+					border-left: @imgeditor-border-width @imgeditor-border-style @imgeditor-border-color;
+				}
+				canvas{
+					background: #fff;
+					box-shadow: 0 0 5px rgba(0,0,0, .15);
+				}
+
+			}
+
+		}
+
+	}
+
+}

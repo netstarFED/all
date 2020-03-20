@@ -1,0 +1,151 @@
+@table-padding: @base-padding-lg;
+@table-td-padding: @base-padding;
+@table-thead-bg: lighten(@border-color, 5);
+
+.table {
+    padding: @table-padding;
+
+    .table-header {
+        .title {
+            display: block;
+            float: left;
+            height: 30px;
+            line-height: 30px;
+            padding-left: 0;
+            font-size: 18px;
+        }
+
+        .form {
+            padding: 0;
+            text-align: right;
+
+            &.form-inline {
+                padding: 0;
+                text-align: right;
+
+                // 搜索框
+                .form-item {
+                    .radio {
+                        height: 30px;
+
+                        &.radiobox {
+                            input {
+                                display: none;
+                            }
+
+                            .ridio-item {
+                                height: 30px;
+                                line-height: 30px;
+                                border: 1px solid @border-color;
+                            }
+                        }
+                    }
+
+
+                }
+
+
+            }
+
+            .search-box {
+                float: right;
+                margin-right: 0;
+
+                .input-group {
+                    .input-group-btn {
+                        .btn-icon {
+                            border: 1px solid @border-color;
+                            margin-left: -1px;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    .table-body {}
+
+    .page-mark-variant(@bg) {
+        position: absolute;
+        content: '';
+        .square(24px);
+        border-radius: 24px;
+        background: @bg;
+        top: 3px;
+        left: 3px;
+        z-index: -1;
+    }
+
+    .table-footer {
+        .btn-group {
+            padding: @base-padding 0;
+        }
+
+        .pages {
+            text-align: right;
+            padding: @base-padding 0;
+
+            .pages-item {
+                position: relative;
+                z-index: 1;
+                display: inline-block;
+                .square(30px);
+                line-height: 30px;
+                text-align: center;
+
+                &:hover {
+                    &:after {
+                        .page-mark-variant(#eee);
+                    }
+                }
+
+                &.current {
+                    color: #fff;
+
+                    &:after {
+                        .page-mark-variant(@warning);
+                    }
+                }
+            }
+        }
+    }
+
+    table.table {
+        width: 100%;
+        border: 1px solid @border-color;
+        border-spacing: 0;
+        border-collapse: collapse;
+        // table-layout: fixed;
+
+
+        tr {
+
+            th,
+            td {
+                padding: @table-td-padding;
+                border: 1px solid @border-color;
+                height: 40px;
+                min-height: 40px;
+            }
+        }
+
+        thead {
+            th {
+                text-align: center;
+                font-weight: bold;
+                background: @table-thead-bg;
+            }
+        }
+
+        tbody {
+            tr {
+                td {
+                    padding: @table-td-padding;
+                }
+            }
+        }
+
+    }
+
+}

@@ -1,0 +1,745 @@
+@e-building-zoom: .65;
+@shining-box-zoom: (@e-building-zoom * 2.25);
+@e-building-default-stroke: @info;
+@e-building-default-fill: @e-building-default-stroke;
+@subtitle-icon-size: 4rem;
+@scroll-message-font-size: (@font-size-base * 1.75);
+@scroll-message-color: @info;
+
+svg {
+    display: block;
+
+    // svg图形变量
+    .svg-variant (@stroke, @stroke-width, @fill: @stroke) {
+
+        polygon,
+        //多边形
+        path,
+        //路径
+        .svg-line {
+            stroke: @stroke;
+            stroke-width: @stroke-width;
+            .rgba-fill(@fill, .65);
+        }
+    }
+
+
+    &.svg-primary {
+        .svg-variant(@primary, 1);
+    }
+
+    &.svg-info {
+        .svg-variant(@info, 1);
+    }
+
+    &.svg-success {
+        .svg-variant(@success, 1);
+    }
+
+    &.svg-warning {
+        .svg-variant(@warning, 1);
+    }
+
+    &.svg-danger {
+        .svg-variant(@danger, 1);
+    }
+
+
+}
+
+.building-group {
+    .flex-block();
+    position: relative;
+    height: 100%;
+    z-index: 9;
+}
+
+.e-building {
+    zoom: @e-building-zoom;
+    transform: scale(.6);
+
+    .subtitle {
+        position: absolute;
+        zoom: 1.5;
+        top: 100px;
+        left: 100px;
+
+        span {
+            margin-right: @base-margin;
+        }
+
+        i {
+            position: absolute;
+            top: 0;
+            right: 0;
+            .square(@subtitle-icon-size);
+            .flex-block(center, center);
+            font-size: 2rem;
+            font-weight: bold;
+            animation: icon-warning 2s infinite;
+
+        }
+    }
+
+}
+
+// 滚动信息
+.scroll-message {
+    .flex-block(flex-start, center);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: .15rem solid @primary;
+    border-radius: .5rem;
+    padding: @base-padding;
+    color: @scroll-message-color;
+    font-size: @scroll-message-font-size;
+    .rgba-shadow-inset(0, 0, 1rem, @primary, 1);
+
+    i {
+        padding-right: @base-padding;
+        font-size: @scroll-message-font-size;
+    }
+
+    p {
+        color: @scroll-message-color;
+        margin: 0;
+    }
+
+}
+
+.building-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+
+    // svg {
+    //     position: absolute;
+    // }
+
+    .demo {
+        position: absolute;
+
+        polygon {
+            stroke: @e-building-default-stroke;
+            stroke-width: 1;
+            .rgba-fill(@e-building-default-fill, .65);
+        }
+
+        // 警报
+        &.alarm {
+
+            polygon,
+            path,
+            .svg-line {
+                animation: svg-warning 1s linear infinite normal none;
+            }
+
+            &:after {
+                @img-warning-size: 5rem;
+                position: absolute;
+                .square(@img-warning-size);
+                content: '';
+                background: @danger;
+                top: 50%;
+                left: 50%;
+                border-radius: @img-warning-size;
+                transform: rotateX(45deg);
+                margin: -@img-warning-size 0 0 -@img-warning-size;
+                opacity: 0.5;
+                // animation: warning 1s infinite;
+                // filter: blur(5px);
+                z-index: -1;
+                display: none;
+            }
+
+        }
+    }
+
+    &.building-item-01 {
+        .size(272px, 262px);
+        margin: -520px 0 0 -126px;
+
+        .demo {
+            .size(120px, 180px);
+
+            &:nth-child(1) {
+                top: -3px;
+                left: 75px;
+            }
+
+            &:nth-child(2) {
+                top: 37px;
+                left: 0;
+            }
+
+            &:nth-child(3) {
+                top: 37px;
+                left: 150px;
+            }
+
+            &:nth-child(4) {
+                top: 80px;
+                left: 75px;
+            }
+        }
+    }
+
+    &.building-item-02 {
+        .size(334px, 230px);
+        margin: -320px 0 0 120px;
+
+        .demo {
+            .size(150px, 136px);
+            width: 150px;
+
+            &:nth-child(1) {
+                top: 0;
+                left: 75px;
+            }
+
+            &:nth-child(2) {
+                top: 60px;
+                left: 180px;
+            }
+
+            &:nth-child(3) {
+                top: 40px;
+                left: 0;
+            }
+
+            &:nth-child(4) {
+                top: 100px;
+                left: 105px;
+            }
+        }
+
+
+    }
+
+    &.building-item-03 {
+        .size(513px, 306px);
+        margin: -120px 0 0 -795px;
+
+        .demo {
+            .size(160px, 120px);
+
+            &:nth-child(1) {
+                top: 0;
+                left: 0;
+            }
+
+            &:nth-child(2) {
+                top: 51px;
+                left: 88px;
+            }
+
+            &:nth-child(3) {
+                top: 102px;
+                left: 176px;
+            }
+
+            &:nth-child(4) {
+                top: 153px;
+                left: 264px;
+            }
+
+            &:nth-child(5) {
+                top: 204px;
+                left: 352px;
+            }
+
+
+
+        }
+
+    }
+
+
+    &.building-item-04 {
+        .size(422px, 306px);
+        margin: -70px 0 0 -320px;
+
+        .demo {
+            .size(180px, 190px);
+
+            &:nth-child(1) {
+                bottom: -15px;
+                left: 0;
+            }
+
+            &:nth-child(2) {
+                top: 15px;
+                left: 200px;
+            }
+
+        }
+
+    }
+
+    &.building-item-05 {
+        .size(450px, 250px);
+        margin: 115px 0 0 -195px;
+
+        .demo {
+            .size(255px, 150px);
+
+            &:nth-child(1) {
+                bottom: 0;
+                left: 0;
+
+                .svg-line-group {
+                    display: none;
+                }
+            }
+
+            &:nth-child(2) {
+                top: -10px;
+                right: 0;
+            }
+
+            &:nth-child(3) {
+                top: 22px;
+                right: -30px;
+            }
+
+        }
+
+        .svg-line-group {
+            stroke: darken(@danger, 10);
+            stroke-width: 5;
+            stroke-linecap: round;
+
+            line {
+                &.line-warning {
+                    stroke: @warning;
+                }
+            }
+        }
+
+    }
+
+    &.building-item-06 {
+        .size(460px, 368px);
+        margin: -210px 0 0 290px;
+
+        .demo {
+            .size(250px, 246px);
+
+            &:nth-child(1) {
+                top: 130px;
+                left: 0;
+            }
+
+            &:nth-child(2) {
+                top: -20px;
+                right: -5px;
+            }
+
+        }
+
+    }
+
+
+    .svg-line {
+        stroke: @e-building-default-stroke;
+    }
+}
+
+@keyframes svg-warning {
+    0% {
+
+        stroke: @danger;
+        .rgba-fill(@danger, .65);
+
+    }
+
+    50% {
+
+        stroke: @warning;
+        .rgba-fill(@warning, .35);
+    }
+
+
+
+    100% {
+
+        stroke: @danger;
+        .rgba-fill(@danger, .65);
+    }
+}
+
+// svg边框及文字区域
+.box-outline-group {
+    .box-outline-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        svg {
+            path {
+                opacity: 0.5;
+                stroke-width: 1;
+                fill: none;
+            }
+        }
+
+        &:nth-child(1) {
+            margin: -180px 0 0 -600px;
+        }
+
+        &:nth-child(2) {
+            margin: -296px 0 0 -410px;
+        }
+
+        &:nth-child(3) {
+            margin: -140px 0 0 -25px;
+        }
+
+        &:nth-child(4) {
+            margin: -470px 0 0 -215px;
+        }
+
+        &:nth-child(5) {
+            margin: -305px 0 0 16px;
+        }
+    }
+}
+
+.svg-text-group {
+    width: 1280px;
+    height: 720px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -360px 0 0 -640px;
+
+    .svg-text {
+        position: absolute;
+        color: #fff;
+        // font-weight: bold;
+        text-shadow: 0 0 15px rgba(255, 255, 255, .75);
+        transform: skewY(30deg) scaleY(1.5);
+
+
+        &.svg-text-md {
+            font-size: 1.75rem;
+        }
+
+        &.svg-text-lg {
+            font-size: 2.75rem;
+        }
+
+        // 被试品流转区
+        &.text-bsp {
+            top: 150px;
+            left: 310px;
+        }
+
+        // 动车试验区
+        &.text-dc {
+            top: 260px;
+            left: 715px;
+        }
+
+        // 25KV试验区
+        &.text-25kv {
+            top: 280px;
+            left: 640px;
+        }
+
+        // 辅助试验台
+        &.text-fz {
+            top: 360px;
+            left: -180px;
+        }
+
+        // 1-4号组合试验台
+        &.text-1-4hzh {
+            top: 490px;
+            left: 10px;
+        }
+
+        // 变压器
+        &.text-byq {
+            top: 85px;
+            left: 520px;
+        }
+
+        // 电气实验室
+        &.text-dq-01 {
+            top: 353px;
+            left: 1150px;
+        }
+
+        // 电气实验室
+        &.text-dq-02 {
+            top: 495px;
+            left: 925px;
+        }
+
+        // 1-4号轴牵引制动试验台机车用
+        &.text-1-4hz {
+            top: 218px;
+            left: 695px;
+        }
+
+        // 新品试验区
+        &.text-xp-01 {
+            top: 500px;
+            left: 500px;
+        }
+
+        // 新品试验区
+        &.text-xp-02 {
+            top: 630px;
+            left: 295px;
+        }
+
+        // 电子兼容实验室
+        &.text-dzjr {
+            top: 613px;
+            left: 642px;
+        }
+
+        // 振动实验室
+        &.text-zd {
+            top: 735px;
+            left: 465px;
+        }
+
+    }
+}
+
+.box-daker {
+    opacity: 0.5;
+}
+
+.box-dake {
+    opacity: 0.65;
+}
+
+
+
+@shining-box-width: 1280px;
+@shining-box-height: 720px;
+@shining-box-path-x: (@shining-box-width / 2);
+@shining-box-path-y: (@shining-box-height / 2);
+
+.shining-box {
+    position: absolute;
+    width: @shining-box-width;
+    height: @shining-box-height;
+    top: 50%;
+    left: 50%;
+    margin: -(@shining-box-height / 2) 0 0 -(@shining-box-width / 2);
+    z-index: 1;
+    zoom: @shining-box-zoom;
+
+    .bottom-panel {
+        margin: 0;
+        position: absolute;
+        top: 0;
+    }
+
+    .box-group {
+        position: relative;
+
+        // &:nth-child(2) {
+        //     opacity: 0.75;
+
+        //     .c-box {
+
+        //         &:before,
+        //         &:after {
+        //             offset-path: path("M600 40 l-600 340 l600 340 l600 -340 l-600 -340");
+        //             opacity: .25;
+        //         }
+        //         &:after{
+        //             offset-path: path("m600 340 l600 -340 l-600 -340 l-600 340 l600 340");
+        //             top: auto;
+        //             bottom: -383px;
+        //         }
+        //     }
+        // }
+    }
+
+    .shining-path {
+        fill: none;
+        stroke: @primary;
+    }
+
+    @c-box-color: @success;
+
+    .c-box {
+
+        &:before,
+        &:after {
+            content: '';
+            width: 20px;
+            height: 3px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 20px;
+            offset-path: path("M640 0 l-640 368 l640 368 l640 -368 l-640 -368");
+            offset-distance: 50%;
+            animation: svg-test 10s linear infinite normal none;
+            #gradient .horizontal(transparent; @c-box-color; 0; 100%)
+        }
+
+        &:after {
+            offset-path: path("m640 368 l640 -368 l-640 -368 l-640 368 l640 368");
+            top: auto;
+            bottom: -370px;
+        }
+    }
+
+}
+
+
+@keyframes svg-test {
+    0% {
+        offset-distance: 0%;
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    100% {
+        offset-distance: 100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes icon-warning {
+    0% {
+        .rgba-text-shadow(0, 0, .05, @danger, .1);
+        transform: scale(1);
+    }
+
+    50% {
+        .rgba-text-shadow(0, 0, .5rem, @danger, 1);
+        transform: scale(1);
+    }
+
+    80% {
+        transform: scale(1);
+    }
+
+    90% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        .rgba-text-shadow(0, 0, .05, @danger, .1);
+        transform: scale(1);
+    }
+}
+
+
+// 屏幕宽度小于Full-HD(1920)less样式
+@media screen and (max-width: @screen-hd) {
+    .scroll-message {
+        zoom: .65;
+    }
+
+    // 全屏模式
+    .fullpage-view {
+        .e-building {
+            transform: scale(1);
+        }
+
+        .scroll-message {
+            zoom: .75;
+        }
+    }
+}
+
+// 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+@media screen and (min-width: 1921px) and (max-width: @screen-2k) {
+
+    // 定制区域缩放
+    .e-building {
+        transform: scale(.8);
+        zoom: .65;
+    }
+
+    .scroll-message {
+        zoom: .65;
+    }
+
+    // 自定义区域文字大小
+    .svg-text-group {
+        .svg-text {
+            font-size: 1.25rem;
+
+            &.svg-text-lg {
+                font-size: 2.5rem;
+            }
+
+            &.svg-text-md {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    // 全屏模式
+    .fullpage-view {
+        .e-building {
+            transform: scale(1.25);
+        }
+
+        .scroll-message {
+            zoom: .75;
+        }
+    }
+}
+
+// 屏幕宽度在大于2k(2560)less样式
+@media screen and (min-width: 2561px) {
+
+    // 定制区域缩放
+    .e-building {
+        transform: scale(1.25);
+        zoom: .65;
+
+
+    }
+
+    .scroll-message {
+        zoom: .5;
+    }
+
+    // 自定义区域文字大小
+    .svg-text-group {
+        .svg-text {
+            font-size: .75rem;
+
+            &.svg-text-lg {
+                font-size: 1.75rem;
+            }
+
+            &.svg-text-md {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    // 全屏模式
+    .fullpage-view {
+        .e-building {
+            transform: scale(2);
+        }
+
+        .scroll-message {
+            zoom: .75;
+        }
+    }
+
+
+}

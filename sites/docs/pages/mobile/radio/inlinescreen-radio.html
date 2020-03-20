@@ -1,0 +1,91 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+<container>
+    <div id="inlinesrceen-radio"></div>
+    <script>
+         var inlineSrceen = 
+        {
+            id:  		"inlinesrceen-radio",
+            size: 		"standard compactmode",
+            format: 	"standard",
+            fillbg: 	true,
+            plusClass: 	'commonwidth',
+            formSource: 'inlineScreen',
+            form:
+            [
+                {
+                    id: 		 	'sex',
+                    label: 		 	'性别',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    tooltips: 		'提示信息',
+                    subdata:[
+                        // { text:'女',value:'',},
+                        { text:'女',value:'0', isChecked : true },
+                        { text:'男',value:'1' },
+                        { text:'男',value:'2' },
+                        { text:'男',value:'3' },
+                        { text:'男',value:'4' },
+                        { text:'男',value:'5' },
+                        { text:'男',value:'8' },
+                        { text:'男',value:'7' },
+                    ],
+                    mindjetFieldPosition:'field',
+                    changeHandler : function(value, config){
+                        console.log(value);
+                        console.log(config);
+                    },
+                    value : '',
+                },{
+                    id: 		 		'ajaxRadio',
+                    label: 		 		'ajax调用',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    // isHasClose:			true,
+                    url:				getRootPath()+'/docs/data/mobile/radio.json',
+                    contentType:'application/x-www-form-urlencoded',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field',
+                } ,{
+                    id: 		 		'ajaxRadio2',
+                    label: 		 		'ajax调用2',
+                    type: 		 		'radio',
+                    rules: 		 		'required',
+                    column: 	 		6,
+                    textField:			'name',	
+                    valueField:			'id',
+                    isHasClose:			true,
+                    url:				getRootPath()+'/docs/data/mobile/radio.json',
+                    contentType:'application/x-www-form-urlencoded',
+                    method:				'GET',
+                    data:				{},
+                    dataSrc:			'list',
+                    value: 				'1',
+                    tooltips: 		'提示信息',
+                    mindjetFieldPosition:'field',
+                },{
+                    id: 		 	'name',
+                    label: 		 	'姓名',
+                    type: 		 	'radio',
+                    column: 	 	6,
+                    rules: 			'required',
+                    tooltips: 		'提示信息',
+                    subdata:[
+                        { text:'小明',value:'0' },
+                        { text:'小红',value:'1' },
+                        { text:'小刚',value:'2' },
+                    ],
+                    mindjetFieldPosition:'field',   
+                }
+            ]
+        };
+        formPlane.formInit(inlineSrceen);
+    </script>
+</container>

@@ -1,0 +1,138 @@
+@list-border: @border-color;
+@list-bg: #fff;
+@list-color: @text-color-dark;
+@list-bg: #fff;
+@list-hover-color: @text-warning;
+@list-hover-bg: @bg-warning;
+
+@list-item-height-base: @input-group-base;
+@list-item-height-md: @input-group-md;
+@list-item-height-lg: @input-group-lg;
+
+
+.pt-list {
+    background: @list-bg;
+   
+
+    .pt-list-group {
+        border: 1px solid @list-border;
+    }
+
+    .pt-list-item {
+        a {           
+            .list-item-variant(@list-bg, @list-color, @list-hover-bg, @list-hover-color);
+            .text-overflow();
+            display: block;
+            text-align-last: left;
+        }
+    }
+}
+
+// 下拉菜单消息列表
+
+@pt-list-block-scrollbar-width: 10px;
+
+@pt-list-block-title-border-color: lighten(@border-color, 20);
+@pt-list-block-line-height: 24px;
+@pt-list-block-list-link-border: 5px;
+.pt-list-block{
+    height: auto;
+    overflow: hidden;
+    
+    .title{
+        position: relative;
+        padding: @base-padding @base-padding-lg;
+        padding-right: 36px;
+        height: auto;
+        overflow: hidden;
+        border-bottom: 1px solid @pt-list-block-title-border-color;
+        h5{
+            display: inline-block;
+            font-weight: bold;
+        }
+        .pt-badge{
+            display: inline-block;
+            background: transparent;
+            color: @gray-dark;
+        }
+        small{
+            display: block;
+            width: 100%;
+            color: @gray;
+            line-height: @pt-list-block-line-height;
+        }
+        .pt-btn-group{
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            margin-top: -12px;
+        }
+        .pt-btn-default{
+            border: 0;
+
+        }
+    }
+    ul{
+        overflow-y: auto;
+        li{
+            height: auto;
+            overflow: hidden;
+            float: left;
+            width: 50%;
+            
+            border-bottom: 1px solid @pt-list-block-title-border-color;
+            margin-bottom: -1px;
+            a{
+                position: relative;
+                text-align-last: left;
+                padding: 6px @base-padding-lg;
+                color: @gray-darker;
+                padding-right: 48px;
+                border: @pt-list-block-list-link-border solid #fff;
+                border-width: 0 @pt-list-block-list-link-border;
+                h6,
+                span{
+                    text-align: left;
+                }
+                h6{
+                    line-height: @pt-list-block-line-height;
+                    color: #000;
+                }
+                &:hover{
+                    background: #f8f8f8;
+                    color: #000;
+                }
+                .pt-badge{
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    margin-top: -9px;
+                }
+                p{
+                    line-height: @pt-list-block-line-height;
+                    white-space: normal;
+                    color: @gray;
+                }
+            }
+        }
+    }
+
+    & + &{
+        border-top: 1px solid @border-color;
+    }
+    &.pt-board-info{
+        ul{
+            li{
+                width: 100%;
+                max-height: 84px;
+                overflow-y: auto;
+                a{
+                    padding-right: @base-padding-lg;
+                    p{
+                        color: @gray-dark;
+                    }
+                }
+            }
+        }
+    }
+}

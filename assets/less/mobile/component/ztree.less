@@ -1,0 +1,166 @@
+[ns-system="mobile"] {
+    .treeform-ztree {
+        z-index: 999;
+    }
+
+    @mobile-tree-width: 12rem;
+    @mobile-tree-padding: 1rem 1rem;
+    @mobile-tree-item-padding: 1rem;
+    @mobile-tree-bg: #f2f2f2;
+
+    .mobile-tree {
+        .flex-block(flex-start, flex-start);
+        background: @mobile-tree-bg;
+        flex-wrap: wrap;
+        flex-direction: column;
+        height: 100%;
+
+        &>* {
+            width: 100%;
+            padding: @mobile-tree-padding;
+        }
+
+        .mobile-tree-header {
+            padding: 0;
+        }
+
+        .mobile-tree-body {
+            padding: 0;
+
+            .mobile-tree-level-return,
+            .mobile-level-selected {
+                padding: @mobile-tree-padding;
+            }
+
+            .mobile-level-selected {
+                background: @mobile-primary;
+                color: #fff;
+                &:before {
+                    content: '\f0d7';
+                    font-family: @icon-font;
+                    margin-right: .5em;
+                }
+            }
+
+            .mobile-tree-level-return {
+                position: relative;
+                background: #eee;
+
+                &:after {
+                    content: '\f148';
+                    font-family: @icon-font;
+                    margin-left: 1em;
+                }
+                &.readonly{
+                    color: #999;
+                    background: transparent;
+                    &:after{
+                        color: #999;
+                    }
+                }
+            }
+
+            .mobile-tree-item {
+                padding: @mobile-tree-padding;
+                position: relative;
+                text-indent: .5rem;
+                &.parent {
+                    &:before {
+                        position: absolute;
+                        content: '\f0da';
+                        font-family: @icon-font;
+                        color: #000;
+                        top: 1rem;
+                        left: 1rem;
+                        text-indent: 0;
+                    }
+                }
+            }
+
+            .children {
+                background: darken(@mobile-tree-bg, 5%);
+
+                .mobile-tree-item {
+                    text-indent: 1.5rem;
+                    &.selected{
+                        background: @mobile-primary;
+                        color: #fff;
+                        &.parent {
+                            &:before {
+                                color: #fff;
+                            }
+                        }
+                    }
+                    &.parent {
+                        &:before {
+                            left: 2rem;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    .mobile-tree-footer {}
+
+    // .mobile-tree {
+    //     .flex-block(flex-start, flex-start);
+    //     flex: 0 0 @mobile-tree-width;
+    //     background: @mobile-tree-bg;
+    //     flex-wrap: wrap;
+    //     height: 100%;
+
+    //     .mobile-tree-header {
+    //         .flex-block();
+    //         flex: 0 0 100%;
+    //     }
+
+    //     .mobile-tree-body {
+    //         .flex-block();
+    //         flex: 0 0 100%;
+
+    //         .mobile-tree-level-return {
+    //             .flex-block();
+    //             flex: 0 0 100%;
+    //         }
+
+    //         .mobile-tree-item,
+    //         .mobile-level-selected {
+    //             padding: 1rem;
+    //             .flex-block();
+    //             flex: 0 0 100%;
+    //         }
+
+    //         .children {
+    //             .flex-block(flex-start, flex-start);
+    //             flex-direction: column;
+    //             flex-wrap: wrap;
+    //             background: darken(@mobile-tree-bg, 5%);
+    //             padding: 1rem;
+
+    //             .mobile-tree-item {
+    //                 position: relative;
+    //                 padding: @mobile-tree-item-padding;
+    //                 text-indent: @mobile-tree-item-padding;
+    //                 width: 100%;
+    //                 overflow: hidden;
+    //                 text-overflow: ellipsis;
+    //                 white-space: normal;
+
+    //                 &.parent {
+    //                     &:before {
+    //                         position: absolute;
+    //                         .square(.5rem);
+    //                         content: '\f0da';
+    //                         font-family: @icon-font;
+    //                         color: #000;
+    //                         top: 0;
+    //                         left: 0;
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+}

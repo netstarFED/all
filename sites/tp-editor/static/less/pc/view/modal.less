@@ -1,0 +1,392 @@
+@e-modal-padding: @base-padding;
+@e-modal-width: 800px;
+@e-modal-height: 600px;
+@e-modal-zindex: 1999;
+@e-modal-header-height: 48px;
+@e-modal-close-size: @e-modal-header-height;
+@e-modal-close-hover-bg: darken(@e-modal-header-bg, 25);
+@e-modal-header-bg: @e-header-bg-light;
+@e-modal-header-padding-right: @e-modal-close-size;
+@e-modal-title-height: @e-modal-header-height;
+@e-modal-title-font-size: @font-size-md;
+@e-modal-footer-height: (@e-btn-size + (@e-modal-footer-padding * 2));
+@e-modal-footer-bg: #f5f5f5;
+@e-modal-footer-padding: @e-modal-padding;
+@e-modal-footer-btn-gutter: @base-margin;
+@e-modal-fullscreen-padding-top: (@e-modal-header-height + @e-modal-padding);
+@e-modal-fullscreen-padding-bottom: (@e-modal-footer-height + @e-modal-padding);
+@e-modal-fullscreen-list-header-height: (@e-btn-size + (@e-list-padding * 2));
+@e-modal-fullscreen-list-footer-height: @e-modal-fullscreen-list-header-height;
+@e-modal-shadow: #000;
+@e-modal-shadow-size: 5px;
+
+[ns-type="editor"] {
+    .modals {
+        position: fixed;
+        top: -100%;
+        width: @e-modal-width;
+        left: 50%;
+        margin-left: -(@e-modal-width / 2);
+        background: #fff;
+        transition: ease-in-out all .35s;
+        z-index: @e-modal-zindex;
+        .rgba-shadow(0, 0, @e-modal-shadow-size, @e-modal-shadow, .5);
+
+        // 模态框背景
+        &:after {
+            position: fixed;
+            z-index: -1;
+            content: '';
+            top: 0;
+            right: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .65);
+            // display: none;
+        }
+
+        // 全屏模式-窗口最大化
+        &.modals-fullscreen {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+
+            .modal-header,
+            .modal-body,
+            .modal-footer {
+                position: absolute;
+                width: 100%;
+                left: 0;
+            }
+
+            .modal-header {
+                top: 0;
+                z-index: 2;
+            }
+
+            .modal-body {
+                position: absolute;
+                height: 100%;
+                top: 0;
+
+                .panel {
+                    height: 100%;
+                }
+
+                padding: @e-modal-fullscreen-padding-top 0 @e-modal-fullscreen-padding-bottom;
+
+                .list {
+                    position: absolute;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+
+                    .list-header,
+                    .list-body,
+                    .list-footer {
+                        display: block;
+                        position: absolute;
+                        width: 100%;
+                        left: 0;
+                        background: #fff;
+                    }
+
+                    .list-header {
+                        top: 0;
+                        z-index: 2;
+                        padding: @e-list-padding;
+
+                        .pt-input-group {
+                            .editor-input-group();
+                        }
+                    }
+
+                    .list-body {
+                        top: 0;
+                        height: 100%;
+                        padding: @e-modal-fullscreen-list-header-height @e-list-padding @e-modal-fullscreen-list-footer-height;
+                        overflow-y: auto;
+                    }
+
+                    .list-footer {
+                        bottom: 0;
+                        z-index: 2;
+                        padding: @e-list-padding;
+
+                    }
+
+                }
+            }
+
+            .modal-footer {
+                bottom: 0;
+                z-index: 2;
+            }
+        }
+
+        // 模态框头部
+        .modal-header {
+            height: @e-modal-header-height;
+            margin: 0;
+            background: @e-modal-header-bg;
+            padding: 0;
+            padding-right: @e-modal-header-padding-right;
+
+            .title {
+                display: block;
+                float: left;
+                max-width: calc(~'100% -'@e-modal-close-size);
+                color: #fff;
+                height: @e-modal-title-height;
+                line-height: @e-modal-title-height;
+                padding: 0 @base-padding;
+                font-size: @e-modal-title-font-size;
+            }
+
+            .btn-group {
+                float: right;
+                margin: ((@e-modal-header-height - @e-btn-size) / 2);
+                .btn-dark-theme();
+
+                .btn {
+                    border-color: lighten(@e-modal-header-bg, 3);
+
+                    &+.btn {
+                        margin-left: (@base-margin / 2);
+                    }
+                }
+            }
+
+            .close {
+                position: absolute;
+                top: 0;
+                right: 0;
+
+                &:hover {
+                    &:after {
+                        color: @info;
+                    }
+                }
+            }
+        }
+
+        // 模态框内容
+        .modal-body {
+            background: #fff;
+            padding: @e-modal-padding;
+
+            &:after {
+                display: block;
+                content: '';
+                width: 100%;
+                clear: both;
+            }
+
+            &>.panel {
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            .list-header-form {
+                @form-height: 24px;
+                display: block;
+                float: right;
+                width: calc(~'100% -'(@e-btn-size * 2));
+                padding: ((@e-btn-size - @form-height) / 2) 0;
+                padding-left: @e-modal-padding;
+
+                .pt-form-normal {
+                    text-align: right;
+                }
+            }
+
+            .list-blocklist {
+                .list-item {
+                    height: 226px;
+
+                    .list-before,
+                    .list-content,
+                    .list-after {
+                        border: 1px solid transparent;
+                        margin-top: -1px;
+
+                        .list-before {
+                            margin-top: 0;
+                        }
+                    }
+
+                    &.current {
+
+                        .list-before,
+                        .list-content,
+                        .list-after {
+                            border: 1px solid @e-list-media-bg;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        // 模态框底部内容
+        .modal-footer {
+            background: @e-modal-footer-bg;
+            padding: @e-modal-footer-padding;
+            border: 0;
+            text-align: right;
+
+            .btn-group {
+                .btn {
+                    margin-left: @e-modal-footer-btn-gutter;
+
+                    &:first-child {
+                        margin-left: 0;
+                    }
+                }
+            }
+
+            // 弹框面板窗口拖动控制器
+            .modals-window-control {
+                position: absolute;
+                right: 1px;
+                bottom: 1px;
+                z-index: 9;
+                .square(10px);
+                cursor: nw-resize;
+                .triangle-right-bottom(10px, darken(@border-color, 10));
+
+                &:hover {
+                    .triangle-right-bottom(10px, @warning);
+                }
+
+            }
+        }
+
+        // 关闭按钮
+        .close {
+            display: block;
+            margin: 0;
+            .square(@e-modal-close-size);
+
+            &:after {
+                .square(@e-modal-close-size);
+                line-height: @e-modal-close-size;
+                content: '\f057';
+                color: #fff;
+                font-family: @icon-font;
+                text-shadow: none;
+                display: block;
+                text-align: center;
+                opacity: 0.5;
+            }
+
+            &:hover {
+                background: @e-modal-close-hover-bg;
+
+                i {
+                    color: @info;
+                }
+
+                &:after {
+                    opacity: 1;
+                }
+            }
+        }
+
+        // 模态框隐藏
+        &.fade {
+
+            &.top {
+                top: -100%;
+                right: 0;
+                left: 0;
+                width: 100%;
+                margin-left: 0;
+                .rgba-shadow(0, 0, @e-modal-shadow-size, @e-modal-shadow, .25);
+            }
+
+            &.right {
+                top: @e-header-height;
+                right: -100%;
+                left: auto;
+                bottom: 0;
+                margin-left: 0;
+                .rgba-shadow(-@e-modal-shadow-size, 0, (@e-modal-shadow-size / 2), @e-modal-shadow, .25);
+
+                &.modal-level2 {
+                    right: -100%;
+                    z-index: 998;
+                }
+            }
+
+            &.bottom {
+                top: auto;
+                right: 0;
+                bottom: -100%;
+                left: 0;
+                width: 100%;
+                margin-left: 0;
+                .rgba-shadow(0, -@e-modal-shadow-size, (@e-modal-shadow-size / 2), @e-modal-shadow, .25);
+            }
+
+            &.left {
+                top: @e-header-height;
+                right: auto;
+                bottom: 0;
+                left: -100%;
+                margin-left: 0;
+                .rgba-shadow(@e-modal-shadow-size, 0, (@e-modal-shadow-size / 2), @e-modal-shadow, .25);
+            }
+        }
+
+        // 模态框显示
+        &.in {
+            top: 5%;
+            opacity: 1;
+
+
+            &:after {
+                bottom: 0;
+            }
+
+            &.top,
+            &.right,
+            &.bottom,
+            &.left {
+                &:after {
+                    display: none;
+                }
+            }
+
+            &.top {
+                top: 0;
+            }
+
+            &.right {
+                right: 0;
+
+                &.modal-level2 {
+                    right: @e-control-panel-width;
+                    z-index: 998;
+                }
+            }
+
+            &.bottom {
+                bottom: 0;
+            }
+
+            &.left {
+                left: 0;
+
+            }
+
+        }
+    }
+}

@@ -1,0 +1,288 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-.html" -->
+
+    <container>
+<script type="text/javascript">
+    if(typeof(NetstarHomePage)=='undefined'){
+        NetstarHomePage = {config:{isUseToken:true}}
+    }
+    $(function(){
+        var localhoseUrl = 'http://ui-pc:2000';
+        var componentsJson = {
+            package:'nsVue.graps.orderbbb',
+            template:'limsReport',
+            title:'lims报告',
+            readonly:false,
+            //isSaveToTemplate
+            //draftBox
+            getValueAjax:{},
+            components:[
+                {
+                    type: 'vo',
+                    //ajax:{},
+                    parent: 'root',
+                    idField: 'id',
+                    keyField: 'root',
+                    isSetMore: false,
+                    // formStyle: "pt-form-normal",
+                    defaultComponentWidth:'100%',
+                    plusClass:'limsreport-vo',
+                    field:[
+                        {
+                            id: 'uploadAction',
+                            label: ' ',
+                            type: 'radio',
+                           // inputWidth: 100,
+                            textField: 'name',
+                            valueField: 'id',
+                            value:'0',
+                            subdata:[
+                                {
+                                    id:'1',
+                                    name:'手动上传'
+                                }, {
+                                    id:'0',
+                                    name:'自动生成'
+                                },
+                            ],
+                            changeHandlerData:{
+                                "1":{
+                                    hidden : { templateId : true, upload:false },
+                                },
+                                "0":{
+                                    hidden : { templateId : false, upload:true },
+                                },
+                            },
+                            changeHandler:function(obj){
+                                var isHideBtn = false;
+                                if(obj.value == '1'){
+                                    isHideBtn = true;
+                                }
+                                var formID = obj.config.formID;
+                                if(isHideBtn){
+                                    $('#'+formID).parent().children('.pt-components-btns').addClass('hide');
+                                }else{
+                                    $('#'+formID).parent().children('.pt-components-btns').removeClass('hide');
+                                }
+                            }
+                        },{
+                            id: 'conclusion',
+                            label: '结论',
+                            type: 'textarea',
+                          //  inputWidth: 100,
+                        },{
+                            id: 'remark',
+                            label: '备注',
+                            type: 'textarea',
+                           // inputWidth: 100,
+                        },{
+                            id:"templateId",
+                            type:'select',
+                            label: '',
+                            inputWidth:100,
+                            textField:'name',
+                            valueField:'id',
+                            subdata:[
+                                {
+                                    id:'0',
+                                    name:'报告模板1'
+                                },{
+                                    id:'1',
+                                    name:'报告模板2'
+                                }
+                            ]
+                        },{
+                            id: 'upload',
+                            label: ' ',
+                            type: 'upload',
+                            rules: 'required',
+                           // inputWidth:100,
+                            hidden:true,
+                            btns:['upload','edit','delete','download','print'],
+                            changeHandler : function(obj){
+                                //console.log(obj);
+                            },
+                            value : '1',
+                            ajax:{
+                                url : 'https://ui-pc:2000/assets/json/newcomponent/upload.json',
+                                contentType:'application/x-www-form-urlencoded',
+                            },
+                            editAjax:{
+                                url : 'https://ui-pc:2000/assets/json/newcomponent/uploadedit.json',
+                                contentType:'application/x-www-form-urlencoded',
+                            },
+                            downloadAjax:{
+                                url : 'https://ui-pc:2000/assets/css/img/yuan2.rar?',
+                                contentType:'application/x-www-form-urlencoded',
+                            },
+                            getFileAjax:{
+                                url : 'https://ui-pc:2000/assets/json/newcomponent/upload.json',
+                                contentType:'application/x-www-form-urlencoded',
+                            },
+                            // value:[{
+                            //     text : 'sss.doc',
+                            //     value : '12365',
+                            // }],
+                            isShowThum : false,
+                            // disabled : true,
+                            // isMultiple : true,
+                        }
+                    ]
+                },{
+                    type:'btns',
+                    operatorObject:'root',
+                    field: [
+                        {
+                            btn: {
+                                text: "生成报告书",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig:{
+                                TemplateButton: "createReport",
+                            }
+                        },{
+                            btn: {
+                                text: "在线编辑",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig:{
+                                TemplateButton: "onlineEditor",
+                            }
+                        },{
+                            btn: {
+                                text: "保存",
+                                isReturn: true,
+                                TemplateButton: "save",
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig:{
+                                TemplateButton: "save",
+                            }
+                        },{
+                            btn: {
+                                text: "自动生成",
+                                isReturn: true,
+                                handler: function (callBack, Obj) {
+                                    
+                                }
+                            },
+                            functionConfig:{
+                                TemplateButton: "autoCreateReport",
+                            }
+                        }
+                    ]
+                },{
+                    type:'pdfList',
+                    title:'合同',
+                    nameField:'title',
+                    fileField:'id',
+                    templatePanel:'pdfMultiViewer',
+                    idField:'id',
+                    getListAjax:{
+                        src:'http://10.10.1.116:2000/assets/json/lims/contractlist.json',
+                        type:'GET',
+                        dataSrc:'rows',
+                        contentType:'application/x-www-form-urlencoded',
+                    },
+                    field:[
+                        {
+                            field:'subTitle',
+                            title:'标题'
+                        }
+                    ]
+                },{
+                    type:'pdfList',
+                    title:'记录',
+                    nameField:'title',
+                    fileField:'id',
+                    templatePanel:'pdfMultiViewer',
+                    idField:'id',
+                    getListAjax:{
+                        src:'http://10.10.1.116:2000/assets/json/lims/contractlist.json',
+                        type:'GET',
+                        dataSrc:'rows',
+                        contentType:'application/x-www-form-urlencoded',
+                    },
+                    field:[
+                        {
+                            field:'subTitle',
+                            title:'标题'
+                        }
+                    ]
+                }/*{
+                    type:'recordList',
+                    title:'附件',
+                    idField:'id',
+                    getListAjax:{
+                        src:'http://ui-pc:2000/assets/json/lims/contractlist.json',
+                        type:'GET',
+                        dataSrc:'rows',
+                        contentType:'application/x-www-form-urlencoded',
+                    },
+                    nameField:'title',
+                    templatePanel:'pdfMultiViewer',
+                    getRecordAjax:{
+                        src:'http://ui-pc:2000/assets/json/lims/enclosurelist.json',
+                        type:'GET',
+                        dataSrc:'rows',
+                        contentType:'application/x-www-form-urlencoded',
+                    },
+                    tableAjax:{
+                        url:localhoseUrl + '/assets/json/resultmanager/sample-nscompleteindex.json',
+                        type:'get',
+                        data:{
+                            id:'DEMO-TM201',
+                            uid:'UID001'
+                        },
+                        dataSrc:'data',
+                    },
+                    saveAjax:{
+                        url:localhoseUrl + '/assets/json/resultmanager/tablesave.json',
+                        type:'get',
+                        data:{
+                            id:'DEMO-TM201',
+                            uid:'UID001'
+                        },
+                        dataSrc:'data',
+                    },
+                    historyAjax:{
+                        url:localhoseUrl + '/assets/json/resultmanager/historylist.json',
+                        type:'get',
+                        data:{
+                            id:'abc',
+                            uid:'abcde'
+                        },
+                        dataSrc:'data',
+                    },
+                    field:[
+                        {
+                            field:'title',
+                            title:'标题'
+                        },{
+                            field:'state',
+                            title:'状态'
+                        },{
+                            field:'hrefStr',
+                            title:'链接'
+                        }
+                    ]
+                }*/
+                    //type:'template',
+                    //templatePanel:'pdfMultiViewer',
+                   // field:[
+                        
+                    //]
+            ],
+        };
+        NetstarTemplate.init(componentsJson);
+    })
+</script>
+</container>
+</html>

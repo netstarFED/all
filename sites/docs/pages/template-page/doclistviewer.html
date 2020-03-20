@@ -1,0 +1,288 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+
+<!-- 单据详情模板 -->
+<container>
+        <script type="text/javascript">
+                var nsPublic = nsPublic ? nsPublic : {};
+            nsPublic.getAppendContainer = function () {
+                var insertLocation = $('container:not(.hidden)').not('.content');
+                if ($('.nswindow .content').length > 0) {
+                    insertLocation = $('.nswindow .content:last');
+                }
+                return insertLocation;
+            }
+            $(function(){
+                //nsLayout.init("demos-layout-tree");
+                var componentsJson = {
+                    package:'nsVue.graps.order',
+                    template:'docListViewer',
+                    title:'进货订单管理',
+                    //getValueAjax:{},
+                    components:[
+                        {
+                            type:'vo',
+                            formStyle: "pt-form-normal",//自定义样式
+                            position: 'query-vo   ',//输出位置   //query-vo query-list 占位 是检索
+                            field:[
+                                {
+                                    id:'orderstate',
+                                    type:'select',
+                                    label:'审核状态：',
+                                    inputWidth: 100,
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    subdata:[
+                                        {
+                                            name:'未审核',
+                                            id:"01"
+                                        },{
+                                            name:'已审核',
+                                            id:"02"
+                                        }
+                                    ]
+                                },{
+                                    id:'businessNumber',
+                                    type:'text',
+                                    label:'业务编号',
+                                    inputWidth: 100,
+                                },{
+                                    id:'businesstype',
+                                    type:'select',
+                                    label:'业务类型',
+                                    inputWidth: 100,
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    subdata:[
+                                        {
+                                            name:'销售',
+                                            id:"01"
+                                        },{
+                                            name:'采购',
+                                            id:"02"
+                                        },{
+                                            name:'采购退货',
+                                            id:"03"
+                                        },{
+                                            name:'销售退货',
+                                            id:"04"
+                                        }
+                                    ]
+                                },{
+                                    id:'type',
+                                    type:'select',
+                                    label:'类型',
+                                    inputWidth: 100,
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    subdata:[
+                                        {
+                                            name:'出库',
+                                            id:"01"
+                                        },{
+                                            name:'入库',
+                                            id:"02"
+                                        }
+                                    ]
+                                },{
+                                    id:'order-type',
+                                    type:'select',
+                                    label:'订单类型',
+                                    inputWidth: 100,
+                                    textField: 'name',
+                                    valueField: 'id',
+                                    subdata:[
+                                        {
+                                            name:'未审核',
+                                            id:"01"
+                                        },{
+                                            name:'已审核',
+                                            id:"02"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },{
+                            type:'list',//list,vo,tab
+                            parent: 'root',
+                            keyField:'orderList',
+                            idField:'id',
+                            ajax:{
+                                src:getRootPath() + '/docs/data/template/template.json',
+                                type:'GET',
+                                data:{},
+                                dataSrc:'rows',
+                                contentType: 'application/x-www-form-urlencoded',
+                            },
+                            field:[
+                                {
+                                    field: 'itemCode',
+                                    title: '订单编号',
+                                    width:80,
+                                    searchable:true,
+                                },{
+                                    field: 'itemName',
+                                    title: '经手人',
+                                    width:60,
+                                    searchable:true,
+                                },{
+                                    field: 'tableName',
+                                    title: '部门',
+                                    width:80,
+                                    searchable:true,
+                                },{
+                                    field: 'isPrior',
+                                    title: '交货日期',
+                                    width:80,
+                                    searchable:true,
+                                },{
+                                    field: 'isPricing',
+                                    title: '折前金额',
+                                    width:60
+                                },{
+                                    field: 'isPricing',
+                                    title: '金额',
+                                    width:60,
+                                    // footer:{
+                                    //     type:'sum'
+                                    // }//合计
+                                }
+        
+                            ],
+                        },{
+                            type:'tab',
+                            //position: 'header-body',
+                            field:"productDetail,goodsDetail",
+                            ajax:{
+                                src:getRootPath() + '',
+                                type:'get',
+                                data:{},
+                                dataSrc:'row'
+                            },
+                        },{
+                            title:'商品明细',
+                            keyField:'productDetail',
+                            idField:'productId',
+                            ajax:{
+                                src:getRootPath() + '/docs/data/template/template.json',
+                                type:'GET',
+                                data:{},
+                                dataSrc:'rows',
+                                contentType: 'application/x-www-form-urlencoded',
+                            },
+                            type:'list',
+                            field:[
+                                {
+                                    field: 'itemCode',
+                                    title: '商品编号',
+                                    searchable:true,
+                                    width:80
+                                },{
+                                    field: 'itemName',
+                                    title: '商品名称',
+                                    width:60,
+                                    searchable:true,
+                                },{
+                                    field: 'brifname',
+                                    title: '商品简名',
+                                    width:80,
+                                    searchable:true,
+                                },{
+                                    field: 'spec',
+                                    title: '规格',
+                                    width:80
+                                },{
+                                    field: 'model',
+                                    title: '型号',
+                                    width:60
+                                },{
+                                    field: 'unit',
+                                    title: '单位',
+                                    width:60
+                                },{
+                                    field:'weight',
+                                    title: '商品重量',
+                                    width:60
+                                }
+                            ]
+                        },{
+                            title:'货品明细',
+                            keyField:'goodsDetail',
+                            idField:'goodsId',
+                            /*ajax:{
+                                src:getRootPath() + '/public/static/assets/json/project-list.json',
+                                type:'get',
+                                data:{},
+                                dataSrc:'row'
+                            },*/
+                            type:'list',
+                            field:[
+                                {
+                                    field: 'itemCode',
+                                    title: '货品编号',
+                                    width:80
+                                },{
+                                    field: 'itemName',
+                                    title: '货品名称',
+                                    width:60
+                                },{
+                                    field: 'brifname',
+                                    title: '货品简名',
+                                    width:80
+                                },{
+                                    field: 'spec',
+                                    title: '规格',
+                                    width:80
+                                },{
+                                    field: 'model',
+                                    title: '型号',
+                                    width:60
+                                },{
+                                    field: 'unit',
+                                    title: '单位',
+                                    width:60
+                                }
+                            ]
+                        },
+                        {
+                            type:"btns",
+                            field: [
+                                {
+                                    btn:{
+                                        text:"导入受理",
+                                        isReturn:true,
+                                        handler:function (){
+
+                                        }
+                                    },
+                                    functionConfig:{}
+                                },
+                                {
+                                    btn:{
+                                        text:"保存",
+                                        handler:function(){}
+                                    },
+                                    functionConfig:{}
+                                },
+                                {
+                                    btn:{
+                                        text:"提交",
+                                        handler:function(){}
+                                    },
+                                    functionConfig:{}
+                                }
+                            ]
+                        }
+                    ],
+                };
+                NetstarTemplate.init(componentsJson);
+            })
+
+            
+        </script>
+        <style>
+            .pt-grid-body .pt-grid-body-footer[nsgirdcontainer="grid-body-footertable"]{
+                position: relative;
+            }
+        </style>
+        
+</container>

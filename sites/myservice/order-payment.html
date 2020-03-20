@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网星工作台-订单支付</title>
+    <!--#include file="public/htmlhead.html"-->
+</head>
+
+<body>
+    <div id="orderPay">
+    <!-- 头部内容 -->
+    <div class="contianer-fluid">
+        <div class="row">
+            <!--#include file="public/header.html"-->
+        </div>
+    </div>
+    <!-- 内容部分 -->
+    <div class="container">
+        <div class="row">
+            <div class="main">
+                <div class="main-row">
+                    <!-- 页面左侧内容 -->
+                    <div class="main-col">
+                        <!-- 用户信息 -->
+                        <div class="panel">
+                            <!--#include file="public/user-info.html"-->
+                        </div>
+                        <!-- 左侧导航 -->
+                        <div class="panel">
+                            <!--#include file="public/nav.html"-->
+                        </div>
+                    </div>
+                    <div class="main-col">
+                        <!-- 公司信息 -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <div class="title">
+                                    <span>订单支付</span>
+                                </div>
+                                <div class="step">
+                                    <div class="step-item finish">选择服务</div>
+                                    <div class="step-item finish">订单确认</div>
+                                    <div class="step-item current">支付</div>
+                                    <div class="step-item">购买成功</div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <!-- 表单 -->
+                                <div class="form form-list">
+                                    <form action="">
+                                        <!-- 基础信息 -->
+                                        <div class="title subtitle">
+                                            <span>基础信息</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-item">
+                                                <label for="" class="control-label">单位名称</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="" v-model="form.companyName">
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">真实姓名</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="" v-model="form.realName">
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">手机</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="" v-model="form.phone">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 发票信息 -->
+                                        <div class="title subtitle">
+                                            <span>发票信息</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-item">
+                                                <label for="" class="control-label"></label>
+                                                <div class="radio radiobox radiobox-lg">
+                                                    <label class="radio-item" v-for="(item,index) in billTypeList" @click="selectBill(index)" :key="index" :class="item.show?'current':''">
+                                                        <input type="radio" name="optionsRadios" :id="item.id" :key="index"
+                                                            :value="item.value">
+                                                        {{item.name}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
+                                <div class="table">
+                                    <!-- 表格头部 -->
+                                    <div class="table-header">
+                                        <div class="title">
+                                            <span>服务清单</span>
+                                        </div>
+                                        <div class="form">
+                                            <form action="">
+                                                <div class="form-item">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="">
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-default btn-icon">
+                                                                <i class="icon-arrow-down-o"></i>
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-item search-box">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="账号/姓名/岗位/手机号">
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-default btn-icon">
+                                                                <i class="icon-search"></i>
+                                                            </button>
+                                                            <button class="btn btn-default">
+                                                                <span>高级查询</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                    <!-- 表格内容 -->
+                                    <div class="table-body">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>服务名称</th>
+                                                    <th>版本</th>
+                                                    <th>有效期</th>
+                                                    <th>用户数</th>
+                                                    <th>原价</th>
+                                                    <th>小计</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><a href="">ERP</a></td>
+                                                    <td>1.0</td>
+                                                    <td>2019-10-10至2020-10-10</td>
+                                                    <td>50</td>
+                                                    <td>￥5000</td>
+                                                    <td>￥5000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href=""></a></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><span></span></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href=""></a></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><span></span></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="table-footer">
+                                        <div class="pages">
+                                            <a href="" class="pages-item"><i class="icon-arrow-left-o"></i></a>
+                                            <a href="" class="pages-item">1</a>
+                                            <a href="" class="pages-item current">2</a>
+                                            <a href="" class="pages-item">3</a>
+                                            <a href="" class="pages-item">...</a>
+                                            <a href="" class="pages-item">8</a>
+                                            <a href="" class="pages-item">9</a>
+                                            <a href="" class="pages-item">10</a>
+                                            <a href="" class="pages-item"><i class="icon-arrow-right-o"></i></a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="price-block">
+                                    <span class="pricle-label">商品全额统计：</span>
+                                    <div class="price-value">￥10,000</div>
+                                </div>
+
+                                <!-- 提交 -->
+                                <div class="submitbox">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" @change="agree($event)"><a href="##">同意本合同</a>
+                                        </label>
+                                    </div>
+                                    <button class="btn btn-default btn-lg" @click="submit">
+                                        <span>提交订单</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- 模态框 -->
+        <div class="modal fade" :class="modal.showSimpleBill?'':'hide'">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- 模态框头部 -->
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <span>增值税普通发票</span>
+                        </div>
+                        <a href="##" class="close" @click="close()">
+                            &times;
+                        </a>
+
+                    </div>
+                    <!-- 模态框内容 -->
+                    <div class="modal-body">
+                        <!-- 表单 -->
+                        <div class="form form-list">
+                            <!-- <form action=""> -->
+
+                                <!-- <div class="form-group">
+                                    <div class="form-item">
+                                        <label for="" class="control-label">企业类型</label>
+
+                                        <div class="radio">
+                                            <label class="radio-item">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1"
+                                                    checked>
+                                                <span>企业</span>
+                                            </label>
+                                            <label class="radio-item">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios2"
+                                                    value="option2">
+                                                <span>个体商户</span>
+                                            </label>
+                                            <label class="radio-item">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios3"
+                                                    value="option3">
+                                                <span>个人</span>
+                                            </label>
+                                            <label class="radio-item">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios4"
+                                                    value="option4">
+                                                <span>其他</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">企业名称</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">所属行业</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-icon">
+                                                    <i class="icon-arrow-down-o"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">公司规模</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-icon">
+                                                    <i class="icon-arrow-down-o"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">区域</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-icon">
+                                                    <i class="icon-arrow-down-o"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">详细地址</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <el-form ref="billData" :model="billData" label-width="90px">
+                                    <el-form-item label="发票抬头">
+                                        <el-input v-model="billData.billHead"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="税号">
+                                        <el-input v-model="billData.billNum"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="联系人">
+                                        <el-input v-model="billData.billUserName"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="联系电话">
+                                        <el-input v-model="billData.billPhone"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="寄送地址" prop="selectedOptions">
+                                        <el-cascader :options="options" v-model="selectedOptions" @change="handleChangeData" :separator="' '" style="width:100%"></el-cascader>
+                                    </el-form-item>
+                                    <el-form-item label="详细地址">
+                                        <el-input v-model="billData.billSendAddress"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            <!-- </form> -->
+
+                        </div>
+                    </div>
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" @click="close()"><span>取消</span></button>
+                        <button type="button" class="btn btn-default" @click="confirm(2)"><span>确定</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-bg"></div>
+        </div>
+        <!-- 模态框 -->
+        <div class="modal fade" :class="modal.showProBill?'':'hide'">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- 模态框头部 -->
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <span>增值税专用发票</span>
+                        </div>
+                        <a href="##" class="close" @click="close()">
+                            &times;
+                        </a>
+
+                    </div>
+                    <!-- 模态框内容 -->
+                    <div class="modal-body">
+                        <!-- 表单 -->
+                        <div class="form form-list">
+                            <!-- <form action="">
+
+                                <div class="form-group">
+                                    <div class="form-item">
+                                        <label for="" class="control-label">企业类型</label>
+
+                                        <div class="radio">
+                                            <label class="radio-item">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1"
+                                                    checked>
+                                                <span>企业</span>
+                                            </label>
+                                            <label class="radio-item">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios2"
+                                                    value="option2">
+                                                <span>个体商户</span>
+                                            </label>
+                                            <label class="radio-item">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios3"
+                                                    value="option3">
+                                                <span>个人</span>
+                                            </label>
+                                            <label class="radio-item">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios4"
+                                                    value="option4">
+                                                <span>其他</span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">企业名称</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">所属行业</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-icon">
+                                                    <i class="icon-arrow-down-o"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">公司规模</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-icon">
+                                                    <i class="icon-arrow-down-o"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">区域</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btn-icon">
+                                                    <i class="icon-arrow-down-o"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <label for="" class="control-label">详细地址</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form> -->
+                            <el-form ref="billData" :model="billData" label-width="80px">
+                                <el-form-item label="发票抬头" style="height: 30px;">
+                                    <el-input v-model="billData.billHead"></el-input>
+                                </el-form-item>
+                                <el-form-item label="税号" style="height: 30px;">
+                                    <el-input v-model="billData.billNum"></el-input>
+                                </el-form-item>
+                                <el-form-item label="公司地址" style="height: 30px;">
+                                    <el-input v-model="billData.billCompanyAddress"></el-input>
+                                </el-form-item>
+                                <el-form-item label="公司电话" style="height: 30px;">
+                                    <el-input v-model="billData.billCompanyPhone"></el-input>
+                                </el-form-item>
+                                <el-form-item label="开户行" style="height: 30px;">
+                                    <el-input v-model="billData.bank"></el-input>
+                                </el-form-item>
+                                <el-form-item label="银行账号" style="height: 30px;">
+                                    <el-input v-model="billData.bankCode"></el-input>
+                                </el-form-item>
+                                <el-form-item label="联系人" style="height: 30px;">
+                                    <el-input v-model="billData.billUserName"></el-input>
+                                </el-form-item>
+                                <el-form-item label="联系电话" style="height: 30px;">
+                                    <el-input v-model="billData.billPhone"></el-input>
+                                </el-form-item>
+                                <el-form-item label="寄送地址" prop="selectedOptions" style="height: 30px;">
+                                    <el-cascader :options="options" v-model="selectedOptions" @change="handleChangeData" :separator="' '" style="width:100%"></el-cascader>
+                                </el-form-item>
+                                <el-form-item label="详细地址" style="height: 30px;">
+                                    <el-input v-model="billData.billSendAddress"></el-input>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </div>
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" @click="close()"><span>取消</span></button>
+                        <button type="button" class="btn btn-default" @click="confirm(1)"><span>确定</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-bg"></div>
+        </div>
+    </div>
+</body>
+    <script>
+        var orderPay = new Vue({
+            el:"#orderPay",
+            data:{
+                form:{
+                    companyName:"",     // 单位名称
+                    realName:"",        // 真实姓名
+                    phone:"",           // 手机
+                    skuId:'',           // 前一个页面传来的skuId
+                    billType:"",        // 发票类型
+                    agree:false,        // 同意合同
+                },
+                billData:{
+                    billHead:"",        // 发票抬头
+                    billNum:"",         // 税号
+                    billUserName:"",    // 联系人
+                    billPhone:"",       // 联系电话
+                    region:'',          // 寄送区域
+                    billSendAddress:'', // 详细地址
+                    billCompanyAddress:'', // 公司地址
+                    billCompanyPhone:'', // 公司电话
+                    bank:"",            // 开户行
+                    bankCode:'',        // 银行账号
+                },
+                selectedOptions: [], //存放默认值
+                options: options, //存放城市数据也就是显示出来
+                billTypeList:[{
+                    name:"无",
+                    value:"option1",
+                    id:"optionsRadios1",
+                    show:true,
+                },{
+                    name:"增值税专用发票",
+                    value:"option2",
+                    id:"optionsRadios2",
+                    show:false,
+                },{
+                    name:"增值税普通发票",
+                    value:"option3",
+                    id:"optionsRadios3",
+                    show:false,
+                }],
+                modal:{
+                    showProBill:false,     // 专用发票的显隐
+                    showSimpleBill:false,  // 普通发票的显隐
+                }
+            },
+            created() {
+                var _this = this;
+                var skuId = "1327744682351920114"; // 目前写死这个页面
+                _this.form.skuId = skuId; 
+            },
+
+            methods: {
+                submit(){
+                    var _this = this;
+                    if(_this.form.agree){
+                        // 提交
+                        console.log(_this.form);
+                        _this.getSaveOrderInfoInterface(_this.form)
+
+                    }else{
+                        nsAlert("请先同意合同");
+                    }
+                },
+                // 调用提交订单接口
+                getSaveOrderInfoInterface(param){
+                    var obj = {
+                        orderDetailVOList : [{skuId:param.skuId}],
+                        invoiceType:param.billType,
+                        shopId:"1327767137514685426",
+                        showName:"河北网星软件有限公司",
+                        orgId:1,
+                        invoiceTitle:param.billHead
+                    }
+                    var pathPreffix = "https://qaapi.wangxingcloud.com/"
+                    $.ajax({
+                        url:pathPreffix + "/shopOrderController/saveOrder",
+                        type:"post",
+                        data:JOSN.stringify(obj),
+                        headers:{
+                            "content-type":"application/json",
+                            authorization:NetStarUtils.OAuthCode.get()
+                        },
+                        success:function(res){
+
+                        }
+                    })
+                },
+                // 选择发票
+                selectBill(index){
+                    var _this = this;
+                    for(var i=0;i<_this.billTypeList.length;i++){
+                        _this.billTypeList[i].show=false;
+                    }
+                    _this.billTypeList[index].show=true;
+                    _this.form.billType = index;
+                    if(index == 1){
+                        _this.modal.showProBill = true;
+                    }else if(index == 2){
+                        _this.modal.showSimpleBill = true;
+                    }
+                },
+                // 关闭弹框
+                close(){
+                    var _this = this;
+                    _this.modal.showProBill = false;
+                    _this.modal.showSimpleBill = false;
+                    _this.selectBill(0)
+                },
+                // 确定按钮
+                confirm(index){
+                    var _this = this;
+                    var obj = {};
+                    if(index==1){
+                        Object.assign(obj,_this.form,_this.billData);
+                        _this.form = obj;
+                    }
+                    if(index == 2){
+                        var billData = _this.billData;
+                        var form = _this.form;
+                        if(form.billCompanyAddress != undefined){
+                            var form = delKey(form,'billCompanyAddress','billCompanyPhone','bank','bankCode');
+                            _this.form = form;
+                        }else{
+                            var billDataSimple = delKey(billData,'billCompanyAddress','billCompanyPhone','bank','bankCode');
+                            _this.billData = billDataSimple;
+                        }
+                        
+                        Object.assign(obj,_this.form,_this.billData);
+                        _this.form = obj;
+                    }
+                    
+                    function delKey(obj,...args) {
+                        args.forEach(v => {
+                            delete obj[v]
+                        })
+                        return obj
+                    }
+                    _this.modal.showProBill = false;
+                    _this.modal.showSimpleBill = false;
+                },
+                
+                // 触发三级联动 我们这是需要传字符串所以需要把数组转为字符串并用"/"间隔
+                handleChangeData(value) {
+                    var region = value.join("/");
+                    this.billData.region = region;//获取到城市地址
+                },
+
+                agree(e){
+                    var _this = this;
+                    // console.log(e);
+                    var checked = e.target.checked;
+                    if(checked){
+                        _this.form.agree = true;
+                    }else{
+                        _this.form.agree = false;
+                    }
+                }
+            },
+        })
+    </script>
+</html>

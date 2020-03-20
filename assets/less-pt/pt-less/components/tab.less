@@ -1,0 +1,512 @@
+@tab-border: @border-color;
+
+@tab-header-height: 30px;
+@tab-nav-hover: @gray-light;
+@tab-nav-current: #fff;
+@tab-nav-bg: #f8f8f8;
+@tab-nav-color: @link-color;
+@tab-nav-item-width: 100px;
+
+// tab标签页
+.pt-tab {
+    position: relative;
+}
+
+// tab标签页title及导航
+.pt-tab-header {
+    display: block;
+    min-height: @tab-header-height;
+    position: relative;
+    // z-index: 2;
+
+    .pt-title {
+        display: none;
+        float: left;
+        height: @tab-header-height;
+
+        &+.pt-nav {
+            margin-left: @panel-gutter;
+
+        }
+    }
+
+    .pt-nav {
+        .nav-variant(@gray-lighter, @text-color-dark, #fff, @text-color-dark, #fff, @primary);
+        min-height: @tab-header-height;
+
+        .pt-nav-item {
+            height: @tab-header-height;
+            // min-width: @tab-nav-item-width ;
+            line-height: (@tab-header-height - 2);
+            cursor: pointer;
+
+            &[disabled="disabled"] {
+                a {
+                    color: @disabled-color  !important;
+                    cursor: @cursor-disabled;
+
+                    &:hover {
+                        color: @disabled-color  !important;
+                    }
+                }
+
+                &.current {
+                    a {
+                        color: @disabled-color  !important;
+                    }
+                }
+            }
+
+            a {
+                border: 1px solid @tab-border;
+                position: relative;
+                padding: 0 15px;
+
+                span.pt-tab-value {
+                    color: #666;
+                    background: #d3d3d3;
+                    position: absolute;
+                    top: -2px;
+                    padding: 3px 5px;
+                    line-height: 1;
+                    font-size: 12px;
+                    transform: scale(0.8);
+                    border-radius: 10px;
+                    left: 100%;
+                    margin-left: -16px;
+                }
+
+            }
+
+            &+.pt-nav-item {
+                margin-left: 2px;
+            }
+
+            &.current {
+                a {
+                    border-bottom-color: transparent;
+                    color: @warning;
+
+                    span.pt-tab-value {
+                        color: #fff;
+                        background: #ffa004;
+                    }
+                }
+
+                span {
+                    color: @warning;
+                }
+            }
+
+            &:first-child {
+                &.current {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+}
+
+// tab标签页内容
+.pt-tab-body {
+    position: relative;
+    z-index: 1;
+    display: block;
+    padding: @padding-base-v;
+    background: #fff;
+    border: 1px solid @tab-border;
+    margin-top: -1px;
+
+
+    .pt-tab-content {
+        display: none;
+
+        &.current {
+            display: block;
+        }
+    }
+
+    .pt-modal-body & {
+        padding-right: 0;
+        padding-left: 0;
+
+        .pt-tab-content {
+            display: block;
+        }
+    }
+}
+
+// tab标签页底部
+.pt-tab-footer {
+    display: none;
+}
+
+@pt-tab-components-tabs-nav-current-bg: @warning;
+@pt-tab-components-tabs-nav-item-height: (@tab-header-height - 4);
+@pt-tab-components-tabs-nav-item-bg: #f5f5f5;
+@pt-tab-components-tabs-nav-item-hover-bg: @warning;
+@pt-tab-components-tabs-nav-item-current-bg: @pt-tab-components-tabs-nav-item-hover-bg;
+
+.pt-tab-components {
+    &.hasbtn {
+        .nsgrid {
+            margin-bottom: @base-margin;
+        }
+    }
+}
+
+// .pt-tab-components-tabs {
+
+//     .pt-tab-header {
+//         height: @tab-header-height ;
+
+//         // 导航
+//         .pt-nav {
+//             .pt-tab-list-components-tabs {
+//                 display: block;
+//                 height: @tab-header-height;
+//             }
+
+//             li {
+//                 height: @pt-tab-components-tabs-nav-item-height;
+//                 line-height: @pt-tab-components-tabs-nav-item-height;
+
+//                 a {
+//                     background: @pt-tab-components-tabs-nav-item-bg;
+
+//                     &:hover {
+//                         background: @pt-tab-components-tabs-nav-item-hover-bg;
+//                         color: #fff;
+//                     }
+//                 }
+
+//                 &.current {
+//                     a {
+//                         background: @pt-tab-components-tabs-nav-item-current-bg;
+//                         color: #fff;
+
+//                         &:hover {
+//                             background: darken(@pt-tab-components-tabs-nav-item-current-bg, 10);
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     .pt-tab-body {
+//         padding: 0;
+//         border: 0;
+//     }
+// }
+
+
+
+//othertab受理信息弹框内tab页
+@othertab-border: @border-color;
+
+@othertab-header-height: 30px;
+@othertab-nav-hover: @gray-light;
+@othertab-nav-current: #fff;
+@othertab-nav-bg: #f8f8f8;
+@othertab-nav-color: @link-color;
+@othertab-nav-item-width: 100px;
+
+// othertab标签页
+.pt-othertab {
+    position: relative;
+}
+
+// othertab标签页title及导航
+.pt-othertab-header {
+    display: block;
+    min-height: @othertab-header-height;
+    z-index: 2;
+    position: fixed;
+    top: ((@modal-margin + @modal-header-height));
+    left: 50%;
+    border-bottom: 1px solid @border-color;
+    .tab-header-veriant(@modal-size-lg);
+
+    .pt-title {
+        display: none;
+        float: left;
+        height: @othertab-header-height;
+
+        &+.pt-nav {
+            margin-left: @panel-gutter;
+        }
+    }
+
+    .pt-nav {
+        .nav-variant(@gray-lighter, @text-color-dark, #fff, @text-color-dark, #fff, @primary);
+        min-height: @othertab-header-height;
+
+        ul {
+            display: flex;
+
+            .pt-nav-item {
+                height: @othertab-header-height;
+                min-width: @othertab-nav-item-width ;
+                line-height: (@othertab-header-height - 2);
+                flex: 1;
+
+                // &+.pt-nav-item {
+                //     margin-left: -1px;
+                // }
+            }
+        }
+    }
+
+    .pt-nav {
+
+        // background: #fff;
+        &>ul {
+            display: table;
+            width: 100%;
+        }
+
+        .pt-nav-item {
+            display: table-cell;
+            float: none;
+
+            a {
+                border-right: 1px solid @border-color;
+                line-height: @tab-header-height;
+            }
+
+            &:not(.current) {
+                a {
+                    border-bottom-color: transparent;
+                }
+            }
+
+            &:last-child {
+                a {
+                    border-right: 0;
+                }
+            }
+
+            &.current {
+                position: relative;
+
+                a {
+                    font-weight: bold;
+                }
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    height: 1px;
+                    background: #fff;
+                    left: 0;
+                    right: 1px;
+                    bottom: -1px;
+                }
+            }
+        }
+    }
+
+}
+
+
+
+// othertab标签页内容
+.pt-othertab-body {
+    position: relative;
+    z-index: 1;
+    display: block;
+    padding: @padding-base-v;
+    background: #fff;
+    border: 1px solid @othertab-border;
+    margin-top: -1px;
+
+
+    .pt-othertab-content {
+        display: none;
+
+        &.current {
+            display: block;
+        }
+    }
+
+    .pt-modal-body & {
+        padding-right: 0;
+        padding-left: 0;
+
+        .pt-othertab-content {
+            display: block;
+        }
+    }
+
+}
+
+//弹框内othertab标签页边框
+// .pt-modal-body {
+//     .pt-othertab-body {
+//         border-width: 0;
+//         padding: 0;
+//         ;
+//     }
+// }
+
+
+
+// othertab标签页底部
+.pt-othertab-footer {
+    display: none;
+}
+
+@pt-othertab-components-othertabs-nav-current-bg: @warning;
+@pt-othertab-components-othertabs-nav-item-height: (@othertab-header-height - 4);
+@pt-othertab-components-othertabs-nav-item-bg: #f5f5f5;
+@pt-othertab-components-othertabs-nav-item-hover-bg: @warning;
+@pt-othertab-components-othertabs-nav-item-current-bg: @pt-othertab-components-othertabs-nav-item-hover-bg;
+
+//受理页面双tab页内层tab页
+.pt-modal {
+    &.multiDialog {
+        .pt-modal-body.pt-modal-tab {
+            background-color: #fff;
+            border-top: 0;
+
+            &.no-tab-nav,
+            &.pt-modal-tab-hidetitle {
+                margin-top: 0;
+
+                .pt-tab-header {
+                    border-bottom: 1px solid transparent;
+                }
+            }
+
+
+            .pt-tab-header {
+                // position: fixed;
+                // top: ((@modal-margin + @modal-header-height));
+                // left: 50%;
+                left: 0;
+                top: -31px;
+                border-bottom-color: transparent;
+                position: absolute;
+                width: auto;
+                margin-left: 0;
+
+                .pt-nav {
+
+                    // background: #fff;
+                    &>ul {
+                        display: table;
+                        width: 100%;
+                    }
+
+                    .pt-nav-item {
+                        display: inline-block;
+                        float: none;
+
+                        a {
+                            border: 1px solid @tab-border;
+                            line-height: @tab-header-height;
+                        }
+
+                        // &:not(.current) {
+                        //     a {
+                        //         border-bottom-color: transparent;
+                        //     }
+                        // }
+                        &:last-child {
+                            a {
+                                border-right-width: 1px;
+                            }
+                        }
+
+                        &.current {
+                            a {
+                                border-bottom-color: transparent;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            .pt-tab-body {
+                padding: @padding-base-v;
+                margin-top: 30px;
+                border: 1px solid @tab-border;
+            }
+
+            //内层tab 如果只有一个单独属性时header高度不留，内层和外层body边框去掉
+            .pt-othertab {
+                &.pt-othertab-onlychild {
+
+                    .pt-othertab-body {
+                        border: none;
+
+                        .pt-main {
+                            padding: 0;
+
+                            .pt-tab-header {
+                                display: none;
+                            }
+
+                            .pt-tab-body {
+                                margin-top: 0;
+                                border: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//委托登记页面tab页无底和边框
+.pt-tab {
+    &.pt-tab-noboder {
+        .pt-tab-header {
+            // margin-bottom: @base-margin - 2px;
+            margin-bottom: 1px;
+
+            .pt-nav {
+                .pt-nav-item {
+                    // border-bottom: 1px solid @border-color;
+
+                    a {
+                        border-width: 0px;
+                        background-color: transparent;
+                        font-size: @font-size-base;
+                    }
+
+                    &.current {
+                        position: relative;
+                        // border-color: @warning;
+
+                        &:after {
+                            display: none;
+                            position: absolute;
+                            bottom: -1px;
+                            left: 0;
+                            right: 0;
+                            content: "";
+                            height: 2px;
+                            width: 100%;
+                            background-color: @warning;
+                        }
+                    }
+                }
+            }
+        }
+
+        .pt-tab-body {
+            border: none;
+            padding: 0;
+            // .pt-form{
+            //     &.pt-form-inline{
+            //         border-width: 0;
+            //     }
+            // }
+        }
+    }
+}

@@ -1,0 +1,146 @@
+@mask-zindex: 979;
+@mask-bg-zindex: 1;
+@mask-hot-area-zindex: (@mask-bg-zindex + 1);
+@mask-hot-point-zindex: (@mask-hot-area-zindex + 1);
+
+.hot-point-variant(@bg, @border, @opacity) {
+    border: 1px solid @border;
+    cursor: pointer;
+    .rgba-bg(@bg, @opacity);
+
+    &:hover {
+        .rgba-bg(lighten(@bg, 10), @opacity);
+    }
+
+    &.disabled {
+        -webkit-filter: grayscale(100%);
+        cursor: default;
+    }
+}
+
+.mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 979;
+
+    // 热点区域
+    .hot-area {
+        position: absolute;
+        top: 200px;
+        left: 500px;
+        .hot-point-variant(#fff, transparent, .1);
+        min-width: 320px;
+        min-height: 70px;
+        z-index: 9;
+
+        &:hover {
+            .hot-point-variant(#fff, @info, .25);
+        }
+    }
+
+    // 热点模块
+    .hot-point {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        min-width: 30px;
+        min-height: 30px;
+        .hot-point-variant(#fff, @border-color, .15);
+        z-index: 10;
+
+
+        &:hover {
+            .hot-point-variant(#fff, @info, 1);
+        }
+
+    }
+
+    // 热点区域状态
+    .hot-area,
+    .hot-point {
+
+        // ================状态================
+        @primary: #0061bb;
+        @success: #00aa68;
+        @warning: #cd8200;
+        @danger: #bf322e;
+
+        // 默认
+        &.state-default {
+            .hot-point-variant(#ddd, @primary, .1);
+            left: 20px;
+        }
+
+        // 不可操作
+        &.state-readonly {
+            .hot-point-variant(#ddd, #888, .25);
+            cursor: not-allowed !important;
+
+            &:hover {
+                .hot-point-variant(#ddd, #888, .25);
+            }
+
+            left: 60px;
+        }
+
+        // 焦点状态
+        &.state-active {
+            .hot-point-variant(@primary, @primary, .25);
+            left: 100px;
+        }
+
+        // 移动
+        &.state-move {
+            .hot-point-variant(@warning, @warning, .25);
+            cursor: move;
+            border-style: dashed;
+            left: 140px;
+        }
+
+        // 操作允许
+        &.state-allow {
+            .hot-point-variant(@success, @success, .25);
+            left: 180px;
+        }
+
+        // 操作不允许
+        &.state-not-allow {
+            .hot-point-variant(@danger, @danger, .25);
+
+            left: 220px;
+        }
+
+        // 完成
+        &.state-complete {
+            .hot-point-variant(@success, darken(@success, 10), 1);
+            left: 260px;
+        }
+
+        // 移动模式
+        &.move {
+
+            &,
+            &:focus {
+                border-style: dotted;
+                cursor: move;
+            }
+        }
+    }
+
+    // 蒙版背景
+    .mask-bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        .rgba-bg(@primary, .75);
+        cursor: not-allowed;
+        z-index: 1;
+
+    }
+
+}

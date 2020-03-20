@@ -1,0 +1,39 @@
+.caret-top(@caret-color: #000, @caret-size: 4px){
+	border-top: @caret-size solid transparent;
+	border-right: @caret-size solid transparent;
+	border-bottom: @caret-size solid @caret-color;
+	border-left: @caret-size solid transparent;
+}
+.caret-right(@caret-color: #000, @caret-size: 4px){
+	border-top: @caret-size solid transparent;
+	border-right: @caret-size solid transparent;
+	border-bottom: @caret-size solid transparent;
+	border-left: @caret-size solid @caret-color;
+}
+.caret-bottom(@caret-color: #000, @caret-size: 4px){
+	border-top: @caret-size solid @caret-color;
+	border-right: @caret-size solid transparent;
+	border-bottom: @caret-size solid transparent;
+	border-left: @caret-size solid transparent;
+}
+.caret-left(@caret-color: #000, @caret-size: 4px){
+	border-top: @caret-size solid transparent;
+	border-right: @caret-size solid @caret-color;
+	border-bottom: @caret-size solid transparent;
+	border-left: @caret-size solid transparent;
+}
+
+.caret{
+	&.top{
+		.caret-top();
+	}
+	&.right{
+		.caret-right();
+	}
+	&.bottom{
+		.caret-bottom();
+	}
+	&.left{
+		.caret-left();
+	}
+}

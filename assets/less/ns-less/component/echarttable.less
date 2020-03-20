@@ -1,0 +1,48 @@
+.statistics{
+	display: table;
+	width: 100%;
+	border: 1px solid @ns-border-color;
+	background: #fff;
+	
+	.title{
+		margin: 0;
+		padding: 5px 15px 5px 20px;
+		position: relative;
+
+		&:before{
+			.border-vertical(4px, @ns-warning);
+			left: 10px;
+			height: @font-size-h5;
+
+		}
+	}
+	.format-content{
+		padding: @base-padding;
+		vertical-align: middle;
+		text-align:center;
+		
+	}
+	.statistics-item{
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+		padding: 15px 0;
+		.format-content-value{
+			font-size: @font-size-h4;
+			a{
+				display: block;
+				font-size: @font-size-h4;
+				color: #333;
+				font-weight: bold;
+				padding: (@base-padding / 2) 0;
+				&:hover{
+					color: @ns-info;
+				}
+			}
+		}
+		.format-content-name{
+			text-align: center;
+			color: #999;
+		}
+	}
+}

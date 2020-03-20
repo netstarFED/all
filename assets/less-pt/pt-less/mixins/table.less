@@ -1,0 +1,253 @@
+//字号；首列宽度；最小高度;上下间距；左右间距；下间距；图标字号；图片宽度
+.td-size(@font-size; @min-height; @first-child-width; @padding-v; @padding-h; @padding-bottom; @icon-font-size; @img-with) {
+    font-size: @font-size;
+    // min-width:@first-child-width;
+    height: @min-height;
+    min-height: @min-height;
+
+    .pt-td-text {
+        padding: @padding-v @padding-h;
+        padding-bottom: @padding-bottom;
+    }
+
+    &.pt-td-check {
+        width: @first-child-width;
+    }
+
+    &.pt-col-sort {
+        &:after {
+            width: @first-child-width;
+        }
+    }
+
+    &.pt-col-setting {
+        width: @first-child-width;
+
+        .pt-btn {
+            i {
+                font-size: @icon-font-size;
+            }
+        }
+    }
+
+    &.pt-td-img {
+        width: @img-with + 6px;
+
+        .pt-img-mini {
+            img {
+                display: block;
+                .square(@img-with);
+            }
+        }
+    }
+}
+
+.first-table-size(@first-child-width) {
+    tbody {
+        tr {
+            &:first-child {
+                td {
+                    &:first-child {
+                        width: @first-child-width;
+                        min-width: @first-child-width;
+                        max-width: @first-child-width;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.table-size(@icon-font-size; @first-child-width) {
+    tbody {
+        tr {
+            &.selected {
+                td {
+                    &:first-child {
+                        &:before {
+                            font-size: @icon-font-size;
+                        }
+                    }
+                }
+            }
+
+            td {
+                &:first-child {
+                    width: @first-child-width;
+                    min-width: @first-child-width;
+                    max-width: @first-child-width;
+                }
+            }
+        }
+    }
+}
+
+
+
+// 选中行样式变量
+.tr-selected-variant(@bg, @td-width) {
+    background: @bg;
+
+    &> {
+
+        &>span,
+        &>.autoserial {
+            color: @warning;
+            background: transparent;
+
+            &:first-child {
+                color: transparent;
+
+                &:after {
+                    @triangle-size: 8px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    .triangle-right(@triangle-size, @table-first-triangle-color);
+                    margin: -(@triangle-size / 2);
+                }
+            }
+
+            //选中行复制功能
+            &.copy-autoserial {
+                &:first-child {
+                    position: relative;
+
+                    &:after {
+                        display: none;
+                    }
+
+                    &:before {
+                        position: absolute;
+                        content: "\ea7d";
+                        top: 50%;
+                        left: 50%;
+                        width: 14px;
+                        height: 20px;
+                        margin: -10px 0 0 -7px;
+                        font-family: @icon-font-icomoon;
+                        font-size: 14px;
+                        color: @warning;
+                        background: transparent;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: lighten(@warning, 35%);
+
+                        &:before {}
+                    }
+                }
+            }
+        }
+    }
+}
+
+//选中行复制功能悬浮框
+.pt-intro-copy {
+    position: absolute;
+    min-width: 252px;
+    min-height: 330px;
+    z-index: 999;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    box-shadow: -3px 7px 5px rgba(0, 0, 0, 0.12);
+    margin: -1px 0 0 45px;
+    border-radius: 5px;
+
+    &:before {
+        position: absolute;
+        content: "";
+        border-right: 9px solid #fff;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        top: 20px;
+        left: -9px;
+        z-index: 666;
+    }
+
+    &:after {
+        position: absolute;
+        content: "";
+        border-right: 10px solid #d9d9d9;
+        border-bottom: 7px solid transparent;
+        border-top: 7px solid transparent;
+        top: 19px;
+        left: -10px;
+        z-index: 333;
+    }
+
+    ul {
+        .rowbtns {
+            display: none;
+        }
+
+        li {
+            border-bottom: 1px solid #eeeeee;
+            color: #424242;
+            font-size: 12px;
+            padding: 9px 10px 9px;
+
+            &:hover {
+                color: @warning;
+            }
+
+            // position: relative;
+
+            // &:before {
+            //     position: absolute;
+            //     top: 9px;
+            //     left: -21px;
+            //     content: "";
+            //     width: 16px;
+            //     height: 16px;
+            //     border: 1px solid #dedede;
+            //     border-radius: 9px;
+            // }
+
+            // &:hover {
+            //     &:before {
+            //         display: none;
+            //     }
+
+            //     &:after {
+            //         position: absolute;
+            //         top: 7px;
+            //         left: -21px;
+            //         content: "\e95f";
+            //         font-family: 'icomoon';
+            //         font-size: 16px;
+            //         color: @warning;
+            //     }
+            // }
+
+            .treenode-title {
+                font-weight: bold;
+            }
+
+            label {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+// 行状态变量
+
+.tr-state-variant(@bg, @color) {
+
+    &>th,
+    &>td {
+        background: @bg;
+        color: @color;
+    }
+
+    &:hover {
+
+        &>th,
+        &>td {
+            background: darken(@bg, 5);
+            color: @color;
+        }
+    }
+}

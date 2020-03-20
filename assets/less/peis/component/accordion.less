@@ -1,0 +1,232 @@
+
+
+// nav-accordion
+@nav-accordion: #d4e9f9;											//背景色
+@nav-accordion-color: #2e6490;										//文字颜色
+@nav-accordion-current-color: #1c82ea;								//活动文字颜色
+@nav-accordion-mark-color: #90c2ec;									//标记颜色
+@nav-accordion-mark-current-color: @nav-accordion-current-color;	//活动标记颜色
+@nav-accordion-mark-size: 18px;
+@nav-accordion-children-mark-size: 12px;
+@nav-accordion-mark-left-gutter: 10px;
+
+
+
+
+// 右侧手风琴折叠导航
+.nav-accordion{
+	position: relative;
+	padding: @panel-gutter;
+	&:before{
+		position: absolute;
+		content: "";
+		width: 1px;
+		top: @panel-gutter;
+		bottom: @panel-gutter;
+		left: (15px + @nav-accordion-mark-left-gutter);
+		background:@nav-accordion-mark-color;
+	}
+	.nav-group{
+		padding: 0;
+	}
+	// 导航列表
+	.nav-item{
+		list-style-type: none;
+		a{
+			position: relative;
+			font-size: 14px;
+			padding: 10px 0 10px 40px;
+			color: @nav-accordion-color;
+			font-weight: bold;
+			
+			&:before{
+				position: absolute;
+				top: 50%;
+				left: 0;
+				font-family: @icon-font;
+				.square(@nav-accordion-mark-size);
+				font-size: @nav-accordion-mark-size;
+				margin: -8px 0 0 (-8px + @nav-accordion-mark-left-gutter);
+				color: @nav-accordion-mark-color;
+				transform: rotate(135deg);
+
+			}
+
+			&:hover{
+				color: @nav-accordion-current-color;
+				&:before{
+					color: @nav-accordion-current-color;
+				}
+			}
+
+			& > ul{
+				.nav-item{
+					a{
+						&:before{
+							margin-top: -12px;
+							content: '\f10c';
+						}
+					}
+				}
+			}
+		}
+
+		// 已展开菜单
+		&.open,
+		&.current{
+			a{
+				color: @nav-accordion-current-color;
+				font-weight: bold;
+				&:before{
+					color: @nav-accordion-mark-current-color;;
+				}
+			}
+			& > ul{
+				.nav-item{
+					a{
+						font-weight: normal;
+						color: @nav-accordion-color;
+						&:hover{
+							color: @nav-accordion-current-color;
+						}
+					}
+					// 已展开选菜单-当前页面
+					&.current{
+						a{
+							color: @nav-accordion-current-color;
+							font-weight: bold;
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	& > .nav-group{
+		& > .nav-item{
+			a{
+				&:before{
+					content: "\f02b";
+				}
+			}
+			
+			// 二级菜单图标
+			& > .nav-group{
+				& > .nav-item{
+					a{
+						&:before{
+							content: "";
+							.square(@nav-accordion-children-mark-size);
+							background: @nav-accordion;
+							border-radius: 100%;
+							border: 2px solid @nav-accordion-mark-color;
+							margin-left: (-(@nav-accordion-children-mark-size / 2) + @nav-accordion-mark-left-gutter);
+							margin-top: -7px;
+						}
+						&:hover{
+							&:before{
+								border-color: @nav-accordion-mark-current-color;
+							}
+						}
+					}
+					&.current{
+						a{
+							&:before{
+								border: 0;
+								background: @nav-accordion-mark-current-color;
+							}
+							&:hover{
+								&:before{
+									background: @nav-accordion-mark-current-color;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@panel-accordion-width: 480px;
+@panel-accordion-control-height: 32px;
+.panel-accordion{
+	width:100%;	
+	background: #fff;
+	z-index: 999; 
+	margin-top: -1px;
+
+	.panel-accordion-control{
+		border: 1px solid @ns-border-color;
+		ul{
+			display: table;
+			width: 100%;
+			table-layout: fixed;
+			height: @panel-accordion-control-height;
+			li{
+				display: table-cell;
+				padding: 0 @base-padding;
+				text-align: left;
+				vertical-align: middle;
+				.badge{
+					@badge-size: 18px;
+					.square(@badge-size);
+					line-height: @badge-size;
+					border-radius: @badge-size;
+					padding: 0;
+					font-weight: normal;
+					float: right;
+					font-size: 12px;
+				}
+				& + li{
+					border-left: 1px solid @ns-border-color;
+				}
+				&:last-child{
+					width: @panel-accordion-control-height;
+					text-align: center;
+					i{
+						font-size: 16px;
+						transition: ease-in-out all .5s;
+						background: #01a2e4;
+						color:#fff;
+						width:20px;
+						height:20px;
+						text-align:center;
+						line-height:20px;
+						border-radius: 10px;
+					}
+				}
+
+			}
+		}
+		.folding-title{
+			.peis-title-sm();
+		}
+	}
+
+	&.open{
+		.panel-accordion-control  ul > li:last-child > i{
+			transform: rotate(180deg);
+		}
+	}
+	.panel-accordion-body{
+		border: 1px solid @ns-border-color;
+		max-height: @panel-accordion-width;
+		margin-bottom: -1px;
+		&.panel-accordion-top{
+			border-top-width: 1px;
+		}
+		.panel-body{   
+			padding: @base-padding;
+		}
+		&.in + .panel-accordion-control{
+			a > ul > li > i{
+				transform: rotate(0);
+			}
+		}
+
+	}
+
+}

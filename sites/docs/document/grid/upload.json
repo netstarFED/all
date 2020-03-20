@@ -1,0 +1,171 @@
+{
+    "operator": {
+        "field": {
+            "chineseName": "字段Id",
+            "validType": "string",
+            "toolType": "text",
+            "required": true
+        },
+        "title": {
+            "chineseName": "字段名称",
+            "validType": "string",
+            "toolType": "text",
+            "required": true
+        },
+        "editConfig": {
+            "chineseName": "表单属性",
+            "validType": "object",
+            "toolType": "textarea"
+        },
+        "columnType":{
+            "chineseName":"列类型",
+            "validType":"string",
+            "toolType":"select",
+            "subdata":[
+                {
+                    "value":"upload",
+                    "text":"上传"
+                }
+            ]
+        },
+        "formatHandler.type":{
+            "chineseName":"类型",
+            "validType":"string",
+            "toolType":"hidden"  
+        },
+        "editable": {
+            "chineseName": "是否允许编辑",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "isNeedRowData": {
+            "chineseName": "是否添加行",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false
+        },
+        "width": { 
+            "chineseName": "列宽",
+            "validType": "number",
+            "toolType": "text",
+            "default": ""
+        },
+        "fieldLength":{
+            "chineseName":"字段长度",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "hidden":{
+            "chineseName":"隐藏列",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false,
+            "help":""
+        }, 
+       
+        "tooltip": {
+            "chineseName": "提示信息",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "rowColor": {
+            "chineseName": "行颜色",
+            "validType": "string",
+            "toolType": "text",
+            "default": "",
+            "help":""
+        },
+        "isDefaultSubdataText": {
+            "chineseName": "默认字符串替换",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": true,
+            "help":""
+        },
+        "isTreeNode": {
+            "chineseName": "是否有树节点",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": ""
+        },
+        "isTitle": {
+            "chineseName": "是否作为标题",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        }, 
+        "isValue": {
+            "chineseName": "是否作为值",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        } ,
+        "footer": {
+            "chineseName": "页尾",
+            "validType": "object",
+            "toolType": "hidden",
+            "default": "",
+            "help":"举例:footer:{type:\"sum\"},sum合计,average平均值"
+        },
+        "footer.type":{
+            "chineseName": "类型",
+            "validType": "object",
+            "toolType": "string",
+            "default": "",
+            "subdata":[
+                {
+                    "value":"sum",
+                    "text":"合计"
+                },
+                {
+                    "value":"average",
+                    "text":"平均值"
+                }
+            ],
+            "help":""
+        } 
+                           
+    },
+    "data": {
+        "isQuickQuery": {
+            "chineseName": "是否支持快速查询",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        } ,
+        "orderable":{
+            "chineseName":"是否允许列排序",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":true
+        },          
+        "searchable":{
+            "chineseName":"是否允许列搜索",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false,
+            "help":""
+        }, 
+        "isColumnCombine":{
+            "chineseName":"是否支持列合并",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false,
+            "help":"当前只用于统计模板"
+        },
+        "total": {
+            "chineseName": "表达式",
+            "validType": "object",
+            "toolType": "textarea",
+            "default": "",
+            "help":"举例：{{money}}-{{price}}"
+        }      
+        
+    },
+    "prepattern": [
+    ]
+}

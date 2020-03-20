@@ -1,0 +1,88 @@
+.btn{
+	&.btn-info,
+	&.btn-success,
+	&.btn-warning,
+	&.btn-danger,
+	&.btn-white,
+	&.btn-default{
+		padding: 7px (@base-padding / 2);
+		background: transparent;
+		border-color: transparent;
+		&:hover{
+			background: transparent;
+			border-color: transparent;
+		}
+	}
+	&:focus{
+		box-shadow: none;
+	}
+
+	&.btn-primary{
+		.button-variant(#fff, @ns-primary, @ns-primary);
+		span{
+			color: #fff;
+		}
+		&:hover{
+			.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+			span{
+				color: #fff;
+			} 	
+		}
+	}
+}
+
+
+// 表格底部面板按钮样式
+.nstable-plus-panel-btns{
+	.btn{
+		&.btn-info,
+		&.btn-success,
+		&.btn-warning,
+		&.btn-danger,
+		&.btn-white,
+		&.btn-default{
+			background: transparent;
+			&:hover{
+				background: transparent;
+			}
+		}
+
+	}
+}
+
+
+
+// 图标按钮
+.btn{
+	&.btn-icon{
+		&.dropdown-toggle{
+			max-width: auto !important;
+		}
+	}
+	&.btn-white{
+		i{
+			color: #a6d0f4;
+		}
+	}
+}
+
+
+// 表格中按钮样式
+.td-btn{
+	.btn{
+		&.btn-info,
+		&.btn-success,
+		&.btn-warning,
+		&.btn-danger,
+		&.btn-white,
+		&.btn-default{
+			background: transparent;
+			&:hover{
+				background: transparent;
+			}
+		}
+		&.btn-icon{
+			max-width: 24px;
+		}
+	}
+}

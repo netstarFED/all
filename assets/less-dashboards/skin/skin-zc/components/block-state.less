@@ -1,0 +1,55 @@
+@block-state-size: 1rem;
+@block-state-padding: @base-padding;
+
+.block-state-variant(@start-color, @end-color) {
+    #gradient .horizontal(@start-color: @start-color; @end-color: @end-color; @start-percent: 0%; @end-percent: 100%);
+}
+
+.block-state {
+    .flex-block(center, center);
+    flex: none;
+
+    .state {
+        .size((@block-state-size * 1.5), @block-state-size);
+        flex: none;
+        border-radius: 2px;
+
+        &.state-primary {
+            .block-state-variant(@primary, lighten(@primary, 25));
+        }
+
+        &.state-info {
+            .block-state-variant(@info, lighten(@info, 25));
+        }
+
+        &.state-success {
+            .block-state-variant(@success, lighten(@success, 25));
+        }
+
+        &.state-warning {
+            .block-state-variant(@warning, lighten(@warning, 25));
+        }
+
+        &.state-danger {
+            .block-state-variant(@danger, lighten(@danger, 25));
+        }
+
+
+    }
+
+    .state-text {
+        padding-left: (@block-state-padding / 2);
+
+    }
+}
+
+.html {
+    .flex-block(flex-end, center);
+
+    .block-state {
+        margin-right: 0.4rem;
+        .state-text {
+            color: #fff;
+        }
+    }
+}

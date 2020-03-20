@@ -1,0 +1,528 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<div id="nsdemo-readonly"></div>
+<script>
+    var readonlyDemo = {
+        id: "nsdemo-readonly",
+        templateName: "form",
+        componentTemplateName: "PC",
+        isSetMore: false,
+        readonly: true,
+        form: [{
+                id: "text",
+                type: "text",
+                value: "文本",
+                label: "文本"
+            },
+            {
+                id: "textarea",
+                type: "textarea",
+                value: "文本域",
+                label: "文本域"
+            },
+            {
+                id: "radio",
+                type: "radio",
+                value: "1",
+                label: "",
+                valueField: "id",
+                textField: "name",
+                subdata: [{
+                        id: "1",
+                        name: "苹果"
+                    },
+                    {
+                        id: "2",
+                        name: "香蕉"
+                    },
+                    {
+                        id: "3",
+                        name: "橘子"
+                    }
+                ]
+            },
+            {
+                id: "checkbox",
+                type: "checkbox",
+                value: "1",
+                label: "",
+                valueField: "id",
+                textField: "name",
+                subdata: [{
+                    id: "1",
+                    name: "苹果"
+                }]
+            },
+            {
+                id: "select",
+                type: "select",
+                value: "1",
+                label: "下拉选",
+                valueField: "id",
+                textField: "name",
+                subdata: [{
+                    id: "1",
+                    name: "苹果"
+                }, ]
+            },
+            {
+                id: "date",
+                type: "date",
+                value: 1544148749870,
+                label: "日期",
+            },
+            {
+                id: "dateRangePicker",
+                type: "dateRangePicker",
+                value: 1564761383000,
+                label: "日期区间",
+            },
+            {
+                id: 'listSelectInput',
+                label: '下拉选择输入',
+                type: 'listSelectInput',
+                value: '1',
+                textField: 'propName',
+                valueField: 'id',
+                labelField: 'propName',
+                idField: 'id',
+                selectUrl: getRootPath() + '/docs/data/listselectinput.json',
+                ajaxConfig: {
+                    url: getRootPath() + '/docs/data/listselectinput.json',
+                    type: "GET",
+                    contentType: "application/x-www-form-urlencoded",
+                    dataSrc: "rows",
+                    data: {
+                        aaa: 111
+                    }
+                },
+                selectAjax: {
+                    url: getRootPath() + '/docs/data/listselectinput.json',
+                    dataSrc: 'rows',
+                    type: 'GET',
+                    contentType: 'application/x-www-form-urlencoded'
+                },
+            },
+            {
+                id: "map",
+                type: 'map',
+                value: "石家庄",
+                label: "地图"
+
+            },
+            {
+                id: "number",
+                type: 'number',
+                value: "24",
+                label: "数字"
+
+            },
+            {
+                id: "password",
+                type: 'password',
+                value: "123",
+                isMd5: false,
+                label: "密码"
+
+            },
+            {
+                id: "provinceselect",
+                type: 'provinceselect',
+                value: "120103",
+                label: "省市联动",
+                // changeHandler : function(data){console.log(data)}
+
+            },
+            {
+                id: "selectInput",
+                type: 'selectInput',
+                value: "1",
+                label: "下拉输入",
+                valueField: "id",
+                textField: "name",
+                subdata: [{
+                        id: "1",
+                        name: "苹果"
+                    },
+                    {
+                        id: "2",
+                        name: "香蕉"
+                    },
+                    {
+                        id: "3",
+                        name: "橘子"
+                    }
+                ]
+
+            },
+            {
+                id: 'treeSelect',
+                label: '下拉树',
+                type: 'treeSelect',
+                rules: "",
+                textField: 'name',
+                valueField: 'id',
+                value: "1",
+
+                level: 1,
+                url: getRootPath() + '/docs/data/tree/getList.json',
+                contentType: 'application/x-www-form-urlencoded',
+                method: "GET",
+                dataSrc: 'rows',
+                isMultiple: true,
+            },
+
+            {
+                id: 'upload',
+                label: '上传',
+                type: 'upload',
+                textField: 'text',
+                valueField: 'value',
+                btns: ['upload', 'delete', 'download', 'print'],
+                inputWidth: 200,
+                value: '123654',
+                ajax: {
+                    url: getRootPath() + '/docs/data/upload.json?',
+
+                },
+                editAjax: {
+                    url: getRootPath() + '/docs/data/uploadalter.json',
+                    contentType: "application/x-www-form-urlencoded",
+                    type: "GET",
+                },
+                downloadAjax: {
+                    url: getRootPath() + '/docs/data/down/yuan2.rar?',
+                    contentType: "application/x-www-form-urlencoded",
+                    type: "GET",
+                },
+                getFileAjax: {
+                    url: getRootPath() + '/docs/data/upload.json',
+                    contentType: "application/x-www-form-urlencoded",
+                    type: "GET",
+                },
+            },
+            {
+
+                id: 'uploadImage',
+                label: '上传图片',
+                type: 'uploadImage',
+                align: 'right',
+                scale: 1.5,
+                value: '2',
+                ajax: {
+                    url: getRootPath() + '/docs/data/components/uploadimage.json',
+                    contentType: "application/x-www-form-urlencoded",
+                    type: "GET",
+                },
+                getFileAjax: {
+                    url: getRootPath() + '/docs/data/components/uploadimage.json',
+                    contentType: "application/x-www-form-urlencoded",
+                    type: "GET",
+                },
+                previewImagesAjax: {
+                    url: getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+                    contentType: "application/x-www-form-urlencoded",
+                    type: "GET",
+                },
+            },
+            {
+                id: 'valuesInput',
+                label: '多值输入',
+                value: '',
+                type: 'valuesInput',
+                format: "{this:dd}:{value1:y}",
+                changeHandler: function (obj) {
+                    console.log(obj);
+                }
+            },
+            {
+                id: 'treeInput',
+                label: '下拉树输入',
+                type: 'treeInput',
+                rules: "",
+                textField: 'name',
+                valueField: 'id',
+                value: "1",
+                level: 1,
+                url: getRootPath() + '/docs/data/tree/getList.json',
+                contentType: 'application/x-www-form-urlencoded',
+                method: "GET",
+                dataSrc: 'rows',
+                isMultiple: true,
+                // disabled:               true,
+                changeHandler: function (obj) {
+                    console.log(obj);
+                }
+            },
+            {
+                id: 'business',
+                label: '业务组件',
+                dialogTitle: "业务组件弹框1",
+                type: 'business',
+                textField: 'cityname',
+                idField: 'id',
+                value: {
+                    cityname: 'cityname'
+                },
+                source: {
+                    url: getRootPath() + '/docs/pages/components/business-pages.html',
+                    data: [{
+                            aa: 111
+                        },
+                        {
+                            bb: 111
+                        },
+                        {
+                            cc: 111
+                        },
+                    ],
+                },
+                search: {
+                    url: getRootPath() + '/assets/json/newcomponent/search.json',
+                    dataSrc: 'rows',
+                },
+            },
+            {
+                id: 'businessSelect',
+                label: '下拉业务组件',
+                type: 'businessSelect',
+                rules: "",
+                value: {
+                    cityname: 'cityname'
+                },
+                textField: 'cityname',
+                valueField: 'id',
+                source: {
+                    url: getRootPath() + '/docs/pages/components/business-pages.html',
+                    // data: 'clickpage',
+                    data: [{
+                            aa: 111
+                        },
+                        {
+                            bb: 111
+                        },
+                        {
+                            cc: 111
+                        },
+                    ],
+                },
+            },
+            {
+                id: 'cubesInput',
+                label: 'cubesInput',
+                type: 'cubesInput',
+                rules: 'required',
+                // readonly: true,
+                inputWidth: 700,
+                value: {
+                    columnThs: [{
+                        title: '品牌1',
+                        field: 'c1',
+                        children: [{
+                            title: '品牌1-1',
+                            field: 'c1-1',
+                            rules: 'required',
+                        }, {
+                            title: '品牌1-2',
+                            field: 'c1-2',
+                        }]
+                    }, {
+                        title: '品牌2',
+                        field: 'c2',
+                        children: [{
+                            title: '品牌2-1',
+                            field: 'c2-1',
+                        }]
+                    }, {
+                        title: '品牌3',
+                        field: 'c3',
+                        children: [{
+                            title: '品牌3-1',
+                            field: 'c3-1',
+                        }]
+                    }],
+                    rowThs: [{
+                            // 空白行
+                        },
+                        {
+                            title: '型号1',
+                            field: 'r1',
+                            children: [{
+                                title: '型号1-1',
+                                field: 'r1-1',
+                                children: [{
+                                    title: '型号1-1-1',
+                                    field: 'r1-1-1',
+                                }]
+                            }, {
+                                title: '型号1-2',
+                                field: 'r1-2',
+                                children: [{
+                                    title: '型号1-2-1',
+                                    field: 'r1-2-1',
+                                }]
+                            }]
+                        }, {
+                            title: '型号2',
+                            field: 'r2',
+                            children: [{
+                                title: '型号2-1',
+                                field: 'r2-1',
+                                children: [{
+                                    title: '型号2-1-1',
+                                    field: 'r2-1-1',
+                                }]
+                            }, {
+                                title: '型号2-2',
+                                field: 'r2-2',
+                                children: [{
+                                    title: '型号2-2-1',
+                                    field: 'r2-2-1',
+                                }]
+                            }]
+                        }
+                    ],
+                    valueThs: [
+                        [{
+                                id: 100,
+                                value: '>333',
+                                a: 10,
+                                b: 20,
+                                zId: null
+                            },
+                            {
+                                id: 101,
+                                value: '7662',
+                                a: 11,
+                                b: 20,
+                                zId: null
+                            },
+                            {
+                                id: 102,
+                                value: '>333',
+                                a: 10,
+                                b: 23,
+                                zId: null
+                            },
+                            {
+                                id: 103,
+                                value: '7661',
+                                a: 11,
+                                b: 23,
+                                zId: null
+                            },
+                        ],
+                        [{
+                                id: 104,
+                                value: '>333',
+                                a: 10,
+                                b: 24,
+                                zId: null
+                            },
+                            {
+                                id: 105,
+                                value: '7662',
+                                a: 11,
+                                b: 24,
+                                zId: null
+                            },
+                            {
+                                id: 106,
+                                value: '>333',
+                                a: 10,
+                                b: 25,
+                                zId: null
+                            },
+                            {
+                                id: 107,
+                                value: '7662',
+                                a: 11,
+                                b: 25,
+                                zId: null
+                            },
+                        ],
+                        [{
+                                id: 108,
+                                value: '>333',
+                                a: 10,
+                                b: 20,
+                                zId: null
+                            },
+                            {
+                                id: 109,
+                                value: '7662',
+                                a: 11,
+                                b: 20,
+                                zId: null
+                            },
+                            {
+                                id: 110,
+                                value: '>333',
+                                a: 10,
+                                b: 23,
+                                zId: null
+                            },
+                            {
+                                id: 111,
+                                value: '7661',
+                                a: 11,
+                                b: 23,
+                                zId: null
+                            },
+                        ],
+                        [{
+                                id: 112,
+                                value: '>333',
+                                a: 10,
+                                b: 24,
+                                zId: null
+                            },
+                            {
+                                id: 113,
+                                value: '7662',
+                                a: 11,
+                                b: 24,
+                                zId: null
+                            },
+                            {
+                                id: 114,
+                                value: '>333',
+                                a: 10,
+                                b: 25,
+                                zId: null
+                            },
+                            {
+                                id: 115,
+                                value: '7662',
+                                a: 11,
+                                b: 25,
+                                zId: null
+                            },
+                        ],
+                    ],
+                },
+                getAjax: {
+                    url: getRootPath() + '/docs/data/components/cubesinput.json',
+                    dataSrc: 'data',
+                    data: {
+                        abc: "{this.treeSelect.treeSelect}",
+                        bb: 11
+                    }
+                },
+                saveAjax: {
+                    url: getRootPath() + '/docs/data/components/cubesinput.json',
+                    dataSrc: 'data',
+                    data: {
+                        abc: "{this.treeSelect.treeSelect}",
+                        bb: 11
+                    }
+                },
+            }
+
+        ]
+    }
+    NetstarComponent.formComponent.show(readonlyDemo, {
+        valuesInput: 20,
+        value1: 2019,
+        tree: "下拉树"
+    })
+</script>

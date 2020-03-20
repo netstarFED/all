@@ -1,0 +1,50 @@
+@treeTable-gutter: 6px; 		//面板边距
+.treeTable{
+	&.layout-planes{
+		margin: 0 -@treeTable-gutter;
+		.nspanel-container{
+			&.nspanel{
+				padding: 0 @treeTable-gutter;
+				&.layout-ztree{
+					.panel-container-panel{
+						.tree-title{
+							@tree-title-bg: #e8f0f7;
+							@tree-title-border-color: @ns-border-color;
+							margin-bottom: -1px;
+							padding: 7px @base-padding; 
+							color: #000;
+							font-weight: bold;
+							border: 1px solid #d9e9f7;
+							background: @tree-title-bg;
+							box-sizing: border-box;
+						}
+						.ztree{
+							position: static;
+							margin: 0;
+						}
+					}
+				}
+
+				&.layout-table{
+					.panel-container-content{
+						.btn-container-panel{
+							right: (@nspanel-container-dataTables_filter-width + 16);
+						}
+						&.nspanel-container-forms-inline{
+							padding-right: (@nspanel-container-dataTables_filter-width + 10);
+							
+						}
+
+					}
+				}
+				
+			}
+		}
+		.panel-container-panel{
+			.dataTables_filter{
+				right: 6px;
+			}
+		}
+	}
+	
+}

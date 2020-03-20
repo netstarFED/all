@@ -1,0 +1,122 @@
+// 按钮组
+
+.btn-group {
+    .display-inline-block;
+    position: relative;
+    margin-bottom: @btn-gutter;
+    vertical-align: top;
+    z-index: 1;
+
+    .btn {
+        margin: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-radius: 0;
+
+        &:first-child {
+            border-radius: 3px 0 0 3px;
+        }
+
+        &:last-child {
+            border-radius: 0 3px 3px 0;
+        }
+
+        &+.btn {
+            margin-left: -1px;
+
+        }
+    }
+
+    // 块状按钮
+    .btn-block {
+        &+.btn {
+            margin-left: 0;
+        }
+    }
+
+    // 带间距的按钮组
+    &.btn-group-gutter {
+        .btn {
+            &+.btn {
+                margin-left: @btn-gutter;
+            }
+        }
+
+        .btn-block {
+            &+.btn {
+                margin-top: @btn-gutter;
+                margin-left: 0;
+            }
+        }
+    }
+
+    // 带圆角的按钮组
+    &.btn-group-radius {
+        .btn {
+            border-radius: 0;
+
+            &:first-child {
+                .border-radius-left-variant(@border-radius-sm);
+            }
+
+            &:last-child {
+                .border-radius-right-variant(@border-radius-sm);
+            }
+        }
+
+
+        // 带间距且带圆角的按钮组
+        &.btn-group-gutter {
+            .btn {
+                border-radius: @border-radius-sm;
+            }
+        }
+
+
+    }
+
+    // 纵向按钮
+    &.btn-group-vertical {
+        .btn {
+            display: block;
+            width: 100%;
+
+            &+.btn {
+                margin-left: 0;
+                margin-top: -1px;
+            }
+        }
+
+        &.btn-group-radius {
+            .btn {
+                &+.btn {
+                    margin-left: 0;
+                }
+
+                &:first-child {
+                    .border-radius-top-variant(@border-radius-sm);
+                }
+
+                &:last-child {
+                    .border-radius-bottom-variant(@border-radius-sm);
+                }
+            }
+
+            &.btn-group-gutter {
+                .btn {
+                    border-radius: @border-radius-sm;
+                }
+            }
+
+        }
+
+        &.btn-group-gutter {
+            .btn {
+                &+.btn {
+                    margin-top: @btn-gutter;
+                }
+            }
+        }
+
+    }
+}

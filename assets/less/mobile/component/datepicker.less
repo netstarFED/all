@@ -1,0 +1,124 @@
+[ns-system="mobile"]{
+	.datepicker{
+		&.datepicker-dropdown{
+			position: fixed;
+			top: auto !important;
+			left: 0 !important;
+			bottom: 0 !important;
+			.datepicker-years,
+			.datepicker-months,
+			.datepicker-days{
+				max-width: 100%;
+			}
+			.table-condensed{
+				width: 100% !important;
+				& > tr{
+					display: flex !important;
+					flex: 1;
+					justify-content: space-between;
+					align-items: center;
+					min-height: 4rem;
+					& > th,
+					& > td{
+						display: flex !important;
+						flex: 1;
+						justify-content: center;
+						align-items: center;
+						&.prev,
+						&.next{
+							min-width: 4rem;
+						}
+						&.day{
+							padding: 1rem .5rem !important;
+						}
+						span{
+							padding: 1rem .5rem !important;
+						}
+					}
+
+				}
+				thead{
+					& > tr{
+						& > th{
+							&.datepicker-switch{
+								height: 4rem;
+								&:after{
+									top: 1.2rem;
+									right: 0;
+									
+								}
+							}
+							&[class="prev"],
+							&[class="next"]{
+									width: 4rem;
+								&:before{
+									top: 1.2rem;
+								}
+							}
+						}
+					}
+				}
+
+			}
+			.datepicker-days .table-condensed{
+				& > thead,
+				& > tbody,
+				& > tfoot{
+					tr{
+						display: flex;
+						flex:1;
+						justify-content: space-between;
+						align-items: center;
+						& > td,
+						& > th{
+							padding: 1rem 0;
+							display: flex;
+							flex: 1;
+							justify-content: center;
+							align-items: center;
+						}
+						
+					}
+				}
+			}
+
+			.datepicker-years,
+			.datepicker-months{
+				.table-condensed{
+					tbody > tr > td{
+						span{
+							display: flex;
+							flex: 1;
+							justify-content: center;
+							align-items: center;
+							height: 4rem;
+						}
+					}
+				}
+			}
+
+		}
+	}
+	.bootstrap-timepicker-widget.dropdown-menu.open{
+		top: auto !important;
+		bottom: 0 !important;
+		left: 0 !important;
+		table > tbody > tr > td{
+			height: 4rem !important;
+		}
+    }
+    
+    .ns-mb-daterangepicker{
+        i{
+            padding-right: 0.5rem;
+        }
+    }
+    .datetime-show-content{
+		position: absolute;
+		height: 40px;
+		width: 100%;
+		left: 0px;
+		top: 0px;
+		background: #fff;
+	}
+}

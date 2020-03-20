@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7 ]> <html lang="en" class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8 ]> <html lang="en" class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9 ]> <html lang="en" class="no-js lt-ie10"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<html lang="en">
+
+<head>
+
+    <title>pdf</title>
+    <!--# include file="include/head-base.html" -->
+
+</head>
+<style>
+  
+</style>
+
+<body class="page-body skin-autoservice frame-standard">
+    <container>
+        <!--<script src="/static/libs/require.js"></script>-->
+        <div class="pt-panel nav-form" id="pdf-btn-component"></div>
+        <div id="test-pdf"></div>
+        <script type="text/javascript">
+            $(function(){
+                var navPdfJson = {
+                    id: 'pdf-btn-component',
+                    isShowTitle: false,
+                    btns: [{
+                        text: '当前容器追加pdf',
+                        isReturn: true,
+                        handler:function(data){
+                            //console.log(data)
+                            url = '/lims/pages/ui/pdf-viewer-demo.pdf';
+                            NetstarUI.pdfViewer.init({
+                                id:'test-pdf',
+                                url:        url,
+                                zoomFit:    'width',
+                                isDownload: true,             //是否有下载
+                            });
+                        }
+                    },
+                    {
+                        text: '弹出形式的pdf',
+                        isReturn: true,
+                        handler:function(data){
+                            url = '/lims/pages/ui/pdf-viewer-demo.pdf';
+                            NetstarUI.pdfViewer.dialog({
+                                url:        url,
+                                zoomFit:    'width',
+                                isDownload: true,             //是否有下载
+                            });
+                        }
+                    }],
+                };
+                vueButtonComponent.init(navPdfJson);
+            })
+        </script>
+    </container>
+</body>
+
+</html>

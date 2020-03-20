@@ -1,0 +1,22 @@
+
+// input-group 尺寸变量  input-group高度+form-control表单宽度+按钮尺寸
+.input-group-size(@height, @input-width, @btn-size){
+    // height: @height;
+    .pt-form-control{
+        // width: @input-width;
+        max-width: @input-width;
+    }
+    .pt-input-group-addon,
+    .pt-input-group-btn{
+        .pt-btn{
+            height: @btn-size;
+            line-height: (@btn-size + 2);
+            padding-right: @padding-xs-h;
+            padding-left: @padding-xs-h;
+            &.pt-btn-icon{
+                .square(@btn-size);
+            }
+        }
+    }
+
+}

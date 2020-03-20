@@ -1,0 +1,506 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="作业记录" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>作业记录</title>
+</head>
+<body class="weixin-type">
+<container>
+	<script type="text/javascript">
+	$(function(){
+		var localUrl = 'http://ui-pc:2000';
+		var config = {
+			template: 'workRecordSimpleMobile',
+			package: 'nsVue.graps.list',
+			title: '作业记录',
+			components:[
+				{
+					type:'vo',
+					title:'作业内容',
+					idField:'id',
+					hide:[
+						"acceptId",
+						"taskAssignId",
+						"sample2itemId",
+						"endFlag",
+						"type"
+					],
+					field:[
+						{
+							"id": "itemReportName",
+							"englishName": "itemReportName",
+							"chineseName": "项目名称",
+							"variableType": "string",
+							"mindjetType": "text",
+							"isSet": "是",
+							"displayType": "all",
+							"gid": "136e04e9-8306-575d-50ab-4f2321acd052",
+							"voName": "sampleTaskTestDetailVO",
+							"className": "java.lang.String",
+							"type": "text",
+							"label": "作业申请内容",
+							"rules": "",
+							"moreRules": "",
+							"disabled": false,
+							"hidden": false,
+							"isDistinct": false,
+							"mindjetIndexState": 0,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": true
+						},
+						{
+							"id": "testBedId",
+							"englishName": "testBedId",
+							"chineseName": "试验台",
+							"variableType": "string",
+							"mindjetType": "select",
+							"isSet": "是",
+							"displayType": "all",
+							"gid": "5ab372bc-139d-af64-8014-c5e0cea252f2",
+							"voName": "sampleTaskTestDetailVO",
+							"className": "java.lang.Long",
+							"type": "select",
+							"label": "作业区域",
+							"rules": "",
+							"textField": "labName",
+							"valueField": "id",
+							"isObjectValue": false,
+							"selectMode": "single",
+							"isReadDefaultWidth": true,
+							"isAddLinkhref": false,
+							"isPage": false,
+							"method": "POST",
+							"dataSrc": "rows",
+							"data": "",
+							"contentType": "",
+							"suffix": "/lab/labs/getList",
+							"url": "https://qaapi.wangxingcloud.com//lab/labs/getList",
+							"mindjetIndexState": 1,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": true
+						},
+						{
+							"id": "transactors",
+							"englishName": "transactors",
+							"chineseName": "涉及人员",
+							"variableType": "string",
+							"mindjetType": "text",
+							"isSet": "是",
+							"displayType": "all",
+							"gid": "f9ed5ea8-68a7-eb6b-1fe4-6da605408470",
+							"voName": "sampleTaskTestDetailVO",
+							"className": "java.lang.String",
+							"type": "text",
+							"label": "涉及人员",
+							"rules": "",
+							"moreRules": "",
+							"textField": "userName",
+							"valueField": "id",
+							"isObjectValue": false,
+							"selectMode": "checkbox",
+							"isReadDefaultWidth": true,
+							"isAddLinkhref": false,
+							"isPage": false,
+							"mindjetIndexState": 2,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": true
+						},
+						{
+							"englishName": "acceptId",
+							"className": "java.lang.Long",
+							"gid": "91e7bac7-2caa-03bb-9a87-35dc5bfef373",
+							"variableType": "string",
+							"chineseName": "委托Id",
+							"isHaveChineseName": true,
+							"id": "acceptId",
+							"label": "委托Id",
+							"type": "text",
+							"field": "acceptId",
+							"title": "委托Id",
+							"mindjetIndexState": 3,
+							"mindjetFieldPosition": "field",
+							"hidden": true,
+							"isAllowUserAction": false
+						},
+						{
+							"englishName": "taskAssignId",
+							"className": "java.lang.Long",
+							"gid": "6b437ac7-b0fb-a48c-3ec6-e5e61c4c274e",
+							"variableType": "string",
+							"chineseName": "任务分配",
+							"isHaveChineseName": true,
+							"id": "taskAssignId",
+							"label": "任务分配",
+							"type": "text",
+							"field": "taskAssignId",
+							"title": "任务分配",
+							"mindjetIndexState": 4,
+							"mindjetFieldPosition": "field",
+							"hidden": true,
+							"isAllowUserAction": false
+						},
+						{
+							"id": "whenBegin",
+							"englishName": "whenBegin",
+							"chineseName": "开始时间",
+							"variableType": "date",
+							"mindjetType": "date",
+							"isSet": "是",
+							"displayType": "all",
+							"gid": "f1d924f2-081e-6e6d-1d92-ce8d32ab2d38",
+							"voName": "sampleTaskTestDetailVO",
+							"className": "java.util.Date",
+							"type": "date",
+							"label": "开始时间",
+							"rules": "",
+							"isDefaultDate": true,
+							"format": "YYYY-MM-DD HH:mm",
+							"ranges": true,
+							"disabled": false,
+							"hidden": false,
+							"isDistinct": false,
+							"mindjetIndexState": 5,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": true
+						},
+						{
+							"id": "whenEnd",
+							"englishName": "whenEnd",
+							"chineseName": "结束时间",
+							"variableType": "date",
+							"mindjetType": "date",
+							"isSet": "是",
+							"displayType": "all",
+							"gid": "89cb45ed-9b63-fef6-1a19-4ad567b80045",
+							"voName": "sampleTaskTestDetailVO",
+							"className": "java.util.Date",
+							"type": "date",
+							"label": "结束时间",
+							"rules": "",
+							"isDefaultDate": true,
+							"format": "YYYY-MM-DD HH:mm",
+							"ranges": true,
+							"mindjetIndexState": 6,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": true
+						},
+						{
+							"id": "deviceIds",
+							"englishName": "deviceIds",
+							"chineseName": "所需设备",
+							"variableType": "string",
+							"mindjetType": "select",
+							"isSet": "是",
+							"displayType": "all",
+							"gid": "682f4b59-ff42-f2ac-e097-dbdc5fbb3e84",
+							"voName": "sampleTaskTestDetailVO",
+							"className": "java.lang.String",
+							"type": "select",
+							"label": "公共设备需求",
+							"rules": "",
+							"textField": "deviceName",
+							"valueField": "deviceId",
+							"outputFields": {
+								"deviceIds": "{deviceId}"
+							},
+							"isObjectValue": false,
+							"selectMode": "checkbox",
+							"isReadDefaultWidth": true,
+							"isAddLinkhref": false,
+							"isPage": false,
+							"method": "POST",
+							"dataSrc": "rows",
+							"data": "",
+							"contentType": "",
+							"disabled": false,
+							"hidden": false,
+							"isDistinct": false,
+							"suffix": "/zc/sampleAccepts/getDeviceListByAcceptId",
+							"url": "https://qaapi.wangxingcloud.com//zc/sampleAccepts/getDeviceListByAcceptId",
+							"mindjetIndexState": 7,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": true
+						},
+						{
+							"id": "endFlag",
+							"englishName": "endFlag",
+							"chineseName": "任务结束标记",
+							"variableType": "number",
+							"mindjetType": "checkbox",
+							"isSet": "是",
+							"displayType": "all",
+							"gid": "97b13c52-ddb5-8cb7-8984-d9ec3196a80a",
+							"voName": "sampleTaskTestDetailVO",
+							"className": "java.lang.Integer",
+							"type": "checkbox",
+							"label": "收尾作业",
+							"rules": "",
+							"subdata": [
+								{
+									"isDisabled": false,
+									"value": "否",
+									"id": "0",
+									"isChecked": false
+								},
+								{
+									"isDisabled": false,
+									"value": "是",
+									"id": "1",
+									"isChecked": false
+								}
+							],
+							"textField": "value",
+							"valueField": "id",
+							"disabled": false,
+							"hidden": true,
+							"isDistinct": false,
+							"mindjetIndexState": 8,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": false
+						},
+						{
+							"id": "type",
+							"englishName": "type",
+							"chineseName": "0未申请 1已申请 2待确认 3已发布",
+							"variableType": "number",
+							"mindjetType": "select",
+							"isSet": "是",
+							"displayType": "all",
+							"gid": "4308ad9f-4ceb-1005-3a7e-96a556b97715",
+							"voName": "sampleTaskTestDetailVO",
+							"className": "java.lang.Integer",
+							"type": "select",
+							"label": "状态",
+							"rules": "",
+							"subdata": [
+								{
+									"isDisabled": false,
+									"selected": false,
+									"value": "已申请",
+									"id": "1"
+								},
+								{
+									"isDisabled": false,
+									"selected": false,
+									"value": "未申请",
+									"id": "0"
+								},
+								{
+									"isDisabled": false,
+									"selected": false,
+									"value": "待确认",
+									"id": "2"
+								},
+								{
+									"isDisabled": false,
+									"selected": false,
+									"value": "已发布",
+									"id": "3"
+								}
+							],
+							"textField": "value",
+							"valueField": "id",
+							"disabled": false,
+							"hidden": true,
+							"isDistinct": false,
+							"mindjetIndexState": 9,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": false
+						},
+						{
+							"englishName": "remark",
+							"className": "java.lang.String",
+							"gid": "67c15218-c8a4-c7c3-392f-3234540d2da3",
+							"variableType": "string",
+							"chineseName": "备注",
+							"isHaveChineseName": true,
+							"id": "remark",
+							"label": "备注",
+							"type": "text",
+							"field": "remark",
+							"title": "备注",
+							"mindjetIndexState": 10,
+							"mindjetFieldPosition": "field",
+							"isAllowUserAction": true
+						}
+					],
+					ajax:{
+						"src": "https://qaapi.wangxingcloud.com//taskTestDetail/getById",
+						"dataSrc": "data",
+						"type": "GET",
+						"dataFormat": "id",
+						"isInlineBtn": "false",
+						"contentType": "application/x-www-form-urlencoded",
+						"isSendPageParams": "true",
+						"data": {
+							"id": "1322568436085162994"
+						}
+					}
+				},
+				{
+					type:'blockList',
+					title:'确认事项',
+					ajax:{
+						"src": "https://qaapi.wangxingcloud.com//work/workRecords/getDetailById",
+						"dataSrc": "data",
+						"type": "POST",
+						"dataFormat": "id",
+						"contentType": "application/x-www-form-urlencoded",
+						"data": {
+							"id": "1322568470444901362"
+						}
+					},
+                    /*ajax:{
+                        src:                    localUrl + '/assets/json/workrecord/record.json',       //数据源地址
+                        type:                   "GET",          //GET POST
+                        data:                   {},             //参数对象{id:1,page:100}
+                        //isServerMode:         true,           //是否开启服务器模式
+						dataSrc:                'data',
+						contentType:'application/x-www-form-urlencoded'
+					},*/
+				},{
+					type:'btns',
+					operatorObject:'vo',
+					field:[
+						{
+							"functionConfig": {
+								"ajaxDataVaildConfig": "required",
+								"contentType": "application/json",
+								"dataFormat": "object",
+								"dataSrc": "data",
+								"defaultMode": "confirm",
+								"functionClass": "modal",
+								"id": "1320347824176505842",
+								"suffix": "/work/workRecords/save",
+								"text": "保存",
+								"title": "保存记录",
+								"type": "POST",
+								"voName": "workWorkRecordVO",
+								"entityName": "_work_workRecords",
+								"chineseName": "保存 VO",
+								"englishName": "save",
+								"isInlineBtn": false,
+								"isSendPageParams": true,
+								"isMobileInlineBtn": true,
+								"isKeepSelected": false,
+								"parameterFormatType": "add",
+								"isSetValueToSourcePage": false,
+								"url": "https://qaapi.wangxingcloud.com//work/workRecords/save",
+								"isOperatorMain": true,
+								"operatorObject": "root"
+							},
+							"btn": {
+								"text": "保存1",
+								"isReturn": true
+							}
+						},
+						{
+							"functionConfig": {
+								"text": "提交",
+								"defaultMode": "workflowSubmit",
+								"workflowType": "submit",
+								"englishName": "nsWorkflowSubmit",
+								"isOperatorMain": true,
+								"operatorObject": "root"
+							},
+							"btn": {
+								"text": "提交",
+								"isReturn": true
+							}
+						},
+						{
+							"functionConfig": {
+								"text": "驳回",
+								"defaultMode": "workflowSubmit",
+								"workflowType": "reject",
+								"englishName": "nsWorkflowReject",
+								"isOperatorMain": true,
+								"operatorObject": "root"
+							},
+							"btn": {
+								"text": "驳回",
+								"isReturn": true
+							}
+						}
+					]
+				},{
+					type:'btns',
+					operatorObject:'list',
+					field:[
+						{
+							"functionConfig": {
+								"ajaxDataVaildConfig": "required",
+								"contentType": "application/json",
+								"dataFormat": "object",
+								"dataSrc": "data",
+								"defaultMode": "confirm",
+								"functionClass": "modal",
+								"id": "1320347824176505842",
+								"suffix": "/work/workRecords/save",
+								"text": "保存",
+								"title": "保存记录",
+								"type": "POST",
+								"voName": "workWorkRecordVO",
+								"entityName": "_work_workRecords",
+								"chineseName": "保存 VO",
+								"englishName": "save",
+								"isInlineBtn": false,
+								"isSendPageParams": true,
+								"isMobileInlineBtn": true,
+								"isKeepSelected": false,
+								"parameterFormatType": "add",
+								"isSetValueToSourcePage": false,
+								"url": "https://qaapi.wangxingcloud.com//work/workRecords/save",
+								"isOperatorMain": true,
+								"operatorObject": "root"
+							},
+							"btn": {
+								"text": "保存",
+								"isReturn": true
+							}
+						},
+						{
+							"functionConfig": {
+								"text": "提交",
+								"defaultMode": "workflowSubmit",
+								"workflowType": "submit",
+								"englishName": "nsWorkflowSubmit",
+								"isOperatorMain": true,
+								"operatorObject": "root"
+							},
+							"btn": {
+								"text": "提交",
+								"isReturn": true
+							}
+						},
+						{
+							"functionConfig": {
+								"text": "驳回",
+								"defaultMode": "workflowSubmit",
+								"workflowType": "reject",
+								"englishName": "nsWorkflowReject",
+								"isOperatorMain": true,
+								"operatorObject": "root"
+							},
+							"btn": {
+								"text": "驳回",
+								"isReturn": true
+							}
+						}
+					]
+				}
+			]
+		}
+		config = NetstarProject.init(config);
+		NetstarTemplate.init(config);
+	})
+
+	</script>
+</container>
+</body>
+</html>

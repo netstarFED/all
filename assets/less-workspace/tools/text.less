@@ -1,0 +1,119 @@
+// 文字排列
+.text-left {
+    text-align: left !important;
+    justify-content: flex-start !important;
+}
+
+.text-center {
+    text-align: center !important;
+    justify-content: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+.text-around {
+    justify-content: space-around;
+}
+
+.text-top {
+    align-items: flex-start !important;
+}
+
+.text-bottom {
+    align-items: flex-end !important;
+}
+
+
+// 文字颜色
+.text-primary {
+    color: @primary;
+}
+
+.text-success {
+    color: @success;
+}
+
+.text-info {
+    color: @info;
+}
+
+.text-warning {
+    color: @warning;
+}
+
+.text-danger {
+    color: @danger;
+}
+
+.text-gray {
+    color: @gray;
+}
+
+.text-link {
+    color: @info;
+    text-decoration: underline;
+}
+
+
+//字段截取
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 字段多行截取
+.text-truncates(@rownumber: 2) {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: @rownumber;
+    -webkit-box-orient: vertical;
+}
+
+
+// 渐变文字
+
+.text-gradient(@start-color, @end-color, @deg) {
+    #gradient>.directional(@start-color, @end-color, @deg);
+    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+
+}
+
+
+// =================icon-font=====================
+
+// icon-font
+[class^="icon-"],
+[class*=" icon-"],
+[class^="fa-"],
+[class*=" fa-"] {
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// iconmoon
+[class^="fa-"],
+[class*=" fa-"] {
+    font-family: 'icomoon' !important;
+}
+
+// FontAwesome
+[class^="fa-"],
+[class*=" fa-"] {
+    font-family: 'FontAwesome' !important;
+}

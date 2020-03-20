@@ -1,0 +1,154 @@
+@ns-confirm-container-width: 400px;
+@ns-confirm-container-height: 240px;
+
+// alert提示面板
+#toast-container {
+    &>div {
+        opacity: 1;
+    }
+}
+
+.toast-top-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: @base-margin;
+    z-index: @zindex-confirm;
+
+
+}
+
+.toast-variant(@bg, @color: #fff) {
+    background: @bg;
+    color: @color;
+
+}
+
+.toast {
+    .padding-lg();
+    border-radius: 3px;
+
+    &.toast-error {
+        .toast-variant(@danger);
+    }
+
+    &.toast-success {
+        .toast-variant(@success);
+    }
+
+    &.toast-warning {
+        .toast-variant(@warning);
+
+    }
+
+    &.toast-info {
+        .toast-variant(@info);
+    }
+
+    &+& {
+        margin-bottom: @base-margin-sm;
+    }
+}
+
+
+
+// 低分辨率页面提示
+@screen-alert-hieght: 19px;
+
+.pt-media-screen-alert {
+    position: fixed;
+    top: @header-height;
+    right: 0;
+    left: 0;
+    z-index: 108;
+    display: none;
+    background: @warning;
+    animation: screenalert 5s;
+    -webkit-animation: screenalert 5s;
+
+    /* Safari 与 Chrome */
+    p {
+        color: #fff;
+        text-align: right;
+        padding: 2px @padding-lg-h 0;
+    }
+}
+
+// 低分辨率页面提示动画
+@media screen and (max-width: @body-min-width) {
+    .pt-media-screen-alert {
+        display: block;
+        top: (@header-height - @screen-alert-hieght);
+    }
+}
+
+@keyframes screenalert {
+    0% {
+        top: (@header-height - @screen-alert-hieght);
+    }
+
+    15% {
+        top: @header-height;
+    }
+
+    90% {
+        top: @header-height;
+    }
+
+    100% {
+        top: (@header-height - @screen-alert-hieght);
+    }
+}
+
+@-webkit-keyframes screenalert
+
+/*Safari 与 Chrome */
+    {
+    0% {
+        top: (@header-height - @screen-alert-hieght);
+    }
+
+    15% {
+        top: @header-height;
+    }
+
+    90% {
+        top: @header-height;
+    }
+
+    100% {
+        top: (@header-height - @screen-alert-hieght);
+    }
+}
+
+// alert弹框底部按钮组样式
+.ns-confirm-container {
+    .confirm-footer {
+
+        .btn-group {
+            display: flex;
+            width: 100%;
+        }
+    }
+}
+
+
+// alert
+.pt-message-alert {
+    .pt-message-alert-text {
+        margin-bottom: @base-margin;
+    }
+
+    .pt-btn-group {
+        .pt-btn {
+
+            &.pt-btn-default {
+                border-color: transparent;
+
+                &:hover {
+                    background: darken(@warning, 15%);
+                }
+            }
+        }
+    }
+}

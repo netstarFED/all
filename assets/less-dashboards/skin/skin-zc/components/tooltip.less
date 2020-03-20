@@ -1,0 +1,52 @@
+@tooltip-padding: (@base-padding / 2);
+@tooltip-margin: @base-margin;
+
+.tooltip-variant(@bg-color) {
+    background: @bg-color;
+}
+
+
+.tooltip {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: @tooltip-margin;
+
+
+    .list {
+        padding: @tooltip-padding;
+
+        .list-item {
+            color: #fff;
+            padding: @tooltip-padding;
+            line-height: 1;
+        }
+
+        .title {
+            border-bottom: 1px solid rgba(255, 255, 255, .25);
+            line-height: 1.5;
+            padding: @tooltip-padding;
+            margin-bottom: (@tooltip-margin / 2);
+        }
+    }
+
+    &.tooltip-primary {
+        .tooltip-variant(darken(@primary, 15));
+    }
+
+    &.tooltip-info {
+        .tooltip-variant(darken(@info, 15));
+    }
+
+    &.tooltip-success {
+        .tooltip-variant(darken(@success, 15));
+    }
+
+    &.tooltip-warning {
+        .tooltip-variant(@warning);
+    }
+
+    &.tooltip-danger {
+        .tooltip-variant(@danger);
+    }
+}

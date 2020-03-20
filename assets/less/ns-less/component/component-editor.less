@@ -1,0 +1,207 @@
+@component-editor-bg: #75c1ff;
+@component-editor-header-height: 44px;
+@component-editor-header-padding: 10px;
+@component-editor-footer-padding: @component-editor-header-padding;
+@component-editor-footer-height: 70px;
+@component-editor-tab-nav-bg: #3da8ff;
+@component-editor-tab-nav-item-bg: @component-editor-tab-nav-bg;
+@component-editor-tab-nav-item-hover-bg: darken(@component-editor-tab-nav-bg, 12);
+@component-editor-tab-nav-current-color: #0060ae;
+@component-editor-tab-nav-height: (@component-editor-header-height - @component-editor-header-padding);
+@component-editor-padding: 15px;
+@component-editor-tab-subnav-border-color: @ns-border-color;
+@component-editor-tab-subnav-item-color: @component-editor-bg;
+@component-editor-modal-width: 960px;
+@component-editor-modal-height: 600px;
+@component-editor-modal-zindex: 1049;
+@component-editor-modal-bg-zindex: (@component-editor-modal-zindex - 1);
+.component-editor {
+	background: @component-editor-bg;
+	// padding: 0 @base-padding;
+
+	// 组件编辑器头部
+	&-header {
+		height: (@component-editor-tab-nav-height + @base-padding);
+		padding: @component-editor-header-padding;
+		padding-bottom: 0;
+		background: @component-editor-bg;
+	}
+
+	// title
+	.component-editor-title {
+		display: block;
+		float: left;
+		height: @component-editor-tab-nav-height;
+		line-height: @component-editor-tab-nav-height;
+		margin: 0;
+		color: #fff;
+	}
+	
+	// tab-标签页
+	.component-editor-tab-nav {
+		display: block;
+		float: right;
+		margin: 0;
+		padding: 0;
+
+		.component-editor-tab-nav-item {
+			display: block;
+			float: left;
+			list-style-type: none;
+			margin: 0;
+
+			& + .component-editor-tab-nav-item {
+				margin-left: 3px;
+			}
+
+			a {
+				display: block;
+				min-width: 60px;
+				text-align: center;
+				height: @component-editor-tab-nav-height;
+				line-height: @component-editor-tab-nav-height;
+				padding: 0 @component-editor-padding;
+				background: @component-editor-tab-nav-item-bg;
+				color: #fff;
+
+				&.current {
+					background: #fff;
+					color: @component-editor-tab-nav-current-color;
+
+					&:hover {
+						background: #fff;
+						color: @component-editor-tab-nav-current-color;
+					}
+
+				}
+
+				&:hover {
+					background: @component-editor-tab-nav-item-hover-bg;
+				}
+
+			}
+
+		}
+
+	}
+
+	// 组件编辑器内容
+	&-body {
+		height: auto;
+		overflow-y: auto;
+		background: #fff;
+		padding: @base-padding ;
+		border: @component-editor-header-padding solid @component-editor-bg;
+		border-width: 0 @component-editor-header-padding;
+		// tab-标签页
+		.component-editor-tab-subnav{
+			height: @component-editor-tab-nav-height;
+			padding: 0;
+			border-bottom: 2px solid @component-editor-tab-subnav-border-color;
+			margin-bottom: (@base-margin / 2);
+			.component-editor-tab-subnav-item{
+				display: block;
+				float: left;
+				list-style-type: none;
+				& + .component-editor-tab-subnav-item{
+					margin-left: (@base-margin / 2);
+
+				}
+				a{
+					display: block;
+					height: @component-editor-tab-nav-height;
+					line-height: @component-editor-tab-nav-height;
+					padding: 0 @component-editor-padding;
+					text-align: center;
+					position: relative;
+					&.current{
+						color: @component-editor-tab-subnav-item-color;
+						&:after{
+							position: absolute;
+							bottom: 0;
+							left: 0;
+							width: 100%;
+							height: 2px;
+							content: "";
+							background: @component-editor-bg;
+
+						}
+					}
+					&:hover{
+						color: @component-editor-tab-subnav-item-color;
+					}
+				}
+			}
+		}
+		// table
+		table{
+			&.table.changehandlertable{
+				tbody{
+					tr{
+						td{
+							span{
+								& + span{
+									margin-left: 5px;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// 组件编辑器底部
+	&-footer {
+		padding: @component-editor-footer-padding;
+		height: @component-editor-footer-height;
+		background: @component-editor-bg;
+		overflow: hidden;
+		.btn-group{
+			float: right;
+			padding: @component-editor-footer-padding 0;
+			.btn{
+				background-color: transparent;
+				i,
+				span{
+					color: #fff;
+				}
+				&:hover{
+					box-shadow: 0 0 5px rgba(0,0,0, .25) inset;
+				}
+			}
+		}
+	}
+
+
+	// 弹框模式样式
+	&-modal{
+		
+		position: fixed;
+		width: @component-editor-modal-width;
+		height: @component-editor-modal-height;
+		top: 50%;
+		left: 50%;
+		margin: -(@component-editor-modal-height / 2) 0 0 -(@component-editor-modal-width / 2);
+		z-index: @component-editor-modal-zindex;
+		padding: 0;
+
+		// 弹框背景
+		&:after{
+			position: fixed;
+			content: "";
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background: rgba(0,0,0, .5);
+			z-index: -1;
+		}
+
+		// 内容部分
+		.component-editor-body{
+			height:((@component-editor-modal-height - @component-editor-header-height) - @component-editor-footer-height);
+		}
+	}
+
+}

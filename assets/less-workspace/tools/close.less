@@ -1,0 +1,26 @@
+.close-variant(@size, @bg, @color) {
+    .square(@size);
+    line-height: @size;
+    text-align: center;
+    background: @bg;
+    color: @color;
+    border-radius: @size;
+    transition: ease-in-out all .25s;
+    display: inline-block;
+    cursor: pointer;
+    .rgba-bg(@bg, .1);
+    font-size: (@size / 2);
+    border: 0;
+
+    &:hover {
+        .rgba-bg(@bg, 1);
+    }
+}
+
+.close {
+    .close-variant(28px, #000, @gray-dark);
+
+    .icon {
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,474 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>样品加工</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var sampledealWith2Mobile = {
+                    "package": "nscloud.sampledealwith2mobile",
+                    "template": "processDocBaseMobile",
+                    "readonly": false,
+                    "isShowTitle": true,
+                    "isFormHidden": false,
+                    "versionNumber": "1",
+                    "getValueAjax": {
+                        "src": "https://qaapi.wangxingcloud.com//sample/accept/samples/getDetailById",
+                        "dataSrc": "data",
+                        "type": "POST",
+                        "dataFormat": "id",
+                        "contentType": "application/x-www-form-urlencoded",
+                        "data": {}
+                    },
+                    "components": [{
+                            "type": "vo",
+                            "field": [
+                                {
+                                    "id": "remake",
+                                    "englishName": "remake",
+                                    "chineseName": "备注fieldError-0",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "d9fda9e8-9f05-6177-b188-283907882104",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "备注",
+                                    "rules": "",
+                                    "moreRules": "",
+                                    "mindjetIndexState": 0,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "id": "handleWay",
+                                    "englishName": "handleWay",
+                                    "chineseName": "处理状态",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "05205a54-987a-5452-dd30-3e428407b2a1",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "处理方式",
+                                    "rules": "",
+                                    "subdata": [{
+                                        "isDisabled": false,
+                                        "selected": true,
+                                        "value": "样品加工",
+                                        "id": "1"
+                                    }],
+                                    "textField": "value",
+                                    "valueField": "id",
+                                    "mindjetIndexState": 1,
+                                    "mindjetFieldPosition": "field"
+                                }
+                            ],
+                            "ajax": {
+                                "src": "https://qaapi.wangxingcloud.com//sample/accept/samples/getDetailById",
+                                "dataSrc": "data",
+                                "type": "POST",
+                                "dataFormat": "id",
+                                "contentType": "application/x-www-form-urlencoded",
+                                "data": {}
+                            },
+                            "voId": "1309183777171316713",
+                            "idField": "id",
+                            "keyField": "root",
+                            "parent": "root",
+                            "gid": "17ba9db2-62c4-bb20-6dfe-269bb46b4b1f",
+                            "objectState": 2,
+                            "title": "样品信息",
+                            "stateClass": "more",
+                            "fieldById": {
+                                "remake": {
+                                    "id": "remake",
+                                    "englishName": "remake",
+                                    "chineseName": "备注fieldError-0",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "d9fda9e8-9f05-6177-b188-283907882104",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "备注",
+                                    "rules": "",
+                                    "moreRules": "",
+                                    "mindjetIndexState": 0,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "handleWay": {
+                                    "id": "handleWay",
+                                    "englishName": "handleWay",
+                                    "chineseName": "处理状态",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "05205a54-987a-5452-dd30-3e428407b2a1",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "处理方式",
+                                    "rules": "",
+                                    "subdata": [{
+                                        "isDisabled": false,
+                                        "selected": true,
+                                        "value": "样品加工",
+                                        "id": "1"
+                                    }],
+                                    "textField": "value",
+                                    "valueField": "id",
+                                    "mindjetIndexState": 1,
+                                    "mindjetFieldPosition": "field"
+                                }
+                            }
+                        },
+                        {
+                            "type": "blockList",
+                            "field": [{
+                                    "englishName": "itemReportName",
+                                    "chineseName": "项目报告名称",
+                                    "variableType": "string",
+                                    "field": "itemReportName",
+                                    "title": "项目名称",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "0b428ce0-5d08-9fac-7271-ea515c8d794f",
+                                    "voName": "sampleSampleItemVO",
+                                    "editConfig": {
+                                        "id": "itemReportName",
+                                        "englishName": "itemReportName",
+                                        "chineseName": "项目报告名称",
+                                        "variableType": "string",
+                                        "mindjetType": "text",
+                                        "isSet": "是",
+                                        "displayType": "all",
+                                        "gid": "0b428ce0-5d08-9fac-7271-ea515c8d794f",
+                                        "voName": "sampleSampleItemVO",
+                                        "className": "java.lang.String",
+                                        "type": "text",
+                                        "label": "项目名称",
+                                        "dialogTitle": "项目列表",
+                                        "selectMode": "checkbox",
+                                        "idField": "id",
+                                        "textField": "itemReportName",
+                                        "isOutputString": false,
+                                        "isInputText": false,
+                                        "isAsync": false,
+                                        "isDeleteObjectState": false,
+                                        "source": {
+                                            "type": "GET",
+                                            "suffix": "/templateMindPages/pageConfig/1320631850363782130"
+                                        },
+                                        "search": {
+                                            "type": "POST",
+                                            "dataSrc": "rows",
+                                            "suffix": "/sample/accept/sampleItems/getList"
+                                        },
+                                        "getRowData": {
+                                            "type": "POST",
+                                            "dataSrc": "rows",
+                                            "suffix": "/sample/accept/sampleItems/createByItems"
+                                        }
+                                    },
+                                    "formatHandler": {},
+                                    "columnType": "htmlRender",
+                                    "mindjetIndexState": 0,
+                                    "width": 200
+                                },
+                                {
+                                    "englishName": "needMachining",
+                                    "chineseName": "是否制样加工",
+                                    "variableType": "string",
+                                    "field": "needMachining",
+                                    "title": "是否制样加工",
+                                    "mindjetType": "radio",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "ab9497b2-1076-ef05-2d39-0f0980cca1a8",
+                                    "voName": "sampleSampleItemVO",
+                                    "editConfig": {
+                                        "id": "needMachining",
+                                        "englishName": "needMachining",
+                                        "chineseName": "是否制样加工",
+                                        "variableType": "string",
+                                        "mindjetType": "radio",
+                                        "isSet": "是",
+                                        "displayType": "all",
+                                        "gid": "ab9497b2-1076-ef05-2d39-0f0980cca1a8",
+                                        "voName": "sampleSampleItemVO",
+                                        "type": "radio",
+                                        "label": "是否制样加工",
+                                        "subdata": [{
+                                                "isDisabled": false,
+                                                "value": "<i class=\"fa fa-check\"></i>",
+                                                "id": "1",
+                                                "isChecked": false
+                                            },
+                                            {
+                                                "isDisabled": false,
+                                                "value": "<i class=\"fa fa-close\"></i>",
+                                                "id": "0",
+                                                "isChecked": false
+                                            }
+                                        ],
+                                        "textField": "value",
+                                        "valueField": "id",
+                                        "disabled": false,
+                                        "hidden": false,
+                                        "isDistinct": false
+                                    },
+                                    "editable": true,
+                                    "hidden": false,
+                                    "orderable": true,
+                                    "searchable": false,
+                                    "tooltip": false,
+                                    "isDefaultSubdataText": true,
+                                    "isTitle": false,
+                                    "isValue": false,
+                                    "isQuickQuery": false,
+                                    "mindjetIndexState": 1,
+                                    "width": 200
+                                }
+                            ],
+                            "params": {
+                                "isHaveEditDeleteBtn": "true"
+                            },
+                            "voId": "1309183777171317737",
+                            "idField": "id",
+                            "keyField": "sampleItemList",
+                            "listExpression": "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>项目名称：<p style=\"margin:0\">{{itemReportName}}</p></span></div><div class=\"block-list-item-text text-left\"><span style=\"color: #a2a2a2;\">是否制样加工：<p style=\"margin:0; margin:0;font-size: 32px;position: absolute;right: 0;top: 0; color: #7bc57b;\">{{needMachining}}</p></span></div></div>",
+                            "isUseSearchInput": true,
+                            "isUseQRInput": false,
+                            "gid": "eb6307e3-6ee1-fca6-64a3-957e0249bf8f",
+                            "objectState": 2,
+                            "title": "样品加工状态"
+                        },
+                        {
+                            "type": "tab",
+                            "field": "root,sampleItemList",
+                            "gid": "94c5b290-b4cb-78c7-d40b-db1d3b897752",
+                            "objectState": 2
+                        },
+                        {
+                            "type": "btns",
+                            "field": [{
+                                "functionConfig": {
+                                    "ajaxDataVaildConfig": "required",
+                                    "contentType": "application/json",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "defaultMode": "custom",
+                                    "functionClass": "modal",
+                                    "id": "1320736138612179954",
+                                    "suffix": "/sample/accept/samples/mobileChooseAndSubmit",
+                                    "text": "样品加工",
+                                    "title": "样品加工",
+                                    "type": "POST",
+                                    "voName": "sampleSampleVO",
+                                    "entityName": "_sample_accept_samples",
+                                    "chineseName": "入库或制样并提交(移动端)",
+                                    "englishName": "mobileChooseAndSubmit",
+                                    "isCloseWindow": true,
+                                    "isInlineBtn": false,
+                                    "successOperate": "refresh",
+                                    "isSendPageParams": true,
+                                    "isIsSave": false,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": false,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": false,
+                                    "url": getRootPath() + "/sample/accept/samples/mobileChooseAndSubmit"
+                                },
+                                "btn": {
+                                    "text": "样品加工",
+                                    "isReturn": true
+                                }
+                            }],
+                            "gid": "85276463-9c47-2898-a19e-63aa8079c4be",
+                            "objectState": 2
+                        }
+                    ],
+                    "draftBox": {
+                        "isUse": false,
+                        "isUseSave": true,
+                        "closeOrClear": true
+                    },
+                   /*  "pageParam": {
+                        "data": {
+                            "entrustAddress": "北京市西城区西长安街街道府右街西巷20-22号",
+                            "acceptBy": "1310954084307594226",
+                            "acceptId": "1319399886239674354",
+                            "batchId": "1319399886239675378",
+                            "sampleCode": "JC191130001",
+                            "sampleCateId": "1316068178102584306",
+                            "sampleCateName": "钢管1（测试）",
+                            "sampleName": "螺栓【1129】1148",
+                            "stdIds": "1592,250",
+                            "stdNames": "聚乙烯管材和管件炭黑含量的测定(热失重法),铁路混凝土梁配件多元合金共渗防腐技术条件",
+                            "dueDate": 7,
+                            "urgentState": 2,
+                            "representQuantity": "18050根",
+                            "sampleQuantity": "6根（3根力学，3根化学和金相）",
+                            "sampleStatusId": "1319304226580464626",
+                            "isJudge": 1,
+                            "isRetained": 1,
+                            "remark": "样品委托备注--北京市西城区西长安街街道府右街西巷20-22号",
+                            "createdBy": "1310954084307594226",
+                            "createdByName": "Lims管理员",
+                            "whenCreated": 1576741874000,
+                            "modifiedBy": "1310954084307594226",
+                            "modifiedByName": "Lims管理员",
+                            "whenModified": 1576741874000,
+                            "manufacture": "河北省石家庄桥西区新石中路188【测试】",
+                            "enginePart": "桥梁工程、隧道工程、路基及其他工程部位",
+                            "observer": "雷建明",
+                            "otherRequirements": "TB/T 3274-2011《聚乙烯管材和管件炭黑含量的测定(热失重法)》,GB 13021-1991《铁路混凝土梁配件多元合金共渗防腐技术条件》",
+                            "reportSendWay": "0",
+                            "reportCopies": "3  +1",
+                            "mailAddress": "北京市西城区西长安街街道府右街西巷20-22号",
+                            "needSubcontract": "1",
+                            "needOutMachining": 1,
+                            "warrantyFilesIds": "1319304467098633202",
+                            "requirementsFilesIds": "1319304473541084146",
+                            "otherFilesIds": "1319304479983535090",
+                            "postWay": "1",
+                            "postNo": "123",
+                            "postFileIds": "1320828876619777010",
+                            "handleWay": "1",
+                            "entrustContactPhone": "18300020002",
+                            "sampleProblemReason": "",
+                            "problemHanding": "",
+                            "handingState": "0",
+                            "remake": "123123",
+                            "testFee": 5000,
+                            "acceptCode": "SL191130002",
+                            "entrustName": "委托方--中铁三局集团山西省太原市和平阶段和平街和平区【测试】",
+                            "entrustContactName": "测宪政",
+                            "entrustSignBy": "委托方签字人",
+                            "sampleState": "2",
+                            "testTypeId": "0",
+                            "workItemId": "1319400196550956018",
+                            "workItemState": 2,
+                            "hasRollback": true,
+                            "hasOvertime": false,
+                            "hasEmergency": false,
+                            "hasSuspend": false,
+                            "instanceIds": "1319399889460799474",
+                            "instanceStates": "1",
+                            "objectState": 0,
+                            "objectCheckState": 0,
+                            "id": "1319399886239676402",
+                            "netstarSelectedFlag": true,
+                            "systemInfo": {
+                                "context": {
+                                    "env": "qa",
+                                    "staticurl": "https://qa.wangxingcloud.com/assets",
+                                    "weburl": "getRootPath() + ",
+                                    "loginUrl": "https://qa.wangxingcloud.com/sites/base/test.html",
+                                    "rabbitmq": {
+                                        "wsAddresses": "wss://qa.wangxingcloud.com/ws",
+                                        "virtualHost": "/"
+                                    }
+                                },
+                                "user": {
+                                    "topOrgId": "1310954084307567602",
+                                    "topOrgCode": "0001",
+                                    "topOrgName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "orgId": "1310954084307567602",
+                                    "orgCode": "0001",
+                                    "orgName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "deptId": "1310954084307567602",
+                                    "deptCode": "0001",
+                                    "deptName": "国家金属制品质量监督检验中心/中钢集团郑州金属制品研究院有限公司",
+                                    "userId": "1310954084307594226",
+                                    "userName": "Lims管理员",
+                                    "account": "lims"
+                                }
+                            },
+                            "workItemIds": "1319400196550956018"
+                        },
+                        "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1319024406239904754?templateparam=nscloud.samplecustomlist21576747206211"
+                    }
+               */
+                }
+                // NETSTAR添加url参数即pageParam
+                var pageConfig = {config:sampledealWith2Mobile};
+                var params = pageConfig.config.pageParam.data ? pageConfig.config.pageParam.data : {};
+                for(var componentI=0; componentI<pageConfig.config.components.length;componentI++){
+                    var componentData = pageConfig.config.components[componentI];
+                    switch(componentData.type){
+                        case 'vo':
+                            componentData.field.unshift({
+                                id:'id',
+                                type:'hidden',
+                            });
+                            componentData.field.unshift({
+                                id:'sampleId',
+                                type:'hidden',
+                                value:params.id
+                            });
+                            break;
+                        case 'blockList':
+                            componentData.listExpression = '<div class="block-list-item">'
+                                                                + '<div class="block-list-item-text text-left"><span>项目名称：<p style="margin:0">{{itemReportName}}</p></span></div>'
+                                                                + '<div class="block-list-item-text text-left"><span style="color: #a2a2a2;">是否制样加工：<p style="margin:0; margin:0;font-size: 32px;position: absolute;right: 0;top: 0;">{{needMachining}}</p></span></div>'
+                                                            + '</div>'
+                            componentData.field[1].editConfig.subdata[0].value = '<i class="icon-check" style="font-size: 32px; color: #7bc57b;"></i>';  // 是
+                            componentData.field[1].editConfig.subdata[1].value = '<i class="icon-close" style="font-size: 24px; padding:4px; line-height:32px; color: #ddd;"></i>';  // 否
+                            componentData.rowTapHandler = function(index, data, vueData){
+                                var originalRows = $.extend(true, [], vueData.originalRows);
+                                originalRows[index].needMachining = originalRows[index].needMachining === 0 ? 1 : 0;
+                                vueData.originalRows = originalRows;
+                            }
+                            break;
+                    }
+                }
+                sampleCustomList2 = NetstarProject.init(sampledealWith2Mobile);
+
+                NetstarTemplate.init(sampledealWith2Mobile);
+
+            });
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">样品加工</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+        </script>
+    </container>
+</body>
+
+</html>

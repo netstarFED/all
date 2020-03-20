@@ -1,0 +1,302 @@
+
+.block-tags {
+	padding: @base-padding;
+	background-color: #fff;
+	border: 1px solid @ns-border-color;
+
+	.row {
+		margin: 0 -5px;
+
+		& > div {
+			padding: (@base-padding / 2);
+			position: relative;
+		}
+
+		.block-tags-content {
+			display: block;
+			border: 1px solid @ns-border-color;
+
+			& > .text {
+				padding: @base-padding;
+				display: block;
+				a{
+					text-decoration: underline;
+					&:hover{
+						color: @ns-info;
+						text-decoration: none;
+					}
+				}
+			}
+
+			&.button{
+				.text{
+					&:last-child {
+					padding: 0 @base-padding;
+					background: #f8f8f8;
+					text-align: right;
+					border-top: 1px solid @ns-border-color;
+						.btn {
+							min-width: 30px;
+							i {
+								padding-right: 0;
+							}
+
+							span {
+								display: none;
+							}
+
+							& + .btn {
+								margin-left: 5px;
+							}
+
+						}
+					}
+				}
+			}
+
+
+			&.selected{
+				@block-tags-content-selected-bg: @body-bg;
+				@block-tags-content-selected-border-color: darken(@ns-border-color,8);
+				background: @block-tags-content-selected-bg;
+				border-color: @block-tags-content-selected-border-color;
+				&.button{
+					.text{
+						&:last-child{
+							background: darken(@block-tags-content-selected-bg, 3);
+						}
+					}
+				}
+			}
+			select{
+				border: 1px solid @ns-border-color;
+				display: block;
+				width: 100%;
+				height: 30px;
+				background: #f0f5fb;
+				&:focus{
+					outline: none;
+				}
+			}
+		}
+
+		// 关闭
+		.fa-close{
+			opacity: 0;
+			@close-size: 20px;
+			.square(@close-size);
+			position: absolute;
+			float: none;
+			top: 5px;
+			right: 5px;
+			cursor: pointer;
+			transition: ease-in-out all .35s;
+			&:before{
+				display: block;
+				.square(@close-size);
+				line-height: @close-size;
+				text-align: center;
+				content: "\f057";
+				color: #999;
+
+			}
+			&:hover{
+				&:before{
+					color: @ns-warning;
+		
+				}
+			}
+		}
+		& > div:hover{
+			.fa-close{
+				opacity: 1;
+			}	
+		}
+
+	}
+
+	.variablelist &{
+		padding: 0;
+		border: 0;
+	}
+
+	.no-data{
+		// .no-data-style();
+		color: transparent;
+		margin-top: (@base-margin / 4);
+	}
+
+	// block-tags列表模式
+	&.block-tags-list{
+		padding: 0;
+		padding-top: 2px;
+		border: 0;
+		& > .row{
+			
+			& > div{
+				width: 100%;
+				padding: 0 5px;
+				.block-tags-content{
+					@block-tags-content-height: 50px;
+					padding: 0;
+					padding-right: 135px;
+					margin-top: -1px;
+					min-height: @block-tags-content-height;
+					&.button{
+						.text{
+							background-color: transparent;
+							border: 0;
+							padding: 0;
+							line-height: @block-tags-content-height - 2;
+						}
+						.block-table-serial{
+							float: left;
+							width: 20px;
+							height: @block-tags-content-height;
+							line-height: @block-tags-content-height;
+							border-right: 1px solid @ns-border-color;
+							text-align: center;
+							color: lighten(@gray-light, 20%);
+
+						}
+						.block-table-left{
+							float: left;
+							.block-table-title{
+								display: inline-block;
+								float: left;
+								padding-right: @base-padding;
+								.text{
+									font-size: 14px;
+									color: #009ade;
+									// 体检项目名称
+									&.serialState{
+										    overflow: hidden;
+										    width: 110px;
+										    text-overflow: ellipsis;
+										    white-space: nowrap;
+										    display: block;
+										    text-align: left;
+										    padding-left: @base-padding;
+											
+											// 体检套餐标记
+										    &.plus1{
+												position: relative;
+												&:before{
+													position: absolute;
+													width: 12px;
+													text-align: center;
+													height: 12px;
+													line-height: 12px;
+													content: '+';
+													color: #fff;
+													top: 0;
+													left: 1px;
+													z-index: 3;
+												}
+												&:after{
+													position: absolute;
+													top: 0;
+													left: 0;
+													content: '';
+													width: 0;
+													height: 0;
+													border: 10px solid @ns-success;
+													border-right-color: transparent;
+													border-bottom-color: transparent;
+													z-index: 2;
+												}
+										    }
+										    &.plus2{
+												position: relative;
+												&:before{
+													position: absolute;
+													width: 12px;
+													text-align: center;
+													height: 12px;
+													line-height: 12px;
+													content: '+';
+													color: #fff;
+													top: 0;
+													left: 1px;
+													z-index: 3;
+												}
+												&:after{
+													position: absolute;
+													top: 0;
+													left: 0;
+													content: '';
+													width: 0;
+													height: 0;
+													border: 10px solid #73b6ff;
+													border-right-color: transparent;
+													border-bottom-color: transparent;
+													z-index: 2;
+												}
+										    }
+
+
+									}
+								}
+								
+							}
+
+						}
+						.block-table-right{
+							position: absolute;
+							top: -1px;
+							right: 50px;
+							float: right;
+							i{
+								font-style: normal;
+							}
+						}
+						
+						.block-table-content{
+							
+						}
+						// 按钮
+						.block-table-button{
+							position: absolute;
+							top: 50%;
+							right: -40px;
+							margin-top: -26px;
+						}
+						&.selected{
+							.text{
+								background-color: transparent;
+							}
+						}
+
+					}
+					.text{
+						font-size: 12px;
+						&.title{
+							font-size: 14px;
+							color: #009ade;
+							
+						}
+						// 原价
+						&.price{
+							color: darken(@gray-lighter, 10%);
+							text-decoration: line-through;
+							line-height:(@block-tags-content-height - 2);
+							display: inline-block;
+							min-width: 45px;
+							text-align: right;
+						}
+						// 折后价格
+						&.rebate-price{
+							display: inline-block;
+							min-width: 45px;
+							text-align: right;
+							font-size: 14px;
+							color: @ns-success;
+							line-height:(@block-tags-content-height - 2);
+						}
+					}
+				}
+			}
+		}
+	}
+
+}

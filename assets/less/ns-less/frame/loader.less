@@ -1,0 +1,166 @@
+// Loader
+@loader-1-size: 30px;
+@loader-1-color: #555;
+@loader-1-duration: 1000ms;
+
+.loader-1 {
+  .animation(~"loaderAnimate @{loader-1-duration} linear infinite");
+  clip: rect(0, @loader-1-size, @loader-1-size, @loader-1-size/2); 
+  height: @loader-1-size;
+  width: @loader-1-size;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -@loader-1-size/2;
+  margin-top: -@loader-1-size/2;
+}
+
+.keyframes(~"loaderAnimate, 0%{ transform: rotate(0deg); } 100%{ transform: rotate(220deg); }");
+.keyframes(~"loaderAnimate2, 0%{ box-shadow: inset @{loader-1-color} 0 0 0 8px; transform: rotate(-140deg); } 50%{ box-shadow: inset @{loader-1-color} 0 0 0 2px; } 100%{ box-shadow: inset @{loader-1-color} 0 0 0 8px; transform: rotate(140deg); }");
+
+.loader-1:after {
+  .animation(~"loaderAnimate2 @{loader-1-duration} ease-in-out infinite");
+  clip: rect(0, @loader-1-size, @loader-1-size, @loader-1-size/2);
+  content:'';
+  border-radius: 50%; 
+  height: @loader-1-size;
+  width: @loader-1-size;
+  position: absolute; 
+} 
+
+
+@keyframes loaderAnimate2 {
+  0% {
+    box-shadow: inset #fff 0 0 0 17px;
+    transform: rotate(-140deg);
+  }
+  50% {
+    box-shadow: inset #fff 0 0 0 2px;
+  }
+  100% {
+    box-shadow: inset #fff 0 0 0 17px;
+    transform: rotate(140deg);
+  }
+}
+
+
+// Loader 2
+@loader-2-size: 30px;
+@loader-2-color: #fff;
+@loader-2-duration: 1000ms;
+
+.loader-2 {
+  .animation(~"loaderAnimate2 @{loader-2-duration} linear infinite");
+  clip: rect(0, @loader-2-size, @loader-2-size, @loader-2-size/2); 
+  height: @loader-2-size;
+  width: @loader-2-size;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -@loader-2-size/2;
+  margin-top: -50px;
+}
+
+.keyframes(~"loaderAnimate2, 0%{ transform: rotate(0deg); } 100%{ transform: rotate(220deg); }");
+.keyframes(~"loaderAnimate22, 0%{ box-shadow: inset @{loader-2-color} 0 0 0 8px; transform: rotate(-140deg); } 50%{ box-shadow: inset @{loader-2-color} 0 0 0 2px; } 100%{ box-shadow: inset @{loader-2-color} 0 0 0 8px; transform: rotate(140deg); }");
+
+.loader-2:after {
+  .animation(~"loaderAnimate22 @{loader-2-duration} ease-in-out infinite");
+  clip: rect(0, @loader-2-size, @loader-2-size, @loader-2-size/2);
+  content:'';
+  border-radius: 50%; 
+  height: @loader-2-size;
+  width: @loader-2-size;
+  position: absolute; 
+} 
+
+
+@keyframes loaderAnimate22 {
+  0% {
+    box-shadow: inset #fff 0 0 0 17px;
+    transform: rotate(-140deg);
+  }
+  50% {
+    box-shadow: inset #fff 0 0 0 2px;
+  }
+  100% {
+    box-shadow: inset #fff 0 0 0 17px;
+    transform: rotate(140deg);
+  }
+}
+
+
+.page-loading-overlay {
+	position: fixed;
+	left: 0; top: 0; bottom: 0; right: 0;
+	background: @loader-background;
+	z-index: 20000;
+	.opacity(1);
+	.transition(~"all 800ms ease-in-out");
+	
+	&.loaded {
+		.opacity(0);
+		display: none;
+	}
+}
+
+
+// Loader 3
+@loader-3-size: 30px;
+@loader-3-color: #fff;
+@loader-3-duration: 0;
+
+.loader-3 {
+  .animation(~"loaderAnimate3 @{loader-3-duration} linear infinite");
+  clip: rect(0, @loader-3-size, @loader-3-size, @loader-3-size/2); 
+  height: @loader-3-size;
+  width: @loader-3-size;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -@loader-3-size/2;
+  margin-top: -50px;
+}
+
+.keyframes(~"loaderAnimate3, 0%{ transform: rotate(0deg); } 100%{ transform: rotate(220deg); }");
+.keyframes(~"loaderAnimate33, 0%{ box-shadow: inset @{loader-3-color} 0 0 0 8px; transform: rotate(-140deg); } 50%{ box-shadow: inset @{loader-3-color} 0 0 0 2px; } 100%{ box-shadow: inset @{loader-3-color} 0 0 0 8px; transform: rotate(140deg); }");
+
+.loader-3:after {
+  .animation(~"loaderAnimate33 @{loader-3-duration} ease-in-out infinite");
+  clip: rect(0, @loader-3-size, @loader-3-size, @loader-3-size/2);
+  content:'';
+  border-radius: 50%; 
+  height: @loader-3-size;
+  width: @loader-3-size;
+  position: absolute; 
+} 
+
+
+@keyframes loaderAnimate33 {
+  0% {
+    box-shadow: inset #fff 0 0 0 17px;
+    transform: rotate(-140deg);
+  }
+  50% {
+    box-shadow: inset #fff 0 0 0 2px;
+  }
+  100% {
+    box-shadow: inset #fff 0 0 0 17px;
+    transform: rotate(140deg);
+  }
+}
+
+
+.page-loading-overlay {
+  position: fixed;
+  left: 0; top: 0; bottom: 0; right: 0;
+  background: @loader-background;
+  z-index: 20000;
+  .opacity(1);
+  .transition(~"all 800ms ease-in-out");
+  
+  &.loaded {
+    .opacity(0);
+    visibility: hidden;
+  }
+}

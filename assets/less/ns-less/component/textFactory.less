@@ -1,0 +1,25 @@
+// 文本工厂
+@factory-tag-size: 30px;
+.factory-dropdown{
+	position: absolute;
+	z-index: 1099;
+	top: 0;
+	border: 1px solid @ns-border-color;
+	background: #fff;
+	padding: 1rem;
+	box-shadow: 4px 4px 1px rgba(0,0,0, .08);
+	.factory-tag{
+		display: block;
+		float: left;
+		.square(@factory-tag-size);
+		text-align: center;
+		line-height: (@factory-tag-size - 2);
+		border: 1px solid lighten(@ns-border-color, 5);
+		margin: -1px 0 0 -1px;
+		cursor: pointer;
+		&:hover{
+			box-shadow: 0 0 5px rgba(0,0,0, .15) inset;
+			color: @ns-info;
+		}
+	}
+}

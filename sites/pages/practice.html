@@ -1,0 +1,552 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<script>
+        var getRootPath = function () {
+            return "http://10.10.1.234:30000/";
+        }
+    </script>
+    <container>
+        <style type="text/css">
+           .no-data{
+                min-height: auto!important;
+            }
+        </style>
+        <div class="pt-main businessdatabase ">
+            <div class="pt-container">
+                <div class="pt-main-row">
+                    <div class="pt-main-col" id="tree-component-standard-0">
+                        <div class="pt-panel">
+                            <div class="pt-container">
+                                <div class="pt-panel-row">
+                                    <div class="pt-panel-col">
+                                        <div class="pt-tree">
+                                            <div class="pt-container">
+                                                <div class="businessdatabase-tree-ztree layout-ztree" style="height:700px;"
+                                                    id="netstar-lims-pricemanage-tree"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-main-col" style="margin-top: 28px;">
+                        <!-- <div class="pt-panel nav-form" id="mainlist-btn-component-standard-2"></div> -->
+                        <div class="pt-panel businessdatabase-grid-component" style="margin-bottom: 5px;height: 65px;"
+                            id="mainlist-component-standard-1"></div>
+                        <div class="pt-panel nav-form" id="detaillist-btn-component-standard-5"></div>
+                        <div class="pt-panel businessdatabase-grid-component" id="netstar-lims-pricemanage-property-grid"
+                            style="height: 247.5px;"></div>
+                        <div class="pt-panel businessdatabase-grid-component" style="margin-bottom:0;"
+                            id="netstar-lims-pricemanage-price-grid"></div>
+                    </div>
+                </div>
+            </div>
+    <script type="text/javascript">
+    var limsTemplate = {}
+         limsTemplate.showTemplateByPageData = function (config, editorType, ids) {
+                var treeArray = NetstarTemplate.tree.getSelectedNodes('netstar-lims-pricemanage-tree');
+                var mainSelectedData = NetstarBlockList.getSelectedData('mainlist-component-standard-1');
+                var detailSelectedData = NetStarGrid.getSelectedData('netstar-lims-pricemanage-property-grid');
+                var detailCheckedData = NetStarGrid.getCheckedData('netstar-lims-pricemanage-property-grid');
+                // if(mainSelectedData[0].id.length == 0){
+                //     var treeData = treeArray[0].id
+                //     NetStarGrid.refreshById('netstar-lims-pricemanage-property-grid',{sampleCateStdId:treeData});
+                // }else{
+                //     NetStarGrid.refreshById('netstar-lims-pricemanage-property-grid',{sampleCateStdId:treeData,});
+                // }
+
+                if ($.isArray(mainSelectedData)) {
+                    config.pageParam.sampleCateId = treeArray[0].id
+                    if (mainSelectedData.length > 0) {
+                        config.pageParam.sampleCateStdId = mainSelectedData[0].id;
+                        config.pageParam.sampleCateId = mainSelectedData[0].sampleCateId;
+                        //config.pageParam.ids = mainSelectedData[0].sampleCateId;//////
+                        config.pageParam.stdId = mainSelectedData[0].stdId;
+                    }
+                }
+                if ($.isArray(detailSelectedData)) {
+                    if (detailSelectedData.length > 0) {
+                        config.pageParam.parentId = detailSelectedData[0].id;
+                    }
+                }
+                switch (editorType) {
+                    case 'edit':
+                        config.pageParam = detailSelectedData[0];
+                        if (typeof (config.pageParam) == 'undefined') {
+                            config.pageParam = {};
+                        }
+                        break;
+                    case 'ids':
+                        config.pageParam.ids = ids;
+                        break;
+                }
+                for (var i = 0; i < config.components.length; i++) {
+                    var componentData = config.components[i];
+                    switch (componentData.type) {
+                        case 'vo':
+                            var fieldArray = componentData.field;
+                            for (var fieldI = 0; fieldI < fieldArray.length; fieldI++) {
+                                if (config.pageParam[fieldArray[fieldI].id]) {
+                                    fieldArray[fieldI].value = config.pageParam[fieldArray[fieldI].id];
+                                }
+                                if (typeof (config.pageParam[fieldArray[fieldI].id]) == 'number') {
+                                    fieldArray[fieldI].value = config.pageParam[fieldArray[fieldI].id];
+                                }
+                                /*if(fieldArray[fieldI].id == 'sampleCateId'){
+                                    fieldArray[fieldI].value = config.pageParam.sampleCateId;
+                                }else if(fieldArray[fieldI].id == 'stdId'){
+                                    fieldArray[fieldI].value = config.pageParam.stdId;
+                                }else if(fieldArray[fieldI].id == 'sampleCateStdId'){
+                                    fieldArray[fieldI].value = config.pageParam.sampleCateStdId;
+                                }else if(fieldArray[fieldI].id == 'parentId'){
+                                    fieldArray[fieldI].value = config.pageParam.parentId;
+                                }*/
+                            }
+                            break;
+                    }
+                }
+                config.closeHandler = function () {
+                    var treeJson = {};
+                    var treeArray = NetstarTemplate.tree.getSelectedNodes('netstar-lims-pricemanage-tree');
+                    if (treeArray.length > 0) {
+                        if (treeArray.length == 1) {
+                            treeJson = treeArray[0];
+                        }
+                    }
+                    LimsPriceManager.methodList.refresh(function () {
+                        LimsPriceManager.propertyGrid.refresh(function () {
+                            LimsPriceManager.priceGrid.refresh
+                        })
+                    })
+                }
+                NetstarTemplate.init(config);
+            }
+            var limsPriceManager = (function (res) {
+                var commonHeight = $(window).outerHeight() - 35 - 40;
+                var gridHeight = commonHeight - 28 - 70 - 34; //减去标题的高度减去头部块状表格的高度-按钮的高度
+                gridHeight = parseFloat(gridHeight / 2);
+                $('#netstar-lims-pricemanage-tree').css('height', commonHeight);
+                var copyListArr = [];
+                var configs = {
+                    classTree :{
+                        type: 'tree',
+                        id: 'netstar-lims-pricemanage-tree',
+                        title: '价格管理',
+                        treeId: 'id',
+                        idField: 'id',
+                        height: commonHeight - 28 - 34 - 34,
+                        isSearch: true,
+                        readonly: true,
+                        ajax: {
+                            type: "POST",
+                            url: getRootPath() + '/sampleCate/getSampleCateTreeList',
+                            dataSrc: 'rows',
+                            data: {},
+                        },
+                        addAjax: {
+                            url: getRootPath() + '/dataSourceNodes/addNode',
+                        },
+                        editAjax: {
+                            url: getRootPath() + '/dataSourceNodes/updateNode',
+                            dataSrc: 'rows',
+                        },
+                        deleteAjax: {
+                            url: getRootPath() + '/dataSourceNodes/delById',
+                            dataSrc: 'rows',
+                        },
+                        moveAjax: {
+                            url: getRootPath() + '/dataSourceNodes/moveNode',
+                            dataSrc: 'rows',
+                        },
+                        textField: 'sampleCateName',
+                        parentField: 'parentId',
+                        childField: 'children',
+                        level: "2",
+                        clickHandler: function (data) {
+                            classTree.selected(data.treeNode.id)
+                        }
+                    },
+                    methodBlock :{
+                        type: 'blockList',
+                        idField: 'id',
+                        parent: 'root',
+                        id: 'mainlist-component-standard-1',
+                        plusClass:"block-standard",
+                        data: {
+                            idField: 'id',
+                            dataSource: [],
+                            isServerMode: false,
+                            //  src: getRootPath() + '/sampleCateStd/getList.json', //数据源地址
+                            //  type: "POST", //GET POST
+                            //  contentType: 'application/json; charset=utf-8',
+                            //  source: {
+                            //      sampleCateId: '-1'
+                            //  }, //参数对象{id:1,page:100}
+                            //  isServerMode:         true,           //是否开启服务器模式
+                            //  dataSrc: 'rows',
+                        },
+
+                        columns: [{
+                            field: 'stdName',
+                            title: '产品标准名称',
+                            width: 150,
+                            type: "text",
+                            editConfig: {
+                                type: "text",
+                            },
+                            searchable: true,
+                            orderable: false,
+                            isCommon: true,
+                        }],
+                        ui: {
+                           
+                            isEditMode: false,
+                            selectMode: "single",
+                            isCheckSelect: true,
+                            defaultSelectedIndex: 0,
+                            listExpression: "<div class='block-standard-text'>" +
+                                "<div class='title' title='{{stdName}}' 'style='backgroud:'#fff''>{{stdName}}</div>" +
+                                "<div class='text' 'style='backgroud:'#fff''>{{stdCode}}</div>" +
+                                "</div>",
+                            selectedHandler: function (data) {
+                                // console.log( 'ddd',data)
+                                methodList.selected(data.stdId)
+                            }
+
+                        },
+
+                    },
+                    propertyGrid: {
+                        title: '产品检测项目',
+                        keyField: 'GoodsPlatformVo',
+                        idField: 'id',
+                        type: 'list',
+                        ui: {
+                            isCheckSelect: true,
+                            isEditMode: false,
+                            selectMode: "single",
+                            defaultSelectedIndex: 0,
+                            tableRowBtns: [{
+                                    text: "删除",
+                                    handler: function (data) {
+                                        nsConfirm('是否确认删除', function(success){
+                                            debugger;
+                                            var ajaxData = {}
+                                            var stdId = propertyGrid.getId();
+                                            if (stdId) {
+                                                ajaxData.id = stdId;
+                                            }
+                                            if(success == true){
+                                                var ajaxConfig = {
+                                                    url: getRootPath() + 'testPrices/delById',
+                                                    type: 'POST',
+                                                    data: ajaxData,
+                                                    contentType:'application/x-www-form-urlencoded',
+                                            
+                                                }
+                                            NetStarUtils.ajax(ajaxConfig,function(res,_ajaxConfig){
+                                                if(res.success){
+                                                    propertyGrid.refresh(function(){
+                                                        priceGrid.refresh()
+                                                    })
+                                                }
+                                            })
+                                            }
+                                        })
+                                    }
+                                }
+
+                            ],
+                            selectedHandler: function (data) {
+                                propertyGrid.selected(data.id)
+                            }
+                            // level: -1
+                        },
+                        data: {
+                            tableID: "netstar-lims-pricemanage-property-grid",
+                            idField: "id",
+                            dataSourc: [],
+                            // src: getRootPath() + 'priceDetails/getList',
+                            // type: 'POST',
+                            // data: {
+                            //     sampleCateStdId: '-1',
+                            // },
+                            // height:500,
+                            // dataSrc: 'rows',
+                            // // contentType: 'application/json; charset=utf-8'
+                            // contentType: 'application/x-www-form-urlencoded'
+                        },
+                        columns: [{
+                                field: 'itemName',
+                                title: '检测项目',
+                                searchable: true,
+                                // isTreeNode: true,
+                                editable: true,
+                                width: 100,
+                            }, {
+                                field: 'methodName',
+                                title: '检测方法',
+                                width: 400,
+                                searchable: true,
+                                editable: true,
+                                editable: true,
+                            }, {
+                                field: 'methodCode',
+                                title: '方法编号',
+                                width: 200,
+                                searchable: true,
+                                editable: true,
+                            }, {
+                                field: 'priceGroupName',
+                                title: '价格组',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'groupPrice',
+                                title: '价格组价格',
+                                width: 100,
+                                contentType:'money',
+                                variableType:"number",
+                                formatHandler: {
+                                    type: 'money',
+                                    data: {
+                                        format: {
+                                          
+                                        }
+                                    }
+                                },
+                                editable: true,
+                            }, {
+                                field: 'samplingDesc',
+                                title: '默认实验数量',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'defaultTestQuantity',
+                                title: '默认实验数量单位',
+                                width: 100,
+                                editable: true,
+                            }, {
+                                field: 'defaultUnit',
+                                title: '是否维护价格',
+                                width: 100,
+                                editable: true,
+                            },
+                            {
+                                field: 'defaultPrice',
+                                title: '默认价格',
+                                width: 100,
+                                editable: true,
+                            },
+                        ]
+                    },
+                    priceGrid: {
+                        title: '检测方法',
+                        keyField: 'GoodsPlatformVo',
+                        idField: 'id',
+                        type: 'list',
+                        data: {
+                            tableID: "netstar-lims-pricemanage-price-grid",
+                            idField: "id",
+                            dataSourc: []
+                            // src: getRootPath() + 'priceDetails/getList',
+                            // type: 'POST',
+                            // data: {
+                            //     sampleCateStdId: '-1',
+                            // },
+                            // dataSrc: 'rows',
+                            // contentType: 'application/json; charset=utf-8'
+                            // contentType: 'application/x-www-form-urlencoded'
+
+                        },
+                        ui: {
+                            parentField: "parentId",
+                            selectMode: "single",
+                            selectedHandler: function (data) {
+                                priceGrid.selected(data.id)
+                            }
+                        },
+                        columns: [{
+                            field: 'propertyValue',
+                            title: '属性',
+                            searchable: true,
+                            width: 80,
+                            editable: true,
+                        }, {
+                            field: 'refPrice',
+                            title: '参考价格',
+                            width: 80,
+                            searchable: true,
+                            editable: true,
+                            contentType:'money',
+                                variableType:"number",
+                                formatHandler: {
+                                    type: 'money',
+                                    data: {
+                                        format: {
+                                          
+                                        }
+                                    }
+                                },
+                        }, {
+                            field: 'unit',
+                            title: '单位',
+                            width: 100,
+                            editable: true,
+                            mindjetIndexState: 2,
+                            isDefaultSubdataText: true,
+                        }, {
+                            field: 'gdp',
+                            title: '产值',
+                            width: 60,
+                            editable: true,
+                        }, {
+                            field: 'permitDisCount',
+                            title: '允许打折',
+                            width: 60,
+                            editable: true,
+
+                        }]
+                    },
+                }
+                var classTree = {
+                    id:"",
+                    containerId:"",
+                    selected:function(id){
+                        var _this = this;
+                        _this.id = id;
+                        methodList.refresh(function(resRows){
+                            propertyGrid.refresh()
+                        });
+                    },
+                    init: function(){
+                        NetstarTemplate.tree.init(configs.classTree);
+                    },
+                    getId:function(){
+                        return this.id
+                    }
+                }
+                var methodList = {
+                    id:"",
+                    containerId:'',
+                    selected:function(id){
+                        var _this = this;
+                        _this.id = id;
+                        propertyGrid.refresh();
+                    },
+                    init:function(){
+                        this.containerId = configs.methodBlock.id;
+                        NetstarBlockList.init(configs.methodBlock);
+                    },
+                    refresh:function(cb){
+                        var _this = this;
+                        var ajaxConfig = {
+                            url:getRootPath() + '/sampleCateStd/getList.json',
+                            type:"POST",
+                            dataSrc:"rows",
+                            data:{
+                                sampleCateId: classTree.id
+                            }
+                        }
+                        NetStarUtils.ajax(ajaxConfig,function(res){
+                            _this.rows = res.rows
+                            NetstarBlockList.refreshDataById(_this.containerId , _this.rows)
+                            if(typeof(cb) == 'function'){
+                                cb(res.rows)
+                            }
+                        })
+                    },
+                    getId: function() {
+                        var selecctId = NetstarBlockList.getSelectedData(this.containerId);
+                        var id = false;
+                        if(selecctId && selecctId.length == 1){
+                            id = selecctId[0].stdId;
+                        }
+                    }
+                }
+                var propertyGrid = {
+                    id:"",
+                    containerId:"",
+                    selected:function(id){
+                        var _this = this;
+                        _this.id = id;
+                    },
+                    init:function(){
+                        this.containerId = configs.propertyGrid.data.tableID
+                        NetStarGrid.init(configs.propertyGrid)
+                    },
+                    refresh:function(){
+                        var _this = this;
+                        var ajaxData = {}
+                        ajaxData.sampleCateId = classTree.getId()
+                        var stdId = methodList.getId();
+                        if(stdId){
+                            ajaxData.stdId = stdId
+                        }   
+                        var ajaxConfig = {
+                            src: getRootPath() + 'testPrices/getList',
+                            type: 'POST',
+                            data: ajaxData,
+                            dataSrc: 'rows',
+                        }
+                        NetStarUtils.ajax(ajaxConfig,function(res,_ajaxConfig){
+                            _this.rows = res.rows
+                            NetStarGrid.refreshDataById(_this.containerId,_this.rows)
+                        })
+                    }
+                }
+                function init(){
+                    classTree.init(); 
+                    methodList.init();
+                    propertyGrid.init();
+                }
+                init();
+            })()
+         function dialogTemplateByUrl(url, editorType) {
+                    if (editorType == 'edit') {
+                        var tempValueName = new Date().getTime();
+                        NetstarTempValues[tempValueName] = {
+                            id: '3333'
+                        };
+                        var urlStr = encodeURIComponent(encodeURIComponent(tempValueName));
+                        url = url + '?templateparam=' + urlStr;
+                    }
+                    var ajaxConfig = {
+                        pageIidenti: url,
+                        url: url,
+                        type: 'GET',
+                        dataType: 'html',
+                        callBackFunc: function (isSuccess, data, _ajaxConfig) {
+                            if (isSuccess) {
+                                if (editorType == 'ids') {
+                                    var detailCheckedData = NetStarGrid.getCheckedData(
+                                        'netstar-lims-pricemanage-property-grid');
+                                    var ids = '';
+                                    for (var i = 0; i < detailCheckedData.length; i++) {
+                                        ids += detailCheckedData[i].id + ',';
+                                    }
+                                    ids = ids.substring(0, ids.length - 1);
+                                }
+                                // var indexOf=function(){}
+                                var funcStr = 'limsTemplate.showTemplateByPageData(pageConfig,"' +
+                                    editorType + '","' + ids + '")';
+                                var starStr = '<container>';
+                                var containerPage = data.substring(data.indexOf(starStr) + starStr
+                                    .length,
+                                    data.indexOf('</container>'));
+                                var exp = /NetstarTemplate\.init\((.*?)\)/;
+                                var funcStrRep = funcStr.replace('pageConfig', containerPage.match(exp)[
+                                    1]);
+                                containerPage = containerPage.replace(containerPage.match(exp)[0],
+                                    funcStrRep);
+                                var $container = nsPublic.getAppendContainer();
+                                $container.append(containerPage);
+                            }
+
+                        }
+                    };
+                    // $.ajax(ajaxConfig);
+                    pageProperty.getAndCachePage(ajaxConfig);
+                }
+    </script>
+    </container>

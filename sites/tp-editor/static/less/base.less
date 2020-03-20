@@ -1,0 +1,156 @@
+html {
+    height: 100%;
+    font-size: @font-size-base;
+
+}
+
+body {
+    height: 100%;
+
+    // 禁止鼠标托选功能
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td,
+form,
+pre {
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-size: 62.5%;
+}
+
+input,
+textarea,
+img,
+select,
+optgroup,
+option,
+button,
+button:active,
+button:focus,
+button:hover,
+a,
+a:active,
+a:focus,
+a:hover {
+    outline: 0 !important;
+}
+
+img {
+    display: inline-block;
+    border: none;
+    vertical-align: middle;
+}
+
+li {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%;
+}
+
+input,
+button,
+textarea,
+select,
+optgroup,
+option {
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+i,
+em {
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: @link-color;
+
+    &:hover,
+    &:focus,
+    &:visited {
+        text-decoration: none;
+    }
+}
+
+/**
+ * 滚动条
+ */
+
+//高宽分别对应横竖滚动条的尺寸
+::-webkit-scrollbar {
+    width: @scrollbar-width;
+    height: 1px;
+}
+
+//滚动条里面小方块
+::-webkit-scrollbar-thumb {
+    height: @scrollbar-control-height;
+    background: @scrollbar-control-bg;
+    border-left: @scrollbar-border-width solid transparent;
+}
+
+//滚动条里面轨道
+::-webkit-scrollbar-track {
+    background: @scrollbar-bg;
+    border-left: @scrollbar-border-width solid transparent;
+}
+
+
+.inline-block-hack {
+    letter-spacing: -.3333em;
+    font-size: 0;
+}

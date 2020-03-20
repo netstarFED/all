@@ -1,0 +1,19 @@
+@progress-bar-load-bg: #00fffb;
+@progress-bar-bg: darken(@progress-bar-load-bg, 40);
+@progress-bar-padding: (@base-padding / 2);
+
+.progress-bar {
+    .flex-block(flex-start, center);
+    position: relative;
+    background: @progress-bar-bg;
+    flex: 0 0 100%;
+
+    .progress-bar-load {
+        background: @progress-bar-load-bg;
+        padding: @progress-bar-padding;
+        .flex-block(center, center);
+        flex: 0 0 55.8%;
+        color: @body-bg;
+    }
+
+}

@@ -1,0 +1,301 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+    <script>
+        var treeByListGrid = {
+    "package": "nscloud.goods",
+    "template": "businessDataBase",
+    "readonly": false,
+    "isShowTitle": true,
+    "isFormHidden": false,
+    "versionNumber": "1",
+    "components": [
+        {
+            "type": "tree",
+            "field": [],
+            "ajax": {
+                "url": "/docs/data/tree/getList.json",
+                "data": {
+                    "categoryType": 1
+                },
+                "type": "GET",
+                "dataSrc": "rows",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "deleteAjax": {
+                "url": "/goodsCategory/v2/deleteById",
+                "data": {},
+                "type": "POST",
+                "dataSrc": "data",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "addAjax": {
+                "url": "/goodsCategory/v2/add",
+                "data": {},
+                "type": "POST",
+                "dataSrc": "data",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "moveAjax": {
+                "url": "/goodsCategory/v2/move",
+                "data": {},
+                "type": "POST",
+                "dataSrc": "data",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "editAjax": {
+                "url": "/goodsCategory/v2/update",
+                "data": {},
+                "type": "POST",
+                "dataSrc": "data",
+                "contentType": "application/x-www-form-urlencoded"
+            },
+            "idField": "id",
+            /*    "textField": "categoryName",
+            "childField": "children",
+            "parentField": "parentId",
+            "fromField": "fromCategoryId",
+            "level": "1",
+            "readonly": false,
+            "formatter": "{\"goodsShopCateId\":\"{id}\"}",
+            "gid": "eb19546f-418c-2f00-1a09-527f6516e7ee",
+            "unfieldId": "-1",
+            "unfieldText": "未分类",
+            "allfieldText": "全部",
+            "objectState": 2 */
+        },
+        {
+            "type": "btns",
+            "position": "footer",
+            "field": [
+                {
+                    "functionConfig": {
+                        "ajaxDataVaildConfig": "required",
+                        "contentType": "application/json",
+                        "dataFormat": "object",
+                        "dataSrc": "rows",
+                        "defaultMode": "excelExport",
+                        "functionClass": "list",
+                        "id": "1302512673979636713",
+                        "suffix": "/goods/v2/getList",
+                        "text": "导出",
+                        "type": "POST",
+                        "voName": "goods2GoodsVO",
+                        "entityName": "goods_v2",
+                        "chineseName": "根据条件获取商家商品列表",
+                        "englishName": "getList",
+                        "excelName": "商品导出",
+                        "url": "https://qaapi.wangxingcloud.com//goods/v2/getList"
+                    },
+                    "btn": {
+                        "text": "导出",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "ajaxDataVaildConfig": "required",
+                        "contentType": "application/x-www-form-urlencoded",
+                        "dataFormat": "id",
+                        "dataSrc": "data",
+                        "defaultMode": "confirm",
+                        "functionClass": "modal",
+                        "id": "1302512673979634665",
+                        "suffix": "/goods/v2/delById",
+                        "text": "删除",
+                        "title": "确定删除？",
+                        "type": "POST",
+                        "voName": "goods2GoodsVO",
+                        "entityName": "goods_v2",
+                        "chineseName": "根据id删除商家商品",
+                        "englishName": "delById",
+                        "isInlineBtn": true,
+                        "successMsg": "删除成功！",
+                        "successOperate": "refresh",
+                        "isSendPageParams": true,
+                        "isMobileInlineBtn": true,
+                        "shortcutKey": "ctrl+D",
+                        "isKeepSelected": false,
+                        "url": "https://qaapi.wangxingcloud.com//goods/v2/delById"
+                    },
+                    "btn": {
+                        "text": "删除",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "ajaxData": {},
+                        "data": {},
+                        "ajaxDataVaildConfig": "{}",
+                        "contentType": "application/x-www-form-urlencoded",
+                        "dataFormat": "object",
+                        "dataSrc": "rows",
+                        "defaultMode": "editorDialog",
+                        "functionClass": "modal",
+                        "suffix": "/templateMindPages/pageConfig/1310234576353757170",
+                        "text": "新增,复制新增",
+                        "type": "GET",
+                        "voName": "goods2GoodsVO",
+                        "entityName": "goods_v2",
+                        "chineseName": "商品维护",
+                        "englishName": "goodsEdite",
+                        "editorType": "add,copyAdd",
+                        "isInlineBtn": false,
+                        "isHaveSaveAndAdd": true,
+                        "isCopyObject": false,
+                        "formatValueData": "{\"categoryName\":\"{treeSelected.id}\"}",
+                        "isSendPageParams": true,
+                        "getPageDataExpression": {
+                            "name": "{productCataLog.name}"
+                        },
+                        "isMobileInlineBtn": true,
+                        "isKeepSelected": false,
+                        "isUseAjaxByCopyAdd": true,
+                        "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1310234576353757170"
+                    },
+                    "btn": {
+                        "text": "新增,复制新增",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "ajaxDataVaildConfig": "required",
+                        "contentType": "application/x-www-form-urlencoded",
+                        "dataFormat": "ids",
+                        "dataSrc": "data",
+                        "defaultMode": "confirm",
+                        "functionClass": "modal",
+                        "id": "1302820036871717865",
+                        "suffix": "/goods/v2/delByIds",
+                        "text": "批量删除",
+                        "title": "确定删除？",
+                        "type": "POST",
+                        "voName": "goods2GoodsVO",
+                        "entityName": "goods_v2",
+                        "chineseName": "根据ids删除商家商品",
+                        "englishName": "delByIds",
+                        "requestSource": "checkbox",
+                        "isInlineBtn": false,
+                        "successMsg": "删除成功！",
+                        "successOperate": "refresh",
+                        "isSendPageParams": true,
+                        "isMobileInlineBtn": true,
+                        "shortcutKey": "Ctrl+Shift+D",
+                        "isKeepSelected": false,
+                        "url": "https://qaapi.wangxingcloud.com//goods/v2/delByIds"
+                    },
+                    "btn": {
+                        "text": "批量删除",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "ajaxData": {},
+                        "data": {},
+                        "ajaxDataVaildConfig": "{}",
+                        "contentType": "application/x-www-form-urlencoded",
+                        "dataFormat": "object",
+                        "dataSrc": "rows",
+                        "defaultMode": "editorDialog",
+                        "functionClass": "modal",
+                        "suffix": "/templateMindPages/pageConfig/1310234576353759218",
+                        "text": "编辑",
+                        "type": "GET",
+                        "voName": "goods2GoodsVO",
+                        "entityName": "goods_v2",
+                        "chineseName": "商家商品修改",
+                        "englishName": "goodsEdit",
+                        "editorType": "edit",
+                        "isInlineBtn": false,
+                        "isHaveSaveAndAdd": true,
+                        "isCopyObject": false,
+                        "isSendPageParams": true,
+                        "isMobileInlineBtn": true,
+                        "isKeepSelected": false,
+                        "isUseAjaxByCopyAdd": true,
+                        "parameterFormatType": "add",
+                        "isSetValueToSourcePage": false,
+                        "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1310234576353759218"
+                    },
+                    "btn": {
+                        "text": "编辑",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "ajaxData": {},
+                        "data": {},
+                        "ajaxDataVaildConfig": "{}",
+                        "contentType": "application/x-www-form-urlencoded",
+                        "dataFormat": "object",
+                        "dataSrc": "rows",
+                        "defaultMode": "excelImportVer2",
+                        "functionClass": "modal",
+                        "text": "导入",
+                        "title": "商品导入",
+                        "type": "GET",
+                        "voName": "goods2GoodsVO",
+                        "entityName": "goods_v2",
+                        "chineseName": "商品导入",
+                        "englishName": "goodsImport",
+                        "requestSource": "none",
+                        "templateId": "1305492859444528105",
+                        "shortcutKey": "ctrl+I",
+                        "isKeepSelected": false
+                    },
+                    "btn": {
+                        "text": "导入",
+                        "isReturn": true
+                    }
+                },
+                {
+                    "functionConfig": {
+                        "ajaxData": {
+                            "ids": "{selectedList.goodsShopId}",
+                            "reportTemplateId": "1316807832674239474"
+                        },
+                        "data": {
+                            "ids": "{selectedList.goodsShopId}",
+                            "reportTemplateId": "1316807832674239474"
+                        },
+                        "ajaxDataVaildConfig": "{}",
+                        "contentType": "application/x-www-form-urlencoded",
+                        "dataFormat": "object",
+                        "dataSrc": "data",
+                        "defaultMode": "ajaxAndPdf",
+                        "functionClass": "modal",
+                        "suffix": "/goods/v2/createReport",
+                        "text": "批量打印",
+                        "type": "POST",
+                        "voName": "goods2GoodsVO",
+                        "entityName": "goods_v2",
+                        "chineseName": "货品贴打印（企业版）",
+                        "englishName": "createReportEnterprise",
+                        "requestSource": "checkbox",
+                        "webSocketBody": "{\"command\":\"文件打印\",\"templateId\":\"\",\"listName\":\"\",\"fileId\":\"{fileId}\"}",
+                        "fileField": "{\"fileId\":\"{fileId}\"}",
+                        "url": "https://qaapi.wangxingcloud.com//goods/v2/createReport"
+                    },
+                    "btn": {
+                        "text": "批量打印",
+                        "isReturn": true
+                    }
+                }
+            ],
+            "gid": "6331c27b-4e3d-106a-a776-884c974c9cb2",
+            "objectState": 2
+        }
+    ],
+    "draftBox": {
+        "isUse": false,
+        "isUseSave": true
+    },
+    "title": "左侧树+右侧主表格",
+    "pageParam": {}
+}
+NetstarTemplate.init(treeByListGrid);
+    </script>
+</container>

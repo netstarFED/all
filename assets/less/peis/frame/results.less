@@ -1,0 +1,264 @@
+@peis-results-padding:7px;
+@peis-results-width: @overall-layout-cell-md-width;
+@peis-results-border-color: @ns-border-color;
+@peis-results-dialog-border-color: #87cbff;
+
+.peis-results{
+	position: relative;
+	width: @peis-results-width;
+	background-color: #fff;
+	// .peis-results-title{
+	// 	.peis-title-lg();
+	// 	position: fixed;
+	// 	right: 0;
+	// 	top: @header-height;
+	// 	background-color: #56b1fc;
+	// 	width: (@overall-layout-cell-md-width + @base-padding);
+	// 	height:43px;
+	// 	line-height:43px;
+	// 	padding: 0 0 0 30px;
+	// 	color:#fff;
+	// 	margin: 0;
+	// 	z-index: 103;
+	// 	&:before{
+	// 		color: #fff;
+	// 		margin-left: (@base-margin / 4);
+	// 	}
+	// }
+	.peis-results-body{
+		padding: 0;
+	}
+	.peis-results-list{
+		//项目小结
+		.peis-results-summary-content{
+			border: 1px solid @peis-results-border-color;
+			height: 222px;
+			&.peis-results-list-content{
+				margin: 0;
+				padding: 0;
+				overflow-y: auto;
+				li{
+					width: 100%;
+					line-height: 39px;
+					font-size: 12px;
+					padding:(@base-padding / 2) @base-padding;
+					padding-right: 30px;
+					border-bottom:1px dashed @ns-border-color;
+					color:#333;
+					list-style: none;
+					color: #999;
+					position: relative;
+					height: 46px;
+					overflow:hidden;
+					text-overflow:ellipsis;
+					white-space:nowrap;
+					& + li{
+						margin-top: -1px;
+					}
+
+					&:last-child{
+						border-bottom: none;
+					}
+					strong{
+						color:#333;
+					}
+					&:after{
+						position: absolute;
+						top: 50%;
+						margin-top: -7px;
+						right: 5px;
+						width:18px;
+						height: 18px;
+						font-family: "icomoon";
+						content: "\e951";
+						font-size: 17px;
+						color: #b4b4b4;
+						text-align: center;
+						line-height: 15px;
+					}
+					&.pitch-on{
+						margin-top: -1px;
+						margin-left: 1px;
+						border:solid @ns-border-color;
+						border-width:1px 4px 1px 0;
+						color:#0083ef;
+						font-weight:bold;
+						p{
+							color:#59a4e2;
+							font-weight: normal;
+						}
+					}
+					&.current{
+						border: 1px solid @peis-results-dialog-border-color;
+						border-left-color:#fff;
+						z-index: 100;
+						padding:((@base-padding / 2) - 1px) (@base-padding - 1px);
+						padding-right: 30px;
+						&:before,
+						&:after{
+							position: absolute;
+							top: 0;
+							content: "";
+							width: 1px;
+							height: 100%;
+							z-index: 101;
+							border-color:transparent;
+							margin-top: 0;
+							background: #fff;
+						}
+						&:after{
+							position: absolute;
+							top: 50%;
+							margin-top: -7px;
+							right: 5px;
+							width:18px;
+							height: 18px;
+							font-family: "icomoon";
+							content: "\e951";
+							font-size: 17px;
+							color: #b4b4b4;
+							text-align: center;
+							line-height: 15px;
+						}
+					}
+					.btn.btn-icon{
+						position: absolute;
+						top: 0;
+						right: (@base-margin / 4);
+					}
+				}
+
+				// 暂无数据
+				.no-data{
+					border: 0;
+				}
+			}
+		}
+
+		// 暂无数据
+		.no-data{
+			border: 0;
+		}
+	}
+	.peis-results-list-dialog{
+		background-color: #fff;
+		position: absolute;
+		top: 9px;
+		left:-1000px;
+		bottom: 10px;
+		right: @peis-results-width - 2;
+		border: 1px solid @peis-results-dialog-border-color;
+		z-index:99;
+		.peis-results-list-dialog-title{
+			position: relative;
+			width: 100%;
+			line-height: 38px;
+			height: 38px;
+			padding:0 (@peis-results-padding * 2);
+			background-color:#56b1fc;
+			text-align: right;
+			h4.title{
+				.peis-title-sm();
+				display: inline-block;
+				float: left;
+				color: #fff;
+				line-height: 18px;
+				font-size: 16px;
+				&:before{
+					color: #fff;
+				}
+			}
+			
+			.form-content{
+				display: inline-block;
+				margin: 4px (@base-margin / 2);
+				.fillbg{
+					background-color: transparent;
+				}
+				.form-item{
+					background-color: transparent;
+					&:before{
+						display: none;
+					}
+				}
+				.panel.panel-form{
+					height: auto;
+					border: 0;
+					background-color: transparent;
+					.col-none.form-td{
+						float: left;
+						padding: 0;
+						background-color: transparent;
+						border: 0;
+						& + .form-td{
+							margin-left: 0;
+						}
+						.control-label{
+							color: #fff;
+							padding: 0;
+							background-color: transparent;
+						}
+						.form-control{
+							width: 80px;
+							padding: 0;
+							&[readonly="readonly"]{
+								border: 0 !important;
+								background-color: transparent !important;
+								color: #fff !important;
+								& + .input-group-addon{
+									background-color: transparent;
+									border: 0;
+									display: none !important;
+								}
+							}
+						}
+					}
+					i{
+						line-height: 30px;
+					}
+					.element-space{
+						display: none;
+					}
+				}
+			}
+
+			.nav-form{
+				display: inline-block;
+				float: right;
+				line-height: 32px;
+				padding-top: 1px;
+				.btn.btn-white{
+					span{
+						color:#fff;
+					}
+					&:hover{
+						box-shadow: 0 0 5px rgba(0,0,0, .15) inset;
+					}
+				}
+			}
+		}
+		.panel-table{
+			
+			padding: @base-padding;
+		}
+
+	}
+}
+
+
+
+//主检页面
+.peis-results{
+	.peis-results-body{
+		.peis-results-summary{
+			margin-bottom:15px;
+			.panel-form{
+				.form-td{
+					border: none;
+				}
+			}
+		}
+	}
+}
+					
+

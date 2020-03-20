@@ -1,0 +1,312 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>留样流转</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var samplePostBack3= {
+                    "package": "nscloud.samplepostback3",
+                    "template": "processDocBaseMobile",
+                    "readonly": false,
+                    "isShowTitle": true,
+                    "isFormHidden": false,
+                    "versionNumber": "1",
+                    "components": [{
+                            "type": "vo",
+                            "field": [
+                                {
+                                    "id": "receiveDeptId",
+                                    "englishName": "receiveDeptId",
+                                    "chineseName": "接收部门",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "2ce8d6d3-ee45-1884-669e-d5429c832795",
+                                    "voName": "samplemanageSampleDealWithRecordVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "接收部门",
+                                    "rules": "",
+                                    "textField": "name",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": "",
+                                    "contentType": "",
+                                    "suffix": "/system/orgs/getList",
+                                    "url": getRootPath() + "/system/orgs/getList",
+                                    "mindjetIndexState": 0,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "id": "receiveBy",
+                                    "englishName": "receiveBy",
+                                    "chineseName": "接收人",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "c3b23722-c45d-6325-14b2-f0d5a89b2dd7",
+                                    "voName": "samplemanageSampleDealWithRecordVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "接收人",
+                                    "rules": "",
+                                    "textField": "userName",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": "",
+                                    "contentType": "",
+                                    "suffix": "/system/users/getList",
+                                    "url": getRootPath() + "/system/users/getList",
+                                    "mindjetIndexState": 1,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                {
+                                    "englishName": "remark",
+                                    "className": "java.lang.String",
+                                    "gid": "f0eae246-95f2-5318-7524-0d653f4c5f6c",
+                                    "variableType": "string",
+                                    "chineseName": "备注",
+                                    "isHaveChineseName": true,
+                                    "id": "remark",
+                                    "label": "备注",
+                                    "type": "text",
+                                    "field": "remark",
+                                    "title": "备注",
+                                    "mindjetIndexState": 2,
+                                    "mindjetFieldPosition": "field"
+                                }
+                            ],
+                            "voId": "1314029206803323890",
+                            "idField": "id",
+                            "keyField": "root",
+                            "parent": "root",
+                            "gid": "49d6fd81-1a0d-cbb1-92fa-291755436f76",
+                            "objectState": 2,
+                            "stateClass": "more",
+                            "fieldById": {
+                                "receiveDeptId": {
+                                    "id": "receiveDeptId",
+                                    "englishName": "receiveDeptId",
+                                    "chineseName": "接收部门",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "2ce8d6d3-ee45-1884-669e-d5429c832795",
+                                    "voName": "samplemanageSampleDealWithRecordVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "接收部门",
+                                    "rules": "",
+                                    "textField": "name",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": "",
+                                    "contentType": "",
+                                    "suffix": "/system/orgs/getList",
+                                    "url": getRootPath() + "/system/orgs/getList",
+                                    "mindjetIndexState": 0,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "receiveBy": {
+                                    "id": "receiveBy",
+                                    "englishName": "receiveBy",
+                                    "chineseName": "接收人",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "c3b23722-c45d-6325-14b2-f0d5a89b2dd7",
+                                    "voName": "samplemanageSampleDealWithRecordVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "接收人",
+                                    "rules": "",
+                                    "textField": "userName",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": "",
+                                    "contentType": "",
+                                    "suffix": "/system/users/getList",
+                                    "url": getRootPath() + "/system/users/getList",
+                                    "mindjetIndexState": 1,
+                                    "mindjetFieldPosition": "field"
+                                },
+                                "remark": {
+                                    "englishName": "remark",
+                                    "className": "java.lang.String",
+                                    "gid": "f0eae246-95f2-5318-7524-0d653f4c5f6c",
+                                    "variableType": "string",
+                                    "chineseName": "备注",
+                                    "isHaveChineseName": true,
+                                    "id": "remark",
+                                    "label": "备注",
+                                    "type": "text",
+                                    "field": "remark",
+                                    "title": "备注",
+                                    "mindjetIndexState": 2,
+                                    "mindjetFieldPosition": "field"
+                                }
+                            }
+                        },
+                        {
+                            "type": "btns",
+                            "field": [{
+                                "functionConfig": {
+                                    "ajaxData": {
+                                        "objectState": "1"
+                                    },
+                                    "data": {
+                                        "objectState": "1"
+                                    },
+                                    "contentType": "application/json",
+                                    "dataFormat": "object",
+                                    "dataSrc": "data",
+                                    "defaultMode": "custom",
+                                    "functionClass": "modal",
+                                    "functionField": "nsProject.getFieldsByState(sampleDetail.samplemanageSampleDealWithRecordVO,\"sampleFlow\",{isColumn:false,isDialog:true,isValidSave:true})",
+                                    "id": "1312717906043224050",
+                                    "suffix": "/sampleDetail/transfer",
+                                    "text": "样品流转",
+                                    "title": "样品流转",
+                                    "type": "POST",
+                                    "voName": "samplemanageSampleDealWithRecordVO",
+                                    "entityName": "sampleDetail",
+                                    "chineseName": "流转",
+                                    "englishName": "transfer",
+                                    "isCloseWindow": true,
+                                    "requestSource": "selected",
+                                    "isInlineBtn": false,
+                                    "parameterFormat": "{\"objectState\":\"1\"}",
+                                    "matrixVariable": "?enumDealWithSave=WRITE_STATE_BACK",
+                                    "isSendPageParams": true,
+                                    "isIsSave": true,
+                                    "isMobileInlineBtn": true,
+                                    "isKeepSelected": true,
+                                    "parameterFormatType": "add",
+                                    "isSetValueToSourcePage": true,
+                                    "url": getRootPath() + "/sampleDetail/transfer"
+                                },
+                                "btn": {
+                                    "text": "样品流转",
+                                    "isReturn": true
+                                }
+                            }],
+                            "gid": "addc486f-19ee-a69a-a008-ae856cdf110f",
+                            "objectState": 2
+                        }
+                    ],
+                    "draftBox": {
+                        "isUse": false,
+                        "isUseSave": true,
+                        "closeOrClear": true
+                    },
+                /*     "pageParam": {
+                        "data": {
+                            "dealwithBy": "1310954084307594226",
+                            "backPostAddress": "123456",
+                            "postWay": 123456,
+                            "postCode": "123456",
+                            "contact": "123456`",
+                            "contactPhone": "123456",
+                            "retentionSampleDate": 123123,
+                            "retentionQuantity": 111111,
+                            "retentionSampleBy": "1310954084307594226",
+                            "whenRetention": 1573870556000,
+                            "retentionRemark": "112312312",
+                            "dealwithTypeId": "8",
+                            "whenDealwith": 1573889969000,
+                            "dealwithQuantity": 1,
+                            "sampleId": "1316915473144613874",
+                            "sampleDetailType": 1,
+                            "sampleDetailCode": "1572774023905",
+                            "sampleState": 9,
+                            "quantity": "2",
+                            "createdBy": "1310954084307594226",
+                            "whenCreated": 1572774024000,
+                            "modifiedBy": "1310954084307594226",
+                            "whenModified": 1576905567000,
+                            "hasRollback": false,
+                            "hasOvertime": false,
+                            "hasEmergency": false,
+                            "hasSuspend": false,
+                            "objectState": 0,
+                            "objectCheckState": 0,
+                            "id": "1316916696136549362",
+                            "netstarSelectedFlag": true
+                        },
+                        "url": getRootPath() + "/templateMindPages/pageConfig/1317899299828270066?templateparam=nscloud.reservedsample11576912290243"
+                    } */
+                }
+
+                // NETSTAR添加url参数即pageParam
+                var pageConfig = {
+                    config: samplePostBack3
+                };
+                var params = pageConfig.config.pageParam.data ? pageConfig.config.pageParam.data : {};
+                for (var componentI = 0; componentI < pageConfig.config.components.length; componentI++) {
+                    var componentData = pageConfig.config.components[componentI];
+                    if (componentData.type == 'vo') {
+                        componentData.field.unshift({
+                            id: 'sampleDetailId',
+                            type: 'hidden',
+                            value: params.id
+                        });
+                    }
+                }
+                samplePostBack3 = NetstarProject.init(samplePostBack3);
+
+                NetstarTemplate.init(samplePostBack3);
+
+            });
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">留样流转</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+        </script>
+    </container>
+</body>
+
+</html>

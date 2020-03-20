@@ -1,0 +1,442 @@
+@phone-font-size:1rem;
+@login-header-height:56px;
+@login-main-margin-top:@login-header-height;
+@login-line-height:20px;
+@login-border: 1px #eaeaec solid;
+a {
+	text-decoration: none;
+	color: #6d6d72
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.login {
+	width: 100%;
+	height: 100%;
+	font-size:@font-size-base;
+	font-family: 'Microsoft Yahei';
+	line-height: @login-line-height;
+	.hide{
+		display:none
+	}
+}
+@media ( min-width :768px) {
+	.login-body {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top:0;
+		left:0;
+		background: #fff;
+		background: url(../images/netstar/login/bg.jpg) repeat-x top;
+		.login{
+			.wrap-left {
+				width: 100%;
+				height: @login-header-height;
+				position: fixed;
+				top: 332px;
+				right: 1000px;
+				background: #1871d4;
+				z-index: -1;
+			}
+			.wrap {
+				width: 1200px;
+				height: 100%;
+				margin: 0px auto;
+				.header {
+					width: 356px;
+					height:@login-header-height;
+					margin: 58px 0px 0px 70px;
+					padding: 23px 0px 0px 123px;
+					color: #FFF;
+					font-size:@font-size-base+10px;
+					font-weight: bold;
+					background: url(../images/netstar/login/logo.png) no-repeat top left;
+				}
+				.main {
+					width: 1200px;
+					height: 360px;
+					background: url(../images/netstar/login/b-bg.png) no-repeat left bottom;
+					margin-top: @login-header-height;
+					position: relative;
+					.login-frame {
+						width: 345px;
+						background: #fff;
+						border:@login-border;
+						position: absolute;
+						left: 588px;
+						bottom:-50px;
+						box-shadow: 1px 1px 10px #666;
+						.title {
+							width: 344px;
+							height: @login-header-height;
+							border-bottom: 1px #e9e9eb solid;
+							padding: 22px 27px 13px 27px;
+							span {
+								font-size:@font-size-base+2px;
+								color: #000000;
+							}
+							.hot {
+								width: 100px;
+								height: 20px;
+								float: right;
+								text-align: right;
+								input {
+									width: 14px;
+									height: 14px;
+									background: #fff;
+									padding: 3px;
+									border: none;
+									color: #8e8e93;
+									float: left
+								}
+								.text {
+									color: #8e8e93;
+									float: left;
+								}
+							}
+						}
+						.group {
+							width: 345px;
+							height: 137px;
+							padding: 10px 27px 10px 27px;
+							.group-from {
+								width: 289px;
+								height: 39px;
+								margin: 14px 0px;
+								color: #8e8e93;
+								position: relative;
+								label {
+									width: 15px;
+									height: 15px;
+									position: absolute;
+									top: 12px;
+									left: 10px;
+								}
+								form {
+									width: 289px;
+									height: 39px;
+									border: 1px #c8c7cc solid;
+									select {
+										width: 289px;
+										height: 42px;
+										padding: 3px 5px 3px 26px;
+										border: none;
+										background: none;
+										position: relative;
+										color: #a9a9a9;
+									}
+									i.fa {
+										right: 15px;
+										font-size:@phone-font-size - 0.1rem;
+										position: absolute;
+										top: 13px;
+										color: #8e8e93;
+									}
+								}
+								input {
+									width: 289px;
+									height: 42px;
+									padding: 6px 5px 6px 29px;
+									border: 1px #c8c7cc solid;
+									color: #8e8e93;
+								}
+							}
+						}
+						.user {
+							width: 289px;
+							height: 20px;
+							margin: 13px 27px 11px 27px;
+							.reme {
+								width: 100px;
+								height: 20px;
+								input {
+									width: 14px;
+									height: 14px;
+									background: #fff;
+									padding: 3px;
+									border: none;
+									color: #8e8e93;
+									float: left
+								}
+								.text {
+									color: #8e8e93;
+									float: left
+								}
+							}
+						}
+						.btn {
+							width: 289px;
+							height: 53px;
+							margin: 0px 27px 17px 27px;
+							padding: 0;
+							input {
+								width: 289px;
+								height: 53px;
+								background: #22ac38;
+								border: none;
+								text-align: center;
+								color: #fff;
+								font-size:@font-size-base+2px;
+								font-weight: 700
+							}
+						}
+						.foot {
+							width: 344px;
+							height: 47px;
+							background: #efeff4;
+							padding: 16px 27px 0px 27px;
+							color: #6d6d72;
+							i.fa {
+								font-size:@phone-font-size + 0.1rem;
+								color: #83b864;
+							}
+							.order {
+								width: 90px;
+								height: 16px;
+								float: left;
+								label {
+									float: left;
+								}
+								.text {
+									margin: 0px 5px;
+									line-height:@login-line-height - 3px;
+									float: left;
+								}
+							}
+						}
+					}
+				}
+				.bottom {
+					width: 500px;
+					height: 20px;
+					color: #666666;
+					text-align: right;
+					position: fixed;
+					bottom: 34px;
+					right: 60px;
+					span {
+						color: #373d45
+					}
+				}
+			}
+		}
+	}
+}
+// 
+// 
+// 
+@media screen and (min-width:860px) and (max-width: 1000px){
+	.login{
+		.wrap {
+			.main {
+				.login-frame {
+					left:520px;
+				}
+			}
+		} 
+	}
+}
+// 
+// 
+// 
+@media screen and (min-width: 768px) and (max-width: 859px){
+	.login{
+		.wrap {
+			.main {
+				.login-frame {
+					left:480px;
+				}
+			}
+		} 
+	}
+}
+
+@media ( max-width :767px) {
+	.login-body {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		font-size:@phone-font-size - 0.2rem;
+		font-family: 'Microsoft Yahei';
+		background: #fff;
+		background: url(../images/netstar/login/s-bg.jpg) repeat-x top;
+		.login {
+			.wrap {
+				width: 100%;
+				height: 100%;
+				.header {
+					height: 52px;
+					margin: 24px 0px 0px 5%;
+					padding: 23px 0px 0px 123px;
+					color: #FFF;
+					font-size:@phone-font-size;
+					font-weight: bold;
+					background: url(../images/netstar/login/logo.png) no-repeat center center;
+					background-size: 80%;
+				}
+				.main {
+					width: 100%;
+					height: 100%;
+					margin-top: @login-main-margin-top;
+					.login-frame {
+						width: 100%;
+						height: 350px;
+						margin-bottom: 30px;
+						.title {
+							width: 90%;
+							height: 36px;
+							padding-top: 12px;
+							margin: 0 5%;
+							span {
+								font-size:@phone-font-size;
+								color: #000000;
+							}
+							.hot {
+								height: 20px;
+								float: right;
+								input {
+									width: 14px;
+									height: 14px;
+									background: #fff;
+									padding: 3px;
+									border: 1px solid #dedede;
+									color: #8e8e93;
+									float: left;
+									.text {
+										color: #8e8e93;
+										font-size:@phone-font-size - 0.2rem;
+										float: left
+									}
+								}
+							}
+						}
+						.group {
+							width: 90%;
+							height: 140px;
+							margin: 0 5%;
+							color: #8e8e93;
+							.group-from {
+								width: 100%;
+								height: 45px;
+								margin: 14px 0;
+								color: #666;
+								position: relative;
+								border: 1px #8e8e93 solid;
+								label {
+									width: 15px;
+									height: 15px;
+									position: absolute;
+									top: 15px;
+									left: 10px;
+								}
+								input {
+									width: 100%;
+									height: 43px;
+									font-size:@phone-font-size - 0.1rem;
+									padding: 10px 5px 6px 31px;
+									border: none;
+								}
+								i.fa {
+									font-size:@phone-font-size + 0.1rem;
+									color: #8e8e93;
+								}
+							}
+						}
+						.user {
+							width: 90%;
+							height: 20px;
+							margin: 2% 0 2% 5%;
+							.reme {
+								width: 100px;
+								height: 20px;
+								input {
+									width: 14px;
+									height: 14px;
+									background: #fff;
+									padding: 3px;
+									border: 1px solid #dedede;
+									color: #8e8e93;
+									float: left;
+								}
+								.text {
+									color: #8e8e93;
+									font-size:@phone-font-size - 0.2rem;
+									float: left
+								}
+							}
+						}
+						.btn {
+							width: 90%;
+							height: 53px;
+							margin: 1% 5%;
+							background: #22ac38;
+							border: none;
+							padding: 0;
+							input {
+								width: 100%;
+								height: 53px;
+								background: none;
+								border: none;
+								text-align: center;
+								color: #fff;
+								font-size:@phone-font-size;
+								font-weight: 700
+							}
+						}
+						.foot {
+							width: 100%;
+							height: 47px;
+							background: #efeff4;
+							padding: 15px 5%;
+							margin-top: 35px;
+							color: #6d6d72;
+							i.fa {
+								font-size:@phone-font-size + 0.1rem;
+								color: #83b864;
+							}
+							.order {
+								width: 90px;
+								height: 16px;
+								float: left;
+								label {
+									float: left
+								}
+								.text {
+									margin: 0px 5px;
+									line-height:@login-line-height - 3px;
+									float: left
+								}
+							}
+						}
+					}
+				}
+				.bottom {
+					width: 100%;
+					height: 50px;
+					color: #666666;
+					text-align: center;
+					position: fixed;
+					bottom: 10px;
+					span {
+						color: #373d45;
+						display: block;
+					}
+				}
+			}
+		}
+	}				
+}
+@media screen and (min-width: 535px) and (max-width: 767px){
+	.login {
+		.wrap {
+			.header {
+				height: 72px;
+				margin-top: 15px;
+			}
+		}
+	}
+}

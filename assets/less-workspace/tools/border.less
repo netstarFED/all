@@ -1,0 +1,68 @@
+.border {
+    border: 1px solid @border-color;
+}
+
+// 边框方向
+.border-top {
+    border-right: 1px solid @border-color;
+}
+
+.border-right {
+    border-right: 1px solid @border-color;
+}
+
+.border-bottom {
+    border-bottom: 1px solid @border-color;
+}
+
+.border-left {
+    border-left: 1px solid @border-color;
+}
+
+
+// 边框状态样式
+.border-variant(@border-color) {
+    border: 1px solid @border-color;
+}
+
+.border-primary {
+    .border-variant(@primary);
+}
+
+.border-info {
+    .border-variant(@info);
+}
+
+.border-success {
+    .border-variant(@success);
+}
+
+.border-warning {
+    .border-variant(@warning);
+}
+
+.border-danger {
+    .border-variant(@danger);
+}
+
+
+// 伪类边框
+//伪类边框
+.border-horizontal(@height: 1px; @background: @ns-border-color; ) {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: @height;
+    background: @background;
+    z-index: 9;
+
+}
+
+.border-vertical(@width: 1px; @background: @ns-border-color; ) {
+    position: absolute;
+    content: "";
+    width: @width;
+    height: 100%;
+    background: @background;
+    z-index: 9;
+}

@@ -1,0 +1,25 @@
+// 背景色、文字颜色，鼠标经过背景色，鼠标经过文字颜色，当前文字颜色
+.nav-variant(@bg: @gray-lighter, @color: @link-color, @hover-bg: #fff, @hover-color: @text-color-dark, @current-bg: @primary, @current-color: #fff) {
+
+    li {
+
+        a {
+            background: @bg;
+            color: @color;
+            transition: ease-in-out all .15s;
+
+            &:hover {
+                background: @hover-bg ;
+                color: @hover-color;
+            }
+        }
+
+        &.current {
+            a {
+                background: @current-bg;
+                color: @current-color;
+            }
+        }
+    }
+
+}

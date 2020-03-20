@@ -1,0 +1,184 @@
+
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+<container>
+<script type="text/javascript">
+    //配置参数包含：
+       /*1.要填充的容器元素 id
+       2.请求的ajax链接 url
+       3.请求的参数 data
+       4.节点父id   pid
+       5.当前节点的id valueField
+       6.当前节点的名称 textField
+       7.是否是异步请求 async
+       8.返回的数据源参 dataSrc
+       9.子元素包含的children  haschildField  childrenField
+       10.是否有默认值 value
+       11.单击节点的返回函数 clickCallback
+       12.选中节点的返回函数 checkCallback
+       13.是否支持多选  isCheck
+       14.节点全称  fullnameField
+       15.请求方式 get or post
+       16.勾选父节点和子节点之间的关系 如勾选子节点的时候是否勾选父节点 isCheckParent
+       */
+    $(function(){
+        //nsLayout.init("demos-layout-tree");
+        var listJson = {
+                package: 'nsVue',//包名
+                template: 'businessDataBase',//模板 doclistviewer  单据详情模板businessdatabase 表单表格模板  businesslevellist3 3级模板
+                             //processdocbase   businessdatabaseeditor
+                title: '商品分类'  ,//标题
+               components: [
+                //         type: "tree",//类型  tab list vo bolcklist
+                //         idField: 'id',//id
+                //         formatter: {
+                //             "id": "{id}"
+                //         },
+                //         isSearch:   true,//是否检索（搜索框）
+                //         ajax: {
+                //             url: '/docs/data/tree/getList.json',
+                //             dataSrc: 'rows',
+                //             type: 'GET',//请求方式  GET  POST  
+                //             contentType: 'application/x-www-form-urlencoded',//application/json; charset=utf-8',
+                //         },
+                //         addAjax: {
+                //             url: getRootPath() + '/data/tree/getList.json',
+                //             dataSrc: 'rows',
+                //         },
+                //         editAjax: {
+                //             url: getRootPath() + '/data/select/radio.json',
+                //             dataSrc: 'rows',
+                //         },
+                //         deleteAjax: {
+                //             url: getRootPath() + '/data/select/radio.json',
+                //             dataSrc: 'rows',
+                //         },
+                //         moveAjax: {
+                //             url: getRootPath() + '/data/select/radio.json',
+                //             dataSrc: 'rows',
+                //         },
+                //     },
+                    {
+                        type: 'list',
+                        idField: 'id',
+                        ajax: {
+                            src: getRootPath() + '/docs/data/template/businessDataBase.json', //数据源地址
+                            type: "GET", //GET POST
+                            //contentType:            'application/json; charset=utf-8',          //GET POST
+                            data: {}, //参数对象{id:1,page:100}
+                            //isServerMode:         true,           //是否开启服务器模式
+                            dataSrc: 'rows',
+                            contentType: 'application/x-www-form-urlencoded',
+                        },
+                        params: {//必填
+                            dragWidth: false,
+                            styleExpress: {
+
+                            }
+                        },
+                        field: [{
+                            field: 'startdate',
+                            title: '开始时间',
+                            width: 120,
+                            searchable: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'date',
+                                data: {
+                                    formatDate: 'YYYY-MM-DD'
+                                }
+                            }
+                        }, {
+                            field: 'imgId',
+                            title: '单个缩略图',
+                            width: 150,
+                            formatHandler: {
+                                type: 'thumb',
+                            }
+                        }, {
+                            field: 'num',
+                            title: '数量',
+                            width: 45,
+                            searchable: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'number',
+                            }
+                        }, {
+                            field: 'unitname',
+                            title: '单位',
+                            width: 45,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'dictionary',
+                                data: {
+                                    1: '个',
+                                    2: '桶',
+                                    3: '套',
+                                    4: '对',
+                                    5: '片',
+                                    6: '包',
+                                    7: '组',
+                                    8: '米',
+                                    9: '件',
+                                }
+                            }
+                        }, {
+                            field: 'price',
+                            title: '价格',
+                            width: 60,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'money'
+                            }
+                        }, {
+                            field: 'cityname',
+                            title: '省市区',
+                            width: 180,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'codeToName'
+                            }
+                        }, {
+                            field: 'customername',
+                            title: '超链接',
+                            width: 180,
+                            search: true,
+                            orderable: true,
+                            formatHandler: {
+                                type: 'href',
+                                data: {
+                                    url: 'www.baidu.com'
+                                }
+                            }
+                        }]
+
+                    }, {
+                        type: 'btns',
+                        position: 'text-left',
+                        field: [
+                            {
+                                /* text: '空白新增',
+                                isReturn: true,
+                                shortcutKey: 'ALT+A',
+                                handler: function () { //点击
+                                } */
+                                functionConfig:{
+                                    englishName:'xinzeng',
+                                    dropdownType:''
+                                },
+                                btns:{
+                                    text:"空白新增",
+                                    isReturn:true
+                                }
+                            }
+                        ]
+                    }
+                ],
+            };
+            NetstarTemplate.init(listJson);
+    })
+</script>
+</container>

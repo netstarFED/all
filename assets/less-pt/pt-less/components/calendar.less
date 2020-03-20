@@ -1,0 +1,223 @@
+@calendar-padding: @base-padding;
+@carlendar-current-bg: #fffbf2;
+@carlendar-td-border-color: @table-border-color;
+@calendar-color: @warning;
+@calendar-date-month-bg: @calendar-color; //月份背景色
+@calendar-date-color: @calendar-color; //月份基础颜色
+@calendar-date-thead-bg: @calendar-date-color; //日期框背景色
+@calendar-date-holiday-bg: rgba(255, 160, 4, 0.15); //节假日背景色
+@calendar-date-holiday-color: @calendar-color; //节假日字体颜色
+@calendar-date-weekend-bg: #f8f8f8; //周末背景色
+@calendar-date-weekend-color: #999; //周末字体颜色
+@calendar-date-hover-color: @calendar-color; //选中的颜色和边框色
+
+.pt-calendar {
+    .pt-calendar-title {
+        padding: @calendar-padding;
+    }
+
+    .pt-btn-group+h4 {
+        display: inline-block;
+        margin-left: @base-margin;
+        line-height: 24px;
+    }
+
+    .currentday {
+        background: @carlendar-current-bg;
+    }
+
+    .task-row-item {
+        border: 1px solid @carlendar-td-border-color;
+        border-width: 0 1px 1px 0;
+    }
+}
+
+.pt-calendar-page {
+    overflow-y: auto;
+    margin-left: -10px;
+    margin-right: -10px;
+
+    .col-lg-3,
+    .col-md-4,
+    .col-sm-6,
+    .col-xs-6 {
+        padding: 0 10px;
+        float: none;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .pt-calendar-month {
+        width: 100%;
+        text-align: right;
+        font-size: 2rem;
+        padding: 1rem 2px;
+
+
+        span {
+            font-size: 1.5rem;
+            margin-left: 1rem;
+        }
+    }
+
+    .pt-calendar-content {
+        margin-bottom: @base-margin * 2;
+
+        table {
+            width: 100%;
+
+            thead {
+                tr.pt-calendar-week {
+                    th {
+                        text-align: center;
+                        vertical-align: middle;
+                        font-size: 1rem;
+                        font-weight: normal;
+                        padding: 0.5rem 0;
+                        color: #fff;
+                        background-color: @calendar-date-thead-bg;
+                        border: 2px solid #fff;
+
+                        // &.weekend {
+                        //     background: rgba(255, 0, 0, .5);
+                        // }
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    td.date {
+                        text-align: center;
+                        vertical-align: middle;
+                        padding: 1.2rem 0;
+                        border: 2px solid #fff;
+                        background-clip: padding-box !important;
+
+                        span {
+                            justify-content: center;
+                            width: 100%;
+                            display: inline-table;
+                            white-space: nowrap;
+                            font-size: 1.5rem;
+                            color: #666;
+
+                            &.lunar-calendar {
+                                display: none;
+                                font-size: 0.8rem;
+                                color: @calendar-date-weekend-color;
+                            }
+                        }
+
+                        //周末
+                        &.weekend {
+                            background-color: @calendar-date-weekend-bg;
+
+                            span {
+
+                                &,
+                                &.lunar-calendar {
+                                    color: @calendar-date-weekend-color;
+                                }
+                            }
+                        }
+
+                        //假日
+                        &.holiday-date {
+                            background: @calendar-date-holiday-bg;
+                            position: relative;
+
+                            span {
+
+                                & {
+                                    color: @calendar-date-holiday-color;
+                                }
+
+                                &.lunar-calendar {
+                                    background: #ffa004;
+                                    display: block;
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    font-size: 1rem;
+                                    color: #fff;
+                                    text-align: left;
+                                    width: auto;
+                                    // transform: scale(.8);
+                                    // zoom: 0.8;
+                                }
+                            }
+                        }
+
+                        //鼠标悬浮
+                        //选中日期
+                        &:hover,
+                        &.current {
+                            cursor: pointer;
+                            position: relative;
+
+                            &:before {
+                                position: absolute;
+                                bottom: 0;
+                                right: 0;
+                                left: 0;
+                                right: 0;
+                                width: 100%;
+                                height: 100%;
+                                border: 2px solid @calendar-date-hover-color;
+                                content: "";
+                            }
+                        }
+
+                        //选中日期
+                        &.current {
+                            span {
+
+                                &,
+                                &.lunar-calendar {
+                                    color: @calendar-date-hover-color;
+                                }
+                            }
+
+                            //节假日选中状态
+                            &.holiday-date {
+
+                                span {
+                                    &.lunar-calendar {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1109px) {
+    .pt-calendar-page {
+
+        .col-sm-6,
+        .col-xs-6 {
+            width: 50% !important;
+        }
+    }
+}
+
+@media screen and (min-width: 1200px) and (max-width:1599px) {
+    .pt-calendar-page {
+        .col-md-4 {
+            width: 33.33333333333333% !important;
+        }
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .pt-calendar-page {
+        .col-lg-3 {
+            width: 25% !important;
+        }
+    }
+}

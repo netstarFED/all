@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网星工作台-我的订单</title>
+    <!--#include file="public/htmlhead.html"-->
+</head>
+
+<body>
+    <!-- 头部内容 -->
+    <div class="contianer-fluid">
+        <div class="row">
+            <!--#include file="public/header.html"-->
+        </div>
+    </div>
+    <!-- 内容部分 -->
+    <div class="container" id="order">
+        <div class="row">
+            <div class="main">
+                <div class="main-row">
+                    <!-- 页面左侧内容 -->
+                    <div class="main-col">
+                        <!-- 用户信息 -->
+                        <div class="panel">
+                            <!--#include file="public/user-info.html"-->
+                        </div>
+                        <!-- 左侧导航 -->
+                        <div class="panel">
+                            <!--#include file="public/nav.html"-->
+                        </div>
+                    </div>
+                    <div class="main-col">
+                        <!-- 表格 -->
+                        <div class="panel">
+                            <div class="table">
+                                <!-- 表格头部 -->
+                                <div class="table-header">
+                                    <div class="title">
+                                        <span>我的订单</span>
+                                    </div>
+                                    <div class="form form-inline">
+                                        <form action="">
+                                            <div class="form-item">
+                                                <div class="radio radiobox">
+                                                    <label class="radio-item current">
+                                                        <input type="radio" name="optionsRadios" id="optionsRadios1"
+                                                            value="option1" checked>
+                                                        已开票
+                                                    </label>
+                                                    <label class="radio-item">
+                                                        <input type="radio" name="optionsRadios" id="optionsRadios2"
+                                                            value="option2">
+                                                        未开票
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-item search-box">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="订单编号"
+                                                        id="searchtext">
+                                                    <div class="input-group-btn">
+                                                        <a href="javascript:void(0);"
+                                                            class="btn btn-primary btn-outline btn-icon"
+                                                            id="order-search">
+                                                            <i class="icon-search"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <script>
+                                                $(document).ready(function () {
+
+                                                    $('#order-search').click(function () {
+                                                        var searchText = $('#searchtext').val();
+                                                        if (searchText != '') {
+                                                            var searchData = {
+                                                                keyword: searchText,
+                                                                quicklyQueryColumnValue: searchText
+                                                            }
+                                                        } else {
+
+                                                        }
+                                                        orderVue.getRows(searchData)
+
+                                                    })
+                                                })
+                                            </script>
+                                        </form>
+
+                                    </div>
+                                </div>
+                                <!-- 表格内容 -->
+                                <div class="table-body" id="order-table">
+                                    <template>
+                                        <el-table :data="tableData" style="width: 100%" max-height="483">
+                                            <el-table-column prop="orderCode" label="订单编号" width="150">
+                                            </el-table-column>
+                                            <el-table-column prop="goodsAmount" label="金额" width="120">
+                                            </el-table-column>
+                                            <el-table-column prop="paymentType" label="支付方式" width="120">
+                                            </el-table-column>
+                                            <el-table-column prop="stateInfo" label="订单状态" width="120">
+                                            </el-table-column>
+                                            <el-table-column prop="zhifuTime" label="购买日期" width="120">
+                                            </el-table-column>
+                                            <el-table-column prop="state" label="详情" width="120">
+                                            </el-table-column>
+                                            <el-table-column fixed="right" label="操作" width="120">
+                                                <template slot-scope="scope">
+                                                    <el-button @click="deleteRow(scope.$index,tableData)" type="text"
+                                                        size="small">
+                                                        详情</el-button>
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                    </template>
+                                </div>
+                                <!--                                 <div class="table-footer">
+                                    <div class="pages">
+                                        <a href="" class="pages-item"><i class="icon-arrow-left-o"></i></a>
+                                        <a href="" class="pages-item">1</a>
+                                        <a href="" class="pages-item current">2</a>
+                                        <a href="" class="pages-item">3</a>
+                                        <a href="" class="pages-item">...</a>
+                                        <a href="" class="pages-item">8</a>
+                                        <a href="" class="pages-item">9</a>
+                                        <a href="" class="pages-item">10</a>
+                                        <a href="" class="pages-item"><i class="icon-arrow-right-o"></i></a>
+
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- 推荐产品 -->
+                        <!--#include file="public/grid.html"-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var orderVm = {
+        data() {
+            return {
+                orderList: [],
+                tableData: []
+            }
+        },
+        methods: {
+            dealState(param) {
+
+                var stateInfo = "";
+                switch (param) {
+                    case -1:
+                        stateInfo = "取消"
+                        break;
+                    case -2:
+                        stateInfo = "删除"
+                        break;
+                    case 0:
+                        stateInfo = "待付款"
+                        break;
+                    case 1:
+                        stateInfo = "待发货"
+                        break;
+                    case 2:
+                        stateInfo = "待收货"
+                        break;
+                    case 3:
+                        stateInfo = "待评价"
+                        break;
+                    case 4:
+                        stateInfo = "已完成"
+                        break;
+                };
+                return stateInfo
+            },
+            timestampToTime(timestamp) {
+                var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                var D = date.getDate() + ' ';
+                var h = date.getHours() + ':';
+                var m = date.getMinutes() + ':';
+                var s = date.getSeconds();
+                return Y + M + D;
+            },
+            getRows(axiosData) {
+                var _this = this
+                axios(NswUtils.getAxios({
+                    url: '/shopOrderController/getList',
+                    method: 'POST',
+                    data: axiosData
+                })).then(function (res) {
+                    console.log(res);
+                    var orderList = res.data.rows;
+                    for (var i = 0; i < orderList.length; i++) {
+                        // orderList[i].stateInfo = orderList[i].state;
+                        if (orderList[i].whenPay) {
+                            orderList[i].zhifuTime = _this.timestampToTime(orderList[i].whenPay);
+                        }
+                        if (orderList[i].state != "undefined") {
+                            orderList[i].stateInfo = _this.dealState(orderList[i].state);
+                        }
+                        if (orderList[i].paymentMethod != "undefined") {
+                            orderList[i].paymentType = orderList[i].paymentMethod
+                        }
+                    }
+                    _this.tableData = orderList;
+                }).catch(function (error) {
+                    console.error(error);
+                })
+            }
+        },
+
+        mounted() {
+            this.getRows({});
+
+
+        }
+    }
+    var Ctor = Vue.extend(orderVm)
+    var orderVue = new Ctor().$mount('#order-table')
+</script>
+
+</html>

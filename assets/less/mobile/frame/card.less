@@ -1,0 +1,390 @@
+@card-margin:.5rem;
+@card-padding: 1rem;
+@card-radius: .5rem;
+@card-radius-close: 0px;
+// @card-margin: 16px;
+// @card-padding: 16px;
+@card-border-color: @ns-border-color;
+@card-footer-height: 4rem;
+
+.card {
+	position: relative;
+	margin-bottom: (@card-margin * 2);
+
+	&.card-bordered {
+		border: 1px solid @card-border-color;
+	}
+
+	&-primary {
+		background: @ns-primary;
+		color: #fff;
+	}
+
+	&-success {
+		background: @ns-success;
+		color: #fff;
+	}
+
+	&-warning {
+		background: @ns-warning;
+		color: #fff;
+	}
+
+	&-danger {
+		background: @ns-danger;
+		color: #fff;
+	}
+
+	// 紧凑型card
+	&-compact {
+		margin-bottom: 0;
+	}
+
+	.clearfix();
+}
+
+.card-row {
+	margin: 0 -@card-margin;
+}
+
+.card-img-top {
+	border-radius: 0;
+	display: block;
+	width: 100%;
+
+	img {
+		display: block;
+		width: 100%;
+	}
+
+}
+
+.card-title {
+	color: @gray-dark;
+    margin-bottom: @card-margin;
+    
+}
+
+.card-subtitle {
+	margin-bottom: @card-margin;
+}
+
+.card-text {
+	margin-bottom: @card-margin;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+}
+
+.card-header {
+	padding: @card-padding;
+	margin: 0;
+	border-bottom: 1px solid @card-border-color;
+
+	&+.card-body {
+		padding-top: 0;
+	}
+
+	.card-compact & {
+		padding: 0;
+    }
+    #customerMenu &{
+        background: @mobile-body-bg;
+        .card-title{
+            color: @gray-light;
+        }
+    }
+
+
+}
+
+.card-body {
+	padding: @card-padding;
+
+	&+.card-footer {
+		padding-top: 0;
+	}
+
+	.card-compact & {
+		padding: 0;
+	}
+
+}
+
+.card-footer {
+	padding: @card-padding;
+	border-top: 1px solid @card-border-color;
+
+	.card-compact & {
+		padding: 0;
+	}
+
+}
+
+.card-shadow {
+	background: #fff;
+	// .box-shadow-style(0, 0, #000, 10px, .15);
+}
+
+.card-radius {
+	border-radius: @card-radius;
+}
+
+[ns-system="mobile"] {
+	// 卡片
+	.card {
+		// margin: 0 0 1rem;
+		// border-radius: .5rem;
+		// margin: 0 -1.5rem;
+		background-color: #fff;
+		overflow: hidden;
+        margin-top:0; 
+        margin-bottom: 0;
+		&.card-border{
+			border:1px solid @mobile-border-color;
+			border-width:1px 0 1px 0;
+		}
+
+		//透明背景
+		&-transparent{
+			background-color: transparent;
+			.card-block{
+				background: #fff;
+				border-radius: 0.5rem;
+				padding:@base-padding / 2;
+				.card-title{
+					span.text-state{
+						font-size: @mobile-font-size * 62%;
+						line-height: 1;
+						padding: 0.3rem 0.6rem;
+						border-radius: 0.3rem;
+						border:1px solid @brand-primary;
+						color:@brand-primary;
+					}
+				}
+				.list-text{
+					&-link{
+						color:darken(@brand-primary, 20%);
+						line-height: 2.2rem;
+					}
+				}
+			}
+		}
+
+		// 卡片头部标题
+		.card-header{
+			border: 0;
+			flex: 0 0 100%;
+			.flex-block();
+			padding:0 15px;
+			height:@mobile-card-header-height;
+			background:#fff;
+			border-bottom:1px solid @mobile-border-color;
+			.title {
+				.flex-block(flex-strat,center);
+				font-size: @mobile-font-size;
+				color:@mobile-card-title-color;
+                line-height:@mobile-card-header-height;
+                color: @gray-light;
+			}
+		}
+		
+		//控制按钮
+		.card-control{
+			span{
+				float: left;
+				font-size: @mobile-font-size-md * 1.25;
+				line-height: 2.2rem;
+				margin-right: @base-margin / 2;
+			}
+			button.btn{
+				.flex-block();
+				margin: 0;
+				padding:0;
+                color:@mobile-card-title-color;
+                background: transparent;
+				i{
+					.flex-block(center,center);
+					padding: 0;
+                }
+                &.btn-icon{
+                    i{
+                        font-size: @icon-font-size-lg;
+                    }
+                }
+			}
+		}
+		.card-body {
+			@card-media-size:3.7rem;
+			padding: 10px 15px; 
+			.flex-block();
+			flex-wrap: wrap;
+			flex: 0 0 100%;
+			border:1px solid @mobile-border-color;
+			border-width:0 0 1px 0;
+			&:last-child{
+				border:0;
+			}
+			&.card-body-border{
+				margin-left:15px;
+				padding-left: 0;
+			}
+			& > div{
+				margin-right: @base-margin;
+				&:last-child{
+					margin-right: 0;
+				}
+			}
+           
+			.card-media{
+				.flex-block(center, center);
+				flex: 0 0 @card-media-size;
+				img{
+					display: block;
+					width: 100%;
+					border-radius:@card-radius;
+					background: @gray-lighter;
+					border:1px solid #dedede;
+					// position: relative;
+					// &:before{
+					// 	position: absolute;
+					// 	bottom: 0;
+					// 	font-family:"FontAwesome";
+					// 	content:"\f007";
+					// 	color: #e1e1e1;
+					// 	width:@mobile-user-img-width;
+					// 	text-align: center;
+					// 	font-size:3rem;
+					// }
+				}
+			}
+
+			.card-title {
+				.flex-block(flex-strat,center);
+				font-size: @mobile-font-size-md;
+				font-weight: bold;
+				line-height: 1.7;
+				span{
+                    .flex-block(flex-strat,center);
+					font-size:@mobile-font-size;
+					color:@mobile-text-color; 
+					font-weight: normal;
+					margin-left: @base-margin / 3;
+                }
+                .btn{
+                    flex: none;
+                }
+			}
+
+			.card-block {
+				.flex-block(flex-start, flex-start);
+				flex-wrap: wrap;
+				.card-title,
+				.card-subtitle,
+				.card-text {
+					.flex-block();
+					flex: 0 0 100%;
+				}
+
+				.card-title {
+					.flex-block(flex-start,center);
+					font-size: @mobile-font-size;
+					font-weight: bold;
+					line-height: 1.7;
+					margin-bottom:0;
+				}
+				
+				.dynamic-content{
+					justify-content: flex-start;
+					flex: 0 0 100%;
+				}
+				.card-subtitle {
+					.flex-block(flex-start,center);
+					font-size:@mobile-font-size;
+					color:@mobile-text-color;
+					line-height: 1.7;
+					margin-bottom: 0;
+					a{
+						font-size:@mobile-font-size;
+						color:darken(@brand-primary, 20%);
+					}
+				}
+
+				.card-text {
+					font-size:@mobile-font-size-sm;
+					justify-content: flex-start;
+					color:@mobile-text-color;
+					line-height: 1.7;
+					margin-bottom:0;
+
+					&:last-child {
+						margin-bottom: 0;
+					}
+
+					span {
+						font-size: @mobile-font-size-sm;
+						& + span {
+							padding-left: .5rem;
+						}
+
+					}
+
+				}
+				
+			}
+
+			//按钮组
+			.btn-group{
+				padding: (@base-padding / 2) 0;
+				text-align: right;
+				float: right;
+				button.btn{
+					margin-left: @base-margin;
+					line-height: 1;
+					color:@mobile-text-color;
+					i{
+						font-size: @mobile-font-size-md;
+						color: @brand-primary;
+						margin-right: 0.3rem;
+					}
+				}
+
+			}
+
+
+
+		}
+
+		.card-footer {
+            .flex-block();
+            padding: 0 @base-padding;
+            min-height: @card-footer-height;
+            margin-top: -1px;
+		}
+
+	}
+		
+	//时间
+	.comment-time{
+		i{
+			margin-right: 0.5rem;
+			color: @brand-primary;
+		}
+		.flex-block(flex-start,center);
+		flex: 0 0 100%;
+		padding-bottom: @base-padding / 2;
+		span{
+			font-size:@mobile-font-size-sm;
+			color: @mobile-card-title-color;
+		}
+		
+    }
+    .customer-dynamic{
+        .card-body{
+            border: 0;
+        }
+    }
+
+}

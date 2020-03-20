@@ -1,0 +1,628 @@
+<container>
+    <style>
+        table.table tbody tr td.td-button {
+            text-align: center;
+        }
+        .sqlsource-sub-table{
+            margin-top: 10px;
+        }
+    </style>
+    <input type="hidden" id="categorydatasource-id" name="categorydatasourceId" value=""/>
+    <layout id='report-sqlsource-list'  ns-package='report.sqlsource.list'>
+        <nav  ns-id="nav" ns-config="navConfig"></nav>
+        <panel ns-id="sqlsource-table" ns-options="col:12,height:500" ns-config="table:sqlsourceTableConfig"></panel>
+        <panel ns-id="columns-table" ns-options="col:6,height:auto,class:sqlsource-sub-table" ns-config="table:columnsTableConfig"></panel>
+        <panel ns-id="params-table" ns-options="col:6,height:auto,class:sqlsource-sub-table" ns-config="table:paramsTableConfig"></panel>
+    </layout>
+    <script type="text/javascript">
+
+        var TableCommon = {
+            loadTableData: function(tableId, rows){
+                nsTable.originalConfig[tableId].dataConfig.dataSource = rows;
+                nsTable.refreshByID(tableId);
+            }
+        };
+        //
+        var resportSqlSourceData = (function(){
+            var _data, _sqls, sourceMap = {}, _tableId = 'table-report-sqlsource-list-sqlsource-table';
+            return {
+                init: function(data){
+                    _data = data;
+                    //加载到表格中
+                    var sqlSourcesStr = data.sqlSources;
+                    if(sqlSourcesStr){
+                        _sqls = JSON.parse(sqlSourcesStr);
+                    } else {
+                        _sqls = [];
+                    }
+                    //sourceMap
+                    for(var i = 0; i < _sqls.length; i++){
+                        sourceMap[_sqls[i].id] = _sqls[i];
+                    }
+                    TableCommon.loadTableData(_tableId, _sqls);
+
+                },
+                checkExists: function(id){
+                    //不能重复添加
+                    if(sourceMap[id]){
+                        nsalert('数据源已经存在，不能重复添加', 'error');
+                        return false;
+                    }
+                    return true;
+                },
+                addSqlSource: function(source){
+                    if(this.checkExists(source.id)){
+                        _sqls.push(source);
+                        sourceMap[source.id] = source;
+                        TableCommon.loadTableData(_tableId, _sqls);
+                        nsalert('添加成功', 'success');
+                    }
+                },
+                editColumn: function(sourceId, column){
+                    var source = sourceMap[sourceId];
+                    if(source && source.columns){
+                        for(var i = 0; i < source.columns.length; i++){
+                            if(source.columns[i].id == column.id){
+                                $.extend(source.columns[i], column);
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                },
+                editParam: function(sourceId, param){
+                    var source = sourceMap[sourceId];
+                    if(source && source.params){
+                        for(var i = 0; i < source.params.length; i++){
+                            if(source.params[i].id == param.id){
+                                $.extend(source.params[i], param);
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                },
+                getSqlSource: function(id){
+                    return sourceMap[id];
+                },
+                save: function(){
+                    var sqlSourcesStr = JSON.stringify(_sqls);
+                    _data.sqlSources = sqlSourcesStr;
+                    $.ajax({
+                        data: _data,
+                        url: getRootPath() + '/reportSourceCategory/save',
+                        type: 'post',
+                        success: function (data) {
+                            if (data.success) {
+                                nsalert('保存成功', 'success');
+                            } else {
+                                var errStr = data.msg;
+                                nsalert('保存失败，请重试 ' + errStr, 'error');
+                            }
+                        },
+                        error: function (e) {
+                            nsalert('保存数据失败，请重试', 'error');
+                        }
+                    })
+                },
+                del: function(id){
+                    nsTable.setSelectRows(_tableId, id);
+                    var _newSqls = [];
+                    for(var i = 0; i < _sqls.length; i++){
+                        if(id != _sqls[i].id){
+                            _newSqls.push(_sqls[i]);
+                        }
+                    }
+                    _sqls = _newSqls;
+                    delete sourceMap[id];
+                    baseDataTable.delSelectedRowdata(_tableId);
+                }
+            }
+        })();
+
+        report = {
+            sqlsource: {
+                list: {
+                    main: function () {
+                        var pageData = this.pageData ? this.pageData : {};
+                        var sqlsourceTableId = 'table-report-sqlsource-list-sqlsource-table';
+                        var columnsTableId = 'table-report-sqlsource-list-columns-table';
+                        var paramsTableId = 'table-report-sqlsource-list-params-table';
+                        //加载数据
+                        var reportSourceCategoryId = pageData.categorydatasourceId;
+                        function loadData(success){
+                            $.ajax({
+                                url: getRootPath() + '/reportSourceCategory/' + reportSourceCategoryId,
+                                type: 'get',
+                                success: function (data) {
+                                    if (data.success) {
+                                        success(data.data);
+                                    } else {
+                                        var errStr = data.msg;
+                                        nsalert('加载数据失败，请重试 ' + errStr, 'error');
+                                    }
+                                },
+                                error: function (e) {
+                                    nsalert('加载数据失败，请重试', 'error');
+                                }
+                            })
+                        }
+
+                        loadData(resportSqlSourceData.init);
+
+                        function getSqlsourceSelectedRow(){
+                            return nsTable.getSingleRowSelectedData(sqlsourceTableId);
+                        }
+
+                        function getColumnSelectedRow(){
+                            return nsTable.getSingleRowSelectedData(columnsTableId);
+                        }
+
+                        function getParamSelectedRow(){
+                            return nsTable.getSingleRowSelectedData(paramsTableId);
+                        }
+
+                        this.navConfig = {
+                            isShowTitle: false,
+                            btns: [
+                                [
+                                    {
+                                        text: '新增数据源',
+                                        handler: function(){
+                                            nsdialog.initShow(addSqlSourceDialogConfig);
+                                        }
+                                    }, {
+                                        text: '保存',
+                                        handler: function () {
+                                            resportSqlSourceData.save();
+                                        }
+                                    }
+                                ]
+                            ]
+                        };
+
+                        //根据数据源类别获取数据源数据
+                        function showSqlSourceByCategoryId(categoryId){
+                            $.ajax({
+                                data: {categoryId: categoryId},
+                                url: getRootPath() + '/sqlSource/getList',
+                                success: function (data) {
+                                    var rows;
+                                    if (data.success) {
+                                        rows = data.rows;
+                                    } else {
+                                        rows = [];
+                                    }
+                                    nsForm.edit([{
+                                        id: 'id',
+                                        subdata: rows
+                                    }], 'report-sqlsource-list-sqlsource-dialog');
+                                }
+                            })
+                        }
+
+                        var sqlsourceForm = [
+                            {
+                                id: 'categoryId',
+                                label: '数据源类别',
+                                type: 'tree-select',
+                                column: 12,
+                                url: getRootPath() + '/sqlSourceCategorys/getAll',
+                                data: {parentId: -1},
+                                treeType: 'GET',
+                                async: false,
+                                dataSrc: 'rows',
+                                textField: 'name',
+                                valueField: 'id',
+                                rules: 'required',
+                                clickCallback: function (data) {
+                                    showSqlSourceByCategoryId(data.treeNode.id);
+                                }
+                            },
+                            {
+                                id: 'id',
+                                label: '数据源名称',
+                                type: 'select2',
+                                rules: 'required',
+                                textField:'name',
+                                valueField:'id',
+                                subdata: []
+                            }
+                        ];
+
+                        var addSqlSourceDialogConfig = {
+                            id: 'report-sqlsource-list-sqlsource-dialog',
+                            title: '添加数据源',
+                            size: 'm',
+                            form: sqlsourceForm,
+                            btns: [
+                                {
+                                    text: '确认',
+                                    handler: saveSqlSourceDialog
+                                }
+                            ]
+                        };
+
+                        function saveSqlSourceDialog(){
+                            //根据数据源 ID 获取数据源的详细信息
+                            var data = nsForm.getFormJSON('report-sqlsource-list-sqlsource-dialog');
+                            if (data && resportSqlSourceData.checkExists(data.id)) {
+                                $.ajax({
+                                    data: {
+                                        sqlSourceId: data.id
+                                    },
+                                    url: getRootPath() + '/reportSourceCategory/getSqlSource',
+                                    success: function (data) {
+                                        if (data.success) {
+                                            resportSqlSourceData.addSqlSource(data.data);
+                                            nsdialog.hide();
+                                        } else {
+                                            var errStr = data.msg;
+                                            nsalert('添加失败，请重试 ' + errStr, 'error');
+                                        }
+                                    },
+                                    error: function (e) {
+                                        nsalert('添加失败，请重试', 'error');
+                                    }
+                                })
+                            }
+                        }
+
+                        function loadSqlsourceSubTables(id) {
+                            var row = resportSqlSourceData.getSqlSource(id);
+                            var columns = row.columns;
+                            var params = row.params;
+                            if (!columns) {
+                                columns = [];
+                            }
+                            if (!params) {
+                                params = [];
+                            }
+                            TableCommon.loadTableData(columnsTableId, columns);
+                            TableCommon.loadTableData(paramsTableId, params);
+                        }
+
+                        this.sqlsourceTableConfig = {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '主键',
+                                    width: 150,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'databaseName',
+                                    title: '数据库',
+                                    width: 150
+                                },
+                                {
+                                    field: 'name',
+                                    title: '数据源',
+                                    width: 150,
+                                    searchable: true
+                                },
+                                {
+                                    field: 'md5',
+                                    title: '校验码',
+                                    width: 150
+                                },
+                                {
+                                    field: 'operation',
+                                    title: '操作',
+                                    width: 170,
+                                    tabPosition: 'after',
+                                    formatHandler: {
+                                        type: 'button',
+                                        data: [
+                                            {
+                                                '删除': function(data) {
+                                                    var trData = data.rowData;
+                                                    nsmessager.confirm("是否确认删除类别：" + trData.name, function(){
+                                                        resportSqlSourceData.del(trData.id);
+                                                    });
+                                                }
+                                            }/*, {
+                                                '同步': function(data) {
+                                                    var trData = data.rowData;
+                                                }
+                                            }, {
+                                                '预览': function(data) {
+                                                    var trData = data.rowData;
+                                                }
+                                            }*/
+                                        ]
+                                    }
+                                }
+                            ],
+                            data: {
+                                isServerMode: false,
+                                isSearch: true,
+                                isPage: true,
+                                dataSrc: 'rows'
+                            },
+                            ui: {
+                                searchTitle: "类别搜索",
+                                searchPlaceholder: "名称",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true,
+                                onSingleSelectHandler: function(){
+                                    var row = getSqlsourceSelectedRow();
+                                    if(row){
+                                        loadSqlsourceSubTables(row.id);
+                                    }
+                                }
+                            },
+                            btns: {}
+                        };
+
+                        var columnDialogConfig = {
+                            id: 'report-sqlsource-list-column-dialog',
+                            title: '修改列',
+                            size: 'm',
+                            form: [
+                                {
+                                    id: 'id',
+                                    label: '列ID',
+                                    type: 'hidden'
+                                }, {
+                                    id: 'name',
+                                    label: '列名',
+                                    type: 'text',
+                                    rules: 'required'
+                                }, {
+                                    id: 'jdbcType',
+                                    label: '类型',
+                                    type: 'select2',
+                                    textField: 'id',
+                                    valueField: 'id',
+                                    isCloseSearch: -1,
+                                    subdata: [
+                                        {
+                                            id: 'varchar'
+                                        }, {
+                                            id: 'int'
+                                        }, {
+                                            id: 'date'
+                                        }
+                                    ]
+                                }, {
+                                    id: 'remark',
+                                    label: '备注',
+                                    type: 'text',
+                                    rules: ''
+                                }
+                            ],
+                            btns: [
+                                {
+                                    text: '确认',
+                                    handler: function(){
+                                        var data = nsForm.getFormJSON('report-sqlsource-list-column-dialog');
+                                        if(data){
+                                            var row = getSqlsourceSelectedRow();
+                                            if(resportSqlSourceData.editColumn(row.id, data)){
+                                                loadSqlsourceSubTables(row.id);
+                                            }
+                                            nsdialog.hide();
+                                        }
+                                    }
+                                }
+                            ]
+                        };
+
+                        this.columnsTableConfig = {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '列ID',
+                                    width: 150,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'name',
+                                    title: '列名',
+                                    width: 150,
+                                    searchable: true
+                                },
+                                {
+                                    field: 'jdbcType',
+                                    title: '类型',
+                                    width: 150
+                                },
+                                {
+                                    field: 'remark',
+                                    title: '备注',
+                                    width: 150,
+                                    searchable: true
+                                },
+                                {
+                                    field: 'operation',
+                                    title: '操作',
+                                    width: 170,
+                                    tabPosition: 'after',
+                                    formatHandler: {
+                                        type: 'button',
+                                        data: [
+                                            {
+                                                '修改': function(data) {
+                                                    nsdialog.initValueShow(columnDialogConfig, data.rowData);
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            data: {
+                                isServerMode: false,
+                                isSearch: true,
+                                isPage: true,
+                                dataSrc: 'rows'
+                            },
+                            ui: {
+                                searchTitle: "",
+                                searchPlaceholder: "",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true
+                            },
+                            btns: {}
+                        };
+
+                        var paramDialogConfig = {
+                            id: 'report-sqlsource-list-param-dialog',
+                            title: '修改列',
+                            size: 'm',
+                            form: [
+                                {
+                                    id: 'id',
+                                    label: 'ID',
+                                    type: 'hidden'
+                                }, {
+                                    id: 'name',
+                                    label: '参数名',
+                                    type: 'text',
+                                    rules: 'required'
+                                }, {
+                                    id: 'aliasName',
+                                    label: '参数别名',
+                                    type: 'text'
+                                }, {
+                                    id: 'labelName',
+                                    label: '标签名',
+                                    type: 'text'
+                                }, {
+                                    id: 'jdbcType',
+                                    label: '类型',
+                                    type: 'select2',
+                                    textField: 'id',
+                                    valueField: 'id',
+                                    isCloseSearch: -1,
+                                    subdata: [
+                                        {
+                                            id: 'varchar'
+                                        }, {
+                                            id: 'int'
+                                        }, {
+                                            id: 'date'
+                                        }
+                                    ]
+                                }, {
+                                    id: 'remark',
+                                    label: '备注',
+                                    type: 'text',
+                                    rules: ''
+                                }, {
+                                    id: 'order',
+                                    label: '序号',
+                                    type: 'text',
+                                    rules: ''
+                                }
+                            ],
+                            btns: [
+                                {
+                                    text: '确认',
+                                    handler: function(){
+                                        var data = nsForm.getFormJSON('report-sqlsource-list-param-dialog');
+                                        if(data){
+                                            var row = getSqlsourceSelectedRow();
+                                            if(resportSqlSourceData.editParam(row.id, data)){
+                                                loadSqlsourceSubTables(row.id);
+                                            }
+                                            nsdialog.hide();
+                                        }
+                                    }
+                                }
+                            ]
+                        };
+
+                        this.paramsTableConfig = {
+                            columns: [
+                                {
+                                    field: 'id',
+                                    title: '参数ID',
+                                    width: 150,
+                                    hidden: true
+                                },
+                                {
+                                    field: 'name',
+                                    title: '参数名',
+                                    width: 100
+                                },
+                                {
+                                    field: 'aliasName',
+                                    title: '参数别名',
+                                    width: 100
+                                },
+                                {
+                                    field: 'labelName',
+                                    title: '标签名',
+                                    width: 100
+                                },
+                                {
+                                    field: 'jdbcType',
+                                    title: '类型',
+                                    width: 80
+                                },
+                                {
+                                    field: 'remark',
+                                    title: '备注',
+                                    width: 80
+                                },
+                                /*{
+                                    field: 'order',
+                                    title: '序号',
+                                    width: 50
+                                },*/
+                                {
+                                    field: 'operation',
+                                    title: '操作',
+                                    width: 50,
+                                    tabPosition: 'after',
+                                    formatHandler: {
+                                        type: 'button',
+                                        data: [
+                                            {
+                                                '修改': function(data) {
+                                                    nsdialog.initValueShow(paramDialogConfig, data.rowData);
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            data: {
+                                isServerMode: false,
+                                isSearch: true,
+                                isPage: true,
+                                dataSrc: 'rows'
+                            },
+                            ui: {
+                                searchTitle: "",
+                                searchPlaceholder: "",
+                                isSelectColumns: false,
+                                isAllowExport: false,
+                                pageLengthMenu: 10,
+                                isSingleSelect: true,
+                                isMulitSelect: false,
+                                defaultSelect: true
+                            },
+                            btns: {
+                            }
+                        };
+                        nsLayout.init("report-sqlsource-list");
+                    }
+                }
+            }
+        };
+
+        
+        var pageParams = report.sqlsource.list;
+        NetstarDataService.initToPage(pageParams);
+    </script>
+</container>

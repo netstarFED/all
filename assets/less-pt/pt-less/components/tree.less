@@ -1,0 +1,384 @@
+@tree-size: 100%;
+
+.pt-tree {
+    // border: 1px solid @border-color;
+    // padding: @padding-lg-v @padding-lg-h;
+    background: #ffffff;
+    width: @tree-size;
+
+
+    // height: 100%;
+    .ztree {
+        position: relative;
+        border-color: @border-color ;
+        overflow-y: auto
+    }
+
+    .businessdatabase-tree-ztree.layout-ztree {
+        border: 0;
+    }
+
+    .pt-tree-title {
+        padding: 0 0 @base-padding 0;
+        font-size: 14px;
+        line-height: 18px;
+    }
+}
+
+//竖菜单的各种状态
+.ztree-state(@ztree-state-bg, @ztree-state-color) {
+    .node_name {
+        background: transparent;
+        color: @ztree-state-color;
+    }
+
+    &.curSelectedNode,
+    &:hover {
+        .node_name {
+            background: darken(@ztree-state-bg, 10%);
+            color: darken(@ztree-state-color, 10%);
+        }
+    }
+}
+
+.ztree {
+
+    li {
+        white-space: nowrap;
+
+        a {
+
+            //选中
+            &.curSelectedNode {
+                .ztree-state(#fcefe8, @warning)
+            }
+
+            //info
+            &.infonode {
+                .ztree-state(lighten(#399cdd, 40%), #399cdd)
+            }
+
+            //警告
+            &.warningnode {
+                .ztree-state(@bg-warning, @warning)
+            }
+
+            //成功
+            &.successnode {
+                .ztree-state(@bg-success, @success)
+            }
+
+            //错误
+            &.errornode {
+                .ztree-state(@bg-danger, @danger)
+            }
+
+            //禁用
+            &.disablenode {
+                .ztree-state(#eee, @gray);
+
+                &:hover {
+                    .node_name {
+                        background: #eee;
+                        color: @gray;
+                    }
+                }
+            }
+
+        }
+    }
+
+    // ztree列表控制按钮
+    .button {
+        color: @warning;
+        margin-left: 2px;
+        position: relative;
+
+        &:before {
+            position: absolute;
+            content: '';
+            width: 16px;
+            line-height: 16px;
+            text-align: center;
+            font-family: @icon-font;
+            top: 2px;
+            z-index: 9;
+            border-radius: 3px;
+            color: #333;
+        }
+
+        &:hover {
+            &:before {
+                color: #fff !important;
+                background: @warning;
+            }
+
+        }
+
+        // 控制按钮变量
+        .button-style-variant(@color, @bg, @content) {
+            &:before {
+                content: @content;
+            }
+
+            &:hover {
+                &:before {
+                    color: @color;
+                }
+
+                &:after {
+                    background: @bg;
+                }
+            }
+        }
+
+        // 新增
+        &.add {
+            .button-style-variant(#fff, @success, '\f067');
+        }
+
+        // 编辑
+        &.edit {
+            .button-style-variant(#000, #ddd, '\f040');
+        }
+
+        // 移除
+        &.remove {
+            .button-style-variant(#fff, @danger, '\f1f8');
+        }
+    }
+
+    //树节点 编辑模式
+    .node_name {
+        .rename {
+            border: 1px solid @form-border;
+            padding: 2px;
+            background: #fff;
+        }
+
+        &.pt-editing {
+            background: none !important;
+        }
+    }
+}
+
+// 拖动子项样式
+.ztree {
+    &.zTreeDragUL {
+        min-height: 18px;
+        border: 0;
+        padding: 0 5px;
+        overflow-y: hidden;
+        right: auto;
+        background: @warning;
+        border-radius: 5px;
+
+        li {
+            min-width: auto;
+
+        }
+
+        .node_name {
+            color: #fff;
+        }
+
+        span.button.ico_open:after,
+        span.button.ico_close:after {
+            color: #fff;
+        }
+    }
+
+    .tmpTargetNode_prev,
+    .tmpTargetNode_inner,
+    .tmpTargetNode_next {
+        position: relative;
+
+        span.button.ico_docu,
+        span.button.ico_open,
+        span.button.ico_close {
+            &:after {
+                color: @warning;
+            }
+
+            &+.node_name {
+                background: #fff;
+                color: @warning;
+                opacity: 0.75;
+
+                &:after {
+                    position: absolute;
+                    content: '';
+                    top: 0;
+                    right: -1px;
+                    bottom: -2px;
+                    left: -1px;
+                    border: 1px solid @warning;
+                }
+            }
+        }
+    }
+
+    a.tmpTargetNode_prev {
+        position: relative;
+
+        &:before {
+            position: absolute;
+            content: "";
+            height: 8px;
+            background: @warning;
+            top: -9px;
+            right: -1px;
+            left: -1px;
+            opacity: 0.75;
+        }
+
+        .target-node-after {
+            opacity: 1;
+
+            &:before {
+                transform: rotate(30deg);
+                top: 4px;
+            }
+
+        }
+
+    }
+
+    a.tmpTargetNode_inner {
+        position: relative;
+
+        // &:after {
+        //     position: absolute;
+        //     content: '';
+        //     width: 60px;
+        //     height: 12px;
+        //     right: -70px;
+        //     background: lighten(@warning, 20);
+        //     border: 1px solid @warning;
+        //     border-radius: 3px;
+        // }
+        .target-node-after {
+            opacity: 1;
+        }
+    }
+
+    a.tmpTargetNode_next {
+        position: relative;
+
+        &:before {
+            position: absolute;
+            content: "";
+            height: 8px;
+            background: @warning;
+            right: -1px;
+            bottom: -11px;
+            left: -1px;
+            opacity: 0.75;
+        }
+
+        .target-node-after {
+            opacity: 1;
+
+            &:before {
+                transform: rotate(-30deg);
+                top: 12px;
+            }
+
+        }
+
+    }
+
+    .target-node-after {
+        position: absolute;
+        opacity: 0;
+
+        &:before {
+            position: absolute;
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: @warning;
+            top: 8px;
+            right: -24px;
+        }
+
+        &:after {
+            position: absolute;
+            content: '';
+            width: 60px;
+            height: 12px;
+            margin-top: 2px;
+            right: -80px;
+            background: lighten(@warning, 20);
+            border: 1px solid @warning;
+            border-radius: 0;
+        }
+    }
+}
+
+.pt-tree-form-panel-footer {
+    padding-top: @base-padding;
+}
+
+.tree-node-add {
+    position: absolute;
+    border: 1px solid @border-color;
+    background: #fff;
+    z-index: 99;
+
+    .pt-radio-inline:after {
+        top: 1px;
+    }
+
+    .tree-node-add-footer {
+        border-top: 1px solid @border-color;
+
+        .pt-btn-group {
+            width: 100%;
+
+            .pt-btn {
+                border: 0;
+            }
+        }
+    }
+
+    .pt-form-group {
+        height: @input-group-base;
+    }
+}
+
+// 树形菜单form表单面板
+.pt-tree-form-panel {
+    margin-bottom: @base-margin;
+    height: @input-group-base;
+
+    // 按钮组
+    .pt-btn-group {
+        display: inline-block;
+        width: 22px;
+
+
+        &+.pt-input-group {
+            margin-left: @base-margin;
+        }
+    }
+
+    // 输入框组 
+    .pt-input-group {
+        display: inline-table;
+        width: 100%;
+
+        .pt-form-control,
+        .pt-btn-group {
+            display: table-cell;
+
+            .pt-btn {
+                border: 0;
+
+                &.pt-btn-icon {
+                    .square(@input-group-btn-size);
+                }
+            }
+        }
+    }
+}

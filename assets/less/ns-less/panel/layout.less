@@ -1,0 +1,297 @@
+@layout-padding: 15px;
+.layout-planes{
+	margin: 0;
+	padding: @layout-padding 0;
+	.nspanel{
+		border: 0;
+		padding: 0;
+		// overflow-y: auto;
+		&.autoHeight{
+			margin-bottom: 0;
+		}
+		// &.autoHeight,
+		// &.layout-tree{
+		// 	margin-bottom: 0;
+		// 	overflow-y: auto;
+		// 	&::-webkit-scrollbar {
+		// 	    width: 0px;            
+		// 	 }
+		// }
+	}
+	&.standard{
+	}
+	& > .layout-tree{
+		overflow-y: auto;
+	}
+	//树和表格模态页的样式
+	&.treetable{
+		padding: 0;
+		.nspanel {
+			border:none;
+			//该页面模式下
+			&.layout-tree{
+				padding:0 0 @layout-padding @layout-padding;
+				overflow-y: auto;
+			}
+			&.layout-table{
+				padding:0 @layout-padding @layout-padding @layout-padding;
+			}
+			.panel {
+				padding:0;
+				.panel-body {
+					padding:0;
+				}
+			}
+		}
+	}
+	//自定义查询列表
+	&.customsearchtable{
+		padding-top: 65px;
+		.table-responsive{
+			padding-top: 0;
+			.dataTables_filter{
+				display: none;
+			}
+		}
+		.control-btn-toolbar{
+			float:none;
+		}
+	}
+	//自定义查询弹出框
+	&.customsearchdialog{
+		.page-title{
+			height: 1px;
+			.btn-group:nth-child(1){
+				position: absolute;
+				bottom: 0;
+				right: @default-layout-padding;
+				border:1px solid @ns-btn-border;
+			}
+		}
+		.col-xs-12.nspanel {
+			padding:0;
+		}
+	}
+	> .layout-tree,
+	> .layout-table{
+		padding: 0;
+	}
+	> .layout-tree + .layout-table,
+	> .layout-tree + .layout-table + .layout-table{
+		margin-top: 0 !important;
+	}
+
+	// layout-table描边-面板间距
+	.nspanel{
+		border: 0;
+		&.border-left{
+			border-left: 5px solid transparent !important;
+			position: relative;
+		}
+		&.border-right{
+			border-right: 5px solid transparent !important;
+		}
+		// &.layout-table{
+		// 	border: 0;
+		// 	margin-top: 10px;
+		// }
+	}
+
+	// layout面板中的table单元格字段截取
+	table.table.dataTable{
+		tr > td{
+			height: 40px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap !important;
+		}
+    }
+    
+
+  
+
+}
+//补充覆盖用的
+//customsearchtable模板
+.page-container .main-content.table-content .layout-planes.customsearchtable .table-responsive{
+	padding-top: 0;
+	margin: 0;
+	overflow: hidden;
+	.dataTables_wrapper{
+		overflow: auto;
+		table{
+			margin-bottom: 0;
+		}
+	}
+}
+
+//按钮和标签
+// .layout-planes{
+// 	.nspanel{
+// 		.container-btns{
+// 			width:100%;
+// 			border-bottom:1px #e9e9e9 solid;
+// 		}
+// 		.container-tags{
+// 			width: 100%;
+// 			min-height: 53px;
+// 			padding:5px 10px;
+// 			background: #f8f8f8;
+// 			.container-tags-content{
+// 				float:none;
+// 				display: inline-block;
+// 				padding: 6px 10px;
+// 				margin:5px;
+// 				background: #fff;
+// 				color: #616161;
+// 				vertical-align: middle;
+// 				cursor:pointer;
+// 				border:1px solid #fff;
+// 				span.close{
+// 					float: none;
+// 					font-size: 12px;
+// 					line-height: 12px;
+// 					padding-left:10px;
+// 				}
+// 				&:hover{
+// 					color: #186ba0;
+// 					border:1px solid #186ba0;
+// 					span.close{
+// 						color:#186ba0;
+// 						opacity: 0.8; 
+// 					}
+// 				}	
+// 				&.active{
+// 					background: #186ba0;
+// 					color: #fff;
+// 					border:1px solid #186ba0;
+// 					span.close{
+// 						color: #fff;
+// 						opacity: 0.8; 
+// 					}
+// 					&:hover{
+// 						background: #186ba0;
+// 						color:#fff;
+// 						border:1px solid #186ba0;
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// }
+
+
+// .layout-planes{
+// 	.nspanel{
+// 		.container-btns{
+// 			width:100%;
+// 			border-bottom:1px #e9e9e9 solid;
+// 		}
+// 		.container-tags{
+// 			width: 100%;
+// 			min-height: 53px;
+// 			padding:5px 10px;
+// 			background: #f8f8f8;
+// 			.container-tags-content{
+// 				float:none;
+// 				display: inline-block;
+// 				padding: 6px 10px;
+// 				margin:5px;
+// 				background: #fff;
+// 				color: #186ba0;
+// 				border:1px solid #186ba0;
+// 				vertical-align: middle;
+// 				cursor:pointer;
+// 				span.close{
+// 					float: none;
+// 					font-size: 12px;
+// 					line-height: 12px;
+// 					padding-left:10px;
+// 					color:#186ba0;
+// 					opacity: 0.8; 
+// 				}
+// 				&:hover{
+// 					background: #FFF;
+// 					color:#186ba0;
+// 					border:1px solid #186ba0;
+// 					-moz-box-shadow:0px 0px 5px 1px #186ba0 inset;               /* For Firefox3.6+ */
+// 					-webkit-box-shadow:0px 0px 5px 1px #186ba0 inset;            /* For Chrome5+, Safari5+ */
+// 					box-shadow:0px 0px 5px 1px #186ba0 inset;                    /* For Latest Opera */
+// 					span.close{
+// 						color:#186ba0;
+// 						opacity: 0.8; 
+// 					}
+// 				}	
+// 				&.active{
+// 					background: #186ba0;
+// 					color: #fff;
+// 					border:1px solid #186ba0;
+// 					span.close{
+// 						color: #fff;
+// 						opacity: 0.8; 
+// 					}
+// 					&:hover{
+// 						background: #186ba0;
+// 						color:#fff;
+// 						border:1px solid #186ba0;
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// }
+
+
+.layout-planes{
+	.nspanel{
+		.container-btns{
+			width:100%;
+			border-bottom:1px #e9e9e9 solid;
+		}
+		.container-tags{
+			width: 100%;
+			min-height: 53px;
+			padding:5px 10px;
+			background: #f8f8f8;
+			.container-tags-content{
+				float:none;
+				display: inline-block;
+				padding: 6px 10px;
+				margin:5px;
+				background: #fff;
+				color: #616161;
+				vertical-align: middle;
+				cursor:pointer;
+				border:1px solid #dedede;
+				span.close{
+					float: none;
+					font-size: 12px;
+					line-height: 12px;
+					padding-left:10px;
+				}
+				&:hover{
+					color: #186ba0;
+					border:1px solid #186ba0;
+					span.close{
+						color:#186ba0;
+						opacity: 0.8; 
+					}
+				}	
+				&.active{
+					background: #186ba0;
+					color: #fff;
+					border:1px solid #186ba0;
+					span.close{
+						color: #fff;
+						opacity: 0.8; 
+					}
+					&:hover{
+						background: #186ba0;
+						color:#fff;
+						border:1px solid #186ba0;
+					}
+				}
+			}
+		}
+	}
+}

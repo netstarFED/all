@@ -1,0 +1,87 @@
+@panel-border-radius: 0;
+@panel-bg: lighten(@body-bg, 5.5%);
+// @panel-border-color: #fff;
+@panel-header-color: darken(@primary, 30);
+@panel-header-title-font-size: 2rem;
+@panel-padding: 1rem;
+@panel-text-color: #fff;
+@panel-header-height: (@panel-padding + @panel-header-title-font-size);
+@panel-body-height: calc(~"100% -"@panel-header-height);
+
+.panel {
+    border-radius: @panel-border-radius;
+    border-color: transparent;
+    background: transparent;
+
+    // .rgba-shadow(0, 0.5rem, .5rem, @primary, .2);
+    .panel-header {
+        .flex-block(flex-start, center);
+        flex: none;
+        padding: (@panel-padding / 2) @panel-padding;
+        font-weight: normal;
+        font-size: @panel-header-title-font-size;
+        color: @panel-text-color;
+
+        div:nth-child(1) span {
+            margin-left: 0;
+        }
+
+        .badge {
+            display: none;
+        }
+
+        span:before {
+            display: none;
+        }
+
+        .icon {
+            .flex-block(center, center);
+            flex: none;
+            .square(@panel-header-title-font-size);
+            color: lighten(@primary, 10);
+            font-size: 2rem;
+            line-height: 2.5rem;
+            margin-right: (@base-margin / 2);
+
+        }
+    }
+
+    .panel-body {
+        .right {
+            .flex-block(flex-end, center);
+            flex: none;
+
+            div {
+                margin-left: 1rem;
+            }
+        }
+
+        // 列表下图片/视频
+        .ns-content {
+            .flex-block(space-between, stretch);
+            flex-direction: column;
+
+            .img-list {
+                .flex-block(space-between, stretch);
+                flex-wrap: wrap;
+                align-content: stretch;
+                .img-item {
+                    .flex-block(space-between, stretch);
+                    // align-content: stretch;
+                    width: 1822px;
+                    height: 490px;
+                    // overflow: hidden;
+                    overflow-y: auto;
+
+                    .img {
+                        flex: 1
+                    }
+                }
+            }
+            .ns-btn-group{
+                .flex-block(flex-end,center);
+                flex-direction: row;
+            }
+        }
+    }
+}

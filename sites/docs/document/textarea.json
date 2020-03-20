@@ -1,0 +1,178 @@
+{
+    "operator":{
+        "type":{
+            "chineseName":"组件类型",
+            "validType":"string",
+            "toolType":"select",   
+            "default":"textarea",
+            "required":true,
+            "subdata":[{
+                "value":"textarea",
+                "text":"文本域"
+            }]
+        },
+        "id":{
+            "chineseName":"字段名称",
+            "validType":"string",
+            "toolType":"text",
+            "required":true
+        },
+        "label":{
+            "chineseName":"标签",
+            "validType":"string",
+            "toolType":"text",
+            "default":""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        },         
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules":{
+            "chineseName":"验证规则",
+            "validType":"string",
+            "toolType":"multi-select",
+            "subdata":[
+                {
+                    "value":"required",
+                    "text":"必填"
+                },{
+                    "value":"",
+                    "text":"无验证"
+                }              
+            ]     
+        },
+        "disabled":{
+            "chineseName":"只读",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "hidden":{
+            "chineseName":"隐藏",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false
+        },
+        "isUseUEditor":{
+            "chineseName":"是否使用UEditor",
+            "validType":"boolean",
+            "toolType":"check",
+            "default":false,
+            "help":"富文本编辑"
+        },
+        "model":{
+            "chineseName":"查询默认数据",
+            "validType":"string",
+            "toolType":"text",
+            "default":"standard",
+            "help":"all（全部功能） standard(标准功能按钮) min（min功能）"
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "changeHandler":{
+            "validType":"function",
+            "toolType":"textarea",
+            "chineseName":"变更处理程序"
+        }
+    },
+    "data":{
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+    },
+    "prepattern":[
+        {
+            "name":"显示的值",
+            "value": {
+                "id": "valuetextarea",
+                "label": "显示 :",
+                "type": "textarea",
+                "value": "鸡蛋"
+            }  
+        },
+        {
+           "name":"只读",
+           "value":{
+                "id": "disabled",
+                "label": "只读 :",
+                "type": "textarea",
+                "value":"只读",
+                "disabled": true
+           }
+        },
+        {
+            "name":"样式宽",
+            "value":{                               
+                "id": "width",
+                "label": "宽:",
+                "type": "textarea",
+                "inputWidth": 300
+            }
+        },
+        {
+            "name":"验证",
+            "value":{
+                "id": "requied",
+                "label": "验证 :",
+                "type": "textarea",
+                "rules":"requied"
+            }
+        },
+        {
+            "name":"是否使用UEditor",
+            "value":{
+                "isUseUEditor": true,
+                "id": "UEditor",
+                "label": "是否使用UEditor :",
+                "type": "textarea",
+                "inputWidth": 500   
+            }
+        } 
+    ]
+}

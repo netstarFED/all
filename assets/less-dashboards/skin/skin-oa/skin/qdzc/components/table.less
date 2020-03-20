@@ -1,0 +1,131 @@
+@qdzc-table-border: @primary;
+@qdzc-table-td-color: @primary-light-20; //表格行背景色
+@qdzc-table-thead-bg: rgba(127, 154, 228, 0.4); //头部背景色
+@qdzc-table-th-even-bg: rgba(127, 154, 228, 0.2); //头部背景色
+
+.table-zc {
+    border: 1px solid @qdzc-table-border;
+    .box-shadow();
+
+    table {
+        width: 100%;
+        font-size: 1.2rem;
+
+        thead {
+            tr {
+                th {
+                    text-align: left;
+                    background-color: @qdzc-table-thead-bg;
+                    color: #ffffff;
+                    padding: 8px 10px;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                td {
+                    padding: 8px 10px;
+                    color: @qdzc-table-td-color;
+                }
+
+                &:nth-child(even) {
+                    background-color: @qdzc-table-th-even-bg
+                }
+
+                &:nth-child(odd) {
+                    background-color: transparent;
+                }
+
+                &.abnormal {
+                    td {
+                        color: @danger;
+                    }
+                }
+            }
+        }
+    }
+
+    .page {
+        border-top: 1px solid @qdzc-table-border;
+    }
+}
+
+
+.page {
+    width: 100%;
+    height: 30px;
+    text-align: right;
+    padding-right: 15px;
+
+    .pt-pager {
+        padding: 0;
+
+        .pt-form-group {
+            .pt-control-label {
+                color: #fff;
+            }
+        }
+
+        .pt-page-conclusion,
+        .pt-page-turn {
+            display: inline-table;
+            vertical-align: middle;
+            margin-right: 15px;
+
+            .pt-input-group {
+                input.pt-form-control {
+                    height: 26px;
+                    width: 50px;
+                    border: none;
+                    color: #fff;
+                    background-color: transparent;
+                    border-bottom: 1px solid #bfbfbf;
+                }
+            }
+        }
+
+        .pt-page-control .pt-control-label,
+        .pt-page-turn .pt-control-label {
+            display: none;
+        }
+
+        .pt-page-turn {
+            margin-right: 0;
+
+            .pt-input-group {
+                border: none;
+            }
+
+            .pt-input-group-btn {
+                display: none;
+            }
+        }
+
+        .pt-btn-group,
+        .pt-form-group {
+            margin: 0;
+
+            &+.pt-btn-group {
+                margin: 0;
+            }
+        }
+
+        .pt-btn-group {
+            display: table-cell;
+
+            &:last-child {
+                margin-right: 10px;
+            }
+
+            .pt-btn-icon {
+                background-color: transparent;
+                border: 0;
+                margin: 0;
+                border-radius: 3px;
+                color: #fff;
+            }
+        }
+    }
+}

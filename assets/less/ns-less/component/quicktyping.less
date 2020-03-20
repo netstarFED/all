@@ -1,0 +1,397 @@
+@quicktyping-input-height: 					@form-lg-height;					//quicktyping输入框高度  40px
+@quicktyping-input-height-compactmode: 		@form-sm-height;					//compactmode模式输入框高度 30px
+@quicktyping-title-height: 					@quicktyping-input-height;			//40px;
+@quicktyping-title-width: 					(@form-td-label-width - 20); 		//80px
+@quicktyping-border-color: 					@ns-border-color;					//quicktyping边框颜色
+@quicktyping-bg-color: 						@gray-lighter;						//#eee;
+@quicktyping-result-list-height: 			@form-sm-height;					//30px
+@quicktyping-tag-height: 					@quicktyping-result-list-height; 	//30px
+@quicktyping-table-bg:						#f2f6fc;
+@quicktyping-table-border-color: 			#e1eaf5;					
+
+.nsui-quicktyping{
+	display: table;
+	width: 100%;
+	margin: 0;
+	background-color: @quicktyping-bg-color!important;
+	border: none;
+	.loading {
+		.input input{
+			background-color: @quicktyping-bg-color;
+		}
+	}
+	/*加载状态*/
+	.label-title{
+		height: @quicktyping-title-height;
+		min-width: @quicktyping-title-width;
+		padding: 0 (@base-padding / 2);
+		background: #f1f1f1;
+		margin: 0;
+		float: left;
+		line-height: @quicktyping-title-height;
+		border: 1px solid @quicktyping-border-color;
+		border-right:none;
+		text-align: left;
+	}
+	.input{
+		float: left;
+		height: @quicktyping-input-height;
+		width: 500px;
+		position: relative;
+		background-color: #fff;
+		border: 1px solid @quicktyping-border-color;
+		border-width: 1px 0;
+		input.input-main{
+			height: @quicktyping-input-height;
+			position: absolute;
+			top: -1px;
+			right: 0;
+			border: 1px solid @quicktyping-border-color;
+			padding: 0 (@base-padding / 2);
+					
+			&:focus{
+				border-color: #999;
+			}
+		}
+		
+		.empty{
+			box-sizing: border-box;
+			border: 1px solid @quicktyping-border-color;
+			line-height: @quicktyping-result-list-height;
+			height: @quicktyping-result-list-height;
+			padding:0 (@base-padding / 2);
+			border-top: none;
+			width: 100%;
+			text-align: left;
+		}
+		.result-panel{
+			table.table{
+				margin:-2px 0 0 0;
+				border: 0;
+				thead{
+					border:none;
+					th{
+						tr{
+							color:#222;
+							background: @quicktyping-table-bg !important;
+						}
+					}
+				}
+				tbody{
+					tr{
+						
+						th,td{
+							height: (@quicktyping-result-list-height + 2);
+							line-height: (@quicktyping-result-list-height + 2);
+							padding: 0 (@base-padding / 2);
+							color: @gray;
+							padding: 0 @base-padding;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+							overflow: hidden;
+
+							&:first-child{
+								text-align: left;
+							}
+						}
+						&.current{
+							th,
+							td{
+								background: @quicktyping-table-border-color;
+							}
+						}
+						&:hover{
+							th,
+							td{
+								background: @quicktyping-table-bg;
+							}
+						}
+					}
+				}
+				&.table-bordered{
+					border-color: @quicktyping-table-border-color;
+					thead{
+						tr{
+							th{
+								border: 0;
+							}
+						}
+					}
+					tbody{
+						tr{
+							th,
+							td{
+								border: 0;
+								border-bottom: 1px solid @ns-border-color;
+							}
+						}
+					}
+				}
+			}
+			.nstable-plus-panel{
+
+				& > .nstable-plus-panel-tabs{
+					& > a.nstable-plus-panel-tabs-tab{
+						padding: 0 @base-padding;
+					}
+				}
+			}
+		}
+		.result-panel.select{
+			margin-left: -1px;
+			ul{
+				padding: 0;
+				margin: 0;
+				li{
+					line-height: @quicktyping-result-list-height;
+					list-style: none;
+					padding-left: @base-padding;
+					text-align: left;
+				}
+			}
+			
+		}
+		& + .btn.btn-white{
+			height: 40px;
+			margin-left: (@base-margin / 2);
+			color: #fff;
+		    background-color: #5cb85c;
+		    border-color: #4cae4c;
+		    display: inline-block;
+		    white-space: nowrap;
+		    vertical-align: middle;
+		    -ms-touch-action: manipulation;
+		    touch-action: manipulation;
+		    cursor: pointer;
+		    border: 1px solid transparent;
+		    border-radius: 4px;
+		    &:hover,
+			&:focus{
+				box-shadow: none;
+				background-color: #449d44;
+			}
+		}
+
+	}
+
+	.result-panel{
+			position: absolute;
+			top: (@quicktyping-input-height - 1);
+			// left: -1px;
+			width: 100%;
+			min-height: @quicktyping-input-height-compactmode;
+			background: #fff;
+			border: 5px solid #56b1fc;
+			box-sizing: content-box;
+			z-index: 29;
+			.box-shadow(3px 5px 12px fade(@ns-btn-color-big-hover, 50%));
+			/*空白面板只显示文字*/
+			.list{
+				padding:0;
+				background-color: #fff;
+				table{
+					width: 100%;
+					margin-bottom: 0;
+				}
+			}
+			.current{
+				color: @gray-dark;
+				background: lighten(@quicktyping-bg-color, 3);
+			}
+			/*当前选中*/
+			.select{
+				margin:0 0 0 -1px;
+				ul{
+					margin-bottom: 0;
+					padding-left: 0;
+					background-color: #fff;
+					li{
+						list-style: none;
+						line-height: @quicktyping-result-list-height;
+						padding: 0 (@base-padding / 2);
+						border: 1px solid @quicktyping-border-color;
+						margin-top: -1px;
+					}
+				}
+			}
+			/*下拉列表*/
+			&.select{
+				width: 220px;
+			}
+		}
+	/*标题*/
+	.tags-container{
+		position: absolute;
+		left: 5px;
+		top: 4px;
+		width: auto;
+		.quicktyping-tag{
+			position: relative;
+			float: left;
+			height: @quicktyping-tag-height;
+			line-height: @quicktyping-tag-height;
+			padding: 0 (@base-padding / 2);
+			margin-right: (@base-margin / 4);
+			border: 1px solid @quicktyping-border-color;
+			color: @gray;
+			background: lighten(@quicktyping-bg-color, 3);
+			display: table;
+			span,
+			.form-control{
+				display: table-cell;
+				padding: 0 (@base-padding / 2);
+			}
+			// 输入框
+			.form-control{
+				height: 30px;
+				border: 0;
+			}
+			.withclose{
+				padding-right: 25px;
+			}
+			// 清空
+			.close{
+				.square(@quicktyping-tag-height - 2);
+				line-height: (@quicktyping-tag-height - 2);
+				position: relative;
+				opacity: 1;
+				margin-left: (@base-margin / 4);
+				margin-right: -(@base-margin / 4);
+				text-shadow: none;
+				&:after{
+					font-family: @icon-font; 
+					.square(@quicktyping-tag-height - 2);
+					position: absolute; 
+					content: "\f057";  
+					top: 0px;
+					font-size: @icon-small;
+					text-align: center;
+					color: darken(@border-color, 10);
+					opacity: 1;
+				}
+				&:hover:after{
+					color: @ns-warning;
+				}
+			}
+		}
+	}
+	/*tag容器和标签*/
+
+	table > tr{
+		.current{
+			color: @gray;
+			background: lighten(@quicktyping-bg-color, 3);
+		}
+	}
+}
+
+
+.quicktyping-dialog{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 800px;
+	margin: -100px 0 0 -400px;
+	background: #fff;
+	z-index: @zindex-modal;
+	box-shadow: 0 0 10px rgba(0,0,0, .15);
+	// &:before{
+	// 	content:"";
+	// 	position: absolute;
+	// 	top: 0;
+	// 	right: 0;
+	// 	bottom: 0;
+	// 	left: 0;
+	// 	background: #fff;
+	// }
+	&:after{
+		content:"";
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: rgba(0,0,0, .15);
+		z-index: -1;
+	}
+
+	.quicktyping-title{
+		height: auto;
+		padding: @base-padding (@base-padding * 2);
+		overflow: hidden;
+		background: @modal-header-bg;
+		border-bottom: 1px solid @quicktyping-border-color;
+		label{
+			.base-title-style;
+			float: left;
+			margin-bottom: 0;
+			line-height: 22px;
+
+		}
+	}
+	.quicktyping-close-btn{
+		float: right;
+		display: inline-block;
+		.square(24px);
+		text-align: center;
+		line-height: 24px;
+		font-size: @font-size-base;
+		&:hover{
+			.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+		}
+	}
+	.panel{
+		padding: (@base-padding * 2) !important;
+		background: #fff;
+	}
+}
+
+
+// 表格面板快速录入
+.layout-table.quicktyping{
+	position: relative;
+	.service-component{
+		.panel{
+			background: transparent;
+			padding-bottom: 5px;
+		}
+		.nsui-quicktyping{
+			background: transparent !important;
+			.label-title{
+				height: 30px;
+				line-height: 28px;
+			}
+			.input{
+				height: 30px;
+				input.input-main{
+					height: 30px;
+				}
+			}
+			.result-panel{
+				top: 29px;
+
+			}
+		}
+		.tags-container {
+			.quicktyping-tag{
+				height: 21px;
+				line-height: 21px;
+			}
+		}
+	}
+	.control-btn-toolbar{
+		position: absolute;
+		top: 0;
+		right: 183px;
+	}
+	.dataTables_filter{
+		position: absolute;
+		top: 0;
+		right: 0;
+		label{
+			margin-bottom: 0;
+		}
+	}
+}
+
+

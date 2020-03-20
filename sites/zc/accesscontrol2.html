@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>报警类型</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui@2.13.0/lib/index.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css">
+    </link>
+    <style>
+        body {
+            background: #002679;
+        }
+
+        .zc-reporting-title {
+            font-weight: bold;
+            margin-left: 4px;
+            margin-right: 4px;
+            color: #fff
+        }
+
+        .zc-reportingtype-tab-header {
+            height: 37px;
+            display: flex;
+        }
+
+        .zc-reporting-table {
+            padding: 2px;
+            border: 1px solid #7f9ae4;
+        }
+
+        .zc-reporting-body {
+            padding: 20px;
+        }
+
+        .el-table__row:nth-child(odd) {
+            
+            background: #002679;
+            color: #fff;
+        }
+
+        .el-table__row:nth-child(even) {
+            background: rgba(51, 85, 164);
+            color: #fff;
+        }
+
+        .el-table td,
+        .el-table th.is-leaf {
+            border-bottom: 0px solid #fff;
+        }
+        /* .has-gutter{
+            background: rgba(51, 85, 164);
+            color: #fff;
+        } */
+      /*   .el-table__header{
+            background: rgba(51, 85, 164);
+            color: #fff;
+        } */
+        .el-table th, .el-table tr {
+            background: rgba(51, 85, 164);
+            color: #fff;
+        }
+        .el-form-item__label {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vmreporting" class="zc-tab">
+        <div class="zc-reportingtype-tab-header">
+            <el-form ref="form" :model="form" label-width="80px" style="display: flex;">
+                <el-form-item style="color: #fff;"label="报警类型">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item style="color: #fff;"label="开始时间">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="结束时间">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-button>查询</el-button>
+                <el-button>清空</el-button>
+            </el-form>
+        </div>
+        <div class="zc-reporting-body">
+            <div class="zc-reporting-table">
+                <div class="zc-reporting-title" v-text="reportingtitle"></div>
+                <div class="zc-reporting">
+                    <template>
+                        <el-table :data="tableData" style="width: 100%">
+                            <el-table-column prop=deviceType label="设备类型" width="">
+                            </el-table-column>
+                            <el-table-column prop="deviceName" label="设备名称" width="">
+                            </el-table-column>
+                            <el-table-column prop="alermType" label="报警类型">
+                            </el-table-column>
+                            <el-table-column prop="alermTime" label="报警时间">
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+                <div>
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                        :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100"
+                        layout="total, sizes, prev, pager, next, jumper" :total="400">
+                    </el-pagination>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        var Main = {
+            data() {
+                return {
+                    currentPage4: 5,
+                    reportingtitle: '门开闭异常记录',
+                    tableData: [{}],
+                    form:{
+                        name:''
+                    }
+                }
+            },
+            methods: {
+                handleSizeChange() {
+
+                },
+                handleCurrentChange() {
+
+                },
+                timestampToTime(timestamp) {
+                    var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    var Y = date.getFullYear() + '-';
+                    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                    var D = date.getDate() + ' ';
+                    var h = date.getHours() + ':';
+                    var m = date.getMinutes() + ':';
+                    var s = date.getSeconds();
+                    return Y + M + D;
+                }
+            },
+            mounted(){
+                var _this = this;
+                axios.get('/sites/zc/data/accesscontrol.json').then(function (res) {
+                    var data = res.data.rows
+                    _this.tableData = data
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].reportingTime) {
+                            data[i].reportingTime = _this.timestampToTime(data[i].reportingTime)
+                        }
+                    }
+
+                }).catch(function (error) {
+
+                })
+            }
+        }
+        var Ctor = Vue.extend(Main)
+        new Ctor().$mount('#vmreporting')
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<link rel="stylesheet" href="assets/css/element.css?v=1.0.1">
+<link rel="stylesheet" href="assets/css/ns-workspace.css?v=1.0.1">
+<link rel="stylesheet" href="assets/fonts/icomoon/css/icomoon.css?v=1.0.1">
+<link rel="stylesheet" href="assets/fonts/fontawesome/css/font-awesome.min.css?v=1.0.1">
+
+<script type="text/javascript" src="/static/libs/jquery/jquery.min.js?v=1.12.4"></script>
+<script type="text/javascript" src="/static/libs/jquery/jquery.cookie.js?v=1.7.1"></script>
+<script type="text/javascript" src="/static/libs/vue.min.js?v=2.5.17"></script>
+<script type="text/javascript" src="/static/libs/axios.min.js?v=0.19.0"></script>
+<script type="text/javascript" src="/static/dev/script/common/netstar-utils.js?v=0.1.0"></script>
+<script type="text/javascript" src="/static/libs/store.min.js"></script>
+<script type="text/javascript" src="/static/libs/qs.min.js"></script>
+<script type="text/javascript" src="/static/libs/country-level3-data.js"></script>
+<script type="text/javascript" src="/static/libs/toastr.min.js?v=11.2.1"></script>
+<script type="text/javascript" src="/static/dev/script/common/nsalert.js?v=0.1.0"></script>
+<script type="text/javascript" src="/static/libs/hwvodsdk/moment.min.js?v=10.0.0"></script>
+
+<link rel="stylesheet" href="/static/libs/element-ui/lib/theme-chalk/index.css">
+<script src="/static/libs/element-ui/lib/index.js"></script>
+
+
+<!-- <script src="https://unpkg.com/element-ui@2.13.0/lib/index.js"></script> -->
+<script>
+    var NsMyService = {
+        user: {},
+        pages: {}
+    }
+    var debugerMode = true;
+    var NswUtils = {}
+    NswUtils.apiRootPath = 'https://qaapi.wangxingcloud.com';
+    NswUtils.getAxios = function (config) {
+        var _config = $.extend(true, {}, config);
+        _config.urlOriginal = _config.url;
+        _config.url = this.apiRootPath + _config.url;
+
+        _config.headers = {
+            authorization: NetStarUtils.OAuthCode.get(),
+        }
+        if (_config.contentType) {
+            _config.headers['content-type'] = _config.contentType;
+            if (_config.contentType == 'application/x-www-form-urlencoded') {
+                _config.data = Qs.stringify(_config.data);
+            }
+        }
+        console.log(_config);
+        return _config;
+    };
+
+    //根据id删除当前数组中的指定数据
+    NswUtils.deleteArrayByArray = function (sourceArray, deleteArray) {
+        var deletes = {};
+        for (var i = 0; i < deleteArray.length; i++) {
+            var row = deleteArray[i];
+            //生成根据id可检索的object，用于下面查找
+            deletes[row.id] = row;
+        }
+        for (var m = 0; m < sourceArray.length; m++) {
+            var row = sourceArray[m];
+            //如果当前行已经被选中，则去掉，并去位
+            if (deletes[row.id]) {
+                sourceArray.splice(m, 1);
+                m = m - 1;
+            }
+        }
+    }
+
+    //根据列表返回tree型结构数据
+    NswUtils.getTreeByList = function (list, idField, parentField, childField, sortField) {
+        var idMap = {};
+        for (var i = 0; i < list.length; i++) {
+            idMap[list[i][idField]] = list[i];
+        }
+        var result = [];
+        for (var i = 0; i < list.length; i++) {
+            var row = list[i];
+            if (row[parentField] && idMap[row[parentField]]) {
+                var parent = idMap[row[parentField]];
+                if (!$.isArray(parent[childField])) {
+                    parent[childField] = [];
+                }
+                parent.isParent = true;
+                parent[childField].push(row);
+            } else {
+                result.push(row);
+            }
+        }
+        // 排序
+        for (var key in idMap) {
+            if ($.isArray(idMap[key][childField])) {
+                idMap[key][childField].sort(function (a, b) {
+                    return a[sortField] - b[sortField];
+                });
+            }
+        }
+        return result;
+    }
+</script>

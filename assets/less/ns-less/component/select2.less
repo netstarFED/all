@@ -1,0 +1,588 @@
+// 颜色
+@select-background-color:#fff;
+@select-color:@select-background-color;
+@select2-results__option-color:@daterangepicker-ranges-color;
+
+@select2-selection-height: @form-control-height-base; 							//select2下拉选择项高度 40px
+@select2-selection-height-compactmode: @form-control-height-compactmode; 		//select2下拉选择项高度 30px
+@select2-btn-size: @form-group-btn-size;										//select2-btn-size 38px;
+@select2-btn-width: (@select2-selection-height - 8);							//32px
+@select2-btn-size-compactmode: @form-group-btn-size-compactmode;				//select2-btn-size 28px;
+@select2-btn-width-compactmode:	(@select2-selection-height-compactmode - 6);	//24px
+@select2-selection-rendered-padding: @select2-btn-width;
+@select2-selection-rendered-padding-compactmode: @select2-btn-width-compactmode;
+
+
+// select2按钮样式
+.select2-btn{
+	position: absolute;
+	.size(@select2-btn-width, @select2-btn-size);
+	top: 0;
+	right: 0;
+	transition: ease-in-out all .3s;
+	&:hover{
+		.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+	}
+}
+
+// select2下拉菜单主体样式
+.select2-container {
+	box-sizing: border-box;
+	display: inline-block;
+	margin: 0;
+	position: relative;
+	vertical-align: middle;
+	
+	.select2-selection--single {
+		box-sizing: border-box;
+		cursor: pointer;
+		display: block;
+		height: @select2-selection-height;
+		user-select: none;
+		-webkit-user-select: none;
+		outline: none !important;
+		.select2-selection__rendered {
+			display: block;
+			padding-left: 12px;
+			padding-right: @select2-selection-rendered-padding;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			text-align: left;
+			.compactmode &,
+			.form-wide-panel &,
+			.table > tbody > tr > td &,
+			.col-none &,
+			.user-panel &{
+				padding-right: @select2-selection-rendered-padding-compactmode;
+			}
+		}
+		.select2-selection__clear {
+			position: relative
+		}
+		.compactmode &,
+		.form-wide-panel &,
+		.table > tbody > tr > td &,
+		.col-none &,
+		.user-panel &{
+			height: @select2-selection-height-compactmode;
+		}
+	}
+
+	.select2-selection--multiple {
+		box-sizing: border-box;
+		cursor: pointer;
+		display: block;
+		user-select: none;
+		-webkit-user-select: none;
+		height: @select2-selection-height;
+		.compactmode &,
+		.form-wide-panel &,
+		.table > tbody > tr > td &,
+		.col-none &,
+		.user-panel &{
+			height: @select2-selection-height-compactmode;
+		}
+		.select2-selection__rendered {
+			display: inline-block;
+			overflow: hidden;
+			padding-right: @base-padding - 2;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}
+
+.select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
+	padding-right: @base-padding - 2;
+	padding-left: @base-padding * 2;
+}
+
+
+.select2-container .select2-search--inline {
+	.select2-search__field {
+		box-sizing: border-box;
+		border: none;
+		font-size: 100%;
+		padding: 8px (@padding-base-horizontal /2) 9px;
+		&::-webkit-search-cancel-button {
+			-webkit-appearance: none;
+		}
+		&::-moz-placeholder {
+			color: @ns-border-color;
+			opacity: 1;
+		}
+		&:-ms-input-placeholder{
+			color: @ns-border-color;
+		}
+		&::-webkit-input-placeholder{
+			color: @ns-border-color;
+		}
+		.compactmode &,
+		.form-wide-panel &,
+		.table > tbody > tr > td &,
+		.col-none &,
+		.user-panel &{
+			padding: 3px (@padding-base-horizontal /2) 4px;
+		}
+	}
+}
+ 
+ // select2下拉选择项
+.select2-dropdown {
+	position: absolute;
+	left: -100000px;
+	background: @select-background-color;
+	border: 1px solid @ns-border-color;
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	z-index: 98;
+}
+.select2-results {
+	display: block;
+}
+.select2-results__options {
+	min-height: @select2-selection-height-compactmode;
+	list-style: none;
+	margin: 0;
+	padding: 0
+}
+.select2-results__option {
+	padding: 0 6px;
+	// height: @select2-selection-height-compactmode;
+	line-height: @select2-selection-height-compactmode;
+	user-select: none;
+	-webkit-user-select: none;
+}
+.select2-results__option[aria-selected] {
+	cursor: pointer
+}
+.select2-container--open {
+	.select2-dropdown {
+		top: 0;
+		left: 0;
+		max-height: 300px;
+		overflow-y: auto;
+		z-index: @zindex-popover;
+	}
+	.select2-dropdown--above {
+		border-bottom: none;
+	}
+	.select2-dropdown--below {
+		border-top: none;
+	}
+
+}
+
+// 下拉面板搜索框
+.select2-search--dropdown {
+	display: block;
+	padding: @base-padding /2;
+	background: @gray-lighter;
+	border-bottom: 1px solid @ns-border-color;
+	.select2-search__field {
+		padding: 4px;
+		width: 100%;
+		height: @form-sm-height;
+		box-sizing: border-box;
+		&::-webkit-search-cancel-button {
+			-webkit-appearance: none
+		}
+		
+	}
+}
+
+.select2-search--dropdown.select2-search--hide {
+	display: none
+}
+.select2-close-mask {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	display: block;
+	position: fixed;
+	left: 0;
+	top: 0;
+	min-height: 100%;
+	min-width: 100%;
+	height: auto;
+	width: auto;
+	opacity: 0;
+	z-index: 99;
+	background: @select-background-color;
+	filter: alpha(opacity=0);
+}
+
+.select2-hidden-accessible {
+	border: 0 !important;
+	clip: rect(0 0 0 0) !important;
+	height: 1px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	width: 1px !important
+}
+
+.select2-container--default {
+	.select2-selection--single{
+		border: 1px solid @ns-border-color;
+		background: @select-background-color;
+		
+		// form-td模式下边框样式
+		.form-td &{
+			border: 0;
+		}
+		
+		// 选择值
+		.select2-selection__rendered{
+			color: @gray-darker;
+			line-height: @select2-selection-height;
+			&[title="必填"],
+			&[title="请选择"]{
+				color: @gray-light;
+			}
+			.compactmode &,
+			.form-wide-panel &,
+			.table > tbody > tr > td &,
+			.col-none &,
+			.user-panel &{
+				line-height: @select2-selection-height-compactmode;
+			}
+		}
+		// 输入框提示文字颜色
+		.select2-selection__placeholder{
+			color: @border-color;
+		}
+
+		.select2-selection__arrow{
+			.select2-btn;
+			height: @select2-selection-height;
+
+			b{
+				&:after{
+					transition: ease-in-out all .3s;
+					.ns-icon-caret-down(@gray-light);
+					.size(@select2-btn-width, @select2-selection-height);
+					line-height: @select2-selection-height;
+					text-emphasis: circle;
+					text-align: center;
+					.compactmode &,
+					.form-wide-panel &,
+					.table > tbody > tr > td &,
+					.col-none &,
+					.user-panel &{
+						.size(@select2-btn-width-compactmode, @select2-btn-size-compactmode);
+						line-height: @select2-btn-size-compactmode;
+					}
+				}
+				&:hover:after{
+					color: @form-btn-active-color;
+				}
+			}
+			.compactmode &,
+			.form-wide-panel &,
+			.table > tbody > tr > td &,
+			.col-none &,
+			.user-panel &{
+				.size(@select2-btn-width-compactmode, @select2-btn-size-compactmode);
+			}
+		}
+	}
+	&.select2-container--open{
+		.select2-selection--single{
+			border-color: darken(@ns-border-color, 15%);
+		}
+	}
+}
+.select2-container--default[dir="rtl"]{
+	.select2-selection--single{
+		.select2-selection__clear{
+			float: left;
+		}
+		.select2-selection__arrow{
+			left: 1px;
+			right: auto;
+		}
+	}
+}
+
+.select2-container--default.select2-container--disabled {
+	.select2-selection--single {
+		.disabled-style();
+		.select2-selection__clear{
+			display: none;
+		}
+
+		.select2-selection__arrow{
+			.disabled-style();
+			&:hover,
+			&:focus{
+				color: darken(@gray-lighter, 20%) !important;
+			}
+		}
+	}
+	.select2-selection__rendered{
+		// display: none;
+	}
+}
+
+
+// 输入框样式
+.select2-container--default{
+
+	//select2-selection--single
+
+	.select2-selection--multiple{
+		background: @select-background-color;
+		border: 1px solid @ns-border-color;
+		cursor: text;
+		.select2-selection__rendered {
+			box-sizing: border-box;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: @select2-selection-height;
+
+			li{
+				list-style: none;
+				&.select2-search--inline{
+					height: @select2-selection-height;
+				}
+			}
+		}
+
+		// 输入提示
+
+		.select2-selection__placeholder{
+			color: @gray-light;
+			margin-top: @base-margin /4;
+			float: left;
+		}
+
+		// 输入框选择结果
+
+		.select2-selection__choice{
+			border: 1px solid @ns-border-color;
+			cursor: default;
+			float: left;
+			margin: @base-margin /4 0 0 @base-margin /4;
+			padding: @base-padding /2;
+			background: @gray-lighter;
+			color: @gray-darker;
+			&:hover{
+				background: darken(@gray-lighter, 5%);
+				border-color: darken(@ns-border-color, 5%);
+			}
+			.compactmode &,
+			.form-wide-panel &,
+			.table > tbody > tr > td &,
+			.col-none &,
+			.user-panel &{
+				padding: 0 @base-padding /2;
+			}
+		}
+		
+		.select2-selection__choice__remove{
+			color: @gray;
+			cursor: pointer;
+			display: inline-block;
+			font-weight: bold;
+			margin-left: @base-margin /10;
+			float: right;
+			&:hover{
+				color: @gray-dark;
+			}
+		}
+		.form-td &{
+			border: 0;
+		}
+	}
+
+	//select2 搜索框清空按钮
+
+	.select2-selection--single .select2-selection__clear,
+	.select2-selection--multiple .select2-selection__clear{
+		// text-indent: @select2-btn-size;
+		color: transparent;
+		overflow: hidden;
+		.select2-btn;
+		height: @select2-selection-height;
+		&:after{
+			.ns-icon-close();
+			top: 12px;
+			right: 10px;
+			text-indent: 0;
+		}
+		&:hover:after{
+			color: @ns-warning;
+		}
+		.compactmode &,
+		.form-wide-panel &,
+		.table > tbody > tr > td &,
+		.col-none &,
+		.user-panel &{
+			.size(@select2-btn-width-compactmode, @select2-btn-size-compactmode);
+			&:after{
+				top: @btn-icon-after-top-compactmode;
+				right: 6px;
+			}
+		}
+	}
+
+	.select2-selection--single .select2-selection__clear{
+		right: @select2-selection-rendered-padding;
+		.compactmode &,
+		.form-wide-panel &,
+		.table > tbody > tr > td &,
+		.col-none &,
+		.user-panel &{
+			right: @select2-selection-rendered-padding-compactmode;
+		}
+	}
+}
+
+.select2-container--default[dir="rtl"]{
+	.select2-selection--multiple{
+
+		.select2-selection__choice, 
+		.select2-selection__placeholder, 
+		.select2-search--inline{
+			float: right;
+		}
+
+		.select2-selection__choice{
+			margin-left: @base-margin /4;
+			margin-right: auto;
+		}
+
+		.select2-selection__choice__remove{
+			margin-left: @base-margin /10;
+			margin-right: auto;
+		}
+	}
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+	// border: 1px solid darken(@ns-border-color, 30%);
+	outline: 0;
+}
+.select2-container--default.select2-container--disabled {
+	.select2-selection--multiple {
+		background: @gray-lighter;
+		cursor: default;
+	}
+	.select2-selection__choice__remove {
+		display: none;
+	}
+}
+
+.select2-container--default {
+
+	.select2-search--dropdown .select2-search__field {
+		border: 1px solid @ns-border-color;
+		text-indent: 10px;
+		&:focus{
+			border-color: darken( @ns-border-color, 20%);
+		}
+	}
+
+	.select2-search--inline .select2-search__field {
+		height: 30px;
+		min-width: 50px;
+		margin-top: 5px;
+		background: transparent;
+		border: none;
+		outline: 0;
+		box-shadow: none;
+		-webkit-appearance: textfield;
+	}
+
+	.select2-results>.select2-results__options {
+		overflow-y: auto;
+	}
+	.select2-results__option[role=group] {
+		padding: 0;
+	}
+
+	// 下拉列表已选择项
+	.select2-results__option[aria-disabled=true],
+	.select2-results__option[aria-selected=true] {
+		background: @ns-border-color;
+		color: @gray-light;
+		cursor: default;
+		&:hover,
+		&:focus{
+			color: @gray-light;
+			box-shadow: none;
+		}
+	}
+	.select2-results__option{
+		.select2-results__option{
+			padding-left: 1em;
+
+			.select2-results__group{
+				padding-left: 0;
+			}
+
+			.select2-results__option{
+				margin-left: -1em;
+				padding-left: 2em;
+				.select2-results__option {
+					margin-left: -2em;
+					padding-left: 3em;
+						.select2-results__option {
+						margin-left: -3em;
+						padding-left: 4em;
+						.select2-results__option {
+							margin-left: -4em;
+							padding-left: 5em;
+							.select2-results__option {
+								margin-left: -5em;
+								padding-left: 6em;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.select2-results__option--highlighted[aria-selected]{
+		color: @gray-darker;
+		.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+	}
+
+	.select2-results__group{
+		cursor: default;
+		display: block;
+		// padding: @base-padding - 4 @base-padding;
+		background: @ns-info;
+		color: #fff;
+		font-weight: 200;
+		padding: 0 6px;
+		padding-left: 1em;
+	}
+}
+
+
+
+自定义读取多选
+.form-group.select2-height-auto{
+	height: auto;
+	.select2-container {
+		.select2-selection--multiple{
+			height: auto;
+		}
+	}
+	.select2-container--default {
+		.select2-selection--multiple {
+			height: auto;
+			.select2-selection__rendered{
+				height: auto;
+			}
+		}
+	}
+}

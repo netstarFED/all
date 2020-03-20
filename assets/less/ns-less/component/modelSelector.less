@@ -1,0 +1,295 @@
+/* ======================== */
+
+/* 车型选择器 */
+
+/* ======================== */
+@model-selector-width: 						90%;
+@model-selector-bg: 						darken(@gray-darker, 50%);				//#000
+@model-selector-plane-bg: 					lighten(@gray-lighter, 50%);			//#fff
+@model-selector-primary: 					#e4ecf6;
+
+// 车型选择器头部
+@model-selector-header-height: 				50px;
+@model-selector-header-bg: 					@model-selector-primary;
+@model-close-height: 						@model-selector-header-height - 20; 	//40px
+@models-selector-border-color:				darken(@model-selector-primary, 5%);
+
+// 车型选择器内容部分
+@model-selector-filter-height: 				@model-selector-header-height - 20; 	//30px
+@model-selector-filter-bg: 					lighten(@model-selector-header-bg, 4%); 
+@models-selector-list-border-color: 		@ns-border-color; 						//#ddd
+@models-selector-list-focus-border-color: 	@model-selector-header-bg; 				//#e4ecf6
+@models-selector-tag-title-bg: 				#f7f7f7;
+
+@models-selector-firstspell-list-height: 	24px;
+
+// 车型选择器底部
+@model-selector-footer: 					@model-selector-header-height;
+@model-selector-footer-clear: 				20px;
+
+
+.model-selector-plane {
+
+	position: absolute;
+	width: @model-selector-width;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 50%;
+	margin: (@base-margin * 5) 0 0 -(@model-selector-width / 2);
+	z-index: @zindex-modal * 2;
+	background: @model-selector-plane-bg;
+	&:after{
+		.modal-plane-bg;
+
+	}
+
+	// 车型选择器头部
+	.model-selector-title{
+		position: relative;
+		width: 100%;
+		height: @model-selector-header-height;
+		background: @model-selector-header-bg;
+
+		// 面板标题
+		label{
+			margin: 0;
+			padding-left: @base-padding;
+			line-height: @model-selector-header-height;
+			font-size: (@font-size-base + 4);
+		}
+
+		//关闭按钮
+		.model-selector-close{
+			display: block;
+			float: right;
+			margin: (@base-margin / 2);
+			.square(@model-close-height);
+			line-height: @model-close-height;
+			text-align: center;
+			font-size: (@font-size-base + 2);
+			&:hover{
+				.box-shadow(inset 0 0 5px 2px fade(#000, 8%));
+			}
+			
+		}
+	}
+
+	// 车型选择内容部分
+	.model-selector-detail{
+		padding-top: @base-padding;
+		background: @model-selector-plane-bg;
+
+		// 选择器导航
+		.car-title{
+			position: relative;
+			height: @model-selector-filter-height;
+			background: @models-selector-tag-title-bg;
+			.car-breadcrumb{
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+				text-align: left;
+				li.tag-title{
+
+					@car-breadcrumb-list-right-size: 15px;
+
+					position: relative;
+					display: none;
+					float: left;
+					padding: 0 (@padding-small-horizontal / 2) 0 (@padding-small-horizontal + 5);
+					background: darken(@models-selector-tag-title-bg, 5%);
+					list-style-type: none;
+					line-height: @model-selector-filter-height;
+					cursor: pointer;
+					& + li{
+						padding-left: (@padding-small-horizontal * 2);
+					}
+					&:before,
+					&:after{
+						content: "";
+						position: absolute;
+						top: 50%;
+						margin-top: -@car-breadcrumb-list-right-size;   
+						border-top: @car-breadcrumb-list-right-size solid transparent;
+						border-bottom: @car-breadcrumb-list-right-size solid transparent;
+						border-left: (@car-breadcrumb-list-right-size - 2) solid;
+						right: -(@car-breadcrumb-list-right-size - 3);
+					}
+
+					&:before{
+					border-left-color: darken(@models-selector-tag-title-bg, 15%);  
+					right: -1.1em;
+					z-index: 1;
+					}
+
+					&:after{
+						z-index: 2;
+						border-left-color: darken(@models-selector-tag-title-bg, 5%);
+					}
+					&:hover{
+						background: darken(@model-selector-primary, 45%);
+						color: #fff;
+						&:before{
+							border-left-color: darken(@model-selector-primary, 10%); 
+						}
+						&:after{
+							z-index: 2;
+							border-left-color: darken(@model-selector-primary, 45%);
+						}
+					}
+
+					&.level-choose-on{
+						display: inline-block;
+					}
+				}
+
+			}
+			.checkbox-inline{
+				position: absolute;
+				top: 0;
+				right: (@base-margin - 5);
+			}
+		}
+
+		// 品牌索引
+		.models-selector-firstspell{
+			margin: -(@base-margin / 2) -(@base-margin / 2) (@base-margin / 2);
+			padding: 0;
+			background: darken(@model-selector-primary, 5%);
+			li{
+				display: inline-block;
+				margin: floor(@base-margin / 6) 0;
+				.square(@models-selector-firstspell-list-height);
+				.border-radius(@models-selector-firstspell-list-height);
+				text-align: center;
+				line-height: @models-selector-firstspell-list-height;
+				list-style-type: none;
+				cursor: pointer;
+				&:hover{
+					background: darken(@model-selector-primary, 45%);
+					color: #fff;
+				}
+
+				&[letter-index="all"]{
+					margin: floor(@base-margin / 6) (@base-margin / 2);
+					background: darken(@model-selector-primary, 45%);
+					min-width: (@models-selector-firstspell-list-height * 2);
+					color: #fff;
+					&:hover{
+						background: darken(@model-selector-primary, 45%);
+						color: #fff;
+					}
+				}
+			}
+		}
+
+		// 选择车型
+		.car-content{
+			margin: (@base-margin - 5);
+			padding: @base-padding;
+			height: auto;
+			overflow-y: hidden;
+			border: 1px solid @models-selector-border-color;
+			.models-selector-tab{
+				padding: 0;
+				text-align-last: auto;
+				li{
+					position: relative;
+					display: table;
+					float: left;
+					margin: (@base-margin / 4);
+					list-style-type: none;
+					cursor: pointer;
+				}
+				label{
+					margin: 0;
+					&.checkbox-inline{
+						position: absolute;
+						left: @base-padding;
+						padding: 0;	
+					}
+					&.tab-label{
+						padding: @padding-base-vertical (@padding-small-horizontal * 2) @padding-base-vertical (@padding-small-horizontal * 4);
+						border: 1px solid @models-selector-list-border-color;
+						cursor: pointer;
+						&.disabled{
+							background: @gray-lighter;
+							cursor: not-allowed ;
+							color: @gray-light;
+							&:hover{
+								background: @gray-lighter;
+								color: @gray-light;
+								border-color: @ns-border-color;
+							}
+						}
+
+						&:hover{
+							background: lighten(@model-selector-primary, 3%);
+							border-color: darken(@model-selector-primary, 5%)
+						}
+					}
+					&.checkbox-inline,
+					&.checkbox-inline-none{
+						&:after{
+							top: 8px;
+						}
+					}
+				}
+			}
+		}
+
+		//车型选择结果
+		.car-result{
+			label{
+				margin: 0;
+			}
+			.confirm-list{
+				margin: 0;
+				padding: 0;
+				text-align: left;
+				li{
+					position: relative;
+					display: inline-block;
+					margin: (@base-margin /2) (@base-margin /2) 0 0;
+					padding: @padding-xs-vertical (@padding-small-horizontal * 2) @padding-xs-vertical @padding-xs-horizontal;
+					background: lighten(@models-selector-list-border-color, 9%);
+
+					list-style-type: none;
+					color: @gray-dark;
+					cursor: pointer;
+					&:after{
+						position: absolute;
+						content:"x";
+						.square(@model-selector-footer-clear);
+						top: 0;
+						right: 0;
+						// font-size: @icon-normal;
+						color: @gray-light;
+						text-align: center;
+						line-height: @model-selector-footer-clear - 4;
+					}
+					&:hover{
+						background: @model-selector-primary;
+						color: @gray-darker;
+					}
+
+
+				}
+			}
+		}
+
+	}
+
+	// 底部按钮部分
+	.car-footer{
+		padding: @base-padding + 5;
+		background: #fff;
+		.model-selector-button{
+			margin-top: (@base-margin / 2);
+			padding-top: @base-padding;
+			text-align: right;
+			border-top: 1px solid @models-selector-list-border-color;
+		}
+	}
+}

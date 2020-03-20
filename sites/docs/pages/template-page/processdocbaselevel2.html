@@ -1,0 +1,253 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-3.html" -->
+    <container>      
+        <script type="text/javascript">
+            var localhoseUrl = window.location.origin;
+            var treeFormJson = {
+				package:'nsVue.graps.processDocBaseLevel2',
+				template:'processDocBaseLevel2',
+                title:'单据两级数据模板',
+                components:[
+                    {
+                        type:"vo",
+                        position:"header-right",
+                        formStyle:"pt-form-normal",
+                        field:[
+                            {
+                                id:"pricingCode",
+                                type:"text",
+                                label:"划价单号",
+                                rules:"",
+                            },
+                            {
+                                id:"whenPricing",
+                                type:"date",
+                                label:"开单日期"
+                            }
+                        ]
+                    },
+                    {
+                        type:'vo',
+                        idField: 'id',
+                        isSetMore: false,
+                        position:"header-body",
+                        defaultComponentWidth:"25%",
+                        field: [
+                            {
+                                id: 'customerId',
+                                label: '委托方',
+                                type: 'text',
+                                inputWidth: 100,
+                            },{
+                                id: 'contactId',
+                                label: '委托方联系人',
+                                type: 'date',
+                                inputWidth: 200,
+                                value: 1544148749870,
+                                rules: 'required',
+                                isInputMask: true,
+                            },{
+                                id: 'extendField',
+                                label: '扩展字段',
+                                type: 'text',
+                                inputWidth: 200,
+                                value: "",
+                                rules: 'required',
+                            },
+                            {
+                                id: 'refFeeTotal',
+                                label: '划价总费用',
+                                type: 'text',
+                                inputWidth: 200,
+                                value: "",
+                            },
+                            {
+                                id: 'discount',
+                                label: '优惠金额',
+                                type: 'text',
+                                inputWidth: 200,
+                                value: "",
+                            },
+                            {
+                                id: 'disCountRatio',
+                                label: '折扣系数',
+                                type: 'text',
+                                inputWidth: 200,
+                                value: "",
+                            },
+                            {
+                                id: 'feeTotal',
+                                label: '应收总费用',
+                                type: 'text',
+                                inputWidth: 200,
+                                value: "",
+                            },
+                            {
+                                id: 'remark',
+                                label: '备注',
+                                type: 'text',
+                                inputWidth: 200,
+                                value: "",
+                            },
+                            
+                        ],
+                    },
+                    
+                    {
+                        type:"blockList",
+                        listExpression: "<div class='pt-block-content-item'>" +
+                            "<span class='tag'>科室：</span>" +
+                            "<span class='code'>{{itemName}}</span>" +
+                            "</div>" +
+                            "<div class='pt-block-content-item'>" +
+                            "<span class='tag'>床位号：</span>" +
+                            "<span class='code'>{{itemCode}}</span>" +
+                            "</div>",
+                        plusClass: "pt-block-list-vertical-simple",
+                        idField: "id",
+                        ajax:{
+                            src: localhoseUrl + '/sites/docs/data/template/project-list.json', //数据源地址
+                            type: "GET", //GET POST
+                            contentType: 'application/x-www-form-urlencoded', //GET POST
+                            data: {}, //参数对象{id:1,page:100}
+                            //isServerMode:         true,           //是否开启服务器模式
+                            dataSrc: 'row',
+                        },
+                        keyField: "acceptDetailVOS",
+                        parent: "root",
+                        field:[
+                            {
+                                field:"item",
+                                title:"样品名称",
+                                orderable:true,
+                                searchable:false,
+                                width:58
+                            },
+                            {
+                                field:"itemCateName",
+                                title:"所属分类",
+                                orderable:true,
+                                searchable:false,
+                                width:58
+                            },
+                        ]
+                    },
+                    {
+                        type:"list",
+                        position:"body",
+                        idField:"id",
+                        field:[
+                            {
+                                field:"itemId",
+                                title:"检测项目",
+                                editConfig:{
+                                    type:"text"
+                                },
+                                orderable:true,
+                                searchable:false,
+                                width:202
+                            },
+                            {
+                                field:"refPrice",
+                                title:"参考价格",
+                                editConfig:{
+                                    type:"number"
+                                },
+                                orderable:true,
+                                searchable:false,
+                                width:190,
+                                formatHandler:{
+                                    type:"money",
+                                    data:{
+                                        format:{
+                                            places:"2",
+                                            symbol:"￥",
+                                            thousand:",",
+                                            decimal:"."
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                field:"quantity",
+                                title:"数量",
+                                editConfig:{
+                                    type:"text"
+                                },
+                                orderable:true,
+                                searchable:false,
+                                width:58
+                            },
+                            {
+                                field:"unit",
+                                title:"单位",
+                                editConfig:{
+                                    type:"text"
+                                },
+                                orderable:true,
+                                searchable:false,
+                                width:180
+                            },
+                            {
+                                field:"refFee",
+                                title:"参考金额",
+                                editConfig:{
+                                    type:"text"
+                                },
+                                orderable:true,
+                                searchable:false,
+                                width:58
+                            },
+                            {
+                                field:"receivableFee",
+                                title:"结算金额",
+                                editConfig:{
+                                    type:"text"
+                                },
+                                orderable:true,
+                                searchable:false,
+                                width:58
+                            },
+                            {
+                                field:"feeAfterDiscount",
+                                title:"折后金额",
+                                editConfig:{
+                                    type:"text"
+                                },
+                                orderable:true,
+                                searchable:false,
+                                width:58
+                            },
+                        ],
+                        params:{
+                            isHaveEditDeleteBtn:false,
+                        },
+                        keyField:"itemDetailVOS",
+                        parent:"acceptDetailVOS",
+
+                    },
+                    {
+                        type:"btns",
+                        position:"footer-right",
+                        field:[
+                            {
+                                functionConfig:{},
+                                btn:{
+                                    text:"保存",
+                                    isReturn:true
+                                } 
+                            }
+                        ]
+                    },
+                   
+				],
+                draftBox:{
+                    isUse:false,
+                    isUSeSave:false
+                },
+                pageExpression:"{\"refFeeTotal\":\"SUM(root.acceptDetailVOS.itemDetailVOS.receivableFee)\"}",
+                pageParam:{}
+            };
+			NetstarTemplate.init(treeFormJson);
+        </script>
+    </container>
+</html>

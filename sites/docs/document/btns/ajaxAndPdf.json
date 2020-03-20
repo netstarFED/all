@@ -1,0 +1,77 @@
+{
+    "operator":{
+        "defaultMode": {
+            "chineseName": "类型",
+            "validType": "string",
+            "toolType": "select",
+            "required":true,
+            "default":"ajaxAndPdf",
+            "subdata": [{
+                "value":"ajaxAndPdf",
+                "text":"ajaxAndPdf"
+            }],
+            "help":""           
+        },
+        "text": {
+            "chineseName": "按钮文字",
+            "validType": "sting",
+            "toolType": "text",
+            "default": "",
+            "help":"按钮中所显示的内容"
+        },
+        "targetField": {
+            "chineseName": "目标字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":"目标字段 （keyField）"
+        }
+        
+    },
+    "data":{
+        "ajax": {
+            "chineseName": "ajax",
+            "validType": "object",
+            "toolType": "ajaxEditor"
+        },
+        "fileField": {
+            "chineseName": "fileField",
+            "validType": "string",
+            "toolType": "textarea",
+            "default":"",
+            "help":""
+        },
+        "callbackAjax": {
+            "chineseName": "打印成功回调",
+            "validType": "string",
+            "toolType": "textarea",
+            "default":"",
+            "help":""
+        },
+        "requestSource": {
+            "chineseName": "请求参数来源",
+            "validType": "string",
+            "toolType": "select",
+            "default":""  ,
+            "subdata":[
+                {
+                    "value":"selected",
+                    "text":"选中行（单选）"
+                },
+                {
+                    "value":"checkbox",
+                    "text":"勾选行（多选）"
+                },
+                {
+                    "value":"thisvo",
+                    "text":"当前数据"
+                },
+                {
+                    "value":"none",
+                    "text":"无"
+                }
+            ],
+            "help":"selected checkbox thisvo none"       
+        }
+    }
+}

@@ -1,0 +1,417 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>date</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="must-params">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>字段名</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>组件id，实际生成的表单中名称为'form-'+id id不可重复</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>组件类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>date</td>
+                            </tr>
+                            <tr>
+                                <td>placeholder</td>
+                                <td>提示信息</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>tooltips</td>
+                                <td>提示信息</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>isInputMask</td>
+                                <td>InputMask组件</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>当值为true时 ，format必填</td>
+                            </tr>
+                            <tr>
+                                <td>daysOfWeekDisabled</td>
+                                <td>只读</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>字符串或数组格式 根据周几设置只读 默认''即不设置只读</td>
+                            </tr>
+                            <tr>
+                                <td>format</td>
+                                <td>日期格式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>日期格式 yyy-mm-dd (默认：nsVals.default.dateFormat)</td>
+                            </tr>
+                            <tr>
+                                <td>startView</td>
+                                <td>开始视图</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>开始视图 0(日)/1(月->日)/2(年->月->日)(默认0)</td>
+                            </tr>
+                            <tr>
+                                <td>addvalue</td>
+                                <td>添加按钮</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>日期底部按钮 配置 {value:''，id:''}({})</td>
+                            </tr>
+                            <tr>
+                                <td>readonly</td>
+                                <td>只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>rules</td>
+                                <td>规则</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>required 必填</td>
+                            </tr>
+                            <tr>
+                                <td>formSource</td>
+                                <td>模式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>halfScreen (半屏)  fullScreen(全屏) inlineScreen（行内）staticData（功能） </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel-header">
+                    <h1>staticData</h1>
+                    <a href="javascript:void(0);" id="sense-nsdocs-radio-staticdata"></a>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="parame-width">参数</th>
+                                <th class="explain-width">说明</th>
+                                <th class="mold-width">类型</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>formatFunc</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td>radio</td>
+                            </tr>
+                            <tr>
+                                <td>formlabel</td>
+                                <td>表单标签</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>tel</td>
+                                <td>电话号</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>link</td>
+                                <td>一个普通连接</td>
+                                <td>boolean</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>block</td>
+                                <td>一个块元素</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>baidu</td>
+                                <td>一个普通连接</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>baiduMapByName</td>
+                                <td>百度地图</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>doubt</td>
+                                <td>问号</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>icons</td>
+                                <td>一个图标链接</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>date</td>
+                                <td>一个日期</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>datetime</td>
+                                <td>一个时间</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>qqMapByName</td>
+                                <td>腾讯地图</td>
+                                <td>boolean</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+  
+             <!-- 行内模式-->
+             <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-date-inlinescreen"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">行内</h3>
+                <span class="intro">行内模式 formSource:'inlineScreen'</span>
+                <div class="mobile-test-dome">
+                    <iframe src="../pages/mobile/date/inlinescreen-date.html" class="doc-mobile-show"></iframe>
+                    <div class="content language-javascript-mobile">
+                        <pre class="mobile-test">
+    {
+        id: 		 	'sex',
+        label: 		 	'日期',
+        type: 		 	'date',
+        column: 	 	6,
+        changeHandler : function(value, config){
+            console.log(value);
+            console.log(config);
+        },
+        // value : '女',
+    },
+    {
+        id: 		 	'startView',
+        label: 		 	'开始视图',
+        type: 		 	'date',
+        column: 	 	6,
+        changeHandler : function(value, config){
+            console.log(value);
+            console.log(config);
+        },
+        value : 1544148749870,
+    },{
+        id: 		 		'mindjetFieldPosition',
+        label: 		 		'更多',
+        type: 		 		'date',
+        column: 	 		6,
+        mindjetFieldPosition:'field-more',
+    },{
+        id: 		 	'required',
+        label: 		 	'验证',
+        type: 		 	'date',
+        column: 	 	6,
+        rules:            'required',
+        mindjetFieldPosition:'field',   
+    }
+                         </pre>
+                    </div>
+                </div>
+            </div>
+             <!-- 功能模式-->
+             <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-date-staticdata"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">功能</h3>
+                <span class="intro">功能模式 formSource:'staticData'</span>
+                <div class="mobile-test-dome">
+                    <iframe src="../pages/mobile/date/staticdata-date.html" class="doc-mobile-show"></iframe>
+                    <div class="content language-javascript-mobile">
+                        <pre class="mobile-test">
+    {
+        id: 		 		'label',
+        type: 		 		'date',
+        label:               '标签',         
+        mobileSign: 	'required', 
+        acts: 'label',
+        value: 1544148749870,
+    },
+    {
+        id: 		 	'formatFunc',
+        label: 		 	'标签（formatFunc）',
+        type: 		 	'date',
+        column: 	 	6,
+        value: 1544148749870,
+        acts: 'formatFunc',// block,text,tel,link
+        formatHandler:function(){
+        }
+    },
+    {
+        id: 		 	'title',
+        label: 		 	'标签（title）',
+        type: 		 	'date',
+        column: 	 	6,
+        rules: 			'required',
+        value: 1544148749870,
+        acts: 'title',// block,text,tel,link
+    },
+    {
+        id: 		 	'formlabel',
+        label: 		 	'表单标签（formlabel）',
+        type: 		 	'date',
+        column: 	 	6,
+        tooltips: 		'提示信息',
+        acts: 'formlabel',// block,text,tel,link
+        
+    },
+    {
+        id: 		 	'block',
+        label: 		 	'块元素',
+        type: 		 	'date',
+        column: 	 	6,
+        rules: 			'required',
+        value: 1544148749870,
+        acts: 'block',// block,text,tel,link
+        
+    },
+    {
+        id: 		 	'tel',
+        label: 		 	'电话',
+        type: 		 	'date',
+        column: 	 	6,
+        tooltips: 		'提示信息',
+        // value: 1544148749870,
+        acts: 'tel',// block,text,tel,link
+        
+    },
+    {
+        id: 		 	'link',
+        label: 		 	'普通链接(link)',
+        type: 		 	'date',
+        column: 	 	6,
+        // value: 1544148749870,
+        acts: 'link',// block,text,tel,link
+    },
+    {
+        id: 		 	'baidu',
+        label: 		 	'普通链接(baidu)',
+        type: 		 	'date',
+        column: 	 	6,
+        rules: 			'required',
+        // value: 1544148749870,
+        acts: 'baidu',// block,text,tel,link
+    },
+    {
+        id: 		 	'baiduMapByName',
+        label: 		 	'百度地图',
+        type: 		 	'date',
+        column: 	 	6,
+        rules: 			'required',
+        // value: 1544148749870,
+        acts: 'baiduMapByName',// block,text,tel,link
+    },
+    {
+        id: 		 	'doubt',
+        label: 		 	'问号（doubt）',
+        type: 		 	'date',
+        column: 	 	6,
+        rules: 			'required',
+        // value: 1544148749870,
+        acts: 'doubt',// block,text,tel,link
+    },
+    {
+        id: 		 	'icons',
+        label: 		 	'图标链接（icons）',
+        type: 		 	'date',
+        column: 	 	6,
+        rules: 			'required',
+        // value: 1544148749870,
+        acts: 'icons',// block,text,tel,link
+    },
+    {
+        id: 		 	'date（日期）',
+        label: 		 	'日期',
+        type: 		 	'date',
+        column: 	 	6,
+        rules: 			'required',
+        value: 1544148749870,
+        acts: 'date',// block,text,tel,link
+    },
+    {
+        id: 		 	'datetime',
+        label: 		 	'时间（datetime）',
+        type: 		 	'date',
+        column: 	 	6,
+        rules: 			'required',
+        tooltips: 		'提示信息',
+        value: 1544148749870,
+        acts: 'datetime',// block,text,tel,link
+    },
+    {
+        id: 		 	'qqMapByName',
+        label: 		 	'腾讯地图（qqMapByName）',
+        type: 		 	'date', 
+        column: 	 	6,
+        rules: 			'required',
+        // value: 1544148749870,
+        acts: 'qqMapByName',// block,text,tel,link
+    }
+                         </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

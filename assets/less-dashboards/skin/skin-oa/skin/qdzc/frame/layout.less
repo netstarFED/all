@@ -1,0 +1,321 @@
+// 数字面板
+@digital-panel-width: 61rem;
+
+// 顶部菜单按钮（右侧）
+.nsdv-top-nav {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    z-index: 1;
+
+    // 数字面板
+    .nsdv-top-nav-group {
+        ul {
+            .nsdv-top-nav-item {
+                .nsdv-top-nav-item-row {
+                    .flex-block(flex-end, center);
+                    padding-bottom: 0.5rem;
+                }
+
+                // 数字面板
+                .nsdv-digital-panel {
+                    .box-shadow();
+                    padding: 1rem;
+                    background: @nav-bg;
+                    border-radius: 0.4rem;
+                    border: 1px solid rgba(34, 133, 255, 0.7);
+
+                    .nsdv-digital-panel-item {
+                        .flex-block(center, flex-start);
+                        flex-direction: column;
+                        padding-bottom: 1rem;
+
+                        .digital-panel-header {
+                            font-size: @font-size-h3;
+                            color: #85bfff;
+                            font-weight: 500;
+                            padding-bottom: 1rem;
+                        }
+
+                        .digital-panel-body {
+                            .nsdv-top-nav-block-item {
+                                .flex-block(space-between, center);
+                                width: @digital-panel-width;
+                                min-width: @digital-panel-width;
+
+                                .nsdv-top-nav-block {
+                                    display: flex;
+                                    background: #1e3edf;
+                                    width: 20rem;
+                                    height: 8rem;
+
+                                    .panel {
+                                        .panel-body {
+
+                                            // margin: 1rem;
+                                            .digital-item {
+                                                .flex-block();
+
+                                                .digital-title {
+                                                    .flex-block(center, flex-end);
+                                                    flex: none;
+                                                    flex-direction: column;
+                                                    color: #00368d;
+
+                                                    span:nth-child(1) {
+                                                        font-size: 1.6rem;
+                                                        font-weight: 500;
+
+                                                    }
+
+                                                    span:nth-child(2) {
+                                                        font-size: 1.2rem;
+                                                        font-weight: 400;
+                                                    }
+                                                }
+
+                                                .digital-num {
+                                                    padding-left: 1rem;
+                                                    color: #00d8fd;
+                                                    font-size: 4rem;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 主屏数字面板
+.nsdv-top-nav-group.nsdv-center-digital {
+
+    // 数字面板
+    .nsdv-digital-panel {
+        .flex-block();
+        // box-shadow: @box-shadow;
+        padding: 1rem;
+        border-radius: 0.4rem;
+        // border: 1px solid rgba(34, 133, 255, 0.7);
+
+        .nsdv-digital-panel-item {
+            // width: 62rem;
+            // min-width: 62rem;
+            margin: 0 0.5rem;
+            .flex-block(center, flex-start);
+            flex-direction: column;
+            padding-bottom: 1rem;
+
+            .digital-panel-header {
+                font-size: @font-size-h3;
+                color: #85bfff;
+                font-weight: 500;
+                padding-bottom: 1rem;
+            }
+
+            .digital-panel-body {
+                .nsdv-top-nav-block-item {
+                    .flex-block(space-between, center);
+                    // width: @digital-panel-width;
+                    // min-width: @digital-panel-width;
+
+                    .nsdv-top-nav-block {
+                        // .flex-block();
+                        margin: 0 0.3rem;
+                        display: flex;
+                        background: rgba(30, 62, 223, 0.34);
+                        width: 15rem;
+                        height: 5rem;
+
+                        .panel {
+                            .panel-body {
+                                margin: 0 1rem;
+
+                                .digital-item {
+                                    .flex-block();
+
+                                    .digital-title {
+                                        .flex-block(center, flex-end);
+                                        flex: none;
+                                        flex-direction: column;
+                                        color: rgba(255, 255, 255, 0.6);
+
+                                        span:nth-child(1) {
+                                            font-size: 1.4rem;
+                                            font-weight: 500;
+
+                                        }
+
+                                        span:nth-child(2) {
+                                            font-size: 1.2rem;
+                                            // font-weight: 400;
+                                        }
+                                    }
+
+                                    .digital-num {
+                                        padding-left: 0.5rem;
+                                        color: #00d8fd;
+                                        font-size: 2.4rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+}
+
+// 试验室情况数字面板
+.nsdv-top-nav.nsdv-digital-paner-laboratory {
+    position: absolute;
+    left: 0rem;
+    top: 0.5rem;
+
+    .nsdv-top-nav-group {
+        .nsdv-digital-panel {
+            box-shadow: none;
+            border: 0;
+
+            .nsdv-digital-panel-item {
+
+                .digital-panel-body {
+                    .nsdv-top-nav-block-item.nsdv-digital-panel-laboratory {
+                        width: auto;
+
+                        .nsdv-top-nav-block {
+                            margin: 0 0.3rem;
+                            width: 15rem;
+                            height: 6rem;
+                            background: rgba(0, 28, 88, 0.58);
+
+                            .panel {
+                                .panel-header {}
+
+                                .panel-body {
+                                    margin: 1rem;
+
+                                    .digital-item {
+                                        .flex-block(space-between, flex-start);
+                                        flex-direction: column;
+
+                                        .digital-title {
+                                            span {
+
+                                                color: #fff;
+                                                position: relative;
+                                                padding-left: 1rem;
+                                            }
+
+
+                                            span:before {
+                                                content: "";
+                                                position: absolute;
+                                                top: 0.2rem;
+                                                left: 0;
+                                                width: 0.3rem;
+                                                height: 1.8rem;
+                                                background: #00d8fd;
+                                            }
+
+                                        }
+
+                                        .digital-num {
+                                            width: 100%;
+                                            text-align: center;
+                                            font-size: 2rem;
+
+                                            .unit {
+                                                font-size: 1.4rem;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+}
+
+// 隐藏数字面板标题
+.nsdv-digital-panel {
+    .digital-panel-body {
+        .nsdv-top-nav-block-item {
+            .nsdv-top-nav-block {
+                .panel {
+                    .panel-header {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+// left图表
+
+.main-left {
+    height: 84%;
+    .flex-block(space-between, center);
+    flex-wrap: wrap;
+    flex: 0 0 33%;
+    margin-right: 6rem;
+    margin-top: 7rem;
+    // position: absolute;
+    // top: 12rem;
+    // width: 33%;
+
+    .nsdv-echart-item {
+        .flex-block(flex-start, stretch);
+        flex-wrap: wrap;
+        flex: 0 0 50%;
+        height: 50%;
+        // background:rgba(0,24,65,0.25)
+        // background:#efefef;
+    }
+
+    // 隐藏图表底部
+    .panel-footer {
+        display: none;
+    }
+
+}
+
+// right图表
+.main-right {
+    .flex-block(space-between, stretch);
+    flex-wrap: wrap;
+    position: absolute;
+    top: 10rem;
+    right: 0;
+    width: 32%;
+    height: 77%;
+
+    .nsdv-echart-item {
+        .flex-block(space-between, stretch);
+        flex-wrap: wrap;
+        flex: 0 0 50%;
+        height: 50%;
+    }
+}
+
+.body {
+    .flex-block(flex-start, center);
+    flex: 0 0 100%;
+}

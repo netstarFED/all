@@ -1,0 +1,371 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>留样邮寄/留样摧毁</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var samplePostBack = {
+    "package": "nscloud.samplepostback", 
+    "template": "processDocBaseMobile",
+    "readonly": false,
+    "isShowTitle": true,
+    "isFormHidden": false,
+    "versionNumber": "1",
+    "components": [
+        {
+            "type": "vo",
+            "field": [
+
+                {
+                    "englishName": "backPostAddress",
+                    "className": "java.lang.String",
+                    "gid": "8afa538e-c3a7-1b16-2394-e1a27f6fc3b7",
+                    "variableType": "string",
+                    "chineseName": "退还邮寄地址",
+                    "isHaveChineseName": true,
+                    "id": "backPostAddress",
+                    "label": "退还邮寄地址",
+                    "type": "text",
+                    "field": "backPostAddress",
+                    "title": "退还邮寄地址",
+                    "mindjetIndexState": 0,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "id": "postWay",
+                    "englishName": "postWay",
+                    "chineseName": "邮寄方式",
+                    "variableType": "number",
+                    "mindjetType": "dict",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "80ca82a2-3b55-3f69-1a0d-20f0fe6acac3",
+                    "voName": "samplemanageSampleDealWithRecordVO",
+                    "className": "java.lang.Integer",
+                    "type": "select",
+                    "label": "邮寄方式",
+                    "rules": "",
+                    "dictArguments": "DICT_POSTWAY",
+                    "textField": "value",
+                    "valueField": "id",
+                    "isObjectValue": false,
+                    "disabled": false,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "mindjetIndexState": 1,
+                    "subdata": [
+                        {
+                            "id": "1",
+                            "value": "圆通"
+                        },
+                        {
+                            "id": "2",
+                            "value": "顺丰"
+                        },
+                        {
+                            "id": "3",
+                            "value": "大巴"
+                        }
+                    ],
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "englishName": "postCode",
+                    "className": "java.lang.String",
+                    "gid": "89b9a1f1-3842-1aaf-751c-4b49948804b9",
+                    "variableType": "string",
+                    "chineseName": "邮寄单号",
+                    "isHaveChineseName": true,
+                    "id": "postCode",
+                    "label": "邮寄单号",
+                    "type": "text",
+                    "field": "postCode",
+                    "title": "邮寄单号",
+                    "mindjetIndexState": 2,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "englishName": "contact",
+                    "className": "java.lang.String",
+                    "gid": "edea9f22-2bce-5e56-35e3-2ccd767294b3",
+                    "variableType": "string",
+                    "chineseName": "联系人",
+                    "isHaveChineseName": true,
+                    "id": "contact",
+                    "label": "联系人",
+                    "type": "text",
+                    "field": "contact",
+                    "title": "联系人",
+                    "mindjetIndexState": 3,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "englishName": "contactPhone",
+                    "className": "java.lang.String",
+                    "gid": "ccb22b98-cf70-c5de-a5bf-15af3cc89175",
+                    "variableType": "string",
+                    "chineseName": "联系方式",
+                    "isHaveChineseName": true,
+                    "id": "contactPhone",
+                    "label": "联系方式",
+                    "type": "text",
+                    "field": "contactPhone",
+                    "title": "联系方式",
+                    "mindjetIndexState": 4,
+                    "mindjetFieldPosition": "field"
+                }
+            ],
+            "voId": "1314029206803323890",
+            "idField": "id",
+            "keyField": "root",
+            "parent": "root",
+            "gid": "49d6fd81-1a0d-cbb1-92fa-291755436f76",
+            "objectState": 2,
+            "hide": [
+                null
+            ],
+            "stateClass": "more",
+            "fieldById": {
+                "backPostAddress": {
+                    "englishName": "backPostAddress",
+                    "className": "java.lang.String",
+                    "gid": "8afa538e-c3a7-1b16-2394-e1a27f6fc3b7",
+                    "variableType": "string",
+                    "chineseName": "退还邮寄地址",
+                    "isHaveChineseName": true,
+                    "id": "backPostAddress",
+                    "label": "退还邮寄地址",
+                    "type": "text",
+                    "field": "backPostAddress",
+                    "title": "退还邮寄地址",
+                    "mindjetIndexState": 0,
+                    "mindjetFieldPosition": "field"
+                },
+                "postWay": {
+                    "id": "postWay",
+                    "englishName": "postWay",
+                    "chineseName": "邮寄方式",
+                    "variableType": "number",
+                    "mindjetType": "dict",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "80ca82a2-3b55-3f69-1a0d-20f0fe6acac3",
+                    "voName": "samplemanageSampleDealWithRecordVO",
+                    "className": "java.lang.Integer",
+                    "type": "select",
+                    "label": "邮寄方式",
+                    "rules": "",
+                    "dictArguments": "DICT_POSTWAY",
+                    "textField": "value",
+                    "valueField": "id",
+                    "isObjectValue": false,
+                    "disabled": false,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "mindjetIndexState": 1,
+                    "subdata": [
+                        {
+                            "id": "1",
+                            "value": "圆通"
+                        },
+                        {
+                            "id": "2",
+                            "value": "顺丰"
+                        },
+                        {
+                            "id": "3",
+                            "value": "大巴"
+                        }
+                    ],
+                    "mindjetFieldPosition": "field"
+                },
+                "postCode": {
+                    "englishName": "postCode",
+                    "className": "java.lang.String",
+                    "gid": "89b9a1f1-3842-1aaf-751c-4b49948804b9",
+                    "variableType": "string",
+                    "chineseName": "邮寄单号",
+                    "isHaveChineseName": true,
+                    "id": "postCode",
+                    "label": "邮寄单号",
+                    "type": "text",
+                    "field": "postCode",
+                    "title": "邮寄单号",
+                    "mindjetIndexState": 2,
+                    "mindjetFieldPosition": "field"
+                },
+                "contact": {
+                    "englishName": "contact",
+                    "className": "java.lang.String",
+                    "gid": "edea9f22-2bce-5e56-35e3-2ccd767294b3",
+                    "variableType": "string",
+                    "chineseName": "联系人",
+                    "isHaveChineseName": true,
+                    "id": "contact",
+                    "label": "联系人",
+                    "type": "text",
+                    "field": "contact",
+                    "title": "联系人",
+                    "mindjetIndexState": 3,
+                    "mindjetFieldPosition": "field"
+                },
+                "contactPhone": {
+                    "englishName": "contactPhone",
+                    "className": "java.lang.String",
+                    "gid": "ccb22b98-cf70-c5de-a5bf-15af3cc89175",
+                    "variableType": "string",
+                    "chineseName": "联系方式",
+                    "isHaveChineseName": true,
+                    "id": "contactPhone",
+                    "label": "联系方式",
+                    "type": "text",
+                    "field": "contactPhone",
+                    "title": "联系方式",
+                    "mindjetIndexState": 4,
+                    "mindjetFieldPosition": "field"
+                }
+            }
+        },
+        {
+            "type": "btns",
+            "field": [
+                {
+                    "functionConfig": {
+                        "ajaxData": {
+                            "objectState": "1"
+                        },
+                        "data": {
+                            "objectState": "1"
+                        },
+                        "contentType": "application/json",
+                        "dataFormat": "object",
+                        "dataSrc": "data",
+                        "defaultMode": "custom",
+                        "functionClass": "modal",
+                        "functionField": "nsProject.getFieldsByState(sampleDetail.samplemanageSampleDealWithRecordVO,\"mailReturn\",{isColumn:false,isDialog:true,isValidSave:true})",
+                        "id": "1312717906043220978",
+                        "suffix": "/sampleDetail/postBack",
+                        "text": "邮寄退还",
+                        "title": "邮寄退还",
+                        "type": "POST",
+                        "voName": "samplemanageSampleDealWithRecordVO",
+                        "entityName": "sampleDetail",
+                        "chineseName": "邮寄退回",
+                        "englishName": "postBack",
+                        "isCloseWindow": true,
+                        "requestSource": "selected",
+                        "isInlineBtn": false,
+                        "parameterFormat": "{\"objectState\":\"1\"}",
+                        "successMsg": "确认成功",
+                        "successOperate": "refresh",
+                        "matrixVariable": "?enumDealWithSave=WRITE_STATE_BACK",
+                        "isSendPageParams": true,
+                        "isIsSave": true,
+                        "isMobileInlineBtn": true,
+                        "isKeepSelected": true,
+                        "parameterFormatType": "add",
+                        "isSetValueToSourcePage": true,
+                        "url": getRootPath() +"/sampleDetail/postBack"
+                    },
+                    "btn": {
+                        "text": "邮寄退还",
+                        "isReturn": true
+                    }
+                }
+            ],
+            "gid": "addc486f-19ee-a69a-a008-ae856cdf110f",
+            "objectState": 2
+        }
+    ],
+    "draftBox": {
+        "isUse": false,
+        "isUseSave": true,
+        "closeOrClear": true
+    },
+    /* "pageParam": {
+        "data": {
+            "dealwithBy": "1310954084307594226",
+            "backPostAddress": "123456",
+            "postWay": 123456,
+            "postCode": "123456",
+            "contact": "123456`",
+            "contactPhone": "123456",
+            "retentionSampleBy": "1310954084307594226",
+            "whenRetention": 1573884055000,
+            "dealwithTypeId": "8",
+            "whenDealwith": 1573889969000,
+            "dealwithQuantity": 1
+            "sampleId": "1316915473144613874",
+            "sampleDetailType": 1,
+            "sampleDetailCode": "1572774023905",
+            "sampleState": 7,
+            "quantity": "2",
+            "createdBy": "1310954084307594226",
+            "whenCreated": 1572774024000,
+            "modifiedBy": "1312525328299590646",
+            "whenModified": 1576554483000,
+            "hasRollback": false,
+            "hasOvertime": false,
+            "hasEmergency": false,
+            "hasSuspend": false,
+            "objectState": 0,
+            "objectCheckState": 0,
+            "id": "1316916696136549362"
+        },
+        "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1317898642698273778?templateparam=nscloud.reservedsample11576748913887"
+    }*/
+} 
+// NETSTAR添加url参数即pageParam
+var pageConfig = {config:samplePostBack};
+var params = pageConfig.config.pageParam.data ? pageConfig.config.pageParam.data : {};
+for(var componentI=0; componentI<pageConfig.config.components.length;componentI++){
+	var componentData = pageConfig.config.components[componentI];
+	if(componentData.type == 'vo'){
+		componentData.field.unshift({
+			id:'sampleDetailId',
+			type:'hidden',
+			value:params.id
+		});
+	}
+}
+samplePostBack = NetstarProject.init(samplePostBack);
+NetstarTemplate.init(samplePostBack);
+
+            });
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">留样邮寄</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+        </script>
+    </container>
+</body>
+
+</html>

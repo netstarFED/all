@@ -1,0 +1,362 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="扫码详情表" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>留样确认</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script type="text/javascript">
+            $(function () {
+                var sampleconForm = {
+    "package": "nscloud.sampleconform",
+    "template": "processDocBaseMobile",
+    "readonly": false,
+    "isShowTitle": true,
+    "isFormHidden": false,
+    "versionNumber": "1",
+    "components": [
+        {
+            "type": "vo",
+            "field": [
+                {
+                    "englishName": "retentionSampleDate",
+                    "className": "java.lang.Integer",
+                    "gid": "d1b725ca-0446-8632-3bb7-06da77f6a8d0",
+                    "variableType": "number",
+                    "chineseName": "留样期限",
+                    "isHaveChineseName": true,
+                    "id": "retentionSampleDate",
+                    "label": "留样期限",
+                    "type": "text",
+                    "field": "retentionSampleDate",
+                    "title": "留样期限",
+                    "mindjetIndexState": 0,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "id": "quantity",
+                    "englishName": "quantity",
+                    "chineseName": "留样数量",
+                    "variableType": "number",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "5e911569-313f-a09c-9093-b3aa0e82680c",
+                    "voName": "samplemanageSampleRetentionVO",
+                    "className": "java.math.BigDecimal",
+                    "type": "text",
+                    "label": "留样数量",
+                    "rules": "",
+                    "moreRules": "",
+                    "disabled": false,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "mindjetIndexState": 1,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "id": "retentionSampleBy",
+                    "englishName": "retentionSampleBy",
+                    "chineseName": "留样人id",
+                    "variableType": "string",
+                    "mindjetType": "select",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "f2115ab2-9845-bf2e-e730-acd93368cc33",
+                    "voName": "samplemanageSampleRetentionVO",
+                    "className": "java.lang.Long",
+                    "type": "select",
+                    "label": "留样人",
+                    "rules": "",
+                    "textField": "userName",
+                    "valueField": "id",
+                    "isObjectValue": false,
+                    "method": "POST",
+                    "dataSrc": "rows",
+                    "data": "",
+                    "contentType": "",
+                    "disabled": false,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "suffix": "/system/users/getList",
+                    "url": getRootPath() + "/system/users/getList",
+                    "mindjetIndexState": 2,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "englishName": "whenRetention",
+                    "className": "java.util.Date",
+                    "gid": "60692782-fa03-7ee9-e26b-bb2c1b0c0ef6",
+                    "variableType": "date",
+                    "chineseName": "留样时间",
+                    "isHaveChineseName": true,
+                    "id": "whenRetention",
+                    "label": "留样时间",
+                    "type": "date",
+                    "field": "whenRetention",
+                    "title": "留样时间",
+                    "mindjetIndexState": 3,
+                    "mindjetFieldPosition": "field"
+                },
+                {
+                    "englishName": "remark",
+                    "className": "java.lang.String",
+                    "gid": "fab6dac3-dc45-1a24-74cf-9d3c10f79e9a",
+                    "variableType": "string",
+                    "chineseName": "备注",
+                    "isHaveChineseName": true,
+                    "id": "remark",
+                    "label": "备注",
+                    "type": "text",
+                    "field": "remark",
+                    "title": "备注",
+                    "mindjetIndexState": 4,
+                    "mindjetFieldPosition": "field"
+                }
+            ],
+            "voId": "1314029206803338226",
+            "idField": "id",
+            "keyField": "root",
+            "parent": "root",
+            "gid": "49d6fd81-1a0d-cbb1-92fa-291755436f76",
+            "objectState": 2,
+            "stateClass": "more",
+            "fieldById": {
+                "retentionSampleDate": {
+                    "englishName": "retentionSampleDate",
+                    "className": "java.lang.Integer",
+                    "gid": "d1b725ca-0446-8632-3bb7-06da77f6a8d0",
+                    "variableType": "number",
+                    "chineseName": "留样期限",
+                    "isHaveChineseName": true,
+                    "id": "retentionSampleDate",
+                    "label": "留样期限",
+                    "type": "text",
+                    "field": "retentionSampleDate",
+                    "title": "留样期限",
+                    "mindjetIndexState": 0,
+                    "mindjetFieldPosition": "field"
+                },
+                "quantity": {
+                    "id": "quantity",
+                    "englishName": "quantity",
+                    "chineseName": "留样数量",
+                    "variableType": "number",
+                    "mindjetType": "text",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "5e911569-313f-a09c-9093-b3aa0e82680c",
+                    "voName": "samplemanageSampleRetentionVO",
+                    "className": "java.math.BigDecimal",
+                    "type": "text",
+                    "label": "留样数量",
+                    "rules": "",
+                    "moreRules": "",
+                    "disabled": false,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "mindjetIndexState": 1,
+                    "mindjetFieldPosition": "field"
+                },
+                "retentionSampleBy": {
+                    "id": "retentionSampleBy",
+                    "englishName": "retentionSampleBy",
+                    "chineseName": "留样人id",
+                    "variableType": "string",
+                    "mindjetType": "select",
+                    "isSet": "是",
+                    "displayType": "all",
+                    "gid": "f2115ab2-9845-bf2e-e730-acd93368cc33",
+                    "voName": "samplemanageSampleRetentionVO",
+                    "className": "java.lang.Long",
+                    "type": "select",
+                    "label": "留样人",
+                    "rules": "",
+                    "textField": "userName",
+                    "valueField": "id",
+                    "isObjectValue": false,
+                    "method": "POST",
+                    "dataSrc": "rows",
+                    "data": "",
+                    "contentType": "",
+                    "disabled": false,
+                    "hidden": false,
+                    "isDistinct": false,
+                    "suffix": "/system/users/getList",
+                    "url": getRootPath() + "/system/users/getList",
+                    "mindjetIndexState": 2,
+                    "mindjetFieldPosition": "field"
+                },
+                "whenRetention": {
+                    "englishName": "whenRetention",
+                    "className": "java.util.Date",
+                    "gid": "60692782-fa03-7ee9-e26b-bb2c1b0c0ef6",
+                    "variableType": "date",
+                    "chineseName": "留样时间",
+                    "isHaveChineseName": true,
+                    "id": "whenRetention",
+                    "label": "留样时间",
+                    "type": "date",
+                    "field": "whenRetention",
+                    "title": "留样时间",
+                    "mindjetIndexState": 3,
+                    "mindjetFieldPosition": "field"
+                },
+                "remark": {
+                    "englishName": "remark",
+                    "className": "java.lang.String",
+                    "gid": "fab6dac3-dc45-1a24-74cf-9d3c10f79e9a",
+                    "variableType": "string",
+                    "chineseName": "备注",
+                    "isHaveChineseName": true,
+                    "id": "remark",
+                    "label": "备注",
+                    "type": "text",
+                    "field": "remark",
+                    "title": "备注",
+                    "mindjetIndexState": 4,
+                    "mindjetFieldPosition": "field"
+                }
+            }
+        },
+        {
+            "type": "btns",
+            "field": [
+                {
+                    "functionConfig": {
+                        "ajaxData": {
+                            "objectState": "1",
+                            "sampleDetailId": "{id}"
+                        },
+                        "data": {
+                            "objectState": "1",
+                            "sampleDetailId": "{id}"
+                        },
+                        "contentType": "application/json",
+                        "dataFormat": "object",
+                        "dataSrc": "data",
+                        "defaultMode": "custom",
+                        "functionClass": "modal",
+                        "functionField": "nsProject.getFieldsByState(sampleDetail.samplemanageSampleRetentionVO,\"affirmSample\",{isColumn:false,isDialog:true,isValidSave:true})",
+                        "id": "1312717906043226098",
+                        "suffix": "/sampleDetail/retention",
+                        "text": "确认留样",
+                        "title": "确认留样",
+                        "type": "POST",
+                        "voName": "samplemanageSampleRetentionVO",
+                        "entityName": "sampleDetail",
+                        "chineseName": "存样",
+                        "englishName": "retention",
+                        "isCloseWindow": true,
+                        "requestSource": "none",
+                        "isInlineBtn": false,
+                        "parameterFormat": "{\"objectState\":\"1\",\"sampleDetailId\":\"{id}\"}",
+                        "successMsg": "确认成功",
+                        "successOperate": "refresh",
+                        "matrixVariable": "?enumDealWithSave=WRITE_STATE_BACK",
+                        "isSendPageParams": true,
+                        "isIsSave": false,
+                        "isMobileInlineBtn": true,
+                        "isKeepSelected": false,
+                        "parameterFormatType": "cover",
+                        "isSetValueToSourcePage": false,
+                        "url":getRootPath() +  "/sampleDetail/retention"
+                    },
+                    "btn": {
+                        "text": "确认留样",
+                        "isReturn": true
+                    }
+                }
+            ],
+            "gid": "addc486f-19ee-a69a-a008-ae856cdf110f",
+            "objectState": 2
+        }
+    ],
+    "draftBox": {
+        "isUse": false,
+        "isUseSave": true,
+        "closeOrClear": true
+    },
+/*     "pageParam": {
+        "data": {
+            "dealwithBy": "1310954084307594226",
+            "backPostAddress": "123456",
+            "postWay": 123456,
+            "postCode": "123456",
+            "contact": "123456`",
+            "contactPhone": "123456",
+            "retentionSampleBy": "1310954084307594226",
+            "whenRetention": 1573884055000,
+            "dealwithTypeId": "8",
+            "whenDealwith": 1573889969000,
+            "dealwithQuantity": 1,
+            "sampleId": "1316915473144613874",
+            "sampleDetailType": 1,
+            "sampleDetailCode": "1572774023905",
+            "sampleState": 7,
+            "quantity": "2",
+            "createdBy": "1310954084307594226",
+            "whenCreated": 1572774024000,
+            "modifiedBy": "1312525328299590646",
+            "whenModified": 1576554483000,
+            "hasRollback": false,
+            "hasOvertime": false,
+            "hasEmergency": false,
+            "hasSuspend": false,
+            "objectState": 0,
+            "objectCheckState": 0,
+            "id": "1316916696136549362"
+        },
+        "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1317178295078355954"
+    }*/
+} 
+            // NETSTAR添加url参数即pageParam
+                var pageConfig = {config:sampleconForm};            
+                var params = pageConfig.config.pageParam.data ? pageConfig.config.pageParam.data : {};
+                    for(var componentI=0; componentI<pageConfig.config.components.length;componentI++){
+                        var componentData = pageConfig.config.components[componentI];
+                        if(componentData.type == 'vo'){
+                            componentData.field.unshift({
+                                id:'sampleDetailId',
+                                type:'hidden',
+                                value:params.id
+                            });
+                        }
+                    }        
+                sampleconForm = NetstarProject.init(sampleconForm);
+                NetstarTemplate.init(sampleconForm);
+            })
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">留样确认</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+        </script>
+    </container>
+</body>
+
+</html>

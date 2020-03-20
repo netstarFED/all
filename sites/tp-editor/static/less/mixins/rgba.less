@@ -1,0 +1,41 @@
+// 文字颜色
+.rgba-color(@color, @alpha: 1) {
+    @color-rgba: rgba(red(@color), green(@color), blue(@color), @alpha);
+    color: @color-rgba;
+}
+
+// 背景色
+.rgba-bg(@color, @alpha: 1) {
+    @color-rgba: rgba(red(@color), green(@color), blue(@color), @alpha);
+    background: @color-rgba;
+}
+
+// 容器阴影
+.rgba-shadow(@s-h: 0px, @s-v: 0px, @size: .5rem, @color, @alpha: 1) {
+    @color-rgba: rgba(red(@color), green(@color), blue(@color), @alpha);
+    box-shadow: @s-h @s-v @size @color-rgba;
+}
+
+// 容器内阴影
+.rgba-shadow-inset(@s-h: 0px, @s-v: 0px, @size: .5rem, @color, @alpha: 1) {
+    @color-rgba: rgba(red(@color), green(@color), blue(@color), @alpha);
+    box-shadow: @s-h @s-v @size @color-rgba inset;
+}
+
+// 文字阴影
+.rgba-text-shadow(@s-h: 0px, @s-v: 0px, @size: .5rem, @color, @alpha: 1) {
+    @color-rgba: rgba(red(@color), green(@color), blue(@color), @alpha);
+    text-shadow: @s-h @s-v @size @color-rgba;
+}
+
+// svg背景填充
+.rgba-fill(@color, @alpha: 1) {
+    @color-rgba: rgba(red(@color), green(@color), blue(@color), @alpha);
+    fill: @color-rgba;
+}
+
+// outline
+.rgba-outline-shadow(@shadow-size, @color, @alpha: 1) {
+    @color-rgba: rgba(red(@color), green(@color), blue(@color), @alpha);
+    box-shadow: 0 0 0 @shadow-size @color-rgba;
+}

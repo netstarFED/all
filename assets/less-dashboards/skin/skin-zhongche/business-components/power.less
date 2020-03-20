@@ -1,0 +1,102 @@
+
+
+@powerdiagram-icon-height:6rem;
+@powerdiagram-icon-width:@powerdiagram-icon-height;//图标宽度
+@powerdiagram-group-item-subitem-margin:2rem;//左右间距
+@powerdiagram-subitem-icon-before-height:@powerdiagram-icon-height / 2;//图标连接线
+@powerdiagram-subitem-icon-before-margin-height:@powerdiagram-icon-height / 2;//上连接线距离
+@powerdiagram-before:lighten(@primary, 35%);//连接线颜色
+
+.powerdiagram-group{
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    &:before{
+        position: absolute;
+        top:0;
+        left:10%;
+        right:10%;
+        height: .25rem;
+        width:80%;
+        content: "";
+        background:lighten(@primary, 35%);
+        box-shadow: 0 0 8px rgba(46, 224, 255, .9);
+    }
+    .powerdiagram-group-item{
+        display: flex;
+        flex: 1; 
+        justify-content:center;
+        position: relative;
+        &:before{
+            position: absolute;
+            content: "";
+            height:.25rem;
+            top: -@powerdiagram-subitem-icon-before-margin-height;
+            left:@powerdiagram-subitem-icon-before-margin-height + @powerdiagram-group-item-subitem-margin;
+            right:@powerdiagram-subitem-icon-before-margin-height;
+            background-color: @powerdiagram-before;
+        }
+        .powerdiagram-group-item-subitem{
+            display: flex;
+            justify-content:flex-start;
+            align-items:center;
+            margin: 0 @powerdiagram-group-item-subitem-margin;
+            & > div{
+
+            }
+            .powerdiagram-item-subitem-text{
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                align-items: flex-end;
+                margin: 0 1rem;
+                .row{
+                    margin: .3rem 0;
+                }
+                span{
+                    color:@primary;
+                    font-size: 1.5rem;
+                    color:lighten(@primary, 20%);
+                    text-shadow: 0 0 10px rgba(46, 224, 255, .9);
+                    line-height:1.5;
+                    padding: 0 0.5rem;
+                }
+                &.right{
+                    align-items: flex-end;
+                }
+                &.left{
+                    align-items: flex-start;
+                }
+            }
+            .powerdiagram-item-subitem-icon{
+                // height:@powerdiagram-icon-height;
+                // width:@powerdiagram-icon-width;
+                position: relative;
+                &:before{
+                    position: absolute;
+                    top:@powerdiagram-subitem-icon-before-height;
+                    left:@powerdiagram-icon-width / 2;
+                    height:@powerdiagram-subitem-icon-before-height;
+                    width: .25rem;
+                    content: "";
+                    background:@powerdiagram-before;
+                    box-shadow: 0 0 8px rgba(46, 224, 255, .9);
+                }
+                i{
+                    font-size:6rem;
+                    text-align: center;
+                    -webkit-filter: saturate(3.6);
+                    filter: saturate(3.6); 
+                    color:lighten(@primary, 35%);
+                    // transform:rotate(90deg);
+                }
+            } 
+        }
+        // &:first-child{
+        //     justify-content:flex-end;
+        // }
+    }
+}

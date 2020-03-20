@@ -1,0 +1,117 @@
+{
+    "operator": {
+        "type": {
+            "chineseName": "面板类型",
+            "validType": "string",
+            "toolType": "select",
+            "default": "bar",
+            "subdata":[
+                {
+                    "value":"bar",
+                    "text":"柱形图"
+                }
+            ]
+        },
+        "params": {
+            "chineseName": "参数",
+            "validType": "object",
+            "toolType": "textarea",
+            "default":"",
+            "help":"自定义参数"
+        },
+        "parent":{
+            "chineseName":"上级对象",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":""
+        },          
+        "position":{
+            "chineseName":"位置",
+            "validType":"string",
+            "toolType":"select",
+            "default":"",
+            "subdata":[
+                {
+                    "value":"2",
+                    "text":"body"
+                },
+                {
+                    "value":"1",
+                    "text":"header-right"
+                },
+                {
+                    "value":"3",
+                    "text":"header-body"
+                },
+                {
+                    "value":"4",
+                    "text":"footer"
+                },
+                {
+                    "value":"5",
+                    "text":"footer-right"
+                }
+            ],
+            "help":""
+        },  
+        "title": {
+            "chineseName": "标题",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        },
+        "plusClass": {
+            "chineseName": "添加样式",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        }
+
+    },
+    "data": {
+        "ajax": {
+            "chineseName": "ajax",
+            "required": true,
+            "validType": "object",
+            "toolType": "ajaxEditor"
+        },
+        "idField":{
+            "chineseName":"主键字段",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "keyField":{
+            "chineseName":"关键字",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":""
+        }, 
+        "readonlyExpression": {
+            "chineseName": "只读表达式",
+            "validType": "string",
+            "toolType": "textarea",
+            "default": "",
+            "help":"举例：{{id} == true}"
+        },
+        "hiddenExpression": {
+            "chineseName": "隐藏表达式",
+            "validType": "object",
+            "toolType": "textarea",
+            "default": "",
+            "help":"举例：{{id} == true}"
+        },
+        "listExpression": {
+            "chineseName": "显示表达式",
+            "validType": "string",
+            "toolType": "expressionEditor",
+            "default": "",
+            "help":"格式:<li><span>{{name}}</span></li>"
+        }
+    },
+    "prepattern": [
+        
+    ]
+}

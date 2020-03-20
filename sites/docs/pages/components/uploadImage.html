@@ -1,0 +1,625 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数说明 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>uploadImage</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>字段名</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>组件id，实际生成的表单中名称为'form-'+id id不可重复</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>组件类型</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>uploadImage</td>
+                            </tr>
+                            <tr>
+                                <td>textField</td>
+                                <td>显示字段</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>选项显示的字段(默认text)</td>
+                            </tr>
+
+                            <tr>
+                                <td>valueField</td>
+                                <td>保存值</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>选项value字段，即如果string类型（isObjectValue==false）组件的保存值 (默认value)</td>
+                            </tr>
+                            <tr>
+                                <td>urlField</td>
+                                <td>url的key值</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>url的key值</td>
+                            </tr>
+                            <tr>
+                                <td>label</td>
+                                <td>标签</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件的标签，未配置则不显示</td>
+                            </tr>
+                            <tr>
+                                <td>rules</td>
+                                <td>验证规则</td>
+                                <td>string</td>
+                                <td><i></i></td>
+                                <td>当前组件仅支持 必填验证：required</td>
+                            </tr>
+                            <tr>
+                                <td>value</td>
+                                <td>显示的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认显示的值</td>
+                            </tr>
+                            <tr>
+                                <td>disabled</td>
+                                <td>只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否只读(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>inputWidth</td>
+                                <td>宽</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>组件除去label的宽度与width不共存(默认150)</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>宽</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件整体宽度 *% 与inputWidth不共存</td>
+                            </tr>
+                            <tr>
+                                <td>changeHandler</td>
+                                <td>变更处理程序</td>
+                                <td>function</td>
+                                <td></td>
+                                <td>组件值改变时触发 即value值发生改变时触发</td>
+
+                            </tr>
+                            <tr>
+                                <td>btns</td>
+                                <td>显示的按钮</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>显示的按钮 upload / delete / download / print(默认['upload'])</td>
+
+                            </tr>
+                            <tr>
+                                <td>hidden</td>
+                                <td>隐藏</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否隐藏(默认flase)</td>
+                            </tr>
+                            <tr>
+                                <td>subdata</td>
+                                <td>数据</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>选项数组 具体配置见下方：subdata配置 数据类型[]</td>
+                            </tr>
+                            <tr>
+                                <td>url</td>
+                                <td>获取地址</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过ajax获得subdata</td>
+                            </tr>
+                            <tr>
+                                <td>dataSrc</td>
+                                <td>返回的值</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax返回数据的key值</td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>ajax类型，GET/POST (默认GET)</td>
+                            </tr>
+                            <tr>
+                                <td>data</td>
+                                <td>传参</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>ajax传参 关联字段配置（即获得表单中其它字段值作为传输参数）{}</td>
+                            </tr>
+                            <tr>
+                                <td>contentType</td>
+                                <td>ajax的传值类型</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>ajax的传值类型 ‘application/json’表示传值data转化成字符串</td>
+                            </tr>
+                            <tr>
+                                <td>ajaxConfig</td>
+                                <td>ajax配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>ajax配置</td>
+                            </tr>
+                            <tr>
+                                <td>formSource</td>
+                                <td>组件模式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模式；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认from)</td>
+                            </tr>
+                            <tr>
+                                <td>templateName</td>
+                                <td>组件模式名字</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>组件模板名字；直接调用组件时配置，表单配置时不需要配置直接通过表单配置设置了组件配置(默认pc)</td>
+                            </tr>
+                            <tr>
+                                <td>mindjetFieldPosition</td>
+                                <td>是否在更多种显示</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>是否是更多中显示的数据(默认field)</td>
+                            </tr>
+                            <tr>
+                                <td>fileTypeField</td>
+                                <td>文件类型字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>文件类型字段 (默认contentType)</td>
+                            </tr>
+                            <tr>
+                                <td>uploadAjaxData</td>
+                                <td>ajax传参</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>ajax传参</td>
+                            </tr>
+                            <tr>
+                                <td>ajax</td>
+                                <td>上传地址配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>上传地址配置</td>
+                            </tr>
+                            <tr>
+                                <td>uploadAjaxData</td>
+                                <td>ajax传参</td>
+                                <td>array</td>
+                                <td></td>
+                                <td>ajax传参</td>
+                            </tr>
+                            <tr>
+                                <td>ajax</td>
+                                <td>上传地址配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>上传地址配置</td>
+                            </tr>
+                            <tr>
+                                <td>editAjax</td>
+                                <td>修改地址配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>修改地址配置 </td>
+                            </tr>
+                            <tr>
+                                <td>downloadAjax</td>
+                                <td>下载地址配置</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>下载地址配置 </td>
+                            </tr>
+                            <tr>
+                                <td>openMode</td>
+                                <td>图片预览的打开方式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>dialog（默认） newWindow  </td>
+                            </tr>
+                            <tr>
+                                <td>getFileAjax</td>
+                                <td>fileAjax</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过ids获取file</td>
+                            </tr>
+                            <tr>
+                                <td>previewImagesAjax</td>
+                                <td>预览文件</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>fileType</td>
+                                <td>上传类型</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认common    common/video</td>
+                            </tr>
+                            <tr>
+                                <td>align</td>
+                                <td>对齐方式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>默认common    common/right（通用/右对题）</td>
+                            </tr>
+                            <tr>
+                                <td>scale</td>
+                                <td>比例</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>举例：1.5</td>
+                            </tr>
+                            <tr>
+                                <td>visibilityLevel</td>
+                                <td>上传级别</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>outputFields</td>
+                                <td>获取值</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>获取值</td>
+                            </tr>
+                            <tr>
+                                <td>innerFields</td>
+                                <td>初始化组件</td>
+                                <td>object</td>
+                                <td></td>
+                                <td>组件赋值时value赋值</td>
+                            </tr>
+                            <tr>
+                                <td>isDistinct</td>
+                                <td>是否有排重字段</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>distinctField</td>
+                                <td>排重字段</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>valueExpression</td>
+                                <td>value表达式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>通过表达式设置value值  {page.**}</td>
+                            </tr>
+                            <tr>
+                                <td>placeholder</td>
+                                <td>placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>gridPlaceholder</td>
+                                <td>表格placeholder</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>表格默认显示（业务组件：点击新增，其它：可输入）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 演示试例 -->
+            <!-- 按钮 -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-uploadimage-btns"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code">比例</h3>
+                <span class="intro">图片大小比例</span>
+                <div id="nsdocs-uploadimage-btns" class="panel-demo"></div>
+                <script>
+                    /*输入模式value*/
+                    var formJsonBtns = {
+                        id: 'nsdocs-uploadimage-btns',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        formStyle: "pt-form-normal",
+                        // scale:1.5,
+                        form: [{
+                            id: 'uploadImage',
+                            label: '',
+                            type: 'uploadImage',
+                            rules: 'required',
+                            // width:'20%',
+                            changeHandler : function(obj){
+                                console.log(obj);
+                            },
+                            // align : 'right',
+                            scale : 1.5,
+                            value : '2',
+                            ajax: {
+                                url: getRootPath() + '/docs/data/components/uploadimage.json',
+                                contentType:"application/x-www-form-urlencoded",
+                                type:"GET",
+                            },
+                            getFileAjax:{
+                                url : getRootPath() + '/docs/data/components/uploadimage.json',
+                            },
+                            previewImagesAjax : {
+                                url : getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+                            },
+                            // value:[{
+                            //     text : 'sss.doc',
+                            //     value : '12365',
+                            // }],
+                        },
+                        {
+                            id: 'uploadImage2',
+                            // label: 'uploadImage2',
+                            type: 'uploadImage',
+                            scale : 1.8,
+                            // inputWidth: 200,
+                            value : '1',
+                            align:'right',
+                            // disabled : true,
+                            // btns:['upload','edit','delete','download','print'],      
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            },
+                            ajax: {
+                                url: getRootPath() + '/docs/data/components/uploadimage.json',
+                                contentType:"application/x-www-form-urlencoded",
+                                type:"GET",
+                            },
+                            getFileAjax:{
+                                url : getRootPath() + '/docs/data/components/uploadimage.json',
+                            },
+                            previewImagesAjax : {
+                                url : getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+                            },
+                            // value:[
+                            //     { text : 'a.doc', value : '1', contentType : 'image/jpeg' },
+                            //     { text : 'b.doc', value : '2' },
+                            //     { text : 'c.doc', value : '3' },
+                            //     { text : 'd.doc', value : '123654' },
+                            //     { text : 'e.doc', value : '4' },
+                            //     { text : 'f.doc', value : '5' },
+                            //     { text : 'g.doc', value : '6' },
+                            //     { text : 'h.doc', value : '7' },
+                            //     { text : 'i.doc', value : '8' },
+                            // ],
+                            // isShowThum: true,
+                            isMultiple: true,//是否多选
+                            // accept: 'image/png, .doc',
+                        } ,{
+                            id: 'uploadImage3',
+                            // label: 'uploadImage2',
+                            type: 'uploadImage',
+                            scale : 1,
+                            // inputWidth: 200,
+                            value : '1',
+                            align:'right',
+                            // disabled : true,
+                            // btns:['upload','edit','delete','download','print'],      
+                            changeHandler: function (obj) {
+                                console.log(obj);
+                            },
+                            ajax: {
+                                url: getRootPath() + '/docs/data/components/uploadimage.json',
+                                contentType:"application/x-www-form-urlencoded",
+                                type:"GET",
+                            },
+                            getFileAjax:{
+                                url : getRootPath() + '/docs/data/components/uploadimage.json',
+                            },
+                            previewImagesAjax : {
+                                url : getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+                            },
+                            // value:[
+                            //     { text : 'a.doc', value : '1', contentType : 'image/jpeg' },
+                            //     { text : 'b.doc', value : '2' },
+                            //     { text : 'c.doc', value : '3' },
+                            //     { text : 'd.doc', value : '123654' },
+                            //     { text : 'e.doc', value : '4' },
+                            //     { text : 'f.doc', value : '5' },
+                            //     { text : 'g.doc', value : '6' },
+                            //     { text : 'h.doc', value : '7' },
+                            //     { text : 'i.doc', value : '8' },
+                            // ],
+                            // isShowThum: true,
+                            isMultiple: true,//是否多选
+                            // accept: 'image/png, .doc',
+                        }
+                    ]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonBtns, {});
+                    NetstarComponent.formComponent.init(component, formJsonBtns);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'uploadImage',
+        label: '',
+        type: 'uploadImage',
+        rules: 'required',
+        // width:'20%',
+        changeHandler : function(obj){
+            console.log(obj);
+        },
+        scale : 1.5,
+        value : '2',
+        ajax: {
+            url: getRootPath() + '/docs/data/components/uploadimage.json',
+            contentType:"application/x-www-form-urlencoded",
+            type:"GET",
+        },
+        getFileAjax:{
+            url : getRootPath() + '/docs/data/components/uploadimage.json',
+        },
+        previewImagesAjax : {
+            url : getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+        },
+    },
+    {
+        id: 'uploadImage2',
+        type: 'uploadImage',
+        scale : 1.8,
+
+        value : '1',
+        align:'right',     
+        changeHandler: function (obj) {
+            console.log(obj);
+        },
+        ajax: {
+            url: getRootPath() + '/docs/data/components/uploadimage.json',
+            contentType:"application/x-www-form-urlencoded",
+            type:"GET",
+        },
+        getFileAjax:{
+            url : getRootPath() + '/docs/data/components/uploadimage.json',
+        },
+        previewImagesAjax : {
+            url : getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+        },
+        isMultiple: true,
+    } ,{
+        id: 'uploadImage3',
+        type: 'uploadImage',
+        scale : 1,
+        value : '1',
+        align:'right',    
+        changeHandler: function (obj) {
+            console.log(obj);
+        },
+        ajax: {
+            url: getRootPath() + '/docs/data/components/uploadimage.json',
+            contentType:"application/x-www-form-urlencoded",
+            type:"GET",
+        },
+        getFileAjax:{
+            url : getRootPath() + '/docs/data/components/uploadimage.json',
+        },
+        previewImagesAjax : {
+            url : getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+        },
+        isMultiple: true,//是否多选
+    }
+                    </pre>
+                </div>
+            </div>
+            <!--对齐方式 -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-uploadImage-align"></a>
+                <h3 class="title-code">对齐方式</h3>
+                <span class="intro">对齐方式</span>
+                <div id="nsdocs-uploadImage-align" class="panel-demo"></div>
+                <script>
+             
+                    var formJsonAlign= {
+                        id: 'nsdocs-uploadImage-align',
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        isSetMore: false,
+                        formStyle:"pt-form-normal",
+                        form: [{
+                            id: 'uploadImage',
+                            label: '',
+                            type: 'uploadImage',
+                            rules: 'required',
+                            // width:'20%',
+                            changeHandler : function(obj){
+                                console.log(obj);
+                            },
+                            align : 'right',
+                            scale : 1.5,
+                            value : '2',
+                            ajax: {
+                                url: getRootPath() + '/docs/data/components/uploadimage.json',
+                                contentType:"application/x-www-form-urlencoded",
+                                type:"GET",
+                            },
+                            getFileAjax:{
+                                url : getRootPath() + '/docs/data/components/uploadimage.json',
+                            },
+                            previewImagesAjax : {
+                                url : getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+                            },
+                        }]
+                    }
+                    var component = NetstarComponent.formComponent.getFormConfig(formJsonAlign, {});
+                    NetstarComponent.formComponent.init(component, formJsonAlign);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        id: 'uploadImage',
+        label: '',
+        type: 'uploadImage',
+        rules: 'required',
+        // width:'20%',
+        changeHandler : function(obj){
+            console.log(obj);
+        },
+        align : 'right',
+        scale : 1.5,
+        value : '2',
+        ajax: {
+            url: getRootPath() + '/docs/data/components/uploadimage.json',
+            contentType:"application/x-www-form-urlencoded",
+            type:"GET",
+        },
+        getFileAjax:{
+            url : getRootPath() + '/docs/data/components/uploadimage.json',
+        },
+        previewImagesAjax : {
+            url : getRootPath() + '/docs/icon/logo-shiyanshi-160160.png?',
+        },
+    }
+                        </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+         $(function(){
+            NetstarDocs.init();
+        })
+    </script>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

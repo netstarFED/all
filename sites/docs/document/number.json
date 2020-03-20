@@ -1,0 +1,268 @@
+{
+    "operator": {
+        "type": {
+            "chineseName": "组件类型",
+            "validType": "string",
+            "toolType": "select",
+            "default": "number",
+            "subdata": [{
+                "value": "number",
+                "text": "数字"
+            }]
+        },
+        "id": {
+            "chineseName": "字段名称",
+            "validType": "string",
+            "toolType": "text",
+            "required": true
+        },
+
+        "label": {
+            "chineseName": "标签",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        },
+        "value":{
+            "chineseName":"显示的值",
+            "validType":"string",
+            "toolType":"text",
+            "default":"",
+            "help":"value值必须为数字"
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        },         
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":100,
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules": {
+            "chineseName": "验证规则",
+            "validType": "string",
+            "toolType": "multi-select",
+            "subdata": [
+            {
+                "value": "required",
+                "text": "必填"
+            },
+            {
+                "value": "ismobile",
+                "text": "手机号验证"
+            },
+            {
+                "value": "isphone",
+                "text": "固定电话验证"
+            },
+            {
+                "value": "positiveInteger",
+                "text": "正整数验证"
+            },
+            {
+                "value": "postalcode",
+                "text": "邮政编码验证"
+            },
+            {
+                "value": "email",
+                "text": "邮箱验证"
+            },
+            {
+                "value": "Icd",
+                "text": "身份证号验证"
+            },
+            {
+                "value": "url",
+                "text": "有效网址"
+            },
+            {
+                "value": "nonnegativeInteger",
+                "text": "非负整数验证"
+            },
+            {
+                "value": "negative",
+                "text": "负数验证"
+            },
+            {
+                "value": "integer",
+                "text": "整数验证"
+            },
+            {
+                "value": "positive",
+                "text": "正数"
+            },
+            {
+                "value": "range",
+                "text": "0-1之间验证"
+            },
+            {
+                "value": "max",
+                "text": "不大于{0}的数值"
+            },
+            {
+                "value": "min",
+                "text": "不小于{0}的数值"
+            },
+            {
+                "value": "precision",
+                "text": "小数几位验证"
+            },
+            {
+                "value": "remote",
+                "text": "ajax验证"
+            },
+            {
+                "value": "minlength",
+                "text": "最少字符"
+            },
+            {
+                "value": "maxlength",
+                "text": "最多字符"
+            },
+            {
+
+                "value": "required",
+                "text": "必填"
+            }, {
+                "value": "",
+                "text": "无验证"
+            }]
+        },
+     
+        "disabled": {
+            "chineseName": "只读",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "hidden": {
+            "chineseName": "隐藏",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "decimalDigit": {
+            "chineseName": "小数点后几位",
+            "validType": "number",
+            "toolType": "text",
+            "default": "",
+            "help":"小数点后面显示几位数字"
+        },
+        "isShowCalculator": {
+            "chineseName": "是否显示计算机",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": true,
+            "help":"是否显示计算机按钮"
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "total": {
+            "chineseName": "表达式",
+            "validType": "object",
+            "toolType": "text",
+            "default":"",
+            "help":"表单之间计算，举例:{{xxx}}-{{ddd}}"
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "changeHandler": {
+            "validType": "function",
+            "toolType": "textarea",
+            "chineseName": "值改变方法"
+        }
+
+        
+    },
+    "data": {
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":0,
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+    },
+    "prepattern": [
+        {
+            "name": "显示的值",
+            "value": {
+                "id": "valuenumber",
+                "label": "显示 :",
+                "type": "number",
+                "rules": "",
+                "value": "24"
+            }
+        },
+        {
+            "name": "只读",
+            "value": {
+                "id": "disabled",
+                "label": "只读 :",
+                "type": "number",
+                "value": "1",
+                "disabled":true
+            }
+        },
+        {
+            "name": "宽",
+            "value": {
+                "id": "width",
+                "label": "宽 :",
+                "type": "number",
+                "value": "1",
+                "disabled":true
+            }
+        },
+        {
+            "name": "小数点后几位",
+            "value": {
+                "id": "decimalDigit",
+                "label": "小数:",
+                "type": "number",
+                "value": "1",
+                "decimalDigit":2
+            }
+        },
+        {
+            "name": "是否显示计算机",
+            "value": {
+                "id": "isshowcalculator",
+                "label": "是否显示计算机:",
+                "type": "number",
+                "value": "24",               
+                "isShowCalculator": false
+            }
+        }
+    ]
+}

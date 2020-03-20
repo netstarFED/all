@@ -1,0 +1,339 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!-- 参数 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>dialog</h1>
+                    <h2 id="sense-params">参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>说明</th>
+                                <th>类型</th>
+                                <th class="title-required">必填</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>唯一标识</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>唯一名称 </td>
+                            </tr>
+
+                            <tr>
+                                <td>tempalte</td>
+                                <td> 组件模式</td>
+                                <td>string</td>
+                                <td><i class="fa fa-check"></i></td>
+                                <td>默认"PC"</td>
+                            </tr>
+                            <tr>
+                                <td>height</td>
+                                <td>高</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>可以使用百分比</td>
+                            </tr>
+                            <tr>
+                                <td>width</td>
+                                <td>宽</td>
+                                <td>number</td>
+                                <td></td>
+                                <td>可以使用百分比</td>
+                            </tr>
+                            <tr>
+                                <td>isAllowDrag</td>
+                                <td> 拖拽</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否允许拖拽</td>
+                            </tr>
+                            <tr>
+                                <td>plusClass</td>
+                                <td> 添加样式</td>
+                                <td>string</td>
+                                <td></td>
+                                <td>添加样式</td>
+                            </tr>
+                            <tr>
+                                <td>isStore</td>
+                                <td> 是否记录弹框</td>
+                                <td>boolean</td>
+                                <td></td>
+                                <td>是否记录弹框位置和大小信息 按照百分比计算</td>
+                            </tr>
+                            <tr>
+                                <td>showHandler</td>
+                                <td> 显示前回调</td>
+                                <td>function</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>shownHandler</td>
+                                <td> 显示后回调</td>
+                                <td>function</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>mousedownHandler</td>
+                                <td> 按下鼠标后回调</td>
+                                <td>function</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>mousemoveHandler</td>
+                                <td> 移动鼠标回调</td>
+                                <td>function</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>hideHandler</td>
+                                <td> 隐藏弹框前回调</td>
+                                <td>function</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>hiddenHandler</td>
+                                <td> 隐藏弹框后回调</td>
+                                <td>function</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--  -->
+
+            <!--  -->
+            <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-number-value"></a>
+                <h3 class="title-code"></h3>
+                <span class="intro"></span>
+                <div id="grid-base-grid" class="panel-demo"></div>
+                <button class="btns-dialog" onclick="dialog()">点我弹出页面</button>
+                <!-- js块 -->
+                <script>
+                    function dialog() {
+                        var dialog = {
+                            id: "dialoge",
+                            height: '70%',
+                            width: "70%",
+                            templateName: "PC",
+                            isAllowDrag: true, //可以拖拽
+                            title: "弹框标题",
+                            shownHandler: function (data) {
+                                /* console.log('shownHandler');
+                                console.log(data);
+                                var dialogBodyId = data.config.bodyId;  
+                                $("#"+dialogBodyId).html('<div id="doc-form"></div><div id="doc-grid"></div>');
+                                var formJson = {
+                                    id: "doc-form",
+                                    templateName: 'form',
+                                    componentTemplateName: 'PC',
+                                    form: [{
+                                            id: "text",
+                                            type: "text",
+                                            label: "文本",
+                                            inputWidth: 200,
+                                        },
+                                        {
+                                            id: "text2",
+                                            type: "text",
+                                            label: "文本",
+                                            inputWidth: 200,
+                                            disabled:true,
+                                        },
+                                        {
+                                            id: "radio",
+                                            type: "radio",
+                                            value: "1",
+                                            label: "文本",
+                                            inputWidth: 200,
+                                            textField: 'name',
+                                            valueField: 'id',
+                                            subdata: [{
+                                                    id: '1',
+                                                    name: '男'
+                                                },
+                                                {
+                                                    id: '2',
+                                                    name: '女'
+                                                },
+                                                {
+                                                    id: '3',
+                                                    name: '其它'
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            id: "checkbox",
+                                            type: "checkbox",
+                                            value: "1",
+                                            label: "文本",
+                                            inputWidth: 200,
+                                            textField: 'name',
+                                            valueField: 'id',
+                                            subdata: [{
+                                                    id: '1',
+                                                    name: '男'
+                                                },
+                                                {
+                                                    id: '2',
+                                                    name: '女'
+                                                },
+                                                {
+                                                    id: '3',
+                                                    name: '其它'
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            id: "select",
+                                            type: "select",
+                                            value: "1",
+                                            label: "文本",
+                                            inputWidth: 200,
+                                            textField: 'name',
+                                            valueField: 'id',
+                                            subdata: [{
+                                                    id: '1',
+                                                    name: '男'
+                                                },
+                                                {
+                                                    id: '2',
+                                                    name: '女'
+                                                },
+                                                {
+                                                    id: '3',
+                                                    name: '其它'
+                                                }
+                                            ]
+                                        },
+                                    ]
+                                };
+                                var component = NetstarComponent.   formComponent.getFormConfig(formJson);
+                                NetstarComponent.formComponent.init(component, formJson);
+                                var docGridJson={
+                                    columns:[
+                                        {
+                                           field:'sex',
+                                           title:'性别' ,
+                                           columType:"dictionary",
+                                           editable:true,
+                                           formatHandler:{
+                                               type:"dictionary",
+                                               data:{
+                                                   1:"男",
+                                                   2:"女",
+                                                   3:"未分类",
+                                               }
+                                           }
+                                        }
+                                    ],
+                                    data:{
+                                        idField:"id",
+                                        tableID:"doc-grid",
+                                        dataSource:[{
+                                            id:1,
+                                            sex:1,
+                                        }]
+                                    },
+                                    ui:{
+                                        isAutoSerial:true,
+                                        isCheckSelect:true,
+                                        isHeader:false,
+                                        isPage:true,
+                                        minPageLength:10,
+                                        isEditMode:true,
+                                        pageLengthDefault:300,
+                                        selectMode:"single",
+                                        isHaveEditDeleBtn:true,
+                                        isAllowAdd:true,
+                                        height:250,
+
+                                     }
+                                }
+
+                                NetStarGrid.init(docGridJson);*/
+                                var dialogBodyId = data.config.bodyId;
+                                $('#' + dialogBodyId).html('<div id="ns-dialog-tree"></div>')
+                                var ajaxConfig = {
+                                    url:''
+                                }
+                                NetStarUtil.ajax()
+                                var Tree = {
+                                    id:'ns-dialog-tree',
+                                    type: 'tree',
+                                    title: '',
+                                    readonly: true,
+                                    idField: "id",
+                                    textField: "",
+                                    childField: "columns",
+                                    list:[
+
+                                    ]
+
+                                }
+                                debugger;
+                                NetstarTemplate.tree.init(dialogTree);         
+                                var textFieldConfig = NetstarTemplate.tree.getConfigById('ns-dialog-tree').list
+                                for(var i=0; i<textFieldConfig.length; i++){
+                                    debugger;
+                                    var columns = textFieldConfig[i].columns
+                                    for(var j = 0; j<columns.length; j++){
+                                        var textFieldIn = ''
+                                        var _textFieldIn = columns[j].name + ',' + columns[j].type
+                                        var textFieldC = $.extend(true ,textFieldIn ,_textFieldIn)
+                                        
+                                    }
+                                }
+
+                            },
+                        }
+                        NetstarComponent.dialogComponent.init(dialog);
+                       
+                    }
+                </script>
+                <div class="content-javascriptgrid ">
+                    <pre>
+{
+id: "dialoge",
+height: '60%',  
+width: "50%",
+templateName: "PC",
+isAllowDrag: true, //可以拖拽
+title: "弹框标题",
+shownHandler: function (data) {
+console.log('shownHandler');
+console.log(data);
+var dialogBodyId = data.config.bodyId;
+var formJson = {
+    id: dialogBodyId,
+    templateName: 'form',
+    componentTemplateName: 'PC',
+form: [{....详见表单配置}]
+}
+                </pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->

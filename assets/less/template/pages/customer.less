@@ -1,0 +1,207 @@
+
+.form-view {
+	height: auto;
+	overflow: hidden;
+	border: 1px solid @ns-border-color;
+	margin-bottom: 15px;
+	background: #fff;
+	.readonly-view .fillbg {
+		border: 0;
+		.radio-inline,
+		.checkbox-inline{
+			padding-left: 0;
+			display: none;
+			&.checked{
+				display: block;
+			}
+		}
+	}
+	.panel-form {
+		margin-top: 0;
+	}
+
+	.empty{
+		padding: @base-padding;
+		text-align: center;
+		color: #888;
+	}
+}
+
+
+.form-view-block {
+	border: 1px solid #ddd;
+	padding: 0;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	box-shadow: 5px 5px 0 rgba(0, 0, 0, .08);
+	&:hover{
+		.form-view-subtitle{
+			.btn-group{
+				display: block;
+			}
+		}
+	}
+}
+
+.form-view-title {
+	border-bottom: 1px solid #ddd;
+	height: 42px;
+	padding: 6px 15px;
+	.base-title-style;
+	padding-left: 25px;
+	background: #edeff2;
+	&:before{
+		left: 10px;
+	}
+
+	h6 {
+		height: 30px;
+		line-height: 30px;
+		float: left;
+		margin: 0;
+		font-size: 14px;
+		position: relative;
+	}
+	.btn-group {
+		float: right;
+		.btn{
+			& + .btn{
+				margin-left: 5px;
+			}
+		}
+	}
+}
+
+
+.form-view-subtitle {
+	position: relative;
+	height: 30px;
+	line-height: 30px;
+	position: relative;
+	padding: 0 30px 0 15px;
+	background: #f9f9f9;
+	border-bottom: 1px solid #f1f1f1;
+	a.custom {
+		float: left;
+		color: #ff8700;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	.btn-icon {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background-color: transparent;
+		i {
+			color: @ns-border-color;
+		}
+		&:hover {
+			box-shadow: none;
+			background-color: transparent;
+			i {
+				color: #333;
+			}
+		}
+	}
+	.btn-group{
+		display: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+		.btn{
+			width: 30px;
+			padding: 7px 0;
+			overflow: hidden;
+			background-color: transparent;
+			border: 0;
+
+			&:hover{
+
+			}
+			span{
+				display: none;
+			}
+			i{
+				padding: 0;
+				color: #ccc;
+			}
+
+		}
+	}
+
+}
+
+
+
+.form-view .form-view-block .form-group, 
+.form-view .form-view-block .form-group .form-control {
+	height: 30px;
+	line-height: 30px;
+	min-height: 30px;
+}
+
+.form-view .form-group label.control-label {
+	padding: 5px 15px;
+}
+
+.form-view .table {
+	border: 0;
+}
+
+.form-view .table > tbody > tr{
+	
+	td{
+		position: relative;
+		padding: 10px 40px 10px 15px;
+		border: 0;
+		text-align: center;
+		.btn-icon {
+			position: absolute;
+			display: block;
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			padding: 0;
+			text-align: center;
+			top: 4px;
+			right: 0px;
+			opacity: 0;
+			background-color: transparent;
+			i {
+				color: #aaa;
+			}
+			&:hover {
+				box-shadow: none;
+				i {
+					color: #555;
+				}
+			}
+		}
+		
+		&:hover{
+			.btn-icon {
+				position: absolute;
+				top: 4px;
+				right: 0;
+				opacity: 1;
+				display: block;
+			}
+		}
+
+		a {
+			color: #ff8700;
+		}
+
+		span {
+			display: block;
+			text-align: center;
+		}
+	}
+	&:hover td {
+		background-color: transparent;
+	}
+
+}
+
+

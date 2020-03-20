@@ -1,0 +1,110 @@
+[ns-system="mobile"] {
+    @empty-icon-size: 32px;
+
+    .panel-emptyrows {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        // z-index: 99;
+        background: #f5f5f5;
+
+        &:before {
+            display: none;
+        }
+
+        &:after {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: #b7b7b7;
+            font-family: @icon-font-icomoon;
+            font-size: @empty-icon-size;
+            width: @empty-icon-size;
+            text-align: center;
+            margin-left: -(@empty-icon-size / 2);
+            margin-top: -@empty-icon-size;
+        }
+
+        // 暂无数据
+        &.no-data {
+
+            // background: transparent;
+            &:before {
+                content: '暂无数据';
+            }
+
+            &:after {
+                content: '\f01c';
+                font-family: @icon-font;
+            }
+        }
+
+        // 数据加载失败
+        &.loadedError {
+            top: 49%;
+            text-align: center;
+            color: #9e9e9e;
+            font-size: 1.2rem;
+
+            &:before {
+                content: '加载失败';
+                display: none;
+            }
+
+            &:after {
+                content: '\ea6f';
+                top: -1.2rem;
+            }
+        }
+
+        // 数据加载
+        &.loading {
+            &:after {
+                font-size: 30px;
+                content: '\e9c0';
+                -webkit-animation: dataload 2s infinite linear;
+            }
+        }
+
+        //手机端扫码功能提醒
+        &.tip-info {
+            z-index: 9;
+            background: transparent;
+            position: fixed;
+            top: 48%;
+            text-align: center;
+            color: #9e9e9e;
+            font-size: 1.2rem;
+        }
+
+        span {
+            display: block;
+            position: absolute;
+            width: 120px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            margin: 0px 0 0 -60px;
+            color: #b7b7b7;
+        }
+
+    }
+}
+
+
+@-webkit-keyframes dataload
+
+/* Safari 和 Chrome */
+    {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}

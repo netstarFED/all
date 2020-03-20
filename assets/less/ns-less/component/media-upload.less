@@ -1,0 +1,260 @@
+
+@success: @ns-success;
+@danger: @ns-danger;
+@pt-upload-media-size: 128px;
+@pt-upload-form-size: 24px;
+@pt-media-mark-size: 48px;
+@icon-size-3x: 42px;
+@font-size-h4: 18px;
+@font-size-h6: 12px;
+
+@pt-edit-line-height: 26px;
+@pt-padding-xs: 1px;
+@pt-padding-sm:5px;
+@pt-padding-base:10px;
+@base-padding-lg: 15px;
+
+@base-margin-lg: 15px;
+
+
+@pt-upload-video-iconsize: 28px;    //视频播放图标尺寸
+
+.pt-upload{
+    height: auto;
+    overflow: hidden;
+    img{
+        display: block;
+        width: 100%;
+    }
+}
+
+// 上传组价头部（上传按钮及title）
+.pt-upload-header{
+    height: auto;
+    overflow: hidden;
+    padding: 15px 0;
+    .pt-btn-group{
+        .pt-btn.pt-btn-icon{
+            position: relative;
+            background: transparent;
+            .square(60px);
+            i{
+                font-size: @icon-size-3x;
+            }
+            .pt-upload-control{
+                position:absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                opacity:0;
+                cursor:pointer;
+            }
+        }
+    }
+    .pt-title{
+        font-size: @font-size-h4;
+        margin-left: @base-margin-lg;
+        padding-top: (@base-padding-lg + 3);
+        small{
+            font-size: @font-size-h6;
+            color: @ns-warning;
+            display: block;
+        }
+        .pt-radio{
+            display: inline-block;
+            line-height: @pt-upload-form-size;
+            
+            label.pt-radio-inline{
+                font-size: @font-size-sm;
+            }
+        }
+    }
+    
+}
+
+.pt-media-list{
+    margin: 0 -(@base-margin / 2);
+    overflow-y: auto;
+}
+.pt-media-item{
+    width: 33.3333%;
+    padding: 5px @base-padding;
+    position: relative;
+    float: left;
+    .pt-media-image{
+        position: relative;
+        border: 1px solid @border-color;
+        overflow: hidden;
+        height: @pt-upload-media-size;
+        width: 300px;
+        display: table-cell;
+        vertical-align: middle;
+        img{
+            height:auto;
+            width: auto;
+            max-height: 100%;
+            max-width: 100%;
+            display: block;
+            margin:0 auto;
+        }     
+        .pt-media-edit{
+            position: absolute;
+            right: 0;
+            bottom: -34px;
+            left: 0;
+            padding: @pt-padding-xs @pt-padding-sm;
+            background: rgba(0,0,0, .4);
+            color: #fff;
+            transition: ease-in-out all .25s;
+            text-align: right;
+            .pt-btn{
+                display: inline-block;
+                background: transparent;
+                border: 0;
+                &:hover{
+                    background: rgba(0,0,0, .4); 
+                    color: #fff;
+                }
+            }
+        }
+        &:hover{
+            .pt-media-edit{
+                bottom: 0;
+            }
+        }
+        .pt-media-current &{
+            border-color: @ns-warning;
+        }
+
+        // 封面图片
+        &.favorite{
+            border-color: @ns-warning;
+        }
+
+        &.pt-media-video{
+            cursor: pointer;
+            &:before{
+                position: absolute;
+                font-family: @icon-font;
+                content:'\f04b';
+                font-size: @pt-upload-video-iconsize;
+                top: 50%;
+                left: 50%;
+                color: #fff;
+                opacity: 0.7;
+                margin: -(@pt-upload-video-iconsize / 2);
+
+            }
+            &:hover:before{
+                opacity: 1;
+            }
+        }
+    }
+    .pt-mark{
+        position: absolute;
+        top: (@pt-upload-form-size / 2);
+        left: 0;
+        .square(@pt-upload-form-size);
+        line-height: @pt-upload-form-size;
+        color: #fff;
+        background: @success;
+        text-align: center;
+
+    }
+
+    
+    
+}
+.pt-media-title{
+    padding: 5px 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: relative;
+    padding-right: 30px;
+    line-height: @pt-upload-form-size;
+    height: 34px;
+    .pt-btn.pt-btn-link{
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-top: -(@pt-upload-form-size / 2);
+        opacity: 0;
+        transition: ease-in-out all .25s;
+        border: 0;
+        background: transparent;
+ 
+    }
+    &:hover{
+       .pt-btn{
+            opacity: 1;
+            text-decoration: none;
+        }
+    }
+
+    // 编辑模式
+    .pt-upload-edit{
+        
+        position: relative;
+        // 输入框
+        .pt-form-control{
+            display: inline-block;
+            height: @pt-upload-form-size;
+            border: 1px solid @ns-border-color;
+            width: 60%;
+            padding: @pt-padding-xs (@pt-padding-sm - 2);
+            height: @pt-edit-line-height;
+        }
+        // 按钮组
+        .pt-btn-group{
+            display: inline-block;
+            .pt-btn{
+                border: 0;
+                background: transparent;
+                // 取消按钮
+                &.cancle i{
+                    color: @ns-danger;
+                }
+                // 确认按钮
+                &.confirm i{
+                    color: @ns-success;
+                }
+                &:hover{
+                    background: @gray-light;
+                }
+            }
+        }
+    }
+}
+
+.pt-media-mark{
+    position: absolute;
+    .square(@pt-media-mark-size);
+    line-height: @pt-media-mark-size;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    z-index: 1;
+    i{
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 9;
+        .square(28px);
+        line-height: 28px;
+        text-align: center;
+        color: #fff;
+    }
+    &:after{
+        .triangle-right-top(@pt-media-mark-size, @ns-warning);
+        top: 0;
+        right: 0;
+        z-index: 1;
+    }
+
+}
+
+video{
+    width: 100%;
+}

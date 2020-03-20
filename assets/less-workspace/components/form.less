@@ -1,0 +1,153 @@
+@form-padding: @base-padding;
+@form-margin: @base-margin;
+@form-border: @border-color;
+@form-border-focus: darken(@border-color, 20);
+@form-font-size: @font-size-base;
+// form-control
+@form-control-height: 30px;
+@form-control-placeholder: #aaa;
+
+// label
+@form-control-label-width: 100px;
+@form-control-label-height: @form-control-height;
+
+.form {
+    font-size: @font-size-base;
+    padding: @base-padding-lg;
+
+    &+.form {
+        margin-top: @form-margin;
+    }
+
+    &.form-inline {
+        .form-item {
+            display: inline;
+
+            .radio {
+                display: inline;
+            }
+        }
+    }
+
+    .title {
+        &.subtitle {
+            padding: @base-padding-lg 0;
+            margin-top: @base-margin;
+            position: relative;
+            font-weight: bold;
+            display: block;
+            z-index: 1;
+
+            &:after {
+                position: absolute;
+                content: '';
+                top: 50%;
+                right: 0;
+                width: calc(~'100% '- 80px);
+                left: 80px;
+                height: 1px;
+                background: #ddd;
+                z-index: 9;
+            }
+        }
+    }
+
+    // 列表行模式
+    &.form-list {
+        .form-item {
+            width: 100%;
+            margin-right: 0;
+
+            .control-label {
+                float: left;
+                width: 120px;
+                text-align: right;
+                padding-right: @base-padding-lg;
+            }
+
+            .input-group {
+                width: calc(~"100%"- 120px);
+            }
+
+        }
+    }
+}
+
+.form-title {
+    font-size: 16px;
+    font-weight: bold;
+    padding: @form-padding 0;
+}
+
+// 表单组
+.form-group {
+    margin-bottom: @form-margin;
+}
+
+// 表单列表
+.form-item {
+    display: inline-block;
+    margin-bottom: @form-margin;
+    margin-right: @form-margin;
+}
+
+// label
+.control-label {
+    display: block;
+    min-height: @form-control-label-height;
+    line-height: @form-control-label-height;
+    float: left;
+    padding-right: (@form-padding / 2);
+    // font-weight: bold;
+
+}
+
+// 文本框
+.form-control {
+    display: block;
+    min-height: @form-control-height;
+    padding: 0 @form-padding;
+    line-height: 1.5;
+    background: #fff;
+    border: 1px solid @form-border;
+    font-size: @form-font-size;
+    // transition: ease-in-out all .25s;
+
+    &:hover,
+    &:focus {
+        border-color: @form-border-focus;
+        .rgba-outline-shadow(0, @primary, .1);
+    }
+
+    &::placeholder {
+        color: @form-control-placeholder;
+    }
+
+}
+
+// 文本域
+textarea.form-control {
+    height: auto;
+}
+
+// 竖版
+.form {
+    &.form-vertical {
+        width: 100%;
+
+        .form-item {
+            display: block;
+            margin-right: 0;
+
+        }
+
+        .control-label {
+            width: inherit;
+            float: none;
+        }
+
+        .form-group {
+            width: inherit;
+        }
+    }
+}

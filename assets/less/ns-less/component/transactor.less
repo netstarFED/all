@@ -1,0 +1,52 @@
+.transactor{
+	overflow: hidden;
+	// 标签组
+	.transactor-span{
+		display: block;
+		float: left;
+		height: 30px;
+		border: 1px solid @ns-border-color;
+		padding: @base-padding / 2;
+		margin-right: (@base-margin / 4);
+		background: lighten(@ns-border-color, 5%);
+
+		// 关闭
+		.fa{
+			float: right;
+			margin-right: -(@base-margin / 4);
+			padding: 0 (@base-padding / 2);
+			line-height: 20px;
+		}
+		// 标签
+		& > div{
+			float: left;
+			span{
+				padding: 0 (@base-padding / 2);
+				line-height: 18px;
+			}
+		}
+		&:hover{
+			background: lighten(@ns-border-color, 2%);
+		}
+
+	}
+	&:before{
+		left: 0 !important;
+	}
+
+	// 弹框面板
+	@transactor-panel-width: 760px;
+	@transactor-panel-hight: 360px;
+	&.component-editor-modal{
+		width: @transactor-panel-width;
+		height: @transactor-panel-hight;
+		margin: -(@transactor-panel-hight / 2) 0 0 -(@transactor-panel-width / 2);
+		 .component-editor-body{
+		 	height: 245px;
+		 }
+
+	}
+
+}
+
+	

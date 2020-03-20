@@ -1,0 +1,110 @@
+{
+    "operator":{
+        "defaultMode": {
+            "chineseName": "类型",
+            "validType": "string",
+            "toolType": "select",
+            "required":true,
+            "default":"tel",
+            "subdata": [{
+                "value":"tel",
+                "text":"电话"
+            }],
+            "help":"电话"           
+        },
+        "text": {
+            "chineseName": "按钮文字",
+            "validType": "sting",
+            "toolType": "text",
+            "default": "",
+            "help":"按钮中所显示的内容"
+        },      
+        "isKeepSelected": {
+            "chineseName": "是否行选中",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false
+        },
+        "targetField": {
+            "chineseName": "目标字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":"目标字段 （keyField）"
+        },
+        "shortcutKey": {
+            "chineseName": "快捷键",
+            "validType": "string",
+            "toolType": "text",
+            "help":"举例:ctrl+e",
+            "default":""
+        },   
+        "isInlineBtn": {
+            "chineseName": "是否行内按钮",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false        
+        }
+    },
+    "data":{
+        "sourceField": {
+            "chineseName": "来源字段",
+            "validType": "string",
+            "toolType": "text",
+            "required":""
+        },
+        "validateParams": {
+            "chineseName": "参数验证公式",
+            "validType": "object",
+            "toolType": "textarea",
+            "default":"",
+            "help":"{'customerId':客户必填'},目前只支持是否存在的验证"         
+        },
+        "isSendPageParams": {
+            "chineseName": "是否发送页面参数",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":true,
+            "help":"参数发送时是否包含页面来源参数"
+        },
+        "isSetValueToSourcePage": {
+            "chineseName": "是否对来源页面赋值",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":true,
+            "help":"是否使用API返回的数据对来源页面赋值"
+        },    
+        "matrixVariable": {
+            "chineseName": "矩阵传参",
+            "validType": "object",
+            "toolType": "textarea",
+            "default":"",
+            "help":"具体形式以API文档为主"         
+        },
+        "parameterFormat": {
+            "chineseName": "参数格式化",
+            "validType": "object",
+            "toolType": "textarea",
+            "default":"",
+            "help":"举例:{'id':'{sampleId}'}"         
+        },
+        "parameterFormatType": {
+            "chineseName": "参数格式化类型",
+            "validType": "string",
+            "toolType": "textarea",
+            "default":"add",
+            "subdata":[
+                {
+                    "value":"cover",
+                    "text":"覆盖"
+                },
+                {
+                    "value":"add",
+                    "text":"添加"
+                }
+            ],
+            "help":"所定义的参数是否会覆盖默认参数"         
+        }
+        
+    }
+}

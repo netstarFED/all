@@ -1,0 +1,658 @@
+<div class="pt-main businessdatabase">
+    <div class="pt-container">
+        <!-- 行 -->
+        <div class="pt-main-row">
+                <!-- 列 -->
+            <div class="pt-main-col" id="tree-component-standard-0">
+                <div class="pt-panel pt-tree">
+                    <div class="businessdatabase-tree-ztree layout-ztree" style="height:700px;"
+                        id="tree-tree-component-standard-0"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pt-main-col">
+            <div class="pt-panel businessdatabase-grid-component" id="mainlist-component-standard-1"></div>
+            <div class="pt-panel nav-form" id="mainlist-btn-component-standard-2"></div>
+            <div class="pt-panel businessdatabase-grid-component" id="detaillist-component-standard-1"></div>
+            <div class="pt-panel businessdatabase-grid-component" id="detaillist-component-standard-2"></div>
+            <div class="pt-panel nav-form" id="detaillist-btn-component-standard-5"></div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    //配置参数包含：
+    /*1.要填充的容器元素 id
+    2.请求的ajax链接 url
+    3.请求的参数 data
+    4.节点父id   pid
+    5.当前节点的id valueField
+    6.当前节点的名称 textField
+    7.是否是异步请求 async
+    8.返回的数据源参 dataSrc
+    9.子元素包含的children  haschildField  childrenField
+    10.是否有默认值 value
+    11.单击节点的返回函数 clickCallback
+    12.选中节点的返回函数 checkCallback
+    13.是否支持多选  isCheck
+    14.节点全称  fullnameField
+    15.请求方式 get or post
+    16.勾选父节点和子节点之间的关系 如勾选子节点的时候是否勾选父节点 isCheckParent
+    */
+    $(function () {
+        //nsLayout.init("demos-layout-tree");
+        var templateJson = {
+            package: 'nsVue.graps.product',
+            template: 'businessDataBase',
+            // title:'商品分类',
+            components: [{
+                type: 'tree',
+                id: 'tree-tree-component-standard-0',
+                //title:'商品分类',
+                idField: 'id',
+                height: 680,
+                isSearch: false,
+                ajax: {
+                    url: getRootPath() + '/public/static/assets/json/ztree/ztree4.json',
+                    dataSrc: 'rows',
+                    // data:   {parentId:0},
+                },
+                addAjax: {
+                    url: getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
+                    dataSrc: 'rows',
+                },
+                editAjax: {
+                    url: getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
+                    dataSrc: 'rows',
+                },
+                deleteAjax: {
+                    url: getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
+                    dataSrc: 'rows',
+                },
+                moveAjax: {
+                    url: getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
+                    dataSrc: 'rows',
+                },
+                textField: 'name',
+                parentField: 'parent',
+                childField: 'children',
+            }, {
+                type: 'list',
+                idField: 'id',
+                parent: 'root',
+                id: 'mainlist-component-standard-1',
+                ajax: {
+                    src: getRootPath() + '/public/static/assets/json/project-list.json', //数据源地址
+                    type: "GET", //GET POST
+                    contentType: 'application/json; charset=utf-8', //GET POST
+                    data: {}, //参数对象{id:1,page:100}
+                    //isServerMode:         true,           //是否开启服务器模式
+                    dataSrc: 'row',
+                },
+                field: [{
+                    field: 'itemName',
+                    title: '名称',
+                    width: 150,
+                    searchable: true,
+                    orderable: true,
+                    isCommon: true,
+                }, {
+                    field: 'itemCateName',
+                    title: '所属分类',
+                    searchable: true,
+                    width: 500,
+                    orderable: true,
+                }, {
+                    field: 'py',
+                    title: '拼音码',
+                    width: 200,
+                    searchable: true,
+                    orderable: true,
+                    isCommon: true,
+                }],
+            }, {
+                title: '商品明细',
+                keyField: 'GoodsPlatformVo',
+                idField: 'itemId',
+                id: "detaillist-component-standard-1",
+                type: 'list',
+                field: [{
+                    field: 'itemCode',
+                    title: '商品编号',
+                    searchable: true,
+                    width: 80
+                }, {
+                    field: 'itemName',
+                    title: '商品名称',
+                    width: 60,
+                    searchable: true,
+                }, {
+                    field: 'brifname',
+                    title: '商品简名',
+                    width: 80,
+                    searchable: true,
+                }, {
+                    field: 'spec',
+                    title: '规格',
+                    width: 80
+                }, {
+                    field: 'model',
+                    title: '型号',
+                    width: 60
+                }, {
+                    field: 'unit',
+                    title: '单位',
+                    width: 60
+                }, {
+                    field: 'weight',
+                    title: '商品重量',
+                    width: 60
+                }, {
+                    field: 'totalweight',
+                    title: '商品总重量',
+                    width: 60
+                }, {
+                    field: 'num',
+                    title: '数量',
+                    width: 60
+                }, {
+                    field: 'price',
+                    title: '单价',
+                    width: 60,
+                    footer: {
+                        type: 'sum'
+                    },
+                }, {
+                    field: 'money',
+                    title: '金额',
+                    width: 100
+                }, {
+                    field: 'state',
+                    title: '状态',
+                    width: 60
+                }, {
+                    field: 'remark',
+                    title: '备注',
+                    width: 60
+                }, {
+                    field: 'complatenum',
+                    title: '完成数量',
+                    width: 60
+                }, {
+                    field: 'fillnum',
+                    title: '补订数量',
+                    width: 60
+                }, {
+                    field: 'routprice',
+                    title: '未完成金额',
+                    width: 60
+                }, {
+                    field: 'complateprice',
+                    title: '完成金额',
+                    width: 60
+                }, {
+                    field: 'fillprice',
+                    title: '补丁金额',
+                    width: 60
+                }]
+            }, {
+                title: '商品明细',
+                keyField: 'GoodsPlatformVo',
+                idField: 'itemId',
+                id: "detaillist-component-standard-2",
+                type: 'list',
+                field: [{
+                    field: 'itemCode',
+                    title: '商品编号',
+                    searchable: true,
+                    width: 80
+                }, {
+                    field: 'itemName',
+                    title: '商品名称',
+                    width: 60,
+                    searchable: true,
+                }, {
+                    field: 'brifname',
+                    title: '商品简名',
+                    width: 80,
+                    searchable: true,
+                }, {
+                    field: 'spec',
+                    title: '规格',
+                    width: 80
+                }, {
+                    field: 'model',
+                    title: '型号',
+                    width: 60
+                }, {
+                    field: 'unit',
+                    title: '单位',
+                    width: 60
+                }, {
+                    field: 'weight',
+                    title: '商品重量',
+                    width: 60
+                }, {
+                    field: 'totalweight',
+                    title: '商品总重量',
+                    width: 60
+                }, {
+                    field: 'num',
+                    title: '数量',
+                    width: 60
+                }, {
+                    field: 'price',
+                    title: '单价',
+                    width: 60,
+                    footer: {
+                        type: 'sum'
+                    },
+                }, {
+                    field: 'money',
+                    title: '金额',
+                    width: 100
+                }, {
+                    field: 'state',
+                    title: '状态',
+                    width: 60
+                }, {
+                    field: 'remark',
+                    title: '备注',
+                    width: 60
+                }, {
+                    field: 'complatenum',
+                    title: '完成数量',
+                    width: 60
+                }, {
+                    field: 'fillnum',
+                    title: '补订数量',
+                    width: 60
+                }, {
+                    field: 'routprice',
+                    title: '未完成金额',
+                    width: 60
+                }, {
+                    field: 'complateprice',
+                    title: '完成金额',
+                    width: 60
+                }, {
+                    field: 'fillprice',
+                    title: '补丁金额',
+                    width: 60
+                }]
+            }, {
+                type: 'btns',
+                position: 'text-left',
+                id: 'mainlist-btn-component-standard-2',
+                field: [{
+                    text: '空白新增',
+                    isReturn: true,
+                    shortcutKey: 'ALT+A'
+                }, {
+                    text: '选中',
+                    isReturn: true,
+                    shortcutKey: 'ALT+S',
+                }]
+            }, {
+                type: 'btns',
+                position: 'text-left',
+                id: 'detaillist-btn-component-standard-5',
+                field: [{
+                    text: '选中并关闭',
+                    isReturn: true,
+                    shortcutKey: 'ALT+C',
+                    handler: function () {
+                        var dialogConfig = {
+                            template: 'tabFormList',
+                            package: 'nserp.sale.formtable',
+                            title: '空白新增',
+                            closeHandler: function () {},
+                            isHaveSaveAndAdd: true,
+                            readonly: false,
+                            size: "lg", //size有 lg(大) md(中) sm(小) xs(极小) fullscreen(铺满屏幕)
+                            saveData: {
+                                ajax: {
+                                    url: getRootPath() +
+                                        '/public/static/assets/json/takesample/save',
+                                    type: 'post',
+                                    dataSrc: 'modal',
+                                    data: {}
+                                }
+                            },
+                            getValueAjax: {
+                                url: getRootPath() +
+                                    '/public/static/assets/json/takesample/gjpAddData.json',
+                                type: 'post',
+                                dataSrc: 'modal',
+                                data: {}
+                            },
+                            components: [{
+                                    title: '基本信息',
+                                    type: 'vo',
+                                    idField: 'listForm',
+                                    keyField: 'root',
+                                    parent: "root",
+                                    defaultComponentWidth: "25%",
+                                    field: [{
+                                            id: 'sqid',
+                                            label: '所属分类',
+                                            type: 'text',
+                                            rules: '',
+                                            value: '',
+                                            column: 12,
+                                        },
+                                        {
+                                            id: 'sqdate',
+                                            label: '商品名称',
+                                            type: 'text',
+                                            rules: 'required',
+                                            column: 12,
+                                        },
+                                        {
+                                            id: 'id',
+                                            label: '商品编号',
+                                            type: 'text',
+                                            value: 'a710037',
+                                            column: 10,
+                                        }, {
+                                            id: 'increase',
+                                            type: 'checkbox',
+                                            textField: 'text',
+                                            valueField: 'value',
+                                            height: 45, //只能传数值
+                                            onlyshowone: true,
+                                            changeHandler: '',
+                                            subdata: [{
+                                                text: '编号递增',
+                                                value: '1',
+                                                isChecked: true,
+                                                isDisabled: false,
+                                            }],
+                                            column: 2
+                                        },
+                                        {
+                                            id: 'simplename',
+                                            label: '简名',
+                                            type: 'text',
+                                            value: '',
+                                            column: 4,
+                                        }, {
+                                            id: 'tel',
+                                            label: '拼音码',
+                                            type: 'text',
+                                            value: '',
+                                            column: 4,
+                                        },
+
+                                        {
+                                            id: 'brand',
+                                            label: '品牌',
+                                            type: 'select',
+                                            rules: '',
+                                            column: 4,
+                                            subdata: [{
+                                                    text: '第一品牌',
+                                                    value: 'zp',
+                                                },
+                                                {
+                                                    text: '第二品牌',
+                                                    value: 'pp',
+                                                },
+                                                {
+                                                    text: '第三品牌',
+                                                    value: 'sj',
+                                                    isChecked: true,
+                                                }
+                                            ]
+                                        }, {
+                                            id: 'originalplace',
+                                            label: '产地',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 4,
+                                        }, {
+                                            id: 'degree',
+                                            label: '难度系数',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 4,
+                                        },
+                                        {
+                                            id: 'standard',
+                                            label: '规格',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 4,
+                                        }, {
+                                            id: 'model',
+                                            label: '型号',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 4,
+                                        }, {
+                                            id: 'weight',
+                                            label: '重量',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 4,
+                                        },
+                                        {
+                                            id: 'length',
+                                            label: '长度',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 4,
+                                        }, {
+                                            id: 'width',
+                                            label: '宽度',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 4,
+                                        }, {
+                                            id: 'height',
+                                            label: '高度',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 4,
+                                        },
+                                        {
+                                            id: 'information',
+                                            label: '供货信息',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 6,
+                                        }, {
+                                            id: 'price',
+                                            label: '参考成本价(基本单位)',
+                                            type: 'number',
+                                            rules: '',
+                                            column: 6,
+                                        },
+                                        {
+                                            id: 'note',
+                                            label: '备注',
+                                            type: 'text',
+                                            rules: '',
+                                            column: 12,
+                                        }
+                                    ]
+                                },
+                                {
+                                    title: '售价管理',
+                                    type: 'list',
+                                    idField: 'cartypeBrand',
+                                    keyField: 'goodsPlatformCartypeVoList',
+                                    parent: "root",
+                                    flagField: 'flag',
+                                    field: [{
+                                            field: 'cartypeBrand',
+                                            title: '车型品牌',
+                                            orderable: true,
+                                            searchable: true,
+                                            width: 300
+                                        },
+                                        {
+                                            field: 'cartypeName',
+                                            title: '车型',
+                                            orderable: true,
+                                            searchable: true,
+                                        }
+                                    ]
+                                },
+                                {
+                                    title: '商品图片管理',
+                                    type: 'uploadCover',
+                                    idField: 'upload123',
+                                    keyField: 'upload',
+                                    parent: "root",
+                                    uploadAjax: {
+                                        url: getRootPath() +
+                                            "/Service/getCoverImage",
+                                        type: "",
+                                        data: {},
+                                        dataSrc: "rows"
+                                    }
+                                }
+                            ]
+                        }
+                        NetstarTemplate.templates.businessDataBaseEditor.init(
+                            dialogConfig);
+                    }
+                }, {
+                    text: '添加',
+                    isReturn: true,
+                    shortcutKey: 'ALT+R'
+                }]
+            }],
+        };
+
+        function init() {
+            var mainConfig = templateJson.components[1];
+            var treeConfig = templateJson.components[0];
+            treeConfig.clickHandler = function (data) {
+                /*
+                 *config 			容器id
+                 *treeId 			节点值
+                 *treeNode 			当前节点数据
+                 */
+            }
+            NetstarTemplate.tree.init(templateJson.components[0]);
+
+            function refreshTabListDataByAjax(data) {
+                if (typeof (data) == "undefined" || $.isEmptyObject(data)) {
+                    return;
+                }
+                var ajaxConfig = {
+                    src: getRootPath() + '/public/static/assets/json/template/withFormTableModal.json',
+                    type: 'post',
+                    data: data,
+                    dataSrc: 'modal'
+                };
+                nsVals.ajax(ajaxConfig, function (res, ajaxData) {
+                    if (res.success) {
+                        //调用ajax成功
+                        var resData = res[ajaxData.dataSrc];
+                        //如果返回的不是数组，可能是空数组
+                        if ($.isEmptyObject(resData)) {
+                            resData = {};
+                        }
+                        var listJson = {
+                            'detaillist-component-standard-2': {
+                                keyField: 'GoodsPlatformVo'
+                            }
+                        };
+                        for (var gridId in listJson) {
+                            var gridConfig = listJson[gridId];
+                            if ($.isArray(resData[gridConfig.keyField])) {
+                                NetStarGrid.resetData(resData[gridConfig.keyField], gridId);
+                            } else {
+                                NetStarGrid.resetData([], gridId);
+                            }
+                        }
+                    } else {
+                        for (var gridId in listJson) {
+                            var gridConfig = listJson[gridId];
+                            NetStarGrid.resetData([], gridId);
+                        }
+                    }
+                }, true)
+            }
+
+            function getGridConfig(_grid) {
+                var gridConfig = {
+                    id: _grid.id,
+                    type: _grid.type,
+                    idField: _grid.idField,
+                    isReadStore: false,
+                    data: {
+                        idField: _grid.idField,
+                    },
+                    columns: $.extend(true, [], _grid.field),
+                    ui: {
+                        isHaveEditDeleteBtn: false,
+                        isHaveAddBtn: true,
+                        isEditMode: false,
+                        selectMode: 'single',
+                        height: parseInt($(window).outerHeight() / 3),
+                    }
+                };
+                if (_grid.parent == 'root') {
+                    gridConfig.ui.drawHandler = function (_vueData) {
+                        var gridId = _vueData.$options.id;
+                        var rowsData = _vueData.rows;
+                        var originalRows = _vueData.originalRows;
+                        var grid = NetStarGrid.configs[gridId];
+                        if ($.isArray(rowsData)) {
+                            var selectedIndex = -1;
+                            var startI = 0;
+                            if (grid.gridConfig.data.isServerMode == false) {
+                                startI = _vueData.page.start;
+                            }
+                            for (var rowI = 0; rowI < rowsData.length; rowI++) {
+                                if (originalRows[rowI + startI]) {
+                                    //存在于原始数据中
+                                    if (rowsData[rowI].netstarSelectedFlag) {
+                                        selectedIndex = rowI;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (selectedIndex > -1) {
+                                //存在选中行的值
+                                var data = originalRows[selectedIndex + startI];
+                                refreshTabListDataByAjax(data);
+                            }
+                        }
+                    }
+                }
+                var gridAjax = _grid.ajax;
+                if (typeof (gridAjax) == "object") {
+                    nsVals.extendJSON(gridConfig.data, gridAjax);
+                }
+                return gridConfig;
+            }
+            var mainListConfig = getGridConfig(mainConfig);
+            var detailListConfig1 = getGridConfig(templateJson.components[2]);
+            var detailListConfig2 = getGridConfig(templateJson.components[3]);
+            NetStarGrid.init(mainListConfig);
+            NetStarGrid.init(detailListConfig1);
+            NetStarGrid.init(detailListConfig2);
+
+            var navJson = {
+                id: 'mainlist-btn-component-standard-2',
+                isShowTitle: false,
+                btns: templateJson.components[4].field
+            };
+            vueButtonComponent.init(navJson);
+
+            var navDetailJson = {
+                id: 'detaillist-btn-component-standard-5',
+                isShowTitle: false,
+                btns: templateJson.components[5].field
+            };
+            vueButtonComponent.init(navDetailJson);
+        }
+        init();
+    })
+</script>

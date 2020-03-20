@@ -1,0 +1,428 @@
+@landing-color: #747474;
+@landing-sub-color: #b7b7b7;
+@landing-title-color: #444b52;
+@landing-base-margin: 15px;
+
+.landing-zc {
+    padding: 0 !important;
+    background: #f6f8fa;
+    margin-left: -5px;
+    margin-right: -5px;
+    height: 100%;
+
+    .pt-main {
+        padding: 10px @landing-base-margin;
+
+        .pt-main-row {
+            .pt-main-col {
+                &:first-child {
+                    flex: 100;
+                }
+
+                &:last-child {
+                    min-width: 450px;
+                    margin-left: @landing-base-margin;
+                    flex: 1;
+                    overflow: hidden;
+                }
+
+                //每日工作计划
+
+                .panel-body {
+                    height: 293px;
+                    overflow-y: auto;
+
+                    &::-webkit-scrollbar-thumb {
+                        border-radius: 10px !important;
+                    }
+
+                    .col-md-6 {
+                        padding-left: 5px;
+                        padding-right: 0;
+
+                        &:nth-child(odd) {
+                            padding-left: 0;
+                        }
+
+
+                        .pt-block-list {
+                            border-width: 0;
+                            width: 100%;
+                            border-radius: 15px 0 0 0;
+                            border-width: 0;
+                            width: 100%;
+                            border-radius: 15px 0 0 0;
+                            margin: 0;
+                            margin-top: 5px;
+                            height: 144px;
+                            padding: 10px @landing-base-margin;
+                            padding-top: 37px;
+                            position: relative;
+
+                            &:hover {
+                                background-color: #fff;
+                            }
+
+                            .title {
+                                position: absolute;
+                                width: 107px;
+                                height: 30px;
+                                background: #267dcf;
+                                top: 0;
+                                left: 0;
+                                border-radius: 15px 0 15px 0;
+                                color: #fff;
+                                font-size: 14px;
+                                text-align: center;
+                                line-height: 30px;
+                            }
+
+                            .pt-block-content {
+                                height: 97px;
+                                overflow-y: auto;
+
+                                &::-webkit-scrollbar-thumb {
+                                    border-radius: 10px !important;
+                                }
+
+                                padding: 0;
+
+                                .pt-block-content-item {
+                                    margin-bottom: 5px;
+
+                                    &:first-child {
+                                        margin-bottom: 3px;
+                                    }
+
+                                    &:last-child {
+                                        margin-bottom: 0;
+                                    }
+
+                                    span.tag {
+                                        color: @landing-color;
+                                        font-size: 12px;
+                                        line-height: 15px;
+                                    }
+
+                                    i,
+                                    span.time {
+                                        font-size: 12px;
+                                        color: @landing-sub-color  !important;
+                                    }
+                                }
+                            }
+                        }
+
+                        &:first-child,
+                        &:nth-child(2) {
+                            .pt-block-list {
+                                margin-top: 0;
+                            }
+                        }
+                    }
+                }
+
+
+                //消息提醒
+                .panel {
+                    .panel-heading {
+                        padding: 0 0 10px 0;
+
+                        .panel-title {
+                            font-size: 16px;
+                            color: @landing-title-color;
+                        }
+
+                        .more {
+                            float: right;
+                            line-height: 2.5;
+                            cursor: pointer;
+                            color: @landing-color;
+
+                            .icon-arrow-up-bold-o {
+                                margin-left: 5px;
+
+                                &:before {
+                                    transform: rotate(90deg);
+                                    display: inline-block !important;
+                                }
+                            }
+                        }
+                    }
+
+                    .panel-body {
+                        &.panel-list {
+                            background-color: #fff;
+                            border-radius: 0;
+                            height: 293px;
+                            overflow-y: auto;
+
+                            &::-webkit-scrollbar-thumb {
+                                border-radius: 10px !important;
+                            }
+                        }
+
+                        .list-group {
+                            padding: 0;
+
+                            a.list-group-item {
+                                display: table;
+                                width: 100%;
+                                border-width: 0;
+                                padding: 12px 15px 0 15px;
+
+                                &:hover {
+                                    background-color: transparent;
+                                }
+
+
+                                .badge,
+                                div {
+                                    float: left;
+                                }
+
+                                .badge {
+                                    width: 24px;
+                                    height: 24px;
+                                    text-align: center;
+                                    line-height: 24px;
+                                    color: #ffa004;
+                                    font-size: 14px;
+                                    margin-right: 10px;
+                                    background-color: #f5f5f7;
+                                    font-weight: normal;
+                                    padding: 0;
+                                    border-radius: 4px;
+                                }
+
+                                .list-group-item-content {
+                                    width: calc(~'100% -'40px);
+                                }
+
+                                .list-group-item-heading {
+                                    color: @landing-color;
+                                    line-height: 17px;
+                                    margin-bottom: 5px;
+                                }
+
+                                .list-group-item-text {
+                                    color: @landing-sub-color;
+
+                                    font-size: 12px;
+                                }
+
+                                &hover,
+                                &.active {
+                                    background-color: transparent;
+                                    color: ;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //流程和待办任务
+            &.pt-main-row-tab {
+                background-color: #fff;
+
+                .pt-main-col:last-child {
+                    margin: 0;
+                }
+
+                .pt-tab-noboder {
+                    .pt-tab-header {
+                        margin-bottom: 10px;
+                        margin-top: 10px;
+
+                        .pt-nav {
+                            min-height: 40px;
+                            padding: 0 @landing-base-margin;
+
+                            ul {
+
+                                .pt-nav-item {
+                                    height: auto;
+
+                                    a {
+                                        font-size: 16px;
+                                        padding: 0 40px;
+                                        color: #686661;
+                                        line-height: 37px;
+                                    }
+
+                                    &.current {
+                                        a {
+                                            color: #000;
+                                            border-bottom: 3px solid @warning  !important;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .pt-tab-body {
+                        overflow: hidden;
+                        padding: 10px @landing-base-margin;
+                        // overflow-y: auto;
+
+
+                        // &::-webkit-scrollbar-thumb {
+                        //     border-radius: 10px !important;
+                        // }
+
+
+                        // 待办任务列表
+                        .pt-tab-content {
+                            .pt-block-list {
+                                height: 105px;
+                                background-color: transparent;
+
+                                .pt-block-content {
+                                    border: 1px solid #dadada;
+                                    box-shadow: none;
+                                    height: 86px;
+                                    padding: 18px 18px 22px 65px;
+
+                                    &:before {
+                                        margin-top: -32px;
+                                    }
+                                }
+                            }
+                        }
+
+                        //我发起的流程
+                        .pt-grid-body-head,
+                        .pt-grid-body-container {
+                            border: transparent;
+                        }
+
+                        .nsgrid-zc {
+                            table.pt-grid {
+                                tbody {
+                                    tr {
+                                        // position: relative;
+                                        // padding-left: 50px;
+
+                                        // &:before {
+                                        //     position: absolute;
+                                        //     top: 0;
+                                        //     left: 0;
+                                        //     width: 32px;
+                                        //     height: 32px;
+                                        //     border-radius: 16px;
+                                        //     background-color: @warning;
+                                        //     display: inline-block;
+                                        //     line-height: 32px;
+                                        //     text-align: center;
+                                        //     margin-right: 15px;
+                                        //     vertical-align: middle;
+                                        //     font-size: 20px;
+                                        //     color: #fff;
+                                        //     line-height: 32px;
+                                        //     font-family: 'iconmoon';
+                                        //     content: "\ea44";
+                                        // }
+
+                                        td {
+
+                                            border: transparent;
+                                            height: 39px;
+                                            line-height: 39px;
+                                            background-color: #fff;
+                                            padding: 0;
+                                            padding-left: @landing-base-margin;
+                                            border-bottom: 1px solid#ececec;
+
+                                            &:first-child {
+                                                text-align: left;
+                                            }
+
+                                            &.text {
+                                                font-size: 12px;
+                                                columns: #231d13;
+                                            }
+
+                                            &.btns {
+                                                color: #a8a8b0;
+                                            }
+
+
+                                            &.thead-th {
+                                                height: 40px;
+                                                line-height: 40px;
+                                                background-color: #fef8f5;
+                                                border: none;
+
+                                                &.text,
+                                                &.date {
+                                                    color: #a8a8b0;
+                                                    font-size: 12px;
+                                                }
+
+                                                &.btns {
+                                                    text-align: center;
+                                                }
+
+                                            }
+
+                                            .rowbtns {
+                                                text-align: center;
+
+                                                .pt-btn {
+                                                    margin-right: @landing-base-margin;
+                                                    border-radius: 3px;
+                                                    background-color: lighten(@warning, 42%);
+                                                    display: inline-block;
+                                                    text-align: center;
+                                                    vertical-align: middle;
+
+                                                    i {
+                                                        font-size: 14px;
+                                                        color: @warning;
+                                                    }
+
+                                                    &:last-child {
+                                                        margin-right: 0;
+                                                    }
+
+                                                    // span {
+                                                    //     color: @warning;
+                                                    //     display: inline-block;
+                                                    //     line-height: 24px;
+                                                    //     font-size: 14px;
+                                                    // }
+
+                                                    &:hover {
+                                                        background-color: lighten(@warning, 10%);
+                                                        text-decoration: none;
+
+                                                        i {
+                                                            color: #fff;
+                                                            text-decoration: none;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
+                            }
+                        }
+
+                        //页码翻页
+                        .pt-grid-footer {
+                            border: none;
+
+                            .pt-pager {}
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

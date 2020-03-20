@@ -1,0 +1,53 @@
+@border-radius-sm: 3px;
+@border-radius-md: 10px;
+@border-radius-circle: 100em;
+
+.border-radius-variant(@radius) {
+    border-radius: @radius;
+}
+
+// top
+.border-radius-top-variant(@radius) {
+    border-radius: @radius @radius 0 0;
+}
+
+// right
+.border-radius-right-variant(@radius) {
+    border-radius: 0 @radius @radius 0;
+}
+
+// bottom
+.border-radius-bottom-variant(@radius) {
+    border-radius: 0 0 @radius @radius;
+}
+
+// left
+.border-radius-left-variant(@radius) {
+    border-radius: @radius 0 0 @radius;
+}
+
+// odd 奇数 (top & bottom)
+.border-radius-odd-variant(@radius) {
+    border-radius: @radius 0 @radius 0;
+}
+
+// even 偶数 (right & left)
+.border-radius-even-variant(@radius) {
+    border-radius: @radius 0 @radius 0;
+}
+
+
+// 圆角-sm
+.border-radius-sm {
+    .border-radius-variant(@border-radius-sm);
+}
+
+// 圆角-md
+.border-radius-md {
+    .border-radius-variant(@border-radius-md);
+}
+
+// 圆形
+.border-radius-circle {
+    .border-radius-variant(@border-radius-circle);
+}

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网星工作台-公司认证</title>
+    <!--#include file="public/htmlhead.html"-->
+</head>
+
+<body>
+    <!-- 头部内容 -->
+    <div class="contianer-fluid">
+        <div class="row">
+            <!--#include file="public/header.html"-->
+        </div>
+    </div>
+    <!-- 内容部分 -->
+    <div class="container" id="componeyAttestation">
+        <div class="row">
+            <div class="main">
+                <div class="main-row">
+                    <!-- 页面左侧内容 -->
+                    <div class="main-col">
+                        <!-- 用户信息 -->
+                        <div class="panel">
+                            <!--#include file="public/user-info.html"-->
+                        </div>
+                        <!-- 左侧导航 -->
+                        <div class="panel">
+                            <!--#include file="public/nav.html"-->
+                        </div>
+                    </div>
+                    <div class="main-col">
+                        <!-- 公司认证 -->
+                        <div class="panel">
+                            <div class="panel-header">
+                                <div class="title">
+                                    <span>公司认证</span>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <!-- 表单 -->
+                                <div class="form form-list">
+                                    <!-- <form action=""> -->
+                                    <el-form ref="form" :model="form" label-width="90px">
+
+                                        <!-- 基础信息 -->
+                                        <div class="title subtitle">
+                                            <span>基础信息</span>
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <div class="form-item">
+                                                <label for="" class="control-label">所属行业</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default btn-icon">
+                                                            <i class="icon-arrow-down-o"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">公司规模</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default btn-icon">
+                                                            <i class="icon-arrow-down-o"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">区域</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default btn-icon">
+                                                            <i class="icon-arrow-down-o"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">详细地址</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <el-form-item label="所属行业">
+                                            <el-select v-model="form.trade" placeholder="请选择所属行业" style="width:100%">
+                                                <el-option v-for="(item,index) in tradeList" :label="item.dictKeyName"
+                                                    :value="item.dictKeyValue"></el-option>
+
+                                            </el-select>
+                                        </el-form-item>
+                                        <el-form-item label="公司规模">
+                                            <el-select v-model="form.scale" placeholder="请选择公司规模" style="width:100%">
+                                                <el-option v-for="(item,index) in scaleList" :label="item.dictKeyName"
+                                                    :value="item.dictKeyValue"></el-option>
+                                            </el-select>
+                                        </el-form-item>
+                                        <el-form-item label="区域" prop="selectedOptions">
+                                            <el-cascader :options="options" v-model="selectedOptions"
+                                                @change="handleChangeData" :separator="' '" style="width:100%">
+                                            </el-cascader>
+                                        </el-form-item>
+                                        <el-form-item label="详细地址">
+                                            <el-input v-model="form.address"></el-input>
+                                        </el-form-item>
+                                        <!-- 联系人 -->
+                                        <div class="title subtitle">
+                                            <span>联系人</span>
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <div class="form-item">
+                                                <label for="" class="control-label">姓名</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">手机</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">短信验证</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-default">
+                                                            <span>获取验证码</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">邮箱</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <el-form-item label="姓名">
+                                            <el-input v-model="form.userName"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="手机">
+                                            <el-input v-model="form.phone"></el-input>
+                                        </el-form-item>
+                                        <div class="form-item">
+                                            <label for="" class="control-label">短信验证</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder=""
+                                                    v-model="form.phoneCode">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-primary btn-outline">
+                                                        <span>获取验证码</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <el-form-item label="邮箱">
+                                            <el-input v-model="form.email"></el-input>
+                                        </el-form-item>
+                                        <!-- 认证信息 -->
+                                        <div class="title subtitle">
+                                            <span>认证信息</span>
+                                        </div>
+                                        <el-form-item label="企业类型">
+                                            <el-radio-group v-model="form.companyType">
+                                                <el-radio label="0">企业</el-radio>
+                                                <el-radio label="1">个体商户</el-radio>
+                                                <el-radio label="2">个人</el-radio>
+                                                <el-radio label="3">其他</el-radio>
+                                            </el-radio-group>
+                                        </el-form-item>
+                                        <el-form-item label="企业名称">
+                                            <el-input v-model="form.companyName"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="社会信用码">
+                                            <el-input v-model="form.socialCode"></el-input>
+                                        </el-form-item>
+                                        <!-- 上传图片 -->
+                                        <div class="form-item form-image-upload">
+                                            <label for="" class="control-label">营业执照</label>
+                                            <div class="image-upload">
+                                                <input type="file" class="form-control" @change="files($event)">
+                                                <div class="image-place">
+                                                    <img :src="picUrl">
+                                                </div>
+                                                <div class="upload-text">
+                                                    <p>1.支持图片格式：JPG(JPEG), PNG</p>
+                                                    <p>2.图片文件大小：小于10MB</p>
+                                                    <p>3.保证图片清晰，营业执照图像文字信息完整且尽量沾满图片的部分</p>
+                                                    <p>4.若拍摄营业执照，营业执照尽量平放于纯色背景之上名，例如(纯色桌面之上)</p>
+                                                    <p>5.黑白、彩色均可，尽量提供彩色营业执照图片</p>
+                                                </div>
+                                                <a class="btn btn-primary btn-outline" href="##" @click="uploadPic()">
+                                                    <span>上传</span>
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <div class="form-item">
+                                                <label for="" class="control-label">企业类型</label>
+
+                                                <div class="radio">
+                                                    <label class="radio-item">
+                                                        <input type="radio" name="optionsRadios" id="optionsRadios1"
+                                                            value="option1" checked>
+                                                        <span>企业</span>
+                                                    </label>
+                                                    <label class="radio-item">
+                                                        <input type="radio" name="optionsRadios" id="optionsRadios2"
+                                                            value="option2">
+                                                        <span>个体商户</span>
+                                                    </label>
+                                                    <label class="radio-item">
+                                                        <input type="radio" name="optionsRadios" id="optionsRadios3"
+                                                            value="option3">
+                                                        <span>个人</span>
+                                                    </label>
+                                                    <label class="radio-item">
+                                                        <input type="radio" name="optionsRadios" id="optionsRadios4"
+                                                            value="option4">
+                                                        <span>其他</span>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">企业名称</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <label for="" class="control-label">社会信用码</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-item form-image-upload">
+                                                <label for="" class="control-label">营业执照</label>
+                                                <div class="image-upload">
+                                                    <input type="fill" class="form-control" disabled>
+                                                    <div class="image-place"></div>
+                                                    <div class="upload-text">
+                                                        <p>1.支持图片格式：JPG(JPEG), PNG</p>
+                                                        <p>2.图片文件大小：小于10MB</p>
+                                                        <p>3.保证图片清晰，营业执照图像文字信息完整且尽量沾满图片的部分</p>
+                                                        <p>4.若拍摄营业执照，营业执照尽量平放于纯色背景之上名，例如(纯色桌面之上)</p>
+                                                        <p>5.黑白、彩色均可，尽量提供彩色营业执照图片</p>
+                                                    </div>
+                                                    <button class="btn btn-default btn-outline">
+                                                        <span>上传</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                    </el-form>
+
+                                    <!-- </form> -->
+
+                                    <button class="btn btn-primary btn-lg" @click="submit()">
+                                        <span>保存</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var componeyAttestation = new Vue({
+        el: "#componeyAttestation",
+        data: {
+            // companyName:"",
+            pathPreffix:"https://qaapi.wangxingcloud.com/",
+            form: {
+                companyName: '', // 企业名称
+                companyType: "0", // 企业类型
+                trade: '', // 所属行业
+                scale: '', // 企业规模
+                region: '', // 区域
+                address: '', // 详细地址
+                userName: '', // 姓名
+                phoneCode: '', // 短信验证码
+                phone: "", // 手机
+                email: '', // 邮箱
+                socialCode: '', // 社会信用码
+                fileId:""        //图片Id
+            },
+            picUrl:"",          // 图片地址
+            picId:"",           // 未上传图片Id   
+            tradeList: [],
+            scaleList: [],
+            selectedOptions: [], //存放默认值
+            options: options, //存放城市数据也就是显示出来
+            dialogImageUrl: '',
+            dialogVisible: false,
+            disabled: false,
+            binary:"",        // 图片binary
+        },
+        created() {
+            var tradeList = store.get('MyServiceUserInfo').dicts["CRM_INDUSTRY"].dictValueList;
+            var scaleList = store.get('MyServiceUserInfo').dicts["CRM_SCALE"].dictValueList;
+            this.tradeList = tradeList;
+            this.scaleList = scaleList;
+        },
+        methods: {
+            // 保存
+            submit() {
+                var _this = this
+                console.log(_this.form);
+                _this.getSaveCompanyAttestationInterface(_this.form)
+            },
+            // 调用公司认证接口
+            getSaveCompanyAttestationInterface(param) {
+                var _this = this
+                var obj = {
+                    processId:"1327665309208806386",  //流程id，传固定值
+                    industryId: param.trade,          //所属行业
+                    scaleId: param.scale,             //规模
+                    area:param.region,                //区域，省市区code
+                    address:param.address,            //详细地址
+                    contactor:param.userName,         //联系人
+                    phoneNo:param.phone,              //手机号
+                    email:param.email,                //邮箱
+                    kinds: param.companyType,         //企业类型
+                    orgName: param.companyName,       //企业名称
+                    uscc: param.socialCode,           //社会信用码
+                    fileId: param.fileId,             //上传图片的id
+                    objectState:0,                    //保存标识 
+                    identifiedState: 0,               //认证标记，初次认证为0，后面修改的时候后台返回什么就传什么
+                }
+                $.ajax({
+                    url: _this.pathPreffix + "/system/orgInfos/save",
+                    type: "post",
+                    data: JSON.stringify(obj),
+                    headers: {
+                        "content-type": "application/json",
+                        authorization: NetStarUtils.OAuthCode.get()
+                    },
+                    success: function (res) {
+                        console.log(res)
+                    }
+                })
+            },
+            // 上传图片
+            files(e){
+                var _this = this;
+                var fileInput = e.target.files;
+                var formData = new FormData();
+                for (var i = 0; i < fileInput.length; i++) {
+                    var item = fileInput[i];
+                    formData.append('files', item, item.name);
+                }
+                _this.getPicId(formData);
+            },
+            getPicId(formData){
+                var _this = this;
+                $.ajax({
+                    url:_this.pathPreffix + "/files/uploadList",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false, //默认为true，默认情况下，发送的数据将被转换为对象，设为false不希望进行转换
+                    headers: {
+                        authorization: NetStarUtils.OAuthCode.get()
+                    },
+                    success: function(res) {
+                        // console.log("请求返回success信息data：", data);
+                        var picId = res.rows[0].id;
+                        _this.picId = picId;
+                    }	
+                })
+            },
+            // 触发三级联动 我们这是需要传字符串所以需要把数组转为字符串并用"/"间隔
+            handleChangeData(value) {
+                var region = value.join("/");
+                this.form.region = region; //获取到城市地址
+            },
+
+            // 上传图片
+            uploadPic() {
+                var _this = this;
+                var picId = _this.picId;
+                _this.picUrl =  _this.pathPreffix + '/files/images/' + picId;
+                _this.form.fileId = picId;
+            }
+        },
+    })
+</script>
+
+</html>

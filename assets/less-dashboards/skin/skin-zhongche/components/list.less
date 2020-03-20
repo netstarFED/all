@@ -1,0 +1,48 @@
+@list-color: #fff;
+@list-padding: @base-padding;
+@list-item-padding-v: (@list-padding / 2);
+@list-item-padding-h: @list-padding;
+@list-gutter: @base-margin;
+
+.list {
+    .list-group {
+        .list-item {
+            padding: @list-item-padding-v 0;
+
+            &+.list-item {
+                border-top: 0;
+            }
+
+            span {
+                &+.state {
+                    margin-left: @list-gutter;
+                }
+            }
+
+            .state {
+                flex: none;
+
+                &+span {
+                    margin-left: @list-gutter;
+                }
+            }
+
+            .list-text {
+                color: #fff;
+            }
+        }
+    }
+}
+
+// 屏幕宽度小于Full-HD(1920)less样式
+@media screen and (max-width: @screen-hd) {}
+
+// 屏幕宽度在大于Full-HD(1920)和小于2k(2560)之间less样式
+@media screen and (min-width: 1921px) and (max-width: @screen-2k) {}
+
+// 屏幕宽度在大于2k(2560)less样式
+@media screen and (min-width: 2561px) {
+    .list .list-group .list-text.list-text-title {
+        font-size: 1rem;
+    }
+}

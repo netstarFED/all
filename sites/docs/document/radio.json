@@ -1,0 +1,346 @@
+{
+    "operator": {
+        "type": {
+            "chineseName": "组件类型",
+            "validType": "string",
+            "toolType": "select",
+            "default": "radio",
+            "required": true,
+            "subdata": [{
+                "value": "radio",
+                "text": "单选"
+            }]
+        },
+        "id": {
+            "chineseName": "字段名称",
+            "validType": "string",
+            "toolType": "text",
+            "required": true
+        },
+        "label": {
+            "chineseName": "标签",
+            "validType": "string",
+            "toolType": "text",
+            "default": ""
+        },
+        "value":{
+            "chineseName":"默认显示值",
+            "validType":"string",
+            "toolType":"text",
+            "default":""      
+        },
+        "inputWidth":{
+            "chineseName":"文本框宽度",
+            "validType":"number",
+            "toolType":"text",
+            "default":100,
+            "help":""
+        },          
+        "width":{
+            "chineseName":"组件宽度（%）",
+            "validType":"string",
+            "toolType":"text",
+            "default":100,
+            "help":"可以输入百分比：如70%"
+        }, 
+        "rules": {
+            "chineseName": "验证规则",
+            "validType": "string",
+            "toolType": "multi-select",
+            "subdata": [{
+                "value": "required",
+                "text": "必填"
+            }, {
+                "value": "",
+                "text": "无验证"
+            }]
+        },
+        "disabled": {
+            "chineseName": "只读",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "hidden": {
+            "chineseName": "隐藏",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false
+        },
+        "isHasClose": {
+            "chineseName": "清除按钮",
+            "validType": "boolean",
+            "toolType": "check",
+            "default": false,
+            "help":"是否可以清除输入框内容"
+        },
+        "subdata":{
+            "chineseName": "下拉选择",
+            "validType": "array",
+            "toolType": "textarea",
+            "default": [],
+            "help":"格式：[{id:1,name:'女'}]"
+        },
+        "searchMode":{
+            "chineseName": "搜索",
+            "validType": "string",
+            "toolType": "select",
+            "subdata":[
+                {
+                    "value":"client",
+                    "name":"client"
+                },
+                {
+                    "value":"server",
+                    "name":"server"
+                },
+                {
+                    "value":"none",
+                    "name":"none"
+                }
+            ],
+            "default": "",
+            "help":""
+        },
+        "searchName":{
+            "chineseName": "搜索名",
+            "validType": "string",
+            "toolType": "text",
+            "default": "",
+            "help":""
+        },
+        "isDistinct": {
+            "chineseName": "是否有排重字段",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false,
+            "help":""
+        },
+        "distinctField": {
+            "chineseName": "排重字段",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "placeholder": {
+            "chineseName": "placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "gridPlaceholder": {
+            "chineseName": "表格placeholder",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":""
+        },
+        "changeHandler": {
+            "validType": "function",
+            "toolType": "textarea",
+            "chineseName": "值改变方法"
+        }
+    },
+    "data": {
+        "ajax": {
+            "chineseName": "ajax",
+            "validType": "object",
+            "toolType": "ajaxEditor"
+        },
+        "textField":{
+            "chineseName":"显示字段",
+            "validType":"string",
+            "toolType":"text",
+            "default":"text",
+            "required":true,
+            "help":"下拉框显示字段"
+        },
+        "valueField":{
+            "chineseName":"保存值",
+            "required":true,
+            "validType":"string",
+            "toolType":"text",
+            "default":"value",
+            "help":"服务器接受到的返回值"
+        },
+        "relationField": {
+            "chineseName": "关联字段",
+            "validType": "string",
+            "toolType": "text",
+            "default": "",
+            "help":"举例：\"customerContacterId,addressTo\""
+        },
+        "outputFields":{
+            "chineseName": "输出数据",
+            "validType": "object",
+            "toolType": "textarea",
+            "help":"弹出模板时需要" 
+        },
+        "isObjectValue": {
+            "chineseName": "是否返回list",
+            "validType": "string",
+            "toolType": "check",
+            "default": false,
+            "help":"服务器端默认返回ids,使用此功能则返回数组"
+        },
+        "defaultSelectedIndex": {
+            "chineseName": "默认选择",
+            "validType": "string",
+            "toolType": "text",
+            "default": "",
+            "help":""
+        },
+        "changeHandlerData": {
+            "chineseName": "关联字段",
+            "validType": "array",
+            "toolType": "textarea",
+            "default": "",
+            "help":""
+        },
+        "total": {
+            "chineseName": "表达式",
+            "validType": "object",
+            "toolType": "textarea",
+            "default": "",
+            "help":""
+        },
+        "valueExpression": {
+            "chineseName": "value表达式",
+            "validType": "string",
+            "toolType": "text",
+            "default":"",
+            "help":" 通过表达式设置value值  {page.**}"
+        }
+    },
+    "prepattern": [
+        {
+            "name": "显示的值",
+            "value": {
+                "id": "valueradio",
+                "label": "显示 :",
+                "type": "radio",
+                "rules": "",
+                "value": "1",
+                "textField": "name",
+                "valueField": "id",
+                "subdata": [{
+                    "id": "1",
+                    "name": "男"
+                }, {
+                    "id": "2",
+                    "name": "女"
+                }, {
+                    "id": "3",
+                    "name": "其它"
+                }]
+            }
+        },
+        {
+            "name": "只读",
+            "value": {
+                "id": "disabled",
+                "label": "只读 :",
+                "type": "radio",
+                "value": "1",
+                "textField": "name",
+                "valueField": "id",
+                "subdata": [{
+                    "id": "1",
+                    "name": "男"
+                }, {
+                    "id": "2",
+                    "name": "女"
+                }, {
+                    "id": "3",
+                    "name": "其它"
+                }],
+               "disabled": true
+            }
+        },
+        {
+            "name": "单选多选",
+            "value": {
+                "id": "selectMode",
+                "label": "多选 :",
+                "type": "radio",
+                "value": "1",
+                "textField": "name",
+                "valueField": "id",
+                "subdata": [{
+                    "id": "1",
+                    "name": "男"
+                }, {
+                    "id": "2",
+                    "name": "女"
+                }, {
+                    "id": "3",
+                    "name": "其它"
+                }],
+                "selectMode": "multi"
+            }
+        },
+        {
+            "name": "用subdata获取数据",
+            "value": {
+                "id": "subdata",
+                "label": "subdata传出:",
+                "type": "radio",
+                "value": "1",
+                "textField": "name",
+                "valueField": "id",
+                "subdata": [{
+                    "id": "1",
+                    "name": "男"
+                }, {
+                    "id": "2",
+                    "name": "女"
+                }, {
+                    "id": "3",
+                    "name": "其它"
+                }]
+            }
+        },
+        {
+            "name": "用ajax获取数据",
+            "value": {
+                "id": "ajax",
+                "label": "ajax传出:",
+                "type": "radio",
+                "value": "1",
+                "textField": "name",
+                "valueField": "id",
+                "ajaxConfig": {
+                    "url": "/docs/data/select/radio.json",
+                    "type": "GET",
+                    "contentType": "application/x-www-form-urlencoded",
+                    "dataSrc": "rows"
+                }
+            }
+        },
+        {
+            "name": "是否有清楚按钮",
+            "value": {
+                "id": "isHasClose",
+                "label": "清除按钮:",
+                "type": "radio",
+                "value": "1",
+                "textField": "name",
+                "valueField": "id",
+                "subdata": [{
+                    "id": "1",
+                    "name": "男"
+                }, {
+                    "id": "2",
+                    "name": "女"
+                }, {
+                    "id": "3",
+                    "name": "其它"
+                }],
+                "isHasClose":true 
+            }
+        }
+        
+    ]
+}
