@@ -886,7 +886,14 @@ pageProperty.getAndCachePage = function(pageConfig){
 			// ajax success
 
 			function getStrParas(url){
-				var paraStr = url.substr(url.indexOf('?') + 1);
+				var paraStr = '';
+				if(url.indexOf('?') > -1){
+					paraStr = url.substr(url.indexOf('?') + 1);
+				}else{
+					if(url.indexOf(';') > -1){
+						paraStr = url.substr(url.indexOf(';') + 1);
+					}
+				}
 				var paraArr = paraStr.split('&');
 				var paraObj = {};
 				for (var paraI = 0; paraI < paraArr.length; paraI++) {
