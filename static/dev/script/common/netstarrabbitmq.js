@@ -471,6 +471,11 @@ var NetStarRabbitMQ = (function(){
     var printSubscribeManage = {
         // 发送消息
         send : function(printUserId, message){
+            if(typeof(printSubscribeManage.config) != "object"){
+                nsAlert('没有找到队列名因此不发送消息，请检查token', 'error');
+                console.error('没有找到队列名因此不发送消息，请检查token');
+                return false;
+            }
             var content = printSubscribeManage.config.content;
             var sendUrl = printSubscribeManage.config.sendUrl;
             var client = NetStarRabbitMQ.client;
@@ -481,28 +486,30 @@ var NetStarRabbitMQ = (function(){
         subscribe: function(){
             var xQueueName;
             var token = NetStarRabbitMQ.content['x-queue-name'];
-            var tokenArr = token.split('.');
-            var tokenInfoStr = tokenArr[1];
-            if(typeof(tokenInfoStr) == "undefined"){
-                return false;
-            }
-            var deTokenInfoStr = NetStarUtils.Base64.decode(tokenInfoStr);
-            // deTokenInfoStr = deTokenInfoStr.substring(0, deTokenInfoStr.lastIndexOf('}')+1);
 
-            // var tokenInfoObj = JSON.parse(deTokenInfoStr);
-            var tokenInfoObj = {};
-            var deTokenInfoStrArr = deTokenInfoStr.split('\"queue\":\"');
-            if(deTokenInfoStrArr.length == 2){
-                tokenInfoObj.queue = deTokenInfoStrArr[1].substring(0, deTokenInfoStrArr[1].indexOf('\"'));
+            /***
+             * token 使用base64URL 解析后是三段 
+             * header : 加密说明 {"typ":"JWT","alg":"HS256"}
+             * payload: 消息体 {"clientIp":"10.10.10.150","refreshTime":1583735580661,"iss":"netstar","sessionId":"1328593805976273910","userName":"erp企业版!#%_&@erp","tokenType":"USER","exp":1583656380,"userId":"1310230809667459058","iat":1583649180,"queue":"8c2903fb-870b-4bf1-acdd-ac4c6967aa0d"}
+             * 签名 显示出来是乱码 这段乱码需要解析后处理，提前处理会导致某些情况或字符情况下出现不可见字符，解析出问题
+             */
+            var xQueueName = '';
+            try {
+                var tokenStr = NetStarUtils.base64Safe.urlsafe_decode(NetStarUtils.OAuthCode.get()); //
+                tokenStr = tokenStr.substr(tokenStr.indexOf('}{')+1);
+                tokenStr = tokenStr.substr(0, tokenStr.indexOf('}')+1);
+
+                var tokenInfoJson = JSON.parse(tokenStr);
+                xQueueName = tokenInfoJson.queue;
+            } catch (error) {
+                nsAlert('rabbitMQ订阅失败，无法从token中找到队列名', 'error');
+                console.error('没有找到队列名', error);
             }
-            if(typeof(tokenInfoObj.queue) != "undefined"){
-                xQueueName = tokenInfoObj.queue;
-            }
-            if(typeof(xQueueName) == "undefined"){
-                nsAlert('没有找到队列名', 'error');
-                console.error('没有找到队列名');
+            
+            if(tokenStr == ''){
                 return false;
             }
+
             var toporgId = NetStarRabbitMQ.toporgId;
             var userId = NetStarRabbitMQ.userId;
             if(!toporgId || !userId){
