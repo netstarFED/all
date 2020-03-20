@@ -11,20 +11,27 @@ var showModule = {
     components:[],
     pageField:[],
     currentPanel:{},
+
     // 初始化
-    init:function(pageConfig,isShowMask,indexObj){
+    init:function(config,isShowMask,indexObj){
         var showMask = isShowMask;
-        // var pageConfig = config.pageConfig;
-        console.log(config);
+        var pageConfig = "";
+        if(config.clickNodeEndHandler){
+            pageConfig = config.pageConfig;
+            showModule.controller.openEditByPosition = config.clickNodeEndHandler;
+        }else{
+            pageConfig = config;
+        }
+        // console.log(config);
         showModule.model.getBaseData(pageConfig,function(res){
             console.log("我要的数据",res);
-            setTimeout(()=>{
+            // setTimeout(()=>{
                 showModule.controller.drawBorderHtml(showMask);
                 if(showMask && indexObj){
                     showModule.controller.findDom(indexObj)
                 }
                 
-            },300);
+            // },300);
         });
         
     },
@@ -102,7 +109,7 @@ var showModule = {
                     var type = data[i];
                     var panelFieldsArr = type.panelField;
                     var domSizePlace = _this.getDomSizePlace($("#" + type.panelId))
-                    $(".mask").append($(showModule.view.panelHtml({type:type.panelName,typeIndex:i})).css(domSizePlace));
+                    $(".mask").append($(showModule.view.panelHtml({type:"template",typeIndex:i})).css(domSizePlace));
                     for(var j = 0,len1 = panelFieldsArr.length; j < len1; j ++){
                         var panelField = panelFieldsArr[j];
                         var obj = {info:showModule.components[i].field[j]};
@@ -141,37 +148,8 @@ var showModule = {
             var obj = {};
             Object.assign(obj,currentClickPanel,info)
             showModule.currentPanel = obj;
-            var sendObj = {
-                id: "list-2",
-                name: "表格-2",
-                type: "list",
-                level: 1,
-                parentId: "template",
-                isParent: false,
-            };
-            console.log("当前点击的面板",showModule.currentPanel)
-        },
-        // 字段转换(对接lyw字段)
-        fieldTransform(obj){
-            var sendObj = {}
-            if(obj.fieldIndex == undefined){
-                sendObj.id = obj.type + "-" + obj.typeIndex;
-                sendObj.name = "-" + obj.typeIndex;
-                sendObj.type = obj.type;
-                sendObj.level = 1;
-                sendObj.parentId = "template";
-                sendObj.isParent = false;
-            }else{
-                sendObj.index = obj.fieldIndex;
-                sendObj.value = obj.info;
-                sendObj.chnName = obj.info.chineseName;
-                sendObj.enName = obj.info.englishName;
-                sendObj.componentType = obj.type;
-                sendObj.name = obj.panelField;
-                sendObj.fullName = sendObj.componentType + "-" + obj.panelField;
-                sendObj.panelType = obj.info.type;
-
-            }
+            showModule.controller.openEditByPosition(showModule.currentPanel);
+            // console.log("当前点击的面板",showModule.currentPanel)
         },
         // 根据点击的面板寻找components中对应的面板
         findsCptPanel(currentClickPanel){
