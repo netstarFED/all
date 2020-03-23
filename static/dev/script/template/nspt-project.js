@@ -4601,7 +4601,8 @@ function initFunction(businessObj, controllerObj){
 					fileIds : printInfos[i].fileIds,
 					printerId : printInfos[i].id,
 					printType : printInfos[i].type,
-					paperType : "1",
+					// paperType : "1",
+					paperType : printInfos[i].defaultPaperType,
 					page : page,
 					copies : pageLength,
 					layout : layout,
@@ -5066,7 +5067,8 @@ function initFunction(businessObj, controllerObj){
 						outputFields : {
 							id : "{id}",
 							userId : "{userId}",
-							type : "{type}"
+							type : "{type}",
+							defaultPaperType : "{defaultPaperType}",
 						},
 						// isObjectValue:true,
 						listExpression: '<li class="pt-list-table">'
