@@ -116,7 +116,7 @@ var showModule = {
                         var obj1 = {type:type.panelName,panelField:panelField,typeIndex:i,fieldIndex:j};
                         var domFieldSizePlace = _this.getDomSizePlace($("#" + type.panelId + " " + '[ns-field=' + panelField + ']'))
                         $(".mask").append($(showModule.view.panelFieldHtml(obj1)).css(domFieldSizePlace));
-                    }
+                    };
                 }
             }else{
                 $(".mask").remove();
