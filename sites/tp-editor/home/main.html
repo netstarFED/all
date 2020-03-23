@@ -780,6 +780,15 @@
                     $('.editor-landing').addClass('hide');
                 },
                 clickNodeHandler : function(node, config){
+                    var showModuleParam = {};
+                    showModuleParam.pageConfig = config.pageConfig;
+                    showModuleParam.isShowMask = true;
+                    if(node.componentType == "panel"){
+                        showModuleParam.indexObj = {typeIndex:node.index};
+                    }else{
+                        showModuleParam.indexObj = {typeIndex:parseInt(config.showComponentName.slice(config.showComponentName.indexOf("-")+1)),fieldIndex:node.index};
+                    };
+                    showModule.init(showModuleParam.pageConfig,showModuleParam.isShowMask,showModuleParam.indexObj)
                     var value = node.value;
                     var isAdd = false;
                     if(typeof(value) == "undefined"){
