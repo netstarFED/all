@@ -16,23 +16,28 @@ var showModule = {
     init:function(config,isShowMask,indexObj){
         var showMask = isShowMask;
         var pageConfig = "";
-        if(config.clickNodeEndHandler){
-            pageConfig = config.pageConfig;
-            showModule.controller.openEditByPosition = config.clickNodeEndHandler;
+        if(!showMask == true){
+            $(".mask").remove()
         }else{
-            pageConfig = config;
+            if(config.clickNodeEndHandler){
+                pageConfig = config.pageConfig;
+                showModule.controller.openEditByPosition = config.clickNodeEndHandler;
+            }else{
+                pageConfig = config;
+            }
+            // console.log(config);
+            showModule.model.getBaseData(pageConfig,function(res){
+                console.log("我要的数据",res);
+                // setTimeout(()=>{
+                    showModule.controller.drawBorderHtml(showMask);
+                    if(showMask && indexObj){
+                        showModule.controller.findDom(indexObj)
+                    }
+                    
+                // },300);
+            });
         }
-        // console.log(config);
-        showModule.model.getBaseData(pageConfig,function(res){
-            console.log("我要的数据",res);
-            // setTimeout(()=>{
-                showModule.controller.drawBorderHtml(showMask);
-                if(showMask && indexObj){
-                    showModule.controller.findDom(indexObj)
-                }
-                
-            // },300);
-        });
+        
         
     },
     // 数据层
@@ -59,7 +64,7 @@ var showModule = {
                 objPanel.panelField = [];
                 if((components[i].field) instanceof Array){
                     for(var j = 0,len1 = components[i].field.length; j < len1; j++){
-                        objPanel.panelField.push((components[i].field[j].field) || (components[i].field[j].englishName) || (components[i].field[j].id) || (components[i].field[j].functionConfig.englishName)) 
+                        objPanel.panelField.push((components[i].field[j].field) || (components[i].field[j].englishName) || (components[i].field[j].id)) 
                         // console.log((components[i].field[j].englishName) || (components[i].field[j].field) || (components[i].field[j].id))
                      };
                 }

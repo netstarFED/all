@@ -268,7 +268,6 @@
                             value: "",
                             level: 1,             
                             url: getRootPath() +'/docs/data/tree/getList.json', //
-
                             contentType: 'application/x-www-form-urlencoded',
                             method:"GET",
                             dataSrc: 'rows',
@@ -284,29 +283,24 @@
                 </script>
                 <div class="content language-javascript">
                     <pre>
-        {
-            id: 'value',
-            label: '显示 :',
-            type: 'select',
-            rules:"",
-            value: '',
-            textField: 'name',
-            valueField: 'id',
-            subdata: [{
-                    id: '1',
-                    name: '男',
-                    state: "none"
-                },
-                {
-                    id: '2',
-                    name: '女'
-                },
-                {
-                    id: '3',
-                    name: '其它'
-                }
-            ],
+    {
+        id: 'value',
+        label: '显示 :',
+        type: 'treeSelect',
+        rules: "",
+        textField: 'name',
+        valueField: 'id',
+        value: "",
+        level: 1,             
+        url: getRootPath() +'/docs/data/tree/getList.json',
+        contentType: 'application/x-www-form-urlencoded',
+        method:"GET",
+        dataSrc: 'rows',
+        isMultiple: true,
+        changeHandler: function (obj) {
+            console.log(obj);
         }
+    }
                         </pre>
                 </div>
             </div>
@@ -323,7 +317,7 @@
                         isSetMore: false,
                         form: [{
                             id: 'value',
-                            label: '打开层级 :',
+                            label: '打开层级 :',    
                             type: 'treeSelect',
                             textField: 'name',
                             valueField: 'id',
@@ -493,71 +487,20 @@
                 </script>
                 <div class="content language-javascript">
                     <pre>
-        {
-            id: 'subdata',
-            label: 'subdata传出:',
-            type: 'select',
-            value: "1",
-            textField: 'name',
-            valueField: 'id',
-            subdata:[               //通过subdata获取值 
-                {id:'1', name:'男'},
-                {id:'2', name:'女'},
-                {id:'3', name:'其它'}
-            ]
-        }
-               </pre>
-                </div>
-            </div>
-            <!--获取数据2 -->
-            <div class="panel content-demo" netstar-doc="sample">
-                <a href="javascript:void(0);" id="sense-nsdocs-treeselect-subdatatwo"></a>
-                <h3 class="title-code">获取数据2</h3>
-                <span class="intro">用ajax获取数据</span>
-                <div id="nsdocs-select-subdatatwo" class="panel-demo"></div>
-                <!-- js块 -->
-                <script>
-                    var formJsonSubdatatwo = {
-                        id: 'nsdocs-select-subdatatwo',
-                        templateName: 'form',
-                        componentTemplateName: 'PC',
-                        isSetMore: false,
-                        form: [{
-                            id: 'ajax',
-                            label: 'ajax传出:',
-                            type: 'select',
-                            value: "1",
-                            textField: 'name',
-                            valueField: 'id',
-                            isSearch: true,
-                            ajaxConfig: {
-                                url: getRootPath() + '/docs/data/select/radio.json',
-                                type: 'GET',
-                                contentType: 'application/x-www-form-urlencoded',
-                                dataSrc: 'rows',
-                            },
-                        }]
-                    }
-                    var component = NetstarComponent.formComponent.getFormConfig(formJsonSubdatatwo, {});
-                    NetstarComponent.formComponent.init(component, formJsonSubdatatwo);
-                </script>
-                <div class="content language-javascript">
-                    <pre>
-            {
-                id: 'ajax',
-                label: 'ajax传出:',
-                type: 'select',
-                value: "1",
-                textField: 'name',
-                valueField: 'id',
-                ajaxConfig:{
-                    url: '/docs/data/select/radio.json' ,
-                    type: 'GET',
-                    contentType: 'application/x-www-form-urlencoded', 
-                    dataSrc: 'rows',
-                },
-                
-            }
+    {
+        id: 'width',
+        label: '宽 :',
+        type: 'treeSelect',
+        value: "3",
+        inputWidth: 300,
+        textField: 'name',
+        valueField: 'id',
+        isMultiple: true,
+        url: getRootPath() +'/docs/data/tree/getList.json',
+        dataSrc: 'rows',
+        contentType: 'application/x-www-form-urlencoded',
+        method:"GET",
+    }
                </pre>
                 </div>
             </div>
