@@ -59,7 +59,7 @@ var showModule = {
                 objPanel.panelField = [];
                 if((components[i].field) instanceof Array){
                     for(var j = 0,len1 = components[i].field.length; j < len1; j++){
-                        objPanel.panelField.push((components[i].field[j].englishName) || (components[i].field[j].field) || (components[i].field[j].id) || (components[i].field[j].functionConfig.englishName)) 
+                        objPanel.panelField.push((components[i].field[j].field) || (components[i].field[j].englishName) || (components[i].field[j].id) || (components[i].field[j].functionConfig.englishName)) 
                         // console.log((components[i].field[j].englishName) || (components[i].field[j].field) || (components[i].field[j].id))
                      };
                 }
@@ -116,7 +116,7 @@ var showModule = {
                         var obj1 = {type:type.panelName,panelField:panelField,typeIndex:i,fieldIndex:j};
                         var domFieldSizePlace = _this.getDomSizePlace($("#" + type.panelId + " " + '[ns-field=' + panelField + ']'))
                         $(".mask").append($(showModule.view.panelFieldHtml(obj1)).css(domFieldSizePlace));
-                    }
+                    };
                 }
             }else{
                 $(".mask").remove();
@@ -134,7 +134,7 @@ var showModule = {
             Object.assign(domplacesize,domSize,domPlace);
             var obj = {}
             for(var key in domplacesize){
-                obj[key] = domplacesize[key] + "px"
+                obj[key] = domplacesize[key] + "px";
             }
             return obj;
         },
@@ -193,7 +193,7 @@ var showModule = {
         dealPanel(param,index){
             var panelId = "";
             if(param == "list"){
-                panelId = showModule.packageName + param + "-" + index + "-headertable";
+                panelId = showModule.packageName + param + "-" + index + "-headertable-container";
             }
             panelId = showModule.packageName + param + "-" + index;
             return panelId;

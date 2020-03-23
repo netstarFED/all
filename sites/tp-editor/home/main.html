@@ -80,6 +80,8 @@
     <div class="main">
         <container class="pageView"></container>
     </div>
+    <div id="form"></div>
+    <div id="form2"></div>
 </body>
 
 <script>
@@ -262,7 +264,7 @@
                 var config = {
                     pageConfig : pageConfig,
                     clickNodeEndHandler : pageCommon.openEditByPosition,
-                }
+                };
                 showModule.init(config,true);
             },
             refreshByPageConfig : function(resPageConfig, isCloseDialog){
@@ -346,11 +348,8 @@
                                 pageCommon.editModel();
                                 var pageConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist).pageConfig;
                                 if(JSON.stringify(pageConfig) != "{}"){
-                                    var config = {
-                                        pageConfig : pageConfig,
-                                        clickNodeEndHandler : pageCommon.openEditByPosition,
-                                    }
-                                    showModule.init(config,true)
+                                    
+                                    showModule.init(pageConfig,true)
                                 }
                             },
                         },{
@@ -360,11 +359,8 @@
                             handler : function(ev, data){
                                 pageCommon.previewModel();
                                 var pageConfig = NetstarTPEditor.componentListPanel.getConfig(pageCommon.ids.componentlist).pageConfig;
-                                var config = {
-                                        pageConfig : pageConfig,
-                                        clickNodeEndHandler : pageCommon.openEditByPosition,
-                                }
-                                showModule.init(config,false)
+                                
+                                showModule.init(pageConfig,false)
                             },
                         },
                     ]
@@ -790,7 +786,7 @@
                     if(node.componentType == "panel"){
                         showModuleParam.indexObj = {typeIndex:node.index};
                     }else{
-                        showModuleParam.indexObj = {typeIndex:parseInt(config.showComponentName.slice(config.showComponentName.indexOf("-")+1)),fieldIndex:node.index}
+                        showModuleParam.indexObj = {typeIndex:parseInt(config.showComponentName.slice(config.showComponentName.indexOf("-")+1)),fieldIndex:node.index};
                     };
                     showModule.init(showModuleParam.pageConfig,showModuleParam.isShowMask,showModuleParam.indexObj)
                     var value = node.value;
@@ -854,6 +850,30 @@
                 pageCommon.completeHandler();
             }
         })
+        var formConfig = {
+            id : 'form',
+            form : [
+                {
+                    id : 'number',
+                    type : 'numberRange',
+                }
+            ]
+        }
+        NetstarComponent.formComponent.show(formConfig);
+        var formConfig2 = {
+            id : 'form2',
+            defaultComponentWidth : '50%',
+            form : [
+                {
+                    id : 'number',
+                    type : 'numberRange',
+                    changeHandler : function(obj){
+                        console.log(obj)
+                    }
+                }
+            ]
+        }
+        NetstarComponent.formComponent.show(formConfig2);
     })
 </script>
 

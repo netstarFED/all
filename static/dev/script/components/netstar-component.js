@@ -1397,6 +1397,7 @@ NetstarComponent.getNewVueComponentData = function(config){
         case 'ajaxApi':
         case 'videoUpload':
         case 'uploadImage':
+        case 'numberRange':
             typeClass = typeClass.toLowerCase()
             break;
     }
@@ -1573,6 +1574,7 @@ NetstarComponent.getNewVueComponentData = function(config){
             data.endId = data.id + '-end';
             data.isFocusSelect = true; // 获得焦点时是否选中
             data.isValidatValue = true;
+            data.splitStr = config.splitStr; // 数字之间分割符
             break;
         case 'date':
             var value = typeof(config.value)=='number'?moment(config.value).format(config.format):'';
@@ -11039,7 +11041,7 @@ NetstarComponent.numberRange = {
                             + '@mousedown="mousedown" '
                             + '@mouseup="mouseup" '
                             + '@change="change" ref="inputNameStart" :id="starId" alt="" />'
-                        + '<span>{{inputText}}</span>'
+                        + '<span>{{splitStr}}</span>'
                         + '<input class="pt-form-control" type="text" v-model="fieldEnd" '
                             + '@keyup.13="inputEnter" '
                             + '@focus="focusHandler" '
@@ -11068,7 +11070,7 @@ NetstarComponent.numberRange = {
             placeholder :       '',
             startField :        'fieldStart',
             endField :          'fieldEnd',
-            splitStr :          '',
+            splitStr :          '-',
 		}
 		nsVals.setDefaultValues(config, defaultConfig);
         if(config.formSource == 'staticData'){
@@ -11147,257 +11149,127 @@ NetstarComponent.numberRange = {
          * returnType : 返回验证结果
          */
         returnType = typeof(returnType)=="undefined" ? 'object' : returnType;
+        if(typeof(value) != "object"){
+            value = {};
+        }
         var rules = ruleStr.split(' ');
         var isPass = true; // 是否合法
         var validatInfo = ''; // 错误信息
+        function valiFunc(ruleName, _val){
+            switch(ruleName){
+                case 'positiveInteger':
+                    //正整数验证
+                    var g = /^[1-9]*[1-9][0-9]*$/;
+                    if(!g.test(_val)){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                    }
+                    break;
+                case 'nonnegativeInteger':
+                    //非负整数验证
+                    var g = /^([1-9]\d*|[0]{1,1})$/;
+                    if(!g.test(_val)){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                    }
+                    break;
+                case 'integer':
+                    //整数验证
+                    /*var reg = /^-?[1-9]*[1-9][0-9]*$/;*/
+                    var reg = /^-?\d+$/;
+                    if(!reg.test(_val)){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                    }
+                    break;	
+                case 'max':
+                    var compareNum = compareArr[0];
+                    if(!(Number(_val) <= compareNum)){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
+                    }
+                    break;
+                case 'min':
+                    var compareNum = compareArr[0];
+                    if(!(compareNum <= Number(_val))){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
+                    }
+                    break;
+                case 'positive':
+                    // 正数
+                    if(!(Number(_val) > 0)){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                    }
+                    break;
+                case 'negative':
+                    //负数验证
+                    if(!(Number(value) <= 0)){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                    }
+                    break;
+                case 'range':
+                    // 范围在 {0} 到 {1} 之间
+                    if(!(Number(_val)>=compareArr[0] && Number(_val)<=compareArr[1])){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName](compareArr[0],compareArr[1]);
+                    }
+                    break;
+                case 'precision':
+                    var compareNum = compareArr[0];
+                    // 小数 {0} 位
+                    var isTrue = nsValid.precision(_val,Number(compareNum));
+                    if(!isTrue){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        var startVal = typeof(value[config.startField]) == "undefined" ? '' : value[config.startField];
+        var endVal = typeof(value[config.endField]) == "undefined" ? '' : value[config.endField];
         for(var i=0; i<rules.length; i++){
             var ruleNameStr = rules[i];
             var formatRules = NetstarComponent.getFormatRules(ruleNameStr);
             var ruleName = formatRules.ruleName; // 规则名称
             var compareArr = formatRules.compareArr; // 若有 = 等号后边值 数组 没有比较值为空数组
             if(ruleName == 'required'){
-                if(value === "" || value === null){
+                if($.isEmptyObject(value)){
                     isPass = false;
                     validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
                 }
             }else{
-                if(value !== "" && value != null){
-                    switch(ruleName){
-                        case 'ismobile':
-                        case 'mobile':
-                            //手机号验证
-                            regStr=/^(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])\d{8}$/;
-                            if(!regStr.test(value)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'isphone':
-                        case 'phone':
-                            //固定电话验证
-                            regStr = /^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/;//d*$;
-                            if(!regStr.test(value)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'postalcode':
-                            //邮政编码验证
-                            regStr = /^[0-9]\d{5}$/;
-                            if(!regStr.test(value)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'bankno':
-                            //银行卡号验证
-                            var isTrue = nsValid.bankno(value);
-                            if(!isTrue){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'Icd':
-                            //身份证号验证
-                            var isTrue = nsValid.Icd(value);
-                            if(!isTrue){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'positiveInteger':
-                            //正整数验证
-                            var g = /^[1-9]*[1-9][0-9]*$/;
-                            if(!g.test(value)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'nonnegativeInteger':
-                            //非负整数验证
-                            var g = /^([1-9]\d*|[0]{1,1})$/;
-                            if(!g.test(value)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'integer':
-                            //整数验证
-                            /*var reg = /^-?[1-9]*[1-9][0-9]*$/;*/
-                            var reg = /^-?\d+$/;
-                            if(!reg.test(value)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;	
-                        case 'max':
-                            var compareNum = compareArr[0];
-                            if(!(Number(value) <= compareNum)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
-                            }
-                            break;
-                        case 'min':
-                            var compareNum = compareArr[0];
-                            if(!(compareNum <= Number(value))){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
-                            }
-                            break;
-                        case 'positive':
-                            // 正数
-                            if(!(Number(value) > 0)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'negative':
-                            //负数验证
-                            if(!(Number(value) <= 0)){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
-                            }
-                            break;
-                        case 'range':
-                            // 范围在 {0} 到 {1} 之间
-                            if(!(Number(value)>=compareArr[0] && Number(value)<=compareArr[1])){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName](compareArr[0],compareArr[1]);
-                            }
-                            break;
-                        case 'precision':
-                            var compareNum = compareArr[0];
-                            // 小数 {0} 位
-                            var isTrue = nsValid.precision(value,Number(compareNum));
-                            if(!isTrue){
-                                isPass = false;
-                                validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
-                            }
-                            break;
-                        default:
-                            var _ruleName = ruleNameStr.substring(0, 2);
-                            var ruleField = ruleNameStr.substring(2);
-                            switch(_ruleName){
-                                case '>=':
-                                    var formID = config.formID;
-                                    var formData = {};
-                                    if(config.formSource == "form"){
-                                        formData = NetstarComponent.getValues(formID, false);
-                                    }
-                                    if(config.formSource == "table" && typeof(config.relationData) == "object"){
-                                        formData = config.relationData.row;
-                                    }
-                                    if(formData){
-                                        var ruleVal = formData[ruleField];
-                                        if(typeof(ruleVal) != "number"){
-                                            ruleVal = 0;
-                                        }
-                                        if(!(value >= ruleVal)){
-                                            isPass = false;
-                                            validatInfo += NetstarComponent.validateMsg.min(ruleVal);
-                                        }
-                                    }
-                                    break;
-                                case '<=':
-                                    var formID = config.formID;
-                                    var formData = {};
-                                    if(config.formSource == "form"){
-                                        formData = NetstarComponent.getValues(formID, false);
-                                    }
-                                    if(config.formSource == "table" && typeof(config.relationData) == "object"){
-                                        formData = config.relationData.row;
-                                    }
-                                    if(formData){
-                                        var ruleVal = formData[ruleField];
-                                        if(typeof(ruleVal) != "number"){
-                                            ruleVal = 0;
-                                        }
-                                        if(!(value <= ruleVal)){
-                                            isPass = false;
-                                            validatInfo += NetstarComponent.validateMsg.max(ruleVal);
-                                        }
-                                    }
-                                    break;
-                                default:
-                                    var __ruleName = ruleNameStr.substring(0, 1);
-                                    var _ruleField = ruleNameStr.substring(1);
-                                    switch(__ruleName){
-                                        case '>':
-                                            var formID = config.formID;
-                                            var formData = {};
-                                            if(config.formSource == "form"){
-                                                formData = NetstarComponent.getValues(formID, false);
-                                            }
-                                            if(config.formSource == "table" && typeof(config.relationData) == "object"){
-                                                formData = config.relationData.row;
-                                            }
-                                            if(formData){
-                                                var ruleVal = formData[_ruleField];
-                                                if(typeof(ruleVal) != "number"){
-                                                    ruleVal = 0;
-                                                }
-                                                if(!(value > ruleVal)){
-                                                    isPass = false;
-                                                    validatInfo += NetstarComponent.validateMsg.more(ruleVal);
-                                                }
-                                            }
-                                            break;
-                                        case '<':
-                                            var formID = config.formID;
-                                            var formData = {};
-                                            if(config.formSource == "form"){
-                                                formData = NetstarComponent.getValues(formID, false);
-                                            }
-                                            if(config.formSource == "table" && typeof(config.relationData) == "object"){
-                                                formData = config.relationData.row;
-                                            }
-                                            if(formData){
-                                                var ruleVal = formData[_ruleField];
-                                                if(typeof(ruleVal) != "number"){
-                                                    ruleVal = 0;
-                                                }
-                                                if(!(value < ruleVal)){
-                                                    isPass = false;
-                                                    validatInfo += NetstarComponent.validateMsg.less(ruleVal);
-                                                }
-                                            }
-                                            break;
-                                        case '=':
-                                            var formID = config.formID;
-                                            var formData = {};
-                                            if(config.formSource == "form"){
-                                                formData = NetstarComponent.getValues(formID, false);
-                                            }
-                                            if(config.formSource == "table" && typeof(config.relationData) == "object"){
-                                                formData = config.relationData.row;
-                                            }
-                                            if(formData){
-                                                var ruleVal = formData[_ruleField];
-                                                if(typeof(ruleVal) != "number"){
-                                                    ruleVal = 0;
-                                                }
-                                                if(!(value == ruleVal)){
-                                                    isPass = false;
-                                                    validatInfo += NetstarComponent.validateMsg.equal(ruleVal);
-                                                }
-                                            }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                    break;
-                            }
-                            break;
-                    }
+                valiFunc(ruleName, startVal);
+                valiFunc(ruleName, endVal);
+            }
+        }
+        if(isPass){
+            // 验证是否是数字
+            var rex = /^(\-|\+)?\d+(\.\d+)?$/;
+            var _isPass = true;
+            if(startVal !== ''){
+                _isPass = rex.test(startVal);
+                if(!_isPass){
+                    isPass = false;
+                    validatInfo += NetstarComponent.validateMsg.number + ',';
+                }
+            }
+            if(endVal !== ''){
+                _isPass = rex.test(endVal);
+                if(!_isPass){
+                    isPass = false;
+                    validatInfo += NetstarComponent.validateMsg.number + ',';
                 }
             }
         }
         if(isPass){
-            if(typeof(value) != 'undefined' && value != null && value.toString().length > 0){
-                // 验证是否是数字
-                var rex = /^(\-|\+)?\d+(\.\d+)?$/;
-                isPass = rex.test(value);
-                validatInfo += NetstarComponent.validateMsg.number + ',';
+            if(Number(startVal) > Number(endVal)){
+                isPass = false;
+                validatInfo += '开始比结束大' + ',';
             }
         }
         if(validatInfo.length > 0){
@@ -11504,18 +11376,26 @@ NetstarComponent.numberRange = {
                         }
                     }
                     if(value===''){
-                        value = null;
+                        value = {};
                     }
                     return value;
                 },
                 // 设置value
                 setValue:function(value){
+                    if(value === ''){
+                        value = {};
+                    }
+                    if(typeof(value) != "object"){
+                        console.error('设置value失败，value必须是对象');
+                        return false;
+                    }
                     var sourceValue = config.value;
                     config.value = value;
-                    this.inputText = value;
+                    this.fieldStart = isNaN(value[config.startField]) ? '' : value[config.startField];
+                    this.fieldEnd = isNaN(value[config.endField]) ? '' : value[config.endField];
                     var isSame = true;
                     // 判断是否改变
-                    if(sourceValue != value){
+                    if(sourceValue[config.startField] != value[config.startField] || sourceValue[config.endField] != value[config.endField]){
                         isSame = false;
                     }
                     if(!isSame){
@@ -11603,29 +11483,16 @@ NetstarComponent.numberRange = {
                     // value和inputText同时变化 
                     // 原因：input上存的值是inputText所以改变input的输入时value不会改变所以在这里改
                     var vueConfig = this;
-                    if(this.inputText!=""){
-                        if(config.decimalDigit != false){
-                            this.inputText = isNaN(Number(this.inputText)) ? this.inputText : Number(this.inputText).toFixed(config.decimalDigit);
-                        }else{
-                            this.inputText = isNaN(Number(this.inputText)) ? this.inputText : Number(this.inputText);
-                        }
-                    }
-                    var text = this.inputText;
-                    text = text.toString();
-                    if(text == ""){
-                        config.value = null;
-                    }else{
-                        if(config.decimalDigit != false && config.decimalDigit > 0){
-                            config.value = isNaN(Number(text)) ? text : parseFloat(text);
-                        }else{
-                            config.value = isNaN(Number(text)) ? text : Number(text);
-                        }
-                    }
-                    // var value
-                    var value = config.value;
+                    var valueObj = vueConfig.getValueByThis();
+                    this.fieldStart = valueObj.vue.start;
+                    this.fieldEnd = valueObj.vue.end;
+                    var value = {};
+                    value[config.startField] = valueObj.value.start;
+                    value[config.endField] = valueObj.value.end;
+                    config.value = value;
                     var obj = {
                         id:config.id,
-                        text:text,
+                        text:this.fieldStart + config.splitStr + this.fieldEnd,
                         value:value,
                         config:config,
                         vueConfig:vueConfig,

@@ -88,6 +88,34 @@
         }
     }
 
+    
+    // 数字区间组件
+    &.pt-numberrange{
+        border: 0;
+        &:hover{
+            box-shadow: none;
+        }
+        & > div{
+            display: table;
+            width: 100%;
+            span{
+                display: table-cell;
+                width: 30px;
+                text-align: center;
+            }
+            .pt-form-control{
+                border: 1px solid @border-color;
+                height: @input-group-base;
+                &:hover,
+                &:focus {
+                    .form-shadow();
+                    .transition();
+                    border: 1px solid @input-group-hover-border;
+                }
+            }
+        }
+    }
+
     // date组件下拉箭头定位
     &.pt-date {
         position: relative;
