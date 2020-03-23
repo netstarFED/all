@@ -2699,9 +2699,11 @@ var NetstarProject = (function(){
             var netStarRootPathStr = getRootPath();
             switch(type){
                 case 'upload':
+                    fieldConfig.formatHandler.data = typeof(fieldConfig.formatHandler.data) == "object" ? fieldConfig.formatHandler.data : {};
                     fieldConfig.formatHandler.data.uploadSrc = netStarRootPathStr;
                     break;
                 case 'href':
+                    fieldConfig.formatHandler.data = typeof(fieldConfig.formatHandler.data) == "object" ? fieldConfig.formatHandler.data : {};
                     if(fieldConfig.formatHandler.data.url && fieldConfig.formatHandler.data.url.indexOf('http') == -1){
                         //保存了一个原始配置的url供查看或者使用
                         fieldConfig.formatHandler.data.urlOriginal = fieldConfig.formatHandler.data.url
