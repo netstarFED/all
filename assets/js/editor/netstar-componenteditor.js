@@ -2344,7 +2344,7 @@ var NetstarComponentEditor = (function($){
 		'checkbox-dict':['dictArguments','textField','valueField','relationField','outputFields','total','isObjectValue'],
 		text:['value','total','remoteAjax'],
 		password:['value','isMd5'],
-		number:['value','total','decimalDigit','isShowCalculator'],
+		number:['value','total','decimalDigit','isShowCalculator','fieldStart','fieldEnd'],
 		business:['dialogTitle','infoBtnName','selectMode','idField','textField','showExpression','voField','relationField','defaultSearchData','parameterFormat','validateParams','outputFields','innerFields','assignExpres','isOutputString','selectedKey','isInputText','displayMode','isAsync','isDeleteObjectState','isNeedRowData','formatValueData','source-ajax','search-ajax','getRowData-ajax','getFormData-ajax','subdataAjax-ajax'],//sjj 20200115 增加isNeedRowData属性 是否需要添加行
         businessSelect:['selectMode','idField','textField','voField','relationField','listExpression','panelConfig','defaultSearchData','outputFields','innerFields','assignExpres','source-ajax','getRowData-ajax','getFormData-ajax'],
 		provinceselect:['',''],

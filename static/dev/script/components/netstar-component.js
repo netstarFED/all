@@ -1086,6 +1086,7 @@ NetstarComponent.getValues = function(formID, isValid){
                     break;
                 case 'dateRangeInput':
                 case 'dateRangePicker':
+                case 'numberRange':
                     for(var key in value){
                         isContinue = validataByVariableType(component.id, value[key]);
                         if(isContinue){
@@ -3797,6 +3798,21 @@ NetstarComponent.formComponent = {
                     if(component.isRelativeTime){
                         arr.push(component.fieldMark);
                     }
+                    for(var i=0; i<arr.length; i++){
+                        if(typeof(componentsObj[arr[i]])=="object"){
+                            setShowConfig(component.id, componentsObj[arr[i]]);
+                        }else{
+                            var hideConfig = getHideConfig(arr[i], component.id);
+                            componentsObj[hideConfig.id] = hideConfig;
+                            components.push(hideConfig);
+                        }
+                    }
+                    break;
+                case 'numberRange':
+                    component.fieldStart = typeof(component.fieldStart) != 'string' ? component.id + 'Start' : component.fieldStart;
+                    component.fieldEnd = typeof(component.fieldEnd) != 'string' ? component.id + 'End' : component.fieldEnd;
+                    // component.markField = typeof(component.markField) != 'string' ? component.id + 'Mark' : component.markField;
+                    var arr = [component.fieldStart, component.endField];
                     for(var i=0; i<arr.length; i++){
                         if(typeof(componentsObj[arr[i]])=="object"){
                             setShowConfig(component.id, componentsObj[arr[i]]);
@@ -11068,8 +11084,8 @@ NetstarComponent.numberRange = {
             hidden:             false,          // 是否隐藏
             format:             '',             // 数字格式 默认无
             placeholder :       '',
-            startField :        'fieldStart',
-            endField :          'fieldEnd',
+            fieldStart :        'fieldStart',
+            fieldEnd :          'fieldEnd',
             splitStr :          '-',
 		}
 		nsVals.setDefaultValues(config, defaultConfig);
@@ -11108,6 +11124,10 @@ NetstarComponent.numberRange = {
                 }
             }
         }
+    },
+    formatConfig : function(config){
+        config.fieldStart = typeof(config.fieldStart)=="string"?config.fieldStart:config.id+'Start';
+        config.fieldEnd = typeof(config.fieldEnd)=="string"?config.fieldEnd:config.id+'End';
     },
     // 验证配置是否正确
     validatConfig: function(config){
@@ -11230,8 +11250,8 @@ NetstarComponent.numberRange = {
                     break;
             }
         }
-        var startVal = typeof(value[config.startField]) == "undefined" ? '' : value[config.startField];
-        var endVal = typeof(value[config.endField]) == "undefined" ? '' : value[config.endField];
+        var startVal = typeof(value[config.fieldStart]) == "undefined" ? '' : value[config.fieldStart];
+        var endVal = typeof(value[config.fieldEnd]) == "undefined" ? '' : value[config.fieldEnd];
         for(var i=0; i<rules.length; i++){
             var ruleNameStr = rules[i];
             var formatRules = NetstarComponent.getFormatRules(ruleNameStr);
@@ -11243,8 +11263,12 @@ NetstarComponent.numberRange = {
                     validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
                 }
             }else{
-                valiFunc(ruleName, startVal);
-                valiFunc(ruleName, endVal);
+                if(startVal !== ''){
+                    valiFunc(ruleName, startVal);
+                }
+                if(endVal !== ''){
+                    valiFunc(ruleName, endVal);
+                }
             }
         }
         if(isPass){
@@ -11284,6 +11308,16 @@ NetstarComponent.numberRange = {
         return {
             isTrue : isPass,
             validatInfo : validatInfo,
+        }
+    },
+    // 设置其它的关联组件的value值
+    setRelComponentValue : function(vueConfig, config){
+        var value = vueConfig.getValue(false);
+        var vueConfigs = NetstarComponent.config[config.formID].vueConfig;
+        for(var key in value){
+            if(typeof(vueConfigs[key])=="object"){
+                vueConfigs[key].setValue(value[key]);
+            }
         }
     },
     // 获取组件配置
@@ -11391,11 +11425,11 @@ NetstarComponent.numberRange = {
                     }
                     var sourceValue = config.value;
                     config.value = value;
-                    this.fieldStart = isNaN(value[config.startField]) ? '' : value[config.startField];
-                    this.fieldEnd = isNaN(value[config.endField]) ? '' : value[config.endField];
+                    this.fieldStart = isNaN(value[config.fieldStart]) ? '' : value[config.fieldStart];
+                    this.fieldEnd = isNaN(value[config.fieldEnd]) ? '' : value[config.fieldEnd];
                     var isSame = true;
                     // 判断是否改变
-                    if(sourceValue[config.startField] != value[config.startField] || sourceValue[config.endField] != value[config.endField]){
+                    if(sourceValue[config.fieldStart] != value[config.fieldStart] || sourceValue[config.fieldEnd] != value[config.fieldEnd]){
                         isSame = false;
                     }
                     if(!isSame){
@@ -11431,23 +11465,23 @@ NetstarComponent.numberRange = {
                     var fieldStart = this.fieldStart;
                     var fieldEnd = this.fieldEnd;
                     var decimalDigit = config.decimalDigit;
-                    if(fieldStart !== ""){
+                    if(fieldStart !== "" && fieldStart !== null){
                         if(decimalDigit != false){
                             fieldStart = isNaN(fieldStart) ? fieldStart : Number(fieldStart).toFixed(decimalDigit);
                         }else{
                             fieldStart = isNaN(fieldStart) ? fieldStart : Number(fieldStart);
                         }
                     }
-                    if(fieldEnd !== ""){
+                    if(fieldEnd !== "" && fieldEnd !== null){
                         if(decimalDigit != false){
                             fieldEnd = isNaN(fieldEnd) ? fieldEnd : Number(fieldEnd).toFixed(decimalDigit);
                         }else{
                             fieldEnd = isNaN(fieldEnd) ? fieldEnd : Number(fieldEnd);
                         }
                     }
-                    var valueStart = fieldStart.toString();
-                    var valueEnd = fieldEnd.toString();
-                    if(valueStart == ""){
+                    var valueStart = typeof(fieldStart) == "string" || typeof(fieldStart) == "number" ? fieldStart.toString() : '';
+                    var valueEnd = typeof(fieldEnd) == "string" || typeof(fieldEnd) == "number" ? fieldEnd.toString() : '';
+                    if(valueStart == "" && valueStart !== null){
                         valueStart = null;
                     }else{
                         if(config.decimalDigit != false && config.decimalDigit > 0){
@@ -11456,7 +11490,7 @@ NetstarComponent.numberRange = {
                             valueStart = isNaN(valueStart) ? valueStart : Number(valueStart);
                         }
                     }
-                    if(valueEnd == ""){
+                    if(valueEnd == "" && valueEnd !== null){
                         valueEnd = null;
                     }else{
                         if(config.decimalDigit != false && config.decimalDigit > 0){
@@ -11478,8 +11512,8 @@ NetstarComponent.numberRange = {
                 },
                 // 改变 change
                 change: function(){
-                    console.log(this.fieldStart);
-                    console.log(this.fieldEnd);
+                    // console.log(this.fieldStart);
+                    // console.log(this.fieldEnd);
                     // value和inputText同时变化 
                     // 原因：input上存的值是inputText所以改变input的输入时value不会改变所以在这里改
                     var vueConfig = this;
@@ -11487,8 +11521,8 @@ NetstarComponent.numberRange = {
                     this.fieldStart = valueObj.vue.start;
                     this.fieldEnd = valueObj.vue.end;
                     var value = {};
-                    value[config.startField] = valueObj.value.start;
-                    value[config.endField] = valueObj.value.end;
+                    value[config.fieldStart] = valueObj.value.start;
+                    value[config.fieldEnd] = valueObj.value.end;
                     config.value = value;
                     var obj = {
                         id:config.id,
@@ -11506,11 +11540,19 @@ NetstarComponent.numberRange = {
                     if(typeof(config.countFuncHandler)=='function'){
                         config.countFuncHandler();
                     }
+                    _this.setRelComponentValue(this, config)
                 },
                 // 修改组件
                 edit: function(obj){
                     // 修改数据和方法不可以修改dom （可以修改dom属性，暂不支持，通过refs修改）
                     NetstarComponent.editVueComponent(obj, this, config);
+                },
+                changeByRelField: function(obj){
+                    // console.log(obj);
+                    var value = this.getValue(false);
+                    var relConfig = obj.config;
+                    value[relConfig.id] = obj.value;
+                    this.setValue(value);
                 },
                 // 历史记录
                 switchHistory : function(){
