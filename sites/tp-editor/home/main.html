@@ -261,7 +261,11 @@
                         $template.children().children('.pt-modal-bg').css('z-index', 994);
                     }
                 }
-                showModule.init(pageConfig,true);
+                var config = {
+                    pageConfig : pageConfig,
+                    clickNodeEndHandler : pageCommon.openEditByPosition,
+                };
+                showModule.init(config,true);
             },
             refreshByPageConfig : function(resPageConfig, isCloseDialog){
                 // 组件列表面板
