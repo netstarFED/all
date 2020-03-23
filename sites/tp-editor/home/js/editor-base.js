@@ -2699,9 +2699,11 @@ var NetstarProject = (function(){
             var netStarRootPathStr = getRootPath();
             switch(type){
                 case 'upload':
+                    fieldConfig.formatHandler.data = typeof(fieldConfig.formatHandler.data) == "object" ? fieldConfig.formatHandler.data : {};
                     fieldConfig.formatHandler.data.uploadSrc = netStarRootPathStr;
                     break;
                 case 'href':
+                    fieldConfig.formatHandler.data = typeof(fieldConfig.formatHandler.data) == "object" ? fieldConfig.formatHandler.data : {};
                     if(fieldConfig.formatHandler.data.url && fieldConfig.formatHandler.data.url.indexOf('http') == -1){
                         //保存了一个原始配置的url供查看或者使用
                         fieldConfig.formatHandler.data.urlOriginal = fieldConfig.formatHandler.data.url
@@ -5961,7 +5963,36 @@ var NetstarProject = (function(){
             return true;
         },
     }
-
+    function clearAllNullStr(config){
+        function func(obj) {
+            if(typeof(obj) == "object"){
+                if($.isArray(obj)){
+                    for(var i=0; i<obj.length; i++){
+                        for(var key in obj[i]){
+                            if(typeof(obj[i][key]) == "object"){
+                                func(obj[i][key]);
+                            }else{
+                                if(obj[i][key] === ''){
+                                    delete obj[i][key];
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    for(var key in obj){
+                        if(typeof(obj[key]) == "object"){
+                            func(obj[key]);
+                        }else{
+                            if(obj[key] === ''){
+                                delete obj[key];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        func(config);
+    }
     function init(_config){
         // 验证
         var isPass = configManage.validate(_config);
@@ -6018,7 +6049,8 @@ var NetstarProject = (function(){
                 config.saveData.ajax = ajaxConfig;
             }
         }
-        // 
+        // 删除所有 ''
+        clearAllNullStr(config);
         return config;
     }
     function getFormatPageConfig(pageParams){

@@ -1,5 +1,5 @@
 //需要引入的第三方插件 assets/js/pdf/pdf.js
-//PDF浏览器新版本 cy.2020.03.23 暂时没有在当前整体框架使用
+//PDF浏览器新版本 20200323 
 if (typeof (NetstarUI) == 'undefined') {
 	NetstarUI = {};
 }

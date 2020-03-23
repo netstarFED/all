@@ -7061,7 +7061,7 @@ var NetStarGrid = (function () {
 					var endDate = formJson.filtermode + 'End';
 					paramJson[startDate] = formJson[startDate];
 					paramJson[endDate] = formJson[endDate];
-				}else if(queryConfig.type == 'valuesInput'){
+				}else if(queryConfig.type == 'valuesInput' || queryConfig.type == 'numberRange'){
 					var valuesInputStr = queryConfig.value;
 					if(typeof(valuesInputStr)=='object'){
 						$.each(valuesInputStr,function(k,v){

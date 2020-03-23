@@ -808,6 +808,10 @@ NetStarUtils.getListQueryData = function (_columns, _configObj) {
 				case 'checkbox':
 					editConfig.type = 'select';
 					break;
+				case 'number':
+					editConfig.type = 'numberRange';
+					advanceJsonEditConfig.type = 'numberRange';
+					break;
 				case 'date':
 					editConfig.type = 'dateRangePicker';
 					editConfig.isRelativeTime = true;
@@ -825,6 +829,7 @@ NetStarUtils.getListQueryData = function (_columns, _configObj) {
 				case 'businessSelect':
 				case 'valuesInput':
 				case 'treeSelect':
+				case 'numberRange':
 					//select类型 需要存放的属性值
 					queryJson.searchType = editConfig.type;
 					editConfig.id = colData.field;
@@ -887,6 +892,7 @@ NetStarUtils.getListQueryData = function (_columns, _configObj) {
 							case 'businessSelect':
 							case 'valuesInput':
 							case 'treeSelect':
+							case 'numberRange':
 								var id = 'form-'+formId+'-'+data.value;
 								$('#' + id).closest('.pt-form-group').removeClass('hide');
 								break;
