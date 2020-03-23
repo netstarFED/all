@@ -597,7 +597,7 @@ NetstarUI.pdfViewer = (function () {
 		load: function (url, callbackFunc) {
 			var _this = this;
 			//url:string pdf的地址
-			var loadingTask = pdfLib.getDocument(url);
+			var loadingTask = pdfLib.getDocument({url:url,rangeChunkSize:1024*512});
 			//挂载监听器，完成后执行
 			loadingTask.promise.then(function (pdf) {
 				_this.pdf = pdf;
@@ -1131,6 +1131,14 @@ NetstarUI.pdfDialog = (function ($) {
 							//20191218 sjj 修改 修改原因：吴燕蓉说应该是download不应该是pdf
 							showFileUrl = config.downUrlPrefix+config.showFile.url+':pdf';
 							var authorization = NetStarUtils.OAuthCode.get();
+							if(typeof(config.urlData) == "object" && !$.isEmptyObject(config.urlData)){
+								var urlData = config.urlData;
+								showFileUrl += ';'
+								for(var key in urlData){
+									showFileUrl += key + '=' + urlData[key] + ';'
+								}
+								showFileUrl = showFileUrl.substring(0, showFileUrl.length - 1);
+							}
 							if(authorization){
 								showFileUrl += '?Authorization=' + authorization;
 							}
@@ -1667,9 +1675,11 @@ NetstarUI.pdfDialog = (function ($) {
 			}
 			// var fileUrlPrefix = showType == 'pdf' ? _config.pdfUrlPrefix : _config.imgUrlPrefix;
 			url = fileUrlPrefix + showFile.url;
-			var authorization = NetStarUtils.OAuthCode.get();
-			if (authorization) {
-				url += '?Authorization=' + authorization;
+			if(typeof(_config.urlData) != "object" || $.isEmptyObject(_config.urlData)){
+				var authorization = NetStarUtils.OAuthCode.get();
+				if (authorization) {
+					url += '?Authorization=' + authorization;
+				}
 			}
 			return url;
 		},
@@ -1790,7 +1800,25 @@ NetstarUI.pdfDialog = (function ($) {
 			var _this = this;
 			_this.$selectPage = config.$selectPage;
 			//url:string pdf的地址
-			var loadingTask = pdfLib.getDocument(url);
+			var documentObj = {
+				url : url,
+				rangeChunkSize : 1024*512,
+			}
+			if(typeof(config.urlData) == "object" && !$.isEmptyObject(config.urlData)){
+				var urlData = config.urlData;
+				url += ';'
+				for(var key in urlData){
+					url += key + '=' + urlData[key] + ';'
+				}
+				url = url.substring(0, url.length - 1)
+				documentObj.url = url;
+				var authorization = NetStarUtils.OAuthCode.get();
+				documentObj.httpHeaders = {}
+				if(authorization){
+					documentObj.httpHeaders.authorization = authorization;
+				}
+			}
+			var loadingTask = pdfLib.getDocument(documentObj);
 			//挂载监听器，完成后执行
 			loadingTask.promise.then(function (pdf) {
 				_this.pdf = pdf;
@@ -1935,7 +1963,8 @@ NetstarUI.multiPdfViewer = (function () {
 			_config.isHaveBtnsContainer = false;
 		}
 		//手机端或者PC端模式
-		_config.browserSystem = nsVals.browser.browserSystem;
+        //_config.browserSystem = nsVals.browser.browserSystem;
+        _config.browserSystem = nsVals.getIEBrowserVersion().browserSystem
 		var styleStr = '';
 		if (_config.id) {
 			_config.selectPageId = _config.id + '-pdf-selectpage';
@@ -1955,78 +1984,6 @@ NetstarUI.multiPdfViewer = (function () {
 		init: function (_config) {
 			setDefault(_config);
 			this.configs[_config.id] = _config;
-		},
-		//全屏弹框
-		fullScreenDialog: function (_config) {
-			var config = _config;
-			var _this = this;
-			//容器
-			var html =
-				'<div id="dialog-pdf-scaleinfo" class="info-center">' //缩放信息
-				+
-				'</div>' +
-				'<div id="dialog-pdf-container" class="container-center">' //容器 包含btn和canvas
-				+
-				'<div id="dialog-pdf-container-canvas-all" class="container-canvas-all">' +
-				'<canvas id="dialog-pdf-container-canvas" ></canvas>' +
-				'</div>' +
-				'</div>';
-			var $container = $(html);
-			config.$dialogContainer = $container;
-
-			var widthHeight = $(window).height();
-			var dialogId = 'dialog-pdf';
-			config.canvasId = 'dialog-pdf-container-canvas';
-			var contentDialogConfig = {
-				id: dialogId,
-				title: config.title,
-				width: '100%',
-				height: widthHeight,
-				plusClass: 'fullscreen pdfview pdfview-' + config.browserSystem, //补充了PC端和手机端样式
-				shownHandler: function () {
-					//添加相关组件的容器
-					var $panelTitle = $("#" + dialogId + ' .panel-title');
-					$panelTitle.css({
-						'padding-right': '40px',
-					})
-
-					var $panelBody = $("#" + dialogId + ' .panel-body');
-					$panelBody.append($container);
-					$panelBody.css({
-						'position': 'absolute',
-						'top': $panelTitle.outerHeight(),
-						'left': 0,
-						'right': 0,
-						'bottom': 0
-					})
-					//pdf容器
-					var $pdfContainer = $('#dialog-pdf-container');
-					$pdfContainer.css({
-						'position': 'absolute',
-						'top': 0,
-						'left': 0,
-						'right': 0,
-						'bottom': 0,
-						'overflow': 'auto',
-					})
-					//插入下拉框
-					$panelTitle.append(config.$selectPage);
-					//插入按钮
-					if (config.isHaveBtnsContainer) {
-						$('#dialog-pdf .panel-title').append(config.$btnsContainer);
-						_this.initBtns(config);
-					}
-				},
-				hiddenHandler: function (resObj) {
-					//关闭后清除pdf
-					_this.documentEventOff();
-					//如果有则关闭打印iframe
-					if ($('#iframe-print').length > 0) {
-						$('#iframe-print').remove();
-					}
-				}
-			}
-			NetstarUI.contentDialog.show(contentDialogConfig);
 		},
 		appendHtml: function (_config) {
 
@@ -2128,6 +2085,23 @@ NetstarUI.multiPdfViewer = (function () {
 				'</div>';
 			// $footer.append(selectHtml);				
 		},
+		zoomIn:function(id){
+			var page = NetstarUI.multiPdfViewer.pdfManager.page;
+			if (id) {
+				console.log(id)
+				//sjj 如果有图片的情况
+				if(NetstarUI.multiPdfViewer.viewerManager.showImgConfig[id]){
+					config = NetstarUI.multiPdfViewer.viewerManager.showImgConfig[id];
+					config.imgWidth = config.imgWidth*1.5;
+				}else{
+					page = NetstarUI.multiPdfViewer.pdfManager.pdfObj[id].page;
+					config = NetstarUI.multiPdfViewer.pdfManager.pdfObj[id].config;
+					var scale = config.zoom.current * 1.5;
+					config.zoom.zoomFitScale = scale;
+				}
+			}
+			viewerManager.show(config);
+		},
 		//初始化按钮
 		initBtns: function (_config) {
 			var config = _config;
@@ -2156,22 +2130,9 @@ NetstarUI.multiPdfViewer = (function () {
 					isShowText: false,
 					state: 'pt-btn-icon',
 					handler: function (data) {
+						//aaa
 						var id = $(data.event.currentTarget).closest('.btns-container-intitle').attr('ns-pdfid');
-						var page = NetstarUI.multiPdfViewer.pdfManager.page;
-						if (id) {
-							console.log(id)
-							//sjj 如果有图片的情况
-							if(NetstarUI.multiPdfViewer.viewerManager.showImgConfig[id]){
-								config = NetstarUI.multiPdfViewer.viewerManager.showImgConfig[id];
-								config.imgWidth = config.imgWidth*1.5;
-							}else{
-								page = NetstarUI.multiPdfViewer.pdfManager.pdfObj[id].page;
-								config = NetstarUI.multiPdfViewer.pdfManager.pdfObj[id].config;
-								var scale = config.zoom.current * 1.5;
-								config.zoom.zoomFitScale = scale;
-							}
-						}
-						viewerManager.show(config);
+						NetstarUI.multiPdfViewer.viewerManager.zoomIn(id);
 					}
 				});
 				btnsArray.push({
@@ -2271,34 +2232,6 @@ NetstarUI.multiPdfViewer = (function () {
 			//nsButton.initBtnsByContainerID(btnsId, btnsArray, true);
 
 		},
-		//初始化页码下拉框 
-		initSelect: function (_config) {
-			var config = _config;
-			var _this = this;
-			var _pdf = pdfManager.pdf;
-			var numPages = _pdf.numPages;
-			var html = '';
-			//依次输出页码供跳转
-			for (var i = 1; i <= numPages; i++) {
-				html += '<option value ="' + i + '">' + i + '</option>';
-			}
-			var $selectPage = config.$selectPage;
-			$selectPage.empty();
-			$selectPage.append(html);
-			$selectPage.on('change', function (ev) {
-
-				var pdf = pdfManager.pdf;
-				var pageNumber = parseInt($(this).val());
-				//打开pdf指定页码
-				pdfManager.getPage(pdf, pageNumber, function (page) {
-					//
-					var scale = config.zoom.current;
-					pdfManager.show(page, scale, function () {
-						//渲染完成后执行
-					})
-				});
-			})
-		},
 
 		//关闭整体的快捷键
 		documentEventOff: function () {
@@ -2312,45 +2245,28 @@ NetstarUI.multiPdfViewer = (function () {
 			}
 		},
 
-		//弹框形式打开
-		dialog: function (_config) {
-			var _this = this;
-			//config:object 打开pdf的配置参数
-			setDefault(_config);
-			var config = _config;
-			_this.fullScreenDialog(config);
-
-			//取缩放级别最大的一级做为缩放参数
-
-			//载入文件
-			pdfManager.load(config.url, function (pdf) {
-				//console.log(pdf);
-				//打开pdf页面
-				pdfManager.getPage(pdf, 1, function (page) {
-					//
-					var scale = config.zoom.zoomFitScale;
-					pdfManager.show(page, scale, function () {
-						//渲染完成后执行
-						_this.initBtns(config);
-						_this.initSelect(config);
-					})
-				});
-			});
-		},
-
 		//初始化canvas 根据内容逐页输出
 		appendCanvas: function (_config, number, $canvasGroup) {
+
 			var config = _config;
 			var $canvasAll = $('#' + config.canvasAllId);
+			var styleStr = 'width:auto;';
+			//如果是像素密度不是1，则强制缩放
+			if(pdfManager.getPixelRatio() != 1){
+				var zoom = 1;
+				if(_config.zoom){
+					zoom = _config.zoom.zoomFitScale/_config.zoom.autoFitScale[_config.zoom.zoomFit]
+				}
+				styleStr = 'width:'+ $canvasAll.innerWidth() * zoom + 'px;';
+			}
 			var canvasLength = $canvasAll.find('canvas').length;
 			var canvasArr = [];
 			for (var i = canvasLength; i < canvasLength + number; i++) {
 				var canvasId = config.id + '-canvas-' + i;
-				var $canvas = $('<canvas id=' + canvasId + ' style="width:auto;"></canvas>');
+				var $canvas = $('<canvas id=' + canvasId + ' style="'+styleStr+'"></canvas>');
 				$canvasGroup.append($canvas);
 				canvasArr.push(canvasId);
 			}
-
 			return canvasArr;
 		},
 
@@ -2369,17 +2285,20 @@ NetstarUI.multiPdfViewer = (function () {
 			var totalLength = 0;
 			for (var j = 0; j < config.url.length; j++) {
 				var urlData = config.url[j];
-				switch(urlData.type){
+				switch(urlData.type.toLocaleLowerCase()){
+					//sjj 20200114 大小写转换
 					case 'pdf':
 					case 'img':
 					case 'jpg':
+					case 'png':
+					case 'gif':
 						totalLength++;
 						break;
 				}
 			}
 			for (var i = 0; i < config.url.length; i++) {
 				var url = config.url[i].url;
-				var type = config.url[i].type;
+				var type = config.url[i].type.toLocaleLowerCase();
 				if (type == 'pdf') {
 					_this.showPdf(config, url, i, function () {
 						increaseLength++;
@@ -2390,7 +2309,7 @@ NetstarUI.multiPdfViewer = (function () {
 						}
 						// _this.initBtns();
 					});
-				} else if (type == 'img' || type == 'jpg') {
+				} else if (type == 'img' || type == 'jpg' || type == 'png' || type == 'gif') {
 					_this.showImg(config, url, i, function () {
 						increaseLength++;
 						if(increaseLength == totalLength){
@@ -2418,21 +2337,25 @@ NetstarUI.multiPdfViewer = (function () {
 			$canvasAll.append($canvasGroup);
 			pdfManager.load(config, url, function (pdf) {
 				//打开pdf页面
-				var canvasArr = _this.appendCanvas(config, pdf.numPages, $canvasGroup);
-				config.canvasArr = canvasArr;
-
-				for (var i = 0; i < canvasArr.length; i++) {
-					var canvasId = canvasArr[i];
-					var pageNum = i + 1;
-					pdfManager.getPage(config, pdf, pageNum, canvasId, function (page, _canvasId) {
-						//逐个页面渲染
-						var scale = config.zoom.zoomFitScale;
-						var canvas = $('#' + _canvasId)[0];
-						pdfManager.show(config, page, scale, canvas, function () {
-							//渲染完成后执行
-							cb && cb();
-						})
-					});
+				if(pdf){
+					var canvasArr = _this.appendCanvas(config, pdf.numPages, $canvasGroup);
+					config.canvasArr = canvasArr;
+	
+					for (var i = 0; i < canvasArr.length; i++) {
+						var canvasId = canvasArr[i];
+						var pageNum = i + 1;
+						pdfManager.getPage(config, pdf, pageNum, canvasId, function (page, _canvasId) {
+							//逐个页面渲染
+							var scale = config.zoom.zoomFitScale;
+							var canvas = $('#' + _canvasId)[0];
+							pdfManager.show(config, page, scale, canvas, function () {
+								//渲染完成后执行
+								cb && cb();
+							})
+						});
+					}
+				}else{
+					cb && cb();
 				}
 
 			});
@@ -2469,8 +2392,8 @@ NetstarUI.multiPdfViewer = (function () {
 			var config = _config;
 			var _this = this;
 			//url:string pdf的地址
-            //var loadingTask = pdfLib.getDocument(url);
-            var loadingTask = pdfLib.getDocument({url:url,rangeChunkSize:65536*16})
+			//var loadingTask = pdfLib.getDocument(url);rangeChunkSize:65536*16
+			var loadingTask = pdfLib.getDocument({url:url,rangeChunkSize:1024*512})
 			//挂载监听器，完成后执行
 			loadingTask.promise.then(function (pdf) {
 				_this.pdf = pdf;
@@ -2490,6 +2413,9 @@ NetstarUI.multiPdfViewer = (function () {
 				// PDF加载出错
 				nsalert('PDF加载出错', 'error');
 				console.error(reason);
+				if (typeof (callbackFunc) == 'function') {
+					callbackFunc();
+				}
 			})
 		},
 		//获取pdf页面
@@ -2513,11 +2439,20 @@ NetstarUI.multiPdfViewer = (function () {
 				}
 			})
 		},
+		//获取浏览器像素密度 cy 2020/02/20
+		getPixelRatio : function () {
+            if (window.devicePixelRatio && window.devicePixelRatio > 1) {
+                return window.devicePixelRatio;
+            }
+            return 1;
+        },
 		//打开PDF页面
 		show: function (_config, page, scale, canvas, callbackFunc) {
 			var config = _config;
 			config.zoom.current = scale;
-			var viewport = page.getViewport(scale);
+			//添加对像素密度的支持 cy 2020/02/20
+			var pixelRatio = this.getPixelRatio();
+			var viewport = page.getViewport(scale * pixelRatio) ;
 			//画板渲染
 			var context = canvas.getContext('2d');
 			canvas.height = viewport.height;
@@ -2546,18 +2481,28 @@ NetstarUI.multiPdfViewer = (function () {
 			}
 
 			var fitScale = 1; //缩放比例 根据pdf的宽度和页面宽度比例重新生成缩放比例数组
-			var autoFitScale = {
-				width: (window.innerWidth - 10) / page.view[2],
-				height: (window.innerHeight - 50) / page.view[3],
-			};
-			if (config.id) {
-				var $container = $('#' + config.id);
-				var containerHeight = $container.outerHeight();
+			var autoFitScale = {};
+			if(_config.browserSystem == 'mobile'){
+				//手机版显示PDF无边框
 				autoFitScale = {
-					width: ($container.outerWidth() - 20) / page.view[2],
-					height: (containerHeight) / page.view[3],
+					width: window.innerWidth / page.view[2],
+					height: window.innerHeight / page.view[3],
 				};
+			}else{
+				autoFitScale = {
+					width: (window.innerWidth - 10) / page.view[2],
+					height: (window.innerHeight - 50) / page.view[3],
+				};
+				if (config.id) {
+					var $container = $('#' + config.id);
+					var containerHeight = $container.outerHeight();
+					autoFitScale = {
+						width: ($container.outerWidth() - 20) / page.view[2],
+						height: (containerHeight) / page.view[3],
+					};
+				}
 			}
+			
 			if (config.zoomFit == 'width') {
 				fitScale = autoFitScale.width;
 			} else if (config.zoomFit == 'height') {
