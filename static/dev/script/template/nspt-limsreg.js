@@ -1856,6 +1856,7 @@ NetstarTemplate.templates.limsReg = (function ($) {
             case 'blockList':
                for(var blockListId in componentData){
                   var blockListConfig = componentData[blockListId];
+                  clearQueryValConfig(blockListConfig);
                   NetstarBlockList.refreshDataById(blockListId,_config.serverData[blockListConfig.keyField]);
                }
                break;
@@ -1914,6 +1915,7 @@ NetstarTemplate.templates.limsReg = (function ($) {
          if(!$.isArray(listData)){listData = [];}
 
          var searchRowArray = [];
+         var hideTr = [];
          if(listData.length > 0 && formJson.keyword){
             //如果列表存在数据并且存在检索条件
             searchRowArray = [];
@@ -1925,12 +1927,13 @@ NetstarTemplate.templates.limsReg = (function ($) {
                      //当前为文本
                      if(rowData[colI].indexOf(formJson.keyword)>-1){
                         isContinue = false; //当前列存在关键词
+                        searchRowArray.push(rowI);
                         break;
                      }
                   }
                }
                if(isContinue == false){
-                  searchRowArray.push(rowData);
+                  // searchRowArray.push(rowData);
                }
             }
             if(searchRowArray.length == 0){
@@ -1958,15 +1961,22 @@ NetstarTemplate.templates.limsReg = (function ($) {
                         }
                      }
                      if(isContinue == false){
-                        searchRowArray.push(rowData);
+                        // searchRowArray.push(rowData);
+                        searchRowArray.push(rowI);
                      }
                   }
+               }
+            }
+            for(var i=0; i<listData.length; i++){
+               if(searchRowArray.indexOf(i) == -1){
+                  hideTr.push(i);
                }
             }
          }else{
             searchRowArray = store.get('cache-'+gridId);
          }
-         NetstarBlockList.refreshDataById(gridId,searchRowArray);
+         // NetstarBlockList.refreshDataById(gridId,searchRowArray);
+         NetstarBlockList.refreshDataByIdAndHideTr(gridId,listData,hideTr);
 		}
 		formJson.completeHandler = function(obj){
 			var buttonHtml = '<div class="pt-btn-group">'
@@ -2580,6 +2590,11 @@ NetstarTemplate.templates.limsReg = (function ($) {
       var tempalteConfig = NetstarTemplate.templates.configs[_package];
       setValuesByData(tempalteConfig, value);
    }
+   // 清空查询
+   function clearQueryValConfig(detailLeftComponent){
+      NetstarComponent.clearValues('query-'+detailLeftComponent.id);
+      NetstarBlockList.clearTrHideOrderConfig(detailLeftComponent.id);
+   }
    return {
       init: init,
       dialogBeforeHandler:dialogBeforeHandler,
@@ -2616,6 +2631,7 @@ NetstarTemplate.templates.limsReg = (function ($) {
          if(!$.isArray(detailLeftComponentDataArr)){
             detailLeftComponentDataArr = [];
          }
+         clearQueryValConfig(detailLeftComponent);
          if(detailLeftComponentDataArr.length == 0){
             NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows = [];
             NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows = [];
