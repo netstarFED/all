@@ -1397,6 +1397,7 @@ NetstarComponent.getNewVueComponentData = function(config){
         case 'ajaxApi':
         case 'videoUpload':
         case 'uploadImage':
+        case 'numberRange':
             typeClass = typeClass.toLowerCase()
             break;
     }
