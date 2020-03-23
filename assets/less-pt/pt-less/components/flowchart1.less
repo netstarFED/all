@@ -1,0 +1,390 @@
+@flowchart-control-height: 40px;
+@flowchart-control-bg: #fff;
+@flowchart-view-panel-bg: #f2f5f7;
+@flowchart-btn-icon-size: 20px;
+@flowchart-border-color: #e5e6e7;
+@time-line-bg: #c4d9e8;
+@blue: #00a0e9;
+// .panel-form .form-td.nscomponent-type-flowchartviewer.nscomponent-form {
+//     overflow: hidden;
+// }
+
+
+// .nscomponent-type-flowchartviewer {
+//     @zoom-btn-size: 20px;
+//     @zoom-btn-radius: 3px;
+//     @zoom-btn-bg: #f1f6f9;
+//     @zoom-btn-bg-dark: darken(@zoom-btn-bg, 5%);
+
+//     .btn-group {
+//         padding: 3px;
+
+//         .btn.btn-icon {
+//             border: 0;
+//             .square(@zoom-btn-size);
+//             line-height: @zoom-btn-size;
+//             padding: 0;
+//             border-radius: @zoom-btn-radius;
+//             background: @zoom-btn-bg;
+
+//             i {
+//                 color: @gray-light;
+//                 vertical-align: text-top;
+//             }
+
+//             &:hover {
+//                 box-shadow: none;
+//                 background: @zoom-btn-bg-dark;
+//             }
+
+//             &:first-child,
+//             &:last-child {
+//                 border-radius: @zoom-btn-radius;
+//             }
+
+//             &:first-child:not(last-child):not(.dropdown-toggle) {
+//                 border-bottom-right-radius: @zoom-btn-radius;
+//                 border-top-right-radius: @zoom-btn-radius;
+//             }
+
+//             &+.btn {
+//                 margin-left: 5px;
+//             }
+//         }
+//     }
+// }
+
+.flowchartviewer {
+    border-color: transparent;
+    border: 0;
+
+    &:hover,
+    &:focus {
+
+        border: 0;
+    }
+}
+
+//   弹框流程图
+.flowchartviewer-panel {
+    background: @flowchart-view-panel-bg;
+    border: 0;
+    top: @flowchart-control-height;
+    right: 0;
+    opacity: 0.85;
+
+    // 头部
+    .flowchartviewer-header,
+    .flowchartviewer-body {
+        padding-top: @base-padding;
+    }
+
+    .flowchartviewer-header {
+        border-bottom: 1px solid @flowchart-border-color;
+
+        .flowchartviewer-title {
+            margin: 0;
+        }
+
+        .btn-group {
+            .btn {
+                border: 1px solid @ns-border-color;
+                padding: 4px 6px;
+                height: auto;
+                font-size: @font-size-base;
+
+                &+.btn {
+                    margin-left: (@base-margin / 2);
+                }
+            }
+        }
+
+        h4+.btn-group {
+            padding-top: @base-padding;
+        }
+
+    }
+
+    // 中间内容
+    .flowchartviewer-body {
+        padding-left: @flowchart-control-height;
+        position: relative;
+        overflow-y: auto;
+
+        &:before {
+            position: absolute;
+            width: 1px;
+            content: '';
+            background: @flowchart-border-color;
+            top: @padding-base-vertical;
+            bottom: @padding-base-vertical;
+            left: 20px;
+        }
+    }
+
+    // 时间轴
+    .flowchartviewer-timeline {
+        @timeline-type-font-size: @font-size-base;
+
+        .flowchartviewer-timeline-li {
+            @timeline-bg: @time-line-bg;
+            @timeline-focus-bg: @ns-success;
+            @timeline-circle: 9px;
+            @timeline-focus-circle: (@timeline-circle + 2);
+            position: relative;
+            margin-bottom: 20px;
+
+            &:before {
+                position: absolute;
+                .square(@timeline-circle);
+                border-radius: @timeline-circle / 2;
+                content: "";
+                background: @timeline-bg;
+                top: 8px;
+                left: -24px;
+                box-sizing: content-box;
+
+            }
+
+            &.current {
+                &:before {
+                    .square(@timeline-focus-circle);
+                    background: @timeline-focus-bg;
+                    border-radius: @timeline-focus-circle / 2;
+                    top: 7px;
+                    left: -25px;
+                }
+            }
+
+            .flowchartviewer-timeline-time {
+                display: block;
+                font-size: 13px;
+                line-height: 25px;
+                color: #424242;
+                margin-bottom: 3px;
+                font-weight: bold;
+            }
+
+            .flowchartviewer-timeline-heade {
+                background-color: #fff;
+                position: relative;
+                padding: 5px 10px;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    right: 100%;
+                    top: 8px;
+                    width: 0;
+                    height: 0;
+                    border-top: 8px solid transparent;
+                    border-right: 8px solid #fff;
+                    border-bottom: 8px solid transparent;
+                }
+
+                span {
+                    color: #fff;
+                }
+
+                //创建
+                &.type-start {
+                    background-color: @warning;
+
+                    &::after {
+                        border-right-color: @warning;
+                    }
+                }
+
+                //签收
+                &.type-end {
+                    background-color: green;
+
+                    &::after {
+                        border-right-color: green;
+                    }
+                }
+
+                //提交
+                &.type-submit {
+                    background-color: @blue;
+
+                    &::after {
+                        border-right-color: @blue;
+                    }
+                }
+
+                //回退
+                &.type-return {
+                    background-color: red;
+
+                    &::after {
+                        border-right-color: red;
+                    }
+                }
+
+                //撤回
+                &.type-withdraw {
+                    background-color: gray;
+
+                    &::after {
+                        border-right-color: gray;
+                    }
+                }
+
+
+                //流程状态名称
+                .flowchartviewer-timeline-type {
+                    display: block;
+                    font-size: @timeline-type-font-size;
+                }
+
+
+            }
+
+            .flowchartviewer-timeline-content {
+                background-color: #fff;
+                padding: 5px 10px;
+                line-height: 17px;
+
+                &>span {
+                    display: block;
+                    margin-bottom: 3px;
+                }
+            }
+        }
+    }
+
+    .flowchartviewer-footer {
+        right: 0;
+        left: 0;
+        width: 100%;
+        text-align: right;
+
+        .btn-group {
+            width: 100%;
+            float: none;
+            padding: 0;
+            border-top: 1px solid @ns-border-color;
+
+            .btn {
+                display: inline-block;
+                float: none;
+                border: 0;
+                border-left: 1px solid @ns-border-color;
+
+            }
+        }
+    }
+}
+
+// .panel-form .form-td.nscomponent-type-flowchartviewer.nscomponent-form {
+//     overflow: hidden;
+// }
+
+// .mxTooltip {
+//     position: absolute;
+//     background: #e49b3a;
+//     padding: 5px;
+// }
+
+// .popover.animation {
+//     animation: toTransparent 2s;
+//     -moz-animation: toTransparent 2s;
+//     /* Firefox */
+//     -webkit-animation: toTransparent 2s;
+//     /* Safari and Chrome */
+//     -o-animation: toTransparent 2s;
+//     /* Opera */
+// }
+
+
+// .flowchartviewer-footer {
+//     position: absolute;
+//     bottom: 0px;
+// }
+
+// @keyframes toTransparent {
+//     0% {
+//         opacity: 1;
+//     }
+
+//     75% {
+//         opacity: 1;
+//     }
+
+//     100% {
+//         opacity: 0;
+//     }
+// }
+
+// @-moz-keyframes toTransparent
+
+// /* Firefox */
+//     {
+//     0% {
+//         opacity: 1;
+//     }
+
+//     75% {
+//         opacity: 1;
+//     }
+
+//     100% {
+//         opacity: 0;
+//     }
+// }
+
+// @-webkit-keyframes toTransparent
+
+// /* Safari and Chrome */
+//     {
+//     0% {
+//         opacity: 1;
+//     }
+
+//     75% {
+//         opacity: 1;
+//     }
+
+//     100% {
+//         opacity: 0;
+//     }
+// }
+
+// //   面包屑导航
+// [ns-type="tree-process"] {
+//     padding: @base-padding 0;
+
+//     li {
+//         display: inline-block;
+//         cursor: pointer;
+
+//         &+li {
+//             padding-left: (@base-padding / 2);
+//         }
+//     }
+// }
+
+
+
+// .flowchart {
+//     position: relative;
+
+//     // 面包屑导航
+//     [ns-type="tree-process"]{
+//         padding: @base-padding;
+//         height: @flowchart-control-height;
+//     }
+//     // 控制面板按钮组
+//     .pt-btn-group-lg {
+//         position: absolute;
+//         width: 300px;
+//         right: 0;
+//         background: @flowchart-control-bg;
+//         .pt-btn{
+//             i{
+//                 font-size: @flowchart-btn-icon-size;
+//             }
+//         }
+//     }
+// }
