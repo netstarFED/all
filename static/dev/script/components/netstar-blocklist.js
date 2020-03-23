@@ -856,7 +856,32 @@ var NetstarBlockList = (function () {
 			console.error(gridData)
 			return false;
 		};
+		// config.gridConfig.ui.trHideByOrderArr = [];
 		config.vueObj.originalRows = $.extend(true, [], gridData);
+	}
+
+	function refreshDataByIdAndHideTr(gridId, gridData, trHideOrder) {
+		var config = NetstarBlockList.configs[gridId];
+		if (typeof config == 'undefined') {
+			console.error("gridId传入错误");
+			return false;
+		}
+		if (!(gridData instanceof Array)) {
+			console.error("gridData类型应为数组");
+			console.error(gridData)
+			return false;
+		};
+		config.gridConfig.ui.trHideByOrderArr = trHideOrder;
+		config.vueObj.originalRows = $.extend(true, [], gridData);
+	}
+	// 清空通过序列号隐藏的行配置
+	function clearTrHideOrderConfig(gridId) {
+		var config = NetstarBlockList.configs[gridId];
+		if (typeof config == 'undefined') {
+			console.error("gridId传入错误");
+			return false;
+		}
+		config.gridConfig.ui.trHideByOrderArr = [];
 	}
 
 	//根据字段和值获取当前操作的数据
@@ -924,5 +949,7 @@ var NetstarBlockList = (function () {
 		refreshDataById: refreshDataById,
 		getSelectedData: controllerManager.getSelectedData,
 		getDataByFieldAndValue: getDataByFieldAndValue,
+		refreshDataByIdAndHideTr : refreshDataByIdAndHideTr,
+		clearTrHideOrderConfig : clearTrHideOrderConfig,
 	}
 })(jQuery)

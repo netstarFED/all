@@ -139,7 +139,7 @@ var NetStarGrid = (function () {
 					'<div v-if="domParams.panelOfEmptyRows.isShow" class="panel-emptyrows" :class="domParams.panelOfEmptyRows.class">{{domParams.panelOfEmptyRows.info}}</div>' +
 					'<template v-if="ui.displayMode === \'block\' ">' +
 					'<div class="pt-grid" :style="domParams.contentTable.style" :id="domParams.contentTable.id">' +
-					'<div v-for="(row,index) in rows" :ns-rowindex="index" :ns-id="row[idField]" @click="rowClickHandler" @dblclick="rowdbClickHandler" class="pt-block-list" :class="[{\'selected\':row.netstarSelectedFlag},{\'disabled\':row[\'NETSTAR-TRDISABLE\']},NetstarBlockState(row),plusClass]">' +
+					'<div v-for="(row,index) in rows" :ns-rowindex="index" :ns-id="row[idField]" @click="rowClickHandler" @dblclick="rowdbClickHandler" class="pt-block-list" :class="[{\'selected\':row.netstarSelectedFlag},{\'disabled\':row[\'NETSTAR-TRDISABLE\']},NetstarBlockState(row),plusClass,{\'hide\':row[\'NETSTAR-TRHIDDEN\']}]">' +
 					'<div class="pt-block-content" v-html="netStarColumnText(row,index)">' +
 					'</div>' +
 					'<template v-for="columnConfig in columns">' +
@@ -2377,8 +2377,8 @@ var NetStarGrid = (function () {
 			var allRows = vueData.originalRows;
 			var pageRows = dataManager.getRowsByPage(pageNumber, allRows, gridConfig);
 			var tableRowLength = allRows.length;
-			//如果设置了uiconfig defaultSelectedIndex sjj 20190123
 			if (pageRows.length > 0) {
+				//如果设置了uiconfig defaultSelectedIndex sjj 20190123
 				if (typeof (gridConfig.ui.defaultSelectedIndex) == 'number') {
 					var isHasSelected = false;
 					for (var i = 0; i < pageRows.length; i++) {
@@ -2398,6 +2398,19 @@ var NetStarGrid = (function () {
 						}
 					}
 				}
+				// 如果设置了隐藏行 通过行序列号设置
+				if ($.isArray(gridConfig.ui.trHideByOrderArr)) {
+					var trHideByOrderArr = gridConfig.ui.trHideByOrderArr;
+					for (var i = 0; i < pageRows.length; i++) {
+						pageRows[i]['NETSTAR-TRHIDDEN'] = false;
+					}
+					for(var i=0; i<trHideByOrderArr.length; i++){
+						if(pageRows[trHideByOrderArr[i]]){
+							pageRows[trHideByOrderArr[i]]['NETSTAR-TRHIDDEN'] = true;
+						}
+					}
+				}
+
 			}
 			vueData.rows = pageRows;
 			if (gridConfig.data.isServerMode) {
