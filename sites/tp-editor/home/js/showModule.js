@@ -134,7 +134,7 @@ var showModule = {
             Object.assign(domplacesize,domSize,domPlace);
             var obj = {}
             for(var key in domplacesize){
-                obj[key] = domplacesize[key] + "px"
+                obj[key] = domplacesize[key] + "px";
             }
             return obj;
         },
