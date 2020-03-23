@@ -887,14 +887,18 @@ pageProperty.getAndCachePage = function(pageConfig){
 
 			function getStrParas(url){
 				var paraStr = '';
+				var paraArr = [];
 				if(url.indexOf('?') > -1){
 					paraStr = url.substr(url.indexOf('?') + 1);
+					paraArr = paraStr.split('&');
 				}else{
 					if(url.indexOf(';') > -1){
 						paraStr = url.substr(url.indexOf(';') + 1);
+						paraArr = paraStr.split(';');
+					}else{
+						paraArr = paraStr.split('&');
 					}
 				}
-				var paraArr = paraStr.split('&');
 				var paraObj = {};
 				for (var paraI = 0; paraI < paraArr.length; paraI++) {
 					var equalIndex = paraArr[paraI].indexOf('=');
