@@ -2648,6 +2648,11 @@ var NetStarGrid = (function () {
 						} else if (data === '') {
 							data = undefined;
 						}
+						if(typeof(data) == "number" && typeof(columnConfig) == "object"){
+							if(typeof(columnConfig.editConfig) == "object" && typeof(columnConfig.editConfig.decimalDigit) == "number"){
+								data = Number(Number(data).toFixed(columnConfig.editConfig.decimalDigit));
+							}
+						}
 						break;
 					case 'date':
 						if (typeof (data) != 'number') {
@@ -6478,6 +6483,7 @@ var NetStarGrid = (function () {
 								var countData = {};
 								var fieldRex = /\{\{(.*?)\}\}/;
 								var fieldCountFuncObj = editConfig.countFuncConfig;
+								var columnById = gridConfig.columnById ? gridConfig.columnById : {};
 								for (var fieldKey in fieldCountFuncObj) {
 									var countFuncArr = fieldCountFuncObj[fieldKey];
 									var countFuncStr = '';
@@ -6502,6 +6508,12 @@ var NetStarGrid = (function () {
 											var resultStrMix = resultStrArr[1];
 											if (resultStrMix.length == 17) {
 												resultStr = result.toFixed(16);
+											}
+										}
+										if(columnById[fieldKey] && columnById[fieldKey].editConfig){
+											var decimalDigit = columnById[fieldKey].editConfig.decimalDigit;
+											if(typeof(decimalDigit) == "number"){
+												resultStr = Number(resultStr).toFixed(decimalDigit);
 											}
 										}
 										countData[fieldKey] = Number(resultStr);
