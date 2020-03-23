@@ -324,7 +324,7 @@
                       var treeJsonReadonly =      
                         {
                             type: "tree",  //类型
-                            title : '树',  //标题  
+                            title : '只读树',  //标题  
                             unfieldId : 'unfieldId',   //子级id
                             allfieldId : 'allfieldId',//父子级id 
                             ajax: {
@@ -356,12 +356,240 @@
                 </script>
                 <div class="content language-javascript">
                     <pre>
+    {
+        type: "tree",  //类型
+        title : '树',  //标题  
+        unfieldId : 'unfieldId',   //子级id
+        allfieldId : 'allfieldId',//父子级id 
+        ajax: {
+            data: {
+                categoryType: 1,
+            },
+            url: getRootPath() + '/docs/data/tree/getList.json',
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded",
+            dataSrc: "rows"
+        },
+        unfieldText :"柠檬",   //子级
+        allfieldText : '所有', //全部（父子级）
+        isMultiple:false,//不多选
+        isClickRoot : true, //选中根节点 
+        idField: "id", 
+        textField: "name",
+        childField: "children", //树数据子级名
+        fromField: "fromId", //新增时发送的字段
+        level: "0", //打开层级 
+        readonly: true, //只读
+        maxlength:50,//
+        formatter: "{\"id\":\"{id}\"}",
+        id: "nsdocs-jsontree-readonly",
+        height: 400, //树高度 
+        width : 350,  //树宽度
+    }
+                    </pre>
+                </div>
+            </div>
+               <!-- 只读的树 -->
+               <div class=" panel content-demo" netstar-doc="sample">
+                <a href="javascript:void(0);" id="sense-nsdocs-date-value"></a>
+                <!-- <span>快捷键左右选择</span> -->
+                <h3 class="title-code"></h3>
+                <span class="intro"></span>
+                <div id="nsdocs-jsontree-list" class="panel-demo"></div>
+                <script>
+                      var treeJsonList =      
+                        {
+                            type: "tree",  //类型
+                            title : '只读树',  //标题  
+                            unfieldId : 'unfieldId',   //子级id
+                            allfieldId : 'allfieldId',//父子级id 
+                            list: [
+                                {
+                                    "id": "1",
+                                    "name": "五日生化需氧量表头",
+                                    "sort": 0,
+                                    "children": [
+                                        {
+                                            "id": "12",
+                                            "name": "静态",
+                                            "parent": "1",
+                                            "sort": 1,
+                                            "checked": true,
+                                            "children": [
+                                                {
+                                                    "id": "121",
+                                                    "name": "分析方法",
+                                                    "parent": "12",
+                                                    "sort": 6,
+                                                    "checked": true
+                                                },
+                                                {
+                                                    "id": "122",
+                                                    "name": "温度",
+                                                    "parent": "12",
+                                                    "sort": 7,
+                                                    "checked": true
+                                                },
+                                                {
+                                                    "id": "123",
+                                                    "name": "湿度",
+                                                    "parent": "12",
+                                                    "sort": 8,
+                                                    "checked": true
+                                                },
+                                                {
+                                                    "id": "124",
+                                                    "name": "取样日期",
+                                                    "parent": "12",
+                                                    "sort": 9,
+                                                    "checked": true
+                                                },{
+                                                    "id": "125",
+                                                    "name": "检测日期",
+                                                    "parent": "12",
+                                                    "sort": 9,
+                                                    "checked": true
+                                                }
+                                            ],
+                                            "isParent": true
+                                        },
+                                        {
+                                            "id": "11",
+                                            "name": "水果",
+                                            "parent": "1",
+                                            "sort": 2,
+                                            "children": [
+                                                {
+                                                    "id": "111",
+                                                    "name": "苹果",
+                                                    "parent": "11",
+                                                    "sort": 3
+                                                },
+                                                {
+                                                    "id": "112",
+                                                    "name": "香蕉",
+                                                    "parent": "11",
+                                                    "sort": 4
+                                                },
+                                                {
+                                                    "id": "113",
+                                                    "name": "梨",
+                                                    "parent": "11",
+                                                    "sort": 5
+                                                },
+                                                {
+                                                    "id": "114",
+                                                    "name": "核桃",
+                                                    "parent": "11",
+                                                    "sort": 6,
+                                                    "checked": true
+                                                }
+                                            ],
+                                            "isParent": true
+                                        },
+                                        {
+                                            "id": "13",
+                                            "name": "粮食",
+                                            "parent": "1",
+                                            "sort": 8,
+                                            "children": [
+                                                {
+                                                    "id": "132",
+                                                    "name": "小米",
+                                                    "parent": "13",
+                                                    "sort": 9
+                                                },
+                                                {
+                                                    "id": "131",
+                                                    "name": "大米",
+                                                    "parent": "13",
+                                                    "sort": 11,
+                                                    "children": [
+                                                        {
+                                                            "id": "1311",
+                                                            "name": "东北大米",
+                                                            "parent": "131",
+                                                            "sort": 10
+                                                        },
+                                                        {
+                                                            "id": "1312",
+                                                            "name": "核桃",
+                                                            "parent": "131",
+                                                            "sort": 6
+                                                        }
+                                                    ],
+                                                    "isParent": true
+                                                }
+                                            ],
+                                            "isParent": true
+                                        },
+                                        {
+                                            "id": "14",
+                                            "name": "核桃",
+                                            "parent": "1",
+                                            "sort": 6
+                                        }
+                                    ],
+                                    "isParent": true
+                                }
+                            ],
+                            unfieldText :"柠檬",   //子级
+                            allfieldText : '所有', //全部（父子级）
+                            isMultiple:false,//不多选
+                            isClickRoot : true, //选中根节点 
+                            idField: "id", 
+                            textField: "name",
+                            childField: "children", //树数据子级名
+                            fromField: "fromId", //新增时发送的字段
+                            level: "0", //打开层级 
+                            readonly: true, //只读
+                            maxlength:50,//
+                            formatter: "{\"id\":\"{id}\"}",
+                            id: "nsdocs-jsontree-list",
+                            height: 400, //树高度 
+                            width : 350,  //树宽度
+                        }
+                        NetstarTemplate.tree.init(treeJsonList);
+                </script>
+                <div class="content language-javascript">
+                    <pre>
+    {
+        type: "tree",  //类型
+        title : '树',  //标题  
+        unfieldId : 'unfieldId',   //子级id
+        allfieldId : 'allfieldId',//父子级id 
+        ajax: {
+            data: {
+                categoryType: 1,
+            },
+            url: getRootPath() + '/docs/data/tree/getList.json',
+            type: "GET",
+            contentType: "application/x-www-form-urlencoded",
+            dataSrc: "rows"
+        },
+        unfieldText :"柠檬",   //子级
+        allfieldText : '所有', //全部（父子级）
+        isMultiple:false,//不多选
+        isClickRoot : true, //选中根节点 
+        idField: "id", 
+        textField: "name",
+        childField: "children", //树数据子级名
+        fromField: "fromId", //新增时发送的字段
+        level: "0", //打开层级 
+        readonly: true, //只读
+        maxlength:50,//
+        formatter: "{\"id\":\"{id}\"}",
+        id: "nsdocs-jsontree-readonly",
+        height: 400, //树高度 
+        width : 350,  //树宽度
+    }
                     </pre>
                 </div>
             </div>
             <div>
                 <p style="line-height: px;font-size:16px;">
-                    *普通树 新增/删除/修改/移动 的ajax必填, 如果不需要这些功能，可以将树配成只读（readonly:true）
+                    *普通树 新增/删除/修改/移动 的ajax必填, 如果不需要这些功能，可以将树配成只读（readonly:true)<br>
+                    
                 </p>
             </div>
         </div>

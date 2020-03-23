@@ -1,698 +1,715 @@
 <!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
 <container>
-<div class="pt-main businessdatabase ">
-    <div class="pt-container">
-        <div class="pt-main-row">
-            <div class="pt-main-col" id="product-tree-component-standard-0">
-                <div class="pt-panel">
-                    <div class="pt-container">
-                        <div class="pt-panel-row">
-                            <div class="pt-panel-col">
-                                <div class="pt-tree">
-                                    <div class="pt-container">
-                                        <div class="businessdatabase-tree-ztree layout-ztree" id="product-tree-tree-component-standard-0"></div>
+    <div class="pt-main businessdatabase ">
+        <div class="pt-container">
+            <div class="pt-main-row">
+                <div class="pt-main-col" id="product-tree-component-standard-0">
+                    <div class="pt-panel">
+                        <div class="pt-container">
+                            <div class="pt-panel-row">
+                                <div class="pt-panel-col">
+                                    <div class="pt-tree">
+                                        <div class="pt-container">
+                                            <div class="businessdatabase-tree-ztree layout-ztree" id="product-tree-tree-component-standard-0"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div> 
+                <div class="pt-main-col" style="margin-top: 28px;">
+                    <div class="pt-panel nav-form" id="product-mainlist-btn-component-standard-2"></div>
+                    <div class="pt-panel businessdatabase-grid-component" id="product-mainlist-component-standard-1"></div>
+                    <div class="pt-panel nav-form" id="product-detaillist-btn-component-standard-5"></div>
+                    <div class="pt-panel businessdatabase-grid-component" id="product-detaillist-component-standard-1"></div>
+                    <div class="pt-panel businessdatabase-grid-component" id="product-detaillist-component-standard-2"></div>
                 </div>
-            </div> 
-            <div class="pt-main-col" style="margin-top: 28px;">
-                <div class="pt-panel nav-form" id="product-mainlist-btn-component-standard-2"></div>
-                <div class="pt-panel businessdatabase-grid-component" id="product-mainlist-component-standard-1"></div>
-                <div class="pt-panel nav-form" id="product-detaillist-btn-component-standard-5"></div>
-                <div class="pt-panel businessdatabase-grid-component" id="product-detaillist-component-standard-1"></div>
-                <div class="pt-panel businessdatabase-grid-component" id="product-detaillist-component-standard-2"></div>
             </div>
         </div>
     </div>
-</div>
-    <script type="text/javascript">
-        //配置参数包含：
-           /*1.要填充的容器元素 id
-           2.请求的ajax链接 url
-           3.请求的参数 data
-           4.节点父id   pid
-           5.当前节点的id valueField
-           6.当前节点的名称 textField
-           7.是否是异步请求 async
-           8.返回的数据源参 dataSrc
-           9.子元素包含的children  haschildField  childrenField
-           10.是否有默认值 value
-           11.单击节点的返回函数 clickCallback
-           12.选中节点的返回函数 checkCallback
-           13.是否支持多选  isCheck
-           14.节点全称  fullnameField
-           15.请求方式 get or post
-           16.勾选父节点和子节点之间的关系 如勾选子节点的时候是否勾选父节点 isCheckParent
-           */
-        var limsTemplate = {};
-        $(function(){
-            //nsLayout.init("demos-layout-tree");
-            var mainPageOffset = $('#netstar-main-page').offset();
-            var commonHeight = $(window).outerHeight() - mainPageOffset.top - 48 - 20 ;
-            
-            var gridHeight = commonHeight - 34;//减去标题的高度减去头部块状表格的高度-按钮的高度
-           // $('#product-tree-tree-component-standard-0').css('height',commonHeight);
-            var templateJson = {
-                package:'nsVue.graps.product',
-                template:'businessDataBase',
-                // title:'商品分类',
-                components:[
-                    {
-                        type:'tree',
-                        id:'product-tree-tree-component-standard-0',
-                        title:'产品类别',
-                        treeId:'id',
-                        idField:'id',
-                        height:commonHeight-34,
-                        readonly: true,
-                        isSearch:   true,
-                        level:2,
-                        ajax : {
-                            url : getRootPath() + '/sampleCate/getSampleCateTreeList.json',
-                            dataSrc:'rows',
-                            // data:   {parentId:0},
-                        },
-                        addAjax : {
-                            url : getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
-                            dataSrc : 'rows',
-                        },
-                        editAjax : {
-                            url : getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
-                            dataSrc : 'rows',
-                        },
-                        deleteAjax : {
-                            url : getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
-                            dataSrc : 'rows',
-                        },
-                        moveAjax : {
-                            url : getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
-                            dataSrc : 'rows',
-                        },
-                        textField:              'sampleCateName',
-                        parentField:               'parentId',
-                        childField:          'children',
-                    },{
-                        type:'list',
-                        idField:'id', 
-                        parent:'root',
-                        id:'product-mainlist-component-standard-1',
-                        ajax:{
-                            src:                    getRootPath() + '/sampleCateStd/getList.json',       //数据源地址
-                            type:                   "POST",          //GET POST
-                            contentType:            'application/json; charset=utf-8',          //GET POST
-                            data:                   {sampleCateId:-1},             //参数对象{id:1,page:100}
-                            //isServerMode:         true,           //是否开启服务器模式
-                            dataSrc:                'rows',
-                           // contentType: 'application/x-www-form-urlencoded'
-                        },
-                        field:[
+        <script type="text/javascript">
+            //配置参数包含：
+               /*1.要填充的容器元素 id
+               2.请求的ajax链接 url
+               3.请求的参数 data
+               4.节点父id   pid
+               5.当前节点的id valueField
+               6.当前节点的名称 textField
+               7.是否是异步请求 async
+               8.返回的数据源参 dataSrc
+               9.子元素包含的children  haschildField  childrenField
+               10.是否有默认值 value
+               11.单击节点的返回函数 clickCallback
+               12.选中节点的返回函数 checkCallback
+               13.是否支持多选  isCheck
+               14.节点全称  fullnameField
+               15.请求方式 get or post
+               16.勾选父节点和子节点之间的关系 如勾选子节点的时候是否勾选父节点 isCheckParent
+               */
+            var limsTemplate = {};
+            $(function(){
+                //nsLayout.init("demos-layout-tree");
+                var mainPageOffset = $('#netstar-main-page').offset();
+                var commonHeight = $(window).outerHeight() - mainPageOffset.top - 48 - 20 ;
+                
+                var gridHeight = commonHeight - 34;//减去标题的高度减去头部块状表格的高度-按钮的高度
+               // $('#product-tree-tree-component-standard-0').css('height',commonHeight);
+                var templateJson = {
+                    package:'nsVue.graps.product',
+                    template:'businessDataBase',
+                    // title:'商品分类',
+                    components:[
                         {
-                                field : 'stdCode',
-                                title : '标准编号',
-                                width : 150,
-                                searchable:true,
-                                orderable:true, 
-                                isCommon:true,
+                            type:'tree',
+                            id:'product-tree-tree-component-standard-0',
+                            title:'产品类别',
+                            treeId:'id',
+                            idField:'id',
+                            height:commonHeight-34,
+                            readonly: true,
+                            isSearch:   true,
+                            level:2,
+                            ajax : {
+                                url : getRootPath() + '/sampleCate/getSampleCateTreeList.json',
+                                dataSrc:'rows',
+                                // data:   {parentId:0},
                             },
-                            {
-                                field : 'stdName',
-                                title : '产品标准名称',
-                                width : 150,
-                                searchable:true,
-                                orderable:true, 
-                                isCommon:true,
-                            }
-                        ],
-                    },{
-                        title:'产品检测项目',
-                        keyField:'GoodsPlatformVo',
-                        idField:'id',
-                        id:"product-detaillist-component-standard-1",
-                        ajax:{
-                            src:getRootPath() + '/sampleItem/getTreeList.json',
-                            type:'post',
-                            data:{sampleCateStdId:-1},
-                            dataSrc:'rows',
-                            contentType:'application/json; charset=utf-8'
-                        },
-                        type:'list',
-                        ui:{
-                            displayMode:"treeGrid",
-                            parentField:"parentId",
-                            level:-1
-                        },
-                        field:[
-                            {
-                                field: 'sampleItemName',
-                                title: '产品项目名称',
-                                searchable:true,
-                                width:120,
-                                isTreeNode:true,
-                                chineseName:'产品项目名称',
-                                columnType: 'htmlRender',
-                                formatHandler:{
-                                    type:'htmlRender',
-                                }
-                            },{
-                                field: 'sampleItemEnName',
-                                title: '产品项目英文名',
-                                width:120,
-                                searchable:true,
-                            },{
-                                field: 'sampleStdChapter',//sampleItemFullName
-                                title: '产品标准章节',
-                                width:120,
-                                searchable:true,
-                            },{
-                                field: 'labels',
-                                title: '项目标签',
-                                width:120
-                            },/*{
-                                field: 'model',//sampleItemName
-                                title: '检测项目',
-                                width:120
-                            },*/{
-                                field:'stdValue',
-                                title: '标准值',
-                                width:120,
-                                columnType : 'standardInput',
-                                editable : true,
-                                editConfig : {
-                                    type : 'standardInput',
-                                    attrTextField : 'name',
-                                    attrValueField : 'id',
-                                    ajax : {
-                                        url : getRootPath() + '/sampleItem/getStdValue',
-                                        dataSrc : 'rows',
-                                        data : {"id":"{this.id}"},
-                                        type : 'GET',
-                                        contentType : 'application/x-www-form-urlencoded'
-                                    },
-                                    subdataAjax : {
-                                        url : getRootPath() + '/sampleCatePropValueDefine/getTreeList',
-                                        dataSrc : 'rows',
-                                        data : {"propId":"{id}"},
-                                        type : 'GET',
-                                        contentType : 'application/json; charset=utf-8'
-                                    },
-                                }
-
-                            }
-                        ]
-                    },{
-                        title:'检测方法',
-                        keyField:'GoodsPlatformVo',
-                        idField:'id',
-                        id:"product-detaillist-component-standard-2",
-                        type:'list',
-                        ajax:{
-                            src:getRootPath() + '/sampleMethods/getList.json',
-                            type:'post',
-                            data:{sampleCateId:-1, stdId:-1, itemId:-1},
-                            dataSrc:'rows',
-                            contentType:'application/json; charset=utf-8'
-                        },
-                        field:[
-                            {
-                                field: 'itemName',//testName
-                                title: '检测项目',
-                                searchable:true,
-                                width:120
+                            addAjax : {
+                                url : getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
+                                dataSrc : 'rows',
                             },
-                            {
-                                field: 'methodStdCode',//methodCode
-                                title: '方法编号',
-                                searchable:true,
-                                width:120
-                            },{
-                                field: 'methodName',
-                                title: '方法名称',
-                                width:120,
-                                searchable:true,
+                            editAjax : {
+                                url : getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
+                                dataSrc : 'rows',
                             },
-                            {
-                                field: 'methodShortName',
-                                title: '方法简称',
-                                width:120,
-                                searchable:true,
+                            deleteAjax : {
+                                url : getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
+                                dataSrc : 'rows',
                             },
+                            moveAjax : {
+                                url : getRootPath() + '/public/static/assets/json/ztree/ztree-add.json',
+                                dataSrc : 'rows',
+                            },
+                            textField:              'sampleCateName',
+                            parentField:               'parentId',
+                            childField:          'children',
+                        },{
+                            type:'list',
+                            idField:'id', 
+                            parent:'root',
+                            id:'product-mainlist-component-standard-1',
+                            ajax:{
+                                src:                    getRootPath() + '/sampleCateStd/getList.json',       //数据源地址
+                                type:                   "POST",          //GET POST
+                                contentType:            'application/json; charset=utf-8',          //GET POST
+                                data:                   {sampleCateId:-1},             //参数对象{id:1,page:100}
+                                //isServerMode:         true,           //是否开启服务器模式
+                                dataSrc:                'rows',
+                               // contentType: 'application/x-www-form-urlencoded'
+                            },
+                            field:[
                             {
-                                //field: 'dataSourceId',
-                                field: 'dataSourceName',
-                                title: '数据源',
-                                width:120,
-                                searchable:true,
-                                //columnType:'subdataText',
-                            },{
-                                field: 'stdControlledCode',
-                                title: '受控号',
-                                width:120
-                            },{
-                                field: 'deptName',
-                                title: '科室',
-                                width:120
-                            },{
-                                field: 'hasNewEdition',
-                                title: '是否允许更新',
-                                editConfig:{
-                                    textField:"value",
-                                    valueField:"id",
-                                    type:"select",
-                                    subdata:[
-                                        {
-                                            id:"0",
-                                            value:"无更新"
-                                        },
-                                        {
-                                            id:"1",
-                                            value:"有更新"
-                                        }
-                                    ]
-
+                                    field : 'stdCode',
+                                    title : '标准编号',
+                                    width : 150,
+                                    searchable:true,
+                                    orderable:true, 
+                                    isCommon:true,
                                 },
-                                width:60
-                            }
-                        ]
-                    },{
-                        type:'btns',
-                        position:'text-left',
-                        id:'product-mainlist-btn-component-standard-2',
-                        field:[
-                            {
-                                text:'选择标准',
-                                isReturn:true,
-                                handler:function(){
-                                    var url = getRootPath()+'/templateMindPages/pageConfig/1307723194085409769';
-                                    dialogTemplateByUrl(url,'main');
+                                {
+                                    field : 'stdName',
+                                    title : '产品标准名称',
+                                    width : 150,
+                                    searchable:true,
+                                    orderable:true, 
+                                    isCommon:true,
                                 }
-                            }
-                        ]
-                    },{
-                        type:'btns',
-                        position:'text-left',
-                        id:'product-detaillist-btn-component-standard-5',
-                        field:[
-                            {
-                                text:'新增同级',
-                                isReturn:true,
-                                //shortcutKey:'ALT+C',
-                                handler:function(){
-                                    var url = getRootPath()+'/templateMindPages/pageConfig/1307728739961930729';
-                                    dialogTemplateByUrl(url,'brothers');
-                                }
-                            },{
-                                text:'新增子级',
-                                isReturn:true,
-                                //shortcutKey:'ALT+C',
-                                handler:function(){
-                                    var url = getRootPath()+'/templateMindPages/pageConfig/1307728739961930729';
-                                    dialogTemplateByUrl(url,'child');
-                                }
+                            ],
+                        },{
+                            title:'产品检测项目',
+                            keyField:'GoodsPlatformVo',
+                            idField:'id',
+                            id:"product-detaillist-component-standard-1",
+                            ajax:{
+                                src:getRootPath() + '/sampleItem/getTreeList.json',
+                                type:'post',
+                                data:{sampleCateStdId:-1},
+                                dataSrc:'rows',
+                                contentType:'application/json; charset=utf-8'
                             },
-                            /*{
-                                text:'新增项目',
-                                isReturn:true,
-                                //shortcutKey:'ALT+C',
-                                handler:function(){
-                                    var url = getRootPath()+'/templateMindPages/pageConfig/1307728739961930729';
-                                    dialogTemplateByUrl(url);
+                            type:'list',
+                            ui:{
+                                displayMode:"treeGrid",
+                                parentField:"parentId",
+                                level:-1
+                            },
+                            field:[
+                                {
+                                    field: 'sampleItemName',
+                                    title: '产品项目名称',
+                                    searchable:true,
+                                    width:120,
+                                    isTreeNode:true,
+                                    chineseName:'产品项目名称',
+                                    columnType: 'htmlRender',
+                                    formatHandler:{
+                                        type:'htmlRender',
+                                    }
+                                },{
+                                    field: 'sampleItemEnName',
+                                    title: '产品项目英文名',
+                                    width:120,
+                                    searchable:true,
+                                },{
+                                    field: 'sampleStdChapter',//sampleItemFullName
+                                    title: '产品标准章节',
+                                    width:120,
+                                    searchable:true,
+                                },{
+                                    field: 'labels',
+                                    title: '项目标签',
+                                    width:120
+                                },/*{
+                                    field: 'model',//sampleItemName
+                                    title: '检测项目',
+                                    width:120
+                                },*/{
+                                    field:'stdValue',
+                                    title: '标准值',
+                                    width:120,
+                                    columnType : 'standardInput',
+                                    editable : true,
+                                    editConfig : {
+                                        type : 'standardInput',
+                                        attrTextField : 'name',
+                                        attrValueField : 'id',
+                                        ajax : {
+                                            url : getRootPath() + '/sampleItem/getStdValue',
+                                            dataSrc : 'rows',
+                                            data : {"id":"{this.id}"},
+                                            type : 'GET',
+                                            contentType : 'application/x-www-form-urlencoded'
+                                        },
+                                        subdataAjax : {
+                                            url : getRootPath() + '/sampleCatePropValueDefine/getTreeList',
+                                            dataSrc : 'rows',
+                                            data : {"propId":"{id}"},
+                                            type : 'GET',
+                                            contentType : 'application/json; charset=utf-8'
+                                        },
+                                    }
+    
                                 }
-                            },*/{
-                                text:'编辑项目',
-                                isReturn:true,
-                                //shortcutKey:'ALT+C',
-                                handler:function(){
-                                    var url = getRootPath()+'/templateMindPages/pageConfig/1307728739961930729';
-                                    dialogTemplateByUrl(url,'edit');
-                                }
-                            },{
-                                text:'上移',
-                                isReturn:true,
-                                handler:function(){
-                                   var moveData = NetStarGrid.getSelectedData('product-detaillist-component-standard-1');
-                                   if(moveData.length == 1){
-                                        var moveUpAjaxConfig = {
-                                            url:getRootPath()+'/sampleItem/moveUp',
-                                            type:'get',
-                                            contentType:'application/x-www-form-urlencoded',
-                                            data:{
-                                                id:moveData[0].id
+                            ]
+                        },{
+                            title:'检测方法',
+                            keyField:'GoodsPlatformVo',
+                            idField:'id',
+                            id:"product-detaillist-component-standard-2",
+                            type:'list',
+                            ajax:{
+                                src:getRootPath() + '/sampleMethods/getList.json',
+                                type:'post',
+                                data:{sampleCateId:-1, stdId:-1, itemId:-1},
+                                dataSrc:'rows',
+                                contentType:'application/json; charset=utf-8'
+                            },
+                            field:[
+                                {
+                                    field: 'itemName',//testName
+                                    title: '检测项目',
+                                    searchable:true,
+                                    width:120
+                                },
+                                {
+                                    field: 'methodStdCode',//methodCode
+                                    title: '方法编号',
+                                    searchable:true,
+                                    width:120
+                                },{
+                                    field: 'methodName',
+                                    title: '方法名称',
+                                    width:120,
+                                    searchable:true,
+                                },
+                                {
+                                    field: 'methodShortName',
+                                    title: '方法简称',
+                                    width:120,
+                                    searchable:true,
+                                },
+                                {
+                                    //field: 'dataSourceId',
+                                    field: 'dataSourceName',
+                                    title: '数据源',
+                                    width:120,
+                                    searchable:true,
+                                    //columnType:'subdataText',
+                                },{
+                                    field: 'stdControlledCode',
+                                    title: '受控号',
+                                    width:120
+                                },{
+                                    field: 'deptName',
+                                    title: '科室',
+                                    width:120
+                                },{
+                                    field: 'hasNewEdition',
+                                    title: '是否允许更新',
+                                    editConfig:{
+                                        textField:"value",
+                                        valueField:"id",
+                                        type:"select",
+                                        subdata:[
+                                            {
+                                                id:"0",
+                                                value:"无更新"
                                             },
-                                            plusData:{selectedData:moveData}
-                                        };
-                                        NetStarUtils.ajax(moveUpAjaxConfig,function(res,ajaxOptions){
-                                                if(res.success){
-                                                    //console.log(res)
-                                                    var gridSelectedData = ajaxOptions.plusData.selectedData;
-                                                    var currentGridConfig = NetStarGrid.configs['product-detaillist-component-standard-1'].gridConfig;
-                                                    var idField = currentGridConfig.data.idField;
-                                                    var gridArr = NetStarGrid.dataManager.getData('product-detaillist-component-standard-1');
-                                                    var defaultSelectedIndex = -1;
-                                                    for(var i=0; i<gridArr.length; i++){
-                                                        if(gridArr[i][idField] == gridSelectedData[0][idField]){
-                                                            defaultSelectedIndex = i;
-                                                            break;
-                                                        }
-                                                    }
-                                                    if(defaultSelectedIndex > -1){
-                                                        currentGridConfig.ui.defaultSelectedIndex = defaultSelectedIndex;
-                                                    }
-                                                    NetStarGrid.refreshById('product-detaillist-component-standard-1');
-                                                }else{
-                                                    var msg = res.msg ? res.msg : '返回值false';
-                                                    nsalert(msg,'error');
-                                                }
-                                        },true);
-                                   }else{
-                                       nsalert('请选中要上移的数据','warning');
-                                   }
+                                            {
+                                                id:"1",
+                                                value:"有更新"
+                                            }
+                                        ]
+    
+                                    },
+                                    width:60
                                 }
-                            },{
-                                text:'下移',
-                                isReturn:true,
-                                handler:function(){
-                                    var moveData = NetStarGrid.getSelectedData('product-detaillist-component-standard-1');
-                                   if(moveData.length == 1){
-                                        var moveUpAjaxConfig = {
-                                                url:getRootPath()+'/sampleItem/moveDown',
+                            ]
+                        },{
+                            type:'btns',
+                            position:'text-left',
+                            id:'product-mainlist-btn-component-standard-2',
+                            field:[
+                                {
+                                    text:'选择标准',
+                                    isReturn:true,
+                                    handler:function(){
+                                        var url = getRootPath()+'/templateMindPages/pageConfig/1307723194085409769';
+                                        dialogTemplateByUrl(url,'main');
+                                    }
+                                },
+                                {
+                                    text:'复制',
+                                    isReturn:true,
+                                    handler:function(){
+                                        var url = getRootPath()+'/templateMindPages/pageConfig/1329712153183126514';
+                                        dialogTemplateByUrl(url,'main');
+                                    }
+                                }
+                            ]
+                        },{
+                            type:'btns',
+                            position:'text-left',
+                            id:'product-detaillist-btn-component-standard-5',
+                            field:[
+                                {
+                                    text:'新增同级',
+                                    isReturn:true,
+                                    //shortcutKey:'ALT+C',
+                                    handler:function(){
+                                        var url = getRootPath()+'/templateMindPages/pageConfig/1307728739961930729';
+                                        dialogTemplateByUrl(url,'brothers');
+                                    }
+                                },{
+                                    text:'新增子级',
+                                    isReturn:true,
+                                    //shortcutKey:'ALT+C',
+                                    handler:function(){
+                                        var url = getRootPath()+'/templateMindPages/pageConfig/1307728739961930729';
+                                        dialogTemplateByUrl(url,'child');
+                                    }
+                                },
+                                /*{
+                                    text:'新增项目',
+                                    isReturn:true,
+                                    //shortcutKey:'ALT+C',
+                                    handler:function(){
+                                        var url = getRootPath()+'/templateMindPages/pageConfig/1307728739961930729';
+                                        dialogTemplateByUrl(url);
+                                    }
+                                },*/{
+                                    text:'编辑项目',
+                                    isReturn:true,
+                                    //shortcutKey:'ALT+C',
+                                    handler:function(){
+                                        var url = getRootPath()+'/templateMindPages/pageConfig/1307728739961930729';
+                                        dialogTemplateByUrl(url,'edit');
+                                    }
+                                },{
+                                    text:'上移',
+                                    isReturn:true,
+                                    handler:function(){
+                                       var moveData = NetStarGrid.getSelectedData('product-detaillist-component-standard-1');
+                                       if(moveData.length == 1){
+                                            var moveUpAjaxConfig = {
+                                                url:getRootPath()+'/sampleItem/moveUp',
                                                 type:'get',
                                                 contentType:'application/x-www-form-urlencoded',
                                                 data:{
                                                     id:moveData[0].id
                                                 },
                                                 plusData:{selectedData:moveData}
-                                        };
-                                        NetStarUtils.ajax(moveUpAjaxConfig,function(res,ajaxOptions){
-                                                if(res.success){
-                                                    var gridSelectedData = ajaxOptions.plusData.selectedData;
-                                                    var currentGridConfig = NetStarGrid.configs['product-detaillist-component-standard-1'].gridConfig;
-                                                    var idField = currentGridConfig.data.idField;
-                                                    var gridArr = NetStarGrid.dataManager.getData('product-detaillist-component-standard-1');
-                                                    var defaultSelectedIndex = -1;
-                                                    for(var i=0; i<gridArr.length; i++){
-                                                        if(gridArr[i][idField] == gridSelectedData[0][idField]){
-                                                            defaultSelectedIndex = i;
-                                                            break;
+                                            };
+                                            NetStarUtils.ajax(moveUpAjaxConfig,function(res,ajaxOptions){
+                                                    if(res.success){
+                                                        //console.log(res)
+                                                        var gridSelectedData = ajaxOptions.plusData.selectedData;
+                                                        var currentGridConfig = NetStarGrid.configs['product-detaillist-component-standard-1'].gridConfig;
+                                                        var idField = currentGridConfig.data.idField;
+                                                        var gridArr = NetStarGrid.dataManager.getData('product-detaillist-component-standard-1');
+                                                        var defaultSelectedIndex = -1;
+                                                        for(var i=0; i<gridArr.length; i++){
+                                                            if(gridArr[i][idField] == gridSelectedData[0][idField]){
+                                                                defaultSelectedIndex = i;
+                                                                break;
+                                                            }
                                                         }
+                                                        if(defaultSelectedIndex > -1){
+                                                            currentGridConfig.ui.defaultSelectedIndex = defaultSelectedIndex;
+                                                        }
+                                                        NetStarGrid.refreshById('product-detaillist-component-standard-1');
+                                                    }else{
+                                                        var msg = res.msg ? res.msg : '返回值false';
+                                                        nsalert(msg,'error');
                                                     }
-                                                    if(defaultSelectedIndex > -1){
-                                                        currentGridConfig.ui.defaultSelectedIndex = defaultSelectedIndex;
+                                            },true);
+                                       }else{
+                                           nsalert('请选中要上移的数据','warning');
+                                       }
+                                    }
+                                },{
+                                    text:'下移',
+                                    isReturn:true,
+                                    handler:function(){
+                                        var moveData = NetStarGrid.getSelectedData('product-detaillist-component-standard-1');
+                                       if(moveData.length == 1){
+                                            var moveUpAjaxConfig = {
+                                                    url:getRootPath()+'/sampleItem/moveDown',
+                                                    type:'get',
+                                                    contentType:'application/x-www-form-urlencoded',
+                                                    data:{
+                                                        id:moveData[0].id
+                                                    },
+                                                    plusData:{selectedData:moveData}
+                                            };
+                                            NetStarUtils.ajax(moveUpAjaxConfig,function(res,ajaxOptions){
+                                                    if(res.success){
+                                                        var gridSelectedData = ajaxOptions.plusData.selectedData;
+                                                        var currentGridConfig = NetStarGrid.configs['product-detaillist-component-standard-1'].gridConfig;
+                                                        var idField = currentGridConfig.data.idField;
+                                                        var gridArr = NetStarGrid.dataManager.getData('product-detaillist-component-standard-1');
+                                                        var defaultSelectedIndex = -1;
+                                                        for(var i=0; i<gridArr.length; i++){
+                                                            if(gridArr[i][idField] == gridSelectedData[0][idField]){
+                                                                defaultSelectedIndex = i;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(defaultSelectedIndex > -1){
+                                                            currentGridConfig.ui.defaultSelectedIndex = defaultSelectedIndex;
+                                                        }
+                                                        NetStarGrid.refreshById('product-detaillist-component-standard-1');
+                                                    }else{
+                                                        var msg = res.msg ? res.msg : '返回值false';
+                                                        nsalert(msg,'error');
                                                     }
-                                                    NetStarGrid.refreshById('product-detaillist-component-standard-1');
-                                                }else{
-                                                    var msg = res.msg ? res.msg : '返回值false';
-                                                    nsalert(msg,'error');
-                                                }
-                                        },true);
-                                   }else{
-                                       nsalert('请选中要上移的数据','warning');
-                                   }
+                                            },true);
+                                       }else{
+                                           nsalert('请选中要上移的数据','warning');
+                                       }
+                                    }
                                 }
-                            }
-                        ]
-                    }
-                ],
-            };
-
-            //弹出模版页面
-
-            limsTemplate.showTemplateByPageData = function(config,editorType){
-                var treeArray = NetstarTemplate.tree.getSelectedNodes('product-tree-tree-component-standard-0');
-                var mainSelectedData = NetStarGrid.getSelectedData('product-mainlist-component-standard-1');
-                var detailSelectedData = NetStarGrid.getSelectedData('product-detaillist-component-standard-1');
-               
-
-                if($.isArray(mainSelectedData)){
-                   config.pageParam.sampleCateId = treeArray[0].id
-                   if(mainSelectedData.length > 0){
-                        config.pageParam.sampleCateStdId = mainSelectedData[0].id;
-                        config.pageParam.sampleCateId = mainSelectedData[0].sampleCateId;
-                        config.pageParam.stdId = mainSelectedData[0].stdId;                        
-                   }
-                }
-                if(editorType != 'brothers'){
-                    if($.isArray(detailSelectedData)){
-                        if(detailSelectedData.length > 0){
-                            config.pageParam.parentId = detailSelectedData[0].id;
+                            ]
                         }
-                    }
-                }
-                if(editorType == 'edit'){
-                    config.pageParam = detailSelectedData[0];
-                    if(typeof(config.pageParam)=='undefined'){
-                        config.pageParam = {};
-                    }
-                    //config.pageParam.id = treeArray[0].id;
-                }
-               for(var i=0; i<config.components.length; i++){
-                  var componentData = config.components[i];
-                  switch(componentData.type){
-                      case 'vo':
-                        var fieldArray = componentData.field;
-                        for(var fieldI=0; fieldI<fieldArray.length; fieldI++){
-                            if(config.pageParam[fieldArray[fieldI].id]){
-                                fieldArray[fieldI].value = config.pageParam[fieldArray[fieldI].id];
-                            }
-                            if(typeof(config.pageParam[fieldArray[fieldI].id])=='number'){
-                                fieldArray[fieldI].value = config.pageParam[fieldArray[fieldI].id];
-                            }
-                            /*if(fieldArray[fieldI].id == 'sampleCateId'){
-                                fieldArray[fieldI].value = config.pageParam.sampleCateId;
-                            }else if(fieldArray[fieldI].id == 'stdId'){
-                                fieldArray[fieldI].value = config.pageParam.stdId;
-                            }else if(fieldArray[fieldI].id == 'sampleCateStdId'){
-                                fieldArray[fieldI].value = config.pageParam.sampleCateStdId;
-                            }else if(fieldArray[fieldI].id == 'parentId'){
-                                fieldArray[fieldI].value = config.pageParam.parentId;
-                            }*/
-                        }
-                        break;
-                  }
-               }
-
-
-                config.closeHandler = function(){
-                    // sjj 20191221 只刷新当前编辑表格选中行的值 不进行整体刷新操作
-                    if(editorType == 'main'){
-                        var treeJson = {};
-                        var treeArray = NetstarTemplate.tree.getSelectedNodes('product-tree-tree-component-standard-0');
-                        if(treeArray.length > 0){
-                            if(treeArray.length == 1){
-                                treeJson = treeArray[0];
-                            }
-                        }
-                        NetStarGrid.refreshById('product-mainlist-component-standard-1',{sampleCateId:treeJson.id});
-                    }else{
-                        var gridSelectedData = NetStarGrid.getSelectedData('product-detaillist-component-standard-1');
-                        var currentGridConfig = NetStarGrid.configs['product-detaillist-component-standard-1'].gridConfig;
-                        var idField = currentGridConfig.data.idField;
-                        var gridArr = NetStarGrid.dataManager.getData('product-detaillist-component-standard-1');
-                        var defaultSelectedIndex = -1;
-                        for(var i=0; i<gridArr.length; i++){
-                            if(gridArr[i][idField] == gridSelectedData[0][idField]){
-                                defaultSelectedIndex = i;
-                                break;
-                            }
-                        }
-                        if(defaultSelectedIndex > -1){
-                            currentGridConfig.ui.defaultSelectedIndex = defaultSelectedIndex;
-                        }
-                        NetStarGrid.refreshById('product-detaillist-component-standard-1');
-                    }
-                }
-                NetstarTemplate.init(config);
-            }
-
-            function dialogTemplateByUrl(url,editorType){
-                if(editorType == 'edit'){
-                    var tempValueName = new Date().getTime();
-                    NetstarTempValues[tempValueName] = {id:'3333'};
-                    var urlStr = encodeURIComponent(encodeURIComponent(tempValueName));
-                    url = url+'?templateparam='+urlStr;
-                }
-                var ajaxConfig = {
-                    pageIidenti : url,
-                    url:url,
-                    type:'GET',
-                    dataType:'html',
-                    callBackFunc:function(isSuccess, data, _ajaxConfig){
-                        var funcStr = 'limsTemplate.showTemplateByPageData(pageConfig,"'+editorType+'")';
-                        var starStr = '<container>';
-                        var containerPage = data.substring(data.indexOf(starStr)+starStr.length, data.indexOf('</container>'));
-                        var exp = /NetstarTemplate\.init\((.*?)\)/;
-                        var funcStrRep = funcStr.replace('pageConfig', containerPage.match(exp)[1]);
-                        containerPage = containerPage.replace(containerPage.match(exp)[0],funcStrRep);
-                        var $container = nsPublic.getAppendContainer();
-                        $container.append(containerPage);
-                    }
+                    ],
                 };
-                // $.ajax(ajaxConfig);
-                pageProperty.getAndCachePage(ajaxConfig);
-            }
-            function init(){
-                var mainConfig = templateJson.components[1];
-                var treeConfig = templateJson.components[0];
-                treeConfig.clickHandler = function(data){
-                    	/*
-                            *config 			容器id
-                            *treeId 			节点值
-                            *treeNode 			当前节点数据
-                        */
-                        var treeJson = {};
-                        var treeArray = NetstarTemplate.tree.getSelectedNodes('product-tree-tree-component-standard-0');
-                        if(treeArray.length > 0){
-                            if(treeArray.length == 1){
-                                treeJson = treeArray[0];
+    
+                //弹出模版页面
+    
+                limsTemplate.showTemplateByPageData = function(config,editorType){
+                    var treeArray = NetstarTemplate.tree.getSelectedNodes('product-tree-tree-component-standard-0');
+                    var mainSelectedData = NetStarGrid.getSelectedData('product-mainlist-component-standard-1');
+                    var detailSelectedData = NetStarGrid.getSelectedData('product-detaillist-component-standard-1');
+                   
+    
+                    if($.isArray(mainSelectedData)){
+                       config.pageParam.sampleCateId = treeArray[0].id
+                       if(mainSelectedData.length > 0){
+                            config.pageParam.sampleCateStdId = mainSelectedData[0].id;
+                            config.pageParam.sampleCateId = mainSelectedData[0].sampleCateId;
+                            config.pageParam.stdId = mainSelectedData[0].stdId;                        
+                       }
+                    }
+                    if(editorType != 'brothers'){
+                        if($.isArray(detailSelectedData)){
+                            if(detailSelectedData.length > 0){
+                                config.pageParam.parentId = detailSelectedData[0].id;
                             }
                         }
-                        NetStarGrid.refreshById('product-mainlist-component-standard-1',{sampleCateId:treeJson.id});
-                }
-                NetstarTemplate.tree.init(treeConfig);
-
-                function refreshTabListDataByAjax(data,_gridId){
-                    if(typeof(data)=="undefined"||$.isEmptyObject(data)){
-                        return ;
                     }
-                    var ajaxConfig = {};
-                    var refreshGridId = '';
-                    if(_gridId == 'product-mainlist-component-standard-1'){
-                        var _data = {sampleCateStdId:data.id};
-                        ajaxConfig = {
-                            url:getRootPath() + '/sampleItem/getTreeList.json',
-                            type:'post',
-                            data:_data,
-                            dataSrc:'rows',
-                            contentType:'application/json; charset=UTF-8'
-                        };
-                        refreshGridId = 'product-detaillist-component-standard-1';
+                    if(editorType == 'edit'){
+                        config.pageParam = detailSelectedData[0];
+                        if(typeof(config.pageParam)=='undefined'){
+                            config.pageParam = {};
+                        }
+                        //config.pageParam.id = treeArray[0].id;
                     }
-                    if(_gridId == 'product-detaillist-component-standard-1'){
-                        //刷新第三个表格
-                        var _data = {sampleItemId:data.id};
-                        ajaxConfig = {
-                            url:getRootPath() + '/sampleMethods/getList.json',
-                            type:'post',
-                            data:_data,
-                            dataSrc:'rows',
-                            plusData:{
-                                gridId:_gridId
-                            },
-                            contentType:'application/json; charset=UTF-8'
-                        };
-                        refreshGridId = 'product-detaillist-component-standard-2';
-                    }
-                    
-                    NetStarGrid.refreshById(refreshGridId,ajaxConfig.data);
-                    /*nsVals.ajax(ajaxConfig,function(res,ajaxData){
-                        if(res.success){
-                            //调用ajax成功
-                            var resData = res[ajaxData.dataSrc];
-                            //如果返回的不是数组，可能是空数组
-                            if(!$.isArray(resData)){
-                                resData = [];
-                            }
-                            var listJson = {
-                                'detaillist-component-standard-1':{
-                                    keyField:'rows'
+                   for(var i=0; i<config.components.length; i++){
+                      var componentData = config.components[i];
+                      switch(componentData.type){
+                          case 'vo':
+                            var fieldArray = componentData.field;
+                            for(var fieldI=0; fieldI<fieldArray.length; fieldI++){
+                                if(config.pageParam[fieldArray[fieldI].id]){
+                                    fieldArray[fieldI].value = config.pageParam[fieldArray[fieldI].id];
                                 }
+                                if(typeof(config.pageParam[fieldArray[fieldI].id])=='number'){
+                                    fieldArray[fieldI].value = config.pageParam[fieldArray[fieldI].id];
+                                }
+                                /*if(fieldArray[fieldI].id == 'sampleCateId'){
+                                    fieldArray[fieldI].value = config.pageParam.sampleCateId;
+                                }else if(fieldArray[fieldI].id == 'stdId'){
+                                    fieldArray[fieldI].value = config.pageParam.stdId;
+                                }else if(fieldArray[fieldI].id == 'sampleCateStdId'){
+                                    fieldArray[fieldI].value = config.pageParam.sampleCateStdId;
+                                }else if(fieldArray[fieldI].id == 'parentId'){
+                                    fieldArray[fieldI].value = config.pageParam.parentId;
+                                }*/
+                            }
+                            break;
+                      }
+                   }
+    
+    
+                    config.closeHandler = function(){
+                        // sjj 20191221 只刷新当前编辑表格选中行的值 不进行整体刷新操作
+                        if(editorType == 'main'){
+                            var treeJson = {};
+                            var treeArray = NetstarTemplate.tree.getSelectedNodes('product-tree-tree-component-standard-0');
+                            if(treeArray.length > 0){
+                                if(treeArray.length == 1){
+                                    treeJson = treeArray[0];
+                                }
+                            }
+                            NetStarGrid.refreshById('product-mainlist-component-standard-1',{sampleCateId:treeJson.id});
+                        }else{
+                            var gridSelectedData = NetStarGrid.getSelectedData('product-detaillist-component-standard-1');
+                            var currentGridConfig = NetStarGrid.configs['product-detaillist-component-standard-1'].gridConfig;
+                            var idField = currentGridConfig.data.idField;
+                            var gridArr = NetStarGrid.dataManager.getData('product-detaillist-component-standard-1');
+                            var defaultSelectedIndex = -1;
+                            for(var i=0; i<gridArr.length; i++){
+                                if(gridArr[i][idField] == gridSelectedData[0][idField]){
+                                    defaultSelectedIndex = i;
+                                    break;
+                                }
+                            }
+                            if(defaultSelectedIndex > -1){
+                                currentGridConfig.ui.defaultSelectedIndex = defaultSelectedIndex;
+                            }
+                            NetStarGrid.refreshById('product-detaillist-component-standard-1');
+                        }
+                    }
+                    NetstarTemplate.init(config);
+                }
+    
+                function dialogTemplateByUrl(url,editorType){
+                    if(editorType == 'edit'){
+                        var tempValueName = new Date().getTime();
+                        NetstarTempValues[tempValueName] = {id:'3333'};
+                        var urlStr = encodeURIComponent(encodeURIComponent(tempValueName));
+                        url = url+'?templateparam='+urlStr;
+                    }
+                    var ajaxConfig = {
+                        pageIidenti : url,
+                        url:url,
+                        type:'GET',
+                        dataType:'html',
+                        callBackFunc:function(isSuccess, data, _ajaxConfig){
+                            var funcStr = 'limsTemplate.showTemplateByPageData(pageConfig,"'+editorType+'")';
+                            var starStr = '<container>';
+                            var containerPage = data.substring(data.indexOf(starStr)+starStr.length, data.indexOf('</container>'));
+                            var exp = /NetstarTemplate\.init\((.*?)\)/;
+                            var funcStrRep = funcStr.replace('pageConfig', containerPage.match(exp)[1]);
+                            containerPage = containerPage.replace(containerPage.match(exp)[0],funcStrRep);
+                            var $container = nsPublic.getAppendContainer();
+                            $container.append(containerPage);
+                        }
+                    };
+                    // $.ajax(ajaxConfig);
+                    pageProperty.getAndCachePage(ajaxConfig);
+                }
+                function init(){
+                    var mainConfig = templateJson.components[1];
+                    var treeConfig = templateJson.components[0];
+                    treeConfig.clickHandler = function(data){
+                            /*
+                                *config 			容器id
+                                *treeId 			节点值
+                                *treeNode 			当前节点数据
+                            */
+                            var treeJson = {};
+                            var treeArray = NetstarTemplate.tree.getSelectedNodes('product-tree-tree-component-standard-0');
+                            if(treeArray.length > 0){
+                                if(treeArray.length == 1){
+                                    treeJson = treeArray[0];
+                                }
+                            }
+                            NetStarGrid.refreshById('product-mainlist-component-standard-1',{sampleCateId:treeJson.id});
+                    }
+                    NetstarTemplate.tree.init(treeConfig);
+    
+                    function refreshTabListDataByAjax(data,_gridId){
+                        if(typeof(data)=="undefined"||$.isEmptyObject(data)){
+                            return ;
+                        }
+                        var ajaxConfig = {};
+                        var refreshGridId = '';
+                        if(_gridId == 'product-mainlist-component-standard-1'){
+                            var _data = {sampleCateStdId:data.id};
+                            ajaxConfig = {
+                                url:getRootPath() + '/sampleItem/getTreeList.json',
+                                type:'post',
+                                data:_data,
+                                dataSrc:'rows',
+                                contentType:'application/json; charset=UTF-8'
                             };
-                            if(ajaxData.plusData.gridId == 'detaillist-component-standard-1'){
-                                listJson = {
-                                    'detaillist-component-standard-2':{
+                            refreshGridId = 'product-detaillist-component-standard-1';
+                        }
+                        if(_gridId == 'product-detaillist-component-standard-1'){
+                            //刷新第三个表格
+                            var _data = {sampleItemId:data.id};
+                            ajaxConfig = {
+                                url:getRootPath() + '/sampleMethods/getList.json',
+                                type:'post',
+                                data:_data,
+                                dataSrc:'rows',
+                                plusData:{
+                                    gridId:_gridId
+                                },
+                                contentType:'application/json; charset=UTF-8'
+                            };
+                            refreshGridId = 'product-detaillist-component-standard-2';
+                        }
+                        
+                        NetStarGrid.refreshById(refreshGridId,ajaxConfig.data);
+                        /*nsVals.ajax(ajaxConfig,function(res,ajaxData){
+                            if(res.success){
+                                //调用ajax成功
+                                var resData = res[ajaxData.dataSrc];
+                                //如果返回的不是数组，可能是空数组
+                                if(!$.isArray(resData)){
+                                    resData = [];
+                                }
+                                var listJson = {
+                                    'detaillist-component-standard-1':{
                                         keyField:'rows'
                                     }
                                 };
-                            }
-                            for(var gridId in listJson){
-                                var gridConfig = listJson[gridId];
-                                NetStarGrid.resetData(resData, gridId);
-                            }
-                        }else{
-                            for(var gridId in listJson){
-                                var gridConfig = listJson[gridId];
-                                NetStarGrid.resetData([], gridId);
-                            }
-                        }
-                    },true)*/
-                }
-
-                function getGridConfig(_grid){
-                    var gridConfig =  {
-                        id:_grid.id,
-                        type:_grid.type,
-                        idField:_grid.idField,
-                        isReadStore:false,  
-                        data:{
-                            idField:_grid.idField,
-                        },
-                        columns:$.extend(true,[],_grid.field),
-                        ui:{
-                            isHaveEditDeleteBtn:false,
-                            isHaveAddBtn:true,
-                            isEditMode:false,
-                            selectMode:'single',
-                            pageLengthDefault:5,
-                            height:parseFloat((gridHeight -180 - 54)/2),
-                        }
-                    };
-                    if(_grid.parent == 'root'){
-                        gridConfig.ui.defaultSelectedIndex = 0;
-                        gridConfig.ui.height = 180;
-                        gridConfig.ui.tableRowBtns = [
-                            {
-                                text:'删除',
-                                handler:function(data){
-                                    console.log(data);
-                                    nsConfirm('是否确认删除',function(success){
-                                        if(success){
-                                            var deleteAjaxConfig = {
-                                                url:getRootPath() + '/sampleCateStd/deleteById.json',
-                                                dataSrc:'data',
-                                                type:'POST',
-                                                data:{
-                                                    id:data.rowData.id
-                                                },
-                                                contentType: 'application/x-www-form-urlencoded'
-                                            };
-                                            NetStarUtils.ajax(deleteAjaxConfig,function(res){
-                                                if(res.success){
-                                                    NetStarGrid.delRow(data.rowData, data.gridId, data.rowIndex);
-                                                }
-                                            },true)
+                                if(ajaxData.plusData.gridId == 'detaillist-component-standard-1'){
+                                    listJson = {
+                                        'detaillist-component-standard-2':{
+                                            keyField:'rows'
                                         }
-                                    })
+                                    };
+                                }
+                                for(var gridId in listJson){
+                                    var gridConfig = listJson[gridId];
+                                    NetStarGrid.resetData(resData, gridId);
+                                }
+                            }else{
+                                for(var gridId in listJson){
+                                    var gridConfig = listJson[gridId];
+                                    NetStarGrid.resetData([], gridId);
                                 }
                             }
-                        ];
+                        },true)*/
                     }
-                    if(_grid.id == 'product-detaillist-component-standard-1' || _grid.id == 'product-mainlist-component-standard-1'){
-                        gridConfig.ui.drawHandler = function(_vueData){
-                            var gridId = _vueData.$options.id;
-                            var rowsData = _vueData.rows;
-                            var originalRows = _vueData.originalRows;
-                            var grid = NetStarGrid.configs[gridId];
-                            if($.isArray(rowsData)){
-                                var selectedIndex = -1;
-                                var startI=0;
-                                if(grid.gridConfig.data.isServerMode == false){
-                                    startI = _vueData.page.start;
-                                }
-                                for(var rowI=0; rowI<rowsData.length; rowI++){
-                                    if(originalRows[rowI+startI]){
-                                        //存在于原始数据中
-                                        if(rowsData[rowI].netstarSelectedFlag){
-                                            selectedIndex = rowI;
-                                            break;
-                                        }
+    
+                    function getGridConfig(_grid){
+                        var gridConfig =  {
+                            id:_grid.id,
+                            type:_grid.type,
+                            idField:_grid.idField,
+                            isReadStore:false,  
+                            data:{
+                                idField:_grid.idField,
+                            },
+                            columns:$.extend(true,[],_grid.field),
+                            ui:{
+                                isHaveEditDeleteBtn:false,
+                                isHaveAddBtn:true,
+                                isEditMode:false,
+                                selectMode:'single',
+                                pageLengthDefault:5,
+                                height:parseFloat((gridHeight -180 - 54)/2),
+                            }
+                        };
+                        if(_grid.parent == 'root'){
+                            gridConfig.ui.defaultSelectedIndex = 0;
+                            gridConfig.ui.height = 180;
+                            gridConfig.ui.tableRowBtns = [
+                                {
+                                    text:'删除',
+                                    handler:function(data){
+                                        console.log(data);
+                                        nsConfirm('是否确认删除',function(success){
+                                            if(success){
+                                                var deleteAjaxConfig = {
+                                                    url:getRootPath() + '/sampleCateStd/deleteById.json',
+                                                    dataSrc:'data',
+                                                    type:'POST',
+                                                    data:{
+                                                        id:data.rowData.id
+                                                    },
+                                                    contentType: 'application/x-www-form-urlencoded'
+                                                };
+                                                NetStarUtils.ajax(deleteAjaxConfig,function(res){
+                                                    if(res.success){
+                                                        NetStarGrid.delRow(data.rowData, data.gridId, data.rowIndex);
+                                                    }
+                                                },true)
+                                            }
+                                        })
                                     }
                                 }
-                                if(selectedIndex > -1){
-                                    //存在选中行的值
-                                    var data = originalRows[selectedIndex+startI];
-                                    refreshTabListDataByAjax(data,gridId);
+                            ];
+                        }
+                        if(_grid.id == 'product-detaillist-component-standard-1' || _grid.id == 'product-mainlist-component-standard-1'){
+                            gridConfig.ui.drawHandler = function(_vueData){
+                                var gridId = _vueData.$options.id;
+                                var rowsData = _vueData.rows;
+                                var originalRows = _vueData.originalRows;
+                                var grid = NetStarGrid.configs[gridId];
+                                if($.isArray(rowsData)){
+                                    var selectedIndex = -1;
+                                    var startI=0;
+                                    if(grid.gridConfig.data.isServerMode == false){
+                                        startI = _vueData.page.start;
+                                    }
+                                    for(var rowI=0; rowI<rowsData.length; rowI++){
+                                        if(originalRows[rowI+startI]){
+                                            //存在于原始数据中
+                                            if(rowsData[rowI].netstarSelectedFlag){
+                                                selectedIndex = rowI;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if(selectedIndex > -1){
+                                        //存在选中行的值
+                                        var data = originalRows[selectedIndex+startI];
+                                        refreshTabListDataByAjax(data,gridId);
+                                    }else{
+                                        //数据为空的时候 需要清空关联的子表数据  sjj20191221
+                                        if(gridId == 'product-detaillist-component-standard-1'){
+                                            NetStarGrid.refreshDataById('product-detaillist-component-standard-2',[]);
+                                        }else if(gridId == 'product-mainlist-component-standard-1'){
+                                            NetStarGrid.refreshDataById('product-detaillist-component-standard-1',[]);
+                                            NetStarGrid.refreshDataById('product-detaillist-component-standard-2',[]);
+                                        }
+                                    }
                                 }else{
                                     //数据为空的时候 需要清空关联的子表数据  sjj20191221
                                     if(gridId == 'product-detaillist-component-standard-1'){
@@ -702,86 +719,77 @@
                                         NetStarGrid.refreshDataById('product-detaillist-component-standard-2',[]);
                                     }
                                 }
-                            }else{
-                                //数据为空的时候 需要清空关联的子表数据  sjj20191221
-                                if(gridId == 'product-detaillist-component-standard-1'){
-                                    NetStarGrid.refreshDataById('product-detaillist-component-standard-2',[]);
-                                }else if(gridId == 'product-mainlist-component-standard-1'){
-                                    NetStarGrid.refreshDataById('product-detaillist-component-standard-1',[]);
-                                    NetStarGrid.refreshDataById('product-detaillist-component-standard-2',[]);
-                                }
                             }
                         }
-                    }
-                    if(_grid.id == 'product-detaillist-component-standard-1'){
-                        gridConfig.ui.tableRowBtns = [
-                            {
-                                text:'删除',
-                                handler:function(data){
-                                    console.log(data);
-                                    nsConfirm('是否确认删除',function(success){
-                                        if(success){
-                                            var deleteAjaxConfig = {
-                                                url:getRootPath() + '/sampleItem/deleteById.json',
-                                                dataSrc:'data',
-                                                type:'POST',
-                                                data:{
-                                                    id:data.rowData.id
-                                                },
-                                                contentType: 'application/x-www-form-urlencoded'
-                                            };
-                                            NetStarUtils.ajax(deleteAjaxConfig,function(res){
-                                                if(res.success){
-                                                    NetStarGrid.delRow(data.rowData, data.gridId, data.rowIndex);
-                                                }
-                                            },true)
-                                        }
-                                    })
+                        if(_grid.id == 'product-detaillist-component-standard-1'){
+                            gridConfig.ui.tableRowBtns = [
+                                {
+                                    text:'删除',
+                                    handler:function(data){
+                                        console.log(data);
+                                        nsConfirm('是否确认删除',function(success){
+                                            if(success){
+                                                var deleteAjaxConfig = {
+                                                    url:getRootPath() + '/sampleItem/deleteById.json',
+                                                    dataSrc:'data',
+                                                    type:'POST',
+                                                    data:{
+                                                        id:data.rowData.id
+                                                    },
+                                                    contentType: 'application/x-www-form-urlencoded'
+                                                };
+                                                NetStarUtils.ajax(deleteAjaxConfig,function(res){
+                                                    if(res.success){
+                                                        NetStarGrid.delRow(data.rowData, data.gridId, data.rowIndex);
+                                                    }
+                                                },true)
+                                            }
+                                        })
+                                    }
                                 }
-                            }
-                        ];
-                        gridConfig.ui.isPage = false;//sjj 20200111树表格不进行分页功能 靳工提出
-                        gridConfig.data.isPage = false;//sjj 20200111树表格不进行分页功能  靳工提出
+                            ];
+                            gridConfig.ui.isPage = false;//sjj 20200111树表格不进行分页功能 靳工提出
+                            gridConfig.data.isPage = false;//sjj 20200111树表格不进行分页功能  靳工提出
+                        }
+                        var gridAjax = _grid.ajax;
+                        if(typeof(gridAjax)=="object"){
+                            nsVals.extendJSON(gridConfig.data,gridAjax);
+                        }
+                        return gridConfig;
                     }
-                    var gridAjax = _grid.ajax;
-                    if(typeof(gridAjax)=="object"){
-                        nsVals.extendJSON(gridConfig.data,gridAjax);
+                    var mainListConfig = getGridConfig(mainConfig);
+                    var detailListConfig1 = getGridConfig(templateJson.components[2]);
+                    var detailListConfig2 = getGridConfig(templateJson.components[3]);
+                    
+                    var treeGridConfig = {
+                        displayMode:"treeGrid",
+                        parentField:"parentId",
+                        childField:'children',
+                        level:1
                     }
-                    return gridConfig;
+                    NetStarUtils.setDefaultValues(detailListConfig1.ui,treeGridConfig);
+    
+    
+                    NetStarGrid.init(mainListConfig);
+                    NetStarGrid.init(detailListConfig1);
+                    NetStarGrid.init(detailListConfig2);
+    
+                    var navJson = {
+                        id:'product-mainlist-btn-component-standard-2',
+                        isShowTitle:false,
+                        btns:templateJson.components[4].field
+                    };
+                    vueButtonComponent.init(navJson);
+    
+                    var navDetailJson = {
+                        id:'product-detaillist-btn-component-standard-5',
+                        isShowTitle:false,
+                        btns:templateJson.components[5].field
+                    };
+    
+                    vueButtonComponent.init(navDetailJson);
                 }
-                var mainListConfig = getGridConfig(mainConfig);
-                var detailListConfig1 = getGridConfig(templateJson.components[2]);
-                var detailListConfig2 = getGridConfig(templateJson.components[3]);
-                
-                var treeGridConfig = {
-                    displayMode:"treeGrid",
-                    parentField:"parentId",
-                    childField:'children',
-                    level:1
-                }
-                NetStarUtils.setDefaultValues(detailListConfig1.ui,treeGridConfig);
-
-
-                NetStarGrid.init(mainListConfig);
-                NetStarGrid.init(detailListConfig1);
-                NetStarGrid.init(detailListConfig2);
-
-                var navJson = {
-                    id:'product-mainlist-btn-component-standard-2',
-                    isShowTitle:false,
-                    btns:templateJson.components[4].field
-                };
-                vueButtonComponent.init(navJson);
-
-                var navDetailJson = {
-                    id:'product-detaillist-btn-component-standard-5',
-                    isShowTitle:false,
-                    btns:templateJson.components[5].field
-                };
-
-                vueButtonComponent.init(navDetailJson);
-            }
-            init();
-        })
-    </script>
-</container>
+                init();
+            })
+        </script>
+    </container>
