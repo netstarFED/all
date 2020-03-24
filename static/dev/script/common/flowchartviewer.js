@@ -904,7 +904,7 @@ NetstarUI.flowChartViewer = (function(){
 				if(workitemObj.batchNo == 1){
 					var $mxCellDomCopyBatch = $mxCellDomCopy.clone();
 					$mxCellDomCopyBatch.attr('id',function(n,id){
-						return id + '-remark';
+						return id + '-batchno-remark';
 					})
 					$mxCellDomCopyBatch.attr('value', workitemObj.batchNo);
 					$mxCellDomCopyBatch.attr('parent', viewerCellCopy.id);
@@ -1138,7 +1138,28 @@ NetstarUI.flowChartViewer = (function(){
 			}
 		}
 		if(typeof(checkedCellId)=="number"){
+			var checkedCellIdAdd = 0;
+			for(var i=0; i<checkedCellId+1; i++){
+				var viewerCell = viewerCells[i];
+				if(viewerCell.id.indexOf('-batchno-remark') > -1){
+					checkedCellIdAdd ++;
+				}
+			}
+			checkedCellId += checkedCellIdAdd;
 			checkedCell = viewerCells[checkedCellId];
+			if(checkedCell.id.indexOf('-batchno-remark') > -1){
+				checkedCell = viewerCells[checkedCellId - 1];
+			}
+		}
+		if(cell.id.indexOf('-batchno-remark') > -1){
+			var currentIndex = 0;
+			for(var i=0; i<viewerCells.length; i++){
+				if(viewerCells[i].id == cell.id){
+					currentIndex = i;
+					break;
+				}
+			}
+			cell = viewerCells[currentIndex - 1];
 		}
 		// 设置当前选中配置
 		cellAct.webMark = {isChecked : true};
