@@ -744,15 +744,15 @@ NetstarTemplate.templates.businesslevellist3 = (function(){
 					_config.levelConfig[2].moreBtnId = _config.levelConfig[2].id + '-more-button';
 					_config.levelConfig[2].moreContentId = _config.levelConfig[2].id + '-more-content';
 					levelConfig2Html = '<div class="pt-panel-container" ns-level="2">'
-											+ '<div class="" id="'+_config.levelConfig[2].id+'">'
+											+ '<div class="nsgrid-strip" id="'+_config.levelConfig[2].id+'">'
 											+ '</div>'
-											+ '<div class="" id="'+_config.levelConfig[2].moreId+'">'
-												+ '<div class="" id="'+_config.levelConfig[2].moreBtnId+'">'
-												+ '</div>'
-												+ '<div class="hide" id="'+_config.levelConfig[2].moreContentId+'" style="height: 320px;">'
-												+ '</div>'
+											+ '<div class="nsgrid-strip-operation" id="'+_config.levelConfig[2].moreId+'">'
+													+ '<div class="nsgrid-strip-operation-btn" id="'+_config.levelConfig[2].moreBtnId+'">'
+													+ '</div>'
+													+ '<div class="hide nsgrid-strip-operation-drop-down" id="'+_config.levelConfig[2].moreContentId+'" style="height: 320px;">'
+													+ '</div>'
 											+ '</div>'
-										+'</div>'
+										+ '</div>'
 				}
 				positionRightHtml = '<div class="pt-panel">'
 										// +'<div class="pt-panel-container" id="'+_config.levelConfig[2].id+'" ns-level="2">'
