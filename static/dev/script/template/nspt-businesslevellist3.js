@@ -749,7 +749,7 @@ NetstarTemplate.templates.businesslevellist3 = (function(){
 											+ '<div class="" id="'+_config.levelConfig[2].moreId+'">'
 												+ '<div class="" id="'+_config.levelConfig[2].moreBtnId+'">'
 												+ '</div>'
-												+ '<div class="hide" id="'+_config.levelConfig[2].moreContentId+'" style="position: absolute; z-index: 1000; width: 200px; height: 320px;">'
+												+ '<div class="hide" id="'+_config.levelConfig[2].moreContentId+'" style="height: 320px;">'
 												+ '</div>'
 											+ '</div>'
 										+'</div>'
