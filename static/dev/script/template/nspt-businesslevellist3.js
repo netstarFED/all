@@ -542,9 +542,9 @@ NetstarTemplate.templates.businesslevellist3 = (function(){
 	function initLevel2More(_level2Config, _config) {
 		var $moreBtn = $('#' + _level2Config.moreBtnId);
 		var html = '<div class="pt-btn-group">'
-						+ '<button type="button" title="更多" class="pt-btn pt-btn-default">'
-							+ '<i class=""></i>'
-							+ '<span>更多</span>'
+						+ '<button type="button" title="更多" class="pt-btn pt-btn-icon pt-btn-default">'
+							+ '<i class="icon-arrow-down-o"></i>'
+							+ '<span></span>'
 						+ '</button>'
 					+ '</div>'
 		$moreBtn.html(html);
@@ -558,6 +558,18 @@ NetstarTemplate.templates.businesslevellist3 = (function(){
 			// 更多面板id
 			var moreContentId = level2Config.moreContentId;
 			var $moreContent = $('#' + moreContentId);
+			var $level2 = $('#' + level2Config.id);
+			var $rows = $level2.find('[ns-rowindex]');
+			var level2Width = $level2.width();
+			var rowsWidth = 0;
+			for(var i=0; i<$rows.length; i++){
+				rowsWidth += $rows.eq(i).outerWidth();
+			}
+			if(rowsWidth < level2Width){
+				nsalert('二级数据没有足够多，更多不可点击');
+				console.warn('二级数据没有足够多，更多不可点击');
+				return;
+			}
 			if(!$moreContent.hasClass('hide')){
 				// 现在显示 点击为隐藏
 				$moreContent.addClass('hide');
