@@ -1907,7 +1907,8 @@ NetstarTemplate.templates.limsReg = (function ($) {
          var $this = $(this);
          var formID = $this.attr('containerid');//获取vo的id
          var gridId = $this.attr('ns-gridid');//获取list的id
-         var originalListData = getListData(gridId);//list的数据
+         // var originalListData = getListData(gridId);//list的数据
+         var originalListData = NetstarBlockList.configs[gridId].vueObj.originalRows;//list的数据
          var listData = $.extend(true,[],originalListData);
          var formJson = NetstarComponent.getValues(formID);//vo的数据
          var columnById = NetstarBlockList.configs[gridId].gridConfig.columnById;
@@ -2662,10 +2663,22 @@ NetstarTemplate.templates.limsReg = (function ($) {
                   NetStarGrid.addRow(gridDataArr[rowI],detailLeftComponent.id,(blockListSelectedIndex+1));
                }
                setTimeout(function(){
-                  NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows[blockListSelectedIndex].netstarSelectedFlag = false;
-                  NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows[blockListSelectedIndex+1].netstarSelectedFlag = true;
-                  NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows[blockListSelectedIndex].netstarSelectedFlag = false;
-                  NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows[blockListSelectedIndex+1].netstarSelectedFlag = true;
+                  if(NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows[blockListSelectedIndex]){
+                     NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows[blockListSelectedIndex].netstarSelectedFlag = false;
+                  }
+                  if(NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows[blockListSelectedIndex+1]){
+                     NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows[blockListSelectedIndex+1].netstarSelectedFlag = true;
+                  }
+                  if(NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows[blockListSelectedIndex]){
+                     NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows[blockListSelectedIndex].netstarSelectedFlag = false;
+                  }
+                  if(NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows[blockListSelectedIndex+1]){
+                     NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows[blockListSelectedIndex+1].netstarSelectedFlag = true;
+                  }
+                  // NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows[blockListSelectedIndex].netstarSelectedFlag = false;
+                  // NetstarBlockList.configs[detailLeftComponent.id].vueObj.$data.rows[blockListSelectedIndex+1].netstarSelectedFlag = true;
+                  // NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows[blockListSelectedIndex].netstarSelectedFlag = false;
+                  // NetstarBlockList.configs[detailLeftComponent.id].vueObj.originalRows[blockListSelectedIndex+1].netstarSelectedFlag = true;
                },50)
                //给右侧tab中的grid赋值
                var components = tempalteConfig.tabConfig.components;
