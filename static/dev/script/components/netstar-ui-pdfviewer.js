@@ -3,7 +3,19 @@
 if (typeof (NetstarUI) == 'undefined') {
 	NetstarUI = {};
 }
-NetstarUI.multiPdfViewer = (function () {
+
+/** 使用示例：
+ * 	NetstarUI.pdfViewer.init({
+ * 		id: "pdf-container",  //pdf容器
+ * 		title: '',
+ * 		url:[{url:'http://10.10.1.189:2001/sites/wx-webview/sample-page2.pdf', type:'pdf', }],
+ * 		//url:[{url:'https://lims.cst.ac.cn/files/pdf/' + signFileId + '?Authorization=' + Authorization, type:'pdf', }],
+ * 		zoomFit: 'width',
+ * 		isPrint:false,
+ * 		isDownload: false,             //是否有下载
+ * 	});
+*/
+NetstarUI.pdfViewer = (function () {
 	var PDF_LIB_URL = '/static/libs/pdf/pdf.js';
 	var PDF_WORKER_SRC = '/static/libs/pdf/pdf.worker.js';
 	var _this = {};
@@ -21,7 +33,7 @@ NetstarUI.multiPdfViewer = (function () {
 	//加载pdf.js 到lib，页面加载完成后执行的
 	function setLib(_pdfLib) {
 		pdfLib = _pdfLib;
-		NetstarUI.multiPdfViewer.pdfLib = _pdfLib;
+		NetstarUI.pdfViewer.pdfLib = _pdfLib;
 	}
 
 	function preInit(delayTime) {
@@ -31,10 +43,10 @@ NetstarUI.multiPdfViewer = (function () {
 				var _lib = window['pdfjs-dist/build/pdf'];
 				if (_lib) {
 					//如果已经载入pdf则直接使用
-					NetstarUI.multiPdfViewer.setLib(_lib);
+					NetstarUI.pdfViewer.setLib(_lib);
 				} else {
 					var _lib = requirejs([PDF_LIB_URL]);
-					NetstarUI.multiPdfViewer.setLib(_lib);
+					NetstarUI.pdfViewer.setLib(_lib);
 				}
 			}, delayTime)
 		})
@@ -182,16 +194,16 @@ NetstarUI.multiPdfViewer = (function () {
 			// $footer.append(selectHtml);				
 		},
 		zoomIn:function(id){
-			var page = NetstarUI.multiPdfViewer.pdfManager.page;
+			var page = NetstarUI.pdfViewer.pdfManager.page;
 			if (id) {
 				console.log(id)
 				//sjj 如果有图片的情况
-				if(NetstarUI.multiPdfViewer.viewerManager.showImgConfig[id]){
-					config = NetstarUI.multiPdfViewer.viewerManager.showImgConfig[id];
+				if(NetstarUI.pdfViewer.viewerManager.showImgConfig[id]){
+					config = NetstarUI.pdfViewer.viewerManager.showImgConfig[id];
 					config.imgWidth = config.imgWidth*1.5;
 				}else{
-					page = NetstarUI.multiPdfViewer.pdfManager.pdfObj[id].page;
-					config = NetstarUI.multiPdfViewer.pdfManager.pdfObj[id].config;
+					page = NetstarUI.pdfViewer.pdfManager.pdfObj[id].page;
+					config = NetstarUI.pdfViewer.pdfManager.pdfObj[id].config;
 					var scale = config.zoom.current * 1.5;
 					config.zoom.zoomFitScale = scale;
 				}
@@ -228,7 +240,7 @@ NetstarUI.multiPdfViewer = (function () {
 					handler: function (data) {
 						//aaa
 						var id = $(data.event.currentTarget).closest('.btns-container-intitle').attr('ns-pdfid');
-						NetstarUI.multiPdfViewer.viewerManager.zoomIn(id);
+						NetstarUI.pdfViewer.viewerManager.zoomIn(id);
 					}
 				});
 				btnsArray.push({
@@ -238,17 +250,17 @@ NetstarUI.multiPdfViewer = (function () {
 					isShowText: false,
 					state: 'pt-btn-icon',
 					handler: function (data) {
-						var page = NetstarUI.multiPdfViewer.pdfManager.page;
+						var page = NetstarUI.pdfViewer.pdfManager.page;
 						var id = $(data.event.currentTarget).closest('.btns-container-intitle').attr('ns-pdfid');
-						var page = NetstarUI.multiPdfViewer.pdfManager.page;
+						var page = NetstarUI.pdfViewer.pdfManager.page;
 						if (id) {
 							//sjj 如果有图片的情况
-							if(NetstarUI.multiPdfViewer.viewerManager.showImgConfig[id]){
-								config = NetstarUI.multiPdfViewer.viewerManager.showImgConfig[id];
+							if(NetstarUI.pdfViewer.viewerManager.showImgConfig[id]){
+								config = NetstarUI.pdfViewer.viewerManager.showImgConfig[id];
 								config.imgWidth = config.imgWidth*(1/1.5);
 							}else{
-								page = NetstarUI.multiPdfViewer.pdfManager.pdfObj[id].page;
-								config = NetstarUI.multiPdfViewer.pdfManager.pdfObj[id].config;
+								page = NetstarUI.pdfViewer.pdfManager.pdfObj[id].page;
+								config = NetstarUI.pdfViewer.pdfManager.pdfObj[id].config;
 								var scale = config.zoom.current * (1 / 1.5);
 								config.zoom.zoomFitScale = scale;
 							}
@@ -413,7 +425,6 @@ NetstarUI.multiPdfViewer = (function () {
 								config.completeHandler(config);
 							}
 						}
-						// _this.initBtns();
 					});
 				}
 
@@ -468,7 +479,34 @@ NetstarUI.multiPdfViewer = (function () {
 			this.showImgConfig[config.id] = _config;
 			cb && cb();
 		}
+	}
 
+	var dialogManager = {
+		$dialog:{},
+		init:function(_config, cb){
+			var dialogHtml = '<div class="pdf-dialog-fullscreen" ns-type="pdf-dialog-fullscreen"></div>';
+			var $dialog = $(dialogHtml);
+			if($('[ns-type="pdf-dialog-fullscreen"]').length != 0){
+				$('[ns-type="pdf-dialog-fullscreen"]').remove();
+			}
+			if(typeof(_config.id)!='string'){
+				_config.id = 'pdf-dialog-' + new Date().getTime()
+			}
+			$dialog.attr('id', _config.id);
+			this.$dialog = $dialog;
+			$('body').append($dialog);
+		},
+		addCloseBtn:function(){
+			var btnHtml = 
+				'<a class="pt-pdfview-dialog close-btn" href="javascript:void(0);"><i class="icon-close-alt-o"></i></a>'
+			var $closeBtn = $(btnHtml);
+			$('body').append($closeBtn);
+			$closeBtn.on('click', function(ev){
+				$('.pdf-dialog-fullscreen').remove();
+				$('.pt-pdfview-footer').remove()
+				$('.pt-pdfview-dialog.close-btn').remove();
+			})
+		}
 	}
 
 	function init(_config) {
@@ -477,8 +515,12 @@ NetstarUI.multiPdfViewer = (function () {
 	}
 
 	function dialog(_config) {
+		dialogManager.init(_config);
+
 		viewerManager.init(_config);
-		viewerManager.dialog(_config);
+		viewerManager.show(_config);
+
+		dialogManager.addCloseBtn();
 	}
 
 	var pdfManager = {
@@ -621,3 +663,48 @@ NetstarUI.multiPdfViewer = (function () {
 		viewerManager:viewerManager
 	}
 })()
+
+/* 样式表示例
+<style>
+	.pdf-dialog-fullscreen {
+		top: 0px;left: 0px;right: 0px;bottom: 0px;position: absolute;z-index: 99999;background-color: #ccc;
+	}
+	.pdf-dialog-fullscreen .panel-body {
+		background-color: #656565;
+		padding: 8px;
+	}
+	.pdf-dialog-fullscreen .panel-body canvas{
+		border-bottom: 2px solid #656565;
+	}
+	.pt-pdfview-footer{
+		position: fixed;
+		z-index: 999999;
+		height: 40px;
+		bottom: 0;
+		width: 100%;
+		left: 0;
+		padding-left: 10px;
+	}
+	.pt-pdfview-footer .pt-btn-group button{
+		background-color: transparent;
+		border: none;
+		padding: 5px 10px;
+	}
+	.pt-pdfview-footer .pt-btn-group button i{
+		font-size: 21px;
+	}
+	.pt-pdfview-dialog.close-btn{
+		position: fixed;
+		right: 0;
+		top: 0;
+		width: 24px;
+		height: 24px;
+		z-index: 99999999;
+		background-color: #656565;
+		color: #fff;
+	}
+	.pt-pdfview-dialog.close-btn i{
+		font-size: 24px;
+	}
+</style>
+*/
