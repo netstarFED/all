@@ -4577,7 +4577,7 @@ var NetstarComponentEditor = (function($){
 		ajax:['url','method','dataSrc','data','contentType'],
 		form:['disabled','form-width','inputWidth','form-hidden','isDistinct', 'tipContent', 'tipClass','distinctField','valueExpression','setValueExpression','placeholder','gridPlaceholder','isAloneQuery'],
         // 表格配置
-        table:['editable','table-width','fieldLength','table-hidden','orderable','searchable','total','tooltip','rowColor','isDefaultSubdataText','isTreeNode','isTitle','isValue','isQuickQuery','isColumnCombine'],
+        table:['editable','table-width','fieldLength','table-hidden','orderable','searchable','total','tooltip','rowColor','isDefaultSubdataText','isTreeNode','isTitle','isValue','isQuickQuery','isColumnCombine', 'infoConfig'],
         columnFormat:['columnFormat-type','columnFormat-format','places','symbol','thousand','decimal','url','title','readonly','field','parameterFormat','templateName','totalSymbol','isAllwaysNewTab','urlSubdata','subdataField','isSendQueryModel','isFirstUseRow'],
         footer:['footer-type', 'footer-content'],
         viewConfig:['viewConfig-type','url','method','dataSrc','data'],
@@ -5242,6 +5242,11 @@ var NetstarComponentEditor = (function($){
 						var fieldlength = parseInt(obj.fieldLength);
 						obj.width = nsMindjetToJS.getTableFieldWidth(fieldlength);
 						delete obj.fieldLength;
+					}
+					break;
+				case 'infoConfig':
+					if(typeof(obj.infoConfig) == "string" && obj.infoConfig.length > 0){
+						obj.infoConfig = JSON.parse(obj.infoConfig);
 					}
 					break;
 				case 'rowColor':
