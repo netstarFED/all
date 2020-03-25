@@ -5014,6 +5014,7 @@ var NetstarComponentEditor = (function($){
 				case 'uploadAjaxData':
 				case 'linkParams':
 				case 'formatValueData':
+				case 'infoConfig':
 					if(fieldValue.length>0){
 						obj[fieldName] = JSON.parse(fieldValue);
 					}
