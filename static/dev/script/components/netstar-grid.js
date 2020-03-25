@@ -5303,7 +5303,6 @@ var NetStarGrid = (function () {
 							var $this = $(this);
 							var nsIndex = Number($this.attr('ns-index'));
 							var rowData = resData[nsIndex];
-							console.log(rowData);
 							var $editTr = $target.closest('tr');
 							var editRowIndex = Number($editTr.attr('ns-rowindex'));
 							var $editTd = $target.closest('td');
@@ -5338,15 +5337,23 @@ var NetStarGrid = (function () {
 				var posConfig = {
 					$container : $content,
 					$relative : $target,
-					zoomNum : 0.7
+					// zoomNum : 0.7
 				}
 				NetstarComponent.commonFunc.setContainerPosition(posConfig)
 			}
 			var infoConfig = columnConfig.infoConfig;
 			var ajaxConfig = $.extend(true, {}, infoConfig.ajax);
-			ajaxConfig.data = {
-				goodsId : '1310670316892065778',
-				customerId : '1330000614997885938',
+			var $editTarget = $(ev.target);
+			var $editTr = $editTarget.closest('tr');
+			var editRowIndex = Number($editTr.attr('ns-rowindex'));
+			var gridConfigs = NetStarGrid.configs[gridConfig.id];
+			var valueObj = {
+				page : typeof(gridConfig.getPageDataFunc) == "function" ? gridConfig.getPageDataFunc() : {},
+				row: gridConfigs.vueConfig.data.originalRows[editRowIndex],
+				table: gridConfigs.vueConfig.data.originalRows,
+			}
+			if(typeof(ajaxConfig.data) == "object"){
+				ajaxConfig.data = NetStarUtils.getFormatParameterJSON(ajaxConfig.data, valueObj);
 			}
 			ajaxConfig.contentType = 'application/x-www-form-urlencoded';
 			NetStarUtils.ajax(ajaxConfig, (function(columnConfig, gridConfig, setContainer){

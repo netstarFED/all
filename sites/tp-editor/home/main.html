@@ -436,6 +436,25 @@
                                     }
                                 })
                             },
+                        },
+                        {
+                            id : 'common-clearCache',
+                            text : '清除缓存',
+                            icon : '',
+                            handler : function(ev, data){
+                                nsConfirm('您确定要清除所有缓存吗？', function(isTrue){
+                                    if(isTrue){
+                                        var ajaxData = {
+                                            url : getRootPath() + "/templateMindPages/clearAllCache",
+                                            type : "GET",
+                                            dataType : "json",
+                                        }
+                                        NetStarUtils.ajax(ajaxData,function(res){
+                                            nsAlert("清除成功");
+                                        });
+                                    }
+                                },'warning');
+                            },
                         }
                     ]
                 },
