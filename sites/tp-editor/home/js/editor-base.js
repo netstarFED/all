@@ -1332,7 +1332,7 @@ var NetstarEditorServer = (function(){
                     var component = components[i];
                     var fields = component.fields;
                     // 按钮/tab不需要状态处理
-                    if(typeof(component.type) == "btns" || component.type == "tab"){
+                    if(typeof(component.type) == "btns" || component.type == "tab" ||  component.type == "tree"){
                         pageComponents.push(component);
                         continue;
                     }
@@ -1631,6 +1631,11 @@ var NetstarEditorServer = (function(){
                 // 通过状态配置获取字段配置
                 var fields = [];
                 var state = panelById[component.children[0]];
+                if(typeof(state) == "undefined"){
+                    // 只有修改tab保存方式之前的或走这里
+                    _components.push(comPanel);
+                    continue;
+                }
                 // state中config是当前状态 objectState:0不变，读子级配置；1新增，读子级配置；2修改，读当前配置+原始配置；-1删除，不存当前字段
                 //        children是默认状态所有字段(stateGroup)
                 var stateConfig = state.config;

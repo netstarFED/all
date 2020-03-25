@@ -488,6 +488,10 @@ var vueButtonComponent = (function($){
                     stateSwitchClick : function(event, index, vueConfig, item){
                         // event.stopImmediatePropagation();
                         var _this = this;
+                        if(typeof(item.handler)=='function'){ 
+                            var obj = _this.getHandlerObj(event, index, vueConfig, item, 'dropdownShowBefore');
+                            item.handler(obj);
+                        }
                         vueConfig.isShowDropdown = !vueConfig.isShowDropdown;
                         var $target = $(event.target);
                         if(typeof(vueConfig.documentClick) != "function"){

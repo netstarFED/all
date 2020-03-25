@@ -798,7 +798,10 @@ $(function () {
 		$('body').attr({ 'ns-browser': browser.browserVersion, 'ns-system': browser.browserSystem });
 		nsVals.browser = browser;
 	}
-	nsVals.getDictAjax();
+	if(typeof(nsVals.getDictAjax) == 'function'){
+		nsVals.getDictAjax();
+	}
+	
 })
 
 //获取url地址参数

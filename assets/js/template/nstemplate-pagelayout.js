@@ -6035,7 +6035,7 @@ pageProperty.editorDataSwitch = {
 			var component = components[i];
 			var fields = component.field;
 			// 按钮不需要状态处理
-			if(component.type == "btns"){
+			if(component.type == "btns" || component.type == "tab" ||  component.type == "tree"){
 				pageComponents.push(component);
 				continue;
 			}

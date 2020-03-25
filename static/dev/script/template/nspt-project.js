@@ -4907,12 +4907,18 @@ function initFunction(businessObj, controllerObj){
 				},
 				columns : [],
 			}
-			getPrintList((function(_blockConfig){
+			getPrintList((function(_blockConfig, _storeData){
 				return function(list){
+					for(var i=0; i<list.length; i++){
+						if(list[i].id == _storeData.id){
+							list[i].netstarSelectedFlag = true;
+							break;
+						}
+					}
 					_blockConfig.data.dataSource = list;
 					NetstarBlockList.init(blockConfig);
 				}
-			})(blockConfig))
+			})(blockConfig, storeData))
 			// NetstarBlockList.init(blockConfig);
 			var btnJson = {
 				id : footerId,
@@ -5343,8 +5349,11 @@ function initFunction(businessObj, controllerObj){
 					if(eventFuncName == 'clickCancel'){
 						actionName = 'cancelPrint';
 					}
-					var selectList = stateObj.btnsVue.stateGetCheck(stateObj.index); 
+					var selectList = stateObj.btnsVue.stateGetCheck(stateObj.index);
 					if(selectList.length == 0){
+						selectList = getStore(storeName, 'dropSelected');
+					}
+					if(selectList.length == 0 || $.isEmptyObject(selectList)){
 						nsAlert('没有选择打印模板及配置', 'warning');
 						console.warn('没有选择打印模板及配置');                                                                                                                                                                                                            
 						break;
@@ -5384,6 +5393,23 @@ function initFunction(businessObj, controllerObj){
 					setPrintInfo(controllerObj, storeName, stateObj);
 					break;
 				case 'dropClick': // 点击下拉框
+					// setStore(storeContent, storeName, subIndex);
+					var selectList = stateObj.btnsVue.stateGetCheck(stateObj.index);
+					// var selectIndexArr = [];
+					// for(var i=0; i<selectList.length; i++){
+					// 	selectIndexArr.push(selectList[i].nsIndex);
+					// }
+					setStore(selectList, storeName, 'dropSelected');
+					break;
+				case 'dropdownShowBefore':
+					var selectList = getStore(storeName, 'dropSelected');
+					var dropdownSubdata = $.extend(true, [], btnVueConfig.dropdownSubdata);
+					for(var i=0; i<selectList.length; i++){
+						if(dropdownSubdata[selectList[i].nsIndex]){
+							dropdownSubdata[selectList[i].nsIndex].isCurrent = true;
+						}
+					}
+					btnVueConfig.dropdownSubdata = dropdownSubdata;
 					break;
 		}
 		// var btnType = controllerObj.btnType;
