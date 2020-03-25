@@ -5337,7 +5337,7 @@ var NetStarGrid = (function () {
 				var posConfig = {
 					$container : $content,
 					$relative : $target,
-					zoomNum : 0.7
+					// zoomNum : 0.7
 				}
 				NetstarComponent.commonFunc.setContainerPosition(posConfig)
 			}
