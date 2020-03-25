@@ -479,6 +479,11 @@ NetstarTemplate.templates.businesslevellist3 = (function(){
 							drawHandler:gridLevel2DrawHandler,
 							completeHandler:gridLevel2CompleteHandler
 						};
+						// 初始化二级块状表格的下拉展示 原因块状表格过多显示不全通过按钮显示全部
+						var moreId = _config.levelConfig[2].moreId;
+						if(moreId && $('#' + moreId).length > 0){
+							initLevel2More(_config.levelConfig[2], _config);
+						}
 					}else if(componentData[_config.levelConfig[3].id]){
 						componentData[_config.levelConfig[3].id].params.height = parseFloat((_config.commonPanelHeight - 50)/2);
 					}
@@ -500,6 +505,132 @@ NetstarTemplate.templates.businesslevellist3 = (function(){
 				}
 			}
 		}
+	}
+	// 二级面板更多按钮 显示的块状表格选中方法
+	function level2MoreGrigSelectFunc(data, _rows, _vueData, gridConfig, pageConfig){
+		//刷新三级数据
+		gridLevel2SelectHandler(data, _rows, _vueData, gridConfig);
+		// 改变二级选中
+		// 二级表格配置
+		var level2Component = pageConfig.levelConfig[2];
+		var level2Configs = NetstarBlockList.configs[level2Component.id];
+		var level2GridConfig = level2Configs.gridConfig;
+		var level2VueObj = level2Configs.vueObj;
+		// 获取二级表格当前选中行
+		var level2OriginalRows = $.extend(true, [], level2VueObj.originalRows);
+		var level2Rows = level2VueObj.rows;
+		var level2FieldId = level2GridConfig.idField;
+		var moreFieldId = gridConfig.idField;
+		for(var i=0; i<level2Rows.length; i++){
+			if(level2Rows[i][level2FieldId] == data[moreFieldId]){
+				level2Rows[i].netstarSelectedFlag = true;
+			}else{
+				level2Rows[i].netstarSelectedFlag = false;
+			}
+		}
+		for(var i=0; i<level2OriginalRows.length; i++){
+			if(level2OriginalRows[i][level2FieldId] == data[moreFieldId]){
+				level2OriginalRows[i].netstarSelectedFlag = true;
+			}else{
+				level2OriginalRows[i].netstarSelectedFlag = false;
+			}
+		}
+		// level2VueObj.originalRows = level2OriginalRows;
+		NetstarBlockList.refreshDataById(level2Component.id, level2OriginalRows);
+	}
+	// 初始化二级块状表格更多按钮
+	function initLevel2More(_level2Config, _config) {
+		var $moreBtn = $('#' + _level2Config.moreBtnId);
+		var html = '<div class="pt-btn-group">'
+						+ '<button type="button" title="更多" class="pt-btn pt-btn-icon pt-btn-default">'
+							+ '<i class="icon-arrow-down-o"></i>'
+							+ '<span></span>'
+						+ '</button>'
+					+ '</div>'
+		$moreBtn.html(html);
+		var $btn = $moreBtn.find('button');
+		$btn.off('click');
+		$btn.on('click', {config : _config}, function(ev){
+			ev.stopImmediatePropagation();
+			var $this = $(this);
+			var config = ev.data.config;
+			var level2Config = config.levelConfig[2];
+			// 更多面板id
+			var moreContentId = level2Config.moreContentId;
+			var $moreContent = $('#' + moreContentId);
+			var $level2 = $('#' + level2Config.id);
+			var $rows = $level2.find('[ns-rowindex]');
+			var level2Width = $level2.width();
+			var rowsWidth = 0;
+			for(var i=0; i<$rows.length; i++){
+				rowsWidth += $rows.eq(i).outerWidth();
+			}
+			if(rowsWidth < level2Width){
+				nsalert('二级数据没有足够多，更多不可点击');
+				console.warn('二级数据没有足够多，更多不可点击');
+				return;
+			}
+			if(!$moreContent.hasClass('hide')){
+				// 现在显示 点击为隐藏
+				$moreContent.addClass('hide');
+				return;
+			}
+			$moreContent.removeClass('hide');
+			// 获取二级面板数据
+			var level2Data = $.extend(true, [], NetStarGrid.dataManager.getData(level2Config.id));
+			// 二级表格配置
+			var level2Configs = NetstarBlockList.configs[level2Config.id];
+			var level2GridConfig = level2Configs.gridConfig;
+			var level2Original = level2Configs.original;
+			var level2VueObj = level2Configs.vueObj;
+			var level2VueConfig = level2Configs.vueConfig;
+			// 获取二级表格当前选中行
+			var level2OriginalRows = level2VueObj.originalRows;
+			var level2Rows = level2VueObj.rows;
+			var selectedIndex = 0;
+			var startI = 0;
+			if (level2GridConfig.data.isServerMode == false) {
+				startI = level2VueConfig.data.page.start;
+			}
+			for (var i = 0; i < level2Rows.length; i++) {
+				var data = level2Rows[i];
+				if (level2OriginalRows[i + startI]) {
+					if (data.netstarSelectedFlag) {
+						selectedIndex = i + startI;
+						break;
+					}
+				}
+
+			}
+			level2Data[selectedIndex].netstarSelectedFlag = true;
+			// 初始化块状表格
+			var blockConfig = $.extend(true, {}, level2Original);
+			blockConfig.id = moreContentId;
+			blockConfig.data.dataSource = level2Data;
+			blockConfig.ui.defaultSelectedIndex = selectedIndex;
+			blockConfig.ui.selectedHandler = (function(config) {
+				return function(_data, _rows, _vueData, _gridConfig) {
+					level2MoreGrigSelectFunc(_data, _rows, _vueData, _gridConfig, config)
+				}
+			})(config);
+			NetstarBlockList.init(blockConfig);
+			function documentClick(ev){
+				var config = ev.data.config;
+				var level2Config = config.levelConfig[2];
+				// 更多面板id
+				var moreContentId = level2Config.moreContentId;
+				var $moreContent = $('#' + moreContentId);
+				var $target = $(ev.target);
+				var $parent = $target.closest('#' + moreContentId);
+				// if($parent.length > 0 || $target.is($parent)){
+				// 	return;
+				// }
+				$moreContent.addClass('hide');
+				$(document).off('click', documentClick);
+			}
+			$(document).off('click', documentClick);
+			$(document).on('click', {config : _config}, documentClick);
+		});
 	}
 	//初始化容器面板
 	function initContainer(_config){
@@ -618,9 +749,27 @@ NetstarTemplate.templates.businesslevellist3 = (function(){
 												+'</div>'
 											+'</div>'
 									+'</div>';
-				positionRightHtml = '<div class="pt-panel">'
-										+'<div class="pt-panel-container" id="'+_config.levelConfig[2].id+'" ns-level="2">'
+				var levelConfig2Html = '<div class="pt-panel-container" id="'+_config.levelConfig[2].id+'" ns-level="2">'
 										+'</div>'
+				if(_config.levelConfig[2].type == "blockList"){
+					_config.levelConfig[2].moreId = _config.levelConfig[2].id + '-more';
+					_config.levelConfig[2].moreBtnId = _config.levelConfig[2].id + '-more-button';
+					_config.levelConfig[2].moreContentId = _config.levelConfig[2].id + '-more-content';
+					levelConfig2Html = '<div class="pt-panel-container" ns-level="2">'
+											+ '<div class="nsgrid-strip" id="'+_config.levelConfig[2].id+'">'
+											+ '</div>'
+											+ '<div class="nsgrid-strip-operation" id="'+_config.levelConfig[2].moreId+'">'
+													+ '<div class="nsgrid-strip-operation-btn" id="'+_config.levelConfig[2].moreBtnId+'">'
+													+ '</div>'
+													+ '<div class="hide nsgrid-strip-operation-drop-down" id="'+_config.levelConfig[2].moreContentId+'" style="height: 320px;">'
+													+ '</div>'
+											+ '</div>'
+										+ '</div>'
+				}
+				positionRightHtml = '<div class="pt-panel">'
+										// +'<div class="pt-panel-container" id="'+_config.levelConfig[2].id+'" ns-level="2">'
+										// +'</div>'
+										+ levelConfig2Html
 										+'<div class="pt-panel-container" id="'+_config.levelConfig[3].id+'" ns-level="3">'
 										+'</div>'
 										+'<div class="pt-panel">'

@@ -178,6 +178,8 @@ var NetStarGrid = (function () {
 											:ns-field="columnCofig.field" \
 											:style="[NetstarTdStyle(row,columnCofig,index)]" \
 											@click="tdClickHandler($event, index, columnCofig, row)">' +
+					// 信息列表
+					'<div class="pt-td-info" v-if="columnCofig.isHadInfo&&row\[\'NETSTAR-TIPS-INFO\'\]===true" @click="showInfoDialog($event, index, columnCofig, row)"></div>' + 
 					//第一个默认序列号+ page.start
 					'<template v-if="columnCofig.columnType === \'autoserial\' ">' +
 					'<template v-if="ui.displayMode !== \'treeGrid\' ">' +
@@ -1173,6 +1175,24 @@ var NetStarGrid = (function () {
 
 				//sjj 20190624 是否是树节点字段
 				columnConfig.isTreeNode = typeof (columnConfig.isTreeNode) == 'boolean' ? columnConfig.isTreeNode : false;
+
+				// lyw infoConfig
+				var isHadInfo = false;
+				if(typeof(columnConfig.infoConfig) == "object" && typeof(columnConfig.infoConfig.ajax) == "object"){
+					if(typeof(columnConfig.editConfig) == "object" && columnConfig.editConfig.type == "business"){
+						console.error('配置错误，业务组件不支持info弹框配置');
+						console.error(columnConfig);
+					}else{
+						isHadInfo = true;
+						columnConfig.infoConfig.type = typeof(columnConfig.infoConfig.type) == "string" ? columnConfig.infoConfig.type : 'list';
+						columnConfig.infoConfig.valueField = typeof(columnConfig.infoConfig.valueField) == "string" ? columnConfig.infoConfig.valueField : columnConfig.field;
+						columnConfig.infoConfig.field = $.isArray(columnConfig.infoConfig.field) ? columnConfig.infoConfig.field : [];
+						columnConfig.infoConfig.maxWidth = typeof(columnConfig.infoConfig.maxWidth) == "number" ? columnConfig.infoConfig.maxWidth : 200;
+						columnConfig.infoConfig.maxHeight = typeof(columnConfig.infoConfig.maxHeight) == "number" ? columnConfig.infoConfig.maxHeight : 200;
+						columnConfig.infoConfig.isSetValue = typeof(columnConfig.infoConfig.isSetValue) == "boolean" ? columnConfig.infoConfig.isSetValue : true;
+					}
+				}
+				columnConfig.isHadInfo = isHadInfo;
 			}
 			_gridConfig.ui.orderDefaultData = orderDefaultData; //sjj 20190320 存储默认排序的配置参数
 			//添加功能性质的列对象
@@ -1731,6 +1751,15 @@ var NetStarGrid = (function () {
 				if (_gridConfig.ui.isEditMode) {
 					var columnById = _gridConfig.columnById;
 					var isSetTips = false;
+					var isHaveBusiness = false;
+					for (var fieldId in columnById) {
+						if (columnById[fieldId].editable && columnById[fieldId].editConfig) {
+							if(columnById[fieldId].editConfig.type == "business"){
+								isHaveBusiness = true;
+							}
+							break;
+						}
+					}
 					for (var fieldId in columnById) {
 						// if (columnById[fieldId].editable && columnById[fieldId].editConfig && columnById[fieldId].editConfig.type == "business" && columnById[fieldId].editConfig.isShowPlaceholder !== false) {
 						if (columnById[fieldId].editable && columnById[fieldId].editConfig) {
@@ -1743,8 +1772,12 @@ var NetStarGrid = (function () {
 								if (rows[dataI].netstarEmptyRowFlag) {
 									// rows[dataI]["NETSTAR-TIPS-BUSINESS"] = true;
 									rows[dataI]["NETSTAR-TIPS-PLACEHOLDER"] = true;
+									if(!isHaveBusiness){
+										rows[dataI]["NETSTAR-TIPS-INFO"] = true;
+									}
 									break;
 								}
+								rows[dataI]["NETSTAR-TIPS-INFO"] = true;
 							}
 						}
 						if(isSetTips){
@@ -2648,6 +2681,11 @@ var NetStarGrid = (function () {
 						} else if (data === '') {
 							data = undefined;
 						}
+						if(typeof(data) == "number" && typeof(columnConfig) == "object"){
+							if(typeof(columnConfig.editConfig) == "object" && typeof(columnConfig.editConfig.decimalDigit) == "number"){
+								data = Number(Number(data).toFixed(columnConfig.editConfig.decimalDigit));
+							}
+						}
 						break;
 					case 'date':
 						if (typeof (data) != 'number') {
@@ -3528,7 +3566,12 @@ var NetStarGrid = (function () {
 					jsonToListByClick:function(ev,index,columnCofig,rowData){
 						ev.stopPropagation();
 						methodsManager.jsonToListByClick(ev, index, columnCofig, rowData, _gridConfig, this);
-					}
+					},
+					// 显示信息弹框
+					showInfoDialog : function(ev, index, columnCofig, rowData){
+						ev.stopPropagation();
+						methodsManager.showInfoDialog(ev, index, columnCofig, rowData, _gridConfig, this);
+					},
 				},
 				mounted: function () {
 					//初始化表格的body，以及三个主要Table对象 都是$dom对象
@@ -5190,6 +5233,142 @@ var NetStarGrid = (function () {
 			};
 			NetstarComponent.dialogComponent.init(dialogCommon);
 		},
+		showInfoDialog : function(ev, index, columnConfig, rowData, gridConfig, vueConfig){
+			/*****设置容器*****/
+			function setContainer(resData, columnConfig, gridConfig) {
+				var gridId = gridConfig.id;
+				var gridConfigs = NetStarGrid.configs[gridId];
+				var contentId = gridId + '-info' + '-' + columnConfig.field;
+				var $grid = $('#' + gridId);
+				var $container = $grid.closest('container');
+				if($container.length == 0){
+					$container = $('body');
+				}
+				// 按钮
+				var $target = $(ev.target);
+				var infoConfig = columnConfig.infoConfig;
+				var valueField = infoConfig.valueField;
+				/****计算插入容器的位置*****/
+				// 容器宽高 https://qaapi.wangxingcloud.com/saleController/v2/getPriceMap
+				var maxWidth = infoConfig.maxWidth;
+				var maxHeight = infoConfig.maxHeight;
+				// 容器位置
+				// 获取html
+				function getTable(){
+					var html = '';
+					var titleHtml = '';
+					var bodyHtml = '';
+					var field = infoConfig.field;
+					for(var i=0; i<field.length; i++){
+						var fieldObj = field[i];
+						titleHtml += '<th ns-field="'+ fieldObj.id +'">' + fieldObj.name + '</th>';
+					}    
+					for(var i=0; i<resData.length; i++){
+						var dataObj = resData[i];
+						var tdHtml = '';
+						for(var j=0; j<field.length; j++){
+							var fieldObj = field[j];
+							var fieldVal = dataObj[fieldObj.id] == undefined ? '' : dataObj[fieldObj.id];
+							tdHtml += '<td ns-field="'+ fieldObj.id +'">' + fieldVal + '</td>';
+						}
+						bodyHtml += '<tr ns-index="'+i+'">'
+										+ tdHtml
+									+ '</tr>'
+					}
+					html = '<table class="pt-grid">'
+								+ '<thead>'
+									+ '<tr>'
+										+ titleHtml
+									+ '</tr>'
+								+'</thead>'
+								+ '<tbody>'
+									+ bodyHtml
+								+'</tbody>'
+							+ '</table>'
+					return html;
+				}
+				function getHtml(){
+					var tableHtml = getTable();
+					var html = '<div  class="pt-td-info-dropdown" id="'+ contentId +'" style="max-width:'+maxWidth+'px;"max-height:'+maxHeight+'px;">'
+									+ tableHtml;
+								+ '</div>'
+					return html;
+				}
+				function setEvent(){
+					var $content = $('#' + contentId);
+					var $tr = $content.find('tbody').children('tr');
+					if(infoConfig.isSetValue){
+						$tr.off('click');
+						$tr.on('click', function(ev){
+							var $this = $(this);
+							var nsIndex = Number($this.attr('ns-index'));
+							var rowData = resData[nsIndex];
+							var $editTr = $target.closest('tr');
+							var editRowIndex = Number($editTr.attr('ns-rowindex'));
+							var $editTd = $target.closest('td');
+							var editValue = rowData[valueField] == undefined ? '' : rowData[valueField];
+							if(editValue !== ''){
+								tdEditor.saveValue(editValue, editRowIndex, columnConfig, $editTd, gridConfig, gridConfigs.vueConfig);
+							}
+							$content.remove();
+						});
+					}
+					$(document).off('click');
+					$(document).on('click', function(ev){
+						var $target = $(ev.target);
+						var $parent = $target.closest('#' + contentId);
+						if($parent.length > 0 || $target.is($content)){
+							return;
+						}
+						$content.remove();
+					});
+				}
+				// 判断是否已经存在如果存在移除
+				var $content = $('#' + contentId);
+				if($content.length > 0){ $content.remove(); }
+				// 插入新容器
+				var html = getHtml();
+				$container.append(html);
+				// 设置事件
+				setEvent()
+				// 设置位置
+				// 容器
+				$content = $container.children('#' + contentId);
+				var posConfig = {
+					$container : $content,
+					$relative : $target,
+					// zoomNum : 0.7
+				}
+				NetstarComponent.commonFunc.setContainerPosition(posConfig)
+			}
+			var infoConfig = columnConfig.infoConfig;
+			var ajaxConfig = $.extend(true, {}, infoConfig.ajax);
+			var $editTarget = $(ev.target);
+			var $editTr = $editTarget.closest('tr');
+			var editRowIndex = Number($editTr.attr('ns-rowindex'));
+			var gridConfigs = NetStarGrid.configs[gridConfig.id];
+			var valueObj = {
+				page : typeof(gridConfig.getPageDataFunc) == "function" ? gridConfig.getPageDataFunc() : {},
+				row: gridConfigs.vueConfig.data.originalRows[editRowIndex],
+				table: gridConfigs.vueConfig.data.originalRows,
+			}
+			if(typeof(ajaxConfig.data) == "object"){
+				ajaxConfig.data = NetStarUtils.getFormatParameterJSON(ajaxConfig.data, valueObj);
+			}
+			ajaxConfig.contentType = 'application/x-www-form-urlencoded';
+			NetStarUtils.ajax(ajaxConfig, (function(columnConfig, gridConfig, setContainer){
+				return function(res, _ajaxConfig) {
+					if(res.success){
+						var dataSrc = _ajaxConfig.dataSrc;
+						var resData = res[dataSrc];
+						if(typeof(resData) == "undefined"){
+							resData = [];
+						}
+						setContainer(resData, columnConfig, gridConfig);
+					}
+				}
+			})(columnConfig, gridConfig, setContainer))
+		}
 	}
 
 	//对外的方法
@@ -6478,6 +6657,7 @@ var NetStarGrid = (function () {
 								var countData = {};
 								var fieldRex = /\{\{(.*?)\}\}/;
 								var fieldCountFuncObj = editConfig.countFuncConfig;
+								var columnById = gridConfig.columnById ? gridConfig.columnById : {};
 								for (var fieldKey in fieldCountFuncObj) {
 									var countFuncArr = fieldCountFuncObj[fieldKey];
 									var countFuncStr = '';
@@ -6502,6 +6682,12 @@ var NetStarGrid = (function () {
 											var resultStrMix = resultStrArr[1];
 											if (resultStrMix.length == 17) {
 												resultStr = result.toFixed(16);
+											}
+										}
+										if(columnById[fieldKey] && columnById[fieldKey].editConfig){
+											var decimalDigit = columnById[fieldKey].editConfig.decimalDigit;
+											if(typeof(decimalDigit) == "number"){
+												resultStr = Number(resultStr).toFixed(decimalDigit);
 											}
 										}
 										countData[fieldKey] = Number(resultStr);
@@ -7061,7 +7247,7 @@ var NetStarGrid = (function () {
 					var endDate = formJson.filtermode + 'End';
 					paramJson[startDate] = formJson[startDate];
 					paramJson[endDate] = formJson[endDate];
-				}else if(queryConfig.type == 'valuesInput'){
+				}else if(queryConfig.type == 'valuesInput' || queryConfig.type == 'numberRange'){
 					var valuesInputStr = queryConfig.value;
 					if(typeof(valuesInputStr)=='object'){
 						$.each(valuesInputStr,function(k,v){

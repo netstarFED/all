@@ -773,7 +773,8 @@ var NetstarTemplate = {
 					var config = NetstarTemplate.templates.businessDataBase.data[templateId].config;
 					if (!$.isEmptyObject(config)) {
 						//存在单据详情模板的配置项
-						var gridId = config.componentsConfig.list[0].id;
+						// var gridId = config.componentsConfig.list[0].id;
+						var gridId = config.mainComponent.id;
 						var data = NetStarGrid.getDataByFieldAndValue(gridId, 'workItemId', workItemId);
 						if (!$.isEmptyObject(data)) {
 							// data.hasSuspend = isDisabled;

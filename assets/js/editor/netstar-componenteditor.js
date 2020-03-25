@@ -1409,6 +1409,12 @@ var NetstarComponentEditor = (function($){
 			],
 			value: 	'false',
 		},
+		infoConfig : {
+			id:'infoConfig',
+			label:'infoConfig',
+			type: 		'textarea',
+			column: 	12,	
+		}
 	}
 	// 帮助配置
 	var helpConfig = {
@@ -2344,7 +2350,7 @@ var NetstarComponentEditor = (function($){
 		'checkbox-dict':['dictArguments','textField','valueField','relationField','outputFields','total','isObjectValue'],
 		text:['value','total','remoteAjax'],
 		password:['value','isMd5'],
-		number:['value','total','decimalDigit','isShowCalculator'],
+		number:['value','total','decimalDigit','isShowCalculator','fieldStart','fieldEnd'],
 		business:['dialogTitle','infoBtnName','selectMode','idField','textField','showExpression','voField','relationField','defaultSearchData','parameterFormat','validateParams','outputFields','innerFields','assignExpres','isOutputString','selectedKey','isInputText','displayMode','isAsync','isDeleteObjectState','isNeedRowData','formatValueData','source-ajax','search-ajax','getRowData-ajax','getFormData-ajax','subdataAjax-ajax'],//sjj 20200115 增加isNeedRowData属性 是否需要添加行
         businessSelect:['selectMode','idField','textField','voField','relationField','listExpression','panelConfig','defaultSearchData','outputFields','innerFields','assignExpres','source-ajax','getRowData-ajax','getFormData-ajax'],
 		provinceselect:['',''],
@@ -2363,7 +2369,7 @@ var NetstarComponentEditor = (function($){
 		ajax:['url','method','dataSrc','data','contentType'],
 		form:['disabled','form-width','inputWidth','form-hidden','isDistinct', 'tipContent', 'tipClass','distinctField','valueExpression','setValueExpression','placeholder','gridPlaceholder','isAloneQuery'],
         // 表格配置
-        table:['editable','table-width','fieldLength','table-hidden','orderable','searchable','total','tooltip','rowColor','isDefaultSubdataText','isTreeNode','isTitle','isValue','isQuickQuery','isColumnCombine'],
+        table:['editable','table-width','fieldLength','table-hidden','orderable','searchable','total','tooltip','rowColor','isDefaultSubdataText','isTreeNode','isTitle','isValue','isQuickQuery','isColumnCombine','infoConfig'],
         columnFormat:['columnFormat-type','columnFormat-format','places','symbol','thousand','decimal','url','title','readonly','field','parameterFormat','templateName','totalSymbol','isAllwaysNewTab','urlSubdata','subdataField','isSendQueryModel','isFirstUseRow'],
         footer:['footer-type', 'footer-content'],
         viewConfig:['viewConfig-type','url','method','dataSrc','data'],
@@ -5060,6 +5066,7 @@ var NetstarComponentEditor = (function($){
 				case 'uploadAjaxData':
 				case 'linkParams':
 				case 'formatValueData':
+				case 'infoConfig':
 					if(fieldValue.length>0){
 						obj[fieldName] = JSON.parse(fieldValue);
 					}
