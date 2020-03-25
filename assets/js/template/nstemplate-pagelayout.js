@@ -6248,6 +6248,7 @@ pageProperty.ajax.clearAllCache = function(){
 		url:getRootPath() + "/templateMindPages/clearAllCache",
 		type:"GET",
 		dataType:"json",
+		contentType : "application/x-www-form-urlencoded",
 	}
 	NetStarUtils.ajax(ajaxData,function(res){
 		nsAlert("清除成功");
