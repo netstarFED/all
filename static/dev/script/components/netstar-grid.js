@@ -1187,8 +1187,8 @@ var NetStarGrid = (function () {
 						columnConfig.infoConfig.type = typeof(columnConfig.infoConfig.type) == "string" ? columnConfig.infoConfig.type : 'list';
 						columnConfig.infoConfig.valueField = typeof(columnConfig.infoConfig.valueField) == "string" ? columnConfig.infoConfig.valueField : columnConfig.field;
 						columnConfig.infoConfig.field = $.isArray(columnConfig.infoConfig.field) ? columnConfig.infoConfig.field : [];
-						columnConfig.infoConfig.maxWidth = typeof(columnConfig.infoConfig.maxWidth) == "number" ? columnConfig.infoConfig.maxWidth : 100;
-						columnConfig.infoConfig.maxHeight = typeof(columnConfig.infoConfig.maxHeight) == "number" ? columnConfig.infoConfig.maxHeight : 100;
+						columnConfig.infoConfig.maxWidth = typeof(columnConfig.infoConfig.maxWidth) == "number" ? columnConfig.infoConfig.maxWidth : 200;
+						columnConfig.infoConfig.maxHeight = typeof(columnConfig.infoConfig.maxHeight) == "number" ? columnConfig.infoConfig.maxHeight : 200;
 						columnConfig.infoConfig.isSetValue = typeof(columnConfig.infoConfig.isSetValue) == "boolean" ? columnConfig.infoConfig.isSetValue : true;
 					}
 				}
@@ -5275,7 +5275,7 @@ var NetStarGrid = (function () {
 										+ tdHtml
 									+ '</tr>'
 					}
-					html = '<table>'
+					html = '<table class="pt-grid">'
 								+ '<thead>'
 									+ '<tr>'
 										+ titleHtml
@@ -5289,7 +5289,7 @@ var NetStarGrid = (function () {
 				}
 				function getHtml(){
 					var tableHtml = getTable();
-					var html = '<div class="" id="'+ contentId +'" style="position:absolute;z-index:1;max-width:'+maxWidth+'px;"max-height:'+maxHeight+'px;">'
+					var html = '<div  class="pt-td-info-dropdown" id="'+ contentId +'" style="max-width:'+maxWidth+'px;"max-height:'+maxHeight+'px;">'
 									+ tableHtml;
 								+ '</div>'
 					return html;
