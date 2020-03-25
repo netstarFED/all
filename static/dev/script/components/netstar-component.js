@@ -1821,7 +1821,29 @@ NetstarComponent.getValueBySourceConfig = function(sourceConfig, config){
                     value = value.toString();
                 }
             }
+            if(value === ''){
+                var defaultSelectedIndex = -1;
+                if(typeof(config.defaultSelectedIndex)=='number'){
+                    defaultSelectedIndex = config.defaultSelectedIndex;
+                }else if(typeof(config.defaultSelectedIndex)=='string'){
+                    if(config.defaultSelectedIndex){
+                        defaultSelectedIndex = Number(config.defaultSelectedIndex);
+                    }
+                }
+                if(defaultSelectedIndex > -1){
+                    if(subdata.length > defaultSelectedIndex){
+                        value = subdata[defaultSelectedIndex][config.valueField];
+                    }
+                }
+            }
             break;
+    }
+    if((value === '' || typeof(value) == "undefined") && config.valueExpression){
+        var _config = $.extend(true, {}, sourceConfig);
+        NetstarComponent.commonFunc.setValueByValueExpression(_config, {});
+        if(typeof(_config.value) != "undefined"){
+            value = _config.value;
+        }
     }
     return value;
 }
