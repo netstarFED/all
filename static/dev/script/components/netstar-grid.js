@@ -179,7 +179,7 @@ var NetStarGrid = (function () {
 											:style="[NetstarTdStyle(row,columnCofig,index)]" \
 											@click="tdClickHandler($event, index, columnCofig, row)">' +
 					// 信息列表
-					'<div class="record-control" v-if="columnCofig.isHadInfo&&row\[\'NETSTAR-TIPS-INFO\'\]===true" @click="showInfoDialog($event, index, columnCofig, row)"></div>' + 
+					'<div class="pt-td-info" v-if="columnCofig.isHadInfo&&row\[\'NETSTAR-TIPS-INFO\'\]===true" @click="showInfoDialog($event, index, columnCofig, row)"></div>' + 
 					//第一个默认序列号+ page.start
 					'<template v-if="columnCofig.columnType === \'autoserial\' ">' +
 					'<template v-if="ui.displayMode !== \'treeGrid\' ">' +
