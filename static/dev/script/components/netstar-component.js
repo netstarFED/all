@@ -22264,8 +22264,11 @@ NetstarComponent.upload = {
             zoomFit:    'width',
             isDownload: true,             //是否有下载
             urlArr :  	previewUrlArr,
-            pdfUrlPrefix : config.previewAjax.url,
-            imgUrlPrefix : config.previewImagesAjax.url,
+           /*  pdfUrlPrefix : config.previewAjax.url,
+            imgUrlPrefix : config.previewImagesAjax.url */
+            pdfUrlPrefix : NetStarUtils.getStaticUrl()+'/files/pdf/',
+            imgUrlPrefix : NetStarUtils.getStaticUrl()+'/files/images/'
+         ,
         });
     },
     // 修改文件名字

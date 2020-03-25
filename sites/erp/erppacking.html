@@ -1,0 +1,201 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="打包" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>装箱</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script>
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            $(function () {
+                var erpPackingUp = {
+                    package: 'nscloud.qq',
+                    template: 'docListViewerMobile',
+                    getValueAjax: {
+                        src: getRootPath() + '/packingController/v2/getTodoList',
+                        contentType: "application/json",
+                        data: {
+                            activityId: "1302448778824915945",
+                            activityName: "装箱打包",
+                            processId: "1302448646754665449",
+                            workflowType: "0"
+                        },
+                        dataSrc: 'rows',
+                        type: 'post',
+                    },
+                    components: [
+                        {
+                            type: 'blockList',
+                            field: [{
+                                    field: 'id',
+                                    title: 'id'
+                                },
+                                {
+                                    title: '商品名称',
+                                    field: 'goodsShopName',
+                                    columnType: "dictionary",
+                                    dictArguments: "bll_type",
+                                    editConfig: {
+                                        type: 'select',
+                                    }
+                                },
+                                {
+                                    field: 'bllCode',
+                                    title: '业务单号',
+                                    editConfig: {
+                                        type: 'text',
+                                        id: 'bllCode'
+                                    },
+                                    isColumnCombine: false,
+                                    title: "业务单号",
+                                    isDefaultSubdataText: true,
+
+                                },
+                                {
+                                    field: 'customerId',
+                                    title: '客户',
+                                    
+                                },
+                                {
+                                    field: 'customerName',
+                                    title: '客户',
+                                },
+                                {
+                                    field: 'warehouseId',
+                                    title: '仓库',
+
+                                },
+                                {
+                                    field: 'warehouseName',
+                                    title: '仓库名称',
+                                },
+                                {
+                                    field: 'packingLocationId',
+                                    title: '装箱货位',
+                                },
+                                {
+                                    field: '"packingLocationCode',
+                                    title: '装箱货位',
+                                }
+
+                            ],
+                            ajax: {
+                                src: getRootPath() + '/packingController/v2/getByPackingBoxId',
+                                contentType: "application/x-www-form-urlencoded",
+                                data: {
+                                    packingCode: "未装箱",
+                                    whenPacked: 1582688376000,
+                                    createdBy: 1310230809667459058,
+                                    createdByName: "企业",
+                                    whenCreated: 1582688376000,
+                                    modifiedBy: 1310230809667459058,
+                                    modifiedByName: "企业",
+                                    whenModified: 1582688376000,
+                                    packingId: 1327562150536809458,
+                                    defaultFlag: 1,
+                                    bllId: 1327562018466563058,
+                                    objectState: 0,
+                                    objectCheckState: 0,
+                                    id: 1327562150536810482,
+                                    netstarSelectedFlag: true
+                                },
+                                dataSrc: 'rows',
+                                type: 'post',
+
+                            },
+                            keyField:'packingDetailVOList',
+                            idField: 'id',
+                            listExpression: "<div class='block-list-item'><div class='block-list-item-text'><span class='title'>{{goodsShopName}}</span></div><div class='block-list-item-text text-left'><span>{{bllCode}}</span></div><div class='block-list-item-text text-left'><span>{{customerName}}</span></div><div class='block-list-item-text text-left'><span>{{warehouseName}}</span></div><div class='block-list-item-text text-left'><span>{{packingLocationCode}}</span></div></div>",
+                            plusClass: '',
+                            parent: 'root',
+                        },
+                        {
+                            type:'btns',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'手动分配',
+                                        isReturn:true,
+                                        handler:function(){
+
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
+                                        url:NetstarHomePage.defaultServerUrl + '/sites/erp/erpsubmitto.html',
+                                        type:'GET',
+                                        parameterFormat:"{\"warehouseId\":\"{warehouseId}\"}",
+                                        contentType:'application/x-www-form-urlencoded',
+                                        isSendPageParams:true,
+                                        isSetValueToSourcePage:false,
+                                        dataSrc:'data',
+                                        requestSource:'selected'
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'提交',
+                                        isReturn:true,
+                                        handler:function(){
+
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'装箱',
+                                        isReturn:true,
+                                        handler:function(){
+
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'装箱详情',
+                                        isReturn:true,
+                                        handler:function(){
+
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
+                                    }
+                                }
+                            ]
+                        }
+
+                ]
+                }
+                NetstarTemplate.init(erpPackingUp);
+            })
+        </script>
+    </container>
+</body>
+
+</html>

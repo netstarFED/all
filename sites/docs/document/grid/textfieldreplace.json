@@ -23,8 +23,8 @@
             "toolType":"select",
             "subdata":[
                 {
-                    "value":"href",
-                    "text":"超链接输出"
+                    "value":"textFieldReplace",
+                    "text":"textField替换"
                 }
             ],
             "help":""
@@ -34,149 +34,29 @@
             "validType":"string",
             "toolType":"hidden"  
         },
-        "formatHandler.data":{
-            "chineseName":"表格列数据",
-            "validType":"object",
-            "toolType":"hidden"
-
-        },
-        "formatHandler.data.field":{
-            "chineseName":"字段",
+        "formatHandler.data.textField":{
+            "chineseName":"textField显示",
             "validType":"string",
-            "toolType":"text",
-            "default":""
+            "toolType":"text"  
         },
-        "formatHandler.data.isUseStaticPageRootPath":{
-            "chineseName":"是否使用静态页面",
-            "validType":"boolean",
-            "toolType":"check",
-            "default":""
-        },
-        "formatHandler.data.url":{
-            "chineseName":"地址",
-            "validType":"string",
-            "toolType":"text",
-            "default":""
-        },
-        "formatHandler.data.title":{
-            "chineseName":"标题",
-            "validType":"string",
-            "toolType":"text",
-            "default":""
-        },
-        "formatHandler.data.readonly":{
-            "chineseName":"只读",
-            "validType":"boolean",
-            "toolType":"check",
-            "default":false
-        },
-        "formatHandler.data.parameterFormat":{
-            "chineseName":"参数格式化",
-            "validType":"string",
-            "toolType":"text",
-            "default":""
-        },
-        "formatHandler.data.templateName":{
-            "chineseName":"模板",
-            "validType":"string",
-            "toolType":"select",
-            "subdata":[
-                {
-                    "value":"businessDataBase",
-                    "text":"基本业务对象"
-                },
-                {
-                    "value":"processDocBase",
-                    "text":"基本单据处理"
-                },
-                {
-                    "value":"processdocsecond",
-                    "text":"二次单据处理"
-                },
-                {
-                    "value":"docListViewer",
-                    "text":"单据详情列表"
-                },
-                {
-                    "value":"businessDataBaseEditor",
-                    "text":"基本业务对象编辑"
-                },
-                {
-                    "value":"businesslevellist3",
-                    "text":"业务对象三级列表模板"
-                },
-                {
-                    "value":"statisticsList",
-                    "text":"基本统计模板"
-                },
-                {
-                    "value":"limsReg",
-                    "text":"lims登记"
-                },
-                {
-                    "value":"limsReport",
-                    "text":" lims报告"
-                },
-                {
-                    "value":"processDocBaseLevel2",
-                    "text":" 单据两级数据模板"
-                },
-                {
-                    "value":"limsResultInput",
-                    "text":" lims结果录入"
-                }
-            ],
-            "default":""
-        },
-        "formatHandler.data.isAllwaysNewTab": {
-            "chineseName": "是否用新TAB打开",
-            "validType": "boolean",
-            "toolType": "check",
-            "default": false
-        } ,
-        "formatHandler.data.urlSubdata": {
-            "chineseName": "urlSubdata",
-            "validType": "string",
-            "toolType": "textarea",
-            "default": ""
-        } ,
-        "formatHandler.data.subdataField": {
-            "chineseName": "subdataField",
-            "validType": "string",
-            "toolType": "text",
-            "default": ""
-        } ,
-        "formatHandler.data.isSendQueryModel": {
-            "chineseName": "isSendQueryModel",
-            "validType": "boolean",
-            "toolType": "check",
-            "default": ""
-        } ,
-        "formatHandler.data.isFirstUseRow": {
-            "chineseName": "优先使用行数据",
-            "validType": "boolean",
-            "toolType": "check",
-            "default": ""
-        } ,
-        
         "editable": {
             "chineseName": "是否允许编辑",
             "validType": "boolean",
             "toolType": "check",
-            "required": false
+            "default": false
         },
-            "isNeedRowData": {
-                "chineseName": "是否添加行",
-                "validType": "boolean",
-                "toolType": "check",
-                "default":false
-            },
-            "width": { 
-                "chineseName": "列宽",
-                "validType": "number",
-                "toolType": "text",
-                "default": ""
-            },
+        "isNeedRowData": {
+            "chineseName": "是否添加行",
+            "validType": "boolean",
+            "toolType": "check",
+            "default":false
+        },
+        "width": { 
+            "chineseName": "列宽",
+            "validType": "number",
+            "toolType": "text",
+            "default": ""
+        },
         "fieldLength":{
             "chineseName":"字段长度",
             "validType":"string",
@@ -230,7 +110,6 @@
             "toolType": "check",
             "default": false
         } ,
-      
         "footer": {
             "chineseName": "页尾",
             "validType": "object",
@@ -275,14 +154,14 @@
             "toolType":"check",
             "default":false,
             "help":""
-        }, 
+        },
         "isColumnCombine":{
             "chineseName":"是否支持列合并",
             "validType":"boolean",
             "toolType":"check",
             "default":false,
             "help":"当前只用于统计模板"
-        },
+        }, 
         "total": {
             "chineseName": "表达式",
             "validType": "object",

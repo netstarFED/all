@@ -702,7 +702,7 @@
                         }
                     }]
                 },
-                btns: {
+                saveBtns: {
                     id: serviseId.btnId,
                     btns: [{
                         text: '保存',
@@ -1264,7 +1264,7 @@
             }
             var btn = {
                 init: function () {
-                    vueButtonComponent.init(configs.btns);
+                    vueButtonComponent.init(configs.saveBtns);
                 }
             }
 
@@ -1360,12 +1360,14 @@
                 configs.processorList.id = serviseId.processorId;
                 configs.propertybtns.id = serviseId.propertybtnId;
                 configs.processorbtns.id = serviseId.processorbtnId;
+                configs.saveBtns.id = serviseId.btnId;
                 propertyList.init();
                 processorList.init();
+                debugger;
                 surperviseBtn.init();
                 btn.init();
                 superviseVo.init();
-                //tab的显示隐藏
+                //tab的显示隐藏 
                 $(document).ready(function () {
                     $("#" + serviseId.processorId).hide();
                     $("#" + serviseId.processorbtnId).hide();
