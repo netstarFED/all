@@ -664,7 +664,7 @@ NetstarUI.pdfViewer = (function () {
 	}
 })()
 
-/*
+/* 样式表示例
 <style>
 	.pdf-dialog-fullscreen {
 		top: 0px;left: 0px;right: 0px;bottom: 0px;position: absolute;z-index: 99999;background-color: #ccc;
