@@ -1,0 +1,110 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: 祁倩
+ * @Date: 2020-2-13 10:30
+ * @LastEditTime: 2020-3-25 10:30
+ * @LastEditors: Please set LastEditors
+ -->
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div style="padding: 10px 0 0 10px;" id="netstar-formdesignerbtn"></div>
+    <div style="padding: 10px;" id="netstar-formdesignerlist"></div>
+    <script>
+        var getRootPath = function(){
+            return "https://qaapi.wangxingcloud.com/"
+        };
+        var formdesigLnerList = {
+            id: 'netstar-formdesignerlist',
+            data: {
+                dataSourc: [],
+                idField: 'id',
+                src: getRootPath() + '/formdesigner/formControls/getList', //数据源地址
+                type: "POST", //GET POST
+                contentType: 'application/json; charset=utf-8',
+                data:{
+                    type: "page"  
+                                   
+                },
+             /*    isSearch:true, */
+                dataSrc: 'rows',
+                isServerMode:true,
+            },
+            columns: [
+                {
+                    orderable:true,
+                    searchable:true,
+                    field: "controlName",
+                    title: '中文名称',
+                    width:200,
+
+                },
+                {
+                    orderable:true,
+                    searchable:true,
+                    field: "whenCreated",
+                    title: '创建时间',
+                    width:200,
+                    editConfig:{
+                        type:'date',
+                    },
+                    formatHandler:{
+                        type:'date',
+                        formatDate: "YYYY/M/DD HH:mm:ss",
+                    }
+
+                },
+                {
+                    orderable:true,
+                    searchable:true,
+                    field: "whenModified",
+                    title: '修改时间',
+                    width:200,
+                    editConfig:{
+                        type:'date',
+                    },
+                    formatHandler:{
+                        type:'date',
+                        formatDate: "YYYY/M/DD HH:mm:ss",
+                    }
+
+                }
+            ],
+            ui: {
+                height:window.outerHeight,
+                isOpenQuery:true,
+                isCheckSelect:true,
+            }
+        }
+        var formdesignerBtn = {
+            id:'netstar-formdesignerbtn',
+            btns:[
+                {
+                    text:'修复',
+                    handler:function(){
+                        var checkSelect =  NetStarGrid.getCheckedData('netstar-formdesignerlist');
+                        debugger;
+                        var ids = "";
+                        for(var i =0; i<checkSelect.length; i++){
+                            ids += checkSelect[i].id + ','
+                        }
+                        var ajaxConfig = {
+                            url:getRootPath() + '/formdesigner/syncrelations/repaire',
+                            data:{
+                                formIds:ids
+                            },
+                            type:'POST',
+                            contentType:'application/x-www-form-urlencoded'
+                        }
+                        NetStarUtils.ajax(ajaxConfig,function(res){
+                            if(res.success){
+                                nsalert('修复成功')
+                            }
+                        })
+                    }
+                }
+            ]
+        }
+        vueButtonComponent.init(formdesignerBtn)
+        NetStarGrid.init(formdesigLnerList)
+    </script>
+</container>

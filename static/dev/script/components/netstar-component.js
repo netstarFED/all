@@ -22296,7 +22296,7 @@ NetstarComponent.upload = {
             /*  pdfUrlPrefix : config.previewAjax.url,
             imgUrlPrefix : config.previewImagesAjax.url    QQ   cy  2020.3.23   修改 */
             pdfUrlPrefix : NetStarUtils.getStaticUrl()+'/files/pdf/',
-            imgUrlPrefix : NetStarUtils.getStaticUrl()+'/files/images/'
+            imgUrlPrefix : NetStarUtils.getStaticUrl()+'/files/images/',
         });
     },
     // 修改文件名字

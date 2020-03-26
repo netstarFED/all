@@ -1,0 +1,58 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-4.html" -->
+    <container>
+        <script>
+            var getRootPath = function(){
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            $(function(){
+                var erpPaking = {
+                    package:'',
+                    template:'docListViewerMobile',
+                    getValueAjax:{
+                        src:getRootPath() + '/packingController/v2/getTodoList',
+                        contentType:"application/json",
+                        data:{
+                            state:1
+                        },
+                        dataSrc:'rows',
+                        type:'post',
+                        idField:'id',
+                    },
+                    components:[
+                        {
+                            type:'blockList',
+                            field:[
+                                {
+                                    field:'id',
+                                    title:'id'    
+                                },
+                                {
+                                    title:'id',
+                                    field:'bllType',
+                                    editConfig:{
+                                        type:'select'
+                                    }  
+                                }
+                            ],
+                            ajax:{
+                                src:getRootPath() + '/packingController/v2/getTodoList',
+                                contentType:"application/json",
+                                data:{
+                                    state:1
+                                },
+                                dataSrc:'rows',
+                                type:'post',
+                                idField:'id',
+                            },
+                            listExpression: "<div class='pt-block-content-item'><span class='text'>{{bllType}}</span></div><div class='pt-block-content-item'><span class='text'>{{bllCode}}</span></div><div class='pt-block-content-item'><span class='text'>{{customerName}}</span></div><div class='pt-block-content-item'><span class='text'>{{warehouseName}}</span></div><div class='pt-block-content-item'><span class='text'>{{packingLocationCode}}</span></div>",
+                            plusClass:'',
+                            parent:'root',
+                            searchInputPlaceholder:''
+                        }
+                    ]
+                }
+                NetstarTemplate.init(erpPaking);
+            })
+        </script>
+    </container>
+</body>
