@@ -1,0 +1,288 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="打包" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>装箱打包</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script>
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            $(function () {
+                var erpCheckUp = {
+                    package: 'nscloud.checkup',
+                    template: 'docListViewerMobile',
+                    getValueAjax: {
+                        src: getRootPath() + '/checkups/v2/getById',
+                        contentType: "application/json",
+                        data: {
+                            activityId: "1302448778824915945",
+                            activityName: "装箱打包",
+                            processId: "1302448646754665449",
+                            workflowType: "0"
+                        },
+                        dataSrc: 'rows',
+                        type: 'post',
+                    },
+                    components: [
+                        {
+                            type: 'blockList',
+                            field: [{
+                                    field: 'id',
+                                    title: 'id'
+                                },
+                                {
+                                    title: '状态',
+                                    field: 'state',
+                                    editConfig: {
+                                        type: 'select',
+                                        subdata: [{
+                                                id: '1',
+                                                value: '未完成'
+                                            },
+                                            {
+                                                id: '2',
+                                                value: '已完成'
+                                            }
+    
+
+
+                                        ],
+                                        textField: 'value',
+                                        valueField: 'id',
+                                        variableType: "number"
+                                    },
+                                    formatHandler: {
+                                        type: "stringReplace",
+                                        data: {
+                                            1: '未完成',
+                                            2: '已完成'
+                                        }
+                                    }
+                                },
+                                {
+                                    field: "bllTypeId",
+                                    title: '业务类型',
+                                    columnType: "dictionary",
+                                    dictArguments: "bll_type",
+                                    displayType: "all",
+                                    editConfig: {
+                                        type: 'select',
+                                        id: 'bllCode',
+                                        valueField:'id',
+                                        textField:'value',
+                                        variableType:'number'
+                                    },
+                                    formatHandler:{
+                                        type: "dictionary",
+                                        data:{
+                                            1: "销售",
+                                            2: "采购",
+                                            4: "采购退货",
+                                            5: "销售退货",
+                                            13: "物流任务",
+                                            14: "采购退货反馈",
+                                            15: "合同",
+                                            16: "出入库",
+                                            20: "组装",
+                                            21: "拆装",
+                                            22: "合包",
+                                            23: "拆包",
+                                            24: "替换",
+                                            25: "盘点",
+                                            26: "临时采购",
+                                            27: "库房调度",
+                                            28: "库存告警",
+                                            88: "核销",
+                                            89: "借款",
+                                            90: "报销",
+                                            91: "到账",
+                                            92: "应付",
+                                            93: "实付",
+                                            94: "应收",
+                                            95: "实收",
+                                            96: "内部转账",
+                                            97: "调账",
+                                            98: "其他支出",
+                                            99: "其他收入"
+                                        }
+
+                                    },
+                                    isColumnCombine: false,
+                                    title: "业务单号",
+                                    isDefaultSubdataText: true,
+
+                                },
+                                {
+                                    field: 'bllCode',
+                                    title: '业务单号',
+                                    
+                                },
+                                {
+                                    field: 'batchNo',
+                                    title: '批次号',
+                                },
+                                {
+                                    field: 'customerId',
+                                    title: '客户',
+
+                                },
+                                {
+                                    field: 'customerName',
+                                    title: '客户',
+                                },
+                                {
+                                    field: 'invId',
+                                    title: '仓库',
+                                    editConfig:{
+                                        url:getRootPath() + '/warehouse/v2/getList',
+                                        valueField:'id',
+                                        textField:'name',
+                                        dataSrc:'rows',
+                                        method:'POST',
+                                        type:'select'
+                                    }
+                                },
+                                {
+                                    field: 'invName',
+                                    title: '仓库',
+                                },
+                                {
+                                    field: 'logisticsQuantity',
+                                    title: '发货件数',
+                                },
+                                {
+                                    field: 'logisticsInvoiceNo',
+                                    title: '发货单号',
+                                }
+
+                            ],
+                            ajax: {
+                                src: getRootPath() + '/checkups/v2/getTodoList',
+                                contentType: "application/json",
+                                data: {
+                                    activityId: "1303822403855453161",
+                                    activityName: "入库检验",
+                                    packageSuffix: "-0-1303822403855453161",
+                                    processId: "1303810536860812265",
+                                    workflowType: "0",
+                                },
+                                dataSrc: 'rows',
+                                type: 'post',
+
+                            },
+                            idField: 'id',
+                            listExpression: "<div class='block-list-item'>\
+                                                <div class='block-list-item-text'>\
+                                                    <span class='title'>{{state}}</span>\
+                                                </div>\
+                                                <div class='block-list-item-text text-left'>\
+                                                    <span>{{bllTypeId}}</span>\
+                                                </div>\
+                                                <div class='block-list-item-text text-left'>\
+                                                    <span>{{batchNo}}</span>\
+                                                </div>\
+                                                <div class='block-list-item-text text-left'>\
+                                                    <span>{{customerName}}</span>\
+                                                </div>\
+                                                <div class='block-list-item-text text-left'>\
+                                                    <span>{{invName}}</span>\
+                                                </div>\
+                                                <div class='block-list-item-text text-left'>\
+                                                    <span>到件货数：{{logisticsQuantity}}</span>\
+                                                </div>\
+                                                <div class='block-list-item-text text-left'>\
+                                                    <span>{{logisticsInvoiceNo}}</span>\
+                                                </div>\
+                                            </div>",
+                            plusClass: '',
+                            parent: 'root',
+                            searchInputPlaceholder: '',
+                            isUseSearchInput:true,
+                            isInlineBtn: true,
+
+                        },
+                        {
+                            type:'btns',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'提交',
+                                        isReturn:true,
+                                        handler:function(a,b,c){
+                                            var ajaxConfig = {
+
+                                            }
+                                            NetstarUtil.ajax(ajaxConfig,function(){
+                                                
+                                            })
+                                        }
+                                    },
+                                    function:function(a,b,c){debugger},
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'驳回',
+                                        isReturn:true,
+                                        handler:function(){
+
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'创建批次',
+                                        isReturn:true,
+                                        handler:function(data){
+                                            
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'批次详情',
+                                        isReturn:true,
+                                        handler:function(){
+
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
+                                    }
+                                }
+                            ]
+                        }
+
+                    ]
+                }
+                // NETSTAR添加url参数即pageParam
+                NetstarTemplate.init(erpCheckUp);
+            })
+        </script>
+    </container>
+</body>
+
+</html>
