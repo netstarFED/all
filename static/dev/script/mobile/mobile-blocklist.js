@@ -2769,12 +2769,21 @@ var NetstarBlockListM = (function () {
                 url:_gridConfig.data.src,       //地址
                 data:_gridConfig.data.data,     //参数
 				type:_gridConfig.data.type, 
-				contentType:_gridConfig.data.contentType, 
+                contentType:_gridConfig.data.contentType, 
+                formatter: _gridConfig.data.formatter, 
 			}
             NetStarUtils.ajax(ajaxOptions, function(res, _ajaxOptions){
                 //获取ajax返回结果
                 if(res.success){
                     //调用ajax成功
+                    //如果定义了formatter则先对返回数据进行格式化再继续 cy.qq.20200326
+                    if(typeof(_ajaxOptions.formatter) == 'function'){
+                        var _res = _ajaxOptions.formatter(res);
+                        if(_res){
+                            res = _res;
+                        }
+                    }
+
                     _gridConfig.domParams.panelOfEmptyRows = {
                         isShow:false,
                         class:'',

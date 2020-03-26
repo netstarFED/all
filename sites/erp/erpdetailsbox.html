@@ -1,0 +1,180 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="打包" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>装箱打包</title>
+</head>
+<!--  -->
+<body class="weixin-type">
+    <container>
+        <script>
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            $(function () {
+
+                var erpPackingUp = {
+                    package: 'nscloud.erpPackingUp',
+                    template: 'businessDataBaseMobile',
+                    getValueAjax: {
+                        src: getRootPath() + '/packingController/v2/getById',
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {
+                            id: "1327562150536809458"
+                        },
+                        dataSrc: 'data.packingBoxVOList',
+                        type: 'post',
+                    },
+                    components: [
+                        {
+                            type: 'blockList',
+                            /* 字段暂时不知道 */
+                            field: [{
+                                    field: 'packingCode',
+                                    title: '装箱详情'
+                                },
+
+                            ],
+                            ajax: {
+                                src: getRootPath() + '/packingController/v2/getById',
+                                contentType: "application/x-www-form-urlencoded",
+                                data: {
+                                    bllId: "1327562018466563058",
+                                    bllType: "1",
+                                    bllTypeName: "销售",
+                                    customerId: "1326930198712550386",
+                                    customerName: "喀什",
+                                    warehouseId: "1311614909049471986",
+                                    warehouseName: "海谷川仓库",
+                                    packingLocationId: "1311634965473002482",
+                                    packingLocationCode: "A01-01-12",
+                                    createdBy: "1310230809667459058",
+                                    createdByName: "企业",
+                                    whenCreated: "1582688376000",
+                                    modifiedBy: "1310230809667459058",
+                                    modifiedByName: "企业",
+                                    whenModified: "1582688376000",
+                                    bllCode: "XS200226113733",
+                                    state: "2",
+                                    remark: "托收测试",
+                                    workItemId: "1327562185970298866",
+                                    workItemState: "2",
+                                    hasRollback: false,
+                                    hasOvertime: false,
+                                    hasEmergency: false,
+                                    hasSuspend: false,
+                                    rollbackType: "0",
+                                    instanceIds: "1327562018466566130",
+                                    instanceStates: 1,
+                                    wfWhenCreated: "1582688409000",
+                                    wfWhenModified: "1582688409000",
+                                    objectState: "0",
+                                    objectCheckState: "0",
+                                    id: "1327562150536809458",
+                                    netstarSelectedFlag: false
+                                },
+                                dataSrc: 'rows',
+                                type: 'POST',
+                                formatter:function(res){
+                                    var data = res.data.packingBoxVOList
+                                    delete data[0];
+                                    
+                                    var returnRows = {
+                                        success:true,
+                                        rows:data
+                                    }
+
+                                    console.log(returnRows);
+                                    return returnRows;
+                                }
+                            },
+                            idField: 'id',
+                            listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>{{packingCode}}</span></div></div>",
+                            plusClass: '',
+                            parent: 'root',
+                            isInlineBtn: true,
+
+                        },
+                        {   
+                            type:'btns',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'拆箱',
+                                        isReturn:true,
+                                        handler:function(a,b,c){
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'打印',
+                                        isReturn:true,
+                                        handler:function(){
+
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'查看详情',
+                                        isReturn:true,
+                                        handler:function(data){
+                                            console.log(data);
+                                            var pageConfig =  NetstarTemplate.templates.configs[erpPackingUp.package];
+                                            var id = pageConfig.gridRowData.id
+                                            console.log(pageConfig);
+                                            data.loadPageHandler
+                                            var ajaxConfig = {
+                                                url:getRootPath()+'/packingController/v2/getById',
+                                                contentType:'application/x-www-form-urlencoded ',
+                                                data:{
+                                                    id:id
+                                                }
+                                            }
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                debugger;
+                                                var packingBoxId = res.data.packingBoxVOList[0].id;
+                                                
+                                                var tempValueName = erpPackingUp.package + new Date().getTime();
+                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+                                                NetstarTempValues[tempValueName] = res.data.packingBoxVOList[0];
+                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
+                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
+                                                var url = '/sites/erp/erppacking.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                    nsFrame.loadPageVRouter(url);
+                                            })
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
+                                    }
+                                },
+                            ]
+                        }
+
+                    ]
+                }
+                // NETSTAR添加url参数即pageParam
+                NetstarTemplate.init(erpPackingUp);
+            })
+        </script>
+    </container>
+</body>
+
+</html>

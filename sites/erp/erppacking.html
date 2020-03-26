@@ -63,8 +63,7 @@
                                     columnType: "dictionary",
                                     editConfig:{
                                         textField: "value",
-
-type: "select",
+                                        type: "select",
                                         type:"select",
 
                                     },
@@ -99,7 +98,7 @@ type: "select",
                                     title: "返库数量",
                                     columnType:"number",
                                     editConfig:{
-                                        
+                                        type:'number'
                                     },
                                     formatHandler:{
                                         data:{
@@ -111,16 +110,88 @@ type: "select",
                                     }
                                 },
                                 {
-                                    field: 'warehouseName',
-                                    title: '仓库名称',
+                                    field: 'lastQuantity',
+                                    title: '未装箱数量',
+                                    editConfig:{
+                                        type:'number'
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                places:"0",
+                                                thousand:","
+                                            }
+                                        }
+                                    }
+                                    
                                 },
                                 {
-                                    field: 'packingLocationId',
-                                    title: '装箱货位',
+                                    field: 'thisQuantity',
+                                    title: '本次装箱数量',
+                                    editConfig:{
+                                        type:'number'
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                places:"0",
+                                                thousand:","
+                                            }
+                                        }
+                                    }
                                 },
                                 {
-                                    field: '"packingLocationCode',
-                                    title: '装箱货位',
+                                    field: 'locationsType',
+                                    title: "正品/残次",
+                                    columnType:"stringReplace",
+                                    editConfig:{
+                                        type:'selecct',
+                                        subdata:[
+                                            {
+                                                value:'正品',
+                                                id:'0'
+                                            },
+                                            {
+                                                value:'残次',
+                                                id:'5'
+                                            }
+                                        ],
+                                        valueField:'id',
+                                        textField:'value'
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            formatDate:{
+                                                0:'正品',
+                                                5:'残次'
+                                            }
+                                        },
+                                        type:'stringReplace'
+                                    },
+                                   
+                                },
+                                {
+                                    field:'dictBrandBrandName',
+                                    title: "品牌"
+                                },
+                                {
+                                    field:'goodsPlatformModel',
+                                    title: "型号"
+                                },
+                                {
+                                    field:'goodsPlatformOem',
+                                    title:"OEM码"
+                                },
+                                {
+                                    field: "goodsPlatformCode",
+                                    title: "厂家编码"
+                                },
+                                {
+                                    field: "goodsPlatformCode",
+                                    title: "厂家编码",
+                                    editConfig:{
+                                        
+                                    }
                                 }
 
                             ],
@@ -146,14 +217,38 @@ type: "select",
                             },
                             keyField: 'packingDetailVOList',
                             idField: 'id',
-                            listExpression: "<div class='block-list-item'><div class='block-list-item-text'><span class='title'>{{goodsShopName}}</span></div><div class='block-list-item-text text-left'><span>{{bllCode}}</span></div><div class='block-list-item-text text-left'><span>{{customerName}}</span></div><div class='block-list-item-text text-left'><span>{{warehouseName}}</span></div><div class='block-list-item-text text-left'><span>{{packingLocationCode}}</span></div></div>",
+                            listExpression: "<div>\
+                            <div class='block-list-item'>\
+                                <div class='block-list-item-title'>商品名称：{{goodsShopName}}</div>\
+                                <div class='block-list-item-title'>商品编码：{{goodsShopName}}</div>\
+                                <div class='block-list-item-text'>\
+                                    <span>未装箱数量{{lastQuantity}}</span><span>装箱数量：{{packingQuantity}}</span><span>返库数量：{{backQuantity}}</span>\
+                                </div>\
+                                <div class='block-list-item-text left'><span>品牌:{{dictBrandBrandName}}</span><span>型号:{{goodsPlatformModel}}</span></div>\
+                                <div class='block-list-item-text left'><span>OEM码：{{goodsPlatformOem}}</span><span>厂家编码：{{goodsPlatformCode}}</span></div>\
+                            </div>",
                             plusClass: '',
                             parent: 'root',
                         },
                         {
                             type: 'btns',
                             field: [
+                               {
+                                   btn:{
+                                       text:'整箱打包',
+                                       handler:function(){
 
+                                       }
+                                   }
+                               },
+                               {
+                                   btn:{
+                                       text:'分箱打包',
+                                       handler:function(){
+                                           
+                                        }
+                                   }
+                               }
                             ]
                         }
                     ]
