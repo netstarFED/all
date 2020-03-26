@@ -5289,7 +5289,7 @@ var NetStarGrid = (function () {
 				}
 				function getHtml(){
 					var tableHtml = getTable();
-					var html = '<div  class="pt-td-info-dropdown" id="'+ contentId +'" style="max-width:'+maxWidth+'px;"max-height:'+maxHeight+'px;">'
+					var html = '<div  class="pt-td-info-dropdown" id="'+ contentId +'" style="max-width:'+maxWidth+'px;max-height:'+maxHeight+'px;">'
 									+ tableHtml;
 								+ '</div>'
 					return html;

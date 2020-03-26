@@ -689,6 +689,7 @@ nsProjectPagesManager.pages.voList = (function($) {
 						NetstarEditorAjax.savePageData(saveStates, {}, function(resData4){
 							console.log(resData4);
 							console.log(NetstarEditorAjax.data);
+							nsAlert('保存成功');
 						})
 					})
 				})
