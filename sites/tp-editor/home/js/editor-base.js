@@ -1992,10 +1992,14 @@ var NetstarEditorServer = (function(){
                 elements.fields.push(fieldsElementObj);
             }
             _pageConfig.components = pageComponents;
+            // 页面名字
+            var controlName = _pageConfig.title ? _pageConfig.title + ' ' : '';
+            controlName += _pageConfig.package ? _pageConfig.package : '';
             var pageElement = {
                 type : 'page',
                 children : [],
                 config : JSON.stringify(_pageConfig),
+                controlName : controlName,
             }
             if(pageConfig.nsId){
                 pageElement.id = pageConfig.nsId;
