@@ -141,7 +141,7 @@ var NetstarBlockListM = (function () {
 						+'</div>'
 					+ '</div>'  
 					+ '<div class="pt-grid" :style="domParams.contentTable.style" :id="domParams.contentTable.id">' +
-						'<div v-for="(row,index) in rows" :ns-rowindex="index" :ns-id="row[idField]" class="pt-block-list" :class="[{\'selected\':row.netstarSelectedFlag},{\'disabled\':row[\'NETSTAR-TRDISABLE\']},plusClass,netstarRowStateFlag(row),netstarRowClassFlag(row)]">' +
+						'<div v-for="(row,index) in rows" :ns-rowindex="index" :ns-id="row[idField]" class="pt-block-list" :class="[{\'selected\':row.netstarSelectedFlag},{\'disabled\':row[\'NETSTAR-TRDISABLE\']},plusClass,netstarRowStateFlag(row),netstarRowClassFlag(row,index)]">' +
 							'<template v-for="colConfig in columns">' +
 								'<template v-if="colConfig.columnType === \'columnstate\' ">' +
 									'<div v-html="NetStarColumnStateText(row, colConfig)" :class="[netstarRowStateFlag(row)]" column-state="workitemstatemanage"></div>'+
@@ -759,7 +759,7 @@ var NetstarBlockListM = (function () {
 				return rowClassStr;
 			},
 			// 
-			netstarRowClassHandler : function (data, _vueData) {
+			netstarRowClassHandler : function (data, originalRowData, _vueData) {
 				var rowClassStr = '';
 				// 列配置
 				// rowColor : {0:}
@@ -770,7 +770,7 @@ var NetstarBlockListM = (function () {
 					var column = columns[i];
 					var rowColor = column.rowColor;
 					var fieldId = column.field;
-					var fieldVal = data[fieldId];
+					var fieldVal = originalRowData[fieldId];
 					if(typeof(rowColor) == "object" && typeof(fieldVal) != "undefined"){
 						var _rowClassStr = rowColor[fieldVal] ? rowColor[fieldVal] : '';
 						rowClassStr += ' ' + _rowClassStr;
@@ -3131,8 +3131,9 @@ var NetstarBlockListM = (function () {
 						return methodsManager.body.rowStateClassHandler(data, this);
 					},
 					// 根据行数据获取行样式
-					netstarRowClassFlag : function(data){
-						return methodsManager.body.netstarRowClassHandler(data, this);
+					netstarRowClassFlag : function(data, index){
+						var originalRowData = this.originalRows[index] ? this.originalRows[index] : {};
+						return methodsManager.body.netstarRowClassHandler(data, originalRowData, this);
 					},
 					initComponent:function(ev){
 						var componentFieldArray = this.componentFieldArray;
