@@ -6491,6 +6491,8 @@ NetstarComponent.business = {
             placeholder :       '',
 
             formatValueData :   {},             // 添加需要的参数 添加按钮传参
+
+            isNeedJumpNext :    true,           // 操作完成是否跳转下一个 表格快速查询配置着这个参数为false 其余默认true
 		}
         nsVals.setDefaultValues(config, defaultConfig);
         if(config.formSource == 'staticData'){
@@ -7936,7 +7938,12 @@ NetstarComponent.business = {
                         config.getTemplateHandler(config,this);
                     }
                     /**********sjj 20200114 中车研究所 试验申请界面 检测/项目类型字段需要在完成之后给整体赋值 end**************************** */
-                    NetstarComponent.setNextComponentFocus(config, this);
+                    if(config.isNeedJumpNext === false){
+                        // 表格快速查询配置着这个参数为false 其余默认true
+                        this.focus();
+                    }else{
+                        NetstarComponent.setNextComponentFocus(config, this);
+                    }
                 },
                 // 回车
                 inputEnter:function(ev){
@@ -22286,8 +22293,10 @@ NetstarComponent.upload = {
             zoomFit:    'width',
             isDownload: true,             //是否有下载
             urlArr :  	previewUrlArr,
-            pdfUrlPrefix : config.previewAjax.url,
-            imgUrlPrefix : config.previewImagesAjax.url,
+            /*  pdfUrlPrefix : config.previewAjax.url,
+            imgUrlPrefix : config.previewImagesAjax.url    QQ   cy  2020.3.23   修改 */
+            pdfUrlPrefix : NetStarUtils.getStaticUrl()+'/files/pdf/',
+            imgUrlPrefix : NetStarUtils.getStaticUrl()+'/files/images/'
         });
     },
     // 修改文件名字
