@@ -76,155 +76,155 @@
                     type: 'POST',
                     contentType: 'application/x-www-form-urlencoded'
                 },
-                columns: [{
-
-                    field: [{
-                            field: "goodsShopName",
-                            title: "商品名称",
-                            mindjetType: "text",
-                            editConfig: {
-                                type: "text"
-                            }
+                columns: [
+                    {
+                        field: "goodsShopName",
+                        title: "商品名称",
+                        mindjetType: "text",
+                        editConfig: {
+                            type: "text"
+                        }
+                    },
+                    {
+                        field: "goodsShopCode",
+                        title: "商品编码",
+                        mindjetType: "text",
+                        editConfig: {
+                            type: "text"
+                        }
+                    },
+                    {
+                        field: "locationsType",
+                        title: "正品/残次",
+                        editConfig: {
+                            type: "select",
+                            textField: "value",
+                            valueField: "id",
                         },
-                        {
-                            field: "goodsShopCode",
-                            title: "商品编码",
-                            mindjetType: "text",
-                            editConfig: {
-                                type: "text"
-                            }
-                        },
-                        {
-                            field: "locationsType",
-                            title: "正品/残次",
-                            editConfig: {
-                                type: "select",
-                                textField: "value",
-                                valueField: "id",
-                            },
-                            formatHandler: {
-                                type: "stringReplace",
-                                data: {
-                                    formatDate: {
-                                        0: "正品",
-                                        5: "残次",
-                                    }
-
+                        formatHandler: {
+                            type: "stringReplace",
+                            data: {
+                                formatDate: {
+                                    0: "正品",
+                                    5: "残次",
                                 }
-                            },
-                            columnType: "stringReplace"
+
+                            }
                         },
-                        {
-                            field: "dictGoodsPlatUnitName",
-                            title: "单位",
-                            dictArguments: "unit",
-                            editConfig: {
-                                type: "select",
-                                textField: "value",
-                                valueField: "id",
-                                dictArguments: "unit"
-                            },
-                            formatHandler: {
-                                type: "dictionary",
-                                data: {
-                                    1: "个",
-                                    2: "桶",
-                                    3: "组",
-                                    4: "只",
+                        columnType: "stringReplace"
+                    },
+                    {
+                        field: "dictGoodsPlatUnitName",
+                        title: "单位",
+                        dictArguments: "unit",
+                        editConfig: {
+                            type: "select",
+                            textField: "value",
+                            valueField: "id",
+                            dictArguments: "unit"
+                        },
+                        formatHandler: {
+                            type: "dictionary",
+                            data: {
+                                1: "个",
+                                2: "桶",
+                                3: "组",
+                                4: "只",
+                            }
+                        },
+                        columnType: "dictionary"
+                    },
+                    {
+                        field: "packingQuantity",
+                        title: "装箱数",
+                        editConfig: {
+                            type: "number",
+                        },
+                        formatHandler: {
+                            type: "number",
+                            data: {
+                                format: {
+                                    places: "0",
+                                    thousand: ","
                                 }
-                            },
-                            columnType: "dictionary"
+                            }
                         },
-                        {
-                            field: "packingQuantity",
-                            title: "装箱数",
-                            editConfig: {
-                                type: "number",
-                            },
-                            formatHandler: {
-                                type: "number",
-                                data: {
-                                    format: {
-                                        places: "0",
-                                        thousand: ","
-                                    }
+                        columnType: "number"
+                    },
+                    {
+                        field: "lastQuantity",
+                        title: "未装箱数量",
+                    },
+                    {
+                        field: 'packingQuantity',
+                        title: '数字加减',
+                        changeHandler: function (value, config) {
+                            console.log(value);
+                            console.log(config);
+                        },
+                        value: 7,
+                        editable : true,
+                        editConfig : {
+                            type : "adderSubtracter"
+                        }
+                    },
+                    {
+                        field: "backQuantity",
+                        title: "返库数量",
+                        editConfig: {
+                            type: "number",
+                        },
+                        formatHandler: {
+                            type: "number",
+                            data: {
+                                format: {
+                                    places: "0",
+                                    thousand: ","
                                 }
-                            },
-                            columnType: "number"
-                        },
-                        {
-                            field: "lastQuantity",
-                            title: "未装箱数量",
-                        },
-                        {
-                            id: 'adderSubtracter',
-                            label: '数字加减',
-                            type: 'adderSubtracter',
-                            column: 6,
-                            changeHandler: function (value, config) {
-                                console.log(value);
-                                console.log(config);
-                            },
-                            value: 7,
-                        },
-                        {
-                            field: "backQuantity",
-                            title: "返库数量",
-                            editConfig: {
-                                type: "number",
-                            },
-                            formatHandler: {
-                                type: "number",
-                                data: {
-                                    format: {
-                                        places: "0",
-                                        thousand: ","
-                                    }
-                                }
-                            },
-                            columnType: "number"
-                        },
-                        {
-                            field: "dictBrandBrandName",
-                            title: "品牌",
-                            mindjetType: "text",
-                            editConfig: {
-                                type: "text",
-
                             }
                         },
-                        {
-                            field: "goodsPlatformModel",
-                            title: "型号",
-                            mindjetType: "text",
-                            editConfig: {
-                                type: "text",
+                        columnType: "number"
+                    },
+                    {
+                        field: "dictBrandBrandName",
+                        title: "品牌",
+                        mindjetType: "text",
+                        editConfig: {
+                            type: "text",
 
-                            }
-                        },
-                        {
-                            field: "goodsPlatformOem",
-                            title: "OEM码",
-                            mindjetType: "text",
-                            editConfig: {
-                                type: "text",
+                        }
+                    },
+                    {
+                        field: "goodsPlatformModel",
+                        title: "型号",
+                        mindjetType: "text",
+                        editConfig: {
+                            type: "text",
 
-                            }
-                        },
-                        {
-                            field: "goodsPlatformCode",
-                            title: "厂家编码",
-                            mindjetType: "text",
-                            editConfig: {
-                                type: "text",
+                        }
+                    },
+                    {
+                        field: "goodsPlatformOem",
+                        title: "OEM码",
+                        mindjetType: "text",
+                        editConfig: {
+                            type: "text",
 
-                            }
-                        },
-                    ],
-                }, ],
+                        }
+                    },
+                    {
+                        field: "goodsPlatformCode",
+                        title: "厂家编码",
+                        mindjetType: "text",
+                        editConfig: {
+                            type: "text",
+
+                        }
+                    },
+                ],
                 ui: {
                     listExpression: "<div class=\"block-list-item \"><div class=\"block-list-item-text \"><span class=\"title\">商品名称：{{goodsShopName}}</span>\n<span class=\"title\">商品编码：{{goodsShopCode}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">货位类型：{{locationsType}}</span>\n<span class=\"title\">单位：{{dictGoodsPlatUnitName}}</span>\n<span class=\"title\">品质分类</span></div><div class=\"block-list-item-text \">\n<span class=\"title\">未装箱数量：{{lastQuantity}}</span>\n<span class=\"title\">本次装箱数量：<div class=\"adderSubtracter-component\"></div></span></div><div class=\"block-list-item-text \"><span class=\"title\">品牌：{{dictBrandBrandName}}</span>\n<span class=\"title\">型号：{{goodsPlatformModel}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">OEM码：{{goodsPlatformOem}}</span>\n<span class=\"title\">厂家编码：{{goodsPlatformCode}}</span></div></div>",
-                    
+                    isEditMode : true,
                 }
 
             }
