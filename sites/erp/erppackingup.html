@@ -176,16 +176,28 @@
                                         isReturn:true,
                                         handler:function(data){
                                             console.log(data);
-                                            console.log(erpPackingUp);
+                                            var pageConfig =  NetstarTemplate.templates.configs[erpPackingUp.package];
+                                            var id = pageConfig.gridRowData.id
+                                            console.log(pageConfig);
                                             data.loadPageHandler
                                             var ajaxConfig = {
                                                 url:getRootPath()+'/packingController/v2/getById',
+                                                contentType:'application/x-www-form-urlencoded ',
                                                 data:{
-
+                                                    id:id
                                                 }
                                             }
-                                            NetStarUtils.ajax(ajaxConfig,function(){
-
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                debugger;
+                                                var packingBoxId = res.data.packingBoxVOList[0].id;
+                                                
+                                                var tempValueName = erpPackingUp.package + new Date().getTime();
+                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+                                                NetstarTempValues[tempValueName] = res.data.packingBoxVOList[0];
+                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
+                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
+                                                var url = '/sites/erp/erppacking.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                    nsFrame.loadPageVRouter(url);
                                             })
                                         }
                                     },
@@ -214,6 +226,7 @@
 
                     ]
                 }
+                // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpPackingUp);
                 var config = NetstarTemplate.templates.docListViewerMobile.data["nstemplate-layout-nscloud-qq"].config
                 console.log(config)

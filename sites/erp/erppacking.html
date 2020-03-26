@@ -19,23 +19,19 @@
                 return "https://qaapi.wangxingcloud.com/"
             }
             $(function () {
-                var erpPackingUp = {
-                    package: 'nscloud.qq',
+                var erpPacking = {
+                    package: 'nscloud.qqq',
                     template: 'docListViewerMobile',
                     getValueAjax: {
-                        src: getRootPath() + '/packingController/v2/getTodoList',
-                        contentType: "application/json",
+                        src: getRootPath() + '/packingController/v2/getByPackingBoxId',
+                        contentType: "application/x-www-form-urlencoded",
                         data: {
-                            activityId: "1302448778824915945",
-                            activityName: "装箱打包",
-                            processId: "1302448646754665449",
-                            workflowType: "0"
+                            /* id:getParam(), */
                         },
                         dataSrc: 'rows',
                         type: 'post',
                     },
-                    components: [
-                        {
+                    components: [{
                             type: 'blockList',
                             field: [{
                                     field: 'id',
@@ -44,37 +40,75 @@
                                 {
                                     title: '商品名称',
                                     field: 'goodsShopName',
-                                    columnType: "dictionary",
-                                    dictArguments: "bll_type",
-                                    editConfig: {
-                                        type: 'select',
+                                    editConfig:{
+                                        type: "text",
+
                                     }
                                 },
                                 {
-                                    field: 'bllCode',
-                                    title: '业务单号',
+                                    field: 'goodsShopCode',
+                                    title: '商品编码',
                                     editConfig: {
                                         type: 'text',
                                         id: 'bllCode'
                                     },
                                     isColumnCombine: false,
-                                    title: "业务单号",
                                     isDefaultSubdataText: true,
 
                                 },
                                 {
-                                    field: 'customerId',
+                                    field: 'dictGoodsPlatUnitName',
                                     title: '客户',
-                                    
-                                },
-                                {
-                                    field: 'customerName',
-                                    title: '客户',
-                                },
-                                {
-                                    field: 'warehouseId',
-                                    title: '仓库',
+                                    dictArguments: "unit",
+                                    columnType: "dictionary",
+                                    editConfig:{
+                                        textField: "value",
 
+type: "select",
+                                        type:"select",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            1:"个"
+                                        },
+                                        type:"dictionary"
+                                    },
+                                    title: "单位"
+
+                                },
+                                {
+                                    field: '"packingQuantity"',
+                                    columnType: "number",
+                                    title: "装箱数量",
+                                    editConfig:{
+                                        type: "number",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                places:"0",
+                                                thousand:","
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    field: "backQuantity",
+                                    title: "返库数量",
+                                    columnType:"number",
+                                    editConfig:{
+                                        
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                places:"0",
+                                                thousand:","
+                                            }
+                                        }
+                                    }
                                 },
                                 {
                                     field: 'warehouseName',
@@ -95,105 +129,50 @@
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
                                     packingCode: "未装箱",
-                                    whenPacked: 1582688376000,
-                                    createdBy: 1310230809667459058,
-                                    createdByName: "企业",
-                                    whenCreated: 1582688376000,
-                                    modifiedBy: 1310230809667459058,
-                                    modifiedByName: "企业",
-                                    whenModified: 1582688376000,
-                                    packingId: 1327562150536809458,
+                                    whenPacked: "1561623945000",
+                                    createdBy: 1,
+                                    createdByName: "admin",
+                                    whenCreated: "1561623946000",
+                                    packingId: "1304944342728705001",
                                     defaultFlag: 1,
-                                    bllId: 1327562018466563058,
+                                    bllId: "1304944103284278249",
                                     objectState: 0,
                                     objectCheckState: 0,
-                                    id: 1327562150536810482,
-                                    netstarSelectedFlag: true
+                                    id: "1304944342728706025"
                                 },
-                                dataSrc: 'rows',
+                                dataSrc: 'data.packingDetailVOList',
                                 type: 'post',
 
                             },
-                            keyField:'packingDetailVOList',
+                            keyField: 'packingDetailVOList',
                             idField: 'id',
                             listExpression: "<div class='block-list-item'><div class='block-list-item-text'><span class='title'>{{goodsShopName}}</span></div><div class='block-list-item-text text-left'><span>{{bllCode}}</span></div><div class='block-list-item-text text-left'><span>{{customerName}}</span></div><div class='block-list-item-text text-left'><span>{{warehouseName}}</span></div><div class='block-list-item-text text-left'><span>{{packingLocationCode}}</span></div></div>",
                             plusClass: '',
                             parent: 'root',
                         },
                         {
-                            type:'btns',
-                            field:[
-                                {
-                                    btn:{
-                                        text:'手动分配',
-                                        isReturn:true,
-                                        handler:function(){
+                            type: 'btns',
+                            field: [
 
-                                        }
-                                    },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
-                                        defaultMode:"loadPage",
-                                        isSendPageParams:true,
-                                        url:NetstarHomePage.defaultServerUrl + '/sites/erp/erpsubmitto.html',
-                                        type:'GET',
-                                        parameterFormat:"{\"warehouseId\":\"{warehouseId}\"}",
-                                        contentType:'application/x-www-form-urlencoded',
-                                        isSendPageParams:true,
-                                        isSetValueToSourcePage:false,
-                                        dataSrc:'data',
-                                        requestSource:'selected'
-                                    }
-                                },
-                                {
-                                    btn:{
-                                        text:'提交',
-                                        isReturn:true,
-                                        handler:function(){
-
-                                        }
-                                    },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
-                                        defaultMode:"loadPage",
-                                        isSendPageParams:true,
-                                    }
-                                },
-                                {
-                                    btn:{
-                                        text:'装箱',
-                                        isReturn:true,
-                                        handler:function(){
-
-                                        }
-                                    },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
-                                        defaultMode:"loadPage",
-                                        isSendPageParams:true,
-                                    }
-                                },
-                                {
-                                    btn:{
-                                        text:'装箱详情',
-                                        isReturn:true,
-                                        handler:function(){
-
-                                        }
-                                    },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
-                                        defaultMode:"loadPage",
-                                        isSendPageParams:true,
-                                    }
-                                }
                             ]
                         }
-
-                ]
+                    ]
                 }
-                NetstarTemplate.init(erpPackingUp);
+                // NETSTAR添加url参数即pageParam
+                NetstarTemplate.init(erpPacking);
+
             })
+
+            function getParam() {
+                var url = $("container").attr("ns-pageurl");
+                // console.log(url);
+                var param = url.slice(url.indexOf("?") + 1);
+                var paramId = param.split("=");
+                var id = paramId[paramId.length - 1];
+                console.log(id)
+                // console.log(param);
+                return id
+            }
         </script>
     </container>
 </body>
