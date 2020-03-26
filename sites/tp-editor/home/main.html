@@ -80,8 +80,6 @@
     <div class="main">
         <container class="pageView"></container>
     </div>
-    <div id="form"></div>
-    <div id="form2"></div>
 </body>
 
 <script>
@@ -448,6 +446,7 @@
                                             url : getRootPath() + "/templateMindPages/clearAllCache",
                                             type : "GET",
                                             dataType : "json",
+		                                    contentType : "application/x-www-form-urlencoded",
                                         }
                                         NetStarUtils.ajax(ajaxData,function(res){
                                             nsAlert("清除成功");

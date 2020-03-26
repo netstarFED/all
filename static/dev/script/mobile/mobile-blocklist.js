@@ -141,7 +141,7 @@ var NetstarBlockListM = (function () {
 						+'</div>'
 					+ '</div>'  
 					+ '<div class="pt-grid" :style="domParams.contentTable.style" :id="domParams.contentTable.id">' +
-						'<div v-for="(row,index) in rows" :ns-rowindex="index" :ns-id="row[idField]" class="pt-block-list" :class="[{\'selected\':row.netstarSelectedFlag},{\'disabled\':row[\'NETSTAR-TRDISABLE\']},plusClass,netstarRowStateFlag(row)]">' +
+						'<div v-for="(row,index) in rows" :ns-rowindex="index" :ns-id="row[idField]" class="pt-block-list" :class="[{\'selected\':row.netstarSelectedFlag},{\'disabled\':row[\'NETSTAR-TRDISABLE\']},plusClass,netstarRowStateFlag(row),netstarRowClassFlag(row,index)]">' +
 							'<template v-for="colConfig in columns">' +
 								'<template v-if="colConfig.columnType === \'columnstate\' ">' +
 									'<div v-html="NetStarColumnStateText(row, colConfig)" :class="[netstarRowStateFlag(row)]" column-state="workitemstatemanage"></div>'+
@@ -756,6 +756,27 @@ var NetstarBlockListM = (function () {
 				var msgstateConfig = configManager.SYSTEMCOLUMNS.MSGSTATE.data;
 				var rowClassStr = workItemStateManage.trtd[data[msgstateConfig.field]] ? workItemStateManage.trtd[data[msgstateConfig.field]] : '';
 				///
+				return rowClassStr;
+			},
+			// 
+			netstarRowClassHandler : function (data, originalRowData, _vueData) {
+				var rowClassStr = '';
+				// 列配置
+				// rowColor : {0:}
+				// pt-block-list-bg-info:#ebf9ff(淡蓝);pt-block-list-bg-warning:#fffbf6(淡黄);
+				// pt-block-list-bg-success:#ebfffa(淡绿);pt-block-list-bg-danger:#fff2f2(淡红)
+				var columns = _vueData.columns;
+				for(var i=0; i<columns.length; i++){
+					var column = columns[i];
+					var rowColor = column.rowColor;
+					var fieldId = column.field;
+					var fieldVal = originalRowData[fieldId];
+					if(typeof(rowColor) == "object" && typeof(fieldVal) != "undefined"){
+						var _rowClassStr = rowColor[fieldVal] ? rowColor[fieldVal] : '';
+						rowClassStr += ' ' + _rowClassStr;
+					}
+				}
+				rowClassStr = $.trim(rowClassStr);
 				return rowClassStr;
 			},
 			//treeGrid 添加class sjj
@@ -3117,6 +3138,11 @@ var NetstarBlockListM = (function () {
 					},
 					netstarRowStateFlag: function (data) {
 						return methodsManager.body.rowStateClassHandler(data, this);
+					},
+					// 根据行数据获取行样式
+					netstarRowClassFlag : function(data, index){
+						var originalRowData = this.originalRows[index] ? this.originalRows[index] : {};
+						return methodsManager.body.netstarRowClassHandler(data, originalRowData, this);
 					},
 					initComponent:function(ev){
 						var componentFieldArray = this.componentFieldArray;

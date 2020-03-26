@@ -842,6 +842,9 @@ NetStarUtils.getListQueryData = function (_columns, _configObj) {
 					tempJson.hidden = true;
 					delete tempJson.rules;
 					tempJson.inputWidth = 150;
+					if(editConfig.type == "business"){
+						tempJson.isNeedJumpNext = false;
+					}
 					queryFormFieldArray.push(tempJson);//默认隐藏带下拉条件的查询条件
 					break;
 				case 'textarea':

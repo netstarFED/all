@@ -541,6 +541,8 @@
                             &.pt-btn-icon {
 
                                 background: transparent;
+                                margin-right: 0;
+                                height: 23px;
 
                                 &:hover {
                                     background: @gray-light;
@@ -549,6 +551,15 @@
 
                                 &:focus {
                                     color: @gray-dark;
+                                }
+
+                                &.disabled,
+                                &[disabled] {
+                                    border: none;
+
+                                    &:hover {
+                                        background-color: transparent;
+                                    }
                                 }
                             }
                         }

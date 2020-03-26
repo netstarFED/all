@@ -5915,10 +5915,12 @@ pageProperty.switchEditorData = function(config){
 				data : { type:'state' },
 				plusData : {
 					pageParams : resPageParams,
+					sourceFormId : pageId,
 				}
 			}
 			NetstarEditorAjax.getList(ajaxConfig, function(resState, plusData){
 				var pageParams = plusData.pageParams;
+				var sourceFormId = plusData.sourceFormId;
 				var _config = {
 					sourceConfig : pageParams.sourceConfig,
 					config : pageParams.config,
@@ -5928,7 +5930,7 @@ pageProperty.switchEditorData = function(config){
 				var pageConfig = pageProperty.editorDataSwitch.getPageConfig(_config);
 				if(pageConfig){
 					// 开始保存
-					pageProperty.editorDataSwitch.startSavePageConfig(pageConfig);
+					pageProperty.editorDataSwitch.startSavePageConfig(pageConfig, sourceFormId);
 				}else{
 					nsAlert('获取页面配置失败', 'error');
 					console.error('获取页面配置失败');
@@ -6069,10 +6071,14 @@ pageProperty.editorDataSwitch = {
 			elements.components.push(componentElement);
 		}
 		_pageConfig.components = pageComponents;
+		// 页面名字
+		var controlName = _pageConfig.title ? _pageConfig.title + ' ' : '';
+		controlName += _pageConfig.package ? _pageConfig.package : '';
 		var pageElement = {
 			type : 'page',
 			children : [],
 			config : JSON.stringify(_pageConfig),
+			controlName : controlName,
 		}
 		if(_pageConfig.nsId){
 			pageElement.id = _pageConfig.nsId;
@@ -6082,32 +6088,51 @@ pageProperty.editorDataSwitch = {
 		return elements;
 	},
 	// 保存
-	savePageConfig : function(pageConfig){
+	savePageConfig : function(pageConfig, sourceFormId){
 		var elements = pageProperty.editorDataSwitch.getElements(pageConfig);
 		pageProperty.editorDataSwitch.elements = elements;
 		var components = elements.components;
-		NetstarEditorAjax.savePageData(components, {}, function(resData){
+		NetstarEditorAjax.savePageData(components, { sourceFormId: sourceFormId }, function(resData, plusData){
 			var pageElement = pageProperty.editorDataSwitch.elements.page;
 			var children = [];
 			for(var i=0; i<resData.length; i++){
 				children.push(resData[i].id);
 			}
 			pageElement.children = children;
-			NetstarEditorAjax.savePageData([pageElement], {}, function(resData){
+			NetstarEditorAjax.savePageData([pageElement], { sourceFormId: plusData.sourceFormId }, function(resData, plusData){
+				nsAlert('转换页面成功,开始记录转换信息');
 				console.log(resData);
+				console.log('转换页面成功,开始记录转换信息');
+				var sourceFormId = plusData.sourceFormId;
+				var formId = resData[0].id;
+				var ajaxConfig = {
+					url : getRootPath() + '/formdesigner/syncrelations/add',
+					type : 'POST',
+					contentType : 'application/x-www-form-urlencoded',
+					data : {
+						sourceFormId : sourceFormId,
+						formId : formId,
+					},
+				}
+				NetStarUtils.ajax(ajaxConfig, function(res){
+					nsAlert('记录信息完成');
+					console.log('记录信息完成');
+				});
 			})
 		})
 	},
 	// 开始保存
-	startSavePageConfig : function(pageConfig){
+	startSavePageConfig : function(pageConfig, sourceFormId){
 		// 获取所有page找到该页面是否已经保存若保存沿用上次id
 		NetstarEditorAjax.getList({
 			data:{ type:'page' },
 			plusData : {
-				pageConfig : pageConfig
+				pageConfig : pageConfig,
+				sourceFormId : sourceFormId,
 			},
 		}, function(pageList, plusData){
 			var pageConfig = plusData.pageConfig;
+			var sourceFormId = plusData.sourceFormId;
 			var pageId = false;
 			for(var i=0; i<pageList.length; i++){
 				var _pageConfig = JSON.parse(pageList[i].config);
@@ -6125,7 +6150,7 @@ pageProperty.editorDataSwitch = {
 				// 		}
 				// 	})(pageConfig)
 				// );
-				NetstarEditorServer.getPageConfig({ id:pageId }, (function(currentPageConfig){
+				NetstarEditorServer.getPageConfig({ id:pageId }, (function(currentPageConfig, sourceFormId){
 					return function(resData){
 						console.log(resData);
 						// 根据类型为page和component添加id
@@ -6143,12 +6168,12 @@ pageProperty.editorDataSwitch = {
 								}
 							}
 						}
-						pageProperty.editorDataSwitch.savePageConfig(pageConfig);
+						pageProperty.editorDataSwitch.savePageConfig(pageConfig, sourceFormId);
 					}
-				})(pageConfig)
+				})(pageConfig, sourceFormId)
 			)
 			}else{
-				pageProperty.editorDataSwitch.savePageConfig(pageConfig);
+				pageProperty.editorDataSwitch.savePageConfig(pageConfig, sourceFormId);
 			}
 		})
 	},
