@@ -16,6 +16,56 @@
 */
 /******************** 表格模板 start ***********************/
 NetstarTemplate.templates.businessDataBaseMobile = (function(){
+	var pageN = 0;
+	function scrollHandler(ev){
+		ev.preventDefault();
+		var isContinue = true;
+		if($('.mobilewindow-halfscreen').length == 1){
+			if(!$('.mobilewindow-halfscreen').hasClass('hide')){
+				isContinue = false;
+			}
+		}
+		if(isContinue){
+			var range = 0; //距下边界长度/单位px
+			var totalheight = 0;
+			var srollPos = $(window).scrollTop(); //滚动条距顶部距离(页面超出窗口的高度)
+			totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+			if (($(document).height() - range) <= totalheight) {
+				//ajax请求
+				if($('container').children('div.businessdatabasem').length == 1){
+					var packageName = $('container').children('div.businessdatabasem').attr('ns-package');
+					var templateConfig = NetstarTemplate.templates.configs[packageName];
+					var gridConfig = NetstarBlockListM.configs[templateConfig.mainConfig.id].gridConfig;
+					var pageLength = gridConfig.ui.pageLengthDefault;
+				
+					pageN++; ///页码0  页码1  页码2  页码3 页码4 页码5
+					var startPage = pageN * pageLength;
+					var recordsTotal = Number(gridConfig.domParams.serverData.total);
+					var blockTableId = templateConfig.mainConfig.id;
+					if(recordsTotal < startPage){
+                        var html = '<div class="list-no-data no-data">没有更多咯~</div>';
+                        $('#' + blockTableId).children('.list-no-data').remove();
+                        $('#' + blockTableId).append(html);
+                        return false;
+					}
+					var gridConfig = NetstarBlockListM.configs[blockTableId].gridConfig;
+					var ajaxConfig = $.extend(true,{},templateConfig.mainConfig.ajax);
+					ajaxConfig.data = gridConfig.data.data;
+					ajaxConfig.data.start = startPage;
+					NetStarUtils.ajax(ajaxConfig,function(res,ajaxPlusOptions){
+						if(res.success){
+							var resData = res[ajaxPlusOptions.dataSrc];
+							//console.log(resData)
+							if(!$.isArray(resData)){
+								resData = [];
+							}
+							NetstarBlockListM.dataManager.addRow(resData,blockTableId);
+						}
+					},true);
+				}
+			}
+		}
+	}
 	function dialogBeforeHandler(data){
 		var templateId = $('container').children('.businessdatabasem').attr('id');
 		var config = NetstarTemplate.templates.businessDataBaseMobile.data[templateId].config;
@@ -55,7 +105,10 @@ NetstarTemplate.templates.businessDataBaseMobile = (function(){
 			}else{
 				outputParams = NetStarUtils.getFormatParameterJSON(ajaxData,sourceParam);
 			}
-		}
+		}else{
+            //如果是空对象直接返回页面定义的ajaxData cy.qq.20200326
+            outputParams = $.extend(true, {}, ajaxData) 
+        }
 		return outputParams;
 	}
 	function refreshListData(data,gridId){
@@ -406,6 +459,15 @@ NetstarTemplate.templates.businessDataBaseMobile = (function(){
 						}
 					},
 				};
+				if(!$.isEmptyObject(listConfig.params)){
+					$.each(listConfig.params,function(k,v){
+						if(k == 'isServerMode'){
+							gridConfig.data[k] = v;
+						}else{
+							gridConfig.ui[k] = v;
+						}
+					})
+				}
 				NetstarTemplate.quickQueryByMobileTemplate(listConfig,config);
 				if(!$.isEmptyObject(config.sourcePageConfig.data)){
 					if(config.sourcePageConfig.keyField){
@@ -469,6 +531,9 @@ NetstarTemplate.templates.businessDataBaseMobile = (function(){
 					//还有查询条件
 					gridConfig.ui.height -=50;
 				}
+				if(gridConfig.data.isServerMode){
+					gridConfig.ui.pageLengthDefault = Math.ceil(gridConfig.ui.height/135)+1;
+				}
 				if(config.templateType == 'blockList' && listConfig.isAjax){
 					var gridAjax = listConfig.ajax;
 					if(typeof(gridAjax)=="object"){
@@ -485,6 +550,8 @@ NetstarTemplate.templates.businessDataBaseMobile = (function(){
 			}
 			if(config.mainConfig.isAjax == false){
 				NetstarBlockListM.refreshDataById(config.mainConfig.id,[]);
+			}else{
+				$(document).on('scroll',scrollHandler);
 			}
 		}
 		function treeComponentInit(treeJson){
@@ -617,7 +684,7 @@ NetstarTemplate.templates.businessDataBaseMobile = (function(){
 				}
 			}
 		}
-		
+		$(document).off('scroll',scrollHandler);
 
 		if(NetstarTemplate.templates.businessDataBaseMobile.data[_config.id]){
 			var config = NetstarTemplate.templates.businessDataBaseMobile.data[_config.id].config;
