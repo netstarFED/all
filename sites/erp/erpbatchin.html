@@ -26,7 +26,6 @@
                         src: getRootPath() + '/checkups/v2/getByCheckupBatchId',
                         contentType: "application/x-www-form-urlencoded",
                         data: {
-                            /* id:getParam(), */
                         },
                         dataSrc: 'rows',
                         type: 'post',
@@ -234,7 +233,7 @@
                                 src: getRootPath() + '/checkups/v2/getByCheckupBatchId',
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
-                                    id: "1330272115986800626"
+                                    
                                 },
                                 dataSrc: 'data.checkupBatchDetailVOList',
                                 type: 'post',
@@ -262,38 +261,25 @@
                             field: [{
                                     btn: {
                                         text: '创建整批',
-                                        handler: function () {
-                                            console.log(data);
-                                            debugger;
-                                            var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
-                                            var id = pageConfig.gridRowData.id
-                                            console.log(pageConfig);
-                                            data.loadPageHandler
+                                        isReturn:true,
+                                        handler: function(data) {
+                                            var pageConfig = NetstarTemplate.templates.configs[erpBatchIn.package];
+                                            var pageParam = pageConfig.pageParam;
+                                            var blockListData = NetstarBlockListM.dataManager.getData('nstemplate-layout-nscloud-erpbatchin-blockList-0');
+                                            var ajaxData = {
+                                                checkupBatchDetailVOList:blockListData
+                                            }
+                                            $.extend(true,ajaxData,pageParam)
                                             var ajaxConfig = {
                                                 url: getRootPath() + '/checkups/v2/createBatchOfLeft',
-                                                data: {
-                                                    id: id
-                                                }
+                                                data: ajaxData
                                             }
-                                            NetStarUtils.ajax(ajaxConfig, function (res) {
-                                                debugger;
-                                                var packingBoxId = res.data
-                                                    .checkupBatchVOList[0].id;
-
-                                                var tempValueName = erpCheckUp.package +
-                                                    new Date().getTime();
-                                                if (typeof (NetstarTempValues) ==
-                                                    'undefined') {
-                                                    NetstarTempValues = {};
+                                            NetStarUtils.ajax(ajaxConfig, function(res) {
+                                                if(res.success){
+                                                    nsalert('创建成功')
+                                                }else{
+                                                    nsalert(res.msg)
                                                 }
-                                                NetstarTempValues[tempValueName] = res
-                                                    .data.checkupBatchVOList[0];
-                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
-                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
-                                                var url =
-                                                    '/sites/erp/erpbatchin.html?templateparam=' +
-                                                    encodeURIComponent(tempValueName);
-                                                nsFrame.loadPageVRouter(url);
                                             })
                                         }
                                     }
@@ -301,8 +287,10 @@
                                 {
                                     btn: {
                                         text: '创建分批',
-                                        handler: function () {
+                                        handler: function (res) {
+                                            if(res.success){
 
+                                            }
                                         }
                                     }
                                 }

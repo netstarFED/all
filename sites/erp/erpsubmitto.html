@@ -9,7 +9,7 @@
     <meta name="description" content="打包" />
     <meta name="author" content="netstar" />
     <!--# include file="/sites/include/static_mobile.html" -->
-    <title>装箱打包</title>
+    <title>分批</title>
 </head>
 
 <body class="weixin-type">
@@ -19,7 +19,7 @@
                 return "https://qaapi.wangxingcloud.com/"
             }
             $(function () {
-                var erpPackingUp = {
+                var erpPackingSubmitto = {
                     package: 'nscloud.erpsubmitti',
                     template: 'processDocBaseMobile',
                     getValueAjax: {
@@ -64,23 +64,30 @@
                                     btn:{
                                         text:'确认',
                                         isReturn:true,
-                                        handler:function(){}
+                                        handler:function(){
+                                            debugger;
+                                            var pageConfig = NetstarTemplate.templates.configs[erpPackingSubmitto.package];
+                                            var pageParamData = pageConfig.pageParam;
+                                            var ajaxConfig = {
+                                                url:getRootPath()+'/packingController/v2/save',
+                                                contentType:'application/json',
+                                                type:'POST',
+                                                data:pageParamData
+                                            };
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                if(res.success){
+                                                    nsalert('保存成功');
+                                                    
+                                                }else{
+                                                    nsalert(res.msg)
+                                                }
+                                                
+                                                
+                                            })
+                                        }
                                     },
                                     functionConfig:{
                                         isMobileInlineBtn:true,
-                                        defaultMode:"custom",
-                                        data:{},
-                                        title:'',
-                                        parameterFormat:"",
-                                        requestSource:'none',
-                                        successOperate:'success',
-                                        successMsg:'确认成功',
-                                        isKeepSelected:false,                                       
-                                        isCloseWindow:true,                                        
-                                        parameterFormatType:'cover',
-                                        isSendPageParams:true,
-                                        isSetValueToSourcePage:false,
-                                        url:getRootPath() + '/packingController/v2/save'
                                     }
                                 }
                             ]
@@ -88,9 +95,30 @@
                     ]
                 }
                 // NETSTAR添加url参数即pageParam
-                NetstarTemplate.init(erpPackingUp);
+                NetstarTemplate.init(erpPackingSubmitto);
 
             });
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">分批
+                        </div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
   
         </script>
     </container>

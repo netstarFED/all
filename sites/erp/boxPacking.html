@@ -9,7 +9,6 @@
     <meta name="author" content="netstar" />
     <!--# include file="/sites/include/static_mobile.html" -->
     <title>分箱打包</title>
-    <script src=""></script>
 </head>
 
 <body class="weixin-type">
@@ -37,6 +36,39 @@
             if ($("header").length != 0 && $(".mobile-input-search").length != 0) {
                 $("container").addClass("padding-top-header-search");
             };
+            var saveBtnHtml = 
+                `<footer>
+                    <div class="btn-group nav-form">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success" onclick="save()">
+                                <i class="fa-save"></i>
+                                <span>保存</span>
+                            </button>
+                        </div>
+                    </div>
+                </footer>`
+            $("container").append(saveBtnHtml);
+            var dataManager = {
+                datetimeStamp:Date.parse(new Date()),
+                dataRes:"",
+            }
+            function save(){
+                if(dataManager.dataRes.packingDetailVOList){
+                    dataManager.dataRes.packingDetailVOList = NetstarBlockListM.dataManager.getData('mobile-blocklist')
+                    dataManager.dataRes.whenPacked = dataManager.datetimeStamp;
+                    dataManager.dataRes.objectState = 2
+                };
+                console.log(dataManager.dataRes);
+                var ajaxConfig = {
+                    url:getRootPath()+'/packingController/v2/newPackingBox',
+                    contentType:'application/json',
+                    data:dataManager.dataRes
+                };
+                NetStarUtils.ajax(ajaxConfig,function(res){
+                    console.log(res);
+                })
+
+            }
             var inlineSrceen = {
                 id: "inlinesrceen-radio",
                 size: "standard compactmode",
@@ -51,6 +83,7 @@
                     column: 6,
                     changeHandler: function (value, config) {
                         console.log(value);
+                        dataManager.datetimeStamp = value;
                         console.log(config);
                     },
 
@@ -66,13 +99,16 @@
                     isSearch: true,
                     isPage: true,
                     idField: 'id',
-                    src: 'https://qaapi.wangxingcloud.com//packingController/v2/getByPackingBoxId',
+                    src: getRootPath() + '/packingController/v2/getByPackingBoxId',
                     data: {
                         id: "1327556817261170674"
                     },
                     dataSrc: 'data.packingDetailVOList',
                     type: 'POST',
-                    contentType: 'application/x-www-form-urlencoded'
+                    contentType: 'application/x-www-form-urlencoded',
+                    formatter:function(res){
+                        dataManager.dataRes = res.data;
+                    }
                 },
                 columns: [
                     {
@@ -247,15 +283,11 @@
                                     dataNewList[i].thisQuantity++;
 
                                     NetstarBlockListM.refreshDataById("mobile-blocklist",dataNewList)
-                                    console.log("111",dataNewList);
                                 }
                             }
                             if(flag.length == 0){
                                 nsAlert("没有该厂家")
                             }
-                            // nsComponent.setValue('operatorId', "nstemplate-layout-nscloud-outorinbillmobile-vo-0", cameraScan.userCode)
-                            // nsComponent.setValue('deptName', "nstemplate-layout-nscloud-outorinbillmobile-vo-0", cameraScan.userCode);
-                            
                             cb()
                         }else{
                             nsAlert("扫码失败")
@@ -264,7 +296,7 @@
                 }
             };
             cameraScan.initHoneywellScan();
-            // NetstarBlockListM.refreshDataById("mobile-blocklist-contenttable", scannerArr);
+
         </script>
     </container>
 </body>

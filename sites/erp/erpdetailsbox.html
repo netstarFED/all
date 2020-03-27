@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
+    <meta charset="utf-8" />    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <meta name="description" content="打包" />
     <meta name="author" content="netstar" />
@@ -19,7 +19,6 @@
                 return "https://qaapi.wangxingcloud.com/"
             }
             $(function () {
-
                 var erpPackSetails = {
                     package: 'nscloud.erpdetailsbox',
                     template: 'businessDataBaseMobile',
@@ -77,20 +76,33 @@
                                     btn:{
                                         text:'拆箱',
                                         isReturn:true,
-                                        handler:function(a,b,c){
-                                           var packConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
-                                           console.log(packConfig);
-                                           var ajaxConfig = {
-                                               url:getRootPath() + 'packingController/v2/unPackingBox',
-                                               contentType:'application/json;charset=UTF-8',
+                                        handler:function(data){
+                                            debugger;
+                                            var packConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
+                                            var id = pageConfig.gridRowData.id
+                                            var ajaxConfig = {
+                                               url:getRootPath() +'/packingController/v2/getByPackingBoxId',
+                                               contentType:'application/x-www-form-urlencoded',
                                                data:{
-
+                                                    id:id
                                                },
                                                type:'POST',
                                            }
-                                           NetStarUtils.ajax(ajaxConfig,function(res){
+                                           NetStarUtils.ajax(ajaxConfig,function(res){                                          
 
-                                           })
+                                                $.extend(true,)
+                                                var ajaxConfig = {
+                                                    url:getRootPath() + 'packingController/v2/unPackingBox',
+                                                    contentType:'application/json;charset=UTF-8',
+                                                    data:{
+
+                                                    },
+                                                    type:'POST',
+                                                }
+                                                NetStarUtils.ajax(ajaxConfig,function(res){
+
+                                                })    
+                                           })                                                                      
                                         }
                                     },
                                     functionConfig:{

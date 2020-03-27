@@ -156,7 +156,7 @@
                                                 tarTempValues = {}
                                             }
                                             NetstarTempValues[tempValueName] = getSelectData
-                                            var url = '/sites/erp/erpsubmitto.html?templateparam=' + encodeURIComponent(tempValueName);
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/erpsubmitto.html?templateparam=' + encodeURIComponent(tempValueName);
                                             nsFrame.loadPageVRouter(url);
                                         }
                                     },
@@ -225,27 +225,17 @@
                                         text:'装箱详情',
                                         isReturn:true,
                                         handler:function(data){
+                                            debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpPackingUp.package];
-                                            var id = pageConfig.gridRowData.id
-                                            var ajaxConfig = {
-                                                url:getRootPath()+'/packingController/v2/getById',
-                                                contentType:'application/x-www-form-urlencoded ',
-                                                data:{
-                                                    id:id
-                                                }
+                                            var id ={
+                                                id:pageConfig.gridRowData.id
                                             }
-                                            NetStarUtils.ajax(ajaxConfig,function(res){
-                                                debugger;
-                                                var packingBoxId = res.data.packingBoxVOList[0].id;
-                                                
-                                                var tempValueName = erpPackingUp.package + new Date().getTime();
-                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
-                                                NetstarTempValues[tempValueName] = res.data.packingBoxVOList[0];
-                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
-                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
-                                                var url = '/sites/erp/erppacking.html?templateparam=' + encodeURIComponent(tempValueName);
-                                                    nsFrame.loadPageVRouter(url);
-                                            })
+                                            var tempValueName = erpPackingUp.package + new Date().getTime();
+                                            if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+                                            NetstarTempValues[tempValueName] =id;
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/erpdetailsbox.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                nsFrame.loadPageVRouter(url);
+                                            
                                         }
                                     },
                                     functionConfig:{
