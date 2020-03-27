@@ -685,7 +685,7 @@ var NetstarLogin = (function () {
             if(config.orgValues[orgname]){
                 orgNameStr = config.orgValues[orgname]
             }
-            loginObj.orgname = orgNameStr;
+            loginObj.orgname = decodeURI(orgNameStr);
         }
         if(urlParas.username){
             loginObj.username = decodeURI(urlParas.username);
