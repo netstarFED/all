@@ -1857,6 +1857,9 @@ NetstarTemplate.templates.limsReg = (function ($) {
                for(var blockListId in componentData){
                   var blockListConfig = componentData[blockListId];
                   clearQueryValConfig(blockListConfig);
+                  if(NetstarBlockList.configs[blockListId] && NetstarBlockList.configs[blockListId].vueObj){
+                     NetstarBlockList.configs[blockListId].vueObj.rows = [];
+                  }
                   NetstarBlockList.refreshDataById(blockListId,_config.serverData[blockListConfig.keyField]);
                }
                break;
