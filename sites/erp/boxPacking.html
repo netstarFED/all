@@ -68,7 +68,7 @@
                     idField: 'id',
                     src: 'https://qaapi.wangxingcloud.com//packingController/v2/getByPackingBoxId',
                     data: {
-                        id: "1328682828837162994"
+                        id: "1327556817261170674"
                     },
                     dataSrc: 'data.packingDetailVOList',
                     type: 'POST',
@@ -154,13 +154,13 @@
                         title: "未装箱数量",
                     },
                     {
-                        field: 'packingQuantity',
+                        field: 'thisQuantity',
                         title: '数字加减',
                         changeHandler: function (value, config) {
                             console.log(value);
                             console.log(config);
                         },
-                        value: 7,
+                        // value: 7,
                         editable : true,
                         editConfig : {
                             type : "adderSubtracter"
@@ -221,12 +221,49 @@
                     },
                 ],
                 ui: {
-                    listExpression: "<div class=\"block-list-item \"><div class=\"block-list-item-text \"><span class=\"title\">商品名称：{{goodsShopName}}</span>\n<span class=\"title\">商品编码：{{goodsShopCode}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">货位类型：{{locationsType}}</span>\n<span class=\"title\">单位：{{dictGoodsPlatUnitName}}</span>\n<span class=\"title\">品质分类</span></div><div class=\"block-list-item-text \">\n<span class=\"title\">未装箱数量：{{lastQuantity}}</span>\n<span class=\"title\">本次装箱数量：<div class=\"adderSubtracter-component\"></div></span></div><div class=\"block-list-item-text \"><span class=\"title\">品牌：{{dictBrandBrandName}}</span>\n<span class=\"title\">型号：{{goodsPlatformModel}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">OEM码：{{goodsPlatformOem}}</span>\n<span class=\"title\">厂家编码：{{goodsPlatformCode}}</span></div></div>",
+                    listExpression: "<div class=\"block-list-item \"><div class=\"block-list-item-text \"><span class=\"title\">商品名称：{{goodsShopName}}</span>\n<span class=\"title\">商品编码：{{goodsShopCode}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">货位类型：{{locationsType}}</span>\n<span class=\"title\">单位：{{dictGoodsPlatUnitName}}</span>\n<span class=\"title\">品质分类</span></div><div class=\"block-list-form \">\n<span class=\"title\">未装箱数量：{{lastQuantity}}</span>\n<span class=\"title\">本次装箱数量：<div class=\"adderSubtracter-component\"></div></span></div><div class=\"block-list-item-text \"><span class=\"title\">品牌：{{dictBrandBrandName}}</span>\n<span class=\"title\">型号：{{goodsPlatformModel}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">OEM码：{{goodsPlatformOem}}</span>\n<span class=\"title\">厂家编码：{{goodsPlatformCode}}</span></div></div>",
                     isEditMode : true,
                 }
 
             }
             NetstarBlockListM.init(mobileBlocklist);
+            // 霍尼韦尔扫码
+            var cameraScan = {
+                initHoneywellScan:function(){
+                    cameraScan.honeywellScan(function(){
+
+                    })
+                },
+                honeywellScan:function(cb){
+                    NetStarCordova.honeywellScan.get(function(obj){
+                        if(obj.status){
+                            console.log(obj);
+                            var dataList = NetstarBlockListM.dataManager.getData('mobile-blocklist');
+                            var flag = []
+                            for(var i = 0, len = dataList.length; i < len; i ++){
+                                if(dataList[i].goodsPlatformCode == obj.result){
+                                    flag.push(dataList[i].goodsPlatformCode);//nstemplate-layout-nscloud-outorinbillmobile-vo-0
+                                    var dataNewList = dataList;
+                                    dataNewList[i].thisQuantity++;
+
+                                    NetstarBlockListM.refreshDataById("mobile-blocklist",dataNewList)
+                                    console.log("111",dataNewList);
+                                }
+                            }
+                            if(flag.length == 0){
+                                nsAlert("没有该厂家")
+                            }
+                            // nsComponent.setValue('operatorId', "nstemplate-layout-nscloud-outorinbillmobile-vo-0", cameraScan.userCode)
+                            // nsComponent.setValue('deptName', "nstemplate-layout-nscloud-outorinbillmobile-vo-0", cameraScan.userCode);
+                            
+                            cb()
+                        }else{
+                            nsAlert("扫码失败")
+                        }   
+                    })
+                }
+            };
+            cameraScan.initHoneywellScan();
             // NetstarBlockListM.refreshDataById("mobile-blocklist-contenttable", scannerArr);
         </script>
     </container>
