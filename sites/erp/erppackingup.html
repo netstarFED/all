@@ -20,7 +20,7 @@
             }
             $(function () {
                 var erpPackingUp = {
-                    package: 'nscloud.qq',
+                    package: 'nscloud.erppackingup',
                     template: 'docListViewerMobile',
                     getValueAjax: {
                         src: getRootPath() + '/packingController/v2/getTodoList',
@@ -231,6 +231,26 @@
                 var config = NetstarTemplate.templates.docListViewerMobile.data["nstemplate-layout-nscloud-qq"].config
                 console.log(config)
             })
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">入库检验</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
         </script>
     </container>
 </body>

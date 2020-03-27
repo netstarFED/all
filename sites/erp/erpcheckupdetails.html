@@ -1,0 +1,131 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="打包" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>装箱打包</title>
+</head>
+<!--  -->
+<body class="weixin-type">
+    <container>
+        <script>
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            $(function () {
+
+                var erpCheckDetails = {
+                    package: 'nscloud.erpcheckdetails',
+                    template: 'businessDataBaseMobile',
+                    getValueAjax: {
+                        src: getRootPath() + '/packingController/v2/getById',
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {
+                            id: "1327562150536809458"
+                        },
+                        dataSrc: 'data.packingBoxVOList',
+                        type: 'post',
+                    },
+                    components: [
+                        {
+                            type: 'blockList',
+                            /* 字段暂时不知道 */
+                            field: [{
+                                    field: 'packingCode',
+                                    title: '装箱详情'
+                                },
+
+                            ],
+                            ajax: {
+                                src: getRootPath() + '/checkups/v2/getById',
+                                contentType: "application/x-www-form-urlencoded",
+                                data: {
+                                    id: "1330272115986799602"
+                                },
+                                dataSrc: 'rows',
+                                type: 'POST',
+                                formatter:function(res){
+                                    var data = res.data.checkupBatchVOList
+                                    delete data[0];
+                                    
+                                    var returnRows = {
+                                        success:true,
+                                        rows:data
+                                    }
+
+                                    console.log(returnRows);
+                                    return returnRows;
+                                }
+                            },
+                            idField: 'id',
+                            listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>{{batchCode}}</span></div></div>",
+                            plusClass: '',
+                            parent: 'root',
+                            isInlineBtn: true,
+
+                        },
+                        {   
+                            type:'btns',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'撤回批次',
+                                        isReturn:true,
+                                        handler:function(a,b,c){
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'查看详情',
+                                        isReturn:true,
+                                        handler:function(){
+
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                    }
+                                }, 
+                            ]
+                        }
+
+                    ]
+                }
+                // NETSTAR添加url参数即pageParam
+                NetstarTemplate.init(erpCheckDetails);
+            })
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">批次详情</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+        </script>
+    </container>
+</body>
+
+</html>
