@@ -156,7 +156,7 @@
                                                 tarTempValues = {}
                                             }
                                             NetstarTempValues[tempValueName] = getSelectData
-                                            var url = '/sites/erp/erpsubmitto.html?templateparam=' + encodeURIComponent(tempValueName);
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/erpsubmitto.html?templateparam=' + encodeURIComponent(tempValueName);
                                             nsFrame.loadPageVRouter(url);
                                         }
                                     },
@@ -233,7 +233,7 @@
                                             var tempValueName = erpPackingUp.package + new Date().getTime();
                                             if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
                                             NetstarTempValues[tempValueName] =id;
-                                            var url = '/sites/erp/erpdetailsbox.html?templateparam=' + encodeURIComponent(tempValueName);
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/erpdetailsbox.html?templateparam=' + encodeURIComponent(tempValueName);
                                                 nsFrame.loadPageVRouter(url);
                                             
                                         }

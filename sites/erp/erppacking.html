@@ -239,15 +239,15 @@
                                            var ajaxConfig = {
                                                url:getRootPath() + '/packingController/v2/createPackingOfLeft',
                                                contentType:'application/json',
-                                               dataSrc:'',
                                                type:"POST",
                                                data:ajaxData
                                            }
                                            NetStarUtils.ajax(ajaxConfig,function(res){
                                                 if(res.success){
-
+                                                    nsalert('打包成功');
+                                                    window.history.back()
                                                 }else{
-                                                    
+                                                    nsalert(res.msg)
                                                 }
                                             })
                                        }
@@ -292,16 +292,6 @@
             }
             if($("header").length != 0 && $(".mobile-input-search").length != 0){
                 $("container").addClass("padding-top-header-search");
-            }
-            function getParam() {
-                var url = $("container").attr("ns-pageurl");
-                // console.log(url);
-                var param = url.slice(url.indexOf("?") + 1);
-                var paramId = param.split("=");
-                var id = paramId[paramId.length - 1];
-                console.log(id)
-                // console.log(param);
-                return id
             }
         </script>
     </container>

@@ -274,7 +274,7 @@
                                                 NetstarTempValues[tempValueName] = res.data.checkupBatchVOList[0];
                                                 // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
                                                 // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
-                                                var url = '/sites/erp/erpbatchin.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                var url = window.location.protocol + '//' + window.location.host+'/sites/erp/erpbatchin.html?templateparam=' + encodeURIComponent(tempValueName);
                                                     nsFrame.loadPageVRouter(url);
                                             })
                                         }
@@ -299,10 +299,9 @@
                                                 NetstarTemplate = {}
                                             }
                                             NetstarTempValues[tempValueName] = selectedId
-                                             var url = "/sites/erp/erpcheckupdetails.html?templateparam=" + encodeURIComponent(tempValueName);
+                                             var url =window.location.protocol + '//' + window.location.host+ "/sites/erp/erpcheckupdetails.html?templateparam=" + encodeURIComponent(tempValueName);
                                              nsFrame.loadPageVRouter(url);
                                             console.log(pageConfig)
-
                                         }
                                     },
                                     functionConfig:{
