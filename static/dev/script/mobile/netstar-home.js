@@ -155,6 +155,12 @@ var NetstarHomePage = {
                                 if(workitemCount > 0){
                                     workitemCountHtml = '<span class="badge badge-danger">'+workitemCount+'</span>';
                                 }
+                                //添加对static 静态文件地址的支持 cy 20200327
+                                var urlStaticIndex = url.indexOf('static:');
+                                if(urlStaticIndex > -1){
+                                    url = window.location.protocol + '//' + window.location.host + url.substr(urlStaticIndex+7);
+                                }
+                                
                                 cardItemsStr += (itm.singlePageMode ? cardItemsStr = '<a class="nav-item" href="javascript:nsFrame.loadPageVRouter(\'' + url + '\');">' : cardItemsStr = '<a class="nav-item" href="' + url + '">') +
                                     '<div ns-parentIndex="' + index + '" ns-currentIndex="' + idx + '" class="card-item">' +
                                     '<i class="' + itm.icon + '"></i>' +
