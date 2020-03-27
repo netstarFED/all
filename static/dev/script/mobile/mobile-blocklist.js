@@ -3083,9 +3083,9 @@ var NetstarBlockListM = (function () {
 							}
 							this.rows = dataManager.getRows(newRowsData, gridConfig);
 							var _this = this;
-							setTimeout(function(){
+							this.$nextTick(function(){
 								_this.initComponent();
-							}, 100);
+							});
                         }
                     }
 				},
