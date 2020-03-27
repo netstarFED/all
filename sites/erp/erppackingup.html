@@ -160,7 +160,6 @@
                                             nsFrame.loadPageVRouter(url);
                                         }
                                     },
-                                    function:function(a,b,c){debugger},
                                     functionConfig:{
                                         isMobileInlineBtn:true,
                                     }
@@ -170,7 +169,14 @@
                                         text:'提交',
                                         isReturn:true,
                                         handler:function(){
-                                            
+                                            var rowData = NetstarTemplate.templates.configs["nscloud.erppackingup"].gridRowData;
+                                            var workItemId = rowData.workItemId;
+                                            var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
+                                            func['submit'](function(res){
+                                                nsalert(res, 'success');
+                                            }, function(err){
+                                                console.error(err);
+                                            })
                                         }
                                     },
                                     functionConfig:{
