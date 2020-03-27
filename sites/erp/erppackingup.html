@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <meta name="description" content="打包" />
+    <meta name="description" content="装箱打包" />
     <meta name="author" content="netstar" />
     <!--# include file="/sites/include/static_mobile.html" -->
     <title>装箱打包</title>
@@ -201,16 +201,15 @@
                                                 }
                                             }
                                             NetStarUtils.ajax(ajaxConfig,function(res){
-                                                debugger;
+
                                                 var packingBoxId = res.data.packingBoxVOList[0].id;
-                                                
                                                 var tempValueName = erpPackingUp.package + new Date().getTime();
                                                 if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
                                                 NetstarTempValues[tempValueName] = res.data.packingBoxVOList[0];
                                                 // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
                                                 // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
-                                                var url = '/sites/erp/erppacking.html?templateparam=' + encodeURIComponent(tempValueName);
-                                                    nsFrame.loadPageVRouter(url);
+                                                var url = window.location.protocol + '//' + window.location.host + '/sites/erp/erppacking.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                nsFrame.loadPageVRouter(url);
                                             })
                                         }
                                     },
