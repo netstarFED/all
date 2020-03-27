@@ -148,9 +148,9 @@
                                         text:'手动分配',
                                         isReturn:true,
                                         handler:function(data){
-                                            var pageConfig = NetstarTemplate.template.configs[erpPackingUp.package];
+                                            var pageConfig = NetstarTemplate.templates.configs[erpPackingUp.package];
                                             var getSelectData = pageConfig.gridRowData;
-                                            var templateName = erpPackingUp.package + new Date().getTime();
+                                            var tempValueName = erpPackingUp.package + new Date().getTime();
                                             if(typeof(NetstarTempValues) == "undefined"){
                                                 Nets
                                                 tarTempValues = {}
@@ -160,7 +160,6 @@
                                             nsFrame.loadPageVRouter(url);
                                         }
                                     },
-                                    function:function(a,b,c){debugger},
                                     functionConfig:{
                                         isMobileInlineBtn:true,
                                     }
@@ -169,13 +168,19 @@
                                     btn:{
                                         text:'提交',
                                         isReturn:true,
-                                        handler:function(){}
+                                        handler:function(){
+                                            var rowData = NetstarTemplate.templates.configs["nscloud.erppackingup"].gridRowData;
+                                            var workItemId = rowData.workItemId;
+                                            var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
+                                            func['submit'](function(res){
+                                                nsalert(res, 'success');
+                                            }, function(err){
+                                                console.error(err);
+                                            })
+                                        }
                                     },
                                     functionConfig:{
-                                        defaultMode: "workflowSubmit",
-                                        englishName: "nsWorkflowSubmitAllBatch",
-                                        text: "提交",
-                                        workflowType: "submitAllBatch",
+                                        isMobileInlineBtn:true,
                                     }
                                 },
                                 {
@@ -221,16 +226,26 @@
                                         isReturn:true,
                                         handler:function(data){
                                             var pageConfig = NetstarTemplate.templates.configs[erpPackingUp.package];
-                                            var selectedId = {
-                                                id:pageConfig.gridRowData.id
+                                            var id = pageConfig.gridRowData.id
+                                            var ajaxConfig = {
+                                                url:getRootPath()+'/packingController/v2/getById',
+                                                contentType:'application/x-www-form-urlencoded ',
+                                                data:{
+                                                    id:id
+                                                }
                                             }
-                                            var tempValueName = erpPackingUp.package + new Date().getTime();
-                                             if(typeof(NetstarTemplate) == 'undefined'){
-                                                NetstarTempValues = {}
-                                             }
-                                             NetstarTempValues[tempValueName] = selectedId
-                                             var url = "/sites/erp/erpdetailsbox.html?templateparam=" + encodeURIComponent(tempValueName);
-                                             nsFrame.loadPageVRouter(url);
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                debugger;
+                                                var packingBoxId = res.data.packingBoxVOList[0].id;
+                                                
+                                                var tempValueName = erpPackingUp.package + new Date().getTime();
+                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+                                                NetstarTempValues[tempValueName] = res.data.packingBoxVOList[0];
+                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
+                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
+                                                var url = '/sites/erp/erppacking.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                    nsFrame.loadPageVRouter(url);
+                                            })
                                         }
                                     },
                                     functionConfig:{

@@ -9,7 +9,7 @@
     <meta name="description" content="打包" />
     <meta name="author" content="netstar" />
     <!--# include file="/sites/include/static_mobile.html" -->
-    <title>装箱打包</title>
+    <title>入库检验</title>
 </head>
 
 <body class="weixin-type">
@@ -25,12 +25,7 @@
                     getValueAjax: {
                         src: getRootPath() + '/checkups/v2/getById',
                         contentType: "application/json",
-                        data: {
-                            activityId: "1302448778824915945",
-                            activityName: "装箱打包",
-                            processId: "1302448646754665449",
-                            workflowType: "0"
-                        },
+                        data: {},
                         dataSrc: 'rows',
                         type: 'post',
                     },
@@ -219,16 +214,17 @@
                                     btn:{
                                         text:'提交',
                                         isReturn:true,
-                                        handler:function(a,b,c){
-                                            var ajaxConfig = {
-
-                                            }
-                                            NetstarUtil.ajax(ajaxConfig,function(){
-                                                
+                                        handler:function(){
+                                            var rowData = NetstarTemplate.templates.configs["nscloud.checkup"].gridRowData;
+                                            var workItemId = rowData.workItemId;
+                                            var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
+                                            func['submit'](function(res){
+                                                nsalert('装箱单提交成功', 'success');
+                                            }, function(err){
+                                                console.error(err);
                                             })
                                         }
                                     },
-                                    function:function(a,b,c){debugger},
                                     functionConfig:{
                                         isMobileInlineBtn:true,
                                     }
@@ -238,7 +234,14 @@
                                         text:'驳回',
                                         isReturn:true,
                                         handler:function(){
-
+                                            var rowData = NetstarTemplate.templates.configs["nscloud.checkup"].gridRowData;
+                                            var workItemId = rowData.workItemId;
+                                            var func = nsEngine.operation().workitemId(workitemId).build();
+                                            func['nsWorkflowReject'](function(res){
+                                                nsalert('装箱单驳回成功', 'success');
+                                            }, function(err){
+                                                console.error(err);
+                                            })
                                         }
                                     },
                                     functionConfig:{
@@ -247,10 +250,33 @@
                                 },
                                 {
                                     btn:{
-                                        text:'创建批次',
+                                        text:'批次',
                                         isReturn:true,
                                         handler:function(data){
-                                            
+                                            console.log(data);
+                                            var pageConfig =  NetstarTemplate.templates.configs[erpCheckUp.package];
+                                            var id = pageConfig.gridRowData.id
+                                            console.log(pageConfig);
+                                            data.loadPageHandler
+                                            var ajaxConfig = {
+                                                url:getRootPath()+'/checkups/v2/getById',
+                                                contentType:'application/x-www-form-urlencoded ',
+                                                data:{
+                                                    id:id
+                                                }
+                                            }
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                debugger;
+                                                var packingBoxId = res.data.checkupBatchVOList[0].id;
+                                                
+                                                var tempValueName = erpCheckUp.package + new Date().getTime();
+                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+                                                NetstarTempValues[tempValueName] = res.data.checkupBatchVOList[0];
+                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
+                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
+                                                var url = '/sites/erp/erpbatchin.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                    nsFrame.loadPageVRouter(url);
+                                            })
                                         }
                                     },
                                     functionConfig:{
@@ -263,7 +289,19 @@
                                     btn:{
                                         text:'批次详情',
                                         isReturn:true,
-                                        handler:function(){
+                                        handler:function(data){
+                                            var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
+                                            var selectedId = {
+                                               id: pageConfig.gridRowData.id,
+                                            }
+                                            var tempValueName = erpCheckUp.package + new Date().getTime();
+                                            if(typeof(NetstarTemplate) == "undefined"){
+                                                NetstarTemplate = {}
+                                            }
+                                            NetstarTempValues[tempValueName] = selectedId
+                                             var url = "/sites/erp/erpcheckupdetails.html?templateparam=" + encodeURIComponent(tempValueName);
+                                             nsFrame.loadPageVRouter(url);
+                                            console.log(pageConfig)
 
                                         }
                                     },
