@@ -6,10 +6,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <meta name="description" content="打包" />
+    <meta name="description" content="分批" />
     <meta name="author" content="netstar" />
     <!--# include file="/sites/include/static_mobile.html" -->
-    <title>装箱</title>
+    <title>分批</title>
 </head>
 
 <body class="weixin-type">
@@ -40,7 +40,7 @@
                                 {
                                     title: '商品名称',
                                     field: 'goodsShopName',
-                                    editConfig:{
+                                    editConfig: {
                                         type: "text",
 
                                     }
@@ -60,17 +60,17 @@
                                     field: 'dictGoodsPlatUnitName',
                                     dictArguments: "unit",
                                     columnType: "dictionary",
-                                    editConfig:{
+                                    editConfig: {
                                         textField: "value",
                                         type: "select",
-                                        type:"select",
+                                        type: "select",
 
                                     },
-                                    formatHandler:{
-                                        data:{
-                                            1:"个"
+                                    formatHandler: {
+                                        data: {
+                                            1: "个"
                                         },
-                                        type:"dictionary"
+                                        type: "dictionary"
                                     },
                                     title: "单位"
 
@@ -79,13 +79,13 @@
                                     field: 'money',
                                     columnType: "number",
                                     title: "装箱数量",
-                                    editConfig:{
+                                    editConfig: {
                                         type: "number",
 
                                     },
-                                    formatHandler:{
-                                        data:{
-                                            format:{
+                                    formatHandler: {
+                                        data: {
+                                            format: {
                                                 decimal: ".",
                                                 places: "2",
                                                 symbol: "￥",
@@ -98,13 +98,13 @@
                                     field: 'temporaryQuantity',
                                     columnType: "number",
                                     title: "临采数量",
-                                    editConfig:{
+                                    editConfig: {
                                         type: "number",
 
                                     },
-                                    formatHandler:{
-                                        data:{
-                                            format:{
+                                    formatHandler: {
+                                        data: {
+                                            format: {
                                                 places: "0",
                                                 thousand: ","
                                             }
@@ -115,13 +115,13 @@
                                     field: 'unCheckedQuantity',
                                     columnType: "number",
                                     title: "未检数量",
-                                    editConfig:{
+                                    editConfig: {
                                         type: "number",
 
                                     },
-                                    formatHandler:{
-                                        data:{
-                                            format:{
+                                    formatHandler: {
+                                        data: {
+                                            format: {
                                                 places: "0",
                                                 thousand: ","
                                             }
@@ -131,13 +131,13 @@
                                 {
                                     field: 'quantity',
                                     title: "正常件数量",
-                                    editConfig:{
+                                    editConfig: {
                                         type: "number",
 
                                     },
-                                    formatHandler:{
-                                        data:{
-                                            format:{
+                                    formatHandler: {
+                                        data: {
+                                            format: {
                                                 decimal: ".",
                                                 places: "2",
 
@@ -148,13 +148,13 @@
                                 {
                                     field: "abnormalQuantity",
                                     title: "待退货数量",
-                                    editConfig:{
+                                    editConfig: {
                                         type: "number",
 
                                     },
-                                    formatHandler:{
-                                        data:{
-                                            format:{
+                                    formatHandler: {
+                                        data: {
+                                            format: {
                                                 decimal: ".",
                                                 places: "2",
 
@@ -165,13 +165,13 @@
                                 {
                                     field: "trashQuantity",
                                     title: "废品件数量",
-                                    editConfig:{
+                                    editConfig: {
                                         type: "number",
 
                                     },
-                                    formatHandler:{
-                                        data:{
-                                            format:{
+                                    formatHandler: {
+                                        data: {
+                                            format: {
                                                 decimal: ".",
                                                 places: "2",
 
@@ -182,13 +182,13 @@
                                 {
                                     field: "lackQuantity",
                                     title: "缺货数量",
-                                    editConfig:{
+                                    editConfig: {
                                         type: "number",
 
                                     },
-                                    formatHandler:{
-                                        data:{
-                                            format:{
+                                    formatHandler: {
+                                        data: {
+                                            format: {
                                                 decimal: ".",
                                                 places: "2",
 
@@ -204,18 +204,18 @@
                                     field: "goodsPlatformModel",
                                     title: "商品型号",
                                 },
-                                
+
                                 {
-                                    field:'dictBrandBrandName',
+                                    field: 'dictBrandBrandName',
                                     title: "品牌"
                                 },
                                 {
-                                    field:'goodsPlatformModel',
+                                    field: 'goodsPlatformModel',
                                     title: "型号"
                                 },
                                 {
-                                    field:'goodsPlatformOem',
-                                    title:"OEM码"
+                                    field: 'goodsPlatformOem',
+                                    title: "OEM码"
                                 },
                                 {
                                     field: "goodsPlatformCode",
@@ -224,8 +224,8 @@
                                 {
                                     field: "goodsPlatformOrigin",
                                     title: "商品产地",
-                                    editConfig:{
-                                        
+                                    editConfig: {
+
                                     }
                                 }
 
@@ -259,23 +259,53 @@
                         },
                         {
                             type: 'btns',
-                            field: [
-                               {
-                                   btn:{
-                                       text:'创建整批',
-                                       handler:function(){
+                            field: [{
+                                    btn: {
+                                        text: '创建整批',
+                                        handler: function () {
+                                            console.log(data);
+                                            debugger;
+                                            var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
+                                            var id = pageConfig.gridRowData.id
+                                            console.log(pageConfig);
+                                            data.loadPageHandler
+                                            var ajaxConfig = {
+                                                url: getRootPath() + '/checkups/v2/createBatchOfLeft',
+                                                data: {
+                                                    id: id
+                                                }
+                                            }
+                                            NetStarUtils.ajax(ajaxConfig, function (res) {
+                                                debugger;
+                                                var packingBoxId = res.data
+                                                    .checkupBatchVOList[0].id;
 
-                                       }
-                                   }
-                               },
-                               {
-                                   btn:{
-                                       text:'创建分批',
-                                       handler:function(){
-                                           
+                                                var tempValueName = erpCheckUp.package +
+                                                    new Date().getTime();
+                                                if (typeof (NetstarTempValues) ==
+                                                    'undefined') {
+                                                    NetstarTempValues = {};
+                                                }
+                                                NetstarTempValues[tempValueName] = res
+                                                    .data.checkupBatchVOList[0];
+                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
+                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
+                                                var url =
+                                                    '/sites/erp/erpbatchin.html?templateparam=' +
+                                                    encodeURIComponent(tempValueName);
+                                                nsFrame.loadPageVRouter(url);
+                                            })
                                         }
-                                   }
-                               }
+                                    }
+                                },
+                                {
+                                    btn: {
+                                        text: '创建分批',
+                                        handler: function () {
+
+                                        }
+                                    }
+                                }
                             ]
                         }
                     ]
@@ -284,7 +314,7 @@
                 NetstarTemplate.init(erpBatchIn);
 
             })
-            var innerHTML = 
+            var innerHTML =
                 `<header class="header">
                     <div class="btn-group">
                         <a href="##" class="btn btn-icon">
@@ -295,13 +325,13 @@
                     <div class="btn-group">
                         
                     </div>
-                </header>`; 
-            
+                </header>`;
+
             $("container").prepend(innerHTML);
-            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+            if ($("header").length != 0 && $(".mobile-input-search").length == 0) {
                 $("container").addClass("padding-top-header");
             }
-            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+            if ($("header").length != 0 && $(".mobile-input-search").length != 0) {
                 $("container").addClass("padding-top-header-search");
             }
         </script>
