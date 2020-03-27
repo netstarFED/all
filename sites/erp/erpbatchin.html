@@ -1,0 +1,311 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="打包" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>装箱</title>
+</head>
+
+<body class="weixin-type">
+    <container>
+        <script>
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            $(function () {
+                var erpBatchIn = {
+                    package: 'nscloud.erpbatchin',
+                    template: 'docListViewerMobile',
+                    getValueAjax: {
+                        src: getRootPath() + '/checkups/v2/getByCheckupBatchId',
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {
+                            /* id:getParam(), */
+                        },
+                        dataSrc: 'rows',
+                        type: 'post',
+                    },
+                    components: [{
+                            type: 'blockList',
+                            field: [{
+                                    field: 'id',
+                                    title: 'id'
+                                },
+                                {
+                                    title: '商品名称',
+                                    field: 'goodsShopName',
+                                    editConfig:{
+                                        type: "text",
+
+                                    }
+                                },
+                                {
+                                    field: 'goodsShopCode',
+                                    title: '商品编码',
+                                    editConfig: {
+                                        type: 'text',
+                                        id: 'bllCode'
+                                    },
+                                    isColumnCombine: false,
+                                    isDefaultSubdataText: true,
+
+                                },
+                                {
+                                    field: 'dictGoodsPlatUnitName',
+                                    dictArguments: "unit",
+                                    columnType: "dictionary",
+                                    editConfig:{
+                                        textField: "value",
+                                        type: "select",
+                                        type:"select",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            1:"个"
+                                        },
+                                        type:"dictionary"
+                                    },
+                                    title: "单位"
+
+                                },
+                                {
+                                    field: 'money',
+                                    columnType: "number",
+                                    title: "装箱数量",
+                                    editConfig:{
+                                        type: "number",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                decimal: ".",
+                                                places: "2",
+                                                symbol: "￥",
+                                                thousand: ","
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    field: 'temporaryQuantity',
+                                    columnType: "number",
+                                    title: "临采数量",
+                                    editConfig:{
+                                        type: "number",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                places: "0",
+                                                thousand: ","
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    field: 'unCheckedQuantity',
+                                    columnType: "number",
+                                    title: "未检数量",
+                                    editConfig:{
+                                        type: "number",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                places: "0",
+                                                thousand: ","
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    field: 'quantity',
+                                    title: "正常件数量",
+                                    editConfig:{
+                                        type: "number",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                decimal: ".",
+                                                places: "2",
+
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    field: "abnormalQuantity",
+                                    title: "待退货数量",
+                                    editConfig:{
+                                        type: "number",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                decimal: ".",
+                                                places: "2",
+
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    field: "trashQuantity",
+                                    title: "废品件数量",
+                                    editConfig:{
+                                        type: "number",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                decimal: ".",
+                                                places: "2",
+
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    field: "lackQuantity",
+                                    title: "缺货数量",
+                                    editConfig:{
+                                        type: "number",
+
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                decimal: ".",
+                                                places: "2",
+
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    field: "dictBrandBrandName",
+                                    title: "品牌",
+                                },
+                                {
+                                    field: "goodsPlatformModel",
+                                    title: "商品型号",
+                                },
+                                
+                                {
+                                    field:'dictBrandBrandName',
+                                    title: "品牌"
+                                },
+                                {
+                                    field:'goodsPlatformModel',
+                                    title: "型号"
+                                },
+                                {
+                                    field:'goodsPlatformOem',
+                                    title:"OEM码"
+                                },
+                                {
+                                    field: "goodsPlatformCode",
+                                    title: "厂家编码"
+                                },
+                                {
+                                    field: "goodsPlatformOrigin",
+                                    title: "商品产地",
+                                    editConfig:{
+                                        
+                                    }
+                                }
+
+                            ],
+                            ajax: {
+                                src: getRootPath() + '/checkups/v2/getByCheckupBatchId',
+                                contentType: "application/x-www-form-urlencoded",
+                                data: {
+                                    id: "1330272115986800626"
+                                },
+                                dataSrc: 'data.checkupBatchDetailVOList',
+                                type: 'post',
+
+                            },
+                            keyField: 'checkupBatchDetailVOList',
+                            idField: 'id',
+                            listExpression: "<div>\
+                            <div class='block-list-item'>\
+                                <div class='block-list-item-title'>商品名称：{{goodsShopName}}</div>\
+                                <div class='block-list-item-title'>商品编码：{{goodsShopCode}}</div>\
+                                <div class='block-list-item-text'>\
+                                    <span>单位{{dictGoodsPlatUnitName}}</span><span>品质分类{{packingQuantity}}</span><span>单价{{price}}</span>\
+                                </div>\
+                                <div class='block-list-item-text left'><span>数量:{{quantity}}</span><span>临时采购数量:{{temporaryQuantity}}</span></div>\
+                                <div class='block-list-item-text left'><span>已检数量{{outQuantity}}</span><span>未检数量{{unCheckedQuantity}}</span></div>\
+                                <div class='block-list-item-text left'><span>品牌{{dictBrandBrandName}}</span><span>型号{{goodsPlatformModel}}</span></div>\
+                                <div class='block-list-item-text left'><span>OEM码{{goodsPlatformOem}}</span><span>厂家编码{{goodsPlatformCode}}</span></div>\
+                            </div>",
+                            plusClass: '',
+                            parent: 'root',
+                        },
+                        {
+                            type: 'btns',
+                            field: [
+                               {
+                                   btn:{
+                                       text:'创建整批',
+                                       handler:function(){
+
+                                       }
+                                   }
+                               },
+                               {
+                                   btn:{
+                                       text:'创建分批',
+                                       handler:function(){
+                                           
+                                        }
+                                   }
+                               }
+                            ]
+                        }
+                    ]
+                }
+                // NETSTAR添加url参数即pageParam
+                NetstarTemplate.init(erpBatchIn);
+
+            })
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">分批</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+        </script>
+    </container>
+</body>
+
+</html>

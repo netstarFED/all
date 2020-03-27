@@ -20,8 +20,8 @@
             }
             $(function () {
 
-                var erpPackSetails = {
-                    package: 'nscloud.erpdetailsbox',
+                var erpCheckDetails = {
+                    package: 'nscloud.erpcheckdetails',
                     template: 'businessDataBaseMobile',
                     getValueAjax: {
                         src: getRootPath() + '/packingController/v2/getById',
@@ -43,15 +43,15 @@
 
                             ],
                             ajax: {
-                                src: getRootPath() + '/packingController/v2/getById',
+                                src: getRootPath() + '/checkups/v2/getById',
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
-
+                                    id: "1330272115986799602"
                                 },
                                 dataSrc: 'rows',
                                 type: 'POST',
                                 formatter:function(res){
-                                    var data = res.data.packingBoxVOList
+                                    var data = res.data.checkupBatchVOList
                                     delete data[0];
                                     
                                     var returnRows = {
@@ -64,7 +64,7 @@
                                 }
                             },
                             idField: 'id',
-                            listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>{{packingCode}}</span></div></div>",
+                            listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>{{batchCode}}</span></div></div>",
                             plusClass: '',
                             parent: 'root',
                             isInlineBtn: true,
@@ -75,7 +75,7 @@
                             field:[
                                 {
                                     btn:{
-                                        text:'拆箱',
+                                        text:'撤回批次',
                                         isReturn:true,
                                         handler:function(a,b,c){
                                         }
@@ -86,7 +86,7 @@
                                 },
                                 {
                                     btn:{
-                                        text:'打印',
+                                        text:'查看详情',
                                         isReturn:true,
                                         handler:function(){
 
@@ -95,51 +95,14 @@
                                     functionConfig:{
                                         isMobileInlineBtn:true,
                                     }
-                                },
-                                {
-                                    btn:{
-                                        text:'查看详情',
-                                        isReturn:true,
-                                        handler:function(data){
-                                            console.log(data);
-                                            var pageConfig =  NetstarTemplate.templates.configs[erpPackingUp.package];
-                                            var id = pageConfig.gridRowData.id
-                                            console.log(pageConfig);
-                                            data.loadPageHandler
-                                            var ajaxConfig = {
-                                                url:getRootPath()+'/packingController/v2/getById',
-                                                contentType:'application/x-www-form-urlencoded ',
-                                                data:{
-                                                    id:id
-                                                }
-                                            }
-                                            NetStarUtils.ajax(ajaxConfig,function(res){
-                                                debugger;
-                                                var packingBoxId = res.data.packingBoxVOList[0].id;
-                                                
-                                                var tempValueName = erpPackingUp.package + new Date().getTime();
-                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
-                                                NetstarTempValues[tempValueName] = res.data.packingBoxVOList[0];
-                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
-                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
-                                                var url = '/sites/erp/erppacking.html?templateparam=' + encodeURIComponent(tempValueName);
-                                                    nsFrame.loadPageVRouter(url);
-                                            })
-                                        }
-                                    },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
-                                        defaultMode:"loadPage",
-                                        isSendPageParams:true,
-                                    }
-                                },
+                                }, 
                             ]
                         }
 
                     ]
                 }
                 // NETSTAR添加url参数即pageParam
-                NetstarTemplate.init(erpPackSetails);
+                NetstarTemplate.init(erpCheckDetails);
             })
             var innerHTML = 
                 `<header class="header">
@@ -148,7 +111,7 @@
                             <i class="icon icon-arrow-left-o"></i>
                         </a>
                     </div>
-                    <div class="title">装箱详情</div>
+                    <div class="title">批次详情</div>
                     <div class="btn-group">
                         
                     </div>

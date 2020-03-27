@@ -2,7 +2,7 @@
 <container>
     <div id="mobile-blocklist"></div>
     <script>
-        var mobileBlocklist = {
+        var mobileBlocklistqq = {
             id: 'mobile-blocklist',
             type: 'list',
             data: {
@@ -70,6 +70,622 @@
             }
 
         }
+        var mobileBlocklist = {
+            id: 'mobile-blocklist',
+    "type": "blockList",
+    "idField": "id",
+    "templateId": "nstemplate-layout-nscloud-saleeditmobileenterprise",
+    "package": "nscloud.saleeditmobileenterprise",
+    "isReadStore": false,
+    "data": {
+        "isSearch": true,
+        "isPage": true,
+        "primaryID": "id",
+        "idField": "id",
+        "dataSource": [
+            {
+                "partOfNames": "轮胎2",
+                "carModelNames": "Apollo N",
+                "qualityName": 1,
+                "goodsShopRetailPrice": 2,
+                "goodsShopTradePrice": 1.5,
+                "goodsShopLowestPrice": 1,
+                "goodsShopCode": "zylt",
+                "goodsShopName": "朝阳轮胎",
+                "dictGoodsPlatUnitName": "4",
+                "goodsPlatformOem": "",
+                "goodsPlatformModel": "型号",
+                "goodsPlatformCode": "33",
+                "goodsPlatformOrigin": "",
+                "dictBrandBrandName": "集胜隆（蚌埠）汽配贸易有限公司",
+                "specification": "1",
+                "customerName": "客户0325",
+                "saleCreatedByName": "企业",
+                "saleCode": "XS200326140853",
+                "saleWhenSale": 1585202917000,
+                "lastSalePrice": 4,
+                "saleId": "1330262135556539378",
+                "productId": "1310670316892065778",
+                "quantity": 1,
+                "unitPrice": 4,
+                "costAmount": 2.03476,
+                "costPrice": 2.03476,
+                "amount": 4,
+                "preferentialAmount": 0,
+                "isCheap": 0,
+                "locationsType": 0,
+                "lackQuantity": 0,
+                "negativeInventoryFlag": 0,
+                "temporaryPurchaseFlag": 0,
+                "customerId": "1330185898813293554",
+                "objectState": 0,
+                "objectCheckState": 0,
+                "id": "1330262135556540402"
+            }
+        ]
+    },
+    "columns": [
+        {
+            "englishName": "id",
+            "chineseName": "id",
+            "variableType": "string",
+            "field": "id",
+            "title": "id",
+            "mindjetType": "hidden",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "6070d0d1-7e41-c501-4167-4a5965eefaf0",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "id",
+                "englishName": "id",
+                "chineseName": "id",
+                "variableType": "string",
+                "mindjetType": "hidden",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "6070d0d1-7e41-c501-4167-4a5965eefaf0",
+                "voName": "sale2SaleDetailVO",
+                "className": "java.lang.Long",
+                "type": "hidden",
+                "label": "id"
+            },
+            "mindjetIndexState": 0,
+            "width": 200,
+            "hidden": true
+        },
+        {
+            "englishName": "saleId",
+            "chineseName": "销售单id",
+            "variableType": "string",
+            "field": "saleId",
+            "title": "销售单id",
+            "mindjetType": "hidden",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "a2a272ac-74b2-a5c7-9d1c-9f29005ad265",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "saleId",
+                "englishName": "saleId",
+                "chineseName": "销售单id",
+                "variableType": "string",
+                "mindjetType": "hidden",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "a2a272ac-74b2-a5c7-9d1c-9f29005ad265",
+                "voName": "sale2SaleDetailVO",
+                "className": "java.lang.Long",
+                "type": "hidden",
+                "label": "销售单id"
+            },
+            "mindjetIndexState": 1,
+            "width": 200,
+            "hidden": true
+        },
+        {
+            "englishName": "productId",
+            "chineseName": "商品id",
+            "variableType": "number",
+            "field": "productId",
+            "title": "商品名称",
+            "mindjetType": "business",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "c1b0e28a-dd59-667d-7bdd-44e96e58bc22",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "productId",
+                "englishName": "productId",
+                "chineseName": "商品id",
+                "variableType": "number",
+                "mindjetType": "business",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "c1b0e28a-dd59-667d-7bdd-44e96e58bc22",
+                "voName": "sale2SaleDetailVO",
+                "type": "business",
+                "label": "商品名称",
+                "dialogTitle": "商品选择",
+                "selectMode": "checkbox",
+                "idField": "goodsShopId",
+                "textField": "goodsShopName",
+                "isOutputString": false,
+                "isInputText": false,
+                "isAsync": false,
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false,
+                "source": {
+                    "type": "GET",
+                    "suffix": "/templateMindPages/pageConfig/1310234576353760242",
+                    "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1310234576353760242"
+                },
+                "search": {
+                    "type": "POST",
+                    "dataSrc": "rows",
+                    "suffix": "/goods/v2/getList",
+                    "url": "https://qaapi.wangxingcloud.com//goods/v2/getList"
+                },
+                "getRowData": {
+                    "type": "GET",
+                    "dataSrc": "rows",
+                    "data": {
+                        "goodsIds": "{selectedList.goodsShopId}",
+                        "customerId": "{customerId}",
+                        "warehouseId": "{warehouseId}"
+                    },
+                    "contentType": "application/x-www-form-urlencoded",
+                    "suffix": "/saleController/v2/getSaleDetailByGoods",
+                    "url": "https://qaapi.wangxingcloud.com//saleController/v2/getSaleDetailByGoods"
+                }
+            },
+            "editable": true,
+            "hidden": false,
+            "orderable": true,
+            "searchable": false,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 250,
+            "formatHandler": {
+                "type": "renderField",
+                "data": "{{goodsShopName}}"
+            },
+            "columnType": "renderField",
+            "mindjetIndexState": 2
+        },
+        {
+            "englishName": "goodsShopName",
+            "chineseName": "货品名称",
+            "variableType": "string",
+            "field": "goodsShopName",
+            "title": "商品名称",
+            "mindjetType": "text",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "2ea7a66b-7cd2-09b1-7472-f38fcbf82d6e",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "goodsShopName",
+                "englishName": "goodsShopName",
+                "chineseName": "货品名称",
+                "variableType": "string",
+                "mindjetType": "text",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "2ea7a66b-7cd2-09b1-7472-f38fcbf82d6e",
+                "voName": "sale2SaleDetailVO",
+                "className": "java.lang.String",
+                "type": "text",
+                "label": "商品名称",
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false
+            },
+            "editable": false,
+            "hidden": false,
+            "orderable": true,
+            "searchable": true,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 250,
+            "mindjetIndexState": 3
+        },
+        {
+            "englishName": "unitPrice",
+            "chineseName": "单价",
+            "variableType": "number",
+            "field": "unitPrice",
+            "title": "单价",
+            "mindjetType": "number",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "ab97770a-4ab4-dc2c-3094-76f7c111ee50",
+            "voName": "sale2SaleDetailVO",
+            "footer": {
+                "type": "expression",
+                "content": "({unitPrice}*{quantity})"
+            },
+            "editConfig": {
+                "id": "unitPrice",
+                "englishName": "unitPrice",
+                "chineseName": "单价",
+                "variableType": "number",
+                "mindjetType": "number",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "ab97770a-4ab4-dc2c-3094-76f7c111ee50",
+                "voName": "sale2SaleDetailVO",
+                "type": "number",
+                "label": "单价",
+                "rules": "required min=0",
+                "decimalDigit": 2,
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false
+            },
+            "editable": true,
+            "hidden": false,
+            "orderable": true,
+            "searchable": false,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 106,
+            "formatHandler": {
+                "type": "money",
+                "data": {
+                    "format": {
+                        "places": "2",
+                        "symbol": "￥",
+                        "thousand": ",",
+                        "decimal": ".",
+                        "totalSymbol": "合计：￥"
+                    }
+                }
+            },
+            "columnType": "money",
+            "mindjetIndexState": 4
+        },
+        {
+            "englishName": "quantity",
+            "chineseName": "商品数量",
+            "variableType": "number",
+            "field": "quantity",
+            "title": "数量",
+            "mindjetType": "adderSubtracter",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "6f05a522-4738-ec40-184f-2a699e9e0ecc",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "quantity",
+                "englishName": "quantity",
+                "chineseName": "商品数量",
+                "variableType": "number",
+                "mindjetType": "adderSubtracter",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "6f05a522-4738-ec40-184f-2a699e9e0ecc",
+                "voName": "sale2SaleDetailVO",
+                "type": "adderSubtracter",
+                "label": "数量",
+                "rules": "required positiveInteger",
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false
+            },
+            "editable": true,
+            "hidden": false,
+            "orderable": true,
+            "searchable": false,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 82,
+            "formatHandler": {
+                "type": "number",
+                "data": {
+                    "format": {
+                        "places": "0",
+                        "thousand": ","
+                    }
+                }
+            },
+            "columnType": "number",
+            "mindjetIndexState": 5
+        },
+        {
+            "englishName": "locationsType",
+            "chineseName": "货位类型",
+            "variableType": "number",
+            "field": "locationsType",
+            "title": "正品/残次",
+            "mindjetType": "select",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "8f291e17-e457-3f2a-0220-cfbd870e77ba",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "locationsType",
+                "englishName": "locationsType",
+                "chineseName": "货位类型",
+                "variableType": "number",
+                "mindjetType": "select",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "8f291e17-e457-3f2a-0220-cfbd870e77ba",
+                "voName": "sale2SaleDetailVO",
+                "type": "select",
+                "label": "正品/残次",
+                "rules": "required",
+                "subdata": [
+                    {
+                        "isDisabled": false,
+                        "selected": false,
+                        "value": "正品",
+                        "id": "0"
+                    },
+                    {
+                        "isDisabled": false,
+                        "selected": false,
+                        "value": "残次",
+                        "id": "5"
+                    }
+                ],
+                "textField": "value",
+                "valueField": "id",
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false
+            },
+            "editable": true,
+            "hidden": false,
+            "orderable": true,
+            "searchable": false,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 82,
+            "formatHandler": {
+                "type": "stringReplace",
+                "data": {
+                    "formatDate": {
+                        "0": "正品",
+                        "5": "残次"
+                    }
+                }
+            },
+            "columnType": "stringReplace",
+            "mindjetIndexState": 6
+        },
+        {
+            "englishName": "dictBrandBrandName",
+            "chineseName": "商品品牌名称",
+            "variableType": "string",
+            "field": "dictBrandBrandName",
+            "title": "品牌",
+            "mindjetType": "text",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "5232314c-6c84-99d0-0032-839cbcead51f",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "dictBrandBrandName",
+                "englishName": "dictBrandBrandName",
+                "chineseName": "商品品牌名称",
+                "variableType": "string",
+                "mindjetType": "text",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "5232314c-6c84-99d0-0032-839cbcead51f",
+                "voName": "sale2SaleDetailVO",
+                "className": "java.lang.String",
+                "type": "text",
+                "label": "品牌",
+                "dictArguments": "brand",
+                "textField": "value",
+                "valueField": "id",
+                "isObjectValue": false,
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false
+            },
+            "editable": false,
+            "hidden": false,
+            "orderable": true,
+            "searchable": false,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 106,
+            "mindjetIndexState": 7
+        },
+        {
+            "englishName": "goodsPlatformModel",
+            "chineseName": "商品型号",
+            "variableType": "string",
+            "field": "goodsPlatformModel",
+            "title": "型号",
+            "mindjetType": "text",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "d6d932c1-5667-f451-19f9-8c50378675ce",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "goodsPlatformModel",
+                "englishName": "goodsPlatformModel",
+                "chineseName": "商品型号",
+                "variableType": "string",
+                "mindjetType": "text",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "d6d932c1-5667-f451-19f9-8c50378675ce",
+                "voName": "sale2SaleDetailVO",
+                "className": "java.lang.String",
+                "type": "text",
+                "label": "型号",
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false
+            },
+            "editable": false,
+            "hidden": false,
+            "orderable": true,
+            "searchable": false,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 250,
+            "mindjetIndexState": 8
+        },
+        {
+            "englishName": "isCheap",
+            "chineseName": "是否低价销售单明细",
+            "variableType": "number",
+            "field": "isCheap",
+            "title": "低价销售",
+            "mindjetType": "radio",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "278fcbe0-25b0-484c-e4c7-ce591d08e0ef",
+            "voName": "sale2SaleDetailVO",
+            "editConfig": {
+                "id": "isCheap",
+                "englishName": "isCheap",
+                "chineseName": "是否低价销售单明细",
+                "variableType": "number",
+                "mindjetType": "radio",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "278fcbe0-25b0-484c-e4c7-ce591d08e0ef",
+                "voName": "sale2SaleDetailVO",
+                "className": "java.lang.Integer",
+                "type": "radio",
+                "label": "低价销售",
+                "isHasClose": false,
+                "textField": "value",
+                "valueField": "id",
+                "total": "{{unitPrice}}<{{goodsShopLowestPrice}}",
+                "isObjectValue": false,
+                "subdata": [
+                    {
+                        "isDisabled": false,
+                        "value": "是",
+                        "id": "1",
+                        "isChecked": false
+                    },
+                    {
+                        "isDisabled": false,
+                        "value": "否",
+                        "id": "0",
+                        "isChecked": false
+                    }
+                ],
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false
+            },
+            "editable": false,
+            "hidden": false,
+            "orderable": true,
+            "searchable": false,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 70,
+            "formatHandler": {
+                "type": "dictionary",
+                "data": {
+                    "0": "",
+                    "1": "<label class='color-red'>低价销售</label>"
+                }
+            },
+            "columnType": "dictionary",
+            "mindjetIndexState": 9
+        },
+        {
+            "englishName": "dictGoodsPlatUnitName",
+            "chineseName": "单位",
+            "variableType": "string",
+            "field": "dictGoodsPlatUnitName",
+            "title": "单位",
+            "mindjetType": "dict",
+            "isSet": "是",
+            "displayType": "all",
+            "gid": "f06cddad-0584-25a6-a3e1-e14d5f8eda92",
+            "voName": "sale2SaleDetailVO",
+            "dictArguments": "unit",
+            "editConfig": {
+                "id": "dictGoodsPlatUnitName",
+                "englishName": "dictGoodsPlatUnitName",
+                "chineseName": "单位",
+                "variableType": "string",
+                "mindjetType": "dict",
+                "isSet": "是",
+                "displayType": "all",
+                "gid": "f06cddad-0584-25a6-a3e1-e14d5f8eda92",
+                "voName": "sale2SaleDetailVO",
+                "className": "java.lang.String",
+                "type": "select",
+                "label": "单位",
+                "dictArguments": "unit",
+                "textField": "value",
+                "valueField": "id",
+                "isObjectValue": false,
+                "disabled": false,
+                "hidden": false,
+                "isDistinct": false,
+                "subdata": [
+                    {
+                        "id": "2",
+                        "value": "桶",
+                        "parentId": "-1"
+                    },
+                    {
+                        "id": "3",
+                        "value": "组",
+                        "parentId": "-1"
+                    },
+                    {
+                        "id": "1",
+                        "value": "个",
+                        "parentId": "-1"
+                    },
+                    {
+                        "id": "4",
+                        "value": "只"
+                    }
+                ]
+            },
+            "editable": false,
+            "hidden": false,
+            "orderable": true,
+            "searchable": false,
+            "tooltip": false,
+            "isDefaultSubdataText": true,
+            "width": 46,
+            "mindjetIndexState": 10,
+            "formatHandler": {
+                "type": "dictionary",
+                "data": {
+                    "1": "个",
+                    "2": "桶",
+                    "3": "组",
+                    "4": "只"
+                }
+            },
+            "columnType": "dictionary"
+        }
+    ],
+    "ui": {
+        "listExpression": "<div><div class=\"block-list-item\"><div class=\"block-list-item-title\"><div class=\"block-list-item-label\">{{isCheap}}</div><span>{{goodsShopName}}</span></div><div class=\"block-list-item-text\"><span>{{dictBrandBrandName}}</span><span>{{goodsPlatformModel}}</span><span class=\"text-right\">单位：{{dictGoodsPlatUnitName}}</span></div><div class=\"block-list-form\"><i class=\"fa fa-rmb\"></i><div class=\"input-component\"></div><div class=\"radio-component\"></div><div class=\"adderSubtracter-component\"></div></div></div></div>",
+        "isHaveEditDeleteBtn": false,
+        "isHaveAddBtn": true,
+        "isEditMode": true,
+        "selectMode": "single",
+        "displayMode": "block",
+        "height": 508,
+        "isHeader": false,
+        "isCheckSelect": false,
+        "isThead": false
+    }
+}
+
 
 
         NetstarBlockListM.init(mobileBlocklist)
