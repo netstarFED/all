@@ -247,10 +247,33 @@
                                 },
                                 {
                                     btn:{
-                                        text:'创建批次',
+                                        text:'批次',
                                         isReturn:true,
                                         handler:function(data){
-                                            
+                                            console.log(data);
+                                            var pageConfig =  NetstarTemplate.templates.configs[erpCheckUp.package];
+                                            var id = pageConfig.gridRowData.id
+                                            console.log(pageConfig);
+                                            data.loadPageHandler
+                                            var ajaxConfig = {
+                                                url:getRootPath()+'/checkups/v2/getById',
+                                                contentType:'application/x-www-form-urlencoded ',
+                                                data:{
+                                                    id:id
+                                                }
+                                            }
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                debugger;
+                                                var packingBoxId = res.data.checkupBatchVOList[0].id;
+                                                
+                                                var tempValueName = erpCheckUp.package + new Date().getTime();
+                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+                                                NetstarTempValues[tempValueName] = res.data.checkupBatchVOList[0];
+                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
+                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
+                                                var url = '/sites/erp/erpbatchin.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                    nsFrame.loadPageVRouter(url);
+                                            })
                                         }
                                     },
                                     functionConfig:{
@@ -263,7 +286,19 @@
                                     btn:{
                                         text:'批次详情',
                                         isReturn:true,
-                                        handler:function(){
+                                        handler:function(data){
+                                            var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
+                                            var selectedId = {
+                                               id: pageConfig.gridRowData.id,
+                                            }
+                                            var tempValueName = erpCheckUp.package + new Date().getTime();
+                                            if(typeof(NetstarTemplate) == "undefined"){
+                                                NetstarTemplate = {}
+                                            }
+                                            NetstarTempValues[tempValueName] = selectedId
+                                             var url = "/sites/erp/erpcheckupdetails.html?templateparam=" + encodeURIComponent(tempValueName);
+                                             nsFrame.loadPageVRouter(url);
+                                            console.log(pageConfig)
 
                                         }
                                     },

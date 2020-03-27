@@ -78,6 +78,19 @@
                                         text:'拆箱',
                                         isReturn:true,
                                         handler:function(a,b,c){
+                                           var packConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
+                                           console.log(packConfig);
+                                           var ajaxConfig = {
+                                               url:getRootPath() + 'packingController/v2/unPackingBox',
+                                               contentType:'application/json;charset=UTF-8',
+                                               data:{
+
+                                               },
+                                               type:'POST',
+                                           }
+                                           NetStarUtils.ajax(ajaxConfig,function(res){
+
+                                           })
                                         }
                                     },
                                     functionConfig:{
@@ -101,30 +114,6 @@
                                         text:'查看详情',
                                         isReturn:true,
                                         handler:function(data){
-                                            console.log(data);
-                                            var pageConfig =  NetstarTemplate.templates.configs[erpPackingUp.package];
-                                            var id = pageConfig.gridRowData.id
-                                            console.log(pageConfig);
-                                            data.loadPageHandler
-                                            var ajaxConfig = {
-                                                url:getRootPath()+'/packingController/v2/getById',
-                                                contentType:'application/x-www-form-urlencoded ',
-                                                data:{
-                                                    id:id
-                                                }
-                                            }
-                                            NetStarUtils.ajax(ajaxConfig,function(res){
-                                                debugger;
-                                                var packingBoxId = res.data.packingBoxVOList[0].id;
-                                                
-                                                var tempValueName = erpPackingUp.package + new Date().getTime();
-                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
-                                                NetstarTempValues[tempValueName] = res.data.packingBoxVOList[0];
-                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
-                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
-                                                var url = '/sites/erp/erppacking.html?templateparam=' + encodeURIComponent(tempValueName);
-                                                    nsFrame.loadPageVRouter(url);
-                                            })
                                         }
                                     },
                                     functionConfig:{
