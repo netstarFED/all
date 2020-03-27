@@ -235,8 +235,17 @@
                                 data: {
                                     
                                 },
-                                dataSrc: 'data.checkupBatchDetailVOList',
+                                dataSrc: 'rows',
                                 type: 'post',
+                                formatter:function(res){
+                                    var id  = res.data.id;
+                                    nscloud.erpCheckUpId = id
+                                    debugger;
+                                    return {
+                                        success:true,
+                                        rows:res.data.checkupBatchDetailVOList,
+                                    }
+                                }
 
                             },
                             keyField: 'checkupBatchDetailVOList',
@@ -287,10 +296,10 @@
                                 {
                                     btn: {
                                         text: '创建分批',
+                                        isReturn:true,
                                         handler: function (res) {
-                                            if(res.success){
-
-                                            }
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/createbatch.html'
+                                                nsFrame.loadPageVRouter(url);
                                         }
                                     }
                                 }

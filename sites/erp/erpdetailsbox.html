@@ -49,7 +49,10 @@
                                 },
                                 dataSrc: 'rows',
                                 type: 'POST',
-                                formatter:function(res){
+                                formatter:function(res){  
+                                
+                                    var id = res.data.id
+                                    nscloud.erppakInfoId = id
                                     var data = res.data.packingBoxVOList
                                     data.splice(0,1);
                                     
@@ -126,6 +129,8 @@
                                         text:'查看详情',
                                         isReturn:true,
                                         handler:function(data){
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/boxPackInfo.html'
+                                            nsFrame.loadPageVRouter(url);
                                         }
                                     },
                                     functionConfig:{

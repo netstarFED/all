@@ -8,7 +8,7 @@
     <meta name="description" content="打包" />
     <meta name="author" content="netstar" />
     <!--# include file="/sites/include/static_mobile.html" -->
-    <title>创建批次</title>
+    <title>分箱打包</title>
 </head>
 
 <body class="weixin-type">
@@ -16,6 +16,10 @@
         <div id="inlinesrceen-radio"></div>
         <div id="mobile-blocklist"></div>
         <script>
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            var erppakingId = nscloud.erppakInfoId;
             var innerHTML =
                 `<header class="header">
                             <div class="btn-group">
@@ -23,7 +27,7 @@
                                     <i class="icon icon-arrow-left-o"></i>
                                 </a>
                             </div>
-                            <div class="title">创建批次</div>
+                            <div class="title">分箱打包</div>
                             <div class="btn-group">
                                 
                             </div>
@@ -42,7 +46,7 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-success" onclick="save()">
                                 <i class="fa-save"></i>
-                                <span>创建批次</span>
+                                <span>保存</span>
                             </button>
                         </div>
                     </div>
@@ -53,14 +57,14 @@
                 dataRes:"",
             }
             function save(){
-                if(dataManager.dataRes.checkupBatchDetailVOList){
-                    dataManager.dataRes.checkupBatchDetailVOList = NetstarBlockListM.dataManager.getData('mobile-blocklist')
-                    dataManager.dataRes.whenCreated = dataManager.datetimeStamp;
+                if(dataManager.dataRes.packingDetailVOList){
+                    dataManager.dataRes.packingDetailVOList = NetstarBlockListM.dataManager.getData('mobile-blocklist')
+                    dataManager.dataRes.whenPacked = dataManager.datetimeStamp;
                     dataManager.dataRes.objectState = 2
                 };
                 console.log(dataManager.dataRes);
                 var ajaxConfig = {
-                    url:getRootPath()+'/checkups/v2/addBatch',
+                    url:getRootPath()+'/packingController/v2/newPackingBox',
                     contentType:'application/json',
                     data:dataManager.dataRes
                 };
@@ -102,11 +106,11 @@
                     isSearch: true,
                     isPage: true,
                     idField: 'id',
-                    src: getRootPath() + '/checkups/v2/getByCheckupBatchId',
+                    src: getRootPath() + '/packingController/v2/getByPackingBoxId',
                     data: {
-                        id: nscloud.erpCheckUpId
+                        id: erppakingId
                     },
-                    dataSrc: 'data.checkupBatchDetailVOList',
+                    dataSrc: 'data.packingDetailVOList',
                     type: 'POST',
                     contentType: 'application/x-www-form-urlencoded',
                     formatter:function(res){
@@ -128,45 +132,6 @@
                         mindjetType: "text",
                         editConfig: {
                             type: "text"
-                        }
-                    },
-                    {
-                        field: "price",
-                        title: "单价",
-                        mindjetType: "text",
-                        editConfig: {
-                            type: "text"
-                        }
-                    },
-                    {
-                        field: "quantity",
-                        title: "数量",
-                        mindjetType: "number",
-                        editConfig: {
-                            type: "number"
-                        }
-                    },
-                    {
-                        field: "temporaryQuantity",
-                        title: "临时采购数量",
-                        mindjetType: "number",
-                        editConfig: {
-                            type: "number"
-                        }
-                    },
-                    {
-                        field: "outQuantity",
-                        title: "已检数量",
-                        mindjetType: "number",
-                        editConfig: {
-                            type: "number"
-                        }
-                    },{
-                        field: "unCheckedQuantity",
-                        title: "未检数量",
-                        mindjetType: "number",
-                        editConfig: {
-                            type: "number"
                         }
                     },
                     {
@@ -211,8 +176,29 @@
                         columnType: "dictionary"
                     },
                     {
-                        field: 'normalQuantity',
-                        title: '正常件数量',
+                        field: "packingQuantity",
+                        title: "装箱数",
+                        editConfig: {
+                            type: "number",
+                        },
+                        formatHandler: {
+                            type: "number",
+                            data: {
+                                format: {
+                                    places: "0",
+                                    thousand: ","
+                                }
+                            }
+                        },
+                        columnType: "number"
+                    },
+                    {
+                        field: "lastQuantity",
+                        title: "未装箱数量",
+                    },
+                    {
+                        field: 'thisQuantity',
+                        title: '数字加减',
                         changeHandler: function (value, config) {
                             console.log(value);
                             console.log(config);
@@ -224,56 +210,21 @@
                         }
                     },
                     {
-                        field: 'abnormalQuantity',
-                        title: '待退货数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
+                        field: "backQuantity",
+                        title: "返库数量",
+                        editConfig: {
+                            type: "number",
                         },
-                        // value: 7,
-                        editable : true,
-                        editConfig : {
-                            type : "adderSubtracter"
-                        }
-                    },
-                    {
-                        field: 'defectQuantity',
-                        title: '残次品数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
+                        formatHandler: {
+                            type: "number",
+                            data: {
+                                format: {
+                                    places: "0",
+                                    thousand: ","
+                                }
+                            }
                         },
-                        // value: 7,
-                        editable : true,
-                        editConfig : {
-                            type : "adderSubtracter"
-                        }
-                    },
-                    {
-                        field: 'trashQuantity',
-                        title: '废品件数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
-                        },
-                        // value: 7,
-                        editable : true,
-                        editConfig : {
-                            type : "adderSubtracter"
-                        }
-                    },
-                    {
-                        field: 'lackQuantity',
-                        title: '缺货数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
-                        },
-                        // value: 7,
-                        editable : true,
-                        editConfig : {
-                            type : "adderSubtracter"
-                        }
+                        columnType: "number"
                     },
                     {
                         field: "dictBrandBrandName",
@@ -313,74 +264,7 @@
                     },
                 ],
                 ui: {
-                    listExpression: `<div class=\"block-list-item \">
-                                        <div class=\"block-list-item-text \">
-                                            <span class=\"title\">
-                                                商品名称：{{goodsShopName}}
-                                            </span>
-                                            <span class=\"title\">
-                                                商品编码：{{goodsShopCode}}
-                                            </span>
-                                        </div>
-                                        <div class=\"block-list-item-text \">
-                                            <span class=\"title\">
-                                                品质分类：{{locationsType}}</span>
-                                            <span class=\"title\">
-                                                单位：{{dictGoodsPlatUnitName}}
-                                            </span>
-                                            <span class=\"title\">
-                                                单价：{{price}}
-                                            </span>
-                                            <span class=\"title\">
-                                                已检数量：{{outQuantity}}
-                                            </span>
-                                            <span class=\"title\">
-                                                未检数量：{{unCheckedQuantity}}
-                                            </span>
-                                        </div>
-                                        <div class=\"block-list-form \">
-                                            <span class=\"title\">
-                                                正常件数量：
-                                                <div class=\"adderSubtracter-component\">
-                                                </div>
-                                            </span>
-                                            <span class=\"title\">
-                                                待退货数量：
-                                                <div class=\"adderSubtracter-component\">
-                                                </div>
-                                            </span>
-                                            <span class=\"title\">
-                                                残次品数量：
-                                                <div class=\"adderSubtracter-component\">
-                                                </div>
-                                            </span>
-                                            <span class=\"title\">
-                                                废品件数量：
-                                                <div class=\"adderSubtracter-component\">
-                                                </div>
-                                            </span>
-                                            <span class=\"title\">
-                                                缺货数量：
-                                                <div class=\"adderSubtracter-component\">
-                                                </div>
-                                            </span>
-                                        </div>
-                                        <div class=\"block-list-item-text \">
-                                            <span class=\"title\">
-                                                品牌：{{dictBrandBrandName}}
-                                            </span>
-                                            <span class=\"title\">
-                                                型号：{{goodsPlatformModel}}
-                                            </span>
-                                        </div>
-                                        <div class=\"block-list-item-text \">
-                                            <span class=\"title\">
-                                                OEM码：{{goodsPlatformOem}}
-                                            </span>\n<span class=\"title\">
-                                                厂家编码：{{goodsPlatformCode}}
-                                            </span>
-                                        </div>
-                                    </div>`,
+                    listExpression: "<div class=\"block-list-item \"><div class=\"block-list-item-text \"><span class=\"title\">商品名称：{{goodsShopName}}</span>\n<span class=\"title\">商品编码：{{goodsShopCode}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">货位类型：{{locationsType}}</span>\n<span class=\"title\">单位：{{dictGoodsPlatUnitName}}</span>\n<span class=\"title\">品质分类</span></div><div class=\"block-list-form \">\n<span class=\"title\">未装箱数量：{{lastQuantity}}</span>\n<span class=\"title\">本次装箱数量：<div class=\"adderSubtracter-component\"></div></span></div><div class=\"block-list-item-text \"><span class=\"title\">品牌：{{dictBrandBrandName}}</span>\n<span class=\"title\">型号：{{goodsPlatformModel}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">OEM码：{{goodsPlatformOem}}</span>\n<span class=\"title\">厂家编码：{{goodsPlatformCode}}</span></div></div>",
                     isEditMode : true,
                 }
 
@@ -403,7 +287,7 @@
                                 if(dataList[i].goodsPlatformCode == obj.result){
                                     flag.push(dataList[i].goodsPlatformCode);//nstemplate-layout-nscloud-outorinbillmobile-vo-0
                                     var dataNewList = dataList;
-                                    dataNewList[i].normalQuantity++;
+                                    dataNewList[i].thisQuantity++;
 
                                     NetstarBlockListM.refreshDataById("mobile-blocklist",dataNewList)
                                 }
@@ -419,7 +303,7 @@
                 }
             };
             cameraScan.initHoneywellScan();
-
+             // NETSTAR添加url参数即pageParam
         </script>
     </container>
 </body>

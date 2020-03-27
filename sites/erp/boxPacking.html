@@ -16,6 +16,10 @@
         <div id="inlinesrceen-radio"></div>
         <div id="mobile-blocklist"></div>
         <script>
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            var erppakingId = nscloud.erppakingId
             var innerHTML =
                 `<header class="header">
                             <div class="btn-group">
@@ -104,7 +108,7 @@
                     idField: 'id',
                     src: getRootPath() + '/packingController/v2/getByPackingBoxId',
                     data: {
-                        id: "1317837039982354418"
+                        id: erppakingId
                     },
                     dataSrc: 'data.packingDetailVOList',
                     type: 'POST',
@@ -299,7 +303,7 @@
                 }
             };
             cameraScan.initHoneywellScan();
-
+             // NETSTAR添加url参数即pageParam
         </script>
     </container>
 </body>

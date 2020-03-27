@@ -200,8 +200,17 @@
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
                                 },
-                                dataSrc: 'data.packingDetailVOList',
+                                dataSrc: 'rows',
                                 type: 'post',
+                                formatter:function(res){
+                                    var id  = res.data.id;
+                                    nscloud.erppakingId = id
+                                    debugger;
+                                    return {
+                                        success:true,
+                                        rows:res.data.packingDetailVOList,
+                                    }
+                                }
 
                             },
                             keyField: 'packingDetailVOList',
@@ -259,8 +268,10 @@
                                {
                                    btn:{
                                        text:'分箱打包',
-                                       handler:function(){
-                                           
+                                       isReturn:true,
+                                       handler:function(){             
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/boxPacking.html'
+                                                nsFrame.loadPageVRouter(url);
                                         }
                                    }
                                }
