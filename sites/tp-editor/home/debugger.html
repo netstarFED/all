@@ -64,7 +64,10 @@
 			}
 			return insertLocation;
 		}
-	}
+    }
+    var getRootPath = function(){
+        return 'https://qaapi.wangxingcloud.com/';
+    }
     $(function(){
         var formConfig = {
             id : "form",
@@ -115,14 +118,38 @@
                         name : "lyw",
                         age : 26,
                         area : "保定",
+                        productId : '1310670332998191090',
+                        goodsShopName : '44',
+                        dictBrandBrandName : '集胜隆（蚌埠）汽配贸易有限公司',
+                        quantity : 5,
+                        detailRemark : '125',
+                        locationsType : 0,
+                        goodsPlatformModel: '1',
+                        dictGoodsPlatUnitName : '1',
                     },{
                         name : "sjj",
                         age : 18,
                         area : "石家庄",
+                        productId : '1310670316892065778',
+                        goodsShopName : '朝阳轮胎',
+                        dictBrandBrandName : '祥盛2',
+                        quantity : 3,
+                        detailRemark : 'fff',
+                        locationsType : 5,
+                        goodsPlatformModel: '123',
+                        dictGoodsPlatUnitName : '2',
                     },{
                         name : "tmy",
                         age : 28,
                         area : "正定",
+                        productId : '1311427558281053170',
+                        goodsShopName : '长城润滑油',
+                        dictBrandBrandName : '宝马',
+                        quantity : 7,
+                        detailRemark : 'thj',
+                        locationsType : 0,
+                        goodsPlatformModel: '',
+                        dictGoodsPlatUnitName : '3',
                         // netstarSelectedFlag : true
                     }
                 ],
@@ -137,27 +164,163 @@
                 // listExpression : '<div>{{name}}</div>',
                 defaultValueOption : {
                     value : ['lyw']
-                }
+                },
             },
             columns : [
                 {
-                    field : "name",
-                    title : "姓名",
+                    field : "productId",
+                    title : "商品名称",
+                    editable : true,
+                    columnType : 'func',
+                    isEditByFunc : true,
+                    valueFormatHandler : function(originalValue, rowData, columnConfig){
+                        var resValue = originalValue;
+                        // 判断组件字段
+                        var setComponentTypeField = 'dictGoodsPlatUnitName';
+                        var setComponentTypeVal = rowData[setComponentTypeField];
+                        // 业务组件显示字段
+                        var businessShowField = 'goodsShopName';
+                        var editBusinessShowField = 'goodsShopName,goodsShopName';
+                        switch(setComponentTypeVal){
+                            case '1':
+                                // 数字
+                                break;
+                            case '2':
+                                // 文本域
+                                break;
+                            default:
+                                // 业务组件
+                                resValue = {};
+                                resValue[editBusinessShowField] = rowData[businessShowField];
+                                resValue[columnConfig.field] = originalValue;
+                                break;
+                        }
+                        return resValue;
+                    },
+                    formatHandler : function(originalValue, rowData, columnConfig){
+                        var resValue = originalValue;
+                        // 判断组件字段
+                        var setComponentTypeField = 'dictGoodsPlatUnitName';
+                        var setComponentTypeVal = rowData[setComponentTypeField];
+                        // 业务组件显示字段
+                        var businessShowField = 'goodsShopName';
+                        switch(setComponentTypeVal){
+                            case '1':
+                                // 数字
+                                break;
+                            case '2':
+                                // 文本域
+                                break;
+                            default:
+                                // 业务组件
+                                resValue = rowData[businessShowField];
+                                break;
+                        }
+                        return resValue;
+                    },
+                    initComponentBeforeHandler : function(tdData, gridConfig){
+                        var column = tdData.column;
+                        var editConfig = typeof(column.editConfig) == "object" ? column.editConfig : {};
+                        var rowData = tdData.row;
+                        // 判断组件字段
+                        var setComponentTypeField = 'dictGoodsPlatUnitName';
+                        var setComponentTypeVal = rowData[setComponentTypeField];
+                        // 业务组件发参
+                        var businessSendData = {
+                            name : "{name}",
+                        };
+                        businessSendData = NetStarUtils.getFormatParameterJSON(businessSendData, rowData);
+                        switch(setComponentTypeVal){
+                            case '1':
+                                // 数字
+                                editConfig.type = "number";
+                                break;
+                            case '2':
+                                // 文本域
+                                editConfig.type = "textarea";
+                                break;
+                            default:
+                                // 业务组件
+                                editConfig = {
+                                    type: "business",
+                                    dialogTitle: "普通商品,关联件",
+                                    selectMode: "checkbox",
+                                    idField: "goodsShopId,id",
+                                    textField: "goodsShopName,goodsShopName",
+                                    isOutputString: false,
+                                    isInputText: false,
+                                    isDistinct: true,
+                                    distinctField: "productId",
+                                    source: {
+                                        type: "GET",
+                                        url: "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1312452135614415858,https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1319694071098246130"
+                                    },
+                                    search: {
+                                        type: "POST",
+                                        dataSrc: "rows",
+                                        data: {
+                                            warehouseId: "{page.warehouseId}"
+                                        },
+                                        suffix: "/saleController/v2/saleGoodsSelect",
+                                        url: "https://qaapi.wangxingcloud.com//saleController/v2/saleGoodsSelect"
+                                    },
+                                    getRowData: {
+                                        type: "GET",
+                                        dataSrc: "rows",
+                                        data: {
+                                            goodsIds: "{selectedList.goodsShopId}",
+                                            customerId: "{customerId}",
+                                            warehouseId: "{warehouseId}"
+                                        },
+                                        contentType: "application/x-www-form-urlencoded",
+                                        suffix: "/saleController/v2/getSaleDetailByGoods",
+                                        url: "https://qaapi.wangxingcloud.com//saleController/v2/getSaleDetailByGoods"
+                                    },
+                                    outputFields : {
+                                        goodsShopName : '{goodsShopName}'
+                                    }
+                                }
+                                break;
+                        }
+                        return {
+                            type : 'editConfig',
+                            config : editConfig
+                        };
+                    },
+                },{
+                    field : "dictBrandBrandName",
+                    title : "品牌",
                     editable : true,
                     columnType : "text",
+                },{
+                    field : "dictGoodsPlatUnitName",
+                    title : "单位",
+                    editable : true,
+                    columnType : "stringReplace",
+                    formatHandler : {
+                        type: "stringReplace",
+                        data: {
+                            formatDate : {
+                                1: "个",
+                                2: "桶",
+                                3: "组",
+                                4: "只",
+                            }
+                        }
+                    }
                 },
                 {
-                    field : "age",
-                    title : "年龄",
+                    field : "quantity",
+                    title : "商品数量",
                     editable : true,
-                    columnType : "text",
+                    columnType : "number",
                     editConfig : {
-                        type : "text"
+                        type : "number"
                     },
                 },
                 {
-                    field : "area",
-                    title : "地址",
+                    field : "detailRemark",
+                    title : "备注",
                     editable : true,
                     columnType : "textarea",
                     editConfig : {
@@ -165,31 +328,38 @@
                     },
                 },
                 {
-                    field : "date",
-                    title : "日期",
+                    field : "locationsType",
+                    title : "正品残次",
                     editable : true,
-                    columnType : "text",
-                    editConfig : {
-                        type : "text"
-                    },
-                },
-                {
-                    field : "provinceselect",
-                    title : "省市联动",
-                    editable : true,
-                    columnType : "select",
+                    columnType : "stringReplace",
                     editConfig : {
                         type : "select",
                         subdata : [
-                            { text : '123', value : '123' },
-                            { text : '1234', value : '1234' },
+                            { text : '正品', value : '0' },
+                            { text : '残次', value : '5' },
                         ]
                     },
+                    formatHandler : {
+                        type: "stringReplace",
+                        data: {
+                            formatDate : {
+                                0: "正品",
+                                5: "残次"
+                            }
+                        }
+                    }
+                },
+                {
+                    field : "goodsPlatformModel",
+                    title : "型号",
+                    editable : true,
+                    columnType : "text",
                 }
             ]
         }
         NetStarGrid.init(tableConfig);
         // NetstarBlockList.init(tableConfig);
+        
     })
 </script>
 

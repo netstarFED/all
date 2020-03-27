@@ -6090,6 +6090,18 @@ var NetStarGrid = (function () {
 			}
 			//读取编辑属性
 			var editConfig = $.extend(true, {}, columnConfig.editConfig);
+			if(typeof(columnConfig.initComponentBeforeHandler) == "function"){
+				var befResConfig = columnConfig.initComponentBeforeHandler(tdData, gridConfig);
+				if(befResConfig){
+					switch(befResConfig.type){
+						case "editConfig":
+							if(typeof(befResConfig.config) == "object"){
+								editConfig = befResConfig.config;
+							}
+							break;
+					}
+				}
+			}
 			if (typeof (editConfig) == 'undefined') {
 				editConfig = {};
 			}
