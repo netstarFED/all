@@ -147,9 +147,16 @@
                                     btn:{
                                         text:'手动分配',
                                         isReturn:true,
-                                        handler:function(a,b,c){
-                                            // debugger
-                                            var url = '/sites/erp/erpsubmitto.html?url=' + 123;
+                                        handler:function(data){
+                                            var pageConfig = NetstarTemplate.template.configs[erpPackingUp.package];
+                                            var getSelectData = pageConfig.gridRowData;
+                                            var templateName = erpPackingUp.package + new Date().getTime();
+                                            if(typeof(NetstarTempValues) == "undefined"){
+                                                Nets
+                                                tarTempValues = {}
+                                            }
+                                            NetstarTempValues[tempValueName] = getSelectData
+                                            var url = '/sites/erp/erpsubmitto.html?templateparam=' + encodeURIComponent(tempValueName);
                                             nsFrame.loadPageVRouter(url);
                                         }
                                     },
@@ -162,12 +169,13 @@
                                     btn:{
                                         text:'提交',
                                         isReturn:true,
-                                        handler:function(){
-
-                                        }
+                                        handler:function(){}
                                     },
                                     functionConfig:{
-                                        isMobileInlineBtn:true,
+                                        defaultMode: "workflowSubmit",
+                                        englishName: "nsWorkflowSubmitAllBatch",
+                                        text: "提交",
+                                        workflowType: "submitAllBatch",
                                     }
                                 },
                                 {
@@ -211,8 +219,18 @@
                                     btn:{
                                         text:'装箱详情',
                                         isReturn:true,
-                                        handler:function(){
-
+                                        handler:function(data){
+                                            var pageConfig = NetstarTemplate.templates.configs[erpPackingUp.package];
+                                            var selectedId = {
+                                                id:pageConfig.gridRowData.id
+                                            }
+                                            var tempValueName = erpPackingUp.package + new Date().getTime();
+                                             if(typeof(NetstarTemplate) == 'undefined'){
+                                                NetstarTempValues = {}
+                                             }
+                                             NetstarTempValues[tempValueName] = selectedId
+                                             var url = "/sites/erp/erpdetailsbox.html?templateparam=" + encodeURIComponent(tempValueName);
+                                             nsFrame.loadPageVRouter(url);
                                         }
                                     },
                                     functionConfig:{
@@ -228,8 +246,7 @@
                 }
                 // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpPackingUp);
-                var config = NetstarTemplate.templates.docListViewerMobile.data["nstemplate-layout-nscloud-qq"].config
-                console.log(config)
+
             })
             var innerHTML = 
                 `<header class="header">
@@ -238,7 +255,8 @@
                             <i class="icon icon-arrow-left-o"></i>
                         </a>
                     </div>
-                    <div class="title">入库检验</div>
+                    <div class="title">装箱打包
+                        </div>
                     <div class="btn-group">
                         
                     </div>

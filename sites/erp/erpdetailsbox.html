@@ -46,39 +46,7 @@
                                 src: getRootPath() + '/packingController/v2/getById',
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
-                                    bllId: "1327562018466563058",
-                                    bllType: "1",
-                                    bllTypeName: "销售",
-                                    customerId: "1326930198712550386",
-                                    customerName: "喀什",
-                                    warehouseId: "1311614909049471986",
-                                    warehouseName: "海谷川仓库",
-                                    packingLocationId: "1311634965473002482",
-                                    packingLocationCode: "A01-01-12",
-                                    createdBy: "1310230809667459058",
-                                    createdByName: "企业",
-                                    whenCreated: "1582688376000",
-                                    modifiedBy: "1310230809667459058",
-                                    modifiedByName: "企业",
-                                    whenModified: "1582688376000",
-                                    bllCode: "XS200226113733",
-                                    state: "2",
-                                    remark: "托收测试",
-                                    workItemId: "1327562185970298866",
-                                    workItemState: "2",
-                                    hasRollback: false,
-                                    hasOvertime: false,
-                                    hasEmergency: false,
-                                    hasSuspend: false,
-                                    rollbackType: "0",
-                                    instanceIds: "1327562018466566130",
-                                    instanceStates: 1,
-                                    wfWhenCreated: "1582688409000",
-                                    wfWhenModified: "1582688409000",
-                                    objectState: "0",
-                                    objectCheckState: "0",
-                                    id: "1327562150536809458",
-                                    netstarSelectedFlag: false
+
                                 },
                                 dataSrc: 'rows',
                                 type: 'POST',
@@ -173,6 +141,26 @@
                 // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpPackSetails);
             })
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">装箱详情</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
         </script>
     </container>
 </body>
