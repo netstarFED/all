@@ -1233,7 +1233,7 @@ NetstarComponent.fillValues = function(values, formID, isClear, isClearSource){
     }
     for(var idKey in _values){
         var vueComponent = vueComponents[idKey];
-        if(vueComponent){
+        if(vueComponent && typeof(vueComponent.setValue) == "function"){
             var component = components[idKey];
             var value = _values[idKey];
             // 业务组件value值处理
