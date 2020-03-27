@@ -148,9 +148,9 @@
                                         text:'手动分配',
                                         isReturn:true,
                                         handler:function(data){
-                                            var pageConfig = NetstarTemplate.template.configs[erpPackingUp.package];
+                                            var pageConfig = NetstarTemplate.templates.configs[erpPackingUp.package];
                                             var getSelectData = pageConfig.gridRowData;
-                                            var templateName = erpPackingUp.package + new Date().getTime();
+                                            var tempValueName = erpPackingUp.package + new Date().getTime();
                                             if(typeof(NetstarTempValues) == "undefined"){
                                                 Nets
                                                 tarTempValues = {}
@@ -169,13 +169,12 @@
                                     btn:{
                                         text:'提交',
                                         isReturn:true,
-                                        handler:function(){}
+                                        handler:function(){
+                                            
+                                        }
                                     },
                                     functionConfig:{
-                                        defaultMode: "workflowSubmit",
-                                        englishName: "nsWorkflowSubmitAllBatch",
-                                        text: "提交",
-                                        workflowType: "submitAllBatch",
+                                        isMobileInlineBtn:true,
                                     }
                                 },
                                 {

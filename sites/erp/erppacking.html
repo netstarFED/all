@@ -225,9 +225,27 @@
                                {
                                    btn:{
                                        text:'整箱打包',
+                                       isReturn:true,
                                        handler:function(){
+                                           debugger;
+                                           var pageConfig = NetstarTemplate.templates.configs[erpPacking.package]
+                                           var ajaxConfig = {
+                                               url:getRootPath() + '/packingController/v2/createPackingOfLeft',
+                                               contentType:'application/json; charset=UTF-8',
+                                               dataSrc:'',
+                                               type:"POST"
+                                           }
+                                           NetStarUtils.ajax(ajaxConfig,function(res){
+                                                if(res.success){
 
+                                                }else{
+                                                    
+                                                }
+                                            })
                                        }
+                                   },
+                                   functionConfig:{
+
                                    }
                                },
                                {
@@ -246,7 +264,27 @@
                 NetstarTemplate.init(erpPacking);
 
             })
-
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">装箱
+                        </div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
             function getParam() {
                 var url = $("container").attr("ns-pageurl");
                 // console.log(url);

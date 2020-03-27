@@ -38,7 +38,7 @@
                                     textField:'name',
                                     valueField:'id',
                                     dataSrc:'rows',
-                                    method:'POST'
+                                    method:'POST',
 
                                 },{
                                     id: 'packingLocationId',
@@ -48,7 +48,7 @@
                                     url:getRootPath() + '/locations/v2/getList',
                                     data:{
                                         type: "8",
-                                        warehouseId: ""
+                                        warehouseId: "{page.warehouseId}"
                                     },
                                     textField:'code',
                                     valueField:'id',
@@ -87,6 +87,7 @@
                         }
                     ]
                 }
+                // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpPackingUp);
 
             });
