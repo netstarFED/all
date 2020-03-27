@@ -22652,7 +22652,7 @@ NetstarComponent.upload = {
                         }
                     }
                     if(isTrue){
-                        if(typeof(config.outputFields) == "object"){
+                        if(value && typeof(config.outputFields) == "object"){
                             var souVal = valueFiles;
                             var outVals = NetStarUtils.getFormatParameterJSON(config.outputFields, souVal);
                             outVals[config.id] = value;
@@ -22711,6 +22711,7 @@ NetstarComponent.upload = {
                         files = [];
                         var sourceValueFiles = config.valueFiles;
                         config.valueFiles = files;
+                        __this.showStr = '';
                         var isChange = _this.getValIsChange(config.valueFiles, sourceValueFiles, config);
                         if(isChange){
                             var value = __this.getValue(false);
