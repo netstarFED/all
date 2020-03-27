@@ -412,7 +412,8 @@ NetstarTemplate.templates.businessDataBaseMobile = (function(){
 						isInlineBtn:config.isInlineBtn,
 						moreBtnHandler:function(data,_grid){
 							var templateId = _grid.gridConfig.templateId;
-							var config = NetstarTemplate.templates.businessDataBaseMobile.data[templateId].config;
+							var templateConfig = NetstarTemplate.templates.businessDataBaseMobile.data[templateId].config;
+							templateConfig.gridRowData = data;
 							var id = 'nav-moblieButtons-' + templateId;
 							var navHtml = '<div class="nav-form mobile-menu-buttons" nspanel="moblieButtons" id="' + id + '"></div>';
 							$('#' + id).remove();
@@ -428,7 +429,7 @@ NetstarTemplate.templates.businessDataBaseMobile = (function(){
 								btns: [
 									[{
 										hidden: true,
-										subdata: config.inlineBtnArray
+										subdata: templateConfig.inlineBtnArray
 									}]
 								]
 							};

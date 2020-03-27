@@ -1000,8 +1000,6 @@ var NetstarBlockListM = (function () {
 				return value;
 			},
 			moreBtnsHandler:function(ev,_vueData){
-				ev.preventDefault();
-				ev.stopPropagation();
 				var id = _vueData.$options.id;
 				var configs = NetstarBlockListM.configs[id];
 				var	rowIndex = $(ev.target).closest('div[ns-rowindex]').attr('ns-rowindex');
