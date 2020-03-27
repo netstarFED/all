@@ -66,6 +66,9 @@
                 };
                 NetStarUtils.ajax(ajaxConfig,function(res){
                     console.log(res);
+                    if(res.success){
+                        nsAlert("保存成功")
+                    }
                 })
 
             }
@@ -101,7 +104,7 @@
                     idField: 'id',
                     src: getRootPath() + '/packingController/v2/getByPackingBoxId',
                     data: {
-                        id: "1327556817261170674"
+                        id: "1317837039982354418"
                     },
                     dataSrc: 'data.packingDetailVOList',
                     type: 'POST',
