@@ -353,14 +353,32 @@ NetstarTemplate.templates.processDocSecond = (function ($) {
             var activeClassStr = '';
             if(listNum == 0){activeClassStr = 'current';}
             var classStr = 'component-list pt-nav-item';//class名称
+				var aid = 'li-'+listConfig.id;
             tabLiHtml += '<li class="'+classStr+' '+activeClassStr+'" ns-index="'+listNum+'">'
-                              +'<a href="javascript:void(0);" ns-href-id="'+listConfig.id+'">'
+                              +'<a href="javascript:void(0);" ns-href-id="'+aid+'">'
                                  +titleStr
                               +'</a>'
                            +'</li>';
+            // tabContentHtml += '<div class="pt-tab-content '+activeClassStr+'">'
+            //                      +'<div class="pt-tab-components" id="'+listConfig.id+'"></div>'
+            //                   +'</div>';
+            /*****tab中允许有按钮start*****/
+            var tabBtnHtml = '';
+            var btnClass = '';
+            if(_config.btnKeyFieldJson[listConfig.keyField]){
+               var tabBtnConfig = _config.btnKeyFieldJson[listConfig.keyField];
+               tabBtnHtml = '<div class="nav-form pt-panel" component-type="tabbtns" id="'+tabBtnConfig.id+'"></div>';
+               btnClass = 'hasbtn';
+            }else{
+               console.warn('该tab下无按钮配置,keyField为：'+listConfig.keyField);
+            }
             tabContentHtml += '<div class="pt-tab-content '+activeClassStr+'">'
-                                 +'<div class="pt-tab-components" id="'+listConfig.id+'"></div>'
-                              +'</div>';
+                                 + '<div class="pt-tab-components '+btnClass+'" id="'+aid+'">'
+                                    + tabBtnHtml
+                                    + '<div id="'+listConfig.id+'"></div>'
+                                 + '</div>'
+                              + '</div>';
+            /*****tab中允许有按钮end*****/
             listNum++;
          }
          tabHtml = //'<div class="pt-main-row">'
