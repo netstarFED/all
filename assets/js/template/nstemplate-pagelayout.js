@@ -4487,8 +4487,10 @@ pageProperty.dataValida = function(data){
 	// console.log(data);
 }
 // 显示页面
-pageProperty.init = function(pageParams, callbackFunc){
+pageProperty.init = function(pageParams, callbackFunc, isNeedPageParams){
 	var rootPathStr = getRootPath();
+	// 默认true 新旧编辑器转换时false  isNeedPageParams:是否设置pageParams并且根据它删除getValueAjax
+	isNeedPageParams = typeof(isNeedPageParams) == "boolean" ? isNeedPageParams : true;
 	var lastStr = rootPathStr.substring(rootPathStr.lastIndexOf("/")+1);
 	if(lastStr == "templateMindPages"){
 		// var urlPara = nsVals.getUrlPara();
@@ -4604,60 +4606,62 @@ pageProperty.init = function(pageParams, callbackFunc){
 			}
 		}
 
-		// 菜单功能点矩阵参数
-		pageData.sourceFunctionPointObj = pageParams.functionPointObj;
-		if(pageParams.functionPointObj){
-			pageData.functionPointObj = JSON.parse(pageParams.functionPointObj);
-			if(!$.isEmptyObject(pageData.functionPointObj)){
-				pageData.config.matrixVars = $.extend(true,{},pageData.functionPointObj);
+		if(isNeedPageParams){
+			// 菜单功能点矩阵参数
+			pageData.sourceFunctionPointObj = pageParams.functionPointObj;
+			if(pageParams.functionPointObj){
+				pageData.functionPointObj = JSON.parse(pageParams.functionPointObj);
+				if(!$.isEmptyObject(pageData.functionPointObj)){
+					pageData.config.matrixVars = $.extend(true,{},pageData.functionPointObj);
+				}
 			}
-		}
 
-		// 弹出页面时当前页面参数
-		pageData.sourceParamObj = pageParams.paramObj;
-		if(pageParams.paramObj){
-			//sjj 20190327 读取界面来源参
-			if(NetstarTempValues[pageParams.paramObj]){
-				var tempValueName = pageParams.paramObj;
-				pageParams.paramObj = decodeURIComponent(pageParams.paramObj);
-				pageData.paramObj = NetstarTempValues[tempValueName];
-				delete NetstarTempValues[tempValueName];
+			// 弹出页面时当前页面参数
+			pageData.sourceParamObj = pageParams.paramObj;
+			if(pageParams.paramObj){
+				//sjj 20190327 读取界面来源参
+				if(NetstarTempValues[pageParams.paramObj]){
+					var tempValueName = pageParams.paramObj;
+					pageParams.paramObj = decodeURIComponent(pageParams.paramObj);
+					pageData.paramObj = NetstarTempValues[tempValueName];
+					delete NetstarTempValues[tempValueName];
+				}else{
+					pageParams.paramObj = decodeURIComponent(decodeURIComponent(pageParams.paramObj));
+					pageData.paramObj = JSON.parse(pageParams.paramObj);
+				}
+				// 判断getValueAjax是否存在
+				var isOnlyCode = isOnlyCodeFun(pageData.paramObj);
+				if(isOnlyCode){
+					// delete pageData.config.getValueAjax;
+				}
+				// 当前页面参数赋值给config
+				// pageData.config.pageParam = pageData.paramObj;
 			}else{
-				pageParams.paramObj = decodeURIComponent(decodeURIComponent(pageParams.paramObj));
-				pageData.paramObj = JSON.parse(pageParams.paramObj);
-			}
-			// 判断getValueAjax是否存在
-			var isOnlyCode = isOnlyCodeFun(pageData.paramObj);
-			if(isOnlyCode){
 				// delete pageData.config.getValueAjax;
 			}
-			// 当前页面参数赋值给config
-			// pageData.config.pageParam = pageData.paramObj;
-		}else{
-			// delete pageData.config.getValueAjax;
-		}
 
-		// 判断 paramObj/functionPointObj 都不为空时合并
-		pageData.mergeParameters = {};
-		if(!$.isEmptyObject(pageData.paramObj)){
-			pageData.mergeParameters = pageData.paramObj;
-		}
-		if(!$.isEmptyObject(pageData.functionPointObj)){
-			var functionPointObj = pageData.functionPointObj
-			for(var key in functionPointObj){
-				pageData.mergeParameters[key] = functionPointObj[key];
+			// 判断 paramObj/functionPointObj 都不为空时合并
+			pageData.mergeParameters = {};
+			if(!$.isEmptyObject(pageData.paramObj)){
+				pageData.mergeParameters = pageData.paramObj;
 			}
-		}
-		if(!$.isEmptyObject(pageData.mergeParameters)){
-			// 当前页面参数赋值给config
-			pageData.config.pageParam = pageData.mergeParameters;
-		}else{
-			delete pageData.config.getValueAjax;
-		}
-		// 判断getValueAjax是否存在
-		var isOnlyCode = isOnlyCodeFun(pageData.mergeParameters);
-		if(isOnlyCode){
-			delete pageData.config.getValueAjax;
+			if(!$.isEmptyObject(pageData.functionPointObj)){
+				var functionPointObj = pageData.functionPointObj
+				for(var key in functionPointObj){
+					pageData.mergeParameters[key] = functionPointObj[key];
+				}
+			}
+			if(!$.isEmptyObject(pageData.mergeParameters)){
+				// 当前页面参数赋值给config
+				pageData.config.pageParam = pageData.mergeParameters;
+			}else{
+				delete pageData.config.getValueAjax;
+			}
+			// 判断getValueAjax是否存在
+			var isOnlyCode = isOnlyCodeFun(pageData.mergeParameters);
+			if(isOnlyCode){
+				delete pageData.config.getValueAjax;
+			}
 		}
 		
 		// 权限码
@@ -5936,7 +5940,7 @@ pageProperty.switchEditorData = function(config){
 					console.error('获取页面配置失败');
 				}
 			});
-		});
+		}, false);
 	})
 }
 pageProperty.editorDataSwitch = {
