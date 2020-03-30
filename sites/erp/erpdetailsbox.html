@@ -50,6 +50,7 @@
                                 },
                                 dataSrc: 'rows',
                                 type: 'POST',
+
                                 formatter:function(res){             
                                     var data = res.data.packingBoxVOList
                                     data.splice(0,1);           
@@ -110,7 +111,33 @@
                                         text:'打印',
                                         isReturn:true,
                                         handler:function(){
-
+                                            var package = erpPackSetails.package;
+                                            var configs = NetstarTemplate.templates.configs[package];
+                                            if(!configs){
+                                                nsAlert('没有找到模板配置', 'error');
+                                                return false;
+                                            }
+                                            var rowData = configs.gridRowData;
+                                            if(typeof(rowData) == "object" && !$.isEmptyObject(rowData)){
+                                                var config = {
+                                                    name : 'erp',
+                                                    type : 'max',
+                                                    // 客户
+                                                    nameField : 'customerName',
+                                                    // 单号
+                                                    codeField : 'packingCode',
+                                                    // 件数
+                                                    numField : 'packingQuantity',
+                                                    // 日期
+                                                    dateField : 'whenPacked',
+                                                    // 二维码
+                                                    QRCodeField : 'packingCode',
+                                                }
+                                                rowData.customerName = nscloud.erppakInfoCustomerName;
+                                                NetstarAppPlugin.lpApi.printByData(rowData, config);
+                                            }else{
+                                                nsAlert('没有选中行数据', 'warning');
+                                            }
                                         }
                                     },
                                     functionConfig:{

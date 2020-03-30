@@ -1354,18 +1354,37 @@ nsComponent.setFormJsonByTable = function(formJson){
 	var id = formJson.id;
 	var components = [];
 	var $table = $('#' + id);
-	for(var i=0; i<_components.length; i++){
-		var component = _components[i];
-		var el = component.el;
-		if($table.find(el) == 0){
-			continue;
+	// elIsSetFieldName块状表格表达式是否配置ns-field（字段属性），用去区分新/旧表达式  旧的表达式未配置
+	if(formJson.elIsSetFieldName){
+		for(var i=0; i<_components.length; i++){
+			var component = _components[i];
+			var el = component.el;
+			el = el + '[ns-field="' + component.id + '"]'
+			if($table.find(el) == 0){
+				continue;
+			}
+			var $el = $table.find(el);
+			for(var j=0; j<$el.length; j++){
+				var _component = $.extend(true, {}, component);
+				_component.id += '-' + j;
+				components.push(_component);
+				$el.eq(j).attr('ns-id', _component.id);
+			}
 		}
-		var $el = $table.find(el);
-		for(var j=0; j<$el.length; j++){
-			var _component = $.extend(true, {}, component);
-			_component.id += '-' + j;
-			components.push(_component);
-			$el.eq(j).attr('ns-id', _component.id);
+	}else{
+		for(var i=0; i<_components.length; i++){
+			var component = _components[i];
+			var el = component.el;
+			if($table.find(el) == 0){
+				continue;
+			}
+			var $el = $table.find(el);
+			for(var j=0; j<$el.length; j++){
+				var _component = $.extend(true, {}, component);
+				_component.id += '-' + j;
+				components.push(_component);
+				$el.eq(j).attr('ns-id', _component.id);
+			}
 		}
 	}
 	formJson.form = components;
