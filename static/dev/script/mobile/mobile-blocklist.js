@@ -3161,6 +3161,7 @@ var NetstarBlockListM = (function () {
 								var tableBlock = {
 									id:  		id,
 									formSource: 'fullScreen',
+									elIsSetFieldName : _gridConfig.ui.isSetColumnFieldListExpression,
 									components:componentFieldArray
 								}
 								nsComponent.initComponentByTable(tableBlock);
@@ -3352,6 +3353,10 @@ var NetstarBlockListM = (function () {
 			isInlineBtn:false,
 			isUseMessageState:false,
 			hideValueOption:{},
+
+			// 块状表格表达式是否配置ns-field（字段属性），用去区分新/旧表达式  旧的表达式未配置
+			// 参数主要作用：块状表格中一行有多个相同类型组件时会出现问题
+			isSetColumnFieldListExpression : false,
 		};
 		gridConfig.ui = typeof(gridConfig.ui)=='object' ? gridConfig.ui :{};
 		NetStarUtils.setDefaultValues(gridConfig.ui,defaultUI);
