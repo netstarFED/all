@@ -1,94 +1,35 @@
-.pt-block-list {
-    &.pt-block-card {
-        &.pt-block-list-vertical-simple {
-            &+.pt-block-list-vertical-simple {
-                margin-top: -1px;
+.pt-list{
+    .pt-list-group{
+        .pt-list-item{
+            a{
+                &:hover{
+                    background: #f5f5f5;
+                }
+                .pt-badge{
+                    float: right
+                }
             }
         }
     }
 }
+.block-list {
+ .block-list-item{
+     display: table;
+     width: 100%;
+     .block-list-before,
+     .block-list-body,
+     .block-list-after{
+         display: table-cell;
+     }
+     .block-list-before + .block-list-body,
+     .block-list-before + .block-list-after,
+     .block-list-body + .block-list-after{
+         padding-left: @base-padding;
+     }
+ }  
+}
 
-// 折叠列表
-.pt-list {
-    &.pt-list-accordion {
-        &>.pt-list-group {
-            position: relative;
-            z-index: 1;
-            padding-left: 0;
 
-            &:before {
-                position: absolute;
-                top: 5px;
-                left: 10px;
-                bottom: 5px;
-                content: '';
-                width: 1px;
-                background: @border-color;
-            }
-
-            &>.pt-list-item {
-                &>.pt-list-group {
-                    display: none;
-                    border: 0;
-
-                }
-
-                a {
-                    display: block;
-                    position: relative;
-                    padding-left: 20px;
-                    background: transparent;
-
-                    &:before {
-                        position: absolute;
-                        top: 50%;
-                        left: 7px;
-                        content: '';
-                        .square(7px);
-                        border-radius: 7px;
-                        background: #aaa;
-                        margin-top: -4px;
-                    }
-
-                    &:hover {
-                        background: transparent;
-                    }
-                }
-
-                &.current {
-                    &>a {
-                        color: @warning;
-                        font-weight: bold;
-
-                        &:before {
-                            background: @warning;
-                        }
-                    }
-
-                    &>.pt-list-group {
-                        display: block;
-
-                        &>.pt-list-item {
-                            &>a {
-                                padding-left: 25px;
-                                color: #777;
-
-                                &:hover {
-                                    color: @warning;
-                                }
-
-                            }
-
-                            &.current {
-                                &>a {
-                                    color: @warning;
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-    }
+.block-list-dropdown{
+    display: none;
 }

@@ -1,49 +1,40 @@
-.pt-price {
-    &.pt-grid {
+.price-block{
+    padding: @base-padding;
+    background: #fff;
+    border: 1px solid @border-color;
+
+    & + &{
         margin-top: @base-margin;
+    }
 
-        .pt-block-list {
-            float: none;
-
-            &:hover {
-                background: #fff;
-                cursor: default;
-                border: 1px solid @border-color;
-            }
-
-            .pt-block-content {
-                .pt-block-content-item {
-
-                    .code {
-                        font-weight: bold;
-                        display: block;
-                        color: #555;
-                        margin-bottom: 0;
-                        float: right;
-                    }
+    .price-block-header{
+        line-height: 32px;
+        .price-type{
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 0 (@base-padding / 2);
+            margin-right: (@base-margin / 2);
+        }
+    }
+    .price-block-body{
+        ul{
+            li{
+                text-align: right;
+                line-height: 28px;
+                label{
+                    font-weight: normal;
+                    margin-bottom: 0;
                 }
             }
+        }
+    }
+    // 已付款标识
+    &.price-paid{
 
-            .pt-block-list-footer {
-                // border-top: 1px solid @border-color;
-
-                .pt-price-item {
-                    padding: (@base-padding / 2) @base-padding;
-
-                    label {
-                        margin: 0;
-                        display: inline-block;
-                    }
-
-                    span {
-                        float: right;
-                        display: block;
-                        font-weight: bold;
-                        font-size: 16px;
-                        color: @warning;
-                    }
-                }
-            }
+        position: relative;
+        &:before{
+            position: absolute;
+            // content: '已付款';
         }
     }
 }
