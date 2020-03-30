@@ -17352,6 +17352,7 @@ NetstarComponent.dateRangePicker = {
             "opens": "center",
             "buttonClasses": "btn",
             // "parentEl": '#' + config.dropdownId,
+            // maxDate : '20200325',
         }
         // 设置默认日期 
         var value = config.value;
@@ -17380,6 +17381,12 @@ NetstarComponent.dateRangePicker = {
         }
         if(typeof(config.separator) == 'string'){
             options.locale.separator = config.separator;
+        }
+        if(typeof(config.maxDate) == 'string' && config.maxDate.length > 0){
+            options.maxDate = config.maxDate;
+        }
+        if(typeof(config.minDate) == 'string' && config.minDate.length > 0){
+            options.minDate = config.minDate;
         }
         return  options;
     },
