@@ -1080,7 +1080,7 @@ var NetstarEditorServer = (function(){
             if(stateConfig.children && stateConfig.children[0] && fieldGroup[stateConfig.children[0]]){
                 var groupChildren = fieldGroup[stateConfig.children[0]].children;
                 for(var i=0; i<groupChildren.length; i++){
-                    if(fieldConsIds.indexOf[groupChildren[i]] == -1){
+                    if(fieldConsIds.indexOf(groupChildren[i]) == -1){
                         // 删除
                         fieldCons.push({
                             id : groupChildren[i],
