@@ -141,6 +141,10 @@ NetstarTPEditorConfig.urls = [
                     }
 
                     var voLists = voMap.voList;
+                    if(typeof(voLists) == "undefined"){
+                        nsalert('controller: '+voMap.chineseName+'的voList找不到',"error");
+                        voLists = [];
+                    }
                     //对VO下属的信息遍历，包含字段和方法
                     for (var j = 0; j < voLists.length; j++) {
                         var voList = voLists[j];
