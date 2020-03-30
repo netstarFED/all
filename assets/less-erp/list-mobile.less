@@ -9,15 +9,17 @@
    align-items: center;
    .block-list-item {
       .block-list-item-text {
-         // padding: 0.5rem 0;
+         padding: 0.5rem 0;
          justify-content: flex-start;
          .title {
-            
-            label {
-               padding: 0.2rem 0.8rem;
-               background: rgba(80,118,183,0.5);
-               color:#fff;
-               border-radius: 0.4rem;
+            &.title-block {
+               label {
+                  padding: 0.2rem 0.8rem;
+                  background: rgba(80, 118, 183, 0.5);
+                  font-size: 14px;
+                  color: #fff;
+                  border-radius: 0.4rem;
+               }
             }
          }
          &.flex-block {
@@ -25,9 +27,77 @@
             justify-content: space-between;
             align-items: center;
          }
+          //??
+         &.flex-horizontal {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1;
+         } // ??
+         &.flex-vertical {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex: 1;
+            span+span {
+               padding-left: 0;
+               margin-top: 1rem;
+            }
+            span {
+               width: 100%;
+            }
+         }
+         span + span{
+            padding-left: 2rem;
+         }
       }
-      .block-list-item-text + .block-list-item-text{
-         margin-top: 1rem;
+      .block-list-form {
+         padding: 0.5rem 0;
+         display: flex;
+         justify-content: flex-start;
+         align-items: center;
+         .title {
+            min-width: 11rem;
+            &.title-block {
+               label {
+                  padding: 0.2rem 0.8rem;
+                  background: rgba(80, 118, 183, 0.5);
+                  font-size: 14px;
+                  color: #fff;
+                  border-radius: 0.4rem;
+               }
+            }
+            label {
+               padding: 0.2rem 0.8rem;
+               background: rgba(80, 118, 183, 0.5);
+               font-size: 14px;
+               color: #fff;
+               border-radius: 0.4rem;
+            }
+         } //??
+         &.flex-horizontal {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1;
+         } // ??
+         &.flex-vertical {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex: 1;
+            span+span {
+               padding-left: 0;
+               margin-top: 1rem;
+            }
+            span {
+               width: 100%;
+            }
+         }
       }
    }
 }
@@ -35,30 +105,29 @@
 &.text-gray {
    color: #b0b0b0;
 }
+
 &.weight {
    font-weight: 600;
    font-size: 16px;
 }
 
-
-
 // 装箱
-container.padding-top-header{
+container.padding-top-header {
    padding-top: 0;
 }
-container{
-   &.padding-top-header{
+
+container {
+   &.padding-top-header {
       padding-top: 0;
-      .doclistviewermobile{
-         .nspanel-container{
+      .doclistviewermobile {
+         .nspanel-container {
             padding-top: 0;
          }
       }
-      .listmobile{
-         .nspanel-container{
+      .listmobile {
+         .nspanel-container {
             padding-top: 0;
          }
       }
-      
    }
 }
