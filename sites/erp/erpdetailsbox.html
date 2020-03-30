@@ -35,7 +35,8 @@
                         {
                             type: 'blockList',
                             /* 字段暂时不知道 */
-                            field: [{
+                            field: [
+                                {
                                     field: 'packingCode',
                                     title: '装箱详情'
                                 },
@@ -45,23 +46,17 @@
                                 src: getRootPath() + '/packingController/v2/getById',
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
-                                    id: "1327562150536809458"
+                                    id: "id"
                                 },
                                 dataSrc: 'rows',
                                 type: 'POST',
-                                formatter:function(res){  
-                                
-                                    var id = res.data.id
-                                    nscloud.erppakInfoId = id
+                                formatter:function(res){             
                                     var data = res.data.packingBoxVOList
-                                    data.splice(0,1);
-                                    
+                                    data.splice(0,1);           
                                     var returnRows = {
                                         success:true,
                                         rows:data
                                     }
-
-                                    console.log(returnRows);
                                     return returnRows;
                                 }
                             },
@@ -92,8 +87,6 @@
                                                type:'POST',
                                            }
                                            NetStarUtils.ajax(ajaxConfig,function(res){                                          
-
-                                                $.extend(true,)
                                                 var ajaxConfig = {
                                                     url:getRootPath() + 'packingController/v2/unPackingBox',
                                                     contentType:'application/json;charset=UTF-8',
@@ -128,8 +121,11 @@
                                     btn:{
                                         text:'查看详情',
                                         isReturn:true,
-                                        handler:function(data){
-                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/boxPackInfo.html'
+                                        handler:function(data){ 
+                                            var pageConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
+                                            var  getSelectedId =  pageConfig.gridRowData.id;
+                                            nscloud.erppakInfoId = getSelectedId 
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/boxPackInfo.html';
                                             nsFrame.loadPageVRouter(url);
                                         }
                                     },
