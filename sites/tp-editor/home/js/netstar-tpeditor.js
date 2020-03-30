@@ -2884,7 +2884,13 @@ NetstarTPEditor.selectPageList = (function(){
                                     panelManage.refreshPanelByList(list, config);
                                 }
                             }
-                        ]
+                        ],
+                        changeHandler : function() {
+                            var formData = NetstarComponent.getValues(ids.selectBodySearch);
+                            var searchname = formData.searchname;
+                            var list = dataManage.getSearchDataByText(searchname, config);
+                            panelManage.refreshPanelByList(list, config);
+                        }
                     }
                 ]
             }

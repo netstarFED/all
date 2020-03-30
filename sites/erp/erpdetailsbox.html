@@ -1,0 +1,197 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="打包" />
+    <meta name="author" content="netstar" />
+    <!--# include file="/sites/include/static_mobile.html" -->
+    <title>装箱打包</title>
+</head>
+<!--  -->
+<body class="weixin-type">
+    <container>
+        <script>
+            var getRootPath = function () {
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            $(function () {
+                var erpPackSetails = {
+                    package: 'nscloud.erpdetailsbox',
+                    template: 'businessDataBaseMobile',
+                    getValueAjax: {
+                        src: getRootPath() + '/packingController/v2/getById',
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {
+                            id: "1327562150536809458"
+                        },
+                        dataSrc: 'data.packingBoxVOList',
+                        type: 'post',
+                    },
+                    components: [
+                        {
+                            type: 'blockList',
+                            /* 字段暂时不知道 */
+                            field: [
+                                {
+                                    field: 'packingCode',
+                                    title: '装箱详情'
+                                },
+
+                            ],
+                            ajax: {
+                                src: getRootPath() + '/packingController/v2/getById',
+                                contentType: "application/x-www-form-urlencoded",
+                                data: {
+                                    id: "id"
+                                },
+                                dataSrc: 'rows',
+                                type: 'POST',
+
+                                formatter:function(res){             
+                                    var data = res.data.packingBoxVOList
+                                    data.splice(0,1);           
+                                    var returnRows = {
+                                        success:true,
+                                        rows:data
+                                    }
+                                    return returnRows;
+                                }
+                            },
+                            idField: 'id',
+                            listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>{{packingCode}}</span></div></div>",
+                            plusClass: '',
+                            parent: 'root',
+                            isInlineBtn: true,
+
+                        },
+                        {   
+                            type:'btns',
+                            field:[
+                                {
+                                    btn:{
+                                        text:'拆箱',
+                                        isReturn:true,
+                                        handler:function(data){
+                                            debugger;
+                                            var packConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
+                                            var id = pageConfig.gridRowData.id
+                                            var ajaxConfig = {
+                                               url:getRootPath() +'/packingController/v2/getByPackingBoxId',
+                                               contentType:'application/x-www-form-urlencoded',
+                                               data:{
+                                                    id:id
+                                               },
+                                               type:'POST',
+                                           }
+                                           NetStarUtils.ajax(ajaxConfig,function(res){                                          
+                                                var ajaxConfig = {
+                                                    url:getRootPath() + 'packingController/v2/unPackingBox',
+                                                    contentType:'application/json;charset=UTF-8',
+                                                    data:{
+
+                                                    },
+                                                    type:'POST',
+                                                }
+                                                NetStarUtils.ajax(ajaxConfig,function(res){
+
+                                                })    
+                                           })                                                                      
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'打印',
+                                        isReturn:true,
+                                        handler:function(){
+                                            var package = erpPackSetails.package;
+                                            var configs = NetstarTemplate.templates.configs[package];
+                                            if(!configs){
+                                                nsAlert('没有找到模板配置', 'error');
+                                                return false;
+                                            }
+                                            var rowData = configs.gridRowData;
+                                            if(typeof(rowData) == "object" && !$.isEmptyObject(rowData)){
+                                                var config = {
+                                                    name : 'erp',
+                                                    type : 'max',
+                                                    // 客户
+                                                    nameField : 'customerName',
+                                                    // 单号
+                                                    codeField : 'packingCode',
+                                                    // 件数
+                                                    numField : 'quantity',
+                                                    // 日期
+                                                    dateField : 'whenPacked',
+                                                    // 二维码
+                                                    QRCodeField : 'packingCode',
+                                                }
+                                                rowData.customerName = nscloud.erppakInfoCustomerName;
+                                                NetstarAppPlugin.lpApi.printByData(rowData, config);
+                                            }else{
+                                                nsAlert('没有选中行数据', 'warning');
+                                            }
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                    }
+                                },
+                                {
+                                    btn:{
+                                        text:'查看详情',
+                                        isReturn:true,
+                                        handler:function(data){ 
+                                            var pageConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
+                                            var  getSelectedId =  pageConfig.gridRowData.id;
+                                            nscloud.erppakInfoId = getSelectedId 
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/boxPackInfo.html';
+                                            nsFrame.loadPageVRouter(url);
+                                        }
+                                    },
+                                    functionConfig:{
+                                        isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
+                                    }
+                                },
+                            ]
+                        }
+
+                    ]
+                }
+                // NETSTAR添加url参数即pageParam
+                NetstarTemplate.init(erpPackSetails);
+            })
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">装箱详情</div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+        </script>
+    </container>
+</body>
+
+</html>

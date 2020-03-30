@@ -20,7 +20,7 @@
             }
             $(function () {
                 var erpPacking = {
-                    package: 'nscloud.qqq',
+                    package: 'nscloud.erppaking',
                     template: 'docListViewerMobile',
                     getValueAjax: {
                         src: getRootPath() + '/packingController/v2/getByPackingBoxId',
@@ -63,8 +63,7 @@
                                     columnType: "dictionary",
                                     editConfig:{
                                         textField: "value",
-
-type: "select",
+                                        type: "select",
                                         type:"select",
 
                                     },
@@ -99,7 +98,7 @@ type: "select",
                                     title: "返库数量",
                                     columnType:"number",
                                     editConfig:{
-                                        
+                                        type:'number'
                                     },
                                     formatHandler:{
                                         data:{
@@ -111,16 +110,88 @@ type: "select",
                                     }
                                 },
                                 {
-                                    field: 'warehouseName',
-                                    title: '仓库名称',
+                                    field: 'lastQuantity',
+                                    title: '未装箱数量',
+                                    editConfig:{
+                                        type:'number'
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                places:"0",
+                                                thousand:","
+                                            }
+                                        }
+                                    }
+                                    
                                 },
                                 {
-                                    field: 'packingLocationId',
-                                    title: '装箱货位',
+                                    field: 'thisQuantity',
+                                    title: '本次装箱数量',
+                                    editConfig:{
+                                        type:'number'
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            format:{
+                                                places:"0",
+                                                thousand:","
+                                            }
+                                        }
+                                    }
                                 },
                                 {
-                                    field: '"packingLocationCode',
-                                    title: '装箱货位',
+                                    field: 'locationsType',
+                                    title: "正品/残次",
+                                    columnType:"stringReplace",
+                                    editConfig:{
+                                        type:'selecct',
+                                        subdata:[
+                                            {
+                                                value:'正品',
+                                                id:'0'
+                                            },
+                                            {
+                                                value:'残次',
+                                                id:'5'
+                                            }
+                                        ],
+                                        valueField:'id',
+                                        textField:'value'
+                                    },
+                                    formatHandler:{
+                                        data:{
+                                            formatDate:{
+                                                0:'正品',
+                                                5:'残次'
+                                            }
+                                        },
+                                        type:'stringReplace'
+                                    },
+                                   
+                                },
+                                {
+                                    field:'dictBrandBrandName',
+                                    title: "品牌"
+                                },
+                                {
+                                    field:'goodsPlatformModel',
+                                    title: "型号"
+                                },
+                                {
+                                    field:'goodsPlatformOem',
+                                    title:"OEM码"
+                                },
+                                {
+                                    field: "goodsPlatformCode",
+                                    title: "厂家编码"
+                                },
+                                {
+                                    field: "goodsPlatformCode",
+                                    title: "厂家编码",
+                                    editConfig:{
+                                        
+                                    }
                                 }
 
                             ],
@@ -128,32 +199,82 @@ type: "select",
                                 src: getRootPath() + '/packingController/v2/getByPackingBoxId',
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
-                                    packingCode: "未装箱",
-                                    whenPacked: "1561623945000",
-                                    createdBy: 1,
-                                    createdByName: "admin",
-                                    whenCreated: "1561623946000",
-                                    packingId: "1304944342728705001",
-                                    defaultFlag: 1,
-                                    bllId: "1304944103284278249",
-                                    objectState: 0,
-                                    objectCheckState: 0,
-                                    id: "1304944342728706025"
                                 },
-                                dataSrc: 'data.packingDetailVOList',
+                                dataSrc: 'rows',
                                 type: 'post',
+                                formatter:function(res){
+                                    var id  = res.data.id;
+                                    nscloud.erppakingId = id
+                                    debugger;
+                                    return {
+                                        success:true,
+                                        rows:res.data.packingDetailVOList,
+                                    }
+                                }
 
                             },
                             keyField: 'packingDetailVOList',
                             idField: 'id',
-                            listExpression: "<div class='block-list-item'><div class='block-list-item-text'><span class='title'>{{goodsShopName}}</span></div><div class='block-list-item-text text-left'><span>{{bllCode}}</span></div><div class='block-list-item-text text-left'><span>{{customerName}}</span></div><div class='block-list-item-text text-left'><span>{{warehouseName}}</span></div><div class='block-list-item-text text-left'><span>{{packingLocationCode}}</span></div></div>",
+                            listExpression: "<div>\
+                            <div class='block-list-item'>\
+                                <div class='block-list-item-title'>商品名称：{{goodsShopName}}</div>\
+                                <div class='block-list-item-title'>商品编码：{{goodsShopName}}</div>\
+                                <div class='block-list-item-text'>\
+                                    <span>未装箱数量{{lastQuantity}}</span><span>装箱数量：{{packingQuantity}}</span><span>返库数量：{{backQuantity}}</span>\
+                                </div>\
+                                <div class='block-list-item-text left'><span>品牌:{{dictBrandBrandName}}</span><span>型号:{{goodsPlatformModel}}</span></div>\
+                                <div class='block-list-item-text left'><span>OEM码：{{goodsPlatformOem}}</span><span>厂家编码：{{goodsPlatformCode}}</span></div>\
+                            </div>",
                             plusClass: '',
                             parent: 'root',
                         },
                         {
                             type: 'btns',
                             field: [
+                               {
+                                   btn:{
+                                       text:'整箱打包',
+                                       isReturn:true,
+                                       handler:function(){
+                                           debugger;
+                                           var pageConfig = NetstarTemplate.templates.configs[erpPacking.package];
+                                           var pageParamData = pageConfig.pageParam;
+                                           var blockListData = NetstarBlockListM.dataManager.getData('nstemplate-layout-nscloud-erppaking-blockList-0');
+                                          /*  var packingDetailVOList = $.extend(true,[],blockListData) */
+                                            var ajaxData = {
+                                                packingDetailVOList:blockListData
+                                            }
+                                            $.extend(true,ajaxData,pageParamData)
+                                           var ajaxConfig = {
+                                               url:getRootPath() + '/packingController/v2/createPackingOfLeft',
+                                               contentType:'application/json',
+                                               type:"POST",
+                                               data:ajaxData
+                                           }
+                                           NetStarUtils.ajax(ajaxConfig,function(res){
+                                                if(res.success){
+                                                    nsalert('打包成功');
+                                                    window.history.back()
+                                                }else{
+                                                    nsalert(res.msg)
+                                                }
+                                            })
+                                       }
+                                   },
+                                   functionConfig:{
 
+                                   }
+                               },
+                               {
+                                   btn:{
+                                       text:'分箱打包',
+                                       isReturn:true,
+                                       handler:function(){             
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/boxPacking.html'
+                                            nsFrame.loadPageVRouter(url);
+                                        }
+                                   }
+                               }
                             ]
                         }
                     ]
@@ -162,16 +283,26 @@ type: "select",
                 NetstarTemplate.init(erpPacking);
 
             })
-
-            function getParam() {
-                var url = $("container").attr("ns-pageurl");
-                // console.log(url);
-                var param = url.slice(url.indexOf("?") + 1);
-                var paramId = param.split("=");
-                var id = paramId[paramId.length - 1];
-                console.log(id)
-                // console.log(param);
-                return id
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">装箱
+                        </div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
+            }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
             }
         </script>
     </container>

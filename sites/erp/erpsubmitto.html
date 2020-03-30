@@ -9,7 +9,7 @@
     <meta name="description" content="打包" />
     <meta name="author" content="netstar" />
     <!--# include file="/sites/include/static_mobile.html" -->
-    <title>装箱打包</title>
+    <title>分批</title>
 </head>
 
 <body class="weixin-type">
@@ -19,8 +19,8 @@
                 return "https://qaapi.wangxingcloud.com/"
             }
             $(function () {
-                var erpPackingUp = {
-                    package: 'nscloud',
+                var erpPackingSubmitto = {
+                    package: 'nscloud.erpsubmitti',
                     template: 'processDocBaseMobile',
                     getValueAjax: {
                     },
@@ -38,7 +38,7 @@
                                     textField:'name',
                                     valueField:'id',
                                     dataSrc:'rows',
-                                    method:'POST'
+                                    method:'POST',
 
                                 },{
                                     id: 'packingLocationId',
@@ -48,7 +48,7 @@
                                     url:getRootPath() + '/locations/v2/getList',
                                     data:{
                                         type: "8",
-                                        warehouseId: ""
+                                        warehouseId: "{page.warehouseId}"
                                     },
                                     textField:'code',
                                     valueField:'id',
@@ -64,39 +64,62 @@
                                     btn:{
                                         text:'确认',
                                         isReturn:true,
-                                        handler:function(){}
+                                        handler:function(){
+                                            debugger;
+                                            var pageConfig = NetstarTemplate.templates.configs[erpPackingSubmitto.package];
+                                            var pageParamData = pageConfig.pageParam;
+                                            var ajaxConfig = {
+                                                url:getRootPath()+'/packingController/v2/save',
+                                                contentType:'application/json',
+                                                type:'POST',
+                                                data:pageParamData
+                                            };
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                if(res.success){
+                                                    nsalert('保存成功');
+                                                    
+                                                }else{
+                                                    nsalert(res.msg)
+                                                }
+                                                
+                                                
+                                            })
+                                        }
                                     },
                                     functionConfig:{
                                         isMobileInlineBtn:true,
-                                        defaultMode:"custom",
-                                        data:{},
-                                        title:'',
-                                        parameterFormat:"",
-                                        requestSource:'none',
-                                        successOperate:'success',
-                                        successMsg:'确认成功',
-                                        isKeepSelected:false,                                       
-                                        isCloseWindow:true,                                        
-                                        parameterFormatType:'cover',
-                                        isSendPageParams:true,
-                                        isSetValueToSourcePage:false,
-                                        url:getRootPath() + '/packingController/v2/save'
                                     }
                                 }
                             ]
                         }
                     ]
                 }
-                NetstarTemplate.init(erpPackingUp);
+                // NETSTAR添加url参数即pageParam
+                NetstarTemplate.init(erpPackingSubmitto);
 
             });
-            getParam();
-            function getParam(){
-                var url = $("container").attr("ns-pageurl");
-                console.log(url);
-                var param = url.slice(url.indexOf("?")+1);
-                console.log(param)
+            var innerHTML = 
+                `<header class="header">
+                    <div class="btn-group">
+                        <a href="##" class="btn btn-icon">
+                            <i class="icon icon-arrow-left-o"></i>
+                        </a>
+                    </div>
+                    <div class="title">分批
+                        </div>
+                    <div class="btn-group">
+                        
+                    </div>
+                </header>`; 
+            
+            $("container").prepend(innerHTML);
+            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+                $("container").addClass("padding-top-header");
             }
+            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+                $("container").addClass("padding-top-header-search");
+            }
+  
         </script>
     </container>
 </body>

@@ -875,7 +875,8 @@ var NetStarGrid = (function () {
 			gridConfig.columns = this.getColumnsConfig(gridConfig);
 			gridConfig.ui = this.getUIConfig(gridConfig);
 			gridConfig.data = this.getDataConfig(gridConfig);
-			gridConfig.dragColumns = this.getDragColumnsConfig(gridConfig); //sjj 20190319 添加拖拽列
+			// gridConfig.dragColumns = this.getDragColumnsConfig(gridConfig); //sjj 20190319 添加拖拽列
+			gridConfig.dragColumns = []; //sjj 20190319 添加拖拽列
 			return gridConfig;
 		},
 		//config.data
@@ -1335,6 +1336,40 @@ var NetStarGrid = (function () {
 
 					//开启了拖拽列
 					var leftWidth = moveDragWidth - columnI;
+					columnData.left = leftWidth;
+					columnData.dragStyleObj = {
+						'left': leftWidth + 'px'
+					};
+					dragColumns.push(columnData);
+				}
+			}
+			return dragColumns;
+		},
+		//处理含有拖拽列的配置参数 lyw 20200327
+		getDragColumnsConfigByShowTd: function (_gridConfig) {
+			var dragColumns = [];
+			//columns参数必须存在
+			var columnArray = _gridConfig.columns;
+			if ($.isArray(columnArray) == false) {
+				if (debugerMode) {
+					console.error('表格Grid配置参数错误，columns应当是数组');
+					console.error(_gridConfig);
+				}
+				return [];
+			}
+			var $tr = $('#' + _gridConfig.id).find('[nsgirdcontainer="grid-body-headertable"]').find('tr');
+			var moveDragWidth = 0;//移动的距离
+			var lineDragNumber = -1;//表格的线有几条 排除开始和结束
+			for (var columnI = 0; columnI < columnArray.length; columnI++) {
+				var columnData = columnArray[columnI];
+				// moveDragWidth += columnData.width; //当前移动的宽度
+				var $td = $tr.find('[ns-field="'+ columnData.field +'"]');
+				var tdWidth = $td.outerWidth()
+				moveDragWidth += tdWidth; //当前移动的宽度
+				lineDragNumber++;
+				if (columnData.isResizeWidth) {
+					//开启了拖拽列
+					var leftWidth = moveDragWidth - 4;
 					columnData.left = leftWidth;
 					columnData.dragStyleObj = {
 						'left': leftWidth + 'px'
@@ -3574,13 +3609,17 @@ var NetStarGrid = (function () {
 					},
 				},
 				mounted: function () {
+					var _this = this;
 					//初始化表格的body，以及三个主要Table对象 都是$dom对象
 					methodsManager.initDomParams(this);
 					//如果存在数据源 data.dataSource 则需要刷新纵向滚动条的高度
 					methodsManager.refreshScrollY(this);
 					//如果开启了支持拖拽列宽，需要支持拖拽列宽的操作  sjj 20190318
+					this.dragColumns = configManager.getDragColumnsConfigByShowTd(_gridConfig);
 					if (this.ui.dragWidth) {
-						methodsManager.dragWidth(this);
+						this.$nextTick(function(){
+							methodsManager.dragWidth(_this);
+						})
 					}
 					// lyw 20190716 判断是否设置了全部选中
 					var originalRows = this.originalRows;
@@ -3691,6 +3730,11 @@ var NetStarGrid = (function () {
 			$footerTableContainer.scrollLeft(scrollLeft);
 
 			//拖拽handler容器位置修改
+			var headerTableContainerTableWidth = $headerTableContainer.children('table').width();
+			var tableWidth = $gridBody.width();
+			if(headerTableContainerTableWidth - scrollLeft - tableWidth < 0){
+				scrollLeft = headerTableContainerTableWidth - tableWidth - 0;
+			}
 			var leftStr = '-' + scrollLeft + 'px';
 			_vueConfig.$data.domParams.dragContainer.style = {left: leftStr};
 		},
@@ -4006,7 +4050,9 @@ var NetStarGrid = (function () {
 						configs.vueObj.domParams.contentTableContainer.style['padding-bottom'] = configManager.DEFAULT.PADDINGBOTTOM + 'px';
 					}
 					//console.log(moveLeft)
-					configManager.getDragColumnsConfig(configs.gridConfig); //拖拽列的举例计算
+					// configManager.getDragColumnsConfig(configs.gridConfig); //拖拽列的举例计算
+					var dragColumns = configManager.getDragColumnsConfigByShowTd(configs.gridConfig); //拖拽列的举例计算
+					configs.vueObj.dragColumns = dragColumns;
 				}
 
 				function dragWidthMouseUp(mouseUpEvent) {
@@ -4021,6 +4067,11 @@ var NetStarGrid = (function () {
 					 * 但由于配置相同 所以需要给本地存储的时候按一个id去存储
 					 */
 					var _gridConfig = NetStarGrid.configs[gridId].gridConfig;
+					// 因为拖拽过快导致计算错误  延迟计算
+					setTimeout(function(){
+						var dragColumns = configManager.getDragColumnsConfigByShowTd(_gridConfig); //拖拽列的举例计算
+						NetStarGrid.configs[gridId].vueObj.dragColumns = dragColumns;
+					}, 100)
 					if (_gridConfig.package) {
 						var packageNameSplit = _gridConfig.package.split('.');
 						//判断最后一个是否是时间戳
@@ -6090,6 +6141,18 @@ var NetStarGrid = (function () {
 			}
 			//读取编辑属性
 			var editConfig = $.extend(true, {}, columnConfig.editConfig);
+			if(typeof(columnConfig.initComponentBeforeHandler) == "function"){
+				var befResConfig = columnConfig.initComponentBeforeHandler(tdData, gridConfig);
+				if(befResConfig){
+					switch(befResConfig.type){
+						case "editConfig":
+							if(typeof(befResConfig.config) == "object"){
+								editConfig = befResConfig.config;
+							}
+							break;
+					}
+				}
+			}
 			if (typeof (editConfig) == 'undefined') {
 				editConfig = {};
 			}
