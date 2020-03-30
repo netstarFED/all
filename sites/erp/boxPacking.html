@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <meta name="description" content="打包" />
     <meta name="author" content="netstar" />
+    <link rel="stylesheet" href="/static/dev/style/erp-moblie-list.css">
     <!--# include file="/sites/include/static_mobile.html" -->
     <title>分箱打包</title>
 </head>
@@ -109,6 +110,7 @@
                     src: getRootPath() + '/packingController/v2/getByPackingBoxId',
                     data: {
                         id: erppakingId
+                        // id: "1330262232193315826"
                     },
                     dataSrc: 'data.packingDetailVOList',
                     type: 'POST',
@@ -264,8 +266,30 @@
                     },
                 ],
                 ui: {
-                    listExpression: "<div class=\"block-list-item \"><div class=\"block-list-item-text \"><span class=\"title\">商品名称：{{goodsShopName}}</span>\n<span class=\"title\">商品编码：{{goodsShopCode}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">货位类型：{{locationsType}}</span>\n<span class=\"title\">单位：{{dictGoodsPlatUnitName}}</span>\n<span class=\"title\">品质分类</span></div><div class=\"block-list-form \">\n<span class=\"title\">未装箱数量：{{lastQuantity}}</span>\n<span class=\"title\">本次装箱数量：<div class=\"adderSubtracter-component\"></div></span></div><div class=\"block-list-item-text \"><span class=\"title\">品牌：{{dictBrandBrandName}}</span>\n<span class=\"title\">型号：{{goodsPlatformModel}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">OEM码：{{goodsPlatformOem}}</span>\n<span class=\"title\">厂家编码：{{goodsPlatformCode}}</span></div></div>",
+                    listExpression: `<div class=\"block-list-item \">
+                                            <div class=\"block-list-item-text \">
+                                                <span class=\"title\">商品名称：{{goodsShopName}}</span>
+                                                <span class=\"title\">商品编码：{{goodsShopCode}}</span>
+                                            </div>
+                                            <div class=\"block-list-item-text \">
+                                                <span class=\"title\">货位类型：{{locationsType}}</span>
+                                                <span class=\"title\">单位：{{dictGoodsPlatUnitName}}</span>
+                                                <span class=\"title\">品质分类</span></div>
+                                            <div class=\"block-list-form \">
+                                                <span class=\"title\">未装箱数量：{{lastQuantity}}</span>
+                                                <span class=\"title\">本次装箱数量：<div class=\"adderSubtracter-component\" ns-field=\"thisQuantity\"></div></span>
+                                            </div>
+                                            <div class=\"block-list-item-text \">
+                                                <span class=\"title\">品牌：{{dictBrandBrandName}}</span>
+                                                <span class=\"title\">型号：{{goodsPlatformModel}}</span>
+                                            </div>
+                                            <div class=\"block-list-item-text \">
+                                                <span class=\"title\">OEM码：{{goodsPlatformOem}}</span>
+                                                <span class=\"title\">厂家编码：{{goodsPlatformCode}}</span>
+                                            </div>
+                                    </div>`,
                     isEditMode : true,
+
                 }
 
             }
