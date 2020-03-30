@@ -35,34 +35,34 @@
                         {
                             type: 'blockList',
                             /* 字段暂时不知道 */
-                            field: [{
+                            field: [
+                                
+                                {
                                     field: 'packingCode',
-                                    title: '装箱详情'
+                                    title: ''
                                 },
 
                             ],
                             ajax: {
                                 src: getRootPath() + '/checkups/v2/getById',
                                 contentType: "application/x-www-form-urlencoded",
-                                data: {
-                                    id:""
-                                },
+                                data:{
+                                    id:'id'
+                                },    
                                 dataSrc: 'rows',
                                 type: 'POST',
                                 formatter:function(res){
                                     var data = res.data.checkupBatchVOList
-                                    delete data[0];
-                                    
+                                    data.splice(0,1);    
                                     var returnRows = {
                                         success:true,
                                         rows:data
                                     }
-
                                     console.log(returnRows);
                                     return returnRows;
                                 }
                             },
-                            idField: 'id',
+                            idField:'id',
                             listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>{{batchCode}}</span></div></div>",
                             plusClass: '',
                             parent: 'root',
@@ -88,11 +88,17 @@
                                         text:'查看详情',
                                         isReturn:true,
                                         handler:function(){
-
+                                            var pageConfig = NetstarTemplate.templates.configs[erpCheckDetails.package];
+                                            var  getSelectedId =  pageConfig.gridRowData.id;
+                                            nscloud.erpCheckUpBatch = getSelectedId 
+                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/createbatchdetails.html';
+                                            nsFrame.loadPageVRouter(url); 
                                         }
                                     },
                                     functionConfig:{
                                         isMobileInlineBtn:true,
+                                        defaultMode:"loadPage",
+                                        isSendPageParams:true,
                                     }
                                 }, 
                             ]

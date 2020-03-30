@@ -272,8 +272,6 @@
                                                 var tempValueName = erpCheckUp.package + new Date().getTime();
                                                 if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
                                                 NetstarTempValues[tempValueName] = res.data.checkupBatchVOList[0];
-                                                // url = url+'?templateparam=' + encodeURIComponent(tempValueName);
-                                                // var url = '/sites/erp/erppacking.html?id=' + packingBoxId;
                                                 var url = window.location.protocol + '//' + window.location.host+'/sites/erp/erpbatchin.html?templateparam=' + encodeURIComponent(tempValueName);
                                                     nsFrame.loadPageVRouter(url);
                                             })
@@ -290,16 +288,16 @@
                                         text:'批次详情',
                                         isReturn:true,
                                         handler:function(data){
+                                            debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
                                             var selectedId = {
                                                id: pageConfig.gridRowData.id,
                                             }
                                             var tempValueName = erpCheckUp.package + new Date().getTime();
-                                            if(typeof(NetstarTemplate) == "undefined"){
-                                                NetstarTemplate = {}
-                                            }
-                                            NetstarTempValues[tempValueName] = selectedId
-                                             var url =window.location.protocol + '//' + window.location.host+ "/sites/erp/erpcheckupdetails.html?templateparam=" + encodeURIComponent(tempValueName);
+                                            var tempValueNameCode = encodeURIComponent(tempValueName);
+                                            if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+                                            NetstarTempValues[tempValueNameCode] = selectedId
+                                             var url = window.location.protocol + '//' + window.location.host+ "/sites/erp/erpcheckupdetails.html?templateparam=" + tempValueNameCode;
                                              nsFrame.loadPageVRouter(url);
                                             console.log(pageConfig)
                                         }
