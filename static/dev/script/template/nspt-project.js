@@ -6233,6 +6233,7 @@ var businessBtnManage = {
 		}*/
 		var btnConfig = callBackObj.data;
 		var sourceBtnConfig = controllerObj.func.config;
+		sourceBtnConfig.selectMode = typeof(sourceBtnConfig.selectMode) == "undefined" ? 'single' : sourceBtnConfig.selectMode;
 		// 初始化方法 body容器
 		var panelInitParams = {
 			pageParam:                  {},             
