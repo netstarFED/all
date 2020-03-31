@@ -12,6 +12,7 @@
     <title>装箱打包</title>
 </head>
 <!--  -->
+
 <body class="weixin-type">
     <container>
         <script>
@@ -36,7 +37,7 @@
                             type: 'blockList',
                             /* 字段暂时不知道 */
                             field: [
-                                
+
                                 {
                                     field: 'packingCode',
                                     title: ''
@@ -46,61 +47,62 @@
                             ajax: {
                                 src: getRootPath() + '/checkups/v2/getById',
                                 contentType: "application/x-www-form-urlencoded",
-                                data:{
+                                data: {
                                     id:'id'
-                                },    
+                                    // id: "1329346294983951346"
+                                },
                                 dataSrc: 'rows',
                                 type: 'POST',
-                                formatter:function(res){
+                                formatter: function (res) {
                                     var data = res.data.checkupBatchVOList
-                                    data.splice(0,1);    
+                                    data.splice(0, 1);
                                     var returnRows = {
-                                        success:true,
-                                        rows:data
+                                        success: true,
+                                        rows: data
                                     }
                                     console.log(returnRows);
                                     return returnRows;
                                 }
                             },
-                            idField:'id',
+                            idField: 'id',
                             listExpression: "<div class=\"block-list-item\"><div class=\"block-list-item-text text-left\"><span>{{batchCode}}</span></div></div>",
                             plusClass: '',
                             parent: 'root',
                             isInlineBtn: true,
 
                         },
-                        {   
-                            type:'btns',
-                            field:[
+                        {
+                            type: 'btns',
+                            field: [
                                 {
-                                    btn:{
-                                        text:'撤回批次',
-                                        isReturn:true,
-                                        handler:function(a,b,c){
+                                    btn: {
+                                        text: '撤回批次',
+                                        isReturn: true,
+                                        handler: function (a, b, c) {
                                         }
                                     },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
+                                    functionConfig: {
+                                        isMobileInlineBtn: true,
                                     }
                                 },
                                 {
-                                    btn:{
-                                        text:'查看详情',
-                                        isReturn:true,
-                                        handler:function(){
+                                    btn: {
+                                        text: '查看详情',
+                                        isReturn: true,
+                                        handler: function () {
                                             var pageConfig = NetstarTemplate.templates.configs[erpCheckDetails.package];
-                                            var  getSelectedId =  pageConfig.gridRowData.id;
-                                            nscloud.erpCheckUpBatch = getSelectedId 
-                                            var url = window.location.protocol + '//' + window.location.host+'/sites/erp/createbatchdetails.html';
-                                            nsFrame.loadPageVRouter(url); 
+                                            var getSelectedId = pageConfig.gridRowData.id;
+                                            nscloud.erpCheckUpBatch = getSelectedId
+                                            var url = window.location.protocol + '//' + window.location.host + '/sites/erp/createbatchdetails.html';
+                                            nsFrame.loadPageVRouter(url);
                                         }
                                     },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
-                                        defaultMode:"loadPage",
-                                        isSendPageParams:true,
+                                    functionConfig: {
+                                        isMobileInlineBtn: true,
+                                        defaultMode: "loadPage",
+                                        isSendPageParams: true,
                                     }
-                                }, 
+                                },
                             ]
                         }
 
@@ -109,7 +111,7 @@
                 // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpCheckDetails);
             })
-            var innerHTML = 
+            var innerHTML =
                 `<header class="header">
                     <div class="btn-group">
                         <a href="##" class="btn btn-icon">
@@ -120,13 +122,13 @@
                     <div class="btn-group">
                         
                     </div>
-                </header>`; 
-            
+                </header>`;
+
             $("container").prepend(innerHTML);
-            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+            if ($("header").length != 0 && $(".mobile-input-search").length == 0) {
                 $("container").addClass("padding-top-header");
             }
-            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+            if ($("header").length != 0 && $(".mobile-input-search").length != 0) {
                 $("container").addClass("padding-top-header-search");
             }
         </script>
