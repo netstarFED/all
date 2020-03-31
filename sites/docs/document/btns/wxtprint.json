@@ -5,12 +5,12 @@
             "validType": "string",
             "toolType": "select",
             "required":true,
-            "default":"ajaxDialog",
+            "default":"wxtPrint",
             "subdata": [{
-                "value":"ajaxDialog",
-                "text":"ajax弹框"
+                "value":"wxtPrint",
+                "text":"wxtPrint"
             }],
-            "help":"先执行ajax，在执行弹框"           
+            "help":""           
         },
         "text": {
             "chineseName": "按钮文字",
@@ -25,24 +25,30 @@
             "toolType": "text",
             "default": ""
         },
-        "isCloseWindow": {
-            "chineseName": "是否关闭",
-            "validType": "boolean",
-            "toolType": "check",
-            "default": "",
-            "help":"完成后是否关闭弹框/页面"
-        },
-       "functionField":{
-            "chineseName": "展示字段",
+        "btnType": {
+            "chineseName": "按钮类型",
             "validType": "string",
-            "toolType": "textarea",
-            "help":""                                   
-       },
-        "isKeepSelected": {
-            "chineseName": "是否行选中",
-            "validType": "boolean",
-            "toolType": "check",
-            "default":false
+            "toolType": "select",
+            "subdata":[
+                {
+                    "value":"print",
+                    "text":"print"
+                },
+                {
+                    "value":"preview",
+                    "text":"preview"
+                },
+                {
+                    "value":"printAjax",
+                    "text":"printAjax"
+                },
+                {
+                    "value":"previewAjax",
+                    "text":"previewAjax"
+                }
+            ],
+            "default": "print",
+            "help":"完成后是否关闭弹框/页面"
         },
         "targetField": {
             "chineseName": "目标字段",
@@ -64,17 +70,17 @@
             "toolType": "check",
             "default":false        
         },
-        "isMobileInlineBtn": {
-            "chineseName": "是否手机行内按钮",
-            "validType": "boolean",
-            "toolType": "check",
-            "default":true
-        },
         "disabledByWorkflow": {
             "chineseName": "disabledByWorkflow",
             "validType": "boolean",
             "toolType": "check",
             "default":false
+        },
+        "listName": {
+            "chineseName": "listName",
+            "validType": "string",
+            "toolType": "text",
+            "default":""
         },
         "isMainDbAction": {
             "chineseName": "是否双击事件",
@@ -85,13 +91,6 @@
         }
     },
     "data":{
-        "ajax": {
-            "chineseName": "ajax",
-            "validType": "object",
-            "toolType": "ajaxEditor",
-            "required":true
-        },
-        
         "successOperate": {
             "chineseName": "完成后页面动作 ",
             "validType": "string",
@@ -195,10 +194,34 @@
             "default":"",
             "help":"举例:{'id':'{sampleId}'}"         
         },
+        "dropdownSubdata": {
+            "chineseName": "dropdownSubdata",
+            "validType": "object",
+            "toolType": "textarea",
+            "default":"",
+            "help":""         
+        },
+        "dropSelectMode": {
+            "chineseName": "dropSelectMode",
+            "validType": "string",
+            "toolType": "select",
+            "subdata":[
+                {
+                    "value":"checkbox",
+                    "text":"checkbox"
+                },
+                {
+                    "value":"single",
+                    "text":"single"
+                }
+            ],
+            "default":"",
+            "help":""         
+        },
         "parameterFormatType": {
             "chineseName": "参数格式化类型",
             "validType": "string",
-            "toolType": "textarea",
+            "toolType": "select",
             "default":"add",
             "subdata":[
                 {
