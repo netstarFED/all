@@ -256,6 +256,12 @@ var provinceInfo = [
                         "pinyin": "新华区"
                     },
                     {
+                        "code": "130106",
+                        "name": "郊区",
+                        "wb": "郊区",
+                        "pinyin": "郊区"
+                    },
+                    {
                         "code": "130107",
                         "name": "井陉矿区",
                         "wb": "井陉矿区",

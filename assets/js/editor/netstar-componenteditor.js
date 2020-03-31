@@ -1414,6 +1414,18 @@ var NetstarComponentEditor = (function($){
 			label:'infoConfig',
 			type: 		'textarea',
 			column: 	12,	
+		},
+		maxDate : {
+			id:'maxDate',
+			label:'maxDate',
+			type: 		'text',
+			column: 	12,	
+		},
+		minDate : {
+			id:'minDate',
+			label:'minDate',
+			type: 		'text',
+			column: 	12,	
 		}
 	}
 	// 帮助配置
@@ -2343,7 +2355,7 @@ var NetstarComponentEditor = (function($){
 		select:['textField','valueField','contentType','relationField','outputFields','total','isObjectValue','listExpression','panelConfig','selectMode','isPreloadData','defaultSelectedIndex','isReadDefaultWidth','isAddLinkhref','linkDefaultMode','linkUrlSuffix','linkParams','isPage'],
 		radio:['isHasClose','textField','valueField','relationField','outputFields','total','isObjectValue','contentType','searchMode','searchName','defaultSelectedIndex'],
 		checkbox:['textField','valueField','relationField','outputFields','total','isObjectValue','searchMode','searchName','defaultSelectedIndex'],
-		date:['isDefaultDate','format','fieldStart','fieldEnd','ranges'],
+		date:['isDefaultDate','format','fieldStart','fieldEnd','ranges','maxDate','minDate'],
 		textarea:['inputHeight','total','isUseUEditor','model'],
 		'select-dict':['dictArguments','textField','valueField','relationField','outputFields','total','isObjectValue','selectMode','isReadDefaultWidth','isAddLinkhref','linkDefaultMode','linkUrlSuffix','linkParams','isPage'],
 		'radio-dict':['dictArguments','textField','valueField','isHasClose','relationField','outputFields','total','isObjectValue'],
@@ -2355,7 +2367,7 @@ var NetstarComponentEditor = (function($){
         businessSelect:['selectMode','idField','textField','voField','relationField','listExpression','panelConfig','defaultSearchData','outputFields','innerFields','assignExpres','source-ajax','getRowData-ajax','getFormData-ajax'],
 		provinceselect:['',''],
 		map : ['mapType','subFields-code','subFields-longitude','subFields-latitude'],
-		dateRangePicker : ['ranges','isDefaultDate','format','fieldStart','fieldEnd','isRelativeTime'],
+		dateRangePicker : ['ranges','isDefaultDate','format','fieldStart','fieldEnd','isRelativeTime','maxDate','minDate'],
 		treeSelect : ['textField','valueField','showTextField','contentType','children','parentId','level','isMultiple','outputFields','isTurnTree','relationField'],
 		valuesInput : ['format'],
 		upload : ['textField','valueField','isMultiple','accept','urlField','thumUrlField','isShowThum','fileTypeField','fileType','btns','uploadAjaxData', 'visibilityLevel','outputFields','innerFields','produceFileAjax-ajax'],

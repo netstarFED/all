@@ -58,6 +58,7 @@
                                         success:true,
                                         rows:data
                                     }
+                                    nscloud.erppakInfoCustomerName = res.data.customerName;
                                     return returnRows;
                                 }
                             },
@@ -76,7 +77,7 @@
                                         text:'拆箱',
                                         isReturn:true,
                                         handler:function(data){
-                                            debugger;
+                                            // debugger;
                                             var packConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
                                             var id = pageConfig.gridRowData.id
                                             var ajaxConfig = {

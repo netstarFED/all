@@ -263,8 +263,8 @@
                                                     id: id
                                                 }
                                             }
-                                            NetStarUtils.ajax(ajaxConfig, function (res) {
-                                                debugger;
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                // debugger;
                                                 var packingBoxId = res.data.checkupBatchVOList[0].id;
 
                                                 var tempValueName = erpCheckUp.package + new Date().getTime();
@@ -282,11 +282,11 @@
                                     }
                                 },
                                 {
-                                    btn: {
-                                        text: '批次详情',
-                                        isReturn: true,
-                                        handler: function (data) {
-                                            debugger;
+                                    btn:{
+                                        text:'批次详情',
+                                        isReturn:true,
+                                        handler:function(data){
+                                            // debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
                                             var selectedId = {
                                                 id: pageConfig.gridRowData.id,

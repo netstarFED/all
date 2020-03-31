@@ -187,10 +187,24 @@
                             },
                             formatHandler: {
                                 data: {
+<<<<<<< HEAD
                                     format: {
                                         decimal: ".",
                                         places: "2",
 
+=======
+                                    
+                                },
+                                dataSrc: 'rows',
+                                type: 'post',
+                                formatter:function(res){
+                                    var id  = res.data.id;
+                                    nscloud.erpCheckUpId = id
+                                    // debugger;
+                                    return {
+                                        success:true,
+                                        rows:res.data.checkupBatchDetailVOList,
+>>>>>>> d9daaa83258fb8427aeac900a12385b08b4c7470
                                     }
                                 }
                             }

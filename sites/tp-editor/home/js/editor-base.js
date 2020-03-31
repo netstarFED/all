@@ -1080,7 +1080,7 @@ var NetstarEditorServer = (function(){
             if(stateConfig.children && stateConfig.children[0] && fieldGroup[stateConfig.children[0]]){
                 var groupChildren = fieldGroup[stateConfig.children[0]].children;
                 for(var i=0; i<groupChildren.length; i++){
-                    if(fieldConsIds.indexOf[groupChildren[i]] == -1){
+                    if(fieldConsIds.indexOf(groupChildren[i]) == -1){
                         // 删除
                         fieldCons.push({
                             id : groupChildren[i],
@@ -2023,6 +2023,19 @@ var NetstarEditorServer = (function(){
                         if(typeof(field[j].btn) == "object"){
                             _btnConfig = $.extend(true, _btnConfig, field[j].btn);
                         }
+                        if(typeof(_btnConfig.ajax) == "undefined"){
+                            if(typeof(_btnConfig.suffix) == "string"){
+                                _btnConfig.ajax = {
+                                    datasourceType : 'api',
+                                    url : _btnConfig.suffix,
+                                    contentType : _btnConfig.contentType,
+                                    dataSrc : _btnConfig.dataSrc,
+                                    data : _btnConfig.ajaxData,
+                                    type : _btnConfig.type,
+                                    isUseGetRootPath : true,
+                                }
+                            }
+                        }
                         delete _btnConfig.isReturn;
                         field[j] = _btnConfig;
                     }
@@ -2844,7 +2857,7 @@ var NetstarProject = (function(){
             }
             delete config.suffix;
             // 新编辑器属性转当前
-            if(typeof(sourceConfig.ajax) == "object"){
+            if(typeof(sourceConfig.ajax) == "object" && sourceConfig.ajax.datasourceType != "static"){
                 if(sourceConfig.ajax.isUseGetRootPath){
                     config.url = netStarRootPathStr + sourceConfig.ajax.url;
                 }else{

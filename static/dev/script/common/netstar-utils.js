@@ -3670,3 +3670,77 @@ NetStarUtils.base64Safe = (function () {
 
     return __BASE64;
 })();
+//根据身份证号获取详细信息
+NetStarUtils.getDetailInfoByIcd = function (codeIcd) {
+	var sexMap = { 1: "男", 0: "女" };    //
+	// var linkJson = provinceSelect.data;
+	var provinceInfoByCode = nsDataFormat.formatProvince.provinceInfoByCode;
+	if (nsValid.test(codeIcd, 'Icd')) {
+		var codeLength = codeIcd.length;//身份证号15,18？
+		var sexName = '';//性别2代表女1代表男3是未知
+		var sexId = '3';//性别2代表女1代表男3是未知
+		var city = '';//籍贯
+		var cityCode = '';//编码
+		var brithDate = '';//出生日
+		var brithYear = '';//年份
+		var brithmonth = '';//月份
+		var birthDay = '';//日
+		var age = '';//年龄
+		var cYear = moment().year();
+		var cMonth = moment().month() + 1;
+		var cDate = moment().get('date');
+		switch (codeLength) {
+			case 15:
+				//7、8出生年份两位 9、10出生月份 11、12出生日期  15性别（奇数男，偶数女）
+				brithYear = '19' + codeIcd.substring(6, 8);
+				brithmonth = codeIcd.substring(8, 10);
+				birthDay = codeIcd.substring(10, 12);
+				brithDate = brithYear + '-' + brithmonth + '-' + birthDay;
+				//获取性别
+				sexName = sexMap[codeIcd.substring(14, 15) % 2];
+				break;
+			case 18:
+				//7,8,9,10出生年份 11、12出生月份 13,14出生日期  17性别（奇数男，偶数女）
+				brithYear = codeIcd.substring(6, 10);
+				brithmonth = codeIcd.substring(10, 12);
+				birthDay = codeIcd.substring(12, 14);
+				brithDate = brithYear + '-' + brithmonth + '-' + birthDay;
+				//获取性别
+				sexName = sexMap[codeIcd.substring(16, 17) % 2];
+				break;
+		}
+		if (sexName === '男') {
+			sexId = "1";
+		} else if (sexName === '女') {
+			sexId = "2";
+		}
+		//获取年龄
+		age = cYear - brithYear - 1;
+		if (brithmonth < cMonth || brithmonth == cMonth && birthDay <= cDate) {
+			age++;
+		}
+		// var cityData = linkJson[codeIcd.substring(0, 6)];
+		// var proJson = linkJson[cityData.city.code];
+		// city = proJson.pro.name + ',' + cityData.city.name + ',' + cityData.area.name;
+		// cityCode = { pro: proJson.pro, city: cityData.city, area: cityData.area };
+		var areaInfos = provinceInfoByCode[codeIcd.substring(0, 6)];
+		var area = areaInfos.name;
+		var areaCode = areaInfos.code;
+		var proCode = areaCode.substring(0, 2) + '0000';
+		var cityCode = areaCode.substring(0, 4) + '00';
+		var codes = { pro: proCode, city: cityCode, area: areaCode };
+		var json = {
+			city: area,
+			cityCode: codes,
+			sexName: sexName,
+			sexId: sexId,
+			age: age,
+			brithDate: brithDate,
+			brithYear: brithYear,
+			brithmonth: brithmonth,
+			birthDay: birthDay
+		}
+		return json;
+	}
+}
+

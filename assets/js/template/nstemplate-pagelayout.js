@@ -6020,6 +6020,23 @@ pageProperty.editorDataSwitch = {
 				break;
 			}
 		}
+		// 处理getValueAjax/saveData
+		if(typeof(pageConfig.getValueAjax) == "object"){
+			if(pageConfig.getValueAjax.src){
+				var getRootPathStr = getRootPath();
+				pageConfig.getValueAjax.url = pageConfig.getValueAjax.src.replace(getRootPathStr, '');
+				pageConfig.getValueAjax.isUseGetRootPath = true;
+				pageConfig.getValueAjax.datasourceType = 'api';
+			}
+        }
+        if(typeof(pageConfig.saveData) == "object"){
+			if(pageConfig.saveData.src){
+				var getRootPathStr = getRootPath();
+				pageConfig.saveData.url = pageConfig.saveData.src.replace(getRootPathStr, '');
+				pageConfig.saveData.isUseGetRootPath = true;
+				pageConfig.saveData.datasourceType = 'api';
+			}
+        }
 		return pageConfig;
 	},
 	// 获取元素

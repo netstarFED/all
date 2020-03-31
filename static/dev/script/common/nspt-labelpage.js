@@ -64,8 +64,8 @@ NetstarUI.message = (function ($) {
        */
       //icon-ellipsis-h
       var html = {
-         mainHtml: '<li @click="openPanel($event)" class="pt-top-menu-item">\
-                         <div class="pt-top-menu-item-row">\
+         mainHtml: '<li class="pt-top-menu-item">\
+                         <div class="pt-top-menu-item-row" @click="openPanel($event)">\
                             <a class="pt-nav-item" href="#">\
                                <i class="icon-bell-o"></i>\
                                <span>{{vueConfig.btnInfo.title}}</span>\
@@ -214,7 +214,7 @@ NetstarUI.message = (function ($) {
             openPanel: function (e) {
                var vm = this;
                vm.messageIsShow = !vm.messageIsShow;
-               //添加一些document点击事件
+               //添加一些document点击事件          
                if (!vm.messageIsShow) {
                   $(document).off('click');
                } else {
@@ -253,6 +253,7 @@ NetstarUI.message = (function ($) {
             loadPage: function (panel, index) {
                var vm = this;
                var type = panel.type;
+               vm.messageIsShow = !vm.messageIsShow;
                switch (type) {
                   case 'board':
 
@@ -289,6 +290,7 @@ NetstarUI.message = (function ($) {
             loadPageByCategroy: function (panel, index, data) {
                var vm = this;
                var type = panel.type;
+               vm.messageIsShow = !vm.messageIsShow;
                switch (type) {
                   case 'board':
 
