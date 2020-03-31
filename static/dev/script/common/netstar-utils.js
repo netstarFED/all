@@ -842,6 +842,7 @@ NetStarUtils.getListQueryData = function (_columns, _configObj) {
 					tempJson.hidden = true;
 					delete tempJson.rules;
 					tempJson.inputWidth = 150;
+					delete tempJson.width;
 					if(editConfig.type == "business"){
 						tempJson.isNeedJumpNext = false;
 					}
@@ -855,6 +856,7 @@ NetStarUtils.getListQueryData = function (_columns, _configObj) {
 				queryJson.searchType = colData.type;
 				advanceJson = businessConfig;
 				var tempJson = $.extend(true, {}, businessConfig);
+				delete tempJson.width;
 				delete tempJson.label;
 				tempJson.hidden = true;
 				delete tempJson.rules;

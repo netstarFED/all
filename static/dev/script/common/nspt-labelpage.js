@@ -178,6 +178,13 @@ NetstarUI.message = (function ($) {
                      if(typeof(NetstarHomePage) == "object" && typeof(NetstarHomePage.mainMessageVue) == "object"){
                         NetstarHomePage.mainMessageVue.detailsData = panelList[i].rows;
                      }
+                     if(typeof(NetstarBlockList.configs['list-li-waiting-message']) == "object"){
+                        var arr = [];
+                        for(var j=0; j<panelList[i].rows.length; j++){
+                           arr.push(panelList[i].rows[j].rows[0]);
+                        }
+                        NetstarBlockList.configs['list-li-waiting-message'].vueObj.originalRows = arr;
+                     }
                   }
                }
             },
