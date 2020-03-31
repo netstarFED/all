@@ -1430,7 +1430,7 @@ NetstarTemplate.templates.businessDataBase = (function(){
 						_componentConfig.doubleClickHandler(data);
 					}
 				};
-				customUI.height = $('#'+_componentConfig.container).outerHeight() - 48;
+				customUI.height = $('#'+_componentConfig.container).outerHeight() - 51;
 				
 				var defaultValue = '';
 				if(!$.isEmptyObject(_config.pageParam)){
@@ -1477,7 +1477,7 @@ NetstarTemplate.templates.businessDataBase = (function(){
 										+'</div>'
 									+'</div></div>';
 						$('#'+_componentConfig.container).html(html);
-						$('#'+_componentConfig.container).closest('.pt-modal-content').css({'width':'900px'});
+						// $('#'+_componentConfig.container).closest('.pt-modal-content').css({'width':'900px'});
 						setParamsByTree(_config,{height:customUI.height});
 						NetstarTemplate.commonFunc.tree.init(_config.componentsConfig.tree,_config);
 					}else{

@@ -5304,6 +5304,20 @@ NetstarComponent.dialogComponent = {
         if($('#'+dialogContainerId).length>0){
             return;
         }
+        // 读取记录
+        if(config.isStore){
+            var name = config.id;
+            if(typeof(config.name) == "string"){
+                name = config.name;
+            }
+            var dialogInfo = store.get(name);
+            if(dialogInfo){
+                for(var key in dialogInfo){
+                    config[key] = dialogInfo[key];
+                }
+            }
+        }
+
         config.dialogContainerId = dialogContainerId;
         NetstarComponent.dialog[config.id] = {};
         var _this = this;
@@ -7554,12 +7568,12 @@ NetstarComponent.business = {
                     }
                 },
             }
-            var dialogInfo = store.get(dialogConfig.id);
-            if(dialogInfo){
-                for(var key in dialogInfo){
-                    dialogConfig[key] = dialogInfo[key];
-                }
-            }
+            // var dialogInfo = store.get(dialogConfig.id);
+            // if(dialogInfo){
+            //     for(var key in dialogInfo){
+            //         dialogConfig[key] = dialogInfo[key];
+            //     }
+            // }
             NetstarComponent.dialogComponent.init(dialogConfig);
         },
     },
