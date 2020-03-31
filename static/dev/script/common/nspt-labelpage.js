@@ -253,6 +253,7 @@ NetstarUI.message = (function ($) {
             loadPage: function (panel, index) {
                var vm = this;
                var type = panel.type;
+               vm.messageIsShow = !vm.messageIsShow;
                switch (type) {
                   case 'board':
 
@@ -289,6 +290,7 @@ NetstarUI.message = (function ($) {
             loadPageByCategroy: function (panel, index, data) {
                var vm = this;
                var type = panel.type;
+               vm.messageIsShow = !vm.messageIsShow;
                switch (type) {
                   case 'board':
 
