@@ -6026,6 +6026,7 @@ pageProperty.editorDataSwitch = {
 				var getRootPathStr = getRootPath();
 				pageConfig.getValueAjax.url = pageConfig.getValueAjax.src.replace(getRootPathStr, '');
 				pageConfig.getValueAjax.isUseGetRootPath = true;
+				pageConfig.getValueAjax.datasourceType = 'api';
 			}
         }
         if(typeof(pageConfig.saveData) == "object"){
@@ -6033,6 +6034,7 @@ pageProperty.editorDataSwitch = {
 				var getRootPathStr = getRootPath();
 				pageConfig.saveData.url = pageConfig.saveData.src.replace(getRootPathStr, '');
 				pageConfig.saveData.isUseGetRootPath = true;
+				pageConfig.saveData.datasourceType = 'api';
 			}
         }
 		return pageConfig;
