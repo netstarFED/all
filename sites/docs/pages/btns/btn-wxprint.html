@@ -1,0 +1,223 @@
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+<container>
+    <div class="netstar-docs">
+        <!--内容  -->
+        <div class="panel content">
+            <!--type-btns 参数 -->
+            <div class="panel panel-default params" netstar-doc="intro">
+                <div class="panel-header">
+                    <h1>wxtPrint</h1>
+                    <h2 id="sense-params">通用参数说明</h2>
+                </div>
+                <div class="panel body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="parame-width">参数</th>
+                                <th class="explain-width">说明</th>
+                                <th class="mold-width">类型</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>defaultMode</td>
+                                <td>类型</td>
+                                <td>string</td>
+                                <td>弹框addInfoDidalog</td>
+                            </tr>
+                            <tr>
+                                <td>functionClass</td>
+                                <td>方法类型</td>
+                                <td>string</td>
+                                <td>modal/list </td>
+                            </tr>
+                            <tr>
+                                <td>url</td>
+                                <td>地址</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>type</td>
+                                <td>传参类型</td>
+                                <td>string</td>
+                                <td>ajax类型，GET/POST (默认GET)</td>
+                            </tr>
+                            <tr>
+                                <td>contentType</td>
+                                <td>ajax的传值类型</td>
+                                <td>string</td>
+                                <td>ajax的传值类型 ‘application/json’表示传值data转化成字符串</td>
+                            </tr>
+                            <tr>
+                                <td>text</td>
+                                <td>按钮文字</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>keyField</td>
+                                <td>关键字</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>弹框标题</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>listName</td>
+                                <td>列表名字</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>isMainDbAction</td>
+                                <td>是否双击事件</td>
+                                <td>boolean</td>
+                                <td>是否将当前方法定义为表格行双击时执行的方法</td>
+                            </tr>
+                            <tr>
+                                <td>isInlineBtn</td>
+                                <td>是否行内按钮</td>
+                                <td>boolean</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>isMobileInlineBtn</td>
+                                <td>是否手机行内按钮</td>
+                                <td>boolean</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>disabledExpression</td>
+                                <td>禁用表达式</td>
+                                <td>object</td>
+                                <td>{1:'disabled'}</td>
+                            </tr>
+                            <tr>
+                                <td>formatValueData</td>
+                                <td>界面格式化转参</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>parameterFormat</td>
+                                <td>参数格式化</td>
+                                <td>object</td>
+                                <td>举例：{"id":"{xxx}"}</td>
+                            </tr>
+                            <tr>
+                                <td>parameterFormatType</td>
+                                <td>参数格式化类型</td>
+                                <td>string</td>
+                                <td>所定义的参数是否会覆盖默认参数</td>
+                            </tr>
+                            <tr>
+                                <td>targetField</td>
+                                <td>目标字段</td>
+                                <td>string</td>
+                                <td>目标字段  （keyField）</td>
+                            </tr>
+                            <tr>
+                                <td>btnType</td>
+                                <td>按钮类型</td>
+                                <td>string</td>
+                                <td>print  preview  printAjax  previewAjax</td>
+                            </tr>
+                            <tr>
+                                <td>dropdownSubdata</td>
+                                <td>dropdownSubdata</td>
+                                <td>string</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>dropSelectMode</td>
+                                <td>dropSelectMode</td>
+                                <td>string</td>
+                                <td>checkbox   single</td>
+                            </tr>
+                            <tr>
+                                <td>disabledByWorkflow</td>
+                                <td>工作流按钮只读</td>
+                                <td>boolean</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel content-demo" netstar-doc="sample">
+                <!-- <a href="javascript:void(0);" id="sense-nsdocs-date-disabled"></a>   -->
+                <!-- <h3 class="title-code">只读</h3>-->
+                <span class="intro">举例 </span> 
+                <div id="nsdocs-date-disabled" class="panel-demo"></div>
+                <!-- js块 -->
+                <div class="content language-javascript expand ">
+                    <pre>
+    functionConfig:{
+        ajaxDataVaildConfig: "{}"
+        btnType: "previewAjax"
+        chineseName: "销售单打印网星通"
+        dataFormat: "object"
+        dataSrc: "data"
+        defaultMode: "wxtPrint"
+        dropSelectMode: "single"
+        dropdownSubdata: [
+            {
+                ajax:{
+                    url: "/saleController/v2/createReport"
+                    contentType: "application/x-www-form-urlencoded"
+                    data: {id: "{listSelected.id}", reportTemplateId: "1316634437328307186"}
+                    dataSrc: "data"
+                    type: "GET"
+                },
+                info: "销售单打印",
+                title: "打印"
+            }
+        ]
+        englishName: "salePrint"
+        entityName: "saleController_v2"
+        fileField: "fileId"
+        functionClass: "modal"
+        isInlineBtn: false
+        isKeepSelected: false
+        isMobileInlineBtn: true
+        isSendPageParams: true
+        isSetValueToSourcePage: false
+        parameterFormatType: "add"
+        showBtnType: "state"
+        text: "网星通打印"
+        textField: "code"
+        type: "GET"
+        valueField: "id"
+    }
+                           
+                    </pre>
+                </div>
+            </div>
+            <div class="ns-demo-step">
+                <!-- <p>新增页面</p> -->
+                <ul>
+                    <li class="ns-demo-step-process"> 
+                        *网星通打印
+                    </li>
+                    <li class="ns-demo-component-title" style="color:brown">
+                    </li>
+                    <li class="ns-demo-component-title-content" style="color:dimgray">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- <script>
+        $(function(){
+            NetstarDocs.init();
+        })
+    </script> -->
+</container>
+
+<!--# include file="/sites/docs/include/homepage-html-dev-2.html" -->
