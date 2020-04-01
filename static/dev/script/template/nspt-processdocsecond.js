@@ -434,6 +434,40 @@ NetstarTemplate.templates.processDocSecond = (function ($) {
       };
       _config.serverData = {};
       _config.pageData = {};
+      _config.closeValidSaveTime = typeof(_config.closeValidSaveTime) == "number" ? _config.closeValidSaveTime : 500;
+      if(_config.closeValidSaveTime > -1){
+         _config.beforeCloseHandler = function(package){
+            var templateConfig = NetstarTemplate.templates.configs[package];
+            if(!templateConfig){
+               return false;
+            }
+            function delUndefinedNull(obj){
+               if($.isArray(obj)){
+                  for(var i=0; i<obj.length; i++){
+                     delUndefinedNull(obj[i]);
+                  }
+               }else{
+                  for(var key in obj){
+                     if(typeof(obj[key]) == "object"){
+                        delUndefinedNull(obj[key]);
+                     }else{
+                        if(obj[key] === '' || obj[key] === undefined){
+                           delete obj[key];
+                        }
+                     }
+                  }
+               }
+            }
+            var pageData = getPageData(package, false, false);
+            delUndefinedNull(pageData)
+            var pageInitDefaultData = templateConfig.pageInitDefaultData ? templateConfig.pageInitDefaultData : templateConfig.serverData;
+            delUndefinedNull(pageInitDefaultData)
+            return {
+               getPageData : pageData,
+               serverData : pageInitDefaultData,
+            }
+         }
+      }
    }
    //初始化执行
    function init(_config){
@@ -478,12 +512,20 @@ NetstarTemplate.templates.processDocSecond = (function ($) {
                templateConfig.pageData = NetStarUtils.deepCopy(resData);//克隆服务端返回的原始数据
 
                initComponentInit(templateConfig);//组件化分别调用
+               if(_config.closeValidSaveTime > -1){
+                  setTimeout(function(){
+                     templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false);
+                  }, _config.closeValidSaveTime);
+               }
             }else{
                nsalert('返回值false','error');
             }
          },true);
       }else{
          initComponentInit(_config);
+         setTimeout(function(){
+            _config.pageInitDefaultData = getPageData(_config, false, false);
+         }, 500);
       }
    }
    //获取界面vo数据

@@ -1,36 +1,62 @@
 @card-hole-size: 10px;
-.card-group{
-    .card-list{
-        .card{
+
+.card-group {
+    .card-list {
+        .card {
             display: table;
             width: 100%;
             border-radius: 5px;
             background: #eee;
             min-height: 72px;
+            #gradient>.vertical(#eac994, #d29665);
+
             .card-before,
             .card-body,
-            .card-after{
+            .card-after {
                 display: table-cell;
-                vertical-align:middle;
+                vertical-align: middle;
                 padding: 0 @base-padding;
             }
+
             .card-before,
-            .card-after{
+            .card-after {
                 text-align: center;
-                .pt-btn{
+                color: #fff;
+
+                .pt-btn {
                     height: 18px;
-                    padding: 0 3px;
-                    
+                    padding: 0 (@base-padding / 2);
+                    border-radius: 100rem;
+                    background: transparent;
+
+                    &:hover {
+                        background: #fff;
+                        border-color: #fff;
+
+                        span {
+                            color: @warning;
+                        }
+                    }
+
+                    span {
+                        color: #fff;
+                    }
+
                 }
             }
-            .card-before{
+
+            .card-before {
+                width: 64px;
                 font-size: 14px;
                 position: relative;
-                & + .card-body{
+
+                &+.card-body {
                     border-left: 2px dashed #fff;
+                    color: #fff;
                 }
+
                 &:before,
-                &:after{
+                &:after {
                     position: absolute;
                     content: '';
                     display: block;
@@ -39,18 +65,31 @@
                     background: #fff;
                     right: -6px;
                 }
-                &:before{
+
+                &:before {
                     top: 0;
                     border-radius: 0 0 10px 10px;
                 }
-                &:after{
+
+                &:after {
                     bottom: 0;
                     border-radius: 10px 10px 0 0;
                 }
             }
-            .card-title{
+
+            .card-title {
                 font-size: 18px;
             }
+
+            &.card-checked {
+                i.icon-check-circle {
+                    color: #fff;
+                }
+            }
+        }
+
+        &+.card-list {
+            margin-top: @base-margin;
         }
     }
 }
