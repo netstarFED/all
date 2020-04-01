@@ -208,11 +208,19 @@
                                         text:'提交',
                                         isReturn:true,
                                         handler:function(){
+                                            debugger
                                             var rowData = NetstarTemplate.templates.configs["nscloud.erppackingup"].gridRowData;
                                             var workItemId = rowData.workItemId;
                                             var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
                                             func['submit'](function(res){
                                                 nsalert(res, 'success');
+                                                //提交成功后删除当前行
+                                                var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-erppackingup-blockList-0'].vueObj.rows;;
+                                                for(var i=0; i<rows.length; i++){
+                                                    if(rows.id == rowDatas[i].id){
+                                                        rows.splice(i,1);
+                                                    }
+                                                }
                                             }, function(err){
                                                 console.error(err);
                                             })
