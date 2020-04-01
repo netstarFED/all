@@ -264,7 +264,6 @@
                                                 }
                                             }
                                             NetStarUtils.ajax(ajaxConfig,function(res){
-                                                // debugger;
                                                 var packingBoxId = res.data.checkupBatchVOList[0].id;
 
                                                 var tempValueName = erpCheckUp.package + new Date().getTime();
@@ -286,7 +285,6 @@
                                         text:'批次详情',
                                         isReturn:true,
                                         handler:function(data){
-                                            // debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
                                             var selectedId = {
                                                 id: pageConfig.gridRowData.id,
@@ -294,7 +292,7 @@
                                             var tempValueName = erpCheckUp.package + new Date().getTime();
                                             var tempValueNameCode = encodeURIComponent(tempValueName);
                                             if (typeof (NetstarTempValues) == 'undefined') { NetstarTempValues = {}; }
-                                            NetstarTempValues[tempValueNameCode] = selectedId
+                                            NetstarTempValues[tempValueNameCode] = pageConfig.gridRowData
                                             var url = window.location.protocol + '//' + window.location.host + "/sites/erp/erpcheckupdetails.html?templateparam=" + tempValueNameCode;
                                             nsFrame.loadPageVRouter(url);
                                             console.log(pageConfig)

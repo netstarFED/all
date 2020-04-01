@@ -20,7 +20,8 @@
             var getRootPath = function () {
                 return "https://qaapi.wangxingcloud.com/"
             }
-            var erppakingId = nscloud.erppakingId
+            $(function(){
+                var erppakingId = nscloud.erppakingId;
             var innerHTML =
                 `<header class="header">
                             <div class="btn-group">
@@ -45,7 +46,7 @@
                 `<footer>
                     <div class="btn-group nav-form">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-success" onclick="save()">
+                            <button type="button" class="btn btn-success" onclick="javascript:nscloud.boxpackingSave()">
                                 <i class="fa-save"></i>
                                 <span>保存</span>
                             </button>
@@ -70,13 +71,18 @@
                     data:dataManager.dataRes
                 };
                 NetStarUtils.ajax(ajaxConfig,function(res){
+                    
                     console.log(res);
                     if(res.success){
-                        nsAlert("保存成功")
+                        nsAlert("保存成功");
+                        window.history.back();
+                    }else{
+                        window.history.back();
                     }
                 })
 
             }
+            nscloud.boxpackingSave = save;
             var inlineSrceen = {
                 id: "inlinesrceen-radio",
                 size: "standard compactmode",
@@ -289,7 +295,7 @@
                                                 <span class=\"title text-gray\">品质分类</span></div>
                                             <div class=\"block-list-form \">
                                                 <span class=\"title text-gray\">未装箱数量：
-                                                    <label>{{lastQuantity}}</label></span>
+                                                    <label>{{lackQuantity}}</label></span>
                                                 
                                             </div>
                                             <div class=\"block-list-form \">
@@ -339,6 +345,8 @@
             };
             cameraScan.initHoneywellScan();
              // NETSTAR添加url参数即pageParam
+            })
+
         </script>
     </container>
 </body>

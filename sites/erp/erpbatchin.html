@@ -187,24 +187,9 @@
                             },
                             formatHandler: {
                                 data: {
-<<<<<<< HEAD
                                     format: {
                                         decimal: ".",
-                                        places: "2",
-
-=======
-                                    
-                                },
-                                dataSrc: 'rows',
-                                type: 'post',
-                                formatter:function(res){
-                                    var id  = res.data.id;
-                                    nscloud.erpCheckUpId = id
-                                    // debugger;
-                                    return {
-                                        success:true,
-                                        rows:res.data.checkupBatchDetailVOList,
->>>>>>> d9daaa83258fb8427aeac900a12385b08b4c7470
+                                        places: "2",                                
                                     }
                                 }
                             }
@@ -254,7 +239,6 @@
                             formatter: function (res) {
                                 var id = res.data.id;
                                 nscloud.erpCheckUpId = id
-                                debugger;
                                 return {
                                     success: true,
                                     rows: res.data.checkupBatchDetailVOList,
@@ -329,7 +313,7 @@
                                 text: '创建分批',
                                 isReturn: true,
                                 handler: function (res) {
-                                    var url = window.location.protocol + '//' + window.location.host + '/sites/erp/createbatch.html'
+                                    var url = window.location.protocol + '//' + window.location.host + '/sites/erp/createbatch.html';
                                     nsFrame.loadPageVRouter(url);
                                 }
                             }
@@ -339,13 +323,16 @@
                     ]
                 }
                 // NETSTAR添加url参数即pageParam
+                if(NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erpbatchin']){
+                    delete NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erpbatchin'] 
+                }
                 NetstarTemplate.init(erpBatchIn);
 
             })
             var innerHTML =
                 `<header class="header">
                     <div class="btn-group">
-                        <a href="##" class="btn btn-icon">
+                        <a href="#" class="btn btn-icon">
                             <i class="icon icon-arrow-left-o"></i>
                         </a>
                     </div>

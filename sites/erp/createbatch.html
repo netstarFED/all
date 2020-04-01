@@ -20,8 +20,9 @@
             var getRootPath = function () {
                 return "https://qaapi.wangxingcloud.com"
             }
-            var innerHTML =
-                `<header class="header">
+            $(function () {
+                var innerHTML =
+                    `<header class="header">
                             <div class="btn-group">
                                 <a href="##" class="btn btn-icon">
                                     <i class="icon icon-arrow-left-o"></i>
@@ -33,293 +34,299 @@
                             </div>
                         </header>`;
 
-            $("container").prepend(innerHTML);
-            if ($("header").length != 0 && $(".mobile-input-search").length == 0) {
-                $("container").addClass("padding-top-header");
-            };
-            if ($("header").length != 0 && $(".mobile-input-search").length != 0) {
-                $("container").addClass("padding-top-header-search");
-            };
-            var saveBtnHtml =
-                `<footer>
+                $("container").prepend(innerHTML);
+                if ($("header").length != 0 && $(".mobile-input-search").length == 0) {
+                    $("container").addClass("padding-top-header");
+                };
+                if ($("header").length != 0 && $(".mobile-input-search").length != 0) {
+                    $("container").addClass("padding-top-header-search");
+                };
+                var saveBtnHtml =
+                    `<footer>
                     <div class="btn-group nav-form">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-success" onclick="save()">
+                            <button type="button" class="btn btn-success" onclick="javascript:nscloud.createbatchSave();">
                                 <i class="fa-save"></i>
                                 <span>创建批次</span>
                             </button>
                         </div>
                     </div>
                 </footer>`
-            $("container").append(saveBtnHtml);
-            var dataManager = {
-                datetimeStamp: Date.parse(new Date()),
-                dataRes: "",
-            }
-            function save() {
-                if (dataManager.dataRes.checkupBatchDetailVOList) {
-                    dataManager.dataRes.checkupBatchDetailVOList = NetstarBlockListM.dataManager.getData('mobile-blocklist')
-                    dataManager.dataRes.whenCreated = dataManager.datetimeStamp;
-                    dataManager.dataRes.objectState = 2
+                $("container").append(saveBtnHtml);
+                var dataManager = {
+                    datetimeStamp: Date.parse(new Date()),
+                    dataRes: "",
+                }
+
+                function save() {
+                    if (dataManager.dataRes.checkupBatchDetailVOList) {
+                        dataManager.dataRes.checkupBatchDetailVOList = NetstarBlockListM.dataManager.getData(
+                            'mobile-blocklist')
+                        dataManager.dataRes.whenCreated = dataManager.datetimeStamp;
+                        dataManager.dataRes.objectState = 2
+                    };
+                    console.log(dataManager.dataRes);
+                    var ajaxConfig = {
+                        url: getRootPath() + '/checkups/v2/addBatch',
+                        contentType: 'application/json',
+                        data: dataManager.dataRes
+                    };
+                    NetStarUtils.ajax(ajaxConfig, function (res) {
+                        console.log(res);
+                        if (res.success) {
+                            nsAlert("保存成功");
+                            window.history.back();
+                        } else {
+                            window.history.back();
+                        }
+                    })
+
+                }
+                
+                nscloud.createbatchSave = save;
+                var inlineSrceen = {
+                    id: "inlinesrceen-radio",
+                    size: "standard compactmode",
+                    format: "standard",
+                    fillbg: true,
+                    plusClass: 'commonwidth',
+                    formSource: 'inlineScreen',
+                    form: [{
+                        id: 'date',
+                        label: '装箱日期',
+                        type: 'date',
+                        column: 6,
+                        changeHandler: function (value, config) {
+                            console.log(value);
+                            dataManager.datetimeStamp = value;
+                            console.log(config);
+                        },
+
+                        value: Date.parse(new Date()),
+                    }]
                 };
-                console.log(dataManager.dataRes);
-                var ajaxConfig = {
-                    url: getRootPath() + '/checkups/v2/addBatch',
-                    contentType: 'application/json',
-                    data: dataManager.dataRes
-                };
-                NetStarUtils.ajax(ajaxConfig, function (res) {
-                    console.log(res);
-                    if (res.success) {
-                        nsAlert("保存成功")
-                    }
-                })
+                formPlane.formInit(inlineSrceen);
 
-            }
-            var inlineSrceen = {
-                id: "inlinesrceen-radio",
-                size: "standard compactmode",
-                format: "standard",
-                fillbg: true,
-                plusClass: 'commonwidth',
-                formSource: 'inlineScreen',
-                form: [{
-                    id: 'date',
-                    label: '装箱日期',
-                    type: 'date',
-                    column: 6,
-                    changeHandler: function (value, config) {
-                        console.log(value);
-                        dataManager.datetimeStamp = value;
-                        console.log(config);
-                    },
-
-                    value: Date.parse(new Date()),
-                }]
-            };
-            formPlane.formInit(inlineSrceen);
-
-            var mobileBlocklist = {
-                id: 'mobile-blocklist',
-                type: 'list',
-                data: {
-                    isSearch: true,
-                    isPage: true,
-                    idField: 'id',
-                    src: getRootPath() + '/checkups/v2/getByCheckupBatchId',
+                var mobileBlocklist = {
+                    id: 'mobile-blocklist',
+                    type: 'list',
                     data: {
-                        id: nscloud.erpCheckUpId
-                        // id: "1330263747243138034"
+                        isSearch: true,
+                        isPage: true,
+                        idField: 'id',
+                        src: getRootPath() + '/checkups/v2/getByCheckupBatchId',
+                        data: {
+                            id: nscloud.erpCheckUpId
+                            // id: "1330263747243138034"
 
-                    },
-                    dataSrc: 'data.checkupBatchDetailVOList',
-                    type: 'POST',
-                    contentType: 'application/x-www-form-urlencoded',
-                    formatter: function (res) {
-                        dataManager.dataRes = res.data;
-                    }
-                },
-                columns: [
-                    {
-                        field: "goodsShopName",
-                        title: "商品名称",
-                        mindjetType: "text",
-                        editConfig: {
-                            type: "text"
-                        }
-                    },
-                    {
-                        field: "goodsShopCode",
-                        title: "商品编码",
-                        mindjetType: "text",
-                        editConfig: {
-                            type: "text"
-                        }
-                    },
-                    {
-                        field: "price",
-                        title: "单价",
-                        mindjetType: "text",
-                        editConfig: {
-                            type: "text"
-                        }
-                    },
-                    {
-                        field: "quantity",
-                        title: "数量",
-                        mindjetType: "number",
-                        editConfig: {
-                            type: "number"
-                        }
-                    },
-                    {
-                        field: "temporaryQuantity",
-                        title: "临时采购数量",
-                        mindjetType: "number",
-                        editConfig: {
-                            type: "number"
-                        }
-                    },
-                    {
-                        field: "outQuantity",
-                        title: "已检数量",
-                        mindjetType: "number",
-                        editConfig: {
-                            type: "number"
-                        }
-                    }, {
-                        field: "unCheckedQuantity",
-                        title: "未检数量",
-                        mindjetType: "number",
-                        editConfig: {
-                            type: "number"
-                        }
-                    },
-                    {
-                        field: "locationsType",
-                        title: "正品/残次",
-                        editConfig: {
-                            type: "select",
-                            textField: "value",
-                            valueField: "id",
                         },
-                        formatHandler: {
-                            type: "stringReplace",
-                            data: {
-                                formatDate: {
-                                    0: "正品",
-                                    5: "残次",
+                        dataSrc: 'data.checkupBatchDetailVOList',
+                        type: 'POST',
+                        contentType: 'application/x-www-form-urlencoded',
+                        formatter: function (res) {
+                            dataManager.dataRes = res.data;
+                        }
+                    },
+                    columns: [{
+                            field: "goodsShopName",
+                            title: "商品名称",
+                            mindjetType: "text",
+                            editConfig: {
+                                type: "text"
+                            }
+                        },
+                        {
+                            field: "goodsShopCode",
+                            title: "商品编码",
+                            mindjetType: "text",
+                            editConfig: {
+                                type: "text"
+                            }
+                        },
+                        {
+                            field: "price",
+                            title: "单价",
+                            mindjetType: "text",
+                            editConfig: {
+                                type: "text"
+                            }
+                        },
+                        {
+                            field: "quantity",
+                            title: "数量",
+                            mindjetType: "number",
+                            editConfig: {
+                                type: "number"
+                            }
+                        },
+                        {
+                            field: "temporaryQuantity",
+                            title: "临时采购数量",
+                            mindjetType: "number",
+                            editConfig: {
+                                type: "number"
+                            }
+                        },
+                        {
+                            field: "outQuantity",
+                            title: "已检数量",
+                            mindjetType: "number",
+                            editConfig: {
+                                type: "number"
+                            }
+                        }, {
+                            field: "unCheckedQuantity",
+                            title: "未检数量",
+                            mindjetType: "number",
+                            editConfig: {
+                                type: "number"
+                            }
+                        },
+                        {
+                            field: "locationsType",
+                            title: "正品/残次",
+                            editConfig: {
+                                type: "select",
+                                textField: "value",
+                                valueField: "id",
+                            },
+                            formatHandler: {
+                                type: "stringReplace",
+                                data: {
+                                    formatDate: {
+                                        0: "正品",
+                                        5: "残次",
+                                    }
+
                                 }
+                            },
+                            columnType: "stringReplace"
+                        },
+                        {
+                            field: "dictGoodsPlatUnitName",
+                            title: "单位",
+                            dictArguments: "unit",
+                            editConfig: {
+                                type: "select",
+                                textField: "value",
+                                valueField: "id",
+                                dictArguments: "unit"
+                            },
+                            formatHandler: {
+                                type: "dictionary",
+                                data: {
+                                    1: "个",
+                                    2: "桶",
+                                    3: "组",
+                                    4: "只",
+                                }
+                            },
+                            columnType: "dictionary"
+                        },
+                        {
+                            field: 'normalQuantity',
+                            title: '正常件数量',
+                            changeHandler: function (value, config) {
+                                console.log(value);
+                                console.log(config);
+                            },
+                            // value: 7,
+                            editable: true,
+                            editConfig: {
+                                type: "adderSubtracter"
+                            }
+                        },
+                        {
+                            field: 'abnormalQuantity',
+                            title: '待退货数量',
+                            changeHandler: function (value, config) {
+                                console.log(value);
+                                console.log(config);
+                            },
+                            // value: 7,
+                            editable: true,
+                            editConfig: {
+                                type: "adderSubtracter"
+                            }
+                        },
+                        {
+                            field: 'defectQuantity',
+                            title: '残次品数量',
+                            changeHandler: function (value, config) {
+                                console.log(value);
+                                console.log(config);
+                            },
+                            // value: 7,
+                            editable: true,
+                            editConfig: {
+                                type: "adderSubtracter"
+                            }
+                        },
+                        {
+                            field: 'trashQuantity',
+                            title: '废品件数量',
+                            changeHandler: function (value, config) {
+                                console.log(value);
+                                console.log(config);
+                            },
+                            // value: 7,
+                            editable: true,
+                            editConfig: {
+                                type: "adderSubtracter"
+                            }
+                        },
+                        {
+                            field: 'lackQuantity',
+                            title: '缺货数量',
+                            changeHandler: function (value, config) {
+                                console.log(value);
+                                console.log(config);
+                            },
+                            // value: 7,
+                            editable: true,
+                            editConfig: {
+                                type: "adderSubtracter"
+                            }
+                        },
+                        {
+                            field: "dictBrandBrandName",
+                            title: "品牌",
+                            mindjetType: "text",
+                            editConfig: {
+                                type: "text",
 
                             }
                         },
-                        columnType: "stringReplace"
-                    },
-                    {
-                        field: "dictGoodsPlatUnitName",
-                        title: "单位",
-                        dictArguments: "unit",
-                        editConfig: {
-                            type: "select",
-                            textField: "value",
-                            valueField: "id",
-                            dictArguments: "unit"
-                        },
-                        formatHandler: {
-                            type: "dictionary",
-                            data: {
-                                1: "个",
-                                2: "桶",
-                                3: "组",
-                                4: "只",
+                        {
+                            field: "goodsPlatformModel",
+                            title: "型号",
+                            mindjetType: "text",
+                            editConfig: {
+                                type: "text",
+
                             }
                         },
-                        columnType: "dictionary"
-                    },
-                    {
-                        field: 'normalQuantity',
-                        title: '正常件数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
-                        },
-                        // value: 7,
-                        editable: true,
-                        editConfig: {
-                            type: "adderSubtracter"
-                        }
-                    },
-                    {
-                        field: 'abnormalQuantity',
-                        title: '待退货数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
-                        },
-                        // value: 7,
-                        editable: true,
-                        editConfig: {
-                            type: "adderSubtracter"
-                        }
-                    },
-                    {
-                        field: 'defectQuantity',
-                        title: '残次品数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
-                        },
-                        // value: 7,
-                        editable: true,
-                        editConfig: {
-                            type: "adderSubtracter"
-                        }
-                    },
-                    {
-                        field: 'trashQuantity',
-                        title: '废品件数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
-                        },
-                        // value: 7,
-                        editable: true,
-                        editConfig: {
-                            type: "adderSubtracter"
-                        }
-                    },
-                    {
-                        field: 'lackQuantity',
-                        title: '缺货数量',
-                        changeHandler: function (value, config) {
-                            console.log(value);
-                            console.log(config);
-                        },
-                        // value: 7,
-                        editable: true,
-                        editConfig: {
-                            type: "adderSubtracter"
-                        }
-                    },
-                    {
-                        field: "dictBrandBrandName",
-                        title: "品牌",
-                        mindjetType: "text",
-                        editConfig: {
-                            type: "text",
+                        {
+                            field: "goodsPlatformOem",
+                            title: "OEM码",
+                            mindjetType: "text",
+                            editConfig: {
+                                type: "text",
 
-                        }
-                    },
-                    {
-                        field: "goodsPlatformModel",
-                        title: "型号",
-                        mindjetType: "text",
-                        editConfig: {
-                            type: "text",
+                            }
+                        },
+                        {
+                            field: "goodsPlatformCode",
+                            title: "厂家编码",
+                            mindjetType: "text",
+                            editConfig: {
+                                type: "text",
 
-                        }
-                    },
-                    {
-                        field: "goodsPlatformOem",
-                        title: "OEM码",
-                        mindjetType: "text",
-                        editConfig: {
-                            type: "text",
-
-                        }
-                    },
-                    {
-                        field: "goodsPlatformCode",
-                        title: "厂家编码",
-                        mindjetType: "text",
-                        editConfig: {
-                            type: "text",
-
-                        }
-                    },
-                ],
-                ui: {
-                    listExpression: `<div class=\"block-list-item \">
+                            }
+                        },
+                    ],
+                    ui: {
+                        listExpression: `<div class=\"block-list-item \">
                                         <div class=\"block-list-item-text flex-block\">
                                             <span class=\"title weight\">
                                                 {{goodsShopName}}
@@ -384,46 +391,48 @@
                                             <div class=\"adderSubtracter-component\" ns-field="lackQuantity"></div>
                                         </div>
                                     </div>`,
-                    isEditMode: true,
-                    isSetColumnFieldListExpression: true,
+                        isEditMode: true,
+                        isSetColumnFieldListExpression: true,
+                    }
+
                 }
+                NetstarBlockListM.init(mobileBlocklist);
+                // 霍尼韦尔扫码
+                var cameraScan = {
+                    initHoneywellScan: function () {
+                        cameraScan.honeywellScan(function () {
 
-            }
-            NetstarBlockListM.init(mobileBlocklist);
-            // 霍尼韦尔扫码
-            var cameraScan = {
-                initHoneywellScan: function () {
-                    cameraScan.honeywellScan(function () {
+                        })
+                    },
+                    honeywellScan: function (cb) {
+                        NetStarCordova.honeywellScan.get(function (obj) {
+                            if (obj.status) {
+                                console.log(obj);
+                                var dataList = NetstarBlockListM.dataManager.getData('mobile-blocklist');
+                                var flag = []
+                                for (var i = 0, len = dataList.length; i < len; i++) {
+                                    if (dataList[i].goodsPlatformCode == obj.result) {
+                                        flag.push(dataList[i]
+                                        .goodsPlatformCode); //nstemplate-layout-nscloud-outorinbillmobile-vo-0
+                                        var dataNewList = dataList;
+                                        dataNewList[i].normalQuantity++;
 
-                    })
-                },
-                honeywellScan: function (cb) {
-                    NetStarCordova.honeywellScan.get(function (obj) {
-                        if (obj.status) {
-                            console.log(obj);
-                            var dataList = NetstarBlockListM.dataManager.getData('mobile-blocklist');
-                            var flag = []
-                            for (var i = 0, len = dataList.length; i < len; i++) {
-                                if (dataList[i].goodsPlatformCode == obj.result) {
-                                    flag.push(dataList[i].goodsPlatformCode);//nstemplate-layout-nscloud-outorinbillmobile-vo-0
-                                    var dataNewList = dataList;
-                                    dataNewList[i].normalQuantity++;
-
-                                    NetstarBlockListM.refreshDataById("mobile-blocklist", dataNewList)
+                                        NetstarBlockListM.refreshDataById("mobile-blocklist",
+                                            dataNewList)
+                                    }
                                 }
+                                if (flag.length == 0) {
+                                    nsAlert("没有该厂家")
+                                }
+                                cb()
+                            } else {
+                                nsAlert("扫码失败")
                             }
-                            if (flag.length == 0) {
-                                nsAlert("没有该厂家")
-                            }
-                            cb()
-                        } else {
-                            nsAlert("扫码失败")
-                        }
-                    })
-                }
-            };
+                        })
+                    }
+                };
             cameraScan.initHoneywellScan();
-
+            })
         </script>
     </container>
 </body>

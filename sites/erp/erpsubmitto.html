@@ -39,6 +39,7 @@
                                     valueField:'id',
                                     dataSrc:'rows',
                                     method:'POST',
+                                    disabled:true
 
                                 },{
                                     id: 'packingLocationId',
@@ -65,14 +66,16 @@
                                         text:'确认',
                                         isReturn:true,
                                         handler:function(){
-                                            // debugger;
+                                            var formData = nsForm.getFormJSON('nstemplate-layout-nscloud-erpsubmitti-vo-0')
                                             var pageConfig = NetstarTemplate.templates.configs[erpPackingSubmitto.package];
-                                            var pageParamData = pageConfig.pageParam;
+                                            var data = pageConfig.pageParam;;
+                                            data.packingLocationId = formData.packingLocationId;
+                                            data.objectState = 2
                                             var ajaxConfig = {
                                                 url:getRootPath()+'/packingController/v2/save',
                                                 contentType:'application/json',
                                                 type:'POST',
-                                                data:pageParamData
+                                                data:data   
                                             };
                                             NetStarUtils.ajax(ajaxConfig,function(res){
                                                 if(res.success){
