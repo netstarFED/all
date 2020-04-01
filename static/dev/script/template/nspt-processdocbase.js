@@ -100,6 +100,11 @@ NetstarTemplate.templates.processDocBase = (function ($) {
                NetstarUI.scanCode.listener(scancodeConfig);
             }
          }
+         if(config.closeValidSaveTime > -1){
+            setTimeout(function(){
+               config.pageInitDefaultData = getPageData(config, false, false);
+            }, config.closeValidSaveTime);
+         }
 
       });
    }
@@ -143,6 +148,7 @@ NetstarTemplate.templates.processDocBase = (function ($) {
          _componentConfig: _componentConfig,
          pageHeight: $('body').height(), //页面高度
          tabKeyFieldObj:{},//sjj 201905017 存放compontents中type类型为tab的配置
+         closeValidSaveTime : 500,
       };
       nsVals.setDefaultValues(config, defaultConfig);
       $.each(config.components, function (index, item) {
@@ -205,6 +211,40 @@ NetstarTemplate.templates.processDocBase = (function ($) {
       //sjj 20190517 添加是否使用isListTabs属性 作用list列表是否以tab形式展现
       config.isListTabs = typeof(config.isListTabs)=='boolean' ? config.isListTabs : false;
       //console.log(config);
+      // lyw 设置关闭是否验证保存
+      config.closeValidSaveTime = Number(config.closeValidSaveTime);
+      if(config.closeValidSaveTime > -1){
+         config.beforeCloseHandler = (function(templateConfig){
+            return function(package){
+               function delUndefinedNull(obj){
+                  if($.isArray(obj)){
+                     for(var i=0; i<obj.length; i++){
+                        delUndefinedNull(obj[i]);
+                     }
+                  }else{
+                     for(var key in obj){
+                        if(typeof(obj[key]) == "object"){
+                           delUndefinedNull(obj[key]);
+                        }else{
+                           if(obj[key] === '' || obj[key] === undefined){
+                              delete obj[key];
+                           }
+                        }
+                     }
+                  }
+               }
+               var pageData = getPageData(package, false, false);
+               delUndefinedNull(pageData)
+               var pageInitDefaultData = templateConfig.pageInitDefaultData ? templateConfig.pageInitDefaultData : templateConfig.serverData;
+               delUndefinedNull(pageInitDefaultData)
+               return {
+                  getPageData : pageData,
+                  serverData : pageInitDefaultData,
+               }
+            }
+         })(config)
+         outerConfig.beforeCloseHandler = config.beforeCloseHandler;
+      }
    }
 
    // 通过按钮的英文名从页面中获取 按钮配置 lyw 2019/05/10
