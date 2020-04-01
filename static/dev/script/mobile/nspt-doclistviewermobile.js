@@ -411,8 +411,13 @@ NetstarTemplate.templates.docListViewerMobile = (function(){
 						isUseMessageState:true,
 						moreBtnHandler:function(data,_grid){
 							var templateId = _grid.gridConfig.templateId;
+							
 							var config = NetstarTemplate.templates.docListViewerMobile.data[templateId].config;
 							config.gridRowData = $.extend(true,{},data);
+							
+							//通过按钮中转的变量 cy 20200330
+							NetstarTemplate.templates.configs[config.package].gridRowData = $.extend(true,{},data);
+
 							var id = 'nav-moblieButtons-' + templateId;
 							var navHtml = '<div class="nav-form mobile-menu-buttons" nspanel="moblieButtons" id="'+id+'" ns-operator="inlinebtn"></div>';
 							$('#' + id).remove();
