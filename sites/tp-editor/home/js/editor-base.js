@@ -1586,6 +1586,30 @@ var NetstarEditorServer = (function(){
                     break;
                 default:
                     _fieldConfig = _fieldConfig.table;
+                    // 判断表格字段知否有editConfig 如果没有根据表单或默认生成editConfig
+                    if(typeof(_fieldConfig.editConfig) == "undefined"){
+                        if(typeof(_fieldConfig.form) == "object" && !$.isEmptyObject(_fieldConfig.form)){
+                            _fieldConfig.editConfig = $.extend(true, {}, _fieldConfig.form);
+                            delete _fieldConfig.editConfig.id;
+                        }else{
+                            var formType = "text";
+                            switch(_fieldConfig.variableType){
+                                case "number":
+                                    formType = 'number';
+                                    break;
+                                case "date":
+                                    formType = 'date';
+                                    break;
+                            }
+                            var defaultFieldConfig = { 
+                                type:formType, 
+                                formSource:'table', 
+                                templateName:'PC',
+                                variableType: _fieldConfig.variableType,
+                            };
+                            _fieldConfig.editConfig = defaultFieldConfig;
+                        }
+                    }
                     break;
             }
             if(typeof(_fieldConfig) == "undefined"){
@@ -2781,6 +2805,25 @@ var NetstarProject = (function(){
                         fieldConfig.formatHandler.type = fieldConfig.columnType;
                     }
                 }
+            }
+            // 判断表格字段知否有editConfig 如果没有设置默认editConfig
+            if(typeof(fieldConfig.editConfig) == "undefined"){
+                var formType = "text";
+                switch(fieldConfig.variableType){
+                    case "number":
+                        formType = 'number';
+                        break;
+                    case "date":
+                        formType = 'date';
+                        break;
+                }
+                var defaultFieldConfig = { 
+                    type:formType, 
+                    formSource:'table', 
+                    templateName:'PC',
+                    variableType: fieldConfig.variableType,
+                };
+                fieldConfig.editConfig = defaultFieldConfig;
             }
             if(typeof(fieldConfig.editConfig)=="object"){
                 fieldManager.setFormField(fieldConfig.editConfig, fieldConfig.editConfig.type);

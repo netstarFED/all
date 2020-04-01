@@ -6029,7 +6029,9 @@ pageProperty.editorDataSwitch = {
 				pageConfig.getValueAjax.datasourceType = 'api';
 			}
         }
-        if(typeof(pageConfig.saveData) == "object"){
+        if(typeof(pageConfig.saveData) == "object" && typeof(pageConfig.saveData.ajax) == "object"){
+			pageConfig.saveData = $.extend(false, pageConfig.saveData, pageConfig.saveData.ajax);
+			delete pageConfig.saveData.ajax;
 			if(pageConfig.saveData.src){
 				var getRootPathStr = getRootPath();
 				pageConfig.saveData.url = pageConfig.saveData.src.replace(getRootPathStr, '');
