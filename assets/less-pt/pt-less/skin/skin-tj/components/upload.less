@@ -1,0 +1,54 @@
+.media-group {
+    .clearfix();
+
+    .media-item {
+        width: 120px;
+        height: 80px;
+        display: block;
+        float: left;
+        position: relative;
+        border: 1px solid @border-color;
+
+
+        &:after {
+            position: absolute;
+            font-family: @icon-font-icomoon;
+            content: '\e9b6';
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 80px;
+            background: #f8f8f8;
+            z-index: -1;
+            font-size: 32px;
+            color: rgba(0, 0, 0, .15);
+            text-align: center;
+            line-height: 80px;
+
+        }
+
+        &+.media-item {
+            margin-left: @base-margin;
+        }
+
+        img {
+            display: block;
+            width: 120px;
+            height: 64px;
+        }
+
+        .pt-btn-group {
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            opacity: 0;
+            transition: ease-in-out all .25s;
+        }
+
+        &:hover {
+            .pt-btn-group {
+                opacity: 1;
+            }
+        }
+    }
+}
