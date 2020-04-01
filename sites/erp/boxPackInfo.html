@@ -109,6 +109,7 @@
                     src: getRootPath() + '/packingController/v2/getByPackingBoxId',
                     data: {
                         id: erppakingId
+                        // id: "1330815670941647858"
                     },
                     dataSrc: 'data.packingDetailVOList',
                     type: 'POST',
@@ -264,7 +265,38 @@
                     },
                 ],
                 ui: {
-                    listExpression: "<div class=\"block-list-item \"><div class=\"block-list-item-text \"><span class=\"title\">商品名称：{{goodsShopName}}</span>\n<span class=\"title\">商品编码：{{goodsShopCode}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">货位类型：{{locationsType}}</span>\n<span class=\"title\">单位：{{dictGoodsPlatUnitName}}</span>\n<span class=\"title\">品质分类</span></div><div class=\"block-list-form \">\n<span class=\"title\">未装箱数量：{{lastQuantity}}</span>\n<span class=\"title\">本次装箱数量：{{packingQuantity}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">品牌：{{dictBrandBrandName}}</span>\n<span class=\"title\">型号：{{goodsPlatformModel}}</span></div><div class=\"block-list-item-text \"><span class=\"title\">OEM码：{{goodsPlatformOem}}</span>\n<span class=\"title\">厂家编码：{{goodsPlatformCode}}</span></div></div>",
+                    listExpression: `<div class=\"block-list-item \">
+                                            <div class=\"block-list-item-text \" style="justify-content:space-between !important;">
+                                                <span class=\"title weight\">{{goodsShopName}}</span>
+                                                <span class=\"title text-label text-gray\">{{locationsType}}</span>
+                                            </div>
+                                            <div class=\"block-list-item-text \">
+                                                <span class=\"title text-gray\">{{goodsShopCode}}</span>
+                                            </div>
+                                            <div class=\"block-list-item-text \">
+                                                <span class=\"title text-gray\">{{dictBrandBrandName}}</span>
+                                                <span class=\"title text-gray\">{{goodsPlatformModel}}</span>
+                                            </div>
+                                            <div class=\"block-list-item-text flex-vertical\">
+                                                <span class=\"title text-gray\">OEM码：{{goodsPlatformOem}}</span>\n
+                                                <span class=\"title text-gray\">厂家编码：{{goodsPlatformCode}}</span>
+                                            </div>
+                                            <div class=\"block-list-item-text \">
+                                                <span class=\"title text-gray\">单位：{{dictGoodsPlatUnitName}}</span>
+                                                <span class=\"title text-gray\">品质分类</span>
+                                            </div>
+                                            <div class=\"block-list-form \">
+                                                <span class=\"title text-gray\">未装箱数量：
+                                                    <label>{{lastQuantity}}</label>
+                                                </span>
+                                            </div>
+                                            <div class=\"block-list-form \">
+                                                <span class=\"title text-gray\">本次装箱数量：
+                                                    <label>{{packingQuantity}}</label>
+                                                </span>
+                                            </div>
+                                            
+                                     </div>`,
                     isEditMode : true,
                 }
 
