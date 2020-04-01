@@ -199,13 +199,13 @@
                                 src: getRootPath() + '/packingController/v2/getByPackingBoxId',
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
+                                    // id: "1330644427374340082"
                                 },
                                 dataSrc: 'rows',
                                 type: 'post',
                                 formatter:function(res){
                                     var id  = res.data.id;
                                     nscloud.erppakingId = id
-                                    debugger;
                                     return {
                                         success:true,
                                         rows:res.data.packingDetailVOList,
@@ -215,16 +215,38 @@
                             },
                             keyField: 'packingDetailVOList',
                             idField: 'id',
-                            listExpression: "<div>\
+                            listExpression: `<div>\
                             <div class='block-list-item'>\
-                                <div class='block-list-item-title'>商品名称：{{goodsShopName}}</div>\
-                                <div class='block-list-item-title'>商品编码：{{goodsShopName}}</div>\
-                                <div class='block-list-item-text'>\
-                                    <span>未装箱数量{{lastQuantity}}</span><span>装箱数量：{{packingQuantity}}</span><span>返库数量：{{backQuantity}}</span>\
+                                <div class='block-list-item-title weight'>
+                                    <span>{{goodsShopName}}</span>
                                 </div>\
-                                <div class='block-list-item-text left'><span>品牌:{{dictBrandBrandName}}</span><span>型号:{{goodsPlatformModel}}</span></div>\
-                                <div class='block-list-item-text left'><span>OEM码：{{goodsPlatformOem}}</span><span>厂家编码：{{goodsPlatformCode}}</span></div>\
-                            </div>",
+                                <div class='block-list-item-title'>
+                                    <span class=" text-ml text-gray">{{goodsShopName}}</span>
+                                </div>\
+                                <div class='block-list-item-text'>
+                                    <span class="text-ml text-gray">{{dictBrandBrandName}}</span>
+                                </div>\
+                                <div class='block-list-item-text'>
+                                    <span class="text-ml text-gray">{{goodsPlatformModel}}</span>
+                                </div>\
+                                <div class='block-list-item-text flex-vertical'>
+                                    <span class="text-ml text-gray">OEM码：{{goodsPlatformOem}}</span>
+                                    <span class="text-ml text-gray">厂家编码：{{goodsPlatformCode}}</span>
+                                </div>\
+                                <div class='block-list-item-text'>\
+                                    <span class="text-label">未装箱数量：
+                                        <label>{{lastQuantity}}</label>
+                                    </span>
+                                    <span class="text-label">装箱数量：
+                                        <label>{{packingQuantity}}</label>
+                                    </span>
+                                </div>\
+                                <div class='block-list-item-text'>\
+                                    <span class="text-label">返库数量：
+                                        <label>{{backQuantity}}</label>
+                                    </span>\
+                                </div>\
+                            </div>`,
                             plusClass: '',
                             parent: 'root',
                         },
@@ -236,7 +258,6 @@
                                        text:'整箱打包',
                                        isReturn:true,
                                        handler:function(){
-                                           debugger;
                                            var pageConfig = NetstarTemplate.templates.configs[erpPacking.package];
                                            var pageParamData = pageConfig.pageParam;
                                            var blockListData = NetstarBlockListM.dataManager.getData('nstemplate-layout-nscloud-erppaking-blockList-0');
@@ -278,6 +299,9 @@
                             ]
                         }
                     ]
+                }
+                if(NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erppaking']){
+                    delete NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erppaking'] 
                 }
                 // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpPacking);

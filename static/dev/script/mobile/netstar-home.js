@@ -157,8 +157,15 @@ var NetstarHomePage = {
                                 }
                                 //添加对static 静态文件地址的支持 cy 20200327
                                 var urlStaticIndex = url.indexOf('static:');
+                                console.log(urlStaticIndex);
                                 if(urlStaticIndex > -1){
-                                    url = window.location.protocol + '//' + window.location.host + url.substr(urlStaticIndex+7);
+                                // console.log(urlStaticIndex);
+
+                                    if(window.location.protocol == 'file:'){
+                                        url = NetstarHomePage.config.pageOrigin + "/" + url.substr(urlStaticIndex+7);
+                                    }else{
+                                        url = window.location.protocol + '//' + window.location.host + url.substr(urlStaticIndex+7);
+                                    }
                                 }
                                 
                                 cardItemsStr += (itm.singlePageMode ? cardItemsStr = '<a class="nav-item" href="javascript:nsFrame.loadPageVRouter(\'' + url + '\');">' : cardItemsStr = '<a class="nav-item" href="' + url + '">') +

@@ -1,35 +1,255 @@
-.pt-list{
-    .pt-list-group{
-        .pt-list-item{
-            a{
-                &:hover{
+.pt-list {
+    .pt-list-group {
+        .pt-list-item {
+            a {
+                &:hover {
                     background: #f5f5f5;
                 }
-                .pt-badge{
+
+                .pt-badge {
                     float: right
                 }
             }
         }
     }
 }
+
 .block-list {
- .block-list-item{
-     display: table;
-     width: 100%;
-     .block-list-before,
-     .block-list-body,
-     .block-list-after{
-         display: table-cell;
-     }
-     .block-list-before + .block-list-body,
-     .block-list-before + .block-list-after,
-     .block-list-body + .block-list-after{
-         padding-left: @base-padding;
-     }
- }  
-}
+
+    .block-list-item {
+        position: relative;
+        margin-bottom: @base-margin;
+
+        // 内容
+        .block-list-content {
+            position: relative;
+            display: table;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid @border-color;
+            .clearfix();
+            padding: @base-padding;
+        }
+
+        .list-before,
+        .list-body,
+        .list-after {
+            display: table-cell;
+        }
+
+        .list-before+.list-body,
+        .list-before+.list-after,
+        .list-body+.list-after {
+            padding-left: @base-padding;
+        }
+
+        .list-body {
+            .list-title {
+                h4 {
+                    font-size: 16px;
+                    font-weight: normal;
+                }
+
+                &+.list-text {
+                    margin-top: @base-margin;
+                }
 
 
-.block-list-dropdown{
-    display: none;
+            }
+
+            .list-text {
+                &+.list-text {
+                    margin-top: 5px;
+                }
+
+                .icon-pen {
+                    font-size: 12px;
+                    color: lighten(@warning, 20);
+                }
+            }
+
+
+
+            .list-title,
+            .list-text {
+
+                span+i,
+                span+span,
+                i+span {
+                    padding-left: (@base-padding / 2);
+                }
+            }
+        }
+
+        // 列表控制面板按钮组
+        .block-list-control {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .25);
+            text-align: right;
+            padding: (@base-padding / 2) @base-padding;
+            transition: ease-in-out all .25s;
+            z-index: 9;
+            opacity: 0;
+            z-index: -1;
+
+
+        }
+
+        &:hover {
+            .block-list-control {
+                opacity: 1;
+                z-index: 1;
+            }
+        }
+
+        // 已检项目
+        &.checked {
+            background: #f8f8f8;
+
+            &:before {
+                position: absolute;
+                content: '\e95d';
+                font-family: @icon-font-icomoon;
+                top: 0;
+                left: -2px;
+                color: #fff;
+                z-index: 3;
+            }
+
+            &:after {
+                top: 0;
+                left: 0;
+                .triangle-left-top(16px, darken(@border-color, 10));
+                z-index: 2;
+            }
+
+        }
+
+        @price-type-mark-size: 16px; // 自费标记
+        @price-type-mark-triangle-size: (@price-type-mark-size / 2);
+        @price-type-mark-bg: @info;
+
+        .price-type-mark {
+            position: absolute;
+            top: 0;
+            right: (@base-padding / 2);
+            background: @price-type-mark-bg;
+            width: @price-type-mark-size;
+            height: @price-type-mark-size;
+            text-align: center;
+            line-height: @price-type-mark-size;
+            z-index: 2;
+            color: #fff;
+
+            &:before {
+                left: 0;
+                bottom: -(@price-type-mark-triangle-size / 2);
+                .triangle-right(@price-type-mark-triangle-size, @price-type-mark-bg);
+            }
+
+            &:after {
+                right: 0;
+                bottom: -(@price-type-mark-triangle-size / 2);
+                .triangle-left(@price-type-mark-triangle-size, @price-type-mark-bg);
+            }
+        }
+
+        // 体检加项标记
+        .program-addon-mark {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            color: #fff;
+
+            &:after {
+                right: 0;
+                bottom: 0;
+                .triangle-right-bottom(20px, @success);
+                z-index: -1;
+            }
+        }
+
+    }
+
+    .clearfix();
+
+
+
+    .block-list-dropdown {
+        display: none;
+    }
+
+    // 纵向列表
+    &.block-list-vertical {
+        .block-list-item {
+            width: 100%;
+        }
+    }
+
+    // 列表网格布局
+    &.block-list-grid {
+
+        .block-list-group {
+            margin: 0 -5px;
+            .clearfix();
+
+            .block-list-item {
+                float: left;
+                padding: 0 5px;
+
+                .list-body {
+                    width: 100%;
+                }
+
+                .list-before,
+                .list-after {
+                    text-align: center;
+                    width: auto;
+                    min-width: 30px;
+                }
+            }
+        }
+
+
+        // 2列
+        &.grid-col-2 {
+            .block-list-item {
+                width: (100% / 2);
+            }
+        }
+
+        &.grid-col-3 {
+            .block-list-item {
+                width: (100% / 3);
+            }
+        }
+
+        &.grid-col-4 {
+            .block-list-item {
+                width: (100% / 4);
+            }
+        }
+
+        &.grid-col-5 {
+            .block-list-item {
+                width: (100% / 5);
+            }
+        }
+
+        &.grid-col-8 {
+            .block-list-item {
+                width: (100% / 8);
+            }
+        }
+
+        &.grid-col-10 {
+            .block-list-item {
+                width: (100% / 10);
+            }
+        }
+    }
 }

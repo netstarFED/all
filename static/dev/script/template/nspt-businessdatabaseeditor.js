@@ -1106,6 +1106,7 @@ NetstarTemplate.templates.businessDataBaseEditor = (function ($) {
             templateName:'PC',
             width:1100,
             height:'auto',
+            isStore : true,
 				shownHandler:function(data){
                $('#'+data.config.bodyId).addClass('pt-modal-tab');
                var isShowNav = true;

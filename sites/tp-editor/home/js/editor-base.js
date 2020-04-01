@@ -1080,7 +1080,7 @@ var NetstarEditorServer = (function(){
             if(stateConfig.children && stateConfig.children[0] && fieldGroup[stateConfig.children[0]]){
                 var groupChildren = fieldGroup[stateConfig.children[0]].children;
                 for(var i=0; i<groupChildren.length; i++){
-                    if(fieldConsIds.indexOf[groupChildren[i]] == -1){
+                    if(fieldConsIds.indexOf(groupChildren[i]) == -1){
                         // 删除
                         fieldCons.push({
                             id : groupChildren[i],
@@ -1553,6 +1553,37 @@ var NetstarEditorServer = (function(){
                     // 特殊字段特殊处理
                     switch(key){
                         case 'subdata':
+                            switch(field.type){
+                                case 'radio':
+                                case 'checkbox':
+                                case 'select':
+                                    if(field.url || field.suffix){
+                                        delete fieldObj.url;
+                                        delete fieldObj.suffix;
+                                    }
+                                    field.subdata = stateField.subdata;
+                                    break;
+                            }
+                            break;
+                        case 'url':
+                        case 'suffix':
+                            switch(field.type){
+                                case 'radio':
+                                case 'checkbox':
+                                case 'select':
+                                    if(field.subdata){
+                                        delete field.subdata;
+                                    }
+                                    if(field[key] != stateField[key]){
+                                        field[key] = stateField[key];
+                                    }
+                                    break;
+                                default : 
+                                    if(field[key] != stateField[key]){
+                                        field[key] = stateField[key];
+                                    }
+                                    break;
+                            }
                             break;
                         default:
                             if(typeof(stateField[key]) == "object"){
@@ -1571,6 +1602,7 @@ var NetstarEditorServer = (function(){
                 }
             }
             run(fieldObj, stateFieldObj);
+            // 
             return fieldObj;
         },
         // 通过字段配置/面板类型获取组件
@@ -1579,6 +1611,8 @@ var NetstarEditorServer = (function(){
             if(typeof(_fieldConfig) == "undefined"){
                 return false;
             }
+            // 判断_fieldConfig是否为空对象  从旧的编辑器倒过来时存在空，原因字段未编辑但已用于状态
+            var isHaveFieldConfig = true;
             /*** 识别表单表格start ***/
             switch(type){
                 case 'vo':
@@ -1586,6 +1620,43 @@ var NetstarEditorServer = (function(){
                     break;
                 default:
                     _fieldConfig = _fieldConfig.table;
+                    if($.isEmptyObject(_fieldConfig)){
+                        isHaveFieldConfig = false;
+                    }else{
+                        var isOnlyEdit = true;
+                        for(var key in _fieldConfig){
+                            if(key != 'editConfig'){
+                                isOnlyEdit = false;
+                            }
+                        }
+                        if(isOnlyEdit){
+                            isHaveFieldConfig = false;
+                        }
+                    }
+                    // 判断表格字段知否有editConfig 如果没有根据表单或默认生成editConfig
+                    if(typeof(_fieldConfig.editConfig) == "undefined"){
+                        if(typeof(_fieldConfig.form) == "object" && !$.isEmptyObject(_fieldConfig.form)){
+                            _fieldConfig.editConfig = $.extend(true, {}, _fieldConfig.form);
+                            delete _fieldConfig.editConfig.id;
+                        }else{
+                            var formType = "text";
+                            switch(_fieldConfig.variableType){
+                                case "number":
+                                    formType = 'number';
+                                    break;
+                                case "date":
+                                    formType = 'date';
+                                    break;
+                            }
+                            var defaultFieldConfig = { 
+                                type:formType, 
+                                formSource:'table', 
+                                templateName:'PC',
+                                variableType: _fieldConfig.variableType,
+                            };
+                            _fieldConfig.editConfig = defaultFieldConfig;
+                        }
+                    }
                     break;
             }
             if(typeof(_fieldConfig) == "undefined"){
@@ -1593,7 +1664,6 @@ var NetstarEditorServer = (function(){
             }
             /*** 识别表单表格end ***/
             // 判断_fieldConfig是否为空对象  从旧的编辑器倒过来时存在空，原因字段未编辑但已用于状态
-            var isHaveFieldConfig = true;
             if($.isEmptyObject(_fieldConfig)){
                 isHaveFieldConfig = false;
             }
@@ -2022,6 +2092,19 @@ var NetstarEditorServer = (function(){
                         }
                         if(typeof(field[j].btn) == "object"){
                             _btnConfig = $.extend(true, _btnConfig, field[j].btn);
+                        }
+                        if(typeof(_btnConfig.ajax) == "undefined"){
+                            if(typeof(_btnConfig.suffix) == "string"){
+                                _btnConfig.ajax = {
+                                    datasourceType : 'api',
+                                    url : _btnConfig.suffix,
+                                    contentType : _btnConfig.contentType,
+                                    dataSrc : _btnConfig.dataSrc,
+                                    data : _btnConfig.ajaxData,
+                                    type : _btnConfig.type,
+                                    isUseGetRootPath : true,
+                                }
+                            }
                         }
                         delete _btnConfig.isReturn;
                         field[j] = _btnConfig;
@@ -2769,6 +2852,25 @@ var NetstarProject = (function(){
                     }
                 }
             }
+            // 判断表格字段知否有editConfig 如果没有设置默认editConfig
+            if(typeof(fieldConfig.editConfig) == "undefined"){
+                var formType = "text";
+                switch(fieldConfig.variableType){
+                    case "number":
+                        formType = 'number';
+                        break;
+                    case "date":
+                        formType = 'date';
+                        break;
+                }
+                var defaultFieldConfig = { 
+                    type:formType, 
+                    formSource:'table', 
+                    templateName:'PC',
+                    variableType: fieldConfig.variableType,
+                };
+                fieldConfig.editConfig = defaultFieldConfig;
+            }
             if(typeof(fieldConfig.editConfig)=="object"){
                 fieldManager.setFormField(fieldConfig.editConfig, fieldConfig.editConfig.type);
             }
@@ -2844,7 +2946,7 @@ var NetstarProject = (function(){
             }
             delete config.suffix;
             // 新编辑器属性转当前
-            if(typeof(sourceConfig.ajax) == "object"){
+            if(typeof(sourceConfig.ajax) == "object" && sourceConfig.ajax.datasourceType != "static"){
                 if(sourceConfig.ajax.isUseGetRootPath){
                     config.url = netStarRootPathStr + sourceConfig.ajax.url;
                 }else{
@@ -2881,6 +2983,15 @@ var NetstarProject = (function(){
                     textStr = textStr.substring(0, textStr.length-1);
                 }
                 config.text = textStr;
+            }
+            switch(config.defaultMode){
+                case 'wxtPrint':
+                    config.showBtnType = 'state';
+                    break;
+                case 'excelImportVer3':
+                case 'excelExportVer3':
+                    config.showBtnType = 'importAndExport';
+                    break;
             }
             return config;
         },
@@ -3103,7 +3214,7 @@ var NetstarProject = (function(){
                 }
                 //defaultMode类型
                 var dataUserModeKey = [
-                    'dialog','valueDialog','confirm','toPage','loadPage','changePage','ajaxDialog','component','print','custom','templatePrint','workflowViewer','workflowSubmit','newtab','viewerDialog','successMessage','dataImport','excelImportVer2','multiDialog','ajaxAndSend','business','previewFile','ajaxNewtab','download','addInfoDialog'
+                    'dialog','valueDialog','confirm','toPage','loadPage','changePage','ajaxDialog','component','print','custom','templatePrint','workflowViewer','workflowViewerById','workflowSubmit','newtab','viewerDialog','successMessage','dataImport','excelImportVer2','multiDialog','ajaxAndSend','business','previewFile','ajaxNewtab','download','addInfoDialog','ajaxAndPdf','excelExport','wxtPrint','downloadByFile','excelImportVer3','excelExportVer3'
                 ];
                 var defaultModeArray=defaultModeName.split(',');
                 for(var mi = 0;mi<defaultModeArray.length;mi++){
@@ -3388,6 +3499,61 @@ var NetstarProject = (function(){
                             configJson.controllerObj = functionConfigObj;
                             callBack.controllerObj = functionConfigObj;
                             addInfoDialogInit(callBack, configJson);
+                        }
+                        break;
+                    case 'ajaxAndPdf':
+                        //sjj  20191216  发送ajax成功之后执行调用pdf
+                        controllerObj.func.ajaxAndPdf = function(callBack,obj){
+                            $('[type="button"]').blur();//因为按钮自带焦点，所以需要设置取消
+                            var functionConfigObj = controllerObj;
+                            var configJson = $.extend(true,{},obj);
+                            configJson.controllerObj = functionConfigObj;
+                            callBack.controllerObj = functionConfigObj;
+                            ajaxAndPdfInit(callBack, configJson);
+                        }
+                        break;
+                    case 'excelExport':
+                        //sjj  20191216  列表数据导出excel
+                        controllerObj.func.excelExport = function(callBack,obj){
+                            $('[type="button"]').blur();//因为按钮自带焦点，所以需要设置取消
+                            var functionConfigObj = controllerObj;
+                            var configJson = $.extend(true,{},obj);
+                            configJson.controllerObj = functionConfigObj;
+                            callBack.controllerObj = functionConfigObj;
+                            excelExportInit(callBack, configJson);
+                        }
+                        break;
+                    case 'wxtPrint':
+                        //sjj 20200205网星通打印
+                        controllerObj.func.wxtPrint = function(callBack,obj){
+                            $('[type="button"]').blur();//因为按钮自带焦点，所以需要设置取消
+                            var functionConfigObj = controllerObj;
+                            var configJson = $.extend(true,{},obj);
+                            configJson.controllerObj = functionConfigObj;
+                            callBack.controllerObj = functionConfigObj;
+                            wxtPrintInit(callBack, configJson);
+                        }
+                        break;
+                    case 'excelImportVer3':
+                        // excel导入
+                        controllerObj.func.excelImportVer3 = function(callBack,obj){
+                            $('[type="button"]').blur();//因为按钮自带焦点，所以需要设置取消
+                            var functionConfigObj = controllerObj;
+                            var configJson = $.extend(true,{},obj);
+                            configJson.controllerObj = functionConfigObj;
+                            callBack.controllerObj = functionConfigObj;
+                            excelImportVer3(callBack, configJson);
+                        }
+                        break;
+                    case 'excelExportVer3':
+                        // excel导出
+                        controllerObj.func.excelExportVer3 = function(callBack,obj){
+                            $('[type="button"]').blur();//因为按钮自带焦点，所以需要设置取消
+                            var functionConfigObj = controllerObj;
+                            var configJson = $.extend(true,{},obj);
+                            configJson.controllerObj = functionConfigObj;
+                            callBack.controllerObj = functionConfigObj;
+                            excelExportVer3(callBack, configJson);
                         }
                         break;
                 }
@@ -5883,6 +6049,1205 @@ var NetstarProject = (function(){
                     getAjaxHandler();
                 }
             }
+
+            function ajaxAndPdfInit(callback,obj){
+                var controllerObj = obj.controllerObj;
+                var functionConfig = obj.controllerObj.func.config;//按钮的配置参数
+                var dataJson = {};
+                if(typeof(callback.dialogBeforeHandler)=='function'){
+                    dataJson = callback.dialogBeforeHandler(callback);//获取当前按钮所在界面的配置
+                }
+                var templateConfig = dataJson.config;
+                var value = dataJson.value;//获取value值
+                if(functionConfig.url){
+                    var ajaxConfig = {
+                        url:functionConfig.url,
+                        type:functionConfig.type,
+                        contentType:functionConfig.contentType,
+                        dataSrc:functionConfig.dataSrc,
+                        plusData:{
+                            packageName:templateConfig.package,
+                            ajaxAfterHandler:callback.ajaxAfterHandler,
+                            valueData:value,
+                            fileField:functionConfig.fileField
+                        },
+                    };
+                    ajaxConfig.data = NetStarUtils.getFormatParameterJSON(functionConfig.data,value);
+                    NetStarUtils.ajax(ajaxConfig,function(res,ajaxOptions){
+                        if(res.success){
+                            var fileField = ajaxOptions.plusData.fileField;
+                            var ptTemplateConfig = NetstarTemplate.templates.configs[ajaxOptions.plusData.packageName];
+                            var ptTemplateValueData = ajaxOptions.plusData.valueData;
+                            var resData = res[ajaxOptions.dataSrc];
+                            fileField = JSON.parse(fileField);
+                            var innerParams = NetStarUtils.getFormatParameterJSON(fileField,resData);
+                            var urlParams = '';
+                            for(var innerI in innerParams){
+                                urlParams = innerParams[innerI];
+                            }
+                            //调整为修改了pdf的域名，改为直接调用打印 cy 191219  调用PDF的地址从 qaapi. 改为当前域名
+                            if(window.location.protocol == 'http:'){
+                                //原有代码是打开window再打印 当本地使用时候会仍然使用当前方式
+                                nsalert('当前访问方式不支持PDF直接打印, 需要正式发布后支持','warning');
+                                console.warn('当前访问方式不支持PDF直接打印，需要正式发布后支持');
+                                var url = NetStarUtils.getStaticUrl()+'/files/pdf/'+urlParams+'?Authorization='+NetStarUtils.OAuthCode.get();
+                                window.open(url);
+                            }else if(window.location.protocol == 'https:'){
+                                var url = NetStarUtils.getStaticUrl() + '/files/pdf/'+urlParams+'?Authorization='+NetStarUtils.OAuthCode.get();
+                                if($('#iframe-print').length > 0){
+                                    $('#iframe-print').remove();
+                                }
+                                $('body').append('<iframe id="iframe-print" style="display:none; visibility:hidden;" src="' + url + '"></iframe>')
+                                $("#iframe-print")[0].contentWindow.print();
+                            }
+                        }else{
+                            nsalert('返回值为false','error');
+                        }
+                    },true)
+                }
+            }
+        
+            function excelExportInit(callback,obj){
+                var controllerObj = obj.controllerObj;
+                var functionConfig = obj.controllerObj.func.config;//按钮的配置参数
+                var dataJson = {};
+                if(typeof(callback.dialogBeforeHandler)=='function'){
+                    dataJson = callback.dialogBeforeHandler(callback);//获取当前按钮所在界面的配置
+                }
+                var templateConfig = dataJson.config;
+                var value = dataJson.value;//获取value值
+                var targetField = controllerObj.targetField;
+                var currentGridConfig = {};
+                var isCountExport = false;
+                switch(templateConfig.template){
+                    case 'businessDataBase':
+                        if(!$.isEmptyObject(templateConfig.mainComponent)){
+                            currentGridConfig = templateConfig.mainComponent;
+                        }else{
+                            currentGridConfig = templateConfig.components[0];
+                        }
+                        break;
+                    case 'docListViewer':
+                        currentGridConfig = templateConfig.mainComponent;
+                        if(targetField){
+                            for(var gridId in templateConfig.componentsConfig.list){
+                                var gJson = templateConfig.componentsConfig.list[gridId];
+                                if(gJson.keyField == targetField){
+                                    currentGridConfig = gJson;
+                                    break;
+                                }	
+                            }
+                        }
+                        break;
+                    case 'businessDataBaseLevel3':
+                        break;
+                    case 'statisticsList':
+                        if(templateConfig.mode == 'countList'){
+                            isCountExport = true;
+                            currentGridConfig = templateConfig.components[0];
+                        }
+                        break;
+                }
+                if(!$.isEmptyObject(currentGridConfig)){
+                    var exportXlsJson = {
+                        id:currentGridConfig.id
+                    };
+                    if(functionConfig.ext){
+                        exportXlsJson.ext = functionConfig.ext;
+                    }
+                    if(functionConfig.excelName){
+                        exportXlsJson.excelName = functionConfig.excelName;
+                    }
+                    if(functionConfig.requestSource){
+                        exportXlsJson.requestSource = functionConfig.requestSource;
+                    }
+                    if(isCountExport){
+                        NetstarUI.exportXls.initByCount(exportXlsJson);
+                    }else{
+                        NetstarUI.exportXls.init(exportXlsJson);
+                    }
+                }
+            }
+            function wxtPrintInit(callback,obj){
+                var storeName = '';
+                // 发送打印消息
+                function sendWxtPrintInfo(printInfo){
+                    printInfo.page = typeof(printInfo.page) == "undefined" ? '' : printInfo.page;
+                    printInfo.pageNumber2 = typeof(printInfo.pageNumber2) == "undefined" ? '' : printInfo.pageNumber2;
+                    var message = {
+                        userId : NetstarMainPage.systemInfo.user.userId,
+                        printUserId : printInfo.userId,
+                        action : printInfo.action,
+                        fileIds : printInfo.fileIds,
+                        printerId : printInfo.id,
+                        printType : printInfo.type,
+                        paperType : "1",
+                        page : printInfo.page+','+printInfo.pageNumber2,
+                        copies : "10",
+                        layout : "1",
+                        btnId : printInfo.btnId,
+                        storeName : storeName,
+                    };
+                    var messageStr = JSON.stringify(message);
+                    NetStarRabbitMQ.printSend(message.printUserId, messageStr);
+                }
+                // 获取打印消息
+                function getPrintMessage(printInfos, otherInfo){
+                    var arr = [];
+                    for(var i=0; i<printInfos.length; i++){
+                        var pageLength = '1';
+                        var layout = '1';
+                        if(!isNaN(Number(printInfos[i].pageLength))){
+                            pageLength = printInfos[i].pageLength;
+                        }
+                        if(printInfos[i].layout === "0"){
+                            layout = "0";
+                        }
+                        var page = '';
+                        if(typeof(printInfos[i].page) != "undefined"){
+                            page = printInfos[i].page + ',';
+                        }
+                        if(typeof(printInfos[i].pageNumber2) != "undefined"){
+                            page += printInfos[i].pageNumber2;
+                        }
+                        var obj = {
+                            fileIds : printInfos[i].fileIds,
+                            printerId : printInfos[i].id,
+                            printType : printInfos[i].type,
+                            // paperType : "1",
+                            paperType : printInfos[i].defaultPaperType,
+                            page : page,
+                            copies : pageLength,
+                            layout : layout,
+                        }
+                        arr.push(obj);
+                    }
+                    var message = {
+                        action : otherInfo.action,
+                        trayUserId : printInfos[0].userId,
+                        senderUserId : NetstarMainPage.systemInfo.user.userId,
+                        printSubtask : arr,
+                        btnsConfigName : otherInfo.btnsConfigName,
+                        btnIndex : otherInfo.btnIndex,
+                        printTaskNo : otherInfo.btnsConfigName + '-' + otherInfo.btnIndex + '-' + otherInfo.btntimeStamp,
+                    }
+                    console.log(message);
+                    return message;
+                }
+                // 改变按钮状态
+                function changeBtnsState($btnDom, isDisable){
+                    if(isDisable){
+                        var $btns = $btnDom.parent().children('button:not([ajax-disabled="true"])');
+                        $btns.attr('ajax-disabled',true);
+                        $btns.attr('disabled',true);
+                    }else{
+                        var $btns = $btnDom.parent().children('button[ajax-disabled="true"]');
+                        $btns.removeAttr('ajax-disabled',true);
+                        $btns.removeAttr('disabled',true);
+                    }
+                }
+                // 获取发送ajax的data
+                function getAjaxData(funcConfig, ajaxConfig, pageConfig){
+                    var data = typeof(ajaxConfig.data)=='object' ? ajaxConfig.data : {};
+                    var value = pageConfig.value;
+                    if(funcConfig.dataFormat == 'id'){
+                        if(pageConfig.btnOptionsConfig){
+                            if(pageConfig.btnOptionsConfig.options){
+                                if(pageConfig.btnOptionsConfig.options.idField){
+                                    var idField = pageConfig.btnOptionsConfig.options.idField;
+                                    data[idField] = value[idField];
+                                }
+                            }
+                        }
+                    }else{
+                        if($.isEmptyObject(data)){
+                            data = value;
+                        }
+                    }
+                    // 转化对象
+                    var pageOperateData = value;
+                    if(typeof(NetstarTemplate.getOperateData) == "function"){
+                        pageOperateData = NetstarTemplate.getOperateData(pageConfig.config);
+                    }
+                    data = NetStarUtils.getFormatParameterJSON(data, pageOperateData);
+                    return data;
+                }
+                function getAjaxData2(funcConfig, ajaxConfig, pageConfig){
+                    var data = typeof(ajaxConfig.data)=='object' ? ajaxConfig.data : {};
+                    var value = pageConfig.value;
+                    if(funcConfig.dataFormat == 'id'){
+                        if(pageConfig.btnOptionsConfig){
+                            if(pageConfig.btnOptionsConfig.options){
+                                if(pageConfig.btnOptionsConfig.options.idField){
+                                    var idField = pageConfig.btnOptionsConfig.options.idField;
+                                    data[idField] = value[idField];
+                                }
+                            }
+                        }
+                    }else{
+                        if($.isEmptyObject(data)){
+                            data = value;
+                        }else{
+                            data = NetStarUtils.getFormatParameterJSON(data, value);
+                        }
+                    }
+                    // 获取页面操作数据 用于多选 lyw 20200204 start ---
+                    var operateData = {};
+                    var formatValueData = funcConfig.formatValueData;
+                    // 转化对象
+                    if(typeof(formatValueData) == "string" && formatValueData.length>0){
+                        formatValueData = JSON.parse(formatValueData);
+                    }
+                    if(typeof(formatValueData) == "object"){
+                        var pageOperateData = {};
+                        if(typeof(NetstarTemplate.getOperateData) == "function"){
+                            pageOperateData = NetstarTemplate.getOperateData(pageConfig.config);
+                        }
+                        operateData = NetStarUtils.getFormatParameterJSON(formatValueData, pageOperateData);
+                    }
+                    for(var key in operateData){
+                        if(typeof(data[key]) == "undefined"){
+                            data[key] = operateData[key];
+                        }
+                    }
+                    // 获取页面操作数据 用于多选 lyw 20200204 end ---
+                    return data;
+                }
+                // 获取fileId数据
+                function getFileData(funcConfig, fileField, pageConfig){
+                    if(typeof(fileField) == "string"){
+                        if(fileField.length > 0){
+                        }else{
+                            console.error('没有配置文件字段请检查配置');
+                            nsAlert('没有配置文件字段请检查配置', 'error');
+                            console.error(funcConfig);
+                            return false;
+                        }
+                    }else{
+                        console.error('没有配置文件字段请检查配置');
+                        nsAlert('没有配置文件字段请检查配置', 'error');
+                        console.error(funcConfig);
+                        return false;
+                    }
+                    var descritute = pageConfig.btnOptionsConfig.descritute;
+                    var operateKey = 'listChecked';
+                    if(typeof(descritute.keyField) == "string"){
+                        operateKey = descritute.keyField + 'Checked';
+                    }
+                    var pageOperateData = {};
+                    if(typeof(NetstarTemplate.getOperateData) == "function"){
+                        pageOperateData = NetstarTemplate.getOperateData(pageConfig.config);
+                    }
+                    pageOperateData = typeof(pageOperateData[operateKey]) == "object" ? pageOperateData[operateKey] : [];
+                    var fileIds = '';
+                    for(var i=0; i<pageOperateData.length; i++){
+                        if(typeof(pageOperateData[i][fileField]) == "string" && pageOperateData[i][fileField].length > 0){
+                            fileIds += pageOperateData[i][fileField] + ',';
+                        }else{
+                            console.error('没有找到fileId请检查行数据是否完整');
+                            nsAlert('没有找到fileId请检查行数据是否完整', 'error');
+                            console.error(pageOperateData, i);
+                            fileIds = false;
+                            break;
+                        }
+                    }
+                    if(fileIds === ''){
+                        console.error('没有找到fileId请检查是否选中行');
+                        console.error(pageOperateData);
+                        fileIds = false;
+                    }
+                    if(fileIds){
+                        fileIds = fileIds.substring(0, fileIds.length-1);
+                    }
+                    return fileIds;
+                }
+                // 通过ajax获取fileId
+                function getFileIdByAjax(funcConfig, ajaxConfig, pageConfig, plusData, callBackFunc){
+                    var data = getAjaxData(funcConfig, ajaxConfig, pageConfig);
+                    ajaxConfig.dataSrc = 'data';
+                    ajaxConfig.data = data;
+                    ajaxConfig.plusData = {
+                        callBackFunc : callBackFunc,
+                        fileField : funcConfig.fileField ? funcConfig.fileField : 'fileId',
+                    };
+                    if(typeof(plusData) == "object"){
+                        ajaxConfig.plusData = $.extend(false, ajaxConfig.plusData, plusData);
+                    }
+                    NetStarUtils.ajax(ajaxConfig,function(res,ajaxOptions){
+                        var plusData = ajaxOptions.plusData;
+                        if(res.success){
+                            var fileField = plusData.fileField;
+                            var resData = res[ajaxOptions.dataSrc];
+                            var fileIdsArr = [];
+                            if(typeof(resData) != "object"){ resData = {}; }
+                            if(!$.isArray(resData)){
+                                resData = [resData];
+                            }
+                            for(var i=0; i<resData.length; i++){
+                                if(resData[i][fileField]){
+                                    fileIdsArr.push(resData[i][fileField]);
+                                }
+                            }
+                            if(fileIdsArr.length == 0){
+                                console.error('没有找到fileId,请检查返回数据');
+                                nsalert('没有找到fileId,请检查返回数据', 'error');
+                                return;
+                            }
+                            var fileIds = fileIdsArr.toString();
+                            if(typeof(plusData.callBackFunc) == "function"){
+                                plusData.callBackFunc(fileIds, plusData);
+                            }
+                        }
+                    });
+                }
+                // 生成弹框
+                function showDialog(isPreview, callBackFunc){
+                    var dialogConfig = {
+                        id:'btn-dialog-wxtprint',
+                        title: '打印设置',
+                        templateName: 'PC',
+                        height:600,
+                        width:'80%',
+                        // defaultFooterHeight : 20,
+                        plusClass:'pt-wxtprint-setting',
+                        shownHandler:function(data){
+                            if(typeof(callBackFunc) == "function"){
+                                callBackFunc(data.config);
+                            }
+                        }
+                    }
+                    if(isPreview){
+                        dialogConfig.defaultFooterHeight = 20;
+                    }
+                    NetstarComponent.dialogComponent.init(dialogConfig);
+                }
+                // 通过按钮发送消息并改变按钮text
+                function sendMessageAndChangeBtn($clickBtn, printInfo, callBackFunc){
+                    var textStr = $clickBtn.text();
+                    var isTime = false;
+                    if(textStr.indexOf('取消') == -1){
+                        isTime = true;
+                        printInfo.action = 'print';
+                        $clickBtn.text('取消'+textStr);
+                    }else{
+                        printInfo.action = 'cancelPrint';
+                        var valueTextStr = textStr.substring(2,textStr.length);
+                        $clickBtn.text(valueTextStr);
+                    }
+                    sendWxtPrintInfo(printInfo);
+                    // NetstarComponent.dialog['btn-dialog-wxtprint'].vueConfig.close();
+                    if(nsProject.PRINTSETTIMEOUT){
+                        clearTimeout(nsProject.PRINTSETTIMEOUT);
+                    }
+                    if(isTime){
+                        nsProject.PRINTSETTIMEOUT = setTimeout(function(){
+                            var _textStr = $clickBtn.text();
+                            if(_textStr.indexOf('取消') == 0){
+                                var _valueTextStr = _textStr.substring(2, _textStr.length);
+                                $clickBtn.text(_valueTextStr);
+                            }
+                        },2000)
+                    }
+                    if(typeof(callBackFunc) == "function"){
+                        callBackFunc();
+                    }
+                }
+                // 获取打印机列表显示
+                function getPrintList(callBackFunc){
+                    var printAjax = {
+                        src : getRootPath()+'/system/cloudPrints/getList',
+                        data : {},
+                        dataSrc : 'rows',
+                        contentType : 'application/json',
+                    }
+                    NetStarUtils.ajax(printAjax, (function(_callBackFunc){
+                        return function(res){
+                            if(res.success){
+                                var resList = res.rows;
+                                var printTypeDict = typeof(nsVals.dictData['CLOUD_PRINT_TYPE']) == "object" && typeof(nsVals.dictData['CLOUD_PRINT_TYPE'].jsondata) == "object" ? nsVals.dictData['CLOUD_PRINT_TYPE'].jsondata : {};
+                                var paperTypeDict = typeof(nsVals.dictData['DEFAULT_PAPER_TYPE']) == "object" && typeof(nsVals.dictData['DEFAULT_PAPER_TYPE'].jsondata) == "object" ?  nsVals.dictData['DEFAULT_PAPER_TYPE'].jsondata : {};
+                                var list = [];
+                                for(var i=0; i<resList.length; i++){
+                                    var obj = $.extend(true, {}, resList[i]);
+                                    var type = obj.type;
+                                    var defaultPaperType = obj.defaultPaperType;
+                                    var typeName = printTypeDict[type] ? printTypeDict[type] : '';
+                                    var paperName = paperTypeDict[defaultPaperType] ? paperTypeDict[defaultPaperType] : '';
+                                    obj.typeName = typeName;
+                                    obj.paperName = paperName;
+                                    list.push(obj);
+                                }
+                                if(typeof(_callBackFunc) == "function"){
+                                    _callBackFunc(list);
+                                }
+                            }
+                        }
+                    })(callBackFunc));
+                }
+                // 初始化没有预览的设置打印机面板
+                function initSetPrint(initConfig){
+                    var dialogConfig = initConfig.dialogConfig;
+                    // var fileIds = initConfig.fileIds;
+                    var storeName = initConfig.storeName;
+                    var btnStateObj = initConfig.btnStateObj;
+                    var subIndex = btnStateObj.subIndex; // 设值的是第几条数据
+                    var clickBtnId = initConfig.btnId;
+                    var bodyId = dialogConfig.bodyId;
+                    var footerId = dialogConfig.footerIdGroup;
+                    var $body = $('#' + bodyId);
+                    var storeData = getStore(storeName, subIndex);
+                    var blockConfig = {
+                        id : bodyId,
+                        data : {
+                            idField : 'id',
+                            // src:getRootPath()+'/system/cloudPrints/getList',
+                            // data:{},
+                            // dataSrc:'rows',
+                            // contentType: 'application/json',
+                        },
+                        ui : {
+                            selectMode : "single",	
+                            isHaveEditDeleteBtn : false,
+                            listExpression: '<li class="pt-list-table">'
+                                                +'<span class="title">打印机名称:{{name}}</span>'
+                                                +'<span class="note">打印机类型:{{typeName}}</span>'
+                                                +'<span class="page">默认纸张:{{paperName}}</span>'
+                                            +'</li>',
+                            defaultValueOption : {
+                                value : [storeData],
+                                idField : 'id',
+                            },
+                        },
+                        columns : [],
+                    }
+                    getPrintList((function(_blockConfig, _storeData){
+                        return function(list){
+                            for(var i=0; i<list.length; i++){
+                                if(list[i].id == _storeData.id){
+                                    list[i].netstarSelectedFlag = true;
+                                    break;
+                                }
+                            }
+                            _blockConfig.data.dataSource = list;
+                            NetstarBlockList.init(blockConfig);
+                        }
+                    })(blockConfig, storeData))
+                    // NetstarBlockList.init(blockConfig);
+                    var btnJson = {
+                        id : footerId,
+                        pageId:'btn-' + footerId,
+                        btns:[
+                            {
+                                text:'确定',
+                                handler:function(){
+                                    //发送websocket
+                                    var selectData = NetstarBlockList.getSelectedData(bodyId);//获取打印配置的值
+                                    if(selectData.length == 0){
+                                        console.error('没有选中打印机');
+                                        nsalert('没有选中打印机', 'error');
+                                        return false;
+                                    }
+                                    selectData = selectData[0];
+                                    var printInfo = {
+                                        id : selectData.id,
+                                        userId : selectData.userId,
+                                        type : selectData.type,
+                                        printerId : selectData.id,
+                                    }
+                                    setStore(printInfo, storeName, subIndex);
+                                    NetstarComponent.dialog['btn-dialog-wxtprint'].vueConfig.close();
+                                    // store.set(bodyId, $.extend(true, {}, printInfo));
+                                    // printInfo.btnId = clickBtnId;
+                                    // printInfo.fileIds = fileIds;
+                                    // var $clickBtn = $('#' + clickBtnId);
+                                    // sendMessageAndChangeBtn($clickBtn, printInfo, function(){
+                                    // 	NetstarComponent.dialog['btn-dialog-wxtprint'].vueConfig.close();
+                                    // })
+                                }
+                            },{
+                                text:'取消',
+                                handler:function(){
+                                    //关闭当前弹出框
+                                    NetstarComponent.dialog['btn-dialog-wxtprint'].vueConfig.close();
+                                }
+                            }
+                        ],
+                    };
+                    vueButtonComponent.init(btnJson);
+                }
+                // 设置打印机配置
+                function setStore(storeContent, storeName, subIndex){
+                    var storeData = store.get(storeName);
+                    if(typeof(storeData) != "object"){
+                        storeData = {};
+                    }
+                    storeData[subIndex] = storeContent;
+                    store.set(storeName, storeData);
+                }
+                // 获取打印机配置
+                function getStore(storeName, subIndex){
+                    var storeData = store.get(storeName);
+                    var res = {};
+                    if(typeof(storeData) == "object" && typeof(storeData[subIndex]) == "object"){
+                        res = storeData[subIndex];
+                    }
+                    return res;
+                }
+                // 获取打印机配置
+                function getStoreAll(storeName){
+                    var storeData = store.get(storeName);
+                    if(typeof(storeData) != "object"){
+                        storeData = {}
+                    }
+                    return storeData;
+                }
+                // 初始化打印预览设置面板
+                function initPrintPreview(initConfig){
+                    var dialogConfig = initConfig.dialogConfig;
+                    var fileIds = initConfig.fileIds;
+                    var storeName = initConfig.storeName;
+                    var btnStateObj = initConfig.btnStateObj;
+                    var subIndex = btnStateObj.subIndex; // 设值的是第几条数据
+                    var clickBtnId = initConfig.btnId;
+                    var bodyId = dialogConfig.bodyId;
+                    var footerId = dialogConfig.footerIdGroup;
+                    var $body = $('#' + bodyId);
+                    // 按钮id
+                    var btnId = 'btn-' + bodyId;
+                    // 表单id
+                    var voId = 'vo-' + bodyId;
+                    // 预览id
+                    var pdfId = 'pdf-' + bodyId;
+                    var btnHtml = '<div class="pt-main-row">'
+                                    +'<div class="pt-main-col">'
+                                        +'<div class="pt-panel">'
+                                            +'<div class="pt-container">'
+                                                +'<div id="'+btnId+'" class="pt-components-btns"></div>'
+                                            +'</div>'
+                                        +'</div>'
+                                    +'</div>'
+                                +'</div>';
+                    var voHtml = '<div class="pt-main-col wxtprint-left">'
+                                        +'<div class="pt-panel">'
+                                            +'<div class="pt-container">'
+                                                +'<div id="'+voId+'" class="pt-components-vo"></div>'
+                                            +'</div>'
+                                        +'</div>'
+                                    +'</div>';
+                    var pdfHtml = '<div class="pt-main-col wxtprint-right">'
+                                        +'<div class="pt-panel">'
+                                            +'<div class="pt-container">'
+                                                + '<div class="pt-components-pdf-title">预览</div>'
+                                                +'<div id="'+pdfId+'" class="pt-components-pdf"></div>'
+                                            +'</div>'
+                                        +'</div>'
+                                    +'</div>';
+                    var html = '<div class="pt-main pt-wxtprint-panel">'
+                                            // + btnHtml
+                                            +'<div class="pt-main-row">'
+                                                + voHtml
+                                                + pdfHtml
+                                            +'</div>'
+                                        +'</div>';
+                    $body.html(html);
+                    // 计算预览文件容器高度
+                    var bodyHeight = $body.innerHeight();
+                    var $pdf = $('#' + pdfId);
+                    var $pdfTitle = $pdf.prev();
+                    var pdfTitleHeight = $pdfTitle.outerHeight();
+                    var previewHeight = bodyHeight - pdfTitleHeight -20 - 20 - 34;
+                    $pdf.height(previewHeight);
+                    // 表单
+                    var formConfig = {
+                        id:voId,
+                        templateName: 'form',
+                        componentTemplateName: 'PC',
+                        //defaultComponentWidth:'100%',
+                        isSetMore:false,
+                        plusClass:'pt-form-print',
+                        form:[
+                            {
+                                id: 'printerId',
+                                label: '目标打印机',
+                                type: 'select',
+                                textField: 'name',
+                                valueField: 'id',
+                                rules : 'required',
+                                //inputWidth:450,
+                                // ajaxConfig:{
+                                // 	url:getRootPath()+'//system/cloudPrints/getList',
+                                // 	src:getRootPath()+'//system/cloudPrints/getList',
+                                // 	data:{},
+                                // 	dataSrc:'rows',
+                                // },
+                                panelConfig:{
+                                    height:300,
+                                },
+                                outputFields : {
+                                    id : "{id}",
+                                    userId : "{userId}",
+                                    type : "{type}",
+                                    defaultPaperType : "{defaultPaperType}",
+                                },
+                                // isObjectValue:true,
+                                listExpression: '<li class="pt-list-table">'
+                                                    +'<span class="title">打印机名称:{{name}}</span>'
+                                                    +'<span class="note">打印机类型:{{typeName}}</span>'
+                                                    +'<span class="page">默认纸张:{{paperName}}</span>'
+                                                +'</li>',
+                            },{
+                                id:'page',
+                                label:'页码',
+                                type:'valuesInput',
+                                format:'{this:9}-{pageNumber2:999}',
+                            },{
+                                id:'pageLength',
+                                label:'份数',
+                                type:'text',
+                                rules : 'positiveInteger',
+                            },{
+                                id:'layout',
+                                label:'打印方向',
+                                type:'radio',
+                                value : '1',
+                                subdata : [
+                                    {
+                                        text : "横",
+                                        value : "0",
+                                    },{
+                                        text : "竖",
+                                        value : "1",
+                                    }
+                                ],
+                            }
+                        ],
+                    };
+                    var storeData = getStore(storeName, subIndex);
+                    getPrintList((function(_formConfig, _storeData){
+                        return function(list){
+                            _formConfig.form[0].subdata = list;
+                            NetstarComponent.formComponent.show(_formConfig, _storeData);
+                        }
+                    })(formConfig, storeData))
+                    // NetstarComponent.formComponent.show(formConfig, storeData);
+                    // 预览
+                    var fileIdsArr = fileIds.split(',');
+                    var pdfViewArr = [];
+                    var stateUrl = NetStarUtils.getStaticUrl();
+                    var token = NetStarUtils.OAuthCode.get();
+                    for(var i=0; i<fileIdsArr.length; i++){
+                        pdfViewArr.push({
+                            url : stateUrl + '/files/pdf/' + fileIdsArr[i] + '?Authorization=' + token,
+                            type : 'pdf',
+                        })
+                    }
+                    var pdfViewConfig = {
+                        id : pdfId,
+                        isPrint : false,
+                        url : pdfViewArr,
+                    }
+                    NetstarUI.multiPdfViewer.init(pdfViewConfig);
+                    // 按钮
+                    var btnJson = {
+                        id : footerId,
+                        pageId:'btn-' + footerId,
+                        btns:[
+                            {
+                                text:'确定',
+                                handler:function(){
+                                    var printInfo = NetstarComponent.getValues(voId);//获取打印配置的值
+                                    if(!printInfo){
+                                        console.error('请检查表单配置');
+                                        return false;
+                                    }
+                                    setStore(printInfo, storeName, subIndex);
+                                    NetstarComponent.dialog['btn-dialog-wxtprint'].vueConfig.close();
+                                }
+                            },{
+                                text:'取消',
+                                handler:function(){
+                                    //关闭当前弹出框
+                                    NetstarComponent.dialog['btn-dialog-wxtprint'].vueConfig.close();
+                                }
+                            }
+                        ],
+                    };
+                    vueButtonComponent.init(btnJson);
+                }
+                // 打印
+                function printAndCancel(actionName, printList, controllerObj, dataJson, storeName, btnStateObj, callBackFunc){
+                    if(!$.isArray(printList)){
+                        printList = [printList];
+                    }
+                    var btnType = controllerObj.btnType;
+                    var subIndex = btnStateObj.subIndex; // 设值的是第几条数据
+                    var btnVueConfig = btnStateObj.btnsVue.vueConfigs[btnStateObj.index];
+                    switch(btnType){
+                        case 'print': // 打印
+                        case 'preview': // 预览打印
+                            var fileIds = getFileData(controllerObj, controllerObj.fileField, dataJson);
+                            if(!fileIds){
+                                break;
+                            }
+                            var storeData = getStoreAll(storeName);
+                            // 判断打印的列表是否都存在配置 如果没有配置 报错不进行打印
+                            var isAllSet = true;
+                            for(var i=0; i<printList.length; i++){
+                                if(typeof(storeData[printList[i].nsIndex]) == "undefined"){
+                                    isAllSet = false;
+                                }
+                            }
+                            if(!isAllSet){
+                                nsAlert('请检查打印机是否全部配置','warning');
+                                console.warn('请检查打印机是否全部配置');
+                                break;
+                            }
+                            var printInfos = [];
+                            for(var i=0; i<printList.length; i++){
+                                var storeObj = storeData[printList[i].nsIndex];
+                                storeObj.fileIds = fileIds;
+                                printInfos.push(storeObj);
+                            }
+                            var btnVueConfig = btnStateObj.btnsVue.vueConfigs[btnStateObj.index];
+                            var otherInfo = {
+                                action : actionName,
+                                btntimeStamp : btnVueConfig.timestamp,
+                                btnsConfigName : btnStateObj.btnsVue.btnsConfigName,
+                                btnIndex : btnStateObj.index,
+                            }
+                            var message = getPrintMessage(printInfos, otherInfo);
+                            var messageStr = JSON.stringify(message);
+                            NetStarRabbitMQ.printSend(message.trayUserId, messageStr);
+                            if(typeof(callBackFunc) == "function"){
+                                callBackFunc();
+                            }
+                            break;
+                        case 'printAjax': // 发送ajax的打印 即 表格行上没有fileId字段
+                        case 'previewAjax': // 发送ajax的预览打印 即 表格行上没有fileId字段
+                            var storeData = getStoreAll(storeName);
+                            // 判断打印的列表是否都存在配置 如果没有配置 报错不进行打印
+                            var isAllSet = true;
+                            for(var i=0; i<printList.length; i++){
+                                if(typeof(storeData[printList[i].nsIndex]) == "undefined"){
+                                    isAllSet = false;
+                                }
+                            }
+                            if(!isAllSet){
+                                nsAlert('请检查打印机是否全部配置','warning');
+                                console.warn('请检查打印机是否全部配置');
+                                break;
+                            }
+                            var printInfos = [];
+                            for(var i=0; i<printList.length; i++){
+                                var storeObj = storeData[printList[i].nsIndex];
+                                storeObj.fileIds = fileIds;
+                                printInfos.push(storeObj);
+                            }
+                            var currentAjaxIndex = 0;
+                            
+                            for(var i=0; i<printList.length; i++){
+                                var ajaxConfig = $.extend(true, {}, printList[i].ajax); 
+                                var _plusData = {
+                                    ajaxIndex : i,
+                                    storeName : storeName,
+                                    btnStateObj : btnStateObj,
+                                    printList : printList,
+                                    printInfos : printInfos,
+                                }
+                                getFileIdByAjax(printList[i], ajaxConfig, dataJson, _plusData, (function(_printInfos, _actionName, _callBackFunc){
+                                    return function(fileIds, plusData){
+                                        currentAjaxIndex ++;
+                                        _printInfos[plusData.ajaxIndex].fileIds = fileIds;
+                                        if(currentAjaxIndex == plusData.printList.length){
+                                            var btnVueConfig = plusData.btnStateObj.btnsVue.vueConfigs[plusData.btnStateObj.index];
+                                            var otherInfo = {
+                                                action : _actionName,
+                                                btntimeStamp : btnVueConfig.timestamp,
+                                                btnsConfigName : plusData.btnStateObj.btnsVue.btnsConfigName,
+                                                btnIndex : plusData.btnStateObj.index,
+                                            }
+                                            var message = getPrintMessage(_printInfos, otherInfo);
+                                            var messageStr = JSON.stringify(message);
+                                            NetStarRabbitMQ.printSend(message.trayUserId, messageStr);
+                                            if(typeof(_callBackFunc) == "function"){
+                                                _callBackFunc();
+                                            }
+                                        }
+                                    }
+                                })(printInfos, actionName, callBackFunc))
+                            }
+                            break;
+                    }
+                }
+                // 设置
+                function setPrintInfo(controllerObj, storeName, btnStateObj){
+                    var btnType = controllerObj.btnType;
+                    var subIndex = btnStateObj.subIndex; // 设值的是第几条数据
+                    switch(btnType){
+                        case 'print': // 打印 没有预览所以不需要fileId
+                        case 'printAjax': // 打印 没有预览所以不需要fileId
+                            showDialog(false, function(dialogConfig){
+                                var initConfig = {
+                                    dialogConfig : dialogConfig,
+                                    // fileIds : fileIds,
+                                    btnId : btnId,
+                                    storeName : storeName,
+                                    btnStateObj : btnStateObj,
+                                }
+                                initSetPrint(initConfig);
+                            });
+                            break;
+                        case 'preview': // 预览打印
+                            var fileIds = getFileData(controllerObj, controllerObj.fileField, dataJson);
+                            if(!fileIds){
+                                break;
+                            }
+                            showDialog(true, function(dialogConfig){
+                                var initConfig = {
+                                    dialogConfig : dialogConfig,
+                                    fileIds : fileIds,
+                                    btnId : btnId,
+                                    storeName : storeName,
+                                    btnStateObj : btnStateObj,
+                                }
+                                initPrintPreview(initConfig);
+                            });
+                            break;
+                        case 'previewAjax': // 发送ajax的预览打印 即 表格行上没有fileId字段
+                            var btnVueConfig = stateObj.btnsVue.vueConfigs[stateObj.index];
+                            var subPrint = $.extend(true, {}, btnVueConfig.dropdownSubdata[stateObj.subIndex]);
+                            subPrint.nsIndex = stateObj.subIndex;
+                            var ajaxConfig = $.extend(true, {}, subPrint.ajax); 
+                            var _plusData = {
+                                storeName : storeName,
+                                btnStateObj : btnStateObj,
+                            };
+                            getFileIdByAjax(subPrint, ajaxConfig, dataJson, _plusData, function(fileIds, plusData){
+                                showDialog(true, function(dialogConfig){
+                                    var initConfig = {
+                                        dialogConfig : dialogConfig,
+                                        fileIds : fileIds,
+                                        btnId : plusData.btnId,
+                                        storeName : plusData.storeName,
+                                        btnStateObj : plusData.btnStateObj,
+                                    }
+                                    initPrintPreview(initConfig);
+                                });
+                            })
+                            break;
+                    }
+                }
+                    
+                //sjj 20200205 网星通打印
+                var controllerObj = obj.controllerObj;
+                var functionConfig = obj.controllerObj.func.config;//按钮的配置参数
+                var dataJson = {};
+                if(typeof(callback.dialogBeforeHandler)=='function'){
+                    dataJson = callback.dialogBeforeHandler(callback);//获取当前按钮所在界面的配置
+                }
+                var pageConfig = callback.config;
+                var package = pageConfig.package;
+                var stateObj = callback.stateObj;
+                var btnIndex = stateObj.index;
+                var storeName = package + '-' + btnIndex;
+                var btnId = callback.data.id;
+                var eventFuncName = callback.eventFuncName;
+                var btnVueConfig = stateObj.btnsVue.vueConfigs[stateObj.index];
+                var btnConfig = stateObj.btnsVue.data[stateObj.index];
+                switch(eventFuncName){
+                        case 'click':
+                            btnVueConfig.timestamp = new Date().getTime();
+                        case 'clickCancel': // 点击按钮
+                            var actionName = 'print';
+                            if(eventFuncName == 'clickCancel'){
+                                actionName = 'cancelPrint';
+                            }
+                            var selectList = stateObj.btnsVue.stateGetCheck(stateObj.index);
+                            if(selectList.length == 0){
+                                selectList = getStore(storeName, 'dropSelected');
+                            }
+                            if(selectList.length == 0 || $.isEmptyObject(selectList)){
+                                nsAlert('没有选择打印模板及配置', 'warning');
+                                console.warn('没有选择打印模板及配置');                                                                                                                                                                                                            
+                                break;
+                            }
+                            printAndCancel(actionName, selectList, controllerObj, dataJson, storeName, stateObj, (function(_btnVueConfig, _eventFuncName, _functionConfig){
+                                return function(){
+                                    if(_eventFuncName == 'click'){
+                                        _btnVueConfig.showType = 'loading';
+                                        _btnVueConfig.loadingStyle = {
+                                            width : '0%',
+                                        }
+                                        _btnVueConfig.loadingText = '0%';
+                                        _btnVueConfig.showText = '取消打印';
+                                    }else{
+                                        _btnVueConfig.showType = 'default';
+                                        _btnVueConfig.showText = functionConfig.text;
+                                        _btnVueConfig.dropdownState = 'list';
+                                    }
+                                    _btnVueConfig.isShowDropdown = false;
+                                }
+                            })(btnVueConfig, eventFuncName, functionConfig))                                                                                                                                                                                                          
+                            break;
+                        case 'mouseover': // 移入
+                            break;
+                        case 'mouseout': // 移出
+                            btnVueConfig.showType = 'default';
+                            btnVueConfig.showText = functionConfig.text;
+                            btnVueConfig.dropdownState = 'list';
+                            btnVueConfig.isShowDropdown = false;
+                            break;
+                        case 'dropPrint': // 下拉打印
+                            var subPrint = $.extend(true, {}, btnVueConfig.dropdownSubdata[stateObj.subIndex]);
+                            subPrint.nsIndex = stateObj.subIndex;
+                            printAndCancel('print', subPrint, controllerObj, dataJson, storeName, stateObj)
+                            break;
+                        case 'dropSet': // 点击设置
+                            setPrintInfo(controllerObj, storeName, stateObj);
+                            break;
+                        case 'dropClick': // 点击下拉框
+                            // setStore(storeContent, storeName, subIndex);
+                            var selectList = stateObj.btnsVue.stateGetCheck(stateObj.index);
+                            // var selectIndexArr = [];
+                            // for(var i=0; i<selectList.length; i++){
+                            // 	selectIndexArr.push(selectList[i].nsIndex);
+                            // }
+                            setStore(selectList, storeName, 'dropSelected');
+                            break;
+                        case 'dropdownShowBefore':
+                            var selectList = getStore(storeName, 'dropSelected');
+                            var dropdownSubdata = $.extend(true, [], btnVueConfig.dropdownSubdata);
+                            for(var i=0; i<selectList.length; i++){
+                                if(dropdownSubdata[selectList[i].nsIndex]){
+                                    dropdownSubdata[selectList[i].nsIndex].isCurrent = true;
+                                }
+                            }
+                            btnVueConfig.dropdownSubdata = dropdownSubdata;
+                            break;
+                }
+                // var btnType = controllerObj.btnType;
+                // switch(btnType){
+                // 	case 'print': // 打印
+                // 		var fileIds = getFileData(controllerObj, controllerObj.fileField, dataJson);
+                // 		if(!fileIds){
+                // 			break;
+                // 		}
+                // 		var storeId = 'dialog-btn-dialog-wxtprint-body';
+                // 		var storeData = store.get(storeId);
+                // 		if(storeData){
+                // 			var printInfo = storeData;
+                // 			printInfo.btnId = btnId;
+                // 			printInfo.fileIds = fileIds;
+                // 			var $clickBtn = $('#' + btnId);
+                // 			sendMessageAndChangeBtn($clickBtn, printInfo);
+                // 		}else{
+                // 			showDialog(false, function(dialogConfig){
+                // 				var initConfig = {
+                // 					dialogConfig : dialogConfig,
+                // 					fileIds : fileIds,
+                // 					btnId : btnId,
+                // 				}
+                // 				initPrint(initConfig);
+                // 			});
+                // 		}
+                // 		break;
+                // 	case 'preview': // 预览打印
+                // 		var fileIds = getFileData(controllerObj, controllerObj.fileField, dataJson);
+                // 		if(!fileIds){
+                // 			break;
+                // 		}
+                // 		showDialog(true, function(dialogConfig){
+                // 			var initConfig = {
+                // 				dialogConfig : dialogConfig,
+                // 				fileIds : fileIds,
+                // 				btnId : btnId,
+                // 			}
+                // 			initPrintPreview(initConfig);
+                // 		});
+                // 		break;
+                // 	case 'printAjax': // 发送ajax的打印 即 表格行上没有fileId字段
+                // 		if($btn){
+                // 			changeBtnsState($btn, true);
+                // 		}
+                // 		var ajaxConfig = $.extend(true,{},functionConfig); 
+                // 		getFileIdByAjax(controllerObj, ajaxConfig, dataJson, btnId, $btn, function(fileIds, plusData){
+                // 			// showDialog(false, function(dialogConfig){
+                // 			// 	var initConfig = {
+                // 			// 		dialogConfig : dialogConfig,
+                // 			// 		fileIds : fileIds,
+                // 			// 		btnId : plusData.btnId,
+                // 			// 	}
+                // 			// 	initPrint(initConfig);
+                // 			// });
+                // 			var storeId = 'dialog-btn-dialog-wxtprint-body';
+                // 			var storeData = store.get(storeId);
+                // 			if(storeData){
+                // 				var printInfo = storeData;
+                // 				printInfo.btnId = plusData.btnId;
+                // 				printInfo.fileIds = fileIds;
+                // 				var $clickBtn = $('#' + plusData.btnId);
+                // 				sendMessageAndChangeBtn($clickBtn, printInfo);
+                // 			}else{
+                // 				showDialog(false, function(dialogConfig){
+                // 					var initConfig = {
+                // 						dialogConfig : dialogConfig,
+                // 						fileIds : fileIds,
+                // 						btnId : plusData.btnId,
+                // 					}
+                // 					initPrint(initConfig);
+                // 				});
+                // 			}
+                // 		})
+                // 		break;
+                // 	case 'previewAjax': // 发送ajax的预览打印 即 表格行上没有fileId字段
+                // 		if($btn){
+                // 			changeBtnsState($btn, true);
+                // 		}
+                // 		var ajaxConfig = $.extend(true,{},functionConfig); 
+                // 		getFileIdByAjax(controllerObj, ajaxConfig, dataJson, btnId, $btn, function(fileIds, plusData){
+                // 			showDialog(true, function(dialogConfig){
+                // 				var initConfig = {
+                // 					dialogConfig : dialogConfig,
+                // 					fileIds : fileIds,
+                // 					btnId : plusData.btnId,
+                // 				}
+                // 				initPrintPreview(initConfig);
+                // 			});
+                // 		})
+                // 		break;
+                // }
+            }
+            // lyw 导入
+            function excelImportVer3(callback,obj){
+                var controllerObj = obj.controllerObj;
+                var functionConfig = obj.controllerObj.func.config;//按钮的配置参数
+                var dataJson = {};
+                if(typeof(callback.dialogBeforeHandler)=='function'){
+                    dataJson = callback.dialogBeforeHandler(callback);//获取当前按钮所在界面的配置
+                }
+                var pageConfig = callback.config;
+                var package = pageConfig.package;
+                var stateObj = callback.stateObj;
+                var btnIndex = stateObj.index;
+                var storeName = package + '-' + btnIndex;
+                var btnId = callback.data.id;
+                var eventFuncName = callback.eventFuncName;
+                var btnVueConfig = stateObj.btnsVue.vueConfigs[stateObj.index];
+                var btnConfig = stateObj.btnsVue.data[stateObj.index];
+                switch(eventFuncName){
+                    case 'click':
+                        btnVueConfig.timestamp = new Date().getTime();
+                        // 暂时代码
+                        var importInstructionsExpression = functionConfig.importInstructionsExpression;
+                        if(!importInstructionsExpression){
+                            importInstructionsExpression = '<div class="import-nstructions-list">'
+                                                                + '<ul>'
+                                                                    + '<li>按仓库导入商品</li>'
+                                                                    + '<li>多次导入库存信息</li>'
+                                                                    + '<li>商品编号和属性编号必填</li>'
+                                                                + '</ul>'
+                                                            + '</div>'
+                        }
+                        var importConfig = {
+                            id : 'netstar-import-dialog',
+                            expression : importInstructionsExpression,
+                            confirmHandler : (function(_btnVueConfig, _eventFuncName, _functionConfig){
+                                return function(data){
+                                    console.log(data);
+                                    _btnVueConfig.showType = 'loading';
+                                    _btnVueConfig.loadingStyle = {
+                                        width : '0%',
+                                    }
+                                    _btnVueConfig.loadingText = '0%';
+                                    _btnVueConfig.showText = '取消导入';
+                                    _btnVueConfig.isShowDropdown = false;
+                                }
+                            })(btnVueConfig, eventFuncName, functionConfig),
+                        };
+                        NetstarExcelImportVer3.init(importConfig);
+                        break;
+                    case 'clickCancel': // 点击按钮
+                        // var actionName = 'import';
+                        // if(eventFuncName == 'clickCancel'){
+                        // 	actionName = 'cancelImport';
+                        // }       
+                        btnVueConfig.showType = 'default';
+                        btnVueConfig.showText = functionConfig.text;
+                        btnVueConfig.dropdownState = 'list';
+                        btnVueConfig.isShowDropdown = false;                                                                                                                                                                                
+                        break;
+                    case 'mouseover': // 移入
+                        break;
+                    case 'mouseout': // 移出
+                        btnVueConfig.showType = 'default';
+                        btnVueConfig.showText = functionConfig.text;
+                        btnVueConfig.dropdownState = 'list';
+                        btnVueConfig.isShowDropdown = false;
+                        break;
+                    case 'details': // 点击设置
+                        var importConfig = {
+                            type : 'details',
+                            title : '导入详情',
+                            id : 'netstar-import-details-dialog',
+                            infos : {
+                                addNum : 10,
+                                updateNum : 15,
+                                errorNum : 5,
+                            }
+                        };
+                        NetstarExcelImportVer3.init(importConfig);
+                        break;
+                }
+            }
+            // lyw 导出
+            function excelExportVer3(callback,obj){
+                var controllerObj = obj.controllerObj;
+                var functionConfig = obj.controllerObj.func.config;//按钮的配置参数
+                var dataJson = {};
+                if(typeof(callback.dialogBeforeHandler)=='function'){
+                    dataJson = callback.dialogBeforeHandler(callback);//获取当前按钮所在界面的配置
+                }
+                var pageConfig = callback.config;
+                var package = pageConfig.package;
+                var stateObj = callback.stateObj;
+                var btnIndex = stateObj.index;
+                var storeName = package + '-' + btnIndex;
+                var btnId = callback.data.id;
+                var eventFuncName = callback.eventFuncName;
+                var btnVueConfig = stateObj.btnsVue.vueConfigs[stateObj.index];
+                var btnConfig = stateObj.btnsVue.data[stateObj.index];
+                switch(eventFuncName){
+                    case 'click':
+                        btnVueConfig.timestamp = new Date().getTime();
+                        btnVueConfig.showType = 'loading';
+                        btnVueConfig.loadingStyle = {
+                            width : '0%',
+                        }
+                        btnVueConfig.loadingText = '0%';
+                        btnVueConfig.showText = '取消导入';
+                        btnVueConfig.isShowDropdown = false;
+                        break;
+                    case 'clickCancel': // 点击按钮
+                        // var actionName = 'import';
+                        // if(eventFuncName == 'clickCancel'){
+                        // 	actionName = 'cancelImport';
+                        // }       
+                        btnVueConfig.showType = 'default';
+                        btnVueConfig.showText = functionConfig.text;
+                        btnVueConfig.dropdownState = 'list';
+                        btnVueConfig.isShowDropdown = false;                                                                                                                                                                                
+                        break;
+                    case 'mouseover': // 移入
+                        break;
+                    case 'mouseout': // 移出
+                        btnVueConfig.showType = 'default';
+                        btnVueConfig.showText = functionConfig.text;
+                        btnVueConfig.dropdownState = 'list';
+                        btnVueConfig.isShowDropdown = false;
+                        break;
+                }
+            }
+
         },
         init : function(btns){
             for(var i=0; i<btns.length; i++){

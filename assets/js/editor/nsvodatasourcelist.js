@@ -154,6 +154,9 @@ nsProjectPagesManager.pages.voList = (function($) {
                     // 特殊字段特殊处理
                     switch(key){
                         case 'subdata':
+							if(JSON.stringify(currObj[key]) != JSON.stringify(souObj[key])){
+								save[key] = currObj[key];
+							}
                             break;
                         default:
                             if(typeof(currObj[key]) == "object"){

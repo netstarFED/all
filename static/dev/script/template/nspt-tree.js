@@ -1775,7 +1775,9 @@ NetstarTemplate.tree = (function(){
                 }
             });
             config.$funcPanel.append($search);
-        } 
+        }else{
+            config.$funcPanel.addClass('hide'); 
+        }
     }
     // 生成面板底部按钮
     function initFooterPanel(){

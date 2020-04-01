@@ -1,0 +1,40 @@
+@sample-mark-size: 72px;
+
+.sample-mark {
+    &:before {
+        position: absolute;
+        font-family: @icon-font-icomoon;
+        content: '';
+        .square(@sample-mark-size);
+        font-size: @sample-mark-size;
+        top: -5px;
+        right: -5px;
+        color: #000;
+        transform: rotate(-30deg);
+    }
+
+    // 已采样
+    &.sample-mark-complete {
+        &:before {
+            content: '\ea87';
+            color: @success;
+        }
+    }
+
+    // 待采样
+    &.sample-mark-waiting {
+        &:before {
+            content: '\ea8a';
+            color: @warning;
+        }
+    }
+
+    // 已作废
+    &.sample-mark-cancel {
+        &:before {
+            content: '\ea88';
+            color: #888;
+        }
+    }
+
+}

@@ -1,40 +1,69 @@
-.price-block{
+.price-block {
     padding: @base-padding;
     background: #fff;
     border: 1px solid @border-color;
 
-    & + &{
+    &+& {
         margin-top: @base-margin;
     }
 
-    .price-block-header{
+    .price-block-header {
         line-height: 32px;
-        .price-type{
+        font-size: 14px;
+
+        .price-type {
             border: 1px solid;
             border-radius: 3px;
             padding: 0 (@base-padding / 2);
             margin-right: (@base-margin / 2);
+            font-size: 12px;
+
+            // 公费
+            &.price-type-public {
+                color: @success;
+                border-color: @success;
+            }
+
+            // 自费
+            &.price-type-own {
+                color: @info;
+                border-color: @info;
+            }
         }
     }
-    .price-block-body{
-        ul{
-            li{
+
+    .price-block-body {
+        ul {
+            li {
                 text-align: right;
                 line-height: 28px;
-                label{
+
+                label {
                     font-weight: normal;
                     margin-bottom: 0;
                 }
             }
         }
     }
+
     // 已付款标识
-    &.price-paid{
+    &.price-paid {
 
         position: relative;
-        &:before{
+        overflow: hidden;
+
+        &:before {
             position: absolute;
-            // content: '已付款';
+            left: 10px;
+            bottom: -15px;
+            font-family: @icon-font-icomoon;
+            content: '\ea89';
+            font-size: 60px;
+            transform: rotate(30deg);
+            opacity: 0.65;
+
         }
+
+
     }
 }

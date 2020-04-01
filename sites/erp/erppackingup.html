@@ -102,15 +102,42 @@
                                 {
                                     field: 'warehouseId',
                                     title: '仓库',
+                                    editConfig:{
+                                        type:'select',
+                                        label:'仓库',
+                                        selectMode:'single',
+                                        url:getRootPath() + '/warehouse/v2/getList',
+                                        textField:'name',
+                                        valueField:'id',
+                                        dataSrc:'rows',
+                                        method:'POST',
+                                    }
 
                                 },
                                 {
                                     field: 'warehouseName',
                                     title: '仓库名称',
+                                    editConfig:{
+
+                                    }
                                 },
                                 {
                                     field: 'packingLocationId',
                                     title: '装箱货位',
+                                    editConfig:{
+                                        type:'select',
+                                        label:'装箱货位',
+                                        selectMode:'single',
+                                        url:getRootPath() + '/locations/v2/getList',
+                                        data:{
+                                            type: "8",
+                                            warehouseId: "{page.warehouseId}"
+                                        },
+                                        textField:'code',
+                                        valueField:'id',
+                                        dataSrc:'rows',
+                                        method:'POST'
+                                    }
                                 },
                                 {
                                     field: '"packingLocationCode',
@@ -132,7 +159,20 @@
 
                             },
                             idField: 'id',
-                            listExpression: "<div class='block-list-item'><div class='block-list-item-text'><span class='title'>{{bllType}}</span></div><div class='block-list-item-text text-left'><span>{{bllCode}}</span></div><div class='block-list-item-text text-left'><span>{{customerName}}</span></div><div class='block-list-item-text text-left'><span>{{warehouseName}}</span></div><div class='block-list-item-text text-left'><span>{{packingLocationCode}}</span></div></div>",
+                            listExpression: `<div class='block-list-item'>
+                                                <div class='block-list-item-text'>
+                                                    <span class="weight">{{customerName}}</span>
+                                                </div>
+                                                <div class='block-list-item-text'>
+                                                    <span class='text-ml text-gray'>{{bllCode}}</span>
+                                                    <span class='text-label text-gray'>{{bllType}}</span>
+                                                    
+                                                </div>
+                                                <div class='block-list-item-text'>
+                                                    <span class='text-ml text-gray'>{{warehouseName}}</span>
+                                                    <span class='text-ml text-gray'>{{packingLocationId}}</span>
+                                                </div>
+                                            </div>`,
                             plusClass: '',
                             parent: 'root',
                             searchInputPlaceholder: '',
@@ -152,7 +192,6 @@
                                             var getSelectData = pageConfig.gridRowData;
                                             var tempValueName = erpPackingUp.package + new Date().getTime();
                                             if(typeof(NetstarTempValues) == "undefined"){
-                                                Nets
                                                 tarTempValues = {}
                                             }
                                             NetstarTempValues[tempValueName] = getSelectData
@@ -223,7 +262,6 @@
                                         text:'装箱详情',
                                         isReturn:true,
                                         handler:function(data){
-                                            debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpPackingUp.package];
                                             var id ={
                                                 id:pageConfig.gridRowData.id

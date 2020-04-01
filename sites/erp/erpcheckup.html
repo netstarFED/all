@@ -33,133 +33,133 @@
                         {
                             type: 'blockList',
                             field: [{
-                                    field: 'id',
-                                    title: 'id'
-                                },
-                                {
-                                    title: '状态',
-                                    field: 'state',
-                                    editConfig: {
-                                        type: 'select',
-                                        subdata: [{
-                                                id: '1',
-                                                value: '未完成'
-                                            },
-                                            {
-                                                id: '2',
-                                                value: '已完成'
-                                            }
-    
-
-
-                                        ],
-                                        textField: 'value',
-                                        valueField: 'id',
-                                        variableType: "number"
+                                field: 'id',
+                                title: 'id'
+                            },
+                            {
+                                title: '状态',
+                                field: 'state',
+                                editConfig: {
+                                    type: 'select',
+                                    subdata: [{
+                                        id: '1',
+                                        value: '未完成'
                                     },
-                                    formatHandler: {
-                                        type: "stringReplace",
-                                        data: {
-                                            1: '未完成',
-                                            2: '已完成'
-                                        }
+                                    {
+                                        id: '2',
+                                        value: '已完成'
                                     }
-                                },
-                                {
-                                    field: "bllTypeId",
-                                    title: '业务类型',
-                                    columnType: "dictionary",
-                                    dictArguments: "bll_type",
-                                    displayType: "all",
-                                    editConfig: {
-                                        type: 'select',
-                                        id: 'bllCode',
-                                        valueField:'id',
-                                        textField:'value',
-                                        variableType:'number'
-                                    },
-                                    formatHandler:{
-                                        type: "dictionary",
-                                        data:{
-                                            1: "销售",
-                                            2: "采购",
-                                            4: "采购退货",
-                                            5: "销售退货",
-                                            13: "物流任务",
-                                            14: "采购退货反馈",
-                                            15: "合同",
-                                            16: "出入库",
-                                            20: "组装",
-                                            21: "拆装",
-                                            22: "合包",
-                                            23: "拆包",
-                                            24: "替换",
-                                            25: "盘点",
-                                            26: "临时采购",
-                                            27: "库房调度",
-                                            28: "库存告警",
-                                            88: "核销",
-                                            89: "借款",
-                                            90: "报销",
-                                            91: "到账",
-                                            92: "应付",
-                                            93: "实付",
-                                            94: "应收",
-                                            95: "实收",
-                                            96: "内部转账",
-                                            97: "调账",
-                                            98: "其他支出",
-                                            99: "其他收入"
-                                        }
 
-                                    },
-                                    isColumnCombine: false,
-                                    title: "业务单号",
-                                    isDefaultSubdataText: true,
 
-                                },
-                                {
-                                    field: 'bllCode',
-                                    title: '业务单号',
-                                    
-                                },
-                                {
-                                    field: 'batchNo',
-                                    title: '批次号',
-                                },
-                                {
-                                    field: 'customerId',
-                                    title: '客户',
 
+                                    ],
+                                    textField: 'value',
+                                    valueField: 'id',
+                                    variableType: "number"
                                 },
-                                {
-                                    field: 'customerName',
-                                    title: '客户',
-                                },
-                                {
-                                    field: 'invId',
-                                    title: '仓库',
-                                    editConfig:{
-                                        url:getRootPath() + '/warehouse/v2/getList',
-                                        valueField:'id',
-                                        textField:'name',
-                                        dataSrc:'rows',
-                                        method:'POST',
-                                        type:'select'
+                                formatHandler: {
+                                    type: "stringReplace",
+                                    data: {
+                                        1: '未完成',
+                                        2: '已完成'
                                     }
-                                },
-                                {
-                                    field: 'invName',
-                                    title: '仓库',
-                                },
-                                {
-                                    field: 'logisticsQuantity',
-                                    title: '发货件数',
-                                },
-                                {
-                                    field: 'logisticsInvoiceNo',
-                                    title: '发货单号',
                                 }
+                            },
+                            {
+                                field: "bllTypeId",
+                                title: '业务类型',
+                                columnType: "dictionary",
+                                dictArguments: "bll_type",
+                                displayType: "all",
+                                editConfig: {
+                                    type: 'select',
+                                    id: 'bllCode',
+                                    valueField: 'id',
+                                    textField: 'value',
+                                    variableType: 'number'
+                                },
+                                formatHandler: {
+                                    type: "dictionary",
+                                    data: {
+                                        1: "销售",
+                                        2: "采购",
+                                        4: "采购退货",
+                                        5: "销售退货",
+                                        13: "物流任务",
+                                        14: "采购退货反馈",
+                                        15: "合同",
+                                        16: "出入库",
+                                        20: "组装",
+                                        21: "拆装",
+                                        22: "合包",
+                                        23: "拆包",
+                                        24: "替换",
+                                        25: "盘点",
+                                        26: "临时采购",
+                                        27: "库房调度",
+                                        28: "库存告警",
+                                        88: "核销",
+                                        89: "借款",
+                                        90: "报销",
+                                        91: "到账",
+                                        92: "应付",
+                                        93: "实付",
+                                        94: "应收",
+                                        95: "实收",
+                                        96: "内部转账",
+                                        97: "调账",
+                                        98: "其他支出",
+                                        99: "其他收入"
+                                    }
+
+                                },
+                                isColumnCombine: false,
+                                title: "业务单号",
+                                isDefaultSubdataText: true,
+
+                            },
+                            {
+                                field: 'bllCode',
+                                title: '业务单号',
+
+                            },
+                            {
+                                field: 'batchNo',
+                                title: '批次号',
+                            },
+                            {
+                                field: 'customerId',
+                                title: '客户',
+
+                            },
+                            {
+                                field: 'customerName',
+                                title: '客户',
+                            },
+                            {
+                                field: 'invId',
+                                title: '仓库',
+                                editConfig: {
+                                    url: getRootPath() + '/warehouse/v2/getList',
+                                    valueField: 'id',
+                                    textField: 'name',
+                                    dataSrc: 'rows',
+                                    method: 'POST',
+                                    type: 'select'
+                                }
+                            },
+                            {
+                                field: 'invName',
+                                title: '仓库',
+                            },
+                            {
+                                field: 'logisticsQuantity',
+                                title: '发货件数',
+                            },
+                            {
+                                field: 'logisticsInvoiceNo',
+                                title: '发货单号',
+                            }
 
                             ],
                             ajax: {
@@ -177,110 +177,107 @@
 
                             },
                             idField: 'id',
-                            listExpression: "<div class='block-list-item'>\
+                            listExpression: `<div class='block-list-item'>\
+                                                 <div class='block-list-item-text'>\
+                                                    <span class="weight">{{customerName}}</span>\
+                                                    <span class='title right-state'>{{state}}</span>\
+                                                </div>\
+                                                <div class='block-list-item-text' style="justify-content:flex-start">\
+                                                    <span class="text-ml text-gray ">{{batchNo}}</span>\
+                                                    <span class="text-ml text-label">{{bllTypeId}}</span>\
+                                                </div>\
                                                 <div class='block-list-item-text'>\
-                                                    <span class='title'>{{state}}</span>\
+                                                    <span class="text-ml text-gray">{{invName}}</span>\
                                                 </div>\
-                                                <div class='block-list-item-text text-left'>\
-                                                    <span>{{bllTypeId}}</span>\
+                                                <div class='block-list-item-text'>\
+                                                    <span class="text-label">到件货数：
+                                                        <label>{{logisticsQuantity}}</label>
+                                                    </span>\
                                                 </div>\
-                                                <div class='block-list-item-text text-left'>\
-                                                    <span>{{batchNo}}</span>\
-                                                </div>\
-                                                <div class='block-list-item-text text-left'>\
-                                                    <span>{{customerName}}</span>\
-                                                </div>\
-                                                <div class='block-list-item-text text-left'>\
-                                                    <span>{{invName}}</span>\
-                                                </div>\
-                                                <div class='block-list-item-text text-left'>\
-                                                    <span>到件货数：{{logisticsQuantity}}</span>\
-                                                </div>\
-                                                <div class='block-list-item-text text-left'>\
+                                                <div class='block-list-item-text'>\
                                                     <span>{{logisticsInvoiceNo}}</span>\
                                                 </div>\
-                                            </div>",
+                                            </div>`,
                             plusClass: '',
                             parent: 'root',
                             searchInputPlaceholder: '',
-                            isUseSearchInput:true,
+                            isUseSearchInput: true,
                             isInlineBtn: true,
 
                         },
                         {
-                            type:'btns',
-                            field:[
+                            type: 'btns',
+                            field: [
                                 {
-                                    btn:{
-                                        text:'提交',
-                                        isReturn:true,
-                                        handler:function(){
+                                    btn: {
+                                        text: '提交',
+                                        isReturn: true,
+                                        handler: function () {
                                             var rowData = NetstarTemplate.templates.configs["nscloud.checkup"].gridRowData;
                                             var workItemId = rowData.workItemId;
                                             var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
-                                            func['submit'](function(res){
+                                            func['submit'](function (res) {
                                                 nsalert('装箱单提交成功', 'success');
-                                            }, function(err){
+                                            }, function (err) {
                                                 console.error(err);
                                             })
                                         }
                                     },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
+                                    functionConfig: {
+                                        isMobileInlineBtn: true,
                                     }
                                 },
                                 {
-                                    btn:{
-                                        text:'驳回',
-                                        isReturn:true,
-                                        handler:function(){
+                                    btn: {
+                                        text: '驳回',
+                                        isReturn: true,
+                                        handler: function () {
                                             var rowData = NetstarTemplate.templates.configs["nscloud.checkup"].gridRowData;
                                             var workItemId = rowData.workItemId;
                                             var func = nsEngine.operation().workitemId(workitemId).build();
-                                            func['nsWorkflowReject'](function(res){
+                                            func['nsWorkflowReject'](function (res) {
                                                 nsalert('装箱单驳回成功', 'success');
-                                            }, function(err){
+                                            }, function (err) {
                                                 console.error(err);
                                             })
                                         }
                                     },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
+                                    functionConfig: {
+                                        isMobileInlineBtn: true,
                                     }
                                 },
                                 {
-                                    btn:{
-                                        text:'批次',
-                                        isReturn:true,
-                                        handler:function(data){
+                                    btn: {
+                                        text: '批次',
+                                        isReturn: true,
+                                        handler: function (data) {
                                             console.log(data);
-                                            var pageConfig =  NetstarTemplate.templates.configs[erpCheckUp.package];
+                                            var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
                                             var id = pageConfig.gridRowData.id
                                             console.log(pageConfig);
                                             data.loadPageHandler
                                             var ajaxConfig = {
-                                                url:getRootPath()+'/checkups/v2/getById',
-                                                contentType:'application/x-www-form-urlencoded ',
-                                                data:{
-                                                    id:id
+                                                url: getRootPath() + '/checkups/v2/getById',
+                                                contentType: 'application/x-www-form-urlencoded ',
+                                                data: {
+                                                    id: id
                                                 }
                                             }
                                             NetStarUtils.ajax(ajaxConfig,function(res){
-                                                debugger;
                                                 var packingBoxId = res.data.checkupBatchVOList[0].id;
-                                                
+
                                                 var tempValueName = erpCheckUp.package + new Date().getTime();
-                                                if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+                                                if (typeof (NetstarTempValues) == 'undefined') { NetstarTempValues = {}; }
                                                 NetstarTempValues[tempValueName] = res.data.checkupBatchVOList[0];
-                                                var url = window.location.protocol + '//' + window.location.host+'/sites/erp/erpbatchin.html?templateparam=' + encodeURIComponent(tempValueName);
-                                                    nsFrame.loadPageVRouter(url);
+                                                var url = window.location.protocol + '//' + window.location.host + '/sites/erp/erpbatchin.html?templateparam=' + encodeURIComponent(tempValueName);
+                                                nsFrame.loadPageVRouter(url);
                                             })
                                         }
                                     },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
-                                        defaultMode:"loadPage",
-                                        isSendPageParams:true,
+                                    functionConfig: {
+                                        isMobileInlineBtn: true,
+                                        defaultMode: "loadPage",
+                                        isSendPageParams: true,
                                     }
                                 },
                                 {
@@ -288,24 +285,23 @@
                                         text:'批次详情',
                                         isReturn:true,
                                         handler:function(data){
-                                            debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
                                             var selectedId = {
-                                               id: pageConfig.gridRowData.id,
+                                                id: pageConfig.gridRowData.id,
                                             }
                                             var tempValueName = erpCheckUp.package + new Date().getTime();
                                             var tempValueNameCode = encodeURIComponent(tempValueName);
-                                            if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
-                                            NetstarTempValues[tempValueNameCode] = selectedId
-                                             var url = window.location.protocol + '//' + window.location.host+ "/sites/erp/erpcheckupdetails.html?templateparam=" + tempValueNameCode;
-                                             nsFrame.loadPageVRouter(url);
+                                            if (typeof (NetstarTempValues) == 'undefined') { NetstarTempValues = {}; }
+                                            NetstarTempValues[tempValueNameCode] = pageConfig.gridRowData
+                                            var url = window.location.protocol + '//' + window.location.host + "/sites/erp/erpcheckupdetails.html?templateparam=" + tempValueNameCode;
+                                            nsFrame.loadPageVRouter(url);
                                             console.log(pageConfig)
                                         }
                                     },
-                                    functionConfig:{
-                                        isMobileInlineBtn:true,
-                                        defaultMode:"loadPage",
-                                        isSendPageParams:true,
+                                    functionConfig: {
+                                        isMobileInlineBtn: true,
+                                        defaultMode: "loadPage",
+                                        isSendPageParams: true,
                                     }
                                 }
                             ]
@@ -316,7 +312,7 @@
                 // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpCheckUp);
             })
-            var innerHTML = 
+            var innerHTML =
                 `<header class="header">
                     <div class="btn-group">
                         <a href="##" class="btn btn-icon">
@@ -327,13 +323,13 @@
                     <div class="btn-group">
                         
                     </div>
-                </header>`; 
-            
+                </header>`;
+
             $("container").prepend(innerHTML);
-            if($("header").length != 0 && $(".mobile-input-search").length == 0){
+            if ($("header").length != 0 && $(".mobile-input-search").length == 0) {
                 $("container").addClass("padding-top-header");
             }
-            if($("header").length != 0 && $(".mobile-input-search").length != 0){
+            if ($("header").length != 0 && $(".mobile-input-search").length != 0) {
                 $("container").addClass("padding-top-header-search");
             }
         </script>
