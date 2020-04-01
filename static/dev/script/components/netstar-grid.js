@@ -4119,7 +4119,9 @@ var NetStarGrid = (function () {
 		},
 		body: {
 			//选中行的操作
-			rowClickHandler: function (ev, _vueData) {
+			rowClickHandler: function (ev, _vueData, isEvent) {
+				isEvent = typeof(isEvent) == "boolean" ? isEvent : true; // 是否由事件驱动 事件驱动/调方法执行
+				var prevSelectIndex = -1; // 当前（操作之前）行选中
 				var target = ev.target;
 				if(target.tagName.toLowerCase() === 'img'){
 					var $images = $('#' + _vueData.domParams.contentTable.id + ' tbody');
@@ -4168,6 +4170,9 @@ var NetStarGrid = (function () {
 						if (setFlag == true) {
 							//单选只能有一个选中项，需要取消掉所有选中的
 							for (var i = 0; i < rows.length; i++) {
+								if(rows[i].netstarSelectedFlag){
+									prevSelectIndex = i;
+								}
 								rows[i].netstarSelectedFlag = false;
 							}
 						}
@@ -4181,6 +4186,9 @@ var NetStarGrid = (function () {
 							if (setFlag == true) {
 								//单选只能有一个选中项，需要取消掉所有选中的
 								for (var i = 0; i < rows.length; i++) {
+									if(rows[i].netstarSelectedFlag){
+										prevSelectIndex = i;
+									}
 									rows[i].netstarSelectedFlag = false;
 								}
 							}
@@ -4193,6 +4201,13 @@ var NetStarGrid = (function () {
 					default:
 						//不能选中或者未定义都是不执行
 						break;
+				}
+				// lyw 判断该方法是否由行事件驱动若是，是否存在复选框，若存在表示选中行时同时勾选行，取消上次勾选行
+				if(isEvent && gridConfig.ui.isCheckSelect){
+					if(prevSelectIndex > -1){
+						rows[prevSelectIndex].netstarCheckboxSelectedFlag = false;
+						rowData.netstarCheckboxSelectedFlag = true;
+					}
 				}
 				//回调行选中事件
 				if (gridConfig.ui.selectedHandler) {
@@ -4216,6 +4231,7 @@ var NetStarGrid = (function () {
 			},
 			//行内 多选复选框的的操作
 			checkboxSelelctHandler: function (ev, _vueData) {
+				ev.stopImmediatePropagation();
 				var id = _vueData.$options.id;
 				var $tr = $(ev.target).closest('tr');
 				if ($(ev.target).hasClass('disabled')) {
@@ -4253,6 +4269,7 @@ var NetStarGrid = (function () {
 						rowData = callbackData;
 					}
 				}
+				methodsManager.body.rowClickHandler(ev, _vueData, false);
 			},
 			//双击事件
 			rowdbClickHandler: function (ev, _vueData) {

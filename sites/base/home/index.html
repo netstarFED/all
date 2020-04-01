@@ -116,7 +116,7 @@
         <!-- 头部 包含logo 主菜单 end ---->
         <!-- 主页的内容 end   -->
         <container>
-            <div class="container" style="">
+            <div class="container">
                 <div class="row hide" id="netstar-welcomeGuide">
                     <div class="guide-item">
                         <!-- 导航 -->
@@ -878,6 +878,7 @@
                                 alreadyGridConfig.id = 'list-li-already-message';
                                 finishGridConfig.id = 'list-li-finish-message';
                                 nsEngine.getForwardedList(null, function (rows) {
+                                    // debugger;
                                     if (rows != null) {
                                         var nameMap = {};
                                         var nameRows = [];
@@ -892,8 +893,7 @@
                                                     workitemCount: 0,
                                                     formUrl: row.formUrl,
                                                     processName: row.processName,
-                                                    latestTime: NetStarUtils
-                                                        .getDiffByTimeUnit(row.latestTime),
+                                                    latestTime: row.latestTime,
                                                     rows: []
                                                 };
                                                 nameRows.push(nameMap[name]);
@@ -929,8 +929,9 @@
                                                     workitemCount: 0,
                                                     formUrl: row.formUrl,
                                                     processName: row.processName,
-                                                    latestTime: NetStarUtils
-                                                        .getDiffByTimeUnit(row.latestTime),
+                                                    // latestTime: NetStarUtils.getDiffByTimeUnit(row.latestTime),
+                                                     latestTime: row.latestTime,
+
                                                     rows: []
                                                 };
                                                 nameRows.push(nameMap[name]);

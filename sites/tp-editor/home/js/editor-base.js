@@ -1553,6 +1553,37 @@ var NetstarEditorServer = (function(){
                     // 特殊字段特殊处理
                     switch(key){
                         case 'subdata':
+                            switch(field.type){
+                                case 'radio':
+                                case 'checkbox':
+                                case 'select':
+                                    if(field.url || field.suffix){
+                                        delete fieldObj.url;
+                                        delete fieldObj.suffix;
+                                    }
+                                    field.subdata = stateField.subdata;
+                                    break;
+                            }
+                            break;
+                        case 'url':
+                        case 'suffix':
+                            switch(field.type){
+                                case 'radio':
+                                case 'checkbox':
+                                case 'select':
+                                    if(field.subdata){
+                                        delete field.subdata;
+                                    }
+                                    if(field[key] != stateField[key]){
+                                        field[key] = stateField[key];
+                                    }
+                                    break;
+                                default : 
+                                    if(field[key] != stateField[key]){
+                                        field[key] = stateField[key];
+                                    }
+                                    break;
+                            }
                             break;
                         default:
                             if(typeof(stateField[key]) == "object"){
@@ -1571,6 +1602,7 @@ var NetstarEditorServer = (function(){
                 }
             }
             run(fieldObj, stateFieldObj);
+            // 
             return fieldObj;
         },
         // 通过字段配置/面板类型获取组件
@@ -1579,6 +1611,8 @@ var NetstarEditorServer = (function(){
             if(typeof(_fieldConfig) == "undefined"){
                 return false;
             }
+            // 判断_fieldConfig是否为空对象  从旧的编辑器倒过来时存在空，原因字段未编辑但已用于状态
+            var isHaveFieldConfig = true;
             /*** 识别表单表格start ***/
             switch(type){
                 case 'vo':
@@ -1586,6 +1620,43 @@ var NetstarEditorServer = (function(){
                     break;
                 default:
                     _fieldConfig = _fieldConfig.table;
+                    if($.isEmptyObject(_fieldConfig)){
+                        isHaveFieldConfig = false;
+                    }else{
+                        var isOnlyEdit = true;
+                        for(var key in _fieldConfig){
+                            if(key != 'editConfig'){
+                                isOnlyEdit = false;
+                            }
+                        }
+                        if(isOnlyEdit){
+                            isHaveFieldConfig = false;
+                        }
+                    }
+                    // 判断表格字段知否有editConfig 如果没有根据表单或默认生成editConfig
+                    if(typeof(_fieldConfig.editConfig) == "undefined"){
+                        if(typeof(_fieldConfig.form) == "object" && !$.isEmptyObject(_fieldConfig.form)){
+                            _fieldConfig.editConfig = $.extend(true, {}, _fieldConfig.form);
+                            delete _fieldConfig.editConfig.id;
+                        }else{
+                            var formType = "text";
+                            switch(_fieldConfig.variableType){
+                                case "number":
+                                    formType = 'number';
+                                    break;
+                                case "date":
+                                    formType = 'date';
+                                    break;
+                            }
+                            var defaultFieldConfig = { 
+                                type:formType, 
+                                formSource:'table', 
+                                templateName:'PC',
+                                variableType: _fieldConfig.variableType,
+                            };
+                            _fieldConfig.editConfig = defaultFieldConfig;
+                        }
+                    }
                     break;
             }
             if(typeof(_fieldConfig) == "undefined"){
@@ -1593,7 +1664,6 @@ var NetstarEditorServer = (function(){
             }
             /*** 识别表单表格end ***/
             // 判断_fieldConfig是否为空对象  从旧的编辑器倒过来时存在空，原因字段未编辑但已用于状态
-            var isHaveFieldConfig = true;
             if($.isEmptyObject(_fieldConfig)){
                 isHaveFieldConfig = false;
             }
@@ -2781,6 +2851,25 @@ var NetstarProject = (function(){
                         fieldConfig.formatHandler.type = fieldConfig.columnType;
                     }
                 }
+            }
+            // 判断表格字段知否有editConfig 如果没有设置默认editConfig
+            if(typeof(fieldConfig.editConfig) == "undefined"){
+                var formType = "text";
+                switch(fieldConfig.variableType){
+                    case "number":
+                        formType = 'number';
+                        break;
+                    case "date":
+                        formType = 'date';
+                        break;
+                }
+                var defaultFieldConfig = { 
+                    type:formType, 
+                    formSource:'table', 
+                    templateName:'PC',
+                    variableType: fieldConfig.variableType,
+                };
+                fieldConfig.editConfig = defaultFieldConfig;
             }
             if(typeof(fieldConfig.editConfig)=="object"){
                 fieldManager.setFormField(fieldConfig.editConfig, fieldConfig.editConfig.type);
