@@ -45,6 +45,7 @@ NetstarUI.countList = {
                 _config.insertPositionJson[insertPosition] = dynamicField;
             }
         }
+        _config.format.dynamicColumns = typeof(_config.format.dynamicColumns)=='object' ? _config.format.dynamicColumns : {};
         var outPutType = _config.outPutType;
         //根据配置的数据  
         switch(outPutType){
@@ -315,7 +316,7 @@ NetstarUI.countList = {
     },
     initList:function(_config){
         var insertPositionIndexArr = _config.insertPositionIndexArr;
-        var dynamicColumns = _config.format.dynamicColumns;
+        var dynamicColumns = _config.format.dynamicColumns ? _config.format.dynamicColumns : {};
         var countListData = _config.countListData;
         var columnsId = _config.columnsId;
         if(insertPositionIndexArr.length > 0){
@@ -332,9 +333,11 @@ NetstarUI.countList = {
                     var dLength = 0;
                     for(var c=0; c<countListData.length; c++){
                         var dArr = countListData[c][dynamicColumnsConfig.keyField];
-                        if(dArr.length > dLength){
-                            dLength = dArr.length;
-                            dynamicRowFirstData = dArr;
+                        if($.isArray(dArr)){
+                            if(dArr.length > dLength){
+                                dLength = dArr.length;
+                                dynamicRowFirstData = dArr;
+                            }
                         }
                     }
 
@@ -481,6 +484,9 @@ NetstarUI.countList = {
         var tableId = _config.id + '-table';
         var scrollYId = _config.id + '-scroll-y';
         var scrollXId = _config.id + '-scroll-x';
+        _config.tableId = tableId;
+        _config.scrollYId = scrollYId;
+        _config.scrollXId = scrollXId;
         var tableHtml = '<table class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" style="width:'+ tWidth +'" id="'+ tableId +'">'
                             + theadHtml
                             + tbodyHtml
@@ -490,6 +496,9 @@ NetstarUI.countList = {
 			if (_config.isScroll) {
                 var containerWidth = $(window).outerWidth() - 180;
                 var avaHeight = $(window).outerHeight()-100;
+                if(_config.outPutType == "rowColumn"){
+                    avaHeight -= 40;
+                }
                 /**lyw注释start */
 				// $table.parent().css({
 				// 	overflow: "hidden",
@@ -548,9 +557,9 @@ NetstarUI.countList = {
         var tableContentHtml = beforeHtml + tableHtml;
         $tableContainer.html(tableContentHtml);
         // $table.after('<div class="customer-table-input-component"></div>');
+        var $table = $('#' + tableId);
         if (_config.isScroll === true) {
             // 插入后设置纵向滚动条
-            var $table = $('#' + tableId);
             var tableHeight = $table.height();
             var isScrollX = false;
             var isScrollY = false;
@@ -712,6 +721,319 @@ NetstarUI.countList = {
                 }
             }
 		});
+        
+        //查询条件
+        //NetStarUtils.getListQueryData
+        switch(_config.outPutType){
+            case 'rowColumn':
+                   var queryConfig = NetStarUtils.getListQueryData(_config.field, {
+                        id: _config.id,
+                        value:''
+                    });
+                    if(queryConfig.queryForm.length > 0){
+                        var html = '<div class="list-query-panel" id="' + queryConfig.id + '"></div>';
+                        var advanceHtml = '<div class="advance-query-panel" id="advance-'+queryConfig.id+'" style="margin:-20px 0px 10px 0px;float:right"></div>';
+                        if($('#'+queryConfig.id).length == 0){
+                            $table.closest('.component-countlist').before('<div class="pt-panel-query">'+html+advanceHtml+'</div>');
+                            
+                            function confirmQueryHandler(){
+                                var $this = $(this);
+                                var formId = $this.attr('containerid');
+                                var prefix = 'query-';
+                                var gridId = formId.substring(prefix.length, formId.length);
+                                confirmQuickQueryHandler({
+                                    gridId: gridId,
+                                    formId: formId
+                                });
+                            }
+                            function confirmQuickQueryHandler(_queryObj){
+                                var formId = _queryObj.formId;
+                                var gridId = _queryObj.gridId;
+                                var formJson = NetstarComponent.getValues(formId);
+                                var paramJson = {};
+                                if (formJson.filtermode == 'quickSearch') {
+                                    if (formJson.filterstr) {
+                                        paramJson = {
+                                            keyword: formJson.filterstr,
+                                            //quicklyQueryColumnNames:[],
+                                            quicklyQueryColumnValue:formJson.filterstr,
+                                        };
+                                    }
+                                } else {
+                                    var queryConfig = NetstarComponent.config[formId].config[formJson.filtermode];
+                                    if (!$.isEmptyObject(queryConfig)) {
+                                        if (formJson[formJson.filtermode]) {
+                                            if (queryConfig.type == 'business' && typeof (queryConfig.outputFields) == "undefined") {
+                                                switch (queryConfig.selectMode) {
+                                                    case 'single':
+                                                        paramJson[formJson.filtermode] = formJson[formJson.filtermode][queryConfig.idField];
+                                                        break;
+                                                    case 'checkbox':
+                                                        paramJson[formJson.filtermode] = formJson[formJson.filtermode][0][queryConfig.idField];
+                                                        break;
+                                                }
+                                            } else {
+                                                paramJson[formJson.filtermode] = formJson[formJson.filtermode];
+                                            }
+                                        }
+                                        if (typeof (formJson[formJson.filtermode]) == 'number') {
+                                            paramJson[formJson.filtermode] = formJson[formJson.filtermode];
+                                        }
+                                        if (queryConfig.type == 'dateRangePicker') {
+                                            var startDate = formJson.filtermode + 'Start';
+                                            var endDate = formJson.filtermode + 'End';
+                                            paramJson[startDate] = formJson[startDate];
+                                            paramJson[endDate] = formJson[endDate];
+                                        }else if(queryConfig.type == 'valuesInput'){
+                                            var valuesInputStr = queryConfig.value;
+                                            if(typeof(valuesInputStr)=='object'){
+                                                $.each(valuesInputStr,function(k,v){
+                                                    paramJson[k] = v;
+                                                })
+                                            }
+                                        }
+                                    } else {
+                                        if (formJson.filterstr) {
+                                            paramJson[formJson.filtermode] = formJson.filterstr;
+                                        }
+                                    }
+                                }
+                                //console.log(paramJson)
+                                //console.log(gridId)
+                                var config = NetstarUI.countList.config[gridId].config;
+                                // NetstarUI.countList.refreshById(gridId,[],paramJson);
+                                NetstarUI.countList.refreshById(gridId,config.countListData,paramJson);
+                            }
+                            var formConfig = {
+                                id: queryConfig.id,
+                                formStyle: 'pt-form-normal',
+                                plusClass: 'pt-custom-query',
+                                isSetMore: false,
+                                form: queryConfig.queryForm,
+                                completeHandler: function () {
+                                    var btnHtml = '<div class="pt-btn-group">' +
+                                        '<button type="button" class="pt-btn pt-btn-default pt-btn-icon" nstype="refresh" containerid="' + queryConfig.id + '"><i class="icon-search"></i></button>' +
+                                        '</div>';
+                                    $('#' + queryConfig.id).append(btnHtml);
+                                    $('button[containerid="' + formConfig.id + '"]').off('click', confirmQueryHandler);
+                                    $('button[containerid="' + formConfig.id + '"]').on('click', confirmQueryHandler);
+                                }
+                            };
+                            NetstarComponent.formComponent.show(formConfig, {});
+                            setTimeout(function () {
+                                //绑定回车事件
+                                var componentVueconfig = NetstarComponent.config[formConfig.id].vueConfig;
+                                for (var fieldId in componentVueconfig) {
+                                    if (fieldId != 'filtermode') {
+                                        var elementConfig = componentVueconfig[fieldId];
+                                        componentVueconfig[fieldId].inputEnter = function (event) {
+                                            if (elementConfig.isShowDialog && typeof (elementConfig.returnData) == "object" && typeof (elementConfig.returnData.documentEnterHandler) == 'function') {
+                                                elementConfig.returnData.documentEnterHandler();
+                                            } else {
+                                                event.stopImmediatePropagation();
+                                                var elementId = $(event.currentTarget).attr('id');
+                                                this.blur();
+                                                var formId = $(this.$el).closest('.pt-form-body').attr('id');
+                                                elementId = elementId.substring(formId.length + 1, elementId.length);
+                                                formId = formId.substring(5, formId.length);
+                
+                                                var elementComponentConfig = NetstarComponent.config[formId].config[elementId];
+                                                if (elementComponentConfig.type == 'businessSelect') {
+                                                    var vueConfig = NetstarComponent.config[formId].vueConfig[elementId];
+                                                    NetstarComponent.businessSelect.searchByEnter(elementComponentConfig, vueConfig, function (context, data) {
+                                                        var plusData = data.plusData;
+                                                        var _config = context.config ? context.config : NetstarComponent.config[formId].config[plusData.componentId];
+                                                        var _vueConfig = context.vueConfig ? context.vueConfig : NetstarComponent.config[formId].vueConfig[plusData.formID];
+                                                        _vueConfig.loadingClass = '';
+                                                        if (data.success) {
+                                                            var dataSrc = _config.search.dataSrc;
+                                                            var value = data[dataSrc];
+                                                            if ($.isArray(value) && value.length == 1) {
+                                                                _vueConfig.setValue(value); // 赋值
+                                                            }
+                                                            var gridId = formId.substring(6, formId.length);
+                                                            var templateId = gridId.substring(0, gridId.lastIndexOf('-list'));
+                                                            if (templateId) {
+                                                                config = NetstarTemplate.templates.businessDataBase.data[templateId].config;
+                                                            }
+                                                            confirmQuickQueryHandler({
+                                                                gridId: gridId,
+                                                                formId: formId
+                                                            });
+                                                        }
+                                                    });
+                                                } else if (elementComponentConfig.type == 'business') {
+                                                    var vueConfig = NetstarComponent.config[formId].vueConfig[elementId];
+                                                    NetstarComponent.business.searchByEnter(elementComponentConfig, vueConfig, function (context, data) {
+                                                        var plusData = data.plusData;
+                                                        var _config = context.config ? context.config : NetstarComponent.config[formId].config[plusData.componentId];
+                                                        var _vueConfig = context.vueConfig ? context.vueConfig : NetstarComponent.config[formId].vueConfig[plusData.formID];
+                                                        _vueConfig.loadingClass = '';
+                                                        if (data.success) {
+                                                            var dataSrc = _config.search.dataSrc;
+                                                            var value = data[dataSrc];
+                                                            if ($.isArray(value) && value.length == 1) {
+                                                                _vueConfig.setValue(value); // 赋值
+                                                            }
+                                                            var gridId = formId.substring(6, formId.length);
+                                                            confirmQuickQueryHandler({
+                                                                gridId: gridId,
+                                                                formId: formId
+                                                            });
+                                                        }
+                                                    });
+                                                } else {
+                                                    var gridId = formId.substring(6, formId.length);
+                                                    confirmQuickQueryHandler({
+                                                        gridId: gridId,
+                                                        formId: formId
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }, 100)
+
+                            var advancedQueryId = 'advance-' + queryConfig.id;
+                            if($('#'+advancedQueryId.length == 1)){
+                                var advancedQueryConfig = {
+                                    id: advancedQueryId,
+                                    title: '高级查询',
+                                    getAjaxData: {
+                                        panelId: advancedQueryId,
+                                    },
+                                    saveAjaxData: {
+                                        panelId: advancedQueryId,
+                                    },
+                                    delAjaxData: {},
+                                    form: queryConfig.advanceForm,
+                                    queryHandler: function (formJson, _config) {
+                                        var gridId = queryConfig.id.substring(6, queryConfig.id.length);
+                                        var formId = _config.queryTermId;
+                                        store.set(formId, formJson);
+                                        var queryFormArr = _config.form;
+                                        for (var i = 0; i < queryFormArr.length; i++) {
+                                            var fieldId = queryFormArr[i].id;
+                                            if (formJson[fieldId]) {
+                                                if (queryFormArr[i].type == 'business' && typeof (queryFormArr[i].outputFields) == "undefined") {
+                                                    switch (queryFormArr[i].selectMode) {
+                                                        case 'single':
+                                                            formJson[fieldId] = formJson[fieldId][queryFormArr[i].idField];
+                                                            break;
+                                                        case 'checkbox':
+                                                            formJson[fieldId] = formJson[fieldId][0][queryFormArr[i].idField];
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        NetstarUI.countList.refreshById(gridId,[],formJson);
+                                    },
+                                }
+                                NetstarComponent.advancedQuery.init(advancedQueryConfig);
+                            }
+                        }
+                    }
+                break;
+        }
+        //图表
+        var echartsConfig = _config.format.echarts ? _config.format.echarts : {};
+        if(!$.isEmptyObject(echartsConfig)){
+            var fieldConfig = echartsConfig.data;
+            var xField = fieldConfig.field;
+            var titleStr = echartsConfig.title ? echartsConfig.title : '';
+            var echartId = 'echarts-'+_config.id;
+            var html = '<div class="echart-panel" id="' + echartId + '" style="width:100%;height:300px;"></div>';
+            if($('#'+echartId).length == 1){
+                $('#'+echartId).remove();
+            }
+            if($('#query-'+_config.id).length > 0){
+                $('#query-'+_config.id).parent().after(html);
+            }else{
+                $table.closest('.component-countlist').before(html);
+            }
+            var options = {};
+            var legendTitleArr = [];
+            for(var e=1; e<_config.levelOneTitleArr.length; e++){
+                legendTitleArr.push(_config.levelOneTitleArr[e]);
+            }
+            var xArray = [];
+            var seriesArr = [];
+            var rowsData = _config.countListData;
+            var newJson =  {};
+            var columnsIdData = _config.columnsId;
+
+            
+            for(var cField in columnsIdData){
+                var colData = columnsIdData[cField];
+                var cHidden = typeof(colData.hidden)=='boolean' ? colData.hidden : false;
+                if(colData.title && !cHidden){
+                    //存在标题并且当前字段不隐藏
+                    newJson[colData.field] = {
+                        name:colData.title,
+                        type:echartsConfig.type,
+                        data:[],
+                        label: {
+                            normal: {
+                                show: true,
+                            }
+                        },
+                    };
+                }
+            }
+
+            for(var r=0; r<rowsData.length; r++){
+                var rData = rowsData[r];
+                if(rData[xField]){
+                    xArray.push(rData[xField]);
+                }
+                for(var n in newJson){
+                    newJson[n].data.push(rData[n]);
+                }
+            }
+            for(var seriesI in newJson){
+                seriesArr.push(newJson[seriesI]);
+            }
+            
+            switch(echartsConfig.type){
+                case 'pie':
+                    break;
+                case 'bar':
+                case 'line':
+                    options = {
+                        title: {
+                            text: titleStr,
+                            x: 'center',
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            right: 10,
+                            top: 100,
+                            bottom: 100,
+                            data:legendTitleArr
+                        },
+                        xAxis:  {
+                            type: 'category',
+                            data: xArray
+                        },
+                        yAxis: {
+                            type: 'value',
+                            max:200,
+                            min:0,
+                        },
+                        series: seriesArr
+                    };                                                    
+                    break;
+            }
+            var chartDom = echarts.init($('#'+echartId)[0]);
+            chartDom.clear();
+            chartDom.setOption(options);
+        }
+
     },
     rowHrefLinkJump : function(hrefConfig){
         var configs = NetstarUI.countList.config[hrefConfig.countListId];
@@ -924,7 +1246,7 @@ NetstarUI.countList = {
 			countListData = _config.format.handler(countListData);
         }
         _config.countListData = countListData;
-        var dynamicColumns = _config.format.dynamicColumns;
+        var dynamicColumns = _config.format.dynamicColumns ? _config.format.dynamicColumns : {};
         var styleExpress = _config.format.styleExpress ? _config.format.styleExpress : {};
         var styleExpressByCol = styleExpress.col ? styleExpress.col : {};
         var fieldArray = _config.field;
@@ -993,31 +1315,69 @@ NetstarUI.countList = {
 
         this.initList(_config);
     },
-    refreshById:function(_id,_data){
+    refreshById:function(_id,_data,_paramsData){
         var config = NetstarUI.countList.config[_id].config;
-        if(_data){
-            config.countListData = _data;
-            NetstarUI.countList.initList(_config);
+        var isDataSource = true;
+        if(!$.isEmptyObject(_paramsData)){
+            isDataSource = false;
+        }
+        if(isDataSource){
+            // config.countListData = _data;
+            // NetstarUI.countList.initList(config);
+            NetstarUI.countList.initData(_data, config);
         }else{
             if(!$.isEmptyObject(config.ajax)){
                 var ajaxConfig = $.extend(true,{},config.ajax);
                 ajaxConfig.isReadTimeout = false;
                 ajaxConfig.plusData = {id:config.id};
+                ajaxConfig.data = typeof(ajaxConfig.data) == 'object' ? ajaxConfig.data : {};
+                var _defaultParamsData = config.defaultParamsData;
+                if(!$.isEmptyObject(_defaultParamsData)){
+                    var ajaxParameterRegExp = /\{?\}/;  //识别{aaaa}的数据
+                    var isUseObject = true;
+                    for(var key in ajaxConfig.data){
+                        if(ajaxParameterRegExp.test(ajaxConfig.data[key])){
+                            isUseObject = false;
+                            break;
+                        }
+                    }
+                    if(isUseObject){
+                        ajaxConfig.data = NetStarUtils.getDefaultValues(ajaxConfig.data,_defaultParamsData);
+                    }else{
+                        ajaxConfig.data = NetStarUtils.getFormatParameterJSON(ajaxConfig.data,_defaultParamsData);
+                    }
+                }
+
+                $.each(_paramsData,function(k,v){
+					//if(typeof(ajaxConfig.data[k])=='undefined'){
+						ajaxConfig.data[k] = v;
+					//}
+				});
                 NetStarUtils.ajax(ajaxConfig,function(res,ajaxOptions){
                     if(res.success){
-                        var _config = NetstarUI.countList.config[ajaxOptions.plusData.id];
-                        _config.countListData = res[ajaxOptions.dataSrc];
-                        NetstarUI.countList.initList(_config);
+                        var _config = NetstarUI.countList.config[ajaxOptions.plusData.id].config;
+                        // _config.countListData = res[ajaxOptions.dataSrc];
+                        // NetstarUI.countList.initList(_config);
+                        if($.isArray(res[ajaxOptions.dataSrc]) && res[ajaxOptions.dataSrc].length > 0){
+                            NetstarUI.countList.initData(res[ajaxOptions.dataSrc], config);
+                        }else{
+                            nsAlert('返回数据错误，请检查', 'error');
+                            console.log(res);
+                            console.log(config);
+                            var $table = $('#' + _config.tableId);
+                            $table.remove();
+                        }
                     }
                 },true);
             }
         }
     },
     //初始化
-    init:function(_config){
+    init:function(_config,_paramsData){
         if($('#'+_config.id).length==0){
             return;
         }
+        _config.defaultParamsData = _paramsData;
         NetstarUI.countList.config[_config.id] = {
             original:$.extend(true,{},_config),//初始化的原始值
             config:_config,//运行中的数据
@@ -1028,6 +1388,22 @@ NetstarUI.countList = {
             var ajaxConfig = $.extend(true,{},_config.ajax);
             ajaxConfig.isReadTimeout = false;
             ajaxConfig.plusData = {id:_config.id};
+            ajaxConfig.data = typeof(ajaxConfig.data)=='object' ? ajaxConfig.data : {};
+            if(!$.isEmptyObject(_paramsData)){
+                var ajaxParameterRegExp = /\{?\}/;  //识别{aaaa}的数据
+                var isUseObject = true;
+                for(var key in ajaxConfig.data){
+                    if(ajaxParameterRegExp.test(ajaxConfig.data[key])){
+                        isUseObject = false;
+                        break;
+                    }
+                }
+                if(isUseObject){
+                    ajaxConfig.data = NetStarUtils.getDefaultValues(ajaxConfig.data,_paramsData);
+                }else{
+                    ajaxConfig.data = NetStarUtils.getFormatParameterJSON(ajaxConfig.data,_paramsData);
+                }
+            }
             NetStarUtils.ajax(ajaxConfig,function(res,ajaxOptions){
                 if(res.success){
                     countListData = res[ajaxOptions.dataSrc];
