@@ -1,0 +1,26 @@
+@ztree-select-bg: @primary-bg;
+
+.ztree {
+    li {
+        a {
+            &.curSelectedNode {
+
+                &.curSelectedNode,
+                &.curSelectedNode:hover {
+                    .node_name {
+                        background: @ztree-select-bg;
+                    }
+                }
+            }
+        }
+
+        span {
+            &.node_name {
+                &:hover {
+                    background: @ztree-select-bg;
+                    color: darken(@primary, 10);
+                }
+            }
+        }
+    }
+}
