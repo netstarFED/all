@@ -472,8 +472,9 @@ NetstarUI.countList = {
         var beforeHtml = '';
         var afterHtml = '<div class="customer-table-input-component"></div>';
         var tWidth = _config.totalWidth+'px';
-        if(_config.isAutojustWidth){
-            // tWidth = '100%';
+        _config.isScroll = true;
+        if(_config.isAutojustWidth && _config.isScroll !== true){
+            tWidth = '100%';
         }
 		// $table.css({
 		// 	'width': tWidth
@@ -487,7 +488,7 @@ NetstarUI.countList = {
                         + '</table>'
                         + afterHtml
         if (typeof (_config.isScroll) == 'boolean') {
-			// if (_config.isScroll) {
+			if (_config.isScroll) {
                 var containerWidth = $(window).outerWidth() - 180;
                 var avaHeight = $(window).outerHeight()-100;
                 /**lyw注释start */
@@ -522,6 +523,10 @@ NetstarUI.countList = {
                     height: avaHeight+'px',
                     width: containerWidth + "px"
                 });
+                var scrollXClass = 'hide';
+                if(containerWidth < _config.totalWidth){
+                    scrollXClass = '';
+                }
                 beforeHtml = '<div class="scroll-panel nspanel layout-customertable-copy" style="left:0px;width:' + containerWidth + 'px">'
                                 + '<table cellspacing="0" class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" style="width:'+ tWidth +'">'
                                         + theadHtml
@@ -531,38 +536,53 @@ NetstarUI.countList = {
                                 + tableHtml
                             + '</div>'
                             // 横向滚动条
-                            + '<div nsgirdcontainer="grid-body-scroll-x" class="grid-body-scroll-x" id="'+ scrollXId +'" style="top:'+ (positionObj.top+avaHeight-8) +'px;width:' + containerWidth + 'px;height:8px;">'
+                            + '<div nsgirdcontainer="grid-body-scroll-x" class="grid-body-scroll-x '+ scrollXClass +'" id="'+ scrollXId +'" style="top:'+ (positionObj.top+avaHeight-9) +'px;width:' + (containerWidth-1) + 'px;height:8px;">'
                                 + '<div class="grid-body-scroll-x-div" style="width:'+ tWidth +';height:8px;"></div>'     
                             + '</div>'
                             // 纵向滚动条
-                            + '<div nsgirdcontainer="grid-body-scroll-y" class="grid-body-scroll-y" id="'+ scrollYId +'" style="right:0px;top:'+ positionObj.top +'px;height:'+avaHeight+'px;">'
+                            + '<div nsgirdcontainer="grid-body-scroll-y" class="grid-body-scroll-y" id="'+ scrollYId +'" style="right:1px;top:'+ positionObj.top +'px;height:'+(avaHeight-1)+'px;">'
                                 + '<div class="grid-body-scroll-y-div" style="height:'+ avaHeight +'px;"></div>'     
                             + '</div>'
                 
-			// }
+			}
         }
         var tableContentHtml = beforeHtml + tableHtml;
         $tableContainer.html(tableContentHtml);
         // $table.after('<div class="customer-table-input-component"></div>');
-        // 插入后设置纵向滚动条
-        var $table = $('#' + tableId);
-        var tableHeight = $table.height();
-        var $scrollY = $('#' + scrollYId);
-        $scrollY.children().height(tableHeight);
-        var $scrollX = $('#' + scrollXId);
-        $scrollX.scroll(function(ev){
-            var tableScrollLeft = $scrollX.scrollLeft();
-            var $headTable = $tableContainer.find('.scroll-panel');
-            var $tableParent = $table.parent();
-            $headTable.scrollLeft(tableScrollLeft);
-            $tableParent.scrollLeft(tableScrollLeft);
-        });
-        $scrollY.scroll(function(ev){
-            var tableScrollTop = $scrollY.scrollTop();
-            var $tableParent = $table.parent();
-            $tableParent.scrollTop(tableScrollTop);
-        });
-
+        if (_config.isScroll === true) {
+            // 插入后设置纵向滚动条
+            var $table = $('#' + tableId);
+            var tableHeight = $table.height();
+            var isScrollX = false;
+            var isScrollY = false;
+            if(containerWidth < _config.totalWidth){
+                isScrollY = true;
+            }
+            if(avaHeight < tableHeight){
+                isScrollY = true;
+            }
+            // if(isScrollX){
+                var $scrollX = $('#' + scrollXId);
+                $scrollX.scroll(function(ev){
+                    var tableScrollLeft = $scrollX.scrollLeft();
+                    var $headTable = $tableContainer.find('.scroll-panel');
+                    var $tableParent = $table.parent();
+                    $headTable.scrollLeft(tableScrollLeft);
+                    $tableParent.scrollLeft(tableScrollLeft);
+                })
+            // }
+            var $scrollY = $('#' + scrollYId);
+            if(isScrollY){
+                $scrollY.children().height(tableHeight);
+                $scrollY.scroll(function(ev){
+                    var tableScrollTop = $scrollY.scrollTop();
+                    var $tableParent = $table.parent();
+                    $tableParent.scrollTop(tableScrollTop);
+                });
+            }else{
+                $scrollY.addClass('hide');
+            }
+        }
         var $buttons = $('#' + _config.id + ' button[type="button"]');
         $buttons.off('click');
 		$buttons.on('click', function (ev) {
