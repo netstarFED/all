@@ -6081,6 +6081,11 @@ function initFunction(businessObj, controllerObj){
 		}
 	}
 	//--------------------------------------------------wxk公共弹窗------------------------------------------------------------
+
+	// 将按钮方法放开到全局 是其他形式按钮可以调用
+	nsProject.btnHandlerFuncs = {
+		workflowSubmit : workflowSubmit,
+	}
 }
 // lyw 20190930 业务组件
 var businessBtnManage = {
@@ -7603,6 +7608,7 @@ return {
 	businessBtnManage : businessBtnManage,
 	sendPrintInfo:sendPrintInfo,
 	acceptImportExportMessage : acceptImportExportMessage,
+	btnHandlerFuncs : {},
 }
 //--------------------------------项目处理组件 end  --------------------------------
 })(jQuery)

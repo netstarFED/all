@@ -34,7 +34,12 @@ NetstarTemplate.templates.processDocSecond = (function ($) {
       if(typeof(ajaxPlusData)=='undefined'){
          ajaxPlusData = {};
       }
-      templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
+      // templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
+      if(templateConfig.closeValidSaveTime > -1){
+         setTimeout(function(){
+            templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
+         }, templateConfig.closeValidSaveTime);
+      }
       if(ajaxPlusData.isCloseWindow === true){
          //如果按钮上配置了关闭当前界面直接执行关闭操作
          NetstarUI.labelpageVm.removeCurrent();
