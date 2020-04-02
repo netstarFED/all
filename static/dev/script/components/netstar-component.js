@@ -22097,6 +22097,11 @@ NetstarComponent.upload = {
             var listHtml = tempalte.listContainer;
             var btnHtml = this.uploadPanel.getfileBtnHtml(false, config.btns);
             inHtml = inHtml.replace('{{fileBtnContent}}', btnHtml);
+            if(config.formSource=='table'){
+                var $inHtml = $(inHtml);
+                $inHtml.addClass('pt-input-group-btn-group');
+                inHtml = $inHtml.prop('outerHTML');
+            }
             var contentHtml = containerHtml2 + inHtml + listHtml;
             if(config.formSource=='table'){
                 containerHtml = NetstarComponent.common.tableComponent;

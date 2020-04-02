@@ -1,0 +1,157 @@
+@pt-table-header-bg: #ededef;
+@pt-selected-bg: lighten(@primary, 8);
+@pt-selected-border-color: darken(@primary, 3);
+
+.pt-grid-body {
+    .pt-grid-body-head {
+        background: @pt-table-header-bg;
+
+        table {
+            tbody {
+                tr {
+
+                    th,
+                    td {
+                        background: @pt-table-header-bg;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .pt-grid {
+        tr.selected {
+            background: @pt-selected-bg;
+
+            th,
+            td {
+                background: @pt-selected-bg;
+                color: #fff;
+                border-right: 1px solid transparent;
+
+                .rowbtns {
+                    .pt-btn {
+                        span {
+                            color: #fff;
+                        }
+                    }
+                }
+
+                label.checkbox-inline {
+                    &:after {
+                        border: 0;
+                    }
+                }
+
+                &.label.checkbox-inline:first-child {
+                    &:before {
+                        color: #fff;
+                    }
+                }
+
+                &:last-child {
+                    border-right: 1px solid @pt-selected-bg;
+                }
+            }
+
+            &:hover {
+
+                th,
+                td {
+                    background: darken(@pt-selected-bg, 8);
+                    color: #fff;
+
+                    .rowbtns {
+                        .pt-btn {
+                            span {
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+            }
+
+            td {
+
+                // 链接
+                &.href {
+                    a {
+                        color: #fff;
+                    }
+                }
+
+                // 字典
+                &.dictionary {
+                    label {
+                        border-color: lighten(@pt-selected-bg, 5);
+                        .rgba-bg(#fff, .1);
+                    }
+                }
+
+                &.columnstate {
+                    @state-color-info: #004175;
+                    @state-color-danger: darken(@danger, 15);
+                    @state-color-warning: #bd4500;
+                    @state-color-gray: #666;
+                    @state-color-back: lighten(@danger, 10%);
+
+                    .columnstate-variant(@color) {
+
+                        span,
+                        i {
+                            color: @color;
+                            display: inline-block;
+
+                        }
+                    }
+
+                    // 普通
+                    &.normal-message {
+                        .columnstate-variant(@state-color-info);
+
+                    }
+
+                    // 应急
+                    &.emergency-message {
+                        .columnstate-variant(@state-color-danger);
+                    }
+
+                    // 重办
+                    &.again-message {
+                        .columnstate-variant(@state-color-warning);
+                    }
+
+                    // 挂起
+                    &.suspend-message {
+                        .columnstate-variant(@state-color-gray);
+                    }
+
+                    //回退
+                    &.rollback-message {
+                        .columnstate-variant(@state-color-back);
+
+                        i {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+
+            &>.autoserial.copy-autoserial {
+                &:first-child {
+                    &:before {
+                        color: #fff;
+                    }
+                }
+            }
+
+            &.ns-tips-placeholder [ns-editable="true"][ns-edit-type="business"] {
+                &:before {
+                    color: #d4f9ff;
+                }
+            }
+        }
+
+    }
+}

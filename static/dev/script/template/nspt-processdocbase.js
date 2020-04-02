@@ -775,7 +775,11 @@ NetstarTemplate.templates.processDocBase = (function ($) {
             return function (data, plusData) {
                plusData = typeof(plusData)=='undefined' ? {} : plusData;
                var currentConfig = getConfigBypackage(config.package).config;
-               currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+               if(currentConfig.closeValidSaveTime > -1){
+                  setTimeout(function(){
+                     currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+                  }, currentConfig.closeValidSaveTime);
+               }
                if (typeof plusData != 'undefined' && plusData.isCloseWindow) {
                   if (typeof config.parentSourceParam != 'undefined') {
                      // NetstarTemplate.templates.docListViewer.refreshData(config.parentSourceParam, data);
@@ -2254,7 +2258,11 @@ NetstarTemplate.templates.processDocBase = (function ($) {
       ajaxAfterHandler: (function (config) {
          return function (data, plusData) {
             var currentConfig = getConfigBypackage(config.package).config;
-            currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+            if(currentConfig.closeValidSaveTime > -1){
+               setTimeout(function(){
+                  currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+               }, currentConfig.closeValidSaveTime);
+            }
             if (typeof plusData != 'undefined' && plusData.isCloseWindow) {
                if (typeof config.parentSourceParam != 'undefined') {
                   // NetstarTemplate.templates.docListViewer.refreshData(config.parentSourceParam, data);
