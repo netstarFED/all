@@ -8,7 +8,7 @@
 <!--bootstarp end-->
 <link rel="stylesheet" href="/assets/css/animate.min.css?v=3.5.1">
 <link rel="stylesheet" href="/assets/less/ns-template.css?v=0.1">
-<link rel="stylesheet" id="body-link-skin-manager" href="/assets/less/gjp-common.css?v=1">
+<link rel="stylesheet" href="/static/dev/style/gjp-common.css?v=1.0.1" id="body-link-skin-manager" >
 
 <link rel="stylesheet" href="/assets/css/viewer/viewer.css?v=0.1.1">
 <link rel="stylesheet" href="/assets/less/netstar-car.css?v=0.1">
@@ -18,6 +18,7 @@
 
 <!-- jquery code start-->
 <script src="/assets/js/jquery.min.js?v=1.11.1"></script>
+<script type="text/javascript" src="/static/libs/jquery/jquery.cookie.js?v=1.7.1"></script>
 <script src="/assets/js/jquery-ui/jquery-ui.min.js?v=1.11.1"></script>
 <!-- jquery code end-->
 <script src="/assets/js/netstar-language.js?v=0.0.1"></script>
@@ -44,7 +45,18 @@
 <script src="/assets/js/dropzone/dropzone.min.js"></script>
 <script src="/assets/js/dropzone/image-compressor.min.js"></script>
 <script src="/assets/js/dropzone/polyfill.min.js"></script>
-<script src="/assets/js/moment.js?v=0.1.0"></script>
+
+
+<script type="text/javascript" src="/static/libs/hwvodsdk/moment.min.js?v=10.0.0"></script>
+<script type="text/javascript" src="/static/libs/hwvodsdk/moment-timezone-with-data.min.js?v=10.0.0"></script>
+<script type="text/javascript" src="/static/libs/hwvodsdk/hmac-sha256.js?v=10.0.0"></script>
+<script type="text/javascript" src="/static/libs/hwvodsdk/signer.js?v=10.0.0"></script>
+<script type="text/javascript" src="/static/libs/hwvodsdk/js-vod-sdk.min.js?v=10.0.0"></script>
+
+<script type="text/javascript" src="/static/libs/hwvodsdk/flv-1.4.2.min.js?v=0.0.1"></script>
+<!--<script type="text/javascript" src="/static/libs/hwvodsdk/dash-2.9.2.all.min.js?v=0.0.1"></script>-->
+<script type="text/javascript" src="/static/libs/hwvodsdk/hwplayer.js?flvjs=true"></script>
+
 <script src="/assets/js/datepicker/bootstrap-datepicker.js?v=10.0.0"></script>
 <script src="/assets/js/timepicker/bootstrap-timepicker.min.js?v=10.0.0"></script>
 <script src="/assets/js/daterangepicker/daterangepicker.js?v=1.3.13"></script>
@@ -68,8 +80,8 @@
 
 <script src="/assets/js/jquery.typeahead.js?v=2.7.0"></script>
 
-<script src="/assets/js/echarts/echarts.min.js?v=14.1.7"></script>
-<script src="/assets/js/echarts/ecstat/ecStat.min.js"></script>
+<script src="/static/libs/echarts/echarts.min.js?v=14.1.7"></script>
+<script src="/static/libs/echarts/ecstat/ecStat.min.js"></script>
 
 <script src="/assets/js/jquery.hotkeys.js?v=0.2.0"></script>
 <script src="/assets/js/store.min.js?v=0.1.0"></script>
@@ -164,6 +176,8 @@
 <script type="text/javascript" src="/static/dev/script/components/netstar-component.js?v=0.9.1"></script>
 <script src="/assets/js/editor/netstar-componenteditor.js?v=0.1.0"></script>
 
+<script type="text/javascript" src="/static/dev/script/components/netstar-advancedquery.js?v=0.8.1"></script>
+
 <script type="text/javascript" src="/static/dev/script/common/netstar-utils.js?v=0.1.0"></script>
 <script type="text/javascript" src="/static/dev/script/components/netstar-grid.js?v=0.9.1"></script>
 
@@ -188,13 +202,20 @@
 <script type="text/javascript" src="/static/dev/script/template/nspt-limsreg.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/template/nspt-limsreport.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/template/nspt-processdocbaselevel2.js?v=0.9.1"></script>
-
+<script type="text/javascript" src="/static/dev/script/template/nspt-limsresultinput.js?v=0.9.1"></script>
 <!--  -->
 <script type="text/javascript" src="/static/dev/script/template/nspt-detailsdocbase.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/template/nspt-doubletables.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/template/nspt-catchhandler.js?v=0.9.1"></script>
 <!--  -->
+<script type="text/javascript" src="/static/dev/script/template/nspt-statisticslist.js?v=0.9.1"></script>
+<script type="text/javascript" src="/static/dev/script/template/nspt-treeform.js?v=0.0.1"></script>
 
+<script type="text/javascript" src="/static/dev/script/template/nspt-businessbasepanoramic.js?v=0.9.1"></script>
+
+<script type="text/javascript" src="/static/dev/script/template/nspt-businessdatabaselevel3.js?v=0.0.1"></script>
+
+<script type="text/javascript" src="/static/dev/script/template/nspt-workrecordsimple.js?v=0.0.1"></script>
 <!--codemirror-->
 <script src="/assets/js/codemirror/codemirror.js?v=5.38.0"></script>
 <script src="/assets/js/codemirror/mode/javascript/javascript.js?v=5.38.0"></script>
@@ -227,6 +248,7 @@
 
 <script src="/assets/js/ueditor/ueditor.config.js"></script>
 <script src="/assets/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="/static/libs/ueditor/lang/zh-cn/zh-cn.js?v=0.9.1"></script>
 
 <script src="/assets/js/ueditor/kityformula-plugin/addKityFormulaDialog.js"></script>
 <script src="/assets/js/ueditor/kityformula-plugin/getKfContent.js"></script>
@@ -266,3 +288,19 @@
 
 <script type="text/javascript" src="/static/dev/script/base/nsengine.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/common/netstar-confirm.js?v=0.9.1"></script>
+
+<script type="text/javascript" src="/static/libs/pdf/pdf.js?v=0.9.1"></script>
+<script type="text/javascript" src="/static/dev/script/components/nspt-pdfview.js?v=0.9.1"></script>
+<script type="text/javascript" src="/static/dev/script/components/netstar-resulttable.js?v=0.9.1"></script>
+<script type="text/javascript" src="/static/libs/md5.js"></script>
+<script type="text/javascript" src="/static/dev/script/template/nspt-timeline.js?v=0.8.1"></script>
+<script type="text/javascript" src="/static/dev/script/components/netstar-btnpanelmanager.js?v=0.0.1"></script>
+<script type="text/javascript" src="/static/dev/script/components/netstar-hwvodsdk.js?v=0.0.1"></script>
+<script type="text/javascript" src="/static/dev/script/components/nspt-scancode.js?v=0.0.1"></script>
+<script>
+   var NetstarEditorBase = {} 
+</script>
+<script src="/sites/tp-editor/home/js/editor-base.js"></script>
+
+<script src="/static/dev/script/components/nspt-holiday.js?v=0.0.1"></script>
+<script src="/static/dev/script/components/nspt-countlist.js?v=0.0.1"></script>
