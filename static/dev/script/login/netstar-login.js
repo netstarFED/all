@@ -150,168 +150,333 @@ var NetstarLogin = (function () {
                     }
                 });
             }
-            
-            $.ajax({
-                type: "POST",
-                dataType: 'json',
-                url: config.loginAjax.url,  
-                data: ajaxData,
-                success: function (res) {
-                     /**
-                     * res:{
-                     *  success:true,
-                     *  data:'eyJ0eXA...'   //返回的data就是token
-                     * }
-                     */
-                    if(typeof(res.data) == 'object'){
-                        if(res.data.success == false){
-                            
-                            if(res.data.passwordExpired == true){
-                                var html = '<div class="ns-confirm-container warning" id="nsconfirm-modal-default-login" tabindex="-1"><div class="confirm-body"><div class="confirm-content">初次登陆或密码超期，是否重置密码？</div></div><div class="confirm-footer"><div class="btn-group"><button type="button" class="btn btn-success" ns-confirm-type="confirm" fid="0"><i class="fa-check"></i><span>确定</span></button><button type="button" class="btn btn-white" ns-confirm-type="cancel" fid="1"><i class="fa-ban"></i><span>取消</span></button></div></div><div class="confrim-bg"></div></div>';
-                                if($('#nsconfirm-modal-default-login').length == 1){
-                                    $('#nsconfirm-modal-default-login').remove();
-                                }
-                                $('body').append(html);
-                                $('#nsconfirm-modal-default-login button[type="button"]').on('click',function(ev){
-                                    var nsType = $(this).attr('ns-confirm-type');
-                                    switch(nsType){
-                                        case 'confirm':
-                                            $('#nsconfirm-modal-default-login').remove();
-                                            var editPasswordHtml = '<div id="edit-userpassword-nsdialog-container" ns-type="pt-modal" ns-index="1" ns-top="true"><div class="pt-modal"><div class="pt-container"><div id="dialog-edit-userpassword" class="pt-modal-content" style="width: 500px; margin-left: -250px; height: 250px; max-height: 789px; left: 720px; top: 0px;"><div class="pt-modal-header"><div class="pt-title"><h4>修改密码</h4></div><div class="pt-close"><button type="button" class="pt-btn pt-btn-icon pt-btn-circle"><i class="icon-close"></i></button></div><div id="dialog-edit-userpassword-header" class="pt-modal-header-content"></div></div><div id="dialog-edit-userpassword-body" class="pt-modal-body" style="height: 158px; max-height: 597px;"><div class="pt-form  pt-form-vertical pt-form-inline" style="min-height: 148px;"><div class="pt-form-header"></div><div id="form-dialog-edit-userpassword-body" class="pt-form-body"><form id="form-edit-userpassword-nsdialog-container" novalidate="novalidate" autocomplete="off" onkeydown="if(event.keyCode==13){return false;}" onsubmit="return false"><div ns-type="field" class="field"><div ns-field="account" class="pt-form-group fg-text " style="width: 100%;"><label for="form-dialog-edit-userpassword-body-account" class="pt-control-label disabled">用户名</label><div class="pt-text disabled pt-input-group pt-text-assistant"><input type="text" placeholder="" value="'+username+'" disabled="disabled" id="form-dialog-edit-userpassword-body-account" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div><div class="pt-text-assistant-btns hide"><div class="pt-btn-group"></div></div></div></div><div ns-field="originalPwd" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-originalPwd" class="pt-control-label">现有密码</label><div class="pt-password pt-input-group"><input type="password" placeholder="" id="form-dialog-edit-userpassword-body-originalPwd" class="pt-form-control" required><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div><div ns-field="pwd" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-pwd" class="pt-control-label">新密码</label><div class="pt-password pt-input-group"><input type="password" required placeholder="" id="form-dialog-edit-userpassword-body-pwd" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div><div ns-field="pwd2" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-pwd2" class="pt-control-label">重复密码</label><div class="pt-password pt-input-group"><input type="password" required placeholder="" id="form-dialog-edit-userpassword-body-pwd2" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div></div><div ns-type="field-more" ns-formid="dialog-edit-userpassword-body" class="field-more hide aequilate"></div></form></div><div class="pt-form-footer"></div></div></div><div id="dialog-edit-userpassword-footer" class="pt-modal-footer text-right"><div class="pt-window-control"></div><div id="dialog-edit-userpassword-footer-group" class="pt-btn-group-container"><div class="pt-btn-group"><button class="pt-btn pt-btn-default" ns-type="confirm">确认</button><button class="pt-btn pt-btn-default" ns-type="cancel">取消</button></div></div></div></div></div><div class="pt-modal-bg"></div></div></div>';
-                                            if($('#edit-userpassword-nsdialog-container').length == 1){
-                                                $('#edit-userpassword-nsdialog-container').remove();
-                                            }
-                                            $('body').append(editPasswordHtml);
-                                            var $btns = $('#edit-userpassword-nsdialog-container').find('button');
-                                            $btns.off('click');
-                                            $btns.on('click', function(){
-                                                var $this = $(this);
-                                                var nsType = $this.attr('ns-type');
-                                                switch(nsType){
-                                                    case "confirm":
-                                                        if($('#form-edit-userpassword-nsdialog-container').valid()){
-                                                            var formdata = {
-                                                                originalPwd:hex_md5($('#form-dialog-edit-userpassword-body-originalPwd').val()),
-                                                                pwd:hex_md5($('#form-dialog-edit-userpassword-body-pwd').val()),
-                                                                pwd2:hex_md5($('#form-dialog-edit-userpassword-body-pwd2').val()),
-                                                                account:username,
-                                                                orgname:$(config.orgnameEl).val()
-                                                            };
-                                                            if (formdata.pwd2 == formdata.pwd) {
-                                                                var ajaxConfig = {
-                                                                    url: serverRootPath + "/system/changepwd",
-                                                                    data: formdata,
-                                                                    type: "GET",
-                                                                    dataType: "json",
-                                                                    contentType : 'application/x-www-form-urlencoded',
-                                                                    success:function(data,_ajaxConfig){
-                                                                        if (data.success) {
-                                                                            nsalert('密码修改成功');
-                                                                            $('#edit-userpassword-nsdialog-container').remove();
-                                                                        } else {
-                                                                            nsalert(data.msg, 'error');
-                                                                        }
-                                                                    },
-                                                                    error:function(){
-                                                                        nsalert('未知错误', 'error');
-                                                                    }
-                                                                };
-                                                                $.ajax(ajaxConfig);
-                                                            } else {
-                                                                nsalert("新密码不一致");
-                                                            }
-                                                        }
-                                                        break;
-                                                    case "cancel":
-                                                        $('#edit-userpassword-nsdialog-container').remove();
-                                                        break;
-                                                    default:
-                                                        $('#edit-userpassword-nsdialog-container').remove();
-                                                        break;
-                                                }
-                                            });
-                                            break;
-                                        case 'cancel':
-                                            $('#nsconfirm-modal-default-login').remove();
-                                            break;
+            if(config.loginAjax.headers){
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    headers:config.loginAjax.headers,
+                    url: config.loginAjax.url,  
+                    data: ajaxData,
+                    success: function (res) {
+                         /**
+                         * res:{
+                         *  success:true,
+                         *  data:'eyJ0eXA...'   //返回的data就是token
+                         * }
+                         */
+                        if(typeof(res.data) == 'object'){
+                            if(res.data.success == false){
+                                
+                                if(res.data.passwordExpired == true){
+                                    var html = '<div class="ns-confirm-container warning" id="nsconfirm-modal-default-login" tabindex="-1"><div class="confirm-body"><div class="confirm-content">初次登陆或密码超期，是否重置密码？</div></div><div class="confirm-footer"><div class="btn-group"><button type="button" class="btn btn-success" ns-confirm-type="confirm" fid="0"><i class="fa-check"></i><span>确定</span></button><button type="button" class="btn btn-white" ns-confirm-type="cancel" fid="1"><i class="fa-ban"></i><span>取消</span></button></div></div><div class="confrim-bg"></div></div>';
+                                    if($('#nsconfirm-modal-default-login').length == 1){
+                                        $('#nsconfirm-modal-default-login').remove();
                                     }
-                                })
-                                return;
-                            }else{
-                                console.error('登录失败', res.data);
-                                res.success = false;
-                            }
-                            
-                        }
-                    }
-                    if (res.success || (typeof(res.data) == 'object' && res.data.success)) {
-                        
-                        if(typeof(res.data)=='object'){
-                            res = {
-                                success:true,
-                                data:res.data.token,
-                            }
-                        }
-                        //登录成功后请求用户消息并登录系统  
-                        if(typeof(res.data)!='string'){
-                            //sjj 20200114 添加密码超期, 请重置密码的需求逻辑
-                            var passwordExpired = false;
-                            if(typeof(res.data)=='object'){
-                                if(typeof(res.data.passwordExpired)=='boolean'){
-                                    passwordExpired = res.data.passwordExpired;
+                                    $('body').append(html);
+                                    $('#nsconfirm-modal-default-login button[type="button"]').on('click',function(ev){
+                                        var nsType = $(this).attr('ns-confirm-type');
+                                        switch(nsType){
+                                            case 'confirm':
+                                                $('#nsconfirm-modal-default-login').remove();
+                                                var editPasswordHtml = '<div id="edit-userpassword-nsdialog-container" ns-type="pt-modal" ns-index="1" ns-top="true"><div class="pt-modal"><div class="pt-container"><div id="dialog-edit-userpassword" class="pt-modal-content" style="width: 500px; margin-left: -250px; height: 250px; max-height: 789px; left: 720px; top: 0px;"><div class="pt-modal-header"><div class="pt-title"><h4>修改密码</h4></div><div class="pt-close"><button type="button" class="pt-btn pt-btn-icon pt-btn-circle"><i class="icon-close"></i></button></div><div id="dialog-edit-userpassword-header" class="pt-modal-header-content"></div></div><div id="dialog-edit-userpassword-body" class="pt-modal-body" style="height: 158px; max-height: 597px;"><div class="pt-form  pt-form-vertical pt-form-inline" style="min-height: 148px;"><div class="pt-form-header"></div><div id="form-dialog-edit-userpassword-body" class="pt-form-body"><form id="form-edit-userpassword-nsdialog-container" novalidate="novalidate" autocomplete="off" onkeydown="if(event.keyCode==13){return false;}" onsubmit="return false"><div ns-type="field" class="field"><div ns-field="account" class="pt-form-group fg-text " style="width: 100%;"><label for="form-dialog-edit-userpassword-body-account" class="pt-control-label disabled">用户名</label><div class="pt-text disabled pt-input-group pt-text-assistant"><input type="text" placeholder="" value="'+username+'" disabled="disabled" id="form-dialog-edit-userpassword-body-account" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div><div class="pt-text-assistant-btns hide"><div class="pt-btn-group"></div></div></div></div><div ns-field="originalPwd" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-originalPwd" class="pt-control-label">现有密码</label><div class="pt-password pt-input-group"><input type="password" placeholder="" id="form-dialog-edit-userpassword-body-originalPwd" class="pt-form-control" required><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div><div ns-field="pwd" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-pwd" class="pt-control-label">新密码</label><div class="pt-password pt-input-group"><input type="password" required placeholder="" id="form-dialog-edit-userpassword-body-pwd" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div><div ns-field="pwd2" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-pwd2" class="pt-control-label">重复密码</label><div class="pt-password pt-input-group"><input type="password" required placeholder="" id="form-dialog-edit-userpassword-body-pwd2" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div></div><div ns-type="field-more" ns-formid="dialog-edit-userpassword-body" class="field-more hide aequilate"></div></form></div><div class="pt-form-footer"></div></div></div><div id="dialog-edit-userpassword-footer" class="pt-modal-footer text-right"><div class="pt-window-control"></div><div id="dialog-edit-userpassword-footer-group" class="pt-btn-group-container"><div class="pt-btn-group"><button class="pt-btn pt-btn-default" ns-type="confirm">确认</button><button class="pt-btn pt-btn-default" ns-type="cancel">取消</button></div></div></div></div></div><div class="pt-modal-bg"></div></div></div>';
+                                                if($('#edit-userpassword-nsdialog-container').length == 1){
+                                                    $('#edit-userpassword-nsdialog-container').remove();
+                                                }
+                                                $('body').append(editPasswordHtml);
+                                                var $btns = $('#edit-userpassword-nsdialog-container').find('button');
+                                                $btns.off('click');
+                                                $btns.on('click', function(){
+                                                    var $this = $(this);
+                                                    var nsType = $this.attr('ns-type');
+                                                    switch(nsType){
+                                                        case "confirm":
+                                                            if($('#form-edit-userpassword-nsdialog-container').valid()){
+                                                                var formdata = {
+                                                                    originalPwd:hex_md5($('#form-dialog-edit-userpassword-body-originalPwd').val()),
+                                                                    pwd:hex_md5($('#form-dialog-edit-userpassword-body-pwd').val()),
+                                                                    pwd2:hex_md5($('#form-dialog-edit-userpassword-body-pwd2').val()),
+                                                                    account:username,
+                                                                    orgname:$(config.orgnameEl).val()
+                                                                };
+                                                                if (formdata.pwd2 == formdata.pwd) {
+                                                                    var ajaxConfig = {
+                                                                        url: serverRootPath + "/system/changepwd",
+                                                                        data: formdata,
+                                                                        type: "GET",
+                                                                        dataType: "json",
+                                                                        contentType : 'application/x-www-form-urlencoded',
+                                                                        success:function(data,_ajaxConfig){
+                                                                            if (data.success) {
+                                                                                nsalert('密码修改成功');
+                                                                                $('#edit-userpassword-nsdialog-container').remove();
+                                                                            } else {
+                                                                                nsalert(data.msg, 'error');
+                                                                            }
+                                                                        },
+                                                                        error:function(){
+                                                                            nsalert('未知错误', 'error');
+                                                                        }
+                                                                    };
+                                                                    $.ajax(ajaxConfig);
+                                                                } else {
+                                                                    nsalert("新密码不一致");
+                                                                }
+                                                            }
+                                                            break;
+                                                        case "cancel":
+                                                            $('#edit-userpassword-nsdialog-container').remove();
+                                                            break;
+                                                        default:
+                                                            $('#edit-userpassword-nsdialog-container').remove();
+                                                            break;
+                                                    }
+                                                });
+                                                break;
+                                            case 'cancel':
+                                                $('#nsconfirm-modal-default-login').remove();
+                                                break;
+                                        }
+                                    })
+                                    return;
+                                }else{
+                                    console.error('登录失败', res.data);
+                                    res.success = false;
                                 }
-                            }
-                            if(!passwordExpired){
-                             /*    console.error('登录接口未返回授权码');
-                                return; */
-                            }else{
                                 
                             }
                         }
-
-                        _this.remember.set();
-
-                        //保存授权码
-                        loginRes = res;
-                        NetstarLogin.loginRes = res;
-                        NetstarLogin.Authorization = NetstarLogin.loginRes.data;
-
-                        
-                        NetStarUtils.OAuthCode.set({
-                            authorization:      NetstarLogin.Authorization, 
-                            expireMinute:       config.expireMinute,
-                            loginTimeStamp:     new Date().getTime(),
-                        });
-                        NetstarLogin.toHomePage(NetstarLogin.Authorization);
-                        //loginPanel.getLoginProperty(res); //获取登录信息
-                        //$(config.msgEl).addClass('hide');
-
-                    } else {
-                        //不成功提示错误 如密码错误等
+                        if (res.success || (typeof(res.data) == 'object' && res.data.success)) {
+                            
+                            if(typeof(res.data)=='object'){
+                                res = {
+                                    success:true,
+                                    data:res.data.token,
+                                }
+                            }
+                            //登录成功后请求用户消息并登录系统  
+                            if(typeof(res.data)!='string'){
+                                //sjj 20200114 添加密码超期, 请重置密码的需求逻辑
+                                var passwordExpired = false;
+                                if(typeof(res.data)=='object'){
+                                    if(typeof(res.data.passwordExpired)=='boolean'){
+                                        passwordExpired = res.data.passwordExpired;
+                                    }
+                                }
+                                if(!passwordExpired){
+                                 /*    console.error('登录接口未返回授权码');
+                                    return; */
+                                }else{
+                                    
+                                }
+                            }
+    
+                            _this.remember.set();
+    
+                            //保存授权码
+                            loginRes = res;
+                            NetstarLogin.loginRes = res;
+                            NetstarLogin.Authorization = NetstarLogin.loginRes.data;
+    
+                            
+                            NetStarUtils.OAuthCode.set({
+                                authorization:      NetstarLogin.Authorization, 
+                                expireMinute:       config.expireMinute,
+                                loginTimeStamp:     new Date().getTime(),
+                            });
+                            NetstarLogin.toHomePage(NetstarLogin.Authorization);
+                            //loginPanel.getLoginProperty(res); //获取登录信息
+                            //$(config.msgEl).addClass('hide');
+    
+                        } else {
+                            //不成功提示错误 如密码错误等
+                            if(typeof(res.data) == 'object'){
+                                $(config.msgEl).html(res.data.msg);
+                            }else{
+                                $(config.msgEl).html(res.pwmsg);
+                            }
+                            
+                            $(config.msgEl).removeClass('hide');
+                            var verificationCode = res.data.verificationCode
+                            if(typeof(verificationCode) == 'string'){
+                                $(config.verificationHidden).removeClass('hide');
+                            }
+                            //$(config.orgnameEl).val();
+                            var userName = $(config.usernameEl).val();
+                            var orgNameVal = $(config.orgnameEl).val();
+                            var orgName = encodeURIComponent(orgNameVal)
+                            var random = Math.random() * 100
+                            var verificationImgUrl = serverRootPath + '/system/verificationCode?'+ "orgName=" + orgName +"&"+ "username=" +userName + "&" + random;
+                            console.log(verificationImgUrl)
+                            var htmlImg='<img class="verification-img-size" src="'+ verificationImgUrl+'">'
+                            $(config.verificationImgEl).html(htmlImg)
+                        }
+                    },
+                    error: ajaxError
+                });
+            }else{
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: config.loginAjax.url,  
+                    data: ajaxData,
+                    success: function (res) {
+                         /**
+                         * res:{
+                         *  success:true,
+                         *  data:'eyJ0eXA...'   //返回的data就是token
+                         * }
+                         */
                         if(typeof(res.data) == 'object'){
-                            $(config.msgEl).html(res.data.msg);
-                        }else{
-                            $(config.msgEl).html(res.pwmsg);
+                            if(res.data.success == false){
+                                
+                                if(res.data.passwordExpired == true){
+                                    var html = '<div class="ns-confirm-container warning" id="nsconfirm-modal-default-login" tabindex="-1"><div class="confirm-body"><div class="confirm-content">初次登陆或密码超期，是否重置密码？</div></div><div class="confirm-footer"><div class="btn-group"><button type="button" class="btn btn-success" ns-confirm-type="confirm" fid="0"><i class="fa-check"></i><span>确定</span></button><button type="button" class="btn btn-white" ns-confirm-type="cancel" fid="1"><i class="fa-ban"></i><span>取消</span></button></div></div><div class="confrim-bg"></div></div>';
+                                    if($('#nsconfirm-modal-default-login').length == 1){
+                                        $('#nsconfirm-modal-default-login').remove();
+                                    }
+                                    $('body').append(html);
+                                    $('#nsconfirm-modal-default-login button[type="button"]').on('click',function(ev){
+                                        var nsType = $(this).attr('ns-confirm-type');
+                                        switch(nsType){
+                                            case 'confirm':
+                                                $('#nsconfirm-modal-default-login').remove();
+                                                var editPasswordHtml = '<div id="edit-userpassword-nsdialog-container" ns-type="pt-modal" ns-index="1" ns-top="true"><div class="pt-modal"><div class="pt-container"><div id="dialog-edit-userpassword" class="pt-modal-content" style="width: 500px; margin-left: -250px; height: 250px; max-height: 789px; left: 720px; top: 0px;"><div class="pt-modal-header"><div class="pt-title"><h4>修改密码</h4></div><div class="pt-close"><button type="button" class="pt-btn pt-btn-icon pt-btn-circle"><i class="icon-close"></i></button></div><div id="dialog-edit-userpassword-header" class="pt-modal-header-content"></div></div><div id="dialog-edit-userpassword-body" class="pt-modal-body" style="height: 158px; max-height: 597px;"><div class="pt-form  pt-form-vertical pt-form-inline" style="min-height: 148px;"><div class="pt-form-header"></div><div id="form-dialog-edit-userpassword-body" class="pt-form-body"><form id="form-edit-userpassword-nsdialog-container" novalidate="novalidate" autocomplete="off" onkeydown="if(event.keyCode==13){return false;}" onsubmit="return false"><div ns-type="field" class="field"><div ns-field="account" class="pt-form-group fg-text " style="width: 100%;"><label for="form-dialog-edit-userpassword-body-account" class="pt-control-label disabled">用户名</label><div class="pt-text disabled pt-input-group pt-text-assistant"><input type="text" placeholder="" value="'+username+'" disabled="disabled" id="form-dialog-edit-userpassword-body-account" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div><div class="pt-text-assistant-btns hide"><div class="pt-btn-group"></div></div></div></div><div ns-field="originalPwd" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-originalPwd" class="pt-control-label">现有密码</label><div class="pt-password pt-input-group"><input type="password" placeholder="" id="form-dialog-edit-userpassword-body-originalPwd" class="pt-form-control" required><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div><div ns-field="pwd" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-pwd" class="pt-control-label">新密码</label><div class="pt-password pt-input-group"><input type="password" required placeholder="" id="form-dialog-edit-userpassword-body-pwd" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div><div ns-field="pwd2" class="pt-form-group fg-password pt-form-required" style="width: 100%;"><label for="form-dialog-edit-userpassword-body-pwd2" class="pt-control-label">重复密码</label><div class="pt-password pt-input-group"><input type="password" required placeholder="" id="form-dialog-edit-userpassword-body-pwd2" class="pt-form-control"><div class="pt-input-group-btn pt-input-group-btn-group"><button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide"><i class="icon-close"></i></button></div></div></div></div><div ns-type="field-more" ns-formid="dialog-edit-userpassword-body" class="field-more hide aequilate"></div></form></div><div class="pt-form-footer"></div></div></div><div id="dialog-edit-userpassword-footer" class="pt-modal-footer text-right"><div class="pt-window-control"></div><div id="dialog-edit-userpassword-footer-group" class="pt-btn-group-container"><div class="pt-btn-group"><button class="pt-btn pt-btn-default" ns-type="confirm">确认</button><button class="pt-btn pt-btn-default" ns-type="cancel">取消</button></div></div></div></div></div><div class="pt-modal-bg"></div></div></div>';
+                                                if($('#edit-userpassword-nsdialog-container').length == 1){
+                                                    $('#edit-userpassword-nsdialog-container').remove();
+                                                }
+                                                $('body').append(editPasswordHtml);
+                                                var $btns = $('#edit-userpassword-nsdialog-container').find('button');
+                                                $btns.off('click');
+                                                $btns.on('click', function(){
+                                                    var $this = $(this);
+                                                    var nsType = $this.attr('ns-type');
+                                                    switch(nsType){
+                                                        case "confirm":
+                                                            if($('#form-edit-userpassword-nsdialog-container').valid()){
+                                                                var formdata = {
+                                                                    originalPwd:hex_md5($('#form-dialog-edit-userpassword-body-originalPwd').val()),
+                                                                    pwd:hex_md5($('#form-dialog-edit-userpassword-body-pwd').val()),
+                                                                    pwd2:hex_md5($('#form-dialog-edit-userpassword-body-pwd2').val()),
+                                                                    account:username,
+                                                                    orgname:$(config.orgnameEl).val()
+                                                                };
+                                                                if (formdata.pwd2 == formdata.pwd) {
+                                                                    var ajaxConfig = {
+                                                                        url: serverRootPath + "/system/changepwd",
+                                                                        data: formdata,
+                                                                        type: "GET",
+                                                                        dataType: "json",
+                                                                        contentType : 'application/x-www-form-urlencoded',
+                                                                        success:function(data,_ajaxConfig){
+                                                                            if (data.success) {
+                                                                                nsalert('密码修改成功');
+                                                                                $('#edit-userpassword-nsdialog-container').remove();
+                                                                            } else {
+                                                                                nsalert(data.msg, 'error');
+                                                                            }
+                                                                        },
+                                                                        error:function(){
+                                                                            nsalert('未知错误', 'error');
+                                                                        }
+                                                                    };
+                                                                    $.ajax(ajaxConfig);
+                                                                } else {
+                                                                    nsalert("新密码不一致");
+                                                                }
+                                                            }
+                                                            break;
+                                                        case "cancel":
+                                                            $('#edit-userpassword-nsdialog-container').remove();
+                                                            break;
+                                                        default:
+                                                            $('#edit-userpassword-nsdialog-container').remove();
+                                                            break;
+                                                    }
+                                                });
+                                                break;
+                                            case 'cancel':
+                                                $('#nsconfirm-modal-default-login').remove();
+                                                break;
+                                        }
+                                    })
+                                    return;
+                                }else{
+                                    console.error('登录失败', res.data);
+                                    res.success = false;
+                                }
+                                
+                            }
                         }
-                        
-                        $(config.msgEl).removeClass('hide');
-                        var verificationCode = res.data.verificationCode
-                        if(typeof(verificationCode) == 'string'){
-                            $(config.verificationHidden).removeClass('hide');
+                        if (res.success || (typeof(res.data) == 'object' && res.data.success)) {
+                            
+                            if(typeof(res.data)=='object'){
+                                res = {
+                                    success:true,
+                                    data:res.data.token,
+                                }
+                            }
+                            //登录成功后请求用户消息并登录系统  
+                            if(typeof(res.data)!='string'){
+                                //sjj 20200114 添加密码超期, 请重置密码的需求逻辑
+                                var passwordExpired = false;
+                                if(typeof(res.data)=='object'){
+                                    if(typeof(res.data.passwordExpired)=='boolean'){
+                                        passwordExpired = res.data.passwordExpired;
+                                    }
+                                }
+                                if(!passwordExpired){
+                                 /*    console.error('登录接口未返回授权码');
+                                    return; */
+                                }else{
+                                    
+                                }
+                            }
+    
+                            _this.remember.set();
+    
+                            //保存授权码
+                            loginRes = res;
+                            NetstarLogin.loginRes = res;
+                            NetstarLogin.Authorization = NetstarLogin.loginRes.data;
+    
+                            
+                            NetStarUtils.OAuthCode.set({
+                                authorization:      NetstarLogin.Authorization, 
+                                expireMinute:       config.expireMinute,
+                                loginTimeStamp:     new Date().getTime(),
+                            });
+                            NetstarLogin.toHomePage(NetstarLogin.Authorization);
+                            //loginPanel.getLoginProperty(res); //获取登录信息
+                            //$(config.msgEl).addClass('hide');
+    
+                        } else {
+                            //不成功提示错误 如密码错误等
+                            if(typeof(res.data) == 'object'){
+                                $(config.msgEl).html(res.data.msg);
+                            }else{
+                                $(config.msgEl).html(res.pwmsg);
+                            }
+                            
+                            $(config.msgEl).removeClass('hide');
+                            var verificationCode = res.data.verificationCode
+                            if(typeof(verificationCode) == 'string'){
+                                $(config.verificationHidden).removeClass('hide');
+                            }
+                            //$(config.orgnameEl).val();
+                            var userName = $(config.usernameEl).val();
+                            var orgNameVal = $(config.orgnameEl).val();
+                            var orgName = encodeURIComponent(orgNameVal)
+                            var random = Math.random() * 100
+                            var verificationImgUrl = serverRootPath + '/system/verificationCode?'+ "orgName=" + orgName +"&"+ "username=" +userName + "&" + random;
+                            console.log(verificationImgUrl)
+                            var htmlImg='<img class="verification-img-size" src="'+ verificationImgUrl+'">'
+                            $(config.verificationImgEl).html(htmlImg)
                         }
-                        //$(config.orgnameEl).val();
-                        var userName = $(config.usernameEl).val();
-                        var orgNameVal = $(config.orgnameEl).val();
-                        var orgName = encodeURIComponent(orgNameVal)
-                        var random = Math.random() * 100
-                        var verificationImgUrl = serverRootPath + '/system/verificationCode?'+ "orgName=" + orgName +"&"+ "username=" +userName + "&" + random;
-                        console.log(verificationImgUrl)
-                        var htmlImg='<img class="verification-img-size" src="'+ verificationImgUrl+'">'
-                        $(config.verificationImgEl).html(htmlImg)
-                    }
-                },
-                error: ajaxError
-            });
+                    },
+                    error: ajaxError
+                });                
+            }
+            
         },
         //绑定回车事件
         enterEvent: function(event) {
