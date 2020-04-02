@@ -317,6 +317,7 @@ NetstarUI.countList = {
         var insertPositionIndexArr = _config.insertPositionIndexArr;
         var dynamicColumns = _config.format.dynamicColumns;
         var countListData = _config.countListData;
+        var columnsId = _config.columnsId;
         if(insertPositionIndexArr.length > 0){
             for(var i=0; i<insertPositionIndexArr.length; i++){
                 var colField  = insertPositionIndexArr[i].field;
@@ -412,6 +413,7 @@ NetstarUI.countList = {
             return theadHtml;
         }
         function getTbodyHtml(){
+            var tbodyHtml = '';
             for (var rowI = 0; rowI < _config.tbodyData.length; rowI++) {
                 var trClassStr = '';
                 tbodyHtml += '<tr class="' + trClassStr + '" ns-rowindex="' + rowI + '"><td ns-rowindex="' + rowI + '" class="first-rowtd" style="40px"></td>';
@@ -428,8 +430,32 @@ NetstarUI.countList = {
                         if(styleCss){
                             outputStyle = 'style='+styleCss;
                         }
+                        var tdContentHtml = '<div>' + tData.text + '</div>';
+                        /****lyw 通过列配置获取显示数据及显示数据html start****/
+                        if(columnsId[tData.colField]){
+                            var columnConfig = columnsId[tData.colField];
+                            var showText = NetStarGrid.dataManager.getValueByColumnType(tData.text, countListData[rowI], columnConfig);
+                            switch(columnConfig.columnType){
+                                case 'href':
+                                    var hrefConfig = {
+                                        countListId : _config.id,
+                                        colField : tData.colField,
+                                        rowIndex : rowI,
+                                        colIndex : colI,
+                                        value : tData.text,
+                                        text : showText,
+                                    }
+                                    var hrefConfigStr = JSON.stringify(hrefConfig);
+                                    tdContentHtml = "<a href='javascript:void(0);' onclick='NetstarUI.countList.rowHrefLinkJump("+hrefConfigStr+")'>"+showText+"</a>";
+                                    break;
+                                default:
+                                    tdContentHtml = '<div>' + showText + '</div>';
+                                    break;
+                            }
+                        }
+                        /****lyw 通过列配置获取显示数据及显示数据html end******/
                         tbodyHtml += '<td class="td-' + tData.datatype + '" rowspan="' + tData.rowspan + '" '+outputStyle+' colspan="' + tData.colspan + '">' 
-                                        +'<div>' + tData.text + '</div>' +
+                                        + tdContentHtml +
                                     '</td>';
                     }
                 }
@@ -440,24 +466,43 @@ NetstarUI.countList = {
         }
         var theadHtml = getTheadHtml();
         var tbodyHtml = getTbodyHtml();
-        var $table = $('#'+_config.id);
-        $table.html(theadHtml+tbodyHtml);
+        var $tableContainer = $('#'+_config.id);
+        
+        // $table.html(theadHtml+tbodyHtml);
+        var beforeHtml = '';
+        var afterHtml = '<div class="customer-table-input-component"></div>';
+        var tWidth = _config.totalWidth+'px';
+        if(_config.isAutojustWidth){
+            // tWidth = '100%';
+        }
+		// $table.css({
+		// 	'width': tWidth
+        // });
+        var tableId = _config.id + '-table';
+        var scrollYId = _config.id + '-scroll-y';
+        var tableHtml = '<table class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" style="width:'+ tWidth +'" id="'+ tableId +'">'
+                            + theadHtml
+                            + tbodyHtml
+                        + '</table>'
+                        + afterHtml
         if (typeof (_config.isScroll) == 'boolean') {
-			if (_config.isScroll) {
-                var containerWidth = $(window).outerWidth() - 100;
+			// if (_config.isScroll) {
+                var containerWidth = $(window).outerWidth() - 180;
                 var avaHeight = $(window).outerHeight()-100;
-				$table.parent().css({
-					overflow: "hidden",
-					height: avaHeight+'px',
-					width: containerWidth + "px"
-				});
-				$table.before('<div class="scroll-panel-table-copy" style="height:'+avaHeight+'px;overflow:auto"></div>');
-				var $div = $('.scroll-panel-table-copy');
-				$div.html($table);
-				var html = '<div class="scroll-panel nspanel layout-customertable-copy" style="position:absolute;z-index:1;left:0px;width:' + containerWidth + 'px"><table id="scroll-table" cellspacing="0" class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table">' +
-					theadHtml +
-					'</table></div>';
-				$table.parent().before(html);
+                /**lyw注释start */
+				// $table.parent().css({
+				// 	overflow: "hidden",
+				// 	height: avaHeight+'px',
+				// 	width: containerWidth + "px"
+                // });
+				// $table.before('<div class="scroll-panel-table-copy" style="height:'+avaHeight+'px;overflow:auto"></div>');
+				// var $div = $('.scroll-panel-table-copy');
+				// $div.html($table);
+				// var html = '<div class="scroll-panel nspanel layout-customertable-copy" style="position:absolute;z-index:1;left:0px;width:' + containerWidth + 'px"><table id="scroll-table" cellspacing="0" class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table">' +
+				// 	theadHtml +
+				// 	'</table></div>';
+				// $table.parent().before(html);
+                /**lyw注释end */
 				/*$('.scroll-panel .scroll-table').css({
 					width: _config.totalWidth + 'px',
 					position: 'absolute',
@@ -469,18 +514,47 @@ NetstarUI.countList = {
 					$('.scroll-panel').css({
 						left: -scrollLeft + 'px'
 					});
-				})*/
-			}
+                })*/
+                var positionObj = $tableContainer.position()
+                $tableContainer.css({
+                    overflow: "hidden",
+                    height: avaHeight+'px',
+                    width: containerWidth + "px"
+                });
+                beforeHtml = '<div class="scroll-panel nspanel layout-customertable-copy" style="position:absolute;z-index:1;left:0px;overflow:hidden;;width:' + containerWidth + 'px">'
+                                + '<table cellspacing="0" class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" style="width:'+ tWidth +'">'
+                                        + theadHtml
+                                + '</table>'
+                            + '</div>'
+                tableHtml = '<div class="scroll-panel-table-copy" style="height:'+avaHeight+'px;overflow-x:auto;overflow-y:hidden;">'
+                                + tableHtml
+                            + '</div>'
+                            // 纵向滚动条
+                            + '<div nsgirdcontainer="grid-body-scroll-y" id="'+ scrollYId +'" style="position:absolute;z-index:0;right:0px;top:'+ positionObj.top +'px;width:8px;height:'+avaHeight+'px;overflow:auto">'
+                                + '<div class="grid-body-scroll-y-div" style="height:'+ avaHeight +'px;"></div>'     
+                            + '</div>'
+                
+			// }
         }
-        var tWidth = _config.totalWidth+'px';
-        if(_config.isAutojustWidth){
-            tWidth = '100%';
-        }
-		$table.css({
-			'width': tWidth
-		});
-		$table.after('<div class="customer-table-input-component"></div>');
-
+        var tableContentHtml = beforeHtml + tableHtml;
+        $tableContainer.html(tableContentHtml);
+        // $table.after('<div class="customer-table-input-component"></div>');
+        // 插入后设置纵向滚动条
+        var $table = $('#' + tableId);
+        var tableHeight = $table.height();
+        var $scrollY = $('#' + scrollYId);
+        $scrollY.children().height(tableHeight);
+        var $tableParent = $table.parent();
+        $tableParent.scroll(function(ev){
+            var tableScrollLeft = $tableParent.scrollLeft();
+            var $headTable = $tableContainer.find('.scroll-panel');
+            $headTable.scrollLeft(tableScrollLeft);
+        });
+        $scrollY.scroll(function(ev){
+            var tableScrollTop = $scrollY.scrollTop();
+            var $tableParent = $table.parent();
+            $tableParent.scrollTop(tableScrollTop);
+        });
 
         var $buttons = $('#' + _config.id + ' button[type="button"]');
         $buttons.off('click');
@@ -612,6 +686,211 @@ NetstarUI.countList = {
                 }
             }
 		});
+    },
+    rowHrefLinkJump : function(hrefConfig){
+        var configs = NetstarUI.countList.config[hrefConfig.countListId];
+        if(typeof(configs) != "object"){
+            nsAlert('没有找到统计列表', 'error');
+            console.error('没有找到统计列表');
+            console.error(hrefConfig);
+            return false;
+        }
+        var gridConfig = configs.config;
+        var gridId = hrefConfig.countListId;
+        // 所有列配置
+        var columnsId = gridConfig.columnsId;
+        // 列字段
+        var field = hrefConfig.colField;
+        // 列配置
+        var columnConfig = columnsId[field];
+        var formatHandler = columnConfig.formatHandler;
+        var url = formatHandler.data.url;
+        var titleStr = formatHandler.data.title ? formatHandler.data.title : '';
+        var originalRows = gridConfig.countListData;
+        var rowIndex = hrefConfig.rowIndex;
+        var rowData = $.extend(true, {}, originalRows[rowIndex]);
+        if(typeof(formatHandler.data.urlSubdata) == "string" && formatHandler.data.urlSubdata.length > -1){
+            var urlSubdata = JSON.parse(formatHandler.data.urlSubdata);
+            var subdataField = formatHandler.data.subdataField;
+            var urlObj = false;
+            var subdataFieldValue = rowData[subdataField];
+            for(var i=0; i<urlSubdata.length; i++){
+                var subdataObj = urlSubdata[i];
+                if(subdataObj.value === subdataFieldValue){
+                    urlObj = subdataObj;
+                    break;
+                }
+            }
+            if(urlObj){
+                url = urlObj.url;
+                if(typeof(url) == "string" && url.indexOf('http') != 0){
+                    url = getRootPath() + url;
+                }
+                if(typeof(urlObj.data) == "object"){
+                    var urlData = nsVals.getVariableJSON(urlObj.data, rowData);
+                    nsVals.extendJSON(rowData, urlData);
+                }
+                if(typeof(urlObj.title) == "string"){
+                    titleStr = urlObj.title;
+                }
+            }
+        }
+        if(typeof(url) != "string" || url.length == 0){
+            nsAlert('没有找到url','error');
+            console.error('没有找到url');
+            return false;
+        }
+        //目前限制添加读取是根据模板id跳转的，所以需要判断是否存在模板id 
+        if (gridId.indexOf('layout') > -1) {
+            var packageName = '';
+            if(gridConfig.package){
+                packageName = gridConfig.package;
+            }else{
+                packageName = gridId.substring(18, gridId.lastIndexOf('-list'));
+                packageName = packageName.replace(/\-/g, '.');
+            }
+            if (NetstarTemplate.templates.configs[packageName]) {
+                if (!$.isEmptyObject(NetstarTemplate.templates.configs[packageName].pageParam)) {
+                    if(formatHandler.data.isFirstUseRow){
+                        nsVals.extendJSON(NetstarTemplate.templates.configs[packageName].pageParam, rowData);
+                    }else{
+                        nsVals.extendJSON(rowData, NetstarTemplate.templates.configs[packageName].pageParam);
+                    }
+                }
+            }
+            var packageNameSufficStr = new Date().getTime();
+            var idField = gridConfig.idField;
+            if(idField){
+                packageNameSufficStr = rowData[idField] ? rowData[idField] : packageNameSufficStr;
+            }
+            var tempValueName = packageName + packageNameSufficStr;
+            var isAllwaysNewTab = typeof(formatHandler.data.isAllwaysNewTab)=='boolean' ? formatHandler.data.isAllwaysNewTab : true;
+            if(isAllwaysNewTab){
+                tempValueName = {
+                    packageName: tempValueName,
+                    isMulitTab: isAllwaysNewTab,
+                }
+                tempValueName = JSON.stringify(tempValueName);
+            }else{
+                tempValueName = packageName;
+            }
+            if (typeof (NetstarTempValues) == 'undefined') {
+                NetstarTempValues = {};
+            }
+
+            var templateName = formatHandler.data.templateName;
+            var parameterFormat = {};
+            if (formatHandler.data.parameterFormat) {
+                var parameterFormat = JSON.parse(formatHandler.data.parameterFormat);
+                if(parameterFormat.dialogType){
+                    templateName = parameterFormat.dialogType;
+                    parameterFormat = parameterFormat;
+                }else{
+                    var chargeData = nsVals.getVariableJSON(parameterFormat, rowData);
+                    nsVals.extendJSON(rowData, chargeData);
+                }
+            }
+            /***是否发送查询数据start***/
+            if(formatHandler.data.isSendQueryModel){
+                var gridData = gridConfig.ajax.data;
+                if(typeof(gridData) == "object" && !$.isEmptyObject(gridData)){
+                    rowData.queryModel = gridData;
+                }
+            }
+            /***是否发送查询数据end***/
+            var readonly = typeof (formatHandler.data.readonly) == 'boolean' ? formatHandler.data.readonly : false;
+            rowData.readonly = readonly;
+            NetstarTempValues[tempValueName] = rowData;
+            //businessDataBaseEditor  templateName
+            if(url.indexOf('?')>-1){
+                var search = url.substring(url.indexOf('?')+1,url.length);
+                var paramsObj = search.split('&');
+                var resultObject = {};
+                for (var i = 0; i < paramsObj.length; i++){
+                    var idx = paramsObj[i].indexOf('=');
+                    if (idx > 0){
+                        resultObject[paramsObj[i].substring(0, idx)] = paramsObj[i].substring(idx + 1);
+                    }
+                }
+                $.each(resultObject, function (key, text) {
+                    NetstarTempValues[tempValueName][key] = text;
+                });
+                url = url.substring(0,url.indexOf('?'));
+            }
+
+            url = url + '?templateparam=' + encodeURIComponent(tempValueName);
+
+            switch (templateName) {
+                case 'businessDataBaseEditor':
+                    var pageConfig = {
+                        pageIidenti: url,
+                        url: url,
+                        plusData: {
+                            config: {
+                                value: rowData
+                            },
+                            gridId: gridId,
+                        },
+                        callBackFunc: function (isSuccess, data, _pageConfig) {
+                            if (isSuccess) {
+                                var _config = _pageConfig.plusData.config;
+                                var _configStr = JSON.stringify(_config);
+                                var funcStr = 'nsProject.showPageDataByGrid(pageConfig,' + _configStr + ',"' + _pageConfig.plusData.gridId + '")';
+                                var starStr = '<container>';
+                                var endStr = '</container>';
+                                var containerPage = data.substring(data.indexOf(starStr) + starStr.length, data.indexOf(endStr));
+                                var exp = /NetstarTemplate\.init\((.*?)\)/;
+                                var funcStrRep = funcStr.replace('pageConfig', containerPage.match(exp)[1]);
+                                containerPage = containerPage.replace(containerPage.match(exp)[0], funcStrRep);
+                                var $container = nsPublic.getAppendContainer();
+                                $container.append(containerPage);
+                            }
+                        }
+                    }
+                    pageProperty.getAndCachePage(pageConfig);
+                    break;
+                case 'tree':
+                    var dialogConfig = {
+                        id: 'tree-dialog-component',
+                        title: titleStr,
+                        templateName: 'PC',
+                        height:520,
+                        width : 420,
+                        shownHandler : function(_shownData){
+                            var treeConfig = {
+                                container:_shownData.config.bodyId,
+                                selectMode:'single',
+                                readonly:readonly,
+                                editorConfig:{
+                                    idField:parameterFormat.idField,
+                                    textField:parameterFormat.textField,
+                                    parentIdField:parameterFormat.parentIdField
+                                },
+                                ajax:{
+                                    url:formatHandler.data.url,
+                                    type:'get',
+                                    dataSrc:'rows',
+                                    contentType:'application/x-www-form-urlencoded',
+                                    data:{id:rowData[parameterFormat.sendIdField]}
+                                },
+                                queryConfig:{
+                                    id:'query-'+_shownData.config.bodyId
+                                },
+                                defaultPositionId:rowData[parameterFormat.sendIdField]
+                            };
+                            NetstarTreeList.init(treeConfig);
+                        }
+                    };
+                    NetstarComponent.dialogComponent.init(dialogConfig);
+                    break;
+                default:
+                    if (!$.isEmptyObject(rowData)) {
+                        titleStr = NetStarUtils.getHtmlByRegular(rowData, titleStr);
+                    }
+                    NetstarUI.labelpageVm.loadPage(url, titleStr, isAllwaysNewTab, {}, true);
+                    break;
+            }
+        }
     },
     initData:function(countListData,_config){
         if(typeof(_config.format.handler) == 'function'){

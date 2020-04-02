@@ -18,7 +18,8 @@ NetstarUI.exportXls = {
             var rowData = dataSource[dataI];
             var obj = {};
             $.each(columnById,function(cId,cItem){
-                if(cItem.hidden === false){
+                var hiddenColumn = typeof(cItem.hidden)=='boolean' ? cItem.hidden : false;
+                if(hiddenColumn === false){
                     var value = NetStarGrid.dataManager.getValueByColumnType(rowData[cId],rowData,cItem);
                     if(typeof(value)=='undefined'){value = '';}
                     var reg = /<[^>]+>/g;
@@ -57,7 +58,8 @@ NetstarUI.exportXls = {
             if(typeof(columnData.width)=='number'){
                 //sheetWidth -= columnData.width;
             }
-            if(columnData.hidden === false){
+            var hiddenColumn = typeof(columnData.hidden)=='boolean' ? columnData.hidden : false;
+            if(hiddenColumn === false){
                 //当前字段处于显示状态
                 theadNamesArr.push(columnData.title);
                 columnFieldsArr.push(columnData.field);
@@ -77,6 +79,38 @@ NetstarUI.exportXls = {
         _config.colsArr = colsArr;
         _config.keyValuesJson = keyValuesJson;
         _config.columnById = configs.gridConfig.columnById;
+    },
+    getCountListHeader:function(_config){
+        var columnConfig = _config.field;
+        var keyValuesJson = {};	//拿到标题和key值相对应json
+        var colsArr = [];			//列宽
+        var theadNamesArr = []; //标题名字
+        var columnFieldsArr = []; //字段名字
+        for(var columnI=0; columnI<columnConfig.length; columnI++){
+            var columnData = $.extend(true,{},columnConfig[columnI]);
+            if(typeof(columnData.width)=='number'){
+                //sheetWidth -= columnData.width;
+            }
+            var hiddenColumn = typeof(columnData.hidden)=='boolean' ? columnData.hidden : false;
+            if(hiddenColumn === false){
+                //当前字段处于显示状态
+                theadNamesArr.push(columnData.title);
+                columnFieldsArr.push(columnData.field);
+                keyValuesJson[columnData.field] = {
+                    title:columnData.title,
+                    formatHandler:columnData.formatHandler,
+                    meta:{
+                        col:columnI,
+                        settings:{sTableId:_config.id}
+                    }
+                };
+                colsArr.push({wpx:columnData.width});
+            }
+        }
+        _config.theadNamesArr = _config.levelOneTitleArr;
+        _config.columnFieldsArr = _config.columnFieldArray;
+        _config.colsArr = colsArr;
+        _config.keyValuesJson = keyValuesJson;
     },
     wholeByExprot:function(_config){
         //获取标题头
@@ -139,6 +173,7 @@ NetstarUI.exportXls = {
                     }
                     switch(config.requestSource){
                         case 'this':
+                        case 'thisVo':
                             this.wholeByExprot(config);
                             break;
                         case 'selected':
@@ -153,6 +188,7 @@ NetstarUI.exportXls = {
         }else{
            _config.dataSource = NetStarGrid.dataManager.getData(_config.id);
             switch(_config.requestSource){
+                case 'thisVo':
                 case 'this':
                     this.wholeByExprot(_config);
                     break;
@@ -164,5 +200,23 @@ NetstarUI.exportXls = {
                     break;
             }
         }
+    },
+    initByCount:function(_config){
+        /**
+         * type             string          导出类型  默认excel
+         * id               string          表格id
+         * excelName        string          导出显示的文件名
+         * ext              string          文件后缀
+         * sheets           boolean         是否分页 
+         * requestSource    string          导出数据的来源（selected(导出当前选中值),checkbox（导出勾选的值）,this（导出整体表格））
+         * ajaxConfig       object          当前导出数据是否根据此配置执行
+        */
+       this.setDefault(_config);
+        //获取标题头
+        _config.field = NetstarUI.countList.config[_config.id].config.field;
+        _config.columnById = NetstarUI.countList.config[_config.id].config.columnsId;
+        _config.dataSource = NetstarUI.countList.config[_config.id].config.countListData;
+        this.getCountListHeader(_config);
+        this.setDataSource(_config);//处理数据源
     }
 }
