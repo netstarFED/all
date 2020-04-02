@@ -20,7 +20,8 @@
             var getRootPath = function () {
                 return "https://qaapi.wangxingcloud.com"
             }
-            var innerHTML =
+            $(function(){
+                var innerHTML =
                 `<header class="header">
                             <div class="btn-group">
                                 <a href="##" class="btn btn-icon">
@@ -40,42 +41,7 @@
             if ($("header").length != 0 && $(".mobile-input-search").length != 0) {
                 $("container").addClass("padding-top-header-search");
             };
-            var saveBtnHtml =
-                `<footer>
-                    <div class="btn-group nav-form">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success" onclick="save()">
-                                <i class="fa-save"></i>
-                                <span>创建批次</span>
-                            </button>
-                        </div>
-                    </div>
-                </footer>`
-            $("container").append(saveBtnHtml);
-            var dataManager = {
-                datetimeStamp: Date.parse(new Date()),
-                dataRes: "",
-            }
-            function save() {
-                if (dataManager.dataRes.checkupBatchDetailVOList) {
-                    dataManager.dataRes.checkupBatchDetailVOList = NetstarBlockListM.dataManager.getData('mobile-blocklist')
-                    dataManager.dataRes.whenCreated = dataManager.datetimeStamp;
-                    dataManager.dataRes.objectState = 2
-                };
-                console.log(dataManager.dataRes);
-                var ajaxConfig = {
-                    url: getRootPath() + '/checkups/v2/addBatch',
-                    contentType: 'application/json',
-                    data: dataManager.dataRes
-                };
-                NetStarUtils.ajax(ajaxConfig, function (res) {
-                    console.log(res);
-                    if (res.success) {
-                        nsAlert("保存成功")
-                    }
-                })
-
-            }
+            
             var inlineSrceen = {
                 id: "inlinesrceen-radio",
                 size: "standard compactmode",
@@ -115,7 +81,6 @@
                     type: 'POST',
                     contentType: 'application/x-www-form-urlencoded',
                     formatter: function (res) {
-                        dataManager.dataRes = res.data;
                     }
                 },
                 columns: [
@@ -430,6 +395,8 @@
                 }
             };
             cameraScan.initHoneywellScan();
+            })
+
 
         </script>
     </container>

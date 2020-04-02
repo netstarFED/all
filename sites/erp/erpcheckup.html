@@ -213,11 +213,18 @@
                                         text: '提交',
                                         isReturn: true,
                                         handler: function () {
+                                            debugger
                                             var rowData = NetstarTemplate.templates.configs["nscloud.checkup"].gridRowData;
                                             var workItemId = rowData.workItemId;
                                             var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
                                             func['submit'](function (res) {
                                                 nsalert('装箱单提交成功', 'success');
+                                                var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-checkup-blockList-0'].vueObj.rows;;
+                                                for(var i=0; i<rows.length; i++){
+                                                    if(rows.id == rowDatas[i].id){
+                                                        rows.splice(i,1);
+                                                    }
+                                                }
                                             }, function (err) {
                                                 console.error(err);
                                             })
@@ -232,11 +239,19 @@
                                         text: '驳回',
                                         isReturn: true,
                                         handler: function () {
+                                            debugger;   
                                             var rowData = NetstarTemplate.templates.configs["nscloud.checkup"].gridRowData;
                                             var workItemId = rowData.workItemId;
-                                            var func = nsEngine.operation().workitemId(workitemId).build();
-                                            func['nsWorkflowReject'](function (res) {
+                                            var func = nsEngine.operation().workitemId(workItemId).build();
+                                            
+                                            func['reject'](function (res) {
                                                 nsalert('装箱单驳回成功', 'success');
+                                                var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-checkup-blockList-0'].vueObj.rows;;
+                                                for(var i=0; i<rows.length; i++){
+                                                    if(rows.id == rowDatas[i].id){
+                                                        rows.splice(i,1);
+                                                    }
+                                                }
                                             }, function (err) {
                                                 console.error(err);
                                             })
@@ -264,7 +279,6 @@
                                                 }
                                             }
                                             NetStarUtils.ajax(ajaxConfig,function(res){
-                                                // debugger;
                                                 var packingBoxId = res.data.checkupBatchVOList[0].id;
 
                                                 var tempValueName = erpCheckUp.package + new Date().getTime();
@@ -286,7 +300,6 @@
                                         text:'批次详情',
                                         isReturn:true,
                                         handler:function(data){
-                                            // debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
                                             var selectedId = {
                                                 id: pageConfig.gridRowData.id,
@@ -294,7 +307,7 @@
                                             var tempValueName = erpCheckUp.package + new Date().getTime();
                                             var tempValueNameCode = encodeURIComponent(tempValueName);
                                             if (typeof (NetstarTempValues) == 'undefined') { NetstarTempValues = {}; }
-                                            NetstarTempValues[tempValueNameCode] = selectedId
+                                            NetstarTempValues[tempValueNameCode] = pageConfig.gridRowData
                                             var url = window.location.protocol + '//' + window.location.host + "/sites/erp/erpcheckupdetails.html?templateparam=" + tempValueNameCode;
                                             nsFrame.loadPageVRouter(url);
                                             console.log(pageConfig)

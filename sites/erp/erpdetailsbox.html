@@ -26,11 +26,12 @@
                         src: getRootPath() + '/packingController/v2/getById',
                         contentType: "application/x-www-form-urlencoded",
                         data: {
-                            id: "1327562150536809458"
+                            // id:1,
                         },
                         dataSrc: 'data.packingBoxVOList',
                         type: 'post',
                     },
+                    getByIdData:{},
                     components: [
                         {
                             type: 'blockList',
@@ -46,11 +47,10 @@
                                 src: getRootPath() + '/packingController/v2/getById',
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
-                                    id: "id"
+                                    id: "{id}"
                                 },
                                 dataSrc: 'rows',
                                 type: 'POST',
-
                                 formatter:function(res){             
                                     var data = res.data.packingBoxVOList
                                     data.splice(0,1);           
@@ -58,6 +58,7 @@
                                         success:true,
                                         rows:data
                                     }
+        
                                     nscloud.erppakInfoCustomerName = res.data.customerName;
                                     return returnRows;
                                 }
@@ -77,8 +78,9 @@
                                         text:'拆箱',
                                         isReturn:true,
                                         handler:function(data){
-                                            // debugger;
-                                            var packConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
+                                            var data = data.data
+                                            var pageConfig = NetstarTemplate.templates.configs[erpPackSetails.package];
+                                            var getById = pageConfig.pageParam.id
                                             var id = pageConfig.gridRowData.id
                                             var ajaxConfig = {
                                                url:getRootPath() +'/packingController/v2/getByPackingBoxId',
@@ -88,17 +90,31 @@
                                                },
                                                type:'POST',
                                            }
-                                           NetStarUtils.ajax(ajaxConfig,function(res){                                          
-                                                var ajaxConfig = {
+                                           NetStarUtils.ajax(ajaxConfig,function(res){   
+                                                var unAjaxConfig = {
                                                     url:getRootPath() + 'packingController/v2/unPackingBox',
-                                                    contentType:'application/json;charset=UTF-8',
-                                                    data:{
-
-                                                    },
+                                                    contentType:'application/json',
+                                                    data:res.data,
                                                     type:'POST',
                                                 }
-                                                NetStarUtils.ajax(ajaxConfig,function(res){
-
+                                                NetStarUtils.ajax(unAjaxConfig,function(res){
+                                                    if(res.success){
+                                                        nsAlert('拆箱成功');
+                                                    var refreshAjax = {
+                                                        url: getRootPath() + '/packingController/v2/getById',
+                                                        contentType: "application/x-www-form-urlencoded",
+                                                        data: {
+                                                            id:getById
+                                                        },
+                                                        dataSrc: 'rows',
+                                                        type: 'POST',
+                                                    }
+                                                    NetStarUtils.ajax(refreshAjax,function(res){
+                                                        var data = res.data.packingBoxVOList
+                                                            data.splice(0,1);           
+                                                        NetstarTemplate.templates.businessDataBaseMobile.refreshListData(data,"nstemplate-layout-nscloud-erpdetailsbox-blockList-0")
+                                                    })                                                    
+                                                    }
                                                 })    
                                            })                                                                      
                                         }
@@ -167,6 +183,11 @@
                         }
 
                     ]
+                }
+                if(NetstarTemplate.templates.businessDataBaseMobile.data){
+                    if(NetstarTemplate.templates.businessDataBaseMobile.data['nstemplate-layout-nscloud-erpdetailsbox']){
+                    delete NetstarTemplate.templates.businessDataBaseMobile.data['nstemplate-layout-nscloud-erpdetailsbox'] 
+                }
                 }
                 // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpPackSetails);

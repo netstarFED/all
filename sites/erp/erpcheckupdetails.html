@@ -9,7 +9,7 @@
     <meta name="description" content="打包" />
     <meta name="author" content="netstar" />
     <!--# include file="/sites/include/static_mobile.html" -->
-    <title>装箱打包</title>
+    <title></title>
 </head>
 <!--  -->
 
@@ -48,7 +48,7 @@
                                 src: getRootPath() + '/checkups/v2/getById',
                                 contentType: "application/x-www-form-urlencoded",
                                 data: {
-                                    id:'id'
+                                    id:'{id}'
                                     // id: "1329346294983951346"
                                 },
                                 dataSrc: 'rows',
@@ -78,8 +78,88 @@
                                     btn: {
                                         text: '撤回批次',
                                         isReturn: true,
-                                        handler: function (a, b, c) {
-                                        }
+                                        handler: function (data) {
+                                            var data = data.data
+                                            var pageConfig = NetstarTemplate.templates.configs[erpCheckDetails.package];
+                                            var getById = pageConfig.pageParam.id
+                                            var id = pageConfig.gridRowData.id
+                                            var ajaxConfig = {
+                                               url:getRootPath() +'/checkups/v2/getByCheckupBatchId',
+                                               contentType:'application/x-www-form-urlencoded',
+                                               data:{
+                                                    id:id
+                                               },
+                                               type:'POST',
+                                           }
+                                           NetStarUtils.ajax(ajaxConfig,function(res){   
+                                                var unAjaxConfig = {
+                                                    url:getRootPath() + '/checkups/v2/deleteBatch',
+                                                    contentType:'application/json',
+                                                    data:res.data,
+                                                    type:'POST',
+                                                }
+                                                NetStarUtils.ajax(unAjaxConfig,function(res){
+                                                    if(res.success){
+                                                        nsAlert('撤回成功');
+                                                    var refreshAjax = {
+                                                        url: getRootPath() + '/checkups/v2/getById',
+                                                        contentType: "application/x-www-form-urlencoded",
+                                                        data: {
+                                                            id:getById
+                                                        },
+                                                        dataSrc: 'rows',
+                                                        type: 'POST',
+                                                    }
+                                                    NetStarUtils.ajax(refreshAjax,function(res){
+                                                        var data = res.data.checkupBatchVOList
+                                                            data.splice(0,1);           
+                                                        NetstarTemplate.templates.businessDataBaseMobile.refreshListData(data,"nstemplate-layout-nscloud-erpcheckdetails-blockList-0")
+                                                    })                                                    
+                                                    }
+                                                })    
+                                           })  
+                                           
+                                           
+
+
+                                            /* var pageConfig = NetstarTemplate.templates.configs[erpCheckDetails.package];
+                                            var pageParamData = pageConfig.gridRowData;
+                                            var blockListData = NetstarBlockListM.dataManager.getData('nstemplate-layout-nscloud-erpcheckdetails-blockList-0');
+                                             var packingDetailVOList = $.extend(true,[],blockListData) 
+                                                var ajaxData = {
+                                                    checkupBatchDetailVOList:blockListData
+                                                }
+                                                $.extend(true,ajaxData,pageParamData)
+                                            var ajaxConfig = {
+                                                url:getRootPath() + '/checkups/v2/deleteBatch',
+                                                contentType:'application/json',
+                                                type:"POST",
+                                                data:ajaxData
+                                            }
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                                debugger;
+                                                var refreshAjax = {
+                                                        url: getRootPath() + '/checkups/v2/getById',
+                                                        contentType: "application/x-www-form-urlencoded",
+                                                        data: {
+                                                            id:pageParamData.id
+                                                        },
+                                                        dataSrc: 'rows',
+                                                        type: 'POST',
+                                                    }
+                                                    NetStarUtils.ajax(refreshAjax,function(res){
+                                                        var data = res.data.checkupBatchVOList
+                                                            data.splice(0,1);           
+                                                        NetstarTemplate.templates.businessDataBaseMobile.refreshListData(data,"nstemplate-layout-nscloud-erpcheckdetails-blockList-0")
+                                                    }) 
+                                                    if(res.success){    
+                                                        nsalert('打包成功');
+                                                    }else{
+                                                        nsalert(res.msg)
+                                                    }
+                                                }) */
+                                            }
+
                                     },
                                     functionConfig: {
                                         isMobileInlineBtn: true,
@@ -108,7 +188,14 @@
 
                     ]
                 }
+
                 // NETSTAR添加url参数即pageParam
+                if(NetstarTemplate.templates.businessDataBaseMobile.data){
+                    if(NetstarTemplate.templates.businessDataBaseMobile.data['nstemplate-layout-nscloud-erpcheckdetails']){
+                    delete NetstarTemplate.templates.businessDataBaseMobile.data['nstemplate-layout-nscloud-erpcheckdetails'] 
+                }
+                }
+               
                 NetstarTemplate.init(erpCheckDetails);
             })
             var innerHTML =
