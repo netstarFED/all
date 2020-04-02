@@ -102,15 +102,42 @@
                                 {
                                     field: 'warehouseId',
                                     title: '仓库',
+                                    editConfig:{
+                                        type:'select',
+                                        label:'仓库',
+                                        selectMode:'single',
+                                        url:getRootPath() + '/warehouse/v2/getList',
+                                        textField:'name',
+                                        valueField:'id',
+                                        dataSrc:'rows',
+                                        method:'POST',
+                                    }
 
                                 },
                                 {
                                     field: 'warehouseName',
                                     title: '仓库名称',
+                                    editConfig:{
+
+                                    }
                                 },
                                 {
                                     field: 'packingLocationId',
                                     title: '装箱货位',
+                                    editConfig:{
+                                        type:'select',
+                                        label:'装箱货位',
+                                        selectMode:'single',
+                                        url:getRootPath() + '/locations/v2/getList',
+                                        data:{
+                                            type: "8",
+                                            warehouseId: "{page.warehouseId}"
+                                        },
+                                        textField:'code',
+                                        valueField:'id',
+                                        dataSrc:'rows',
+                                        method:'POST'
+                                    }
                                 },
                                 {
                                     field: '"packingLocationCode',
@@ -143,7 +170,7 @@
                                                 </div>
                                                 <div class='block-list-item-text'>
                                                     <span class='text-ml text-gray'>{{warehouseName}}</span>
-                                                    <span class='text-ml text-gray'>{{packingLocationCode}}</span>
+                                                    <span class='text-ml text-gray'>{{packingLocationId}}</span>
                                                 </div>
                                             </div>`,
                             plusClass: '',
@@ -165,7 +192,6 @@
                                             var getSelectData = pageConfig.gridRowData;
                                             var tempValueName = erpPackingUp.package + new Date().getTime();
                                             if(typeof(NetstarTempValues) == "undefined"){
-                                                Nets
                                                 tarTempValues = {}
                                             }
                                             NetstarTempValues[tempValueName] = getSelectData
@@ -182,11 +208,19 @@
                                         text:'提交',
                                         isReturn:true,
                                         handler:function(){
+                                            debugger
                                             var rowData = NetstarTemplate.templates.configs["nscloud.erppackingup"].gridRowData;
                                             var workItemId = rowData.workItemId;
                                             var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
                                             func['submit'](function(res){
                                                 nsalert(res, 'success');
+                                                //提交成功后删除当前行
+                                                var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-erppackingup-blockList-0'].vueObj.rows;;
+                                                for(var i=0; i<rows.length; i++){
+                                                    if(rows.id == rowDatas[i].id){
+                                                        rows.splice(i,1);
+                                                    }
+                                                }
                                             }, function(err){
                                                 console.error(err);
                                             })
@@ -236,7 +270,6 @@
                                         text:'装箱详情',
                                         isReturn:true,
                                         handler:function(data){
-                                            // debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpPackingUp.package];
                                             var id ={
                                                 id:pageConfig.gridRowData.id

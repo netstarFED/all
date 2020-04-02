@@ -206,7 +206,6 @@
                                 formatter:function(res){
                                     var id  = res.data.id;
                                     nscloud.erppakingId = id
-                                    // debugger;
                                     return {
                                         success:true,
                                         rows:res.data.packingDetailVOList,
@@ -259,7 +258,6 @@
                                        text:'整箱打包',
                                        isReturn:true,
                                        handler:function(){
-                                        //    debugger;
                                            var pageConfig = NetstarTemplate.templates.configs[erpPacking.package];
                                            var pageParamData = pageConfig.pageParam;
                                            var blockListData = NetstarBlockListM.dataManager.getData('nstemplate-layout-nscloud-erppaking-blockList-0');
@@ -301,6 +299,9 @@
                             ]
                         }
                     ]
+                }
+                if(NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erppaking']){
+                    delete NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erppaking'] 
                 }
                 // NETSTAR添加url参数即pageParam
                 NetstarTemplate.init(erpPacking);
