@@ -8,20 +8,122 @@
 <!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
 <container>
     <div id="netstar-saas-reg-btns"></div>
+    <div id="netstar-saas-reg-regcombobtns"></div>
+    <div id="netstar-saas-reg-btns"></div><!-- 按钮 -->
     <div id="netstar-saas-reg-vo"></div><!-- 体检登记 -->
     <div id="netstar-saas-reg-pricing-BlockList"></div><!-- 体检登记 -->
     <div id="netstar-saas-reg-hazard-BlockList"></div><!-- 职业危害 -->
+    <div id="netstar-saas-reg-regcombo-BlockList"></div><!-- 项目 -->
     <script>
         $(function(){
             var regId = {
+                btns:'netstar-saas-reg-btns',
                 voId : "netstar-saas-reg-vo",
                 pricingBlockListId:"netstar-saas-reg-pricing-BlockList",
-                hazardBlockListId:"netstar-saas-reg-hazard-BlockList"
+                hazardBlockListId:"netstar-saas-reg-hazard-BlockList",
+                regcomboBlocklistId:'netstar-saas-reg-regcombo-BlockList',
+                regcombobtns:'netstar-saas-reg-regcombobtns'
             }
             //体检登记vo
             var configs = {
+                /* 按钮组 */
+                regBtns:{
+                    id:regId.btns,
+                    btns:[
+                        {
+                            text:'提交',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'保存',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'新增',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'打印',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'预览',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'保存草稿',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'草稿箱',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'流程查看',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'撤回',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'回退',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'历史记录',
+                            handler:function(){
+
+                            }
+                        }
+                    ]
+                },
+                // 项目按钮
+                regcombobtns:{
+                    id:regId.regcombobtns,
+                    btns:[
+                        {
+                            text:'清空',
+                            handler:function(){
+
+                            }
+                        },
+                        {
+                            text:'计算项目',
+                            handler:function(){
+                                
+                            }
+                        },
+                        {
+                            text:'查看详情',
+                            handler:function(){
+                                
+                            }
+                        }
+                    ]
+                },
                 //体检登记vo
-                RegVo:{
+                regVo:{
                     id:regId.voId,
                     defaultComponentWidth: "33%",
                     isSetMore:false,    
@@ -43,6 +145,8 @@
                             id:"idNo",
                             label:'证件类别',
                             type:'select',
+                            valueField:'id',
+                            textField:"name",
                             subdata:[
                                 {
                                     id:'0',
@@ -94,12 +198,20 @@
                         {
                             id:'grade',
                             type:'text',
-                            label:'文化程度'
+                            label:'文化程度',
+                            dictArguments:"",
+                            type:'select',
+                            textField:'',
+                            valueField:''
                         },
                         {
                             id:'nativePlace',
                             type:'text',
-                            label:'籍贯'
+                            label:'籍贯',
+                            dictArguments:"",
+                            type:'select',
+                            textField:'',
+                            valueField:''
                         },
                         {
                             id:'address',
@@ -109,7 +221,11 @@
                         {
                             id:'nation',
                             type:'text',
-                            label:'民族'
+                            label:'民族',
+                            dictArguments:"",
+                            type:'select',
+                            textField:'',
+                            valueField:''
                         },
                         {
                             id:'marriage',
@@ -124,12 +240,17 @@
                         {
                             id:'customerDeptName',
                             type:'text',
-                            label:'车间部门'
+                            label:'车间部门',
+                            dictArguments:"",
+                            type:'select',
+                            textField:'',
+                            valueField:''
                         },
                         {
                             id:'empNo',
                             type:'text',
-                            label:'工号'
+                            label:'工号',
+
                         },
                         {
                             id:'workTypeName',
@@ -143,7 +264,7 @@
                         },
                         {
                             id:'whenEntry',
-                            type:'text',
+                            type:'date',
                             label:'入场日期'
                         },
                         {
@@ -158,6 +279,7 @@
                         }
                     ]
                 },
+               /* 优惠券 */
                 pricingBlockList:{
                     id:regId.pricingBlockListId,
                     type:'blockList',   
@@ -176,7 +298,19 @@
                         },
                         {
                             field:'standardAmount',
-                            title:'标准价格'
+                            title:'标准价格',
+                            columnType:"money",
+                            editConfig:{
+                                type:"number", 
+                            },
+                            formatHandler:{
+                                type:'money',
+                                data:{
+                                    format:{
+                                        places:"2"
+                                    }
+                                }
+                            }
                         },
                         {
                             field:'discountAmount',
@@ -184,7 +318,19 @@
                         },
                         {
                             field:'amount',
-                            title:'实收金额'
+                            title:'实收金额',
+                            columnType:"money",
+                            editConfig:{
+                                type:"number", 
+                            },
+                            formatHandler:{
+                                type:'money',
+                                data:{
+                                    format:{
+                                        places:"2"
+                                    }
+                                }
+                            }
                         }
                     ],
                     ui:{
@@ -193,6 +339,7 @@
                         isOpenQuery:true,                    
                     }
                 },
+                /* 职业危害因素 */
                 hazardBlockList:{
                     id:regId.hazardBlockListId,
                     type:"blockList",
@@ -201,7 +348,31 @@
                         dataSource:[
                             {
                                 hazardName:"噪音",
-                                ocpcName:"sssss"
+                                ocpcName:"在岗期间"
+                            },
+                            {
+                                hazardName:"噪音",
+                                ocpcName:"在岗期间"
+                            },
+                            {
+                                hazardName:"噪音",
+                                ocpcName:"在岗期间"
+                            },
+                            {
+                                hazardName:"噪音",
+                                ocpcName:"在岗期间"
+                            },
+                            {
+                                hazardName:"噪音",
+                                ocpcName:"在岗期间"
+                            },
+                            {
+                                hazardName:"噪音",
+                                ocpcName:"在岗期间"
+                            },
+                            {
+                                hazardName:"噪音",
+                                ocpcName:"在岗期间"
                             }
                         ]
                     },
@@ -216,14 +387,84 @@
                         }
                     ],
                     ui:{
+                        height:200,
                         listExpression:'<div>{{hazardName}}</div>'
                     }
-                }
+                },
+               /* 项目 */
+                regcomboBlocklist:{
+                    id:regId.regcomboBlocklistId,
+                    type:"blockList",
+                    data:{
+                        idField:"id",
+                        dataSource:[
+                            {
+                                comboName:"噪音",
+                                standardAmount:"500"
+                            },
+                            {
+                                comboName:"噪音",
+                                standardAmount:""
+                            },
+                            {
+                                comboName:"噪音",
+                                standardAmount:"在岗期间"
+                            },
+                            {
+                                comboName:"噪音",
+                                standardAmount:"在岗期间"
+                            },
+                            {
+                                comboName:"噪音",
+                                standardAmount:"在岗期间"
+                            },
+                            {
+                                comboName:"噪音",
+                                standardAmount:"在岗期间"
+                            },
+                            {
+                                comboName:"噪音",
+                                standardAmount:"在岗期间"
+                            }
+                        ]
+                    },
+                    columns:[
+                        {
+                            field:'comboName',
+                            title:'噪音'
+                        },
+                        {
+                            field:'standardAmount',
+                            title:'标准金额',
+                            columnType:"money",
+                            editConfig:{
+                                type:"number", 
+                            },
+                            formatHandler:{
+                                type:'money',
+                                data:{
+                                    format:{
+                                        places:"2"
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    ui:{
+                        height:200,
+                        listExpression:'<div>{{comboName}}<span> {{standardAmount}}</span></div>'
+                    }
+                },
+                
+              
             }
             function init(){
-                NetstarComponent.formComponent.show(configs.RegVo);
+                NetstarComponent.formComponent.show(configs.regVo);
                 NetstarBlockList.init(configs.pricingBlockList);
-                NetstarBlockList.init(configs.hazardBlockList)
+                NetstarBlockList.init(configs.hazardBlockList);
+                NetstarBlockList.init(configs.regcomboBlocklist);
+                vueButtonComponent.init(configs.regBtns);
+                vueButtonComponent.init(configs.regcombobtns)
             }
             init();
         })
