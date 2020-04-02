@@ -472,7 +472,6 @@ NetstarUI.countList = {
         var beforeHtml = '';
         var afterHtml = '<div class="customer-table-input-component"></div>';
         var tWidth = _config.totalWidth+'px';
-        _config.isScroll = true;
         if(_config.isAutojustWidth && _config.isScroll !== true){
             tWidth = '100%';
         }
@@ -527,7 +526,7 @@ NetstarUI.countList = {
                 if(containerWidth < _config.totalWidth){
                     scrollXClass = '';
                 }
-                beforeHtml = '<div class="scroll-panel nspanel layout-customertable-copy" style="left:0px;width:' + containerWidth + 'px">'
+                beforeHtml = '<div class="scroll-panel nspanel layout-customertable-copy" style="left:0px;max-width:' + containerWidth + 'px">'
                                 + '<table cellspacing="0" class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" style="width:'+ tWidth +'">'
                                         + theadHtml
                                 + '</table>'
@@ -556,12 +555,12 @@ NetstarUI.countList = {
             var isScrollX = false;
             var isScrollY = false;
             if(containerWidth < _config.totalWidth){
-                isScrollY = true;
+                isScrollX = true;
             }
             if(avaHeight < tableHeight){
                 isScrollY = true;
             }
-            // if(isScrollX){
+            if(isScrollX){
                 var $scrollX = $('#' + scrollXId);
                 $scrollX.scroll(function(ev){
                     var tableScrollLeft = $scrollX.scrollLeft();
@@ -570,7 +569,7 @@ NetstarUI.countList = {
                     $headTable.scrollLeft(tableScrollLeft);
                     $tableParent.scrollLeft(tableScrollLeft);
                 })
-            // }
+            }
             var $scrollY = $('#' + scrollYId);
             if(isScrollY){
                 $scrollY.children().height(tableHeight);
