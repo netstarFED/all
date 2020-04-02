@@ -526,7 +526,7 @@ NetstarUI.countList = {
                 if(containerWidth < _config.totalWidth){
                     scrollXClass = '';
                 }
-                beforeHtml = '<div class="scroll-panel nspanel layout-customertable-copy" style="left:0px;max-width:' + containerWidth + 'px">'
+                beforeHtml = '<div class="scroll-panel nspanel layout-customertable-copy" style="left:0px;width:' + containerWidth + 'px">'
                                 + '<table cellspacing="0" class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" style="width:'+ tWidth +'">'
                                         + theadHtml
                                 + '</table>'
