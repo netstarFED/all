@@ -89,14 +89,6 @@
             "dataSrc": "rows",
             "contentType": "application/x-www-form-urlencoded"
         },
-        //更新单条数据的接口  cy 20190830
-        "update":{
-            "url":"/dataImport/updatedata/",
-            "data":{},
-            "type":"POST",
-            "contentType": "application/json",
-            "dataSrc": "rows" 
-        },
         "import": {
             "url": "/dataImport/saveData/",
             "data": {},
@@ -109,72 +101,18 @@
         },
         "downloadByRecordId": {
             "url": "/importRecords/getExcelByRecordId"
-        },
-        "getExcelByPage": {
-            "url": "/dataImport/uploadingdata",
-            "type": "POST",
-            "contentType": "application/json",
-            "dataSrc": "rows" 
-        },
-        "deleteData": {
-            "url": "/dataImport/setDeleted/",
-            "type": "POST",
-            "contentType": "application/json",
-            "dataSrc": "rows" 
         }
     }
-    var nsAdvancedQuery = {
-        getAjax : {
-            url : '/system/advancedSearch/getList',
-            dataSrc: 'rows',
-            type: 'POST',
-        },
-        delAjax : {
-            url : '/system/advancedSearch/delById',
-            dataSrc: 'rows',
-            type: 'GET',
-            contentType : 'application/x-www-form-urlencoded',
-        },
-        saveAjax : {
-            url : '/system/advancedSearch/save',
-            dataSrc: 'rows',
-            type: 'POST',
-        },
-    }
-    var nsExcelImportVer3 = {
-        download : {
-            url : '/debugger/data/22.zip?',
-        },
-        upload : {
-            url : '/debugger/data/history.json',
-        }
-    }
-
 </script>
 <!-- MAINPAGE 草稿箱配置 end -->
 <!-- MAINPAGE 加载静态资源 start -->
-<!--<script type="text/javascript" src="/static/libs/moment.js?v=10.0.0"></script>-->
-<script type="text/javascript" src="/static/libs/hwvodsdk/moment.min.js?v=10.0.0"></script>
-<script type="text/javascript" src="/static/libs/hwvodsdk/moment-timezone-with-data.min.js?v=10.0.0"></script>
-<script type="text/javascript" src="/static/libs/hwvodsdk/hmac-sha256.js?v=10.0.0"></script>
-<script type="text/javascript" src="/static/libs/hwvodsdk/signer.js?v=10.0.0"></script>
-<script type="text/javascript" src="/static/libs/hwvodsdk/js-vod-sdk.min.js?v=10.0.0"></script>
-
-<script type="text/javascript" src="/static/libs/hwvodsdk/flv-1.4.2.min.js?v=0.0.1"></script>
-<!--<script type="text/javascript" src="/static/libs/hwvodsdk/dash-2.9.2.all.min.js?v=0.0.1"></script>-->
-<script type="text/javascript" src="/static/libs/hwvodsdk/hwplayer.js?flvjs=true"></script>
-
-
-<script src="/static/libs/echarts/echarts.min.js?v=14.1.7"></script>
-<script src="/static/libs/echarts/ecstat/ecStat.min.js"></script>
-
+<script type="text/javascript" src="/static/libs/moment.js?v=10.0.0"></script>
 <script type="text/javascript" src="/static/libs/jquery/jquery.hotkeys.js?v=10.0.0"></script>
 <script type="text/javascript" src="/static/libs/jquery.inputmask.bundle.js?v=10.0.0"></script>
 <script type="text/javascript" src="/static/libs/dhtmlxgantt.js?v=10.0.0"></script>
 <script type="text/javascript" src="/static/libs/calculator/jquery.plugin.min.js?v=10.0.0"></script>
 <script type="text/javascript" src="/static/libs/calculator/jquery.calculator.min.js?v=10.0.0"></script>
 <script type="text/javascript" src="/static/libs/bootstrap-datepicker.js?v=10.0.0"></script>
-<script type="text/javascript" src="/static/libs/bootstrap-datetimepicker.min.js?v=10.0.0"></script>
 
 <script type="text/javascript" src="/static/dev/script/base/uiconfig.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/base/nspt-vals.js?v=0.9.1"></script>
@@ -186,15 +124,8 @@
 
 <script type="text/javascript" src="/static/libs/ueditor/ueditor.config.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/libs/ueditor/ueditor.all.min.js?v=0.9.1"></script>
-<script type="text/javascript" src="/static/libs/ueditor/lang/zh-cn/zh-cn.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/components/netstar-component.js?v=0.9.1"></script>
- <script type="text/javascript" src="/static/dev/script/components/netstar-loading.js?v=0.0.1"></script>
-<!-- ajax编辑面板 -->
-<!-- <script type="text/javascript" src="/static/dev/script/components/netstar-ajaxapi.js?v=0.9.1"></script> -->
-
 <script type="text/javascript" src="/static/dev/script/components/netstar-grid.js?v=0.9.1"></script>
-
-<script type="text/javascript" src="/static/dev/script/components/netstar-advancedquery.js?v=0.8.1"></script>
 
 <script type="text/javascript" src="/static/dev/script/components/nspt-button.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/components/nspt-confirm.js?v=0.9.1"></script>
@@ -212,18 +143,6 @@
 <script type="text/javascript" src="/static/dev/script/template/nspt-limsreport.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/template/nspt-processdocbaselevel2.js?v=0.9.1"></script>
 
-<script type="text/javascript" src="/static/dev/script/template/nspt-limsresultinput.js?v=0.9.1"></script>
-
-<script type="text/javascript" src="/static/dev/script/template/nspt-businessbasepanoramic.js?v=0.9.1"></script>
-
-<script type="text/javascript" src="/static/dev/script/template/nspt-statisticslist.js?v=0.0.1"></script>
-
-<script type="text/javascript" src="/static/dev/script/template/nspt-treeform.js?v=0.0.1"></script>
-
-<script type="text/javascript" src="/static/dev/script/template/nspt-businessdatabaselevel3.js?v=0.0.1"></script>
-
-<script type="text/javascript" src="/static/dev/script/template/nspt-workrecordsimple.js?v=0.0.1"></script>
-
 <script type="text/javascript" src="/static/dev/script/template/nspt-tree.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/template/nspt-draft.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/template/nspt-catchhandler.js?v=0.9.1"></script>
@@ -235,7 +154,6 @@
 <script type="text/javascript" src="/static/dev/script/template/nspt-sounder.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/template/nspt-standard-input.js?v=0.9.1"></script>
 
-<script type="text/javascript" src="/static/dev/script/components/netstar-treelist.js?v=0.9.1"></script>
 
 <script type="text/javascript" src="/static/libs/viewer/viewer.js?v=10.0.0"></script>
 <script type="text/javascript" src="/static/libs/viewer/jquery-viewer.min.js?v=10.0.0"></script>
@@ -246,23 +164,5 @@
 <script type="text/javascript" src="/static/libs/pdf/pdf.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/components/nspt-pdfview.js?v=0.9.1"></script>
 <script type="text/javascript" src="/static/dev/script/components/netstar-resulttable.js?v=0.9.1"></script>
-<script type="text/javascript" src="/static/dev/script/template/netstar-editor.js?v=0.8.1"></script>
-<script type="text/javascript" src="/static/dev/script/template/nspt-timeline.js?v=0.8.1"></script>
 
-<script type="text/javascript" src="/static/dev/script/components/netstar-btnpanelmanager.js?v=0.0.1"></script>
-<script type="text/javascript" src="/static/dev/script/components/netstar-hwvodsdk.js?v=0.0.1"></script>
-
-<script type="text/javascript" src="/static/dev/script/components/nspt-scancode.js?v=0.0.1"></script>
-<script type="text/javascript" src="/static/dev/script/components/netstar-historylist.js?v=0.0.1"></script>
-<!-- MAINPAGE 加载静态资源 end-->
-
-<script type="text/javascript" src="/static/libs/exportxls/shim.min.js?v=0.14.3"></script>
-<script type="text/javascript" src="/static/libs/exportxls/jszip.js?v=0.14.3"></script>
-<script type="text/javascript" src="/static/libs/exportxls/xlsx.js?v=0.14.3"></script>
-<script type="text/javascript" src="/static/dev/script/components/nspt-exportxls.js?v=0.14.3"></script>
-
-<script src="/static/dev/script/components/nspt-holiday.js?v=0.0.1"></script>
-
-<script src="/static/dev/script/components/nspt-countlist.js?v=0.0.1"></script>
-
-<script src="/static/dev/script/components/netstar-excel-import-ver3.js?v=0.0.1"></script>
+<!-- MAINPAGE 加载静态资源 end
