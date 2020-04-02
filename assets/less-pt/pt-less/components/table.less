@@ -1813,15 +1813,21 @@ td.thumb {
                         }
 
                         &+.scroll-panel-table-copy {
-                            overflow-x: auto;
+                            overflow-x: hidden;
                             overflow-y: hidden;
 
-                            &+.grid-body-scroll-y {
+                            &+.grid-body-scroll-x {
                                 position: absolute;
                                 z-index: 0;
-                                width: 8px;
-                                right: 1px;
-                                overflow: auto
+                                overflow: auto;
+
+                                &+.grid-body-scroll-y {
+                                    position: absolute;
+                                    z-index: 0;
+                                    width: 8px;
+                                    right: 1px;
+                                    overflow: auto
+                                }
                             }
                         }
                     }

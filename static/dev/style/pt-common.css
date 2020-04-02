@@ -4512,10 +4512,15 @@ td.thumb img.pt-thumb {
   border-right: 1px solid #e0e0e0;
 }
 .scroll-panel.nspanel.layout-customertable.component-countlist .scroll-panel.layout-customertable-copy + .scroll-panel-table-copy {
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
-.scroll-panel.nspanel.layout-customertable.component-countlist .scroll-panel.layout-customertable-copy + .scroll-panel-table-copy + .grid-body-scroll-y {
+.scroll-panel.nspanel.layout-customertable.component-countlist .scroll-panel.layout-customertable-copy + .scroll-panel-table-copy + .grid-body-scroll-x {
+  position: absolute;
+  z-index: 0;
+  overflow: auto;
+}
+.scroll-panel.nspanel.layout-customertable.component-countlist .scroll-panel.layout-customertable-copy + .scroll-panel-table-copy + .grid-body-scroll-x + .grid-body-scroll-y {
   position: absolute;
   z-index: 0;
   width: 8px;
