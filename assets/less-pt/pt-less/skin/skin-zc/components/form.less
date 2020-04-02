@@ -1,0 +1,199 @@
+@form-grid-height: 33px;
+@form-grid-min-height: (@form-grid-height - 1);
+
+.form-left-border-variant() {
+    position: absolute;
+    content: '';
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: @border-color;
+    z-index: 2;
+}
+
+.pt-form {
+
+    // &.pt-form-vertical,
+    &.pt-form-grid {
+        padding: 0;
+        border: 0;
+
+        .pt-form-body {
+            position: relative;
+            z-index: 1;
+            height: auto;
+            overflow: hidden;
+            padding-left: 1px;
+
+            &:before {
+                position: absolute;
+                content: '';
+                height: 1px;
+                top: 0;
+                right: 0;
+                left: 0;
+                background: @border-color;
+                z-index: 2;
+            }
+
+            &:after {
+                content: '';
+                display: table;
+            }
+        }
+
+        .pt-form-group {
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+            display: block;
+            float: left;
+            // background: #000;
+
+            .pt-control-label {
+                height: @form-grid-min-height;
+                min-height: @form-grid-min-height;
+                background: #f8f8f8;
+                display: block;
+                float: left;
+                line-height: 18px;
+                position: relative;
+                text-align: left;
+                padding-right: @base-padding;
+                padding-left: @base-padding;
+
+                &:before {
+                    .form-left-border-variant();
+                    left: -1px;
+                }
+
+                &.disabled {
+                    background: #f8f8f8;
+                }
+
+                // &+* {
+                //     border-left: 1px solid @border-color;
+                // }
+                &+.pt-input-group {
+                    width: calc(~"100% -"100px);
+                }
+
+                &.hide {
+                    &+.pt-input-group {
+                        width: 100%;
+                    }
+                }
+            }
+
+            .pt-input-group {
+                border: 0;
+                min-height: @form-grid-min-height;
+                width: 100%;
+                // width: calc(~"100% -"100px);
+                position: relative;
+
+                .pt-input-group-addon,
+                .pt-input-group-btn {
+                    min-height: @form-grid-min-height;
+
+                    .pt-btn-icon {
+                        min-height: @form-grid-min-height;
+                    }
+                }
+
+                &:before {
+                    .form-left-border-variant();
+                }
+            }
+
+            .pt-upload {
+                position: relative;
+
+                &:before {
+                    .form-left-border-variant();
+                }
+            }
+
+            .pt-form-control {
+                min-height: @form-grid-min-height;
+            }
+
+            .pt-textarea {
+                position: relative;
+
+                &:before {
+                    .form-left-border-variant();
+                }
+
+                textarea.pt-form-control {
+                    border: 0;
+
+                    &:hover {
+                        border: 0;
+                    }
+                }
+            }
+
+            .pt-radio {
+                height: @form-grid-min-height;
+
+                &:before {
+                    .form-left-border-variant();
+                }
+            }
+
+            &:before,
+            &:after {
+                position: absolute;
+                content: '';
+                z-index: 2;
+                background: @border-color;
+
+            }
+
+            &:before {
+                width: 1px;
+                top: 0;
+                right: 0;
+                bottom: 0;
+            }
+
+            &:after {
+                height: 1px;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+
+            &.fg-textarea {
+                display: table;
+                min-width: 40px;
+
+                .pt-control-label {
+                    height: 40px;
+                    min-height: 40px;
+                    display: table-cell;
+                    line-height: 28px;
+                }
+
+                .pt-textarea {
+                    display: table-cell;
+                    width: 100%;
+                }
+
+            }
+        }
+
+        .pt-radio {
+            min-height: @form-grid-min-height;
+        }
+    }
+}
+
+
+.pt-listselectinput {
+    &:before {
+        padding-left: 0;
+    }
+}

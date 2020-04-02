@@ -1169,6 +1169,9 @@ i[class=""] + span {
 .pt-btn-compact {
   margin-left: -1px !important;
 }
+.pt-btn input[type="file"] {
+  display: none;
+}
 .pt-btn-group,
 .pt-btn-group-vertical {
   position: relative;
@@ -3994,6 +3997,12 @@ fieldset[disabled] .pt-grid-footer .pt-pager .pt-btn-group .pt-btn-icon.active {
   bottom: 0;
   vertical-align: middle;
 }
+.table-editor-container .pt-input-group .pt-input-group-btn {
+  background: transparent;
+}
+.table-editor-container .pt-input-group .pt-input-group-btn.pt-input-group-btn-group > .pt-btn {
+  position: relative;
+}
 .table-editor-container .pt-input-group .pt-input-group-btn > .pt-btn {
   top: 50%;
   margin-top: -11px;
@@ -4457,6 +4466,13 @@ td.thumb img.pt-thumb {
 .scroll-panel.nspanel.layout-customertable.component-countlist table thead tr th:last-child,
 .scroll-panel.nspanel.layout-customertable.component-countlist table tbody tr th:last-child {
   border-right: none;
+}
+.scroll-panel.nspanel.layout-customertable.component-countlist table thead tr td.td-href a,
+.scroll-panel.nspanel.layout-customertable.component-countlist table tbody tr td.td-href a,
+.scroll-panel.nspanel.layout-customertable.component-countlist table thead tr th.td-href a,
+.scroll-panel.nspanel.layout-customertable.component-countlist table tbody tr th.td-href a {
+  color: #58abff;
+  text-decoration: underline;
 }
 .scroll-panel.nspanel.layout-customertable.component-countlist table thead tr th {
   border: 1px solid #bfbfbf;
@@ -13390,7 +13406,7 @@ body.pt-veritical.collapse {
   display: block;
   padding-left: 39px;
 }
-body.pt-veritical.collapse .pt-sidebar-collapse {
+body.pt-veritical.collapse .pt-btn.pt-sidebar-collapse {
   left: 39px;
 }
 body.pt-veritical.collapse .pt-header {
