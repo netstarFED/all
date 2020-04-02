@@ -643,7 +643,7 @@ var NetStarRabbitMQ = (function(){
                     isHadHave = true;
                     var sourceType = workitemWait.workitemState;
                     var newType = workitemInfo.workitemState;
-                    if(stateTypes[newType]){ // 新增 目前表示3
+                    if(stateTypes[newType] && workitemInfo.instanceStates != "5"){ // 新增 目前表示3
                         if(stateTypes[sourceType]){ // 新增 目前表示2
                             // 修改状态 不增加新数据
                             break;
