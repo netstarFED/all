@@ -1771,6 +1771,61 @@ td.thumb {
                         // }
                     }
                 }
+
+                .scroll-panel {
+
+                    //表格出现滚动条左右加上边框
+                    &.layout-customertable-copy {
+                        position: absolute;
+                        z-index: 1;
+                        overflow: hidden;
+
+                        &,
+                        &+.scroll-panel-table-copy {
+                            border: solid @border-color;
+                            border-width: 1px;
+
+                            table {
+                                border-width: 0px;
+
+                                thead {
+                                    tr {
+                                        th {
+                                            border-width: 0 1px 0 0;
+
+                                            &:last-child {
+                                                border-right: 1px solid @border-color;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                tbody {
+                                    tr {
+                                        td {
+                                            &:last-child {
+                                                border-right: 1px solid @border-color;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &+.scroll-panel-table-copy {
+                            overflow-x: auto;
+                            overflow-y: hidden;
+
+                            &+.grid-body-scroll-y {
+                                position: absolute;
+                                z-index: 0;
+                                width: 8px;
+                                right: 1px;
+                                overflow: auto
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -1795,7 +1850,7 @@ td.thumb {
 
 // 表格单元格附加信息
 .pt-td-info-dropdown {
-  
+
     position: absolute;
     z-index: 99;
     background: #fff;
@@ -1818,6 +1873,7 @@ td.thumb {
                     background: transparent;
                     font-weight: normal;
                 }
+
                 font-weight: normal;
             }
         }
