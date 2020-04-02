@@ -19,6 +19,7 @@ body.pt-veritical {
             .pt-topbar {
                 height: @header-height;
                 background: @header-bg;
+                z-index: 199;
 
                 // logo背景色
                 .pt-logo {
@@ -59,6 +60,7 @@ body.pt-veritical {
                 height: @header-height;
                 left: 216px;
                 right: 210px;
+                z-index: 200;
 
                 .pt-nav {
                     height: @header-height;
@@ -129,6 +131,7 @@ body.pt-veritical {
                 min-width: @nav-width;
                 background-color: @pt-tabbar-bg;
                 top: @header-height;
+                z-index: 201;
 
                 .pt-nav.pt-dropdown {
                     ul {
@@ -163,6 +166,21 @@ body.pt-veritical {
             .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item {
                 .pt-top-nav-block {
                     background: @nav-bg;
+
+                    .pt-top-menu-item {
+
+                        // 展开面板列表经过背景色
+                        .pt-top-menu-item-row {
+                            .pt-nav-item {
+
+                                &:visited,
+                                &:hover,
+                                &:active {
+                                    background: darken(@nav-bg, 5);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 &.open {
@@ -189,11 +207,11 @@ body.pt-veritical {
 
 
             // 展开面板列表经过背景色
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:visited,
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
-                background: darken(@nav-bg, 5);
-            }
+            // .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:visited,
+            // .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
+            // .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
+            //     background: darken(@nav-bg, 5);
+            // }
 
             .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item {
                 color: #fff;
@@ -239,6 +257,7 @@ body.pt-veritical {
     .pt-btn.pt-sidebar-collapse {
         background: @header-bg;
         left: @nav-width;
+        z-index: 199;
 
         &.pt-btn-icon {
             height: @header-height;
@@ -250,4 +269,37 @@ body.pt-veritical {
         }
 
     }
+
+}
+
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.open .pt-top-nav-block .pt-top-nav-block .pt-top-menu-item-row .pt-nav-item {
+    background: darken(@nav-bg, 5);
+    color: #fff;
+}
+
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item.open .pt-top-menu-item-row .pt-nav-item:visited,
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item.open .pt-top-menu-item-row .pt-nav-item:hover,
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item.open .pt-top-menu-item-row .pt-nav-item:active {
+    background: darken(@nav-bg, 5);
+}
+
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item>.pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item>.pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
+    background: darken(@nav-bg, 10);
+}
+
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item.dropdown-arrow>.pt-top-menu-item-row>.pt-nav-item:after {
+    color: #fff;
+}
+
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item>.pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item span {
+    color: #fff;
+}
+
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block {
+    z-index: 209;
+}
+
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item>.pt-top-nav-block_ {
+    background: darken(@nav-bg, 10);
 }
