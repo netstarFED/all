@@ -480,6 +480,7 @@ NetstarUI.countList = {
         // });
         var tableId = _config.id + '-table';
         var scrollYId = _config.id + '-scroll-y';
+        var scrollXId = _config.id + '-scroll-x';
         var tableHtml = '<table class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" style="width:'+ tWidth +'" id="'+ tableId +'">'
                             + theadHtml
                             + tbodyHtml
@@ -521,16 +522,20 @@ NetstarUI.countList = {
                     height: avaHeight+'px',
                     width: containerWidth + "px"
                 });
-                beforeHtml = '<div class="scroll-panel nspanel layout-customertable-copy" style="position:absolute;z-index:1;left:0px;overflow:hidden;;width:' + containerWidth + 'px">'
+                beforeHtml = '<div class="scroll-panel nspanel layout-customertable-copy" style="left:0px;width:' + containerWidth + 'px">'
                                 + '<table cellspacing="0" class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" style="width:'+ tWidth +'">'
                                         + theadHtml
                                 + '</table>'
                             + '</div>'
-                tableHtml = '<div class="scroll-panel-table-copy" style="height:'+avaHeight+'px;overflow-x:auto;overflow-y:hidden;">'
+                tableHtml = '<div class="scroll-panel-table-copy" style="height:'+avaHeight+'px;">'
                                 + tableHtml
                             + '</div>'
+                            // 横向滚动条
+                            + '<div nsgirdcontainer="grid-body-scroll-x" class="grid-body-scroll-x" id="'+ scrollXId +'" style="top:'+ (positionObj.top+avaHeight-8) +'px;width:' + containerWidth + 'px;height:8px;">'
+                                + '<div class="grid-body-scroll-x-div" style="width:'+ tWidth +';height:8px;"></div>'     
+                            + '</div>'
                             // 纵向滚动条
-                            + '<div nsgirdcontainer="grid-body-scroll-y" id="'+ scrollYId +'" style="position:absolute;z-index:0;right:0px;top:'+ positionObj.top +'px;width:8px;height:'+avaHeight+'px;overflow:auto">'
+                            + '<div nsgirdcontainer="grid-body-scroll-y" class="grid-body-scroll-y" id="'+ scrollYId +'" style="right:0px;top:'+ positionObj.top +'px;height:'+avaHeight+'px;">'
                                 + '<div class="grid-body-scroll-y-div" style="height:'+ avaHeight +'px;"></div>'     
                             + '</div>'
                 
@@ -544,11 +549,13 @@ NetstarUI.countList = {
         var tableHeight = $table.height();
         var $scrollY = $('#' + scrollYId);
         $scrollY.children().height(tableHeight);
-        var $tableParent = $table.parent();
-        $tableParent.scroll(function(ev){
-            var tableScrollLeft = $tableParent.scrollLeft();
+        var $scrollX = $('#' + scrollXId);
+        $scrollX.scroll(function(ev){
+            var tableScrollLeft = $scrollX.scrollLeft();
             var $headTable = $tableContainer.find('.scroll-panel');
+            var $tableParent = $table.parent();
             $headTable.scrollLeft(tableScrollLeft);
+            $tableParent.scrollLeft(tableScrollLeft);
         });
         $scrollY.scroll(function(ev){
             var tableScrollTop = $scrollY.scrollTop();
