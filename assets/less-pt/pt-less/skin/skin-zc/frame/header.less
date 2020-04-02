@@ -1,482 +1,253 @@
 // @navbar-bg: #e6e6e6;
 @header-bg: #fff;
 @header-bg: #444;
+@header-height: 50px;
 @nav-bg: #c70019;
+@nav-width: 200px;
 @pt-logo-bg: @header-bg;
 @pt-tabbar-bg: #efefef;
 @header-color: #fff;
-// @pt-tabbar-bg: @pt-logo-bg;
-// @pt-nav-color: lighten(@navbar-bg, 15);
-// @pt-nav-border-color: lighten(@navbar-bg, 5);
-// @pt-nav-current-bg: darken(@navbar-bg, 5);
-// @pt-top-nav-block-bg: @pt-nav-current-bg;
-// @pt-sidebar-collapse-width: 40px;
 
-// body.pt-veritical {
-//     @header-veritical-width: 160px;
-//     @sidebar-collapse-btn-size: 16px;
-//     padding-left: @header-veritical-width;
-
-//     // 头部样式
-//     .pt-header {
-//         min-width: @header-veritical-width;
-
-//         .pt-container {
-//             .pt-topbar {
-//                 border-bottom: 1px solid @border-color;
-//                 background: #fff;
-
-//                 // 项目logo
-//                 .pt-logo {
-//                     width: @header-veritical-width;
-//                     background-color: @pt-logo-bg;
-//                     // border-right: 1px solid @border-color;
-//                 }
-//             }
-
-//             // 左侧目录部分
-//             .pt-navbar {
-//                 background: @navbar-bg;
-//                 min-width: @header-veritical-width;
-
-//                 .pt-nav {
-//                     &.pt-dropdown {
-
-//                         li.pt-top-menu-item {
-//                             border-bottom: 1px solid @pt-nav-border-color;
-//                             padding-bottom: 0;
-
-//                             &:last-child {
-//                                 .pt-setting-icon {
-//                                     background: #fff;
-//                                 }
-//                             }
-
-//                             .pt-top-menu-item-row {
-//                                 // &:hover {
-//                                 //     background: lighten(@navbar-bg, 10);
-//                                 // }
-
-//                                 .pt-nav-item {
-//                                     color: #333;
-
-//                                     &:focus,
-//                                     &:hover {
-//                                         background: @pt-nav-current-bg;
-//                                     }
-
-//                                     i {
-//                                         color: #333;
-//                                     }
-
-//                                     &:after {
-//                                         color: #333;
-//                                     }
-//                                 }
-//                             }
-
-//                             .pt-top-nav-block {
-//                                 background: @pt-top-nav-block-bg;
-//                                 color: #fff;
-
-
-//                                 .pt-top-menu-item {
-//                                     background: @pt-nav-current-bg;
-//                                     border-bottom: 1px solid darken(@pt-nav-border-color, 5);
-
-//                                     &:hover,
-//                                     &:focus {
-//                                         background: @pt-nav-current-bg;
-//                                         color: #fff;
-//                                     }
-
-//                                     .pt-top-menu-item-row {
-
-//                                         .pt-nav-item {
-//                                             color: #fff;
-//                                             background: darken(@pt-nav-current-bg, 3);
-
-//                                             &:focus,
-//                                             &:hover {
-//                                                 background: darken(@pt-nav-current-bg, 10);
-//                                                 color: #fff;
-//                                             }
-//                                         }
-//                                     }
-
-//                                 }
-
-//                             }
-
-//                             &.open {
-//                                 .pt-top-menu-item-row {
-//                                     background: darken(@pt-nav-current-bg, 3);
-
-//                                     .pt-nav-item {
-//                                         background: darken(@pt-nav-current-bg, 3);
-
-//                                         &:active,
-//                                         &:focus,
-//                                         &:hover {
-//                                             background: darken(@pt-nav-current-bg, 3);
-//                                         }
-//                                     }
-//                                 }
-//                             }
-//                         }
-
-//                     }
-//                 }
-//             }
-
-//             // 顶部标签导航部分
-//             .pt-tabbar {
-
-//                 @current-bg: @primary-bg;
-//                 @current-border: @current-bg;
-//                 @current-bottom-border: darken(@primary, 5);
-//                 @current-color: @current-bottom-border;
-
-//                 background: @pt-tabbar-bg;
-//                 left: @header-veritical-width;
-//                 border-bottom: 1px solid @border-color;
-
-
-//                 .pt-nav {
-//                     li.pt-nav-item {
-//                         border-left: 1px solid @border-color;
-//                         transition: 0s;
-
-//                         &+.pt-nav-item {
-//                             border-left: 1px solid @border-color;
-//                         }
-
-//                         &:first-child {
-//                             border-left: 0;
-//                         }
-
-//                         &:last-child {
-//                             border-right: 1px solid @border-color;
-//                         }
-
-//                         &.current {
-//                             background: @current-bg;
-//                             border-right: 1px solid @current-border;
-//                             border-bottom: 2px solid @current-bottom-border;
-//                             border-left: 1px solid @current-border;
-
-//                             a {
-//                                 color: @current-color;
-
-//                                 &:hover {
-//                                     color: @current-color;
-//                                 }
-//                             }
-
-//                             .pt-btn-clear {
-//                                 &:hover {
-//                                     i {
-//                                         color: @current-color;
-//                                     }
-//                                 }
-//                             }
-//                         }
-
-
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-
-
-//     // 左侧菜单面板开关按钮
-//     .pt-btn.pt-sidebar-collapse {
-//         left: (@header-veritical-width - @sidebar-collapse-btn-size);
-
-//         &.pt-btn-icon {
-//             background: #fff;
-//             border-right: 1px solid @border-color;
-//         }
-
-//     }
-
-//     // 左侧菜单收起状态
-//     &.collapse {
-//         padding-left: (@pt-sidebar-collapse-width + @sidebar-collapse-btn-size);
-
-//         .pt-btn.pt-sidebar-collapse {
-//             left: @pt-sidebar-collapse-width;
-//         }
-
-//         .pt-header {
-//             .pt-container {
-//                 .pt-navbar {
-//                     width: (@pt-sidebar-collapse-width + @sidebar-collapse-btn-size);
-//                 }
-//             }
-//         }
-//     }
-
-//     &.pt-systeminfo {
-//         .pt-header {
-//             ul {
-//                 &.pt-nav {
-//                     .pt-dropdown {
-//                         .pt-top-menu-item {
-//                             &:last-child {
-//                                 .pt-setting-icon {
-//                                     background: transparent;
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-//     &.pt-systeminfo {
-//         .pt-header {
-//             ul {
-//                 &.pt-nav.pt-dropdown {
-//                     .pt-top-menu-item {
-//                         &:last-child {
-//                             .pt-setting-icon {
-//                                 background: transparent;
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-
-//             .pt-nav.pt-dropdown {
-//                 &::-webkit-scrollbar-thumb {
-//                     background: lighten(@primary, 10) !important;
-
-//                     &:hover {
-//                         background: lighten(@primary, 10) !important;
-//                     }
-//                 }
-
-//                 //滚动条里面轨道
-//                 &::-webkit-scrollbar-track {
-//                     background: rgba(255, 255, 255, 0.1) !important;
-
-//                     &:hover {
-//                         background: rgba(255, 255, 255, 0.1) !important;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-
-
-// }
 
 body.pt-veritical {
-    padding: 50px 0 0 200px;
-}
+    padding: @header-height 0 0 @nav-width;
 
-// logo背景色
-body.pt-veritical .pt-header .pt-container .pt-topbar .pt-logo {
-    background-color: @pt-logo-bg;
-    height: 50px;
-    width: 200px;
-}
+    .pt-header {
+        .pt-container {
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item {
-    padding-bottom: 0;
-}
+            // ================= topbar =================
+            .pt-topbar {
+                height: @header-height;
+                background: @header-bg;
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown ul {
-    padding-top: 0;
-}
+                // logo背景色
+                .pt-logo {
+                    background-color: @pt-logo-bg;
+                    height: @header-height;
+                    width: @nav-width;
+                }
 
-// 左侧菜单面板背景色
-body.pt-veritical .pt-header .pt-container .pt-navbar {
-    width: 200px;
-    min-width: 200px;
-    background-color: @pt-tabbar-bg;
-    top: 50px;
-}
+                .pt-nav.pt-dropdown {
+                    height: @header-height;
 
-.pt-header .pt-navbar .pt-nav>ul>li.pt-top-menu-item:hover>.pt-top-menu-item-row>.pt-nav-item {
-    background: transparent;
-}
+                    .pt-top-menu-item {
+                        .pt-top-menu-item-row {
+                            .pt-nav-item {
+                                height: @header-height;
+                                line-height: @header-height;
+                                color: @header-color;
 
-// 左侧菜单图标颜色
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item i {
-    color: #444;
-}
+                                &:hover {
+                                    background: #f4f4f4;
+                                    color: #444;
+                                }
 
-// 左侧菜单文字颜色
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item {
-    color: #444;
-}
+                                i {
+                                    line-height: @header-height;
+                                }
+                            }
+                        }
+                    }
+                }
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:visited,
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
-    background: @nav-bg;
-}
+            }
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block {
-    background: @nav-bg;
-}
+            // ================= tabbar =================
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.open .pt-top-nav-block .pt-top-menu-item-row .pt-nav-item {
-    background: @nav-bg;
-}
+            .pt-tabbar {
+                background: @header-bg;
+                height: @header-height;
+                left: 216px;
+                right: 210px;
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.open .pt-top-menu-item-row .pt-nav-item {
-    background: @nav-bg;
+                .pt-nav {
+                    height: @header-height;
 
-    i {
-        color: #fff;
-    }
-}
+                    li.pt-nav-item {
+                        height: @header-height;
+                        line-height: @header-height;
+
+                        &:hover {
+                            color: #000;
+                        }
+
+                        a {
+                            line-height: @header-height;
+                            color: @header-color;
+                        }
+
+                        &.current {
+                            background: @nav-bg;
+                            border-bottom: 0px solid @nav-bg;
+
+                            &:after {
+                                bottom: 0;
+                                left: 50%;
+                                margin-left: -5px;
+                                .triangle-top(5px, #fff);
+                                border-width: 0 5px 5px 5px;
+                            }
+
+                            a {
+                                color: #fff;
+
+                                &:hover {
+                                    color: #fff;
+                                }
+                            }
 
 
-// 展开面板列表经过背景色
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:visited,
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
-    background: darken(@nav-bg, 5);
-}
+                            &:hover {
+                                background: #f8f8f8;
+                            }
+                        }
+                    }
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item {
-    color: #fff;
-}
+                    &.pt-tabbar-control {
+                        height: @header-height;
+                        border-right-color: @header-bg;
 
-// 列表右侧箭头颜色
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.dropdown-arrow>.pt-top-menu-item-row>.pt-nav-item:after {
-    color: #444;
-    right: 10px;
-}
+                        .pt-nav-toggle {
+                            height: @header-height;
+                            line-height: @header-height;
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.dropdown-arrow.open>.pt-top-menu-item-row>.pt-nav-item:after {
-    color: #fff;
-}
+                            i {
+                                line-height: @header-height;
+                            }
+                        }
 
-body.pt-veritical .pt-header .pt-container .pt-topbar {
-    height: 50px;
-    box-shadow: 0 1px 0 #f4f4f4;
-    background: @header-bg;
-}
+                    }
+                }
+            }
 
-body.pt-veritical .pt-header .pt-container .pt-tabbar {
-    background: @header-bg;
-    height: 50px;
-    left: 216px;
-    right: 192px;
-}
 
-body.pt-veritical .pt-btn.pt-sidebar-collapse.pt-btn-icon {
-    height: 50px;
-}
+            // ================= navbar =================
 
-body.pt-veritical .pt-btn.pt-sidebar-collapse {
-    background: @header-bg;
-    left: 200px;
+            // 左侧菜单面板背景色
+            .pt-navbar {
+                width: @nav-width;
+                min-width: @nav-width;
+                background-color: @pt-tabbar-bg;
+                top: @header-height;
 
-}
+                .pt-nav.pt-dropdown {
+                    ul {
+                        padding-top: 0;
+                    }
 
-body.pt-veritical .pt-btn.pt-sidebar-collapse.pt-btn-icon {
-    border-left: 1px solid @header-bg;
+                    li.pt-top-menu-item {
+                        padding-bottom: 0;
+                    }
+                }
+            }
 
-    i {
-        color: #fff;
-    }
-}
+            .pt-navbar .pt-nav>ul>li.pt-top-menu-item:hover>.pt-top-menu-item-row>.pt-nav-item {
+                background: transparent;
+            }
 
-body.pt-veritical .pt-header .pt-container .pt-tabbar .pt-nav {
-    height: 50px;
-}
+            // 左侧菜单文字颜色
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item {
+                color: #444;
 
-body.pt-veritical .pt-header .pt-container .pt-tabbar .pt-nav li.pt-nav-item {
-    height: 50px;
-    line-height: 50px;
-}
+                i {
+                    color: #444;
+                }
+            }
 
-body.pt-veritical .pt-header .pt-container .pt-tabbar .pt-nav li.pt-nav-item a {
-    line-height: 50px;
-}
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:visited,
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
+                background: @nav-bg;
+            }
 
-body.pt-veritical .pt-header .pt-container .pt-tabbar .pt-nav li.pt-nav-item.current {
-    background: @nav-bg;
-    border-bottom: 0px solid @nav-bg;
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item {
+                .pt-top-nav-block {
+                    background: @nav-bg;
+                }
 
-    &:after {
-        bottom: 0;
-        left: 50%;
-        margin-left: -5px;
-        .triangle-top(5px, #fff);
-        border-width: 0 5px 5px 5px;
-    }
+                &.open {
+                    .pt-top-menu-item-row {
+                        .pt-nav-item {
+                            background: @nav-bg;
 
-    a {
-        color: #fff;
+                            i {
+                                color: #fff;
+                            }
+                        }
+                    }
 
-        &:hover {
-            color: #fff;
+                    .pt-top-nav-block {
+                        .pt-top-menu-item-row {
+                            .pt-nav-item {
+                                background: @nav-bg;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+            // 展开面板列表经过背景色
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:visited,
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
+                background: darken(@nav-bg, 5);
+            }
+
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item {
+                color: #fff;
+            }
+
+            // 列表右侧箭头颜色
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.dropdown-arrow>.pt-top-menu-item-row>.pt-nav-item:after {
+                color: #444;
+                right: 10px;
+            }
+
+            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.dropdown-arrow.open>.pt-top-menu-item-row>.pt-nav-item:after {
+                color: #fff;
+            }
         }
     }
 
+    &.pt-systeminfo {
+        .pt-header {
+            ul.pt-nav.pt-dropdown {
+                .pt-top-menu-item {
+                    &.pt-nav {
+                        height: @header-height;
+                    }
 
-    &:hover {
-        background: #f8f8f8;
-    }
-}
+                    &:last-child {
+                        .pt-setting-icon {
+                            height: @header-height;
+                            background: @header-bg;
 
-body.pt-veritical .pt-header .pt-container .pt-tabbar .pt-nav li.pt-nav-item.current .pt-btn-clear i {
-    color: @nav-bg;
-}
-
-body.pt-veritical .pt-header .pt-container .pt-tabbar .pt-nav.pt-tabbar-control {
-    height: 50px;
-    border-right-color: @header-bg;
-
-}
-
-body.pt-veritical .pt-header .pt-container .pt-tabbar .pt-nav.pt-tabbar-control .pt-nav-toggle {
-    height: 50px;
-    line-height: 50px;
-
-    i {
-        line-height: 50px;
-    }
-}
-
-body.pt-veritical .pt-header .pt-container .pt-topbar .pt-nav.pt-dropdown {
-    height: 50px;
-}
-
-body.pt-veritical.pt-systeminfo .pt-header ul.pt-nav.pt-dropdown .pt-top-menu-item.pt-nav {
-    height: 50px;
-}
-
-body.pt-veritical .pt-header .pt-container .pt-topbar .pt-nav.pt-dropdown .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item {
-    height: 50px;
-    line-height: 50px;
-    color: @header-color;
-
-    &:hover {
-        background: #f4f4f4;
+                            .icon {
+                                line-height: @header-height;
+                                color: @header-color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    i {
-        line-height: 50px;
-    }
-}
+    // 左侧面板开关按钮
+    .pt-btn.pt-sidebar-collapse {
+        background: @header-bg;
+        left: @nav-width;
 
-body.pt-veritical.pt-systeminfo .pt-header ul.pt-nav.pt-dropdown .pt-top-menu-item:last-child .pt-setting-icon {
-    height: 50px;
-    background: @header-bg;
+        &.pt-btn-icon {
+            height: @header-height;
+            border-left: 1px solid @header-bg;
 
-    .icon {
-        line-height: 50px;
+            i {
+                color: #fff;
+            }
+        }
+
     }
 }
