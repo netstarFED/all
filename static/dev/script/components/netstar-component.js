@@ -22171,7 +22171,15 @@ NetstarComponent.upload = {
             if(typeof(config.visibilityLevel) == "string" && config.visibilityLevel.length > 0){
                 formData.append('visibilityLevel', config.visibilityLevel);
             }
-            formData.append('categories',['image:0.1']);
+            switch(item.type){
+                case 'image/img':
+                case 'image/jpg':
+                case 'image/png':
+                case 'image/jpeg':
+                case 'image/gif':
+                    formData.append('categories',['image:0.1']);
+                    break;
+            }
         }
         if(!$.isEmptyObject(config.uploadAjaxData)){
             var components = NetstarComponent.config[config.formID] && NetstarComponent.config[config.formID].config ? NetstarComponent.config[config.formID].config : {};
