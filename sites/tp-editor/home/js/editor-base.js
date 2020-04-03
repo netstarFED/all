@@ -1650,8 +1650,8 @@ var NetstarEditorServer = (function(){
                             }
                             var defaultFieldConfig = { 
                                 type:formType, 
-                                formSource:'table', 
-                                templateName:'PC',
+                                // formSource:'table', 
+                                // templateName:'PC',
                                 variableType: _fieldConfig.variableType,
                             };
                             _fieldConfig.editConfig = defaultFieldConfig;
@@ -2865,8 +2865,8 @@ var NetstarProject = (function(){
                 }
                 var defaultFieldConfig = { 
                     type:formType, 
-                    formSource:'table', 
-                    templateName:'PC',
+                    // formSource:'table', 
+                    // templateName:'PC',
                     variableType: fieldConfig.variableType,
                 };
                 fieldConfig.editConfig = defaultFieldConfig;

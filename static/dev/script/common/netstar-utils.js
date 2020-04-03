@@ -785,6 +785,7 @@ NetStarUtils.getListQueryData = function (_columns, _configObj) {
 			var businessConfig = colData.businessConfig ? colData.businessConfig : {};//业务组件
 			var titleStr = colData.title ? colData.title : colData.field;// 定义了标题读取标题没有定义读取field字段作为标题
 			titleStr = '按' + titleStr + '查询';
+			editConfig.formSource = "form";
 			var queryJson = {
 				value: colData.field,
 				text: titleStr,
