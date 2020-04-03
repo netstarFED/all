@@ -35,14 +35,22 @@ NetstarTemplate.templates.processDocSecond = (function ($) {
          ajaxPlusData = {};
       }
       // templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
-      if(templateConfig.closeValidSaveTime > -1){
-         setTimeout(function(){
-            templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
-         }, templateConfig.closeValidSaveTime);
-      }
+      // if(templateConfig.closeValidSaveTime > -1){
+      //    setTimeout(function(){
+      //       templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
+      //    }, templateConfig.closeValidSaveTime);
+      // }
       if(ajaxPlusData.isCloseWindow === true){
          //如果按钮上配置了关闭当前界面直接执行关闭操作
-         NetstarUI.labelpageVm.removeCurrent();
+         if(templateConfig.closeValidSaveTime > -1){
+            setTimeout(function(){
+               templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
+               NetstarUI.labelpageVm.removeCurrent();
+            }, templateConfig.closeValidSaveTime);
+         }else{
+            NetstarUI.labelpageVm.removeCurrent();
+         }
+         // NetstarUI.labelpageVm.removeCurrent();
       }else{
          if(!$.isArray(data)){
             //返回值是对象 可以根据返回状态去处理界面逻辑
@@ -73,6 +81,11 @@ NetstarTemplate.templates.processDocSecond = (function ($) {
                   clearByAll(templateConfig);
                   initComponentByFillValues(templateConfig);
                   break;
+            }
+            if(templateConfig.closeValidSaveTime > -1){
+               setTimeout(function(){
+                  templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
+               }, templateConfig.closeValidSaveTime);
             }
          }else{
             //返回值是数组 没法根据objectState去处理逻辑

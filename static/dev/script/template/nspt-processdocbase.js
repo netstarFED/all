@@ -775,19 +775,33 @@ NetstarTemplate.templates.processDocBase = (function ($) {
             return function (data, plusData) {
                plusData = typeof(plusData)=='undefined' ? {} : plusData;
                var currentConfig = getConfigBypackage(config.package).config;
-               if(currentConfig.closeValidSaveTime > -1){
-                  setTimeout(function(){
-                     currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
-                  }, currentConfig.closeValidSaveTime);
-               }
+               // if(currentConfig.closeValidSaveTime > -1){
+               //    setTimeout(function(){
+               //       currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+               //    }, currentConfig.closeValidSaveTime);
+               // }
                if (typeof plusData != 'undefined' && plusData.isCloseWindow) {
-                  if (typeof config.parentSourceParam != 'undefined') {
-                     // NetstarTemplate.templates.docListViewer.refreshData(config.parentSourceParam, data);
-                     NetstarUI.labelpageVm.removeCurrent();
-                     NetstarTemplate.refreshByPackage(config.parentSourceParam, data,plusData);
-                  } else {
-                     console.error('上一页面没有传递参数，不刷新父页面');
-                     NetstarUI.labelpageVm.removeCurrent();
+                  if(currentConfig.closeValidSaveTime > -1){
+                     setTimeout(function(){
+                        currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+                        if (typeof config.parentSourceParam != 'undefined' && !$.isEmptyObject(config.parentSourceParam)) {
+                           // NetstarTemplate.templates.docListViewer.refreshData(config.parentSourceParam, data);
+                           NetstarUI.labelpageVm.removeCurrent();
+                           NetstarTemplate.refreshByPackage(config.parentSourceParam, data,plusData);
+                        } else {
+                           console.error('上一页面没有传递参数，不刷新父页面');
+                           NetstarUI.labelpageVm.removeCurrent();
+                        }
+                     }, currentConfig.closeValidSaveTime);
+                  }else{
+                     if (typeof config.parentSourceParam != 'undefined' && !$.isEmptyObject(config.parentSourceParam)) {
+                        // NetstarTemplate.templates.docListViewer.refreshData(config.parentSourceParam, data);
+                        NetstarUI.labelpageVm.removeCurrent();
+                        NetstarTemplate.refreshByPackage(config.parentSourceParam, data,plusData);
+                     } else {
+                        console.error('上一页面没有传递参数，不刷新父页面');
+                        NetstarUI.labelpageVm.removeCurrent();
+                     }
                   }
                   return;
                }
@@ -826,6 +840,11 @@ NetstarTemplate.templates.processDocBase = (function ($) {
                   if(_currentConfig && _currentConfig.draftBox){
                      delete _currentConfig.draftBox.useDraftId;
                   }
+               }
+               if(currentConfig.closeValidSaveTime > -1){
+                  setTimeout(function(){
+                     currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+                  }, currentConfig.closeValidSaveTime);
                }
             };
          })(config),
@@ -1223,7 +1242,7 @@ NetstarTemplate.templates.processDocBase = (function ($) {
                if(typeof(item.templateOptions) == "object" && typeof(item.templateOptions.originalRowsChangeHandler) == "function"){
                      gridConfig.ui.originalRowsChangeHandler = item.templateOptions.originalRowsChangeHandler;
                }
-               gridConfig.package = config.package
+               gridConfig.package = config.package;
                NetStarGrid.init(gridConfig);
                
                if(!$.isEmptyObject(config.serverData)){
@@ -1700,8 +1719,7 @@ NetstarTemplate.templates.processDocBase = (function ($) {
                   keyField: item.editConfig.id,
                   rules: item.editConfig.rules,
                   type: item.editConfig.type,
-                  name: item.editConfig.label,
-                  // formID : item.editConfig.
+                  name: item.editConfig.label
                };
             }
          }
@@ -2258,19 +2276,33 @@ NetstarTemplate.templates.processDocBase = (function ($) {
       ajaxAfterHandler: (function (config) {
          return function (data, plusData) {
             var currentConfig = getConfigBypackage(config.package).config;
-            if(currentConfig.closeValidSaveTime > -1){
-               setTimeout(function(){
-                  currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
-               }, currentConfig.closeValidSaveTime);
-            }
+            // if(currentConfig.closeValidSaveTime > -1){
+            //    setTimeout(function(){
+            //       currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+            //    }, currentConfig.closeValidSaveTime);
+            // }
             if (typeof plusData != 'undefined' && plusData.isCloseWindow) {
-               if (typeof config.parentSourceParam != 'undefined') {
-                  // NetstarTemplate.templates.docListViewer.refreshData(config.parentSourceParam, data);
-                  NetstarUI.labelpageVm.removeCurrent();
-                  NetstarTemplate.refreshByPackage(config.parentSourceParam, data,plusData);
-               } else {
-                  console.error('上一页面没有传递参数，不刷新父页面');
-                  NetstarUI.labelpageVm.removeCurrent();
+               if(currentConfig.closeValidSaveTime > -1){
+                  setTimeout(function(){
+                     currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+                     if (typeof config.parentSourceParam != 'undefined') {
+                        // NetstarTemplate.templates.docListViewer.refreshData(config.parentSourceParam, data);
+                        NetstarUI.labelpageVm.removeCurrent();
+                        NetstarTemplate.refreshByPackage(config.parentSourceParam, data,plusData);
+                     } else {
+                        console.error('上一页面没有传递参数，不刷新父页面');
+                        NetstarUI.labelpageVm.removeCurrent();
+                     }
+                  }, currentConfig.closeValidSaveTime);
+               }else{
+                  if (typeof config.parentSourceParam != 'undefined') {
+                     // NetstarTemplate.templates.docListViewer.refreshData(config.parentSourceParam, data);
+                     NetstarUI.labelpageVm.removeCurrent();
+                     NetstarTemplate.refreshByPackage(config.parentSourceParam, data,plusData);
+                  } else {
+                     console.error('上一页面没有传递参数，不刷新父页面');
+                     NetstarUI.labelpageVm.removeCurrent();
+                  }
                }
                return;
             }
@@ -2309,6 +2341,11 @@ NetstarTemplate.templates.processDocBase = (function ($) {
                if(_currentConfig && _currentConfig.draftBox){
                   delete _currentConfig.draftBox.useDraftId;
                }
+            }
+            if(currentConfig.closeValidSaveTime > -1){
+               setTimeout(function(){
+                  currentConfig.pageInitDefaultData = getPageData(currentConfig, false, false); // 页面初始化数据改变
+               }, currentConfig.closeValidSaveTime);
             }
          };
       })(config),
