@@ -1243,6 +1243,7 @@ NetstarTemplate.templates.processDocBase = (function ($) {
                      gridConfig.ui.originalRowsChangeHandler = item.templateOptions.originalRowsChangeHandler;
                }
                gridConfig.package = config.package;
+               gridConfig.templateId = config.id;
                NetStarGrid.init(gridConfig);
                
                if(!$.isEmptyObject(config.serverData)){
