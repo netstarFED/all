@@ -496,9 +496,6 @@ NetstarUI.countList = {
 			if (_config.isScroll) {
                 var containerWidth = $(window).outerWidth() - 180;
                 var avaHeight = $(window).outerHeight()-100;
-                if(_config.outPutType == "rowColumn"){
-                    avaHeight -= 40;
-                }
                 /**lyw注释start */
 				// $table.parent().css({
 				// 	overflow: "hidden",
@@ -526,6 +523,13 @@ NetstarUI.countList = {
 					});
                 })*/
                 var positionObj = $tableContainer.position()
+                var scrollXTop = positionObj.top+avaHeight-9;
+                var scrollYTop = positionObj.top;
+                if(_config.outPutType == "rowColumn"){
+                    avaHeight -= 39;
+                    // scrollXTop += 39;
+                    scrollYTop += 39;
+                }
                 $tableContainer.css({
                     overflow: "hidden",
                     height: avaHeight+'px',
@@ -544,11 +548,11 @@ NetstarUI.countList = {
                                 + tableHtml
                             + '</div>'
                             // 横向滚动条
-                            + '<div nsgirdcontainer="grid-body-scroll-x" class="grid-body-scroll-x '+ scrollXClass +'" id="'+ scrollXId +'" style="top:'+ (positionObj.top+avaHeight-9) +'px;width:' + (containerWidth-1) + 'px;height:8px;">'
+                            + '<div nsgirdcontainer="grid-body-scroll-x" class="grid-body-scroll-x '+ scrollXClass +'" id="'+ scrollXId +'" style="top:'+ scrollXTop +'px;width:' + (containerWidth-1) + 'px;height:8px;">'
                                 + '<div class="grid-body-scroll-x-div" style="width:'+ tWidth +';height:8px;"></div>'     
                             + '</div>'
                             // 纵向滚动条
-                            + '<div nsgirdcontainer="grid-body-scroll-y" class="grid-body-scroll-y" id="'+ scrollYId +'" style="right:1px;top:'+ positionObj.top +'px;height:'+(avaHeight-1)+'px;">'
+                            + '<div nsgirdcontainer="grid-body-scroll-y" class="grid-body-scroll-y" id="'+ scrollYId +'" style="right:1px;top:'+ scrollYTop +'px;height:'+(avaHeight-1)+'px;">'
                                 + '<div class="grid-body-scroll-y-div" style="height:'+ avaHeight +'px;"></div>'     
                             + '</div>'
                 
@@ -801,8 +805,7 @@ NetstarUI.countList = {
                                 //console.log(paramJson)
                                 //console.log(gridId)
                                 var config = NetstarUI.countList.config[gridId].config;
-                                // NetstarUI.countList.refreshById(gridId,[],paramJson);
-                                NetstarUI.countList.refreshById(gridId,config.countListData,paramJson);
+                                NetstarUI.countList.refreshById(gridId,[],paramJson);
                             }
                             var formConfig = {
                                 id: queryConfig.id,
