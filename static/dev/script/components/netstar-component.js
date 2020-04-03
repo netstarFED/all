@@ -22171,6 +22171,7 @@ NetstarComponent.upload = {
             if(typeof(config.visibilityLevel) == "string" && config.visibilityLevel.length > 0){
                 formData.append('visibilityLevel', config.visibilityLevel);
             }
+            formData.append('categories',['image:0.1']);
         }
         if(!$.isEmptyObject(config.uploadAjaxData)){
             var components = NetstarComponent.config[config.formID] && NetstarComponent.config[config.formID].config ? NetstarComponent.config[config.formID].config : {};
