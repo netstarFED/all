@@ -299,7 +299,7 @@ var NetstarBlockList = (function () {
 					listHtml = listHtml.replace(strArr[expstr], data[strArr[expstr].match(rex2)[1]]);
 				}*/
 			}
-			if (data.propertyValue) {
+			if (data.propertyValue && data.propertyValue.indexOf('[') == 0) {
 				var propertyValueArr = JSON.parse(data.propertyValue);
 				var propertyValueHtml = '';
 				for (var p = 0; p < propertyValueArr.length; p++) {
