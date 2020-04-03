@@ -1337,7 +1337,16 @@ NetstarUI.countList = {
         if(isDataSource){
             // config.countListData = _data;
             // NetstarUI.countList.initList(config);
-            NetstarUI.countList.initData(_data, config);
+            // NetstarUI.countList.initData(_data, config);
+            if($.isArray(_data) && _data.length > 0){
+                NetstarUI.countList.initData(_data, config);
+            }else{
+                console.error('设置数据错误，请检查', 'error');
+                console.error(_data);
+                console.error(config);
+                var $tableContainer = $('#' + config.id);
+                $tableContainer.children().remove();
+            }
         }else{
             if(!$.isEmptyObject(config.ajax)){
                 var ajaxConfig = $.extend(true,{},config.ajax);
@@ -1377,8 +1386,8 @@ NetstarUI.countList = {
                             nsAlert('返回数据错误，请检查', 'error');
                             console.log(res);
                             console.log(config);
-                            var $table = $('#' + _config.tableId);
-                            $table.remove();
+                            var $tableContainer = $('#' + _config.id);
+                            $tableContainer.children().remove();
                         }
                     }
                 },true);
