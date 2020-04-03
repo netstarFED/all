@@ -591,6 +591,16 @@ NetstarUI.countList = {
                     var $tableParent = $table.parent();
                     $tableParent.scrollTop(tableScrollTop);
                 });
+                $table.off('mousewheel');
+                $table.on('mousewheel', function(ev){
+                    // originalEvent 中记录着滚动信息
+                    var originalEvent = ev.originalEvent;
+                    if(!originalEvent){ return false; }
+                    var wheelDeltaY = originalEvent.wheelDeltaY;
+                    var tableScrollTop = $scrollY.scrollTop();
+                    tableScrollTop -= wheelDeltaY;
+                    $scrollY.scrollTop(tableScrollTop);
+                });
             }else{
                 $scrollY.addClass('hide');
             }
