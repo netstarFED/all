@@ -3433,7 +3433,6 @@ label.pt-checkbox-inline-none.checked:after {
 .pt-close .pt-btn {
   background: transparent;
   position: relative;
-  border-radius: 100px !important;
   -moz-transition: 0.35s;
   transition: ease-in-out all 0.35s;
   -moz-transition: ease-in-out all 0.35s;
@@ -3442,11 +3441,12 @@ label.pt-checkbox-inline-none.checked:after {
   -webkit-transition: 0.35s;
   -o-transition: 0.35s;
   transition: 0.35s;
+  color: #000000;
+  opacity: 0.3;
 }
 .pt-close .pt-btn:hover {
-  background: #ea7f21;
-  transform: rotate(180deg);
-  color: #fff;
+  background: #ccc;
+  opacity: 1;
 }
 .pt-title {
   display: inline-block;
@@ -9460,30 +9460,40 @@ a.list-group-item.active > .pt-badge,
   background: #fff;
 }
 .pt-modal-header-bg {
-  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-  background-image: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-  background-image: linear-gradient(to bottom, #f5f5f5 0%, #eeeeee 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffeeeeee', GradientType=0);
+  background: #f1f1f1;
 }
 .pt-modal-header {
+  padding: 0;
   border-bottom: 1px solid #e1e7ec;
-  min-height: 48px;
+  min-height: 28px;
   text-align: right;
-  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-  background-image: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-  background-image: linear-gradient(to bottom, #f5f5f5 0%, #eeeeee 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffeeeeee', GradientType=0);
+  background: #f1f1f1;
+  cursor: move;
+}
+.pt-modal-header:before,
+.pt-modal-header:after {
+  content: " ";
+  display: table;
+}
+.pt-modal-header:after {
+  clear: both;
+}
+.pt-modal-header:before,
+.pt-modal-header:after {
+  content: " ";
+  display: table;
+}
+.pt-modal-header:after {
+  clear: both;
 }
 .pt-modal-header .pt-title {
   float: left;
+  padding: 0 16px;
 }
 .pt-modal-header .pt-title h4 {
   line-height: 28px;
 }
 .pt-modal-header .pt-modal-header-content {
-  margin: 10px -16px -11px;
   background: #fff;
 }
 .pt-modal-header .pt-modal-header-content .pt-nav {
@@ -9526,7 +9536,22 @@ a.list-group-item.active > .pt-badge,
   border-bottom-color: #fff;
 }
 .pt-modal-header .pt-close {
-  display: inline-block;
+  float: right;
+}
+.pt-modal-header .pt-close .pt-btn.pt-btn-icon {
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 0 !important;
+}
+.pt-modal-header .pt-close .pt-btn.pt-btn-icon.pt-btn-cirlce {
+  border-radius: 0 !important;
+}
+.pt-modal-header .pt-tab-header {
+  float: left;
+  width: 100%;
+  margin: 0 auto -1px;
 }
 .pt-modal-body {
   position: relative;
@@ -9566,7 +9591,7 @@ a.list-group-item.active > .pt-badge,
 }
 .pt-modal-body.pt-modal-tab .pt-tab-header {
   position: fixed;
-  top: 148px;
+  top: 128px;
   left: 50%;
   border-bottom: 1px solid #e1e7ec;
   width: 800px;
@@ -9635,7 +9660,7 @@ a.list-group-item.active > .pt-badge,
   bottom: 0;
   width: 20px;
   height: 20px;
-  cursor: pointer;
+  cursor: se-resize;
 }
 .pt-window-control:after {
   right: 1px;
@@ -9842,14 +9867,14 @@ fieldset[disabled] .pt-modal.pt-confirm .pt-modal-footer .pt-btn-group .btn-defa
 }
 .pt-modal .pt-dragging .pt-modal-body.pt-modal-tab .pt-tab .pt-tab-header {
   position: absolute;
-  top: 48px;
+  top: 28px;
 }
 .pt-modal .pt-dragging .pt-modal-body.pt-modal-tab .pt-othertab {
   position: static;
 }
 .pt-modal .pt-dragging .pt-modal-body.pt-modal-tab .pt-othertab .pt-othertab-header {
   position: absolute;
-  top: 48px;
+  top: 28px;
   width: 100%;
   left: 0;
   margin-left: 0;
@@ -9875,16 +9900,13 @@ fieldset[disabled] .pt-modal.pt-confirm .pt-modal-footer .pt-btn-group .btn-defa
   font-weight: bold;
   font-size: 16px;
   border-bottom: 3px solid transparent;
-  line-height: 45px;
+  line-height: 25px;
   padding: 0 10px;
 }
 .pt-modal.pt-business-dialog .pt-container .pt-modal-content > .pt-modal-header .pt-title .pt-nav .pt-nav-item.current a {
   font-weight: bold;
   color: #ea7f21;
   border-bottom: 3px solid #ea7f21;
-}
-.pt-modal-header .pt-title {
-  padding: 0;
 }
 .pt-modal-content.pt-modal-notab .pt-modal-header .pt-tab-header {
   display: none;
@@ -10615,7 +10637,7 @@ fieldset[disabled] .pt-modal.pt-confirm .pt-modal-footer .pt-btn-group .btn-defa
   min-height: 30px;
   z-index: 2;
   position: fixed;
-  top: 148px;
+  top: 128px;
   left: 50%;
   border-bottom: 1px solid #e1e7ec;
   width: 1170px;

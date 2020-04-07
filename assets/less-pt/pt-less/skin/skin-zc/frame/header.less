@@ -1,16 +1,21 @@
 // @navbar-bg: #e6e6e6;
 @header-bg: #fff;
 @header-bg: #444;
-@header-height: 50px;
+@header-dropdown-list-height: 36px;
 @nav-bg: #c70019;
+@nav-bg-dark: darken(@nav-bg, 5);
+@nav-bg-darker: darken(@nav-bg, 10);
 @nav-width: 200px;
 @pt-logo-bg: @header-bg;
 @pt-tabbar-bg: #efefef;
+@tabbar-nav-mark-size: 5px;
 @header-color: #fff;
-
+@sidebar-collapse-width: 16px;
+@collapse-nav-width: 39px;
+@topbar-icon-link-width: 40px;
 
 body.pt-veritical {
-    padding: @header-height 0 0 @nav-width;
+    padding: @header-height 0 0 (@nav-width + @sidebar-collapse-width);
 
     .pt-header {
         .pt-container {
@@ -34,19 +39,50 @@ body.pt-veritical {
                     .pt-top-menu-item {
                         .pt-top-menu-item-row {
                             .pt-nav-item {
+                                min-width: @topbar-icon-link-width;
                                 height: @header-height;
                                 line-height: @header-height;
                                 color: @header-color;
 
                                 &:hover {
-                                    background: #f4f4f4;
-                                    color: #444;
+                                    background: lighten(@header-bg, 10);
+                                    color: #fff;
                                 }
 
                                 i {
                                     line-height: @header-height;
                                 }
                             }
+                        }
+                    }
+
+                    &[ns-name="message"] {
+                        .pt-top-menu-item {
+                            width: (@topbar-icon-link-width * 2);
+
+                            &:active,
+                            &:focus,
+                            &:hover {
+
+                                .pt-top-menu-item-row {
+                                    .pt-nav-item {
+                                        background: lighten(@header-bg, 10);
+                                        color: #fff;
+                                    }
+                                }
+                            }
+
+                            .pt-top-scroll {
+                                &:before {
+                                    .triangle-top(@tabbar-nav-mark-size, #fff);
+                                    position: fixed;
+                                    top: (@header-height - @tabbar-nav-mark-size);
+                                    right: ((@topbar-icon-link-width * 3) - @tabbar-nav-mark-size);
+                                    margin-left: -@tabbar-nav-mark-size;
+                                    border-width: 0 @tabbar-nav-mark-size @tabbar-nav-mark-size @tabbar-nav-mark-size;
+                                }
+                            }
+
                         }
                     }
                 }
@@ -58,8 +94,8 @@ body.pt-veritical {
             .pt-tabbar {
                 background: @header-bg;
                 height: @header-height;
-                left: 216px;
-                right: 210px;
+                left: (@nav-width + @sidebar-collapse-width);
+                right: 250px;
                 z-index: 200;
 
                 .pt-nav {
@@ -69,25 +105,42 @@ body.pt-veritical {
                         height: @header-height;
                         line-height: @header-height;
 
+
                         &:hover {
-                            color: #000;
+                            background: lighten(@header-bg, 10);
+
+
+                            .pt-btn-clear {
+                                i {
+                                    color: rgba(255, 255, 255, .85);
+                                }
+                            }
                         }
 
                         a {
                             line-height: @header-height;
-                            color: @header-color;
+                            color: rgba(255, 255, 255, .75);
+
+                            &:hover {
+                                color: rgba(255, 255, 255, 1);
+                            }
+
                         }
 
                         &.current {
                             background: @nav-bg;
                             border-bottom: 0px solid @nav-bg;
 
+                            &:hover {
+                                background: @nav-bg-dark;
+                            }
+
                             &:after {
                                 bottom: 0;
                                 left: 50%;
-                                margin-left: -5px;
-                                .triangle-top(5px, #fff);
-                                border-width: 0 5px 5px 5px;
+                                margin-left: -@tabbar-nav-mark-size;
+                                .triangle-top(@tabbar-nav-mark-size, #fff);
+                                border-width: 0 @tabbar-nav-mark-size @tabbar-nav-mark-size @tabbar-nav-mark-size;
                             }
 
                             a {
@@ -97,14 +150,10 @@ body.pt-veritical {
                                     color: #fff;
                                 }
                             }
-
-
-                            &:hover {
-                                background: #f8f8f8;
-                            }
                         }
                     }
 
+                    // 标签页控制按钮及下拉面板
                     &.pt-tabbar-control {
                         height: @header-height;
                         border-right-color: @header-bg;
@@ -118,14 +167,24 @@ body.pt-veritical {
                             }
                         }
 
+                        .pt-dropdown-menu {
+                            .pt-nav-item {
+                                height: @header-dropdown-list-height;
+                                line-height: @header-dropdown-list-height;
+
+                                &:hover {
+                                    background: #f4f4f4;
+                                }
+                            }
+                        }
+
                     }
                 }
             }
 
-
             // ================= navbar =================
-
             // 左侧菜单面板背景色
+
             .pt-navbar {
                 width: @nav-width;
                 min-width: @nav-width;
@@ -140,6 +199,155 @@ body.pt-veritical {
 
                     li.pt-top-menu-item {
                         padding-bottom: 0;
+
+                        .pt-top-menu-item-row {
+                            .pt-nav-item {
+                                color: #444;
+
+                                i {
+                                    color: #444;
+                                }
+
+                                &:visited,
+                                &:hover,
+                                &:active {
+                                    background: @nav-bg;
+                                }
+                            }
+                        }
+
+                        .pt-top-nav-block {
+                            z-index: 209;
+                            background: @nav-bg;
+
+                            .pt-top-menu-item {
+                                &>.pt-top-nav-block {
+                                    background: @nav-bg-darker;
+
+                                    .pt-top-menu-item {
+                                        .pt-top-menu-item-row {
+                                            .pt-nav-item {
+                                                span {
+                                                    color: #fff;
+                                                }
+
+                                                &:hover,
+                                                &:active {
+                                                    background: @nav-bg-darker;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &.dropdown-arrow {
+                                    &>.pt-top-menu-item-row {
+                                        &>.pt-nav-item {
+                                            &:after {
+                                                color: #fff;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .pt-top-menu-item-row {
+                                    .pt-nav-item {
+                                        color: #fff;
+
+                                        // 展开面板列表经过背景色
+                                        &:visited,
+                                        &:hover,
+                                        &:active {
+                                            background: @nav-bg-dark;
+                                        }
+                                    }
+                                }
+
+                                &.open {
+                                    .pt-top-menu-item-row {
+                                        .pt-nav-item {
+
+                                            &:visited,
+                                            &:hover,
+                                            &:active {
+                                                background: @nav-bg-dark;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                        // 列表右侧箭头颜色
+                        &.dropdown-arrow {
+                            &>.pt-top-menu-item-row {
+                                &>.pt-nav-item {
+                                    &:after {
+                                        color: #444;
+                                        right: 10px;
+                                    }
+                                }
+                            }
+
+                            &.open {
+                                &>.pt-top-menu-item-row {
+                                    &>.pt-nav-item {
+                                        &:after {
+                                            color: #fff;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &.open {
+                            .pt-top-menu-item-row {
+                                .pt-nav-item {
+                                    background: @nav-bg;
+
+                                    i {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+
+                            .pt-top-nav-block {
+                                .pt-top-menu-item-row {
+                                    .pt-nav-item {
+                                        background: @nav-bg;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                    @scrollar-bg: transparent;
+
+                    &::-webkit-scrollbar-thumb {
+                        height: @scrollbar-control-height;
+                        background: transparent !important;
+                        border-left: @scrollbar-border-width solid #fff;
+                        transition: ease-in-out all .25s;
+                        border-radius: 100px;
+                        cursor: pointer;
+
+                        &:hover {
+                            background: rgba(0, 0, 0, .15) !important;
+                            cursor: pointer;
+                            transition: ease-in-out all .4s;
+                        }
+                    }
+
+                    //滚动条里面轨道
+                    &::-webkit-scrollbar-track {
+                        background: @scrollar-bg;
+                        border-left: @scrollbar-border-width solid #fff;
+
+                        &:hover {
+                            background: rgba(255, 255, 255, 0.1);
+                        }
                     }
                 }
             }
@@ -148,87 +356,12 @@ body.pt-veritical {
                 background: transparent;
             }
 
-            // 左侧菜单文字颜色
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item {
-                color: #444;
-
-                i {
-                    color: #444;
-                }
-            }
-
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:visited,
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
-                background: @nav-bg;
-            }
-
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item {
-                .pt-top-nav-block {
-                    background: @nav-bg;
-
-                    .pt-top-menu-item {
-
-                        // 展开面板列表经过背景色
-                        .pt-top-menu-item-row {
-                            .pt-nav-item {
-
-                                &:visited,
-                                &:hover,
-                                &:active {
-                                    background: darken(@nav-bg, 5);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                &.open {
-                    .pt-top-menu-item-row {
-                        .pt-nav-item {
-                            background: @nav-bg;
-
-                            i {
-                                color: #fff;
-                            }
-                        }
-                    }
-
-                    .pt-top-nav-block {
-                        .pt-top-menu-item-row {
-                            .pt-nav-item {
-                                background: @nav-bg;
-                            }
-                        }
-                    }
-                }
-            }
 
 
-
-            // 展开面板列表经过背景色
-            // .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:visited,
-            // .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
-            // .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
-            //     background: darken(@nav-bg, 5);
-            // }
-
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item {
-                color: #fff;
-            }
-
-            // 列表右侧箭头颜色
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.dropdown-arrow>.pt-top-menu-item-row>.pt-nav-item:after {
-                color: #444;
-                right: 10px;
-            }
-
-            .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.dropdown-arrow.open>.pt-top-menu-item-row>.pt-nav-item:after {
-                color: #fff;
-            }
         }
     }
 
+    // 顶部右侧按钮控制面板
     &.pt-systeminfo {
         .pt-header {
             ul.pt-nav.pt-dropdown {
@@ -239,8 +372,10 @@ body.pt-veritical {
 
                     &:last-child {
                         .pt-setting-icon {
+                            width: 40px;
                             height: @header-height;
                             background: @header-bg;
+                            text-align: center;
 
                             .icon {
                                 line-height: @header-height;
@@ -248,9 +383,55 @@ body.pt-veritical {
                             }
                         }
                     }
+
+                    // 下拉面板顶部距离
+                    .pt-top-nav-block {
+                        top: (@header-height + 1);
+
+                        .pt-top-menu-item {
+                            .pt-top-menu-item-row {
+                                .pt-nav-item {
+                                    padding: 0 @base-padding;
+                                    height: @header-dropdown-list-height;
+                                    line-height: @header-dropdown-list-height;
+                                    color: #444;
+
+                                    &:hover {
+                                        background: #f4f4f4;
+                                    }
+
+                                    i {
+                                        line-height: @header-dropdown-list-height;
+                                    }
+                                }
+                            }
+
+                            &:hover {
+                                &>.pt-top-menu-item-row {
+                                    &>.pt-nav-item {
+                                        color: #444;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    &.collapse {
+        .pt-header {
+            .pt-container {
+                .pt-navbar {
+                    width: (@collapse-nav-width + @sidebar-collapse-width);
                 }
             }
         }
+
+
     }
 
     // 左侧面板开关按钮
@@ -258,6 +439,10 @@ body.pt-veritical {
         background: @header-bg;
         left: @nav-width;
         z-index: 199;
+
+        &:hover {
+            background: lighten(@header-bg, 10);
+        }
 
         &.pt-btn-icon {
             height: @header-height;
@@ -273,33 +458,18 @@ body.pt-veritical {
 }
 
 body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.open .pt-top-nav-block .pt-top-nav-block .pt-top-menu-item-row .pt-nav-item {
-    background: darken(@nav-bg, 5);
+    background: @nav-bg-dark;
     color: #fff;
 }
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item.open .pt-top-menu-item-row .pt-nav-item:visited,
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item.open .pt-top-menu-item-row .pt-nav-item:hover,
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item.open .pt-top-menu-item-row .pt-nav-item:active {
-    background: darken(@nav-bg, 5);
-}
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item>.pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:hover,
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item>.pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item:active {
-    background: darken(@nav-bg, 10);
-}
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item.dropdown-arrow>.pt-top-menu-item-row>.pt-nav-item:after {
-    color: #fff;
-}
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item>.pt-top-nav-block .pt-top-menu-item .pt-top-menu-item-row .pt-nav-item span {
-    color: #fff;
-}
+// .pt-header .pt-topbar .pt-nav.pt-dropdown>ul>li.pt-top-menu-item:hover>.pt-top-menu-item-row>.pt-nav-item {
+//     color: #000;
+// }
 
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block {
-    z-index: 209;
-}
-
-body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item .pt-top-nav-block .pt-top-menu-item>.pt-top-nav-block_ {
-    background: darken(@nav-bg, 10);
+// 顶部导航tooltips
+.pt-nav-tooltips {
+    margin-top: 17px;
 }

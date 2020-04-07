@@ -1,6 +1,6 @@
 @pt-table-header-bg: #ededef;
-@pt-selected-bg: lighten(@primary, 8);
-@pt-selected-border-color: darken(@primary, 3);
+@pt-selected-bg: @bg-current;
+@pt-selected-border-color: darken(@pt-selected-bg, 3);
 
 .pt-grid-body {
     .pt-grid-body-head {
@@ -27,7 +27,7 @@
             th,
             td {
                 background: @pt-selected-bg;
-                color: #fff;
+                color: #444;
                 border-right: 1px solid transparent;
 
                 .rowbtns {
@@ -52,6 +52,10 @@
 
                 &:last-child {
                     border-right: 1px solid @pt-selected-bg;
+                }
+
+                .autoserial.copy-autoserial:first-child:before {
+                    color: #444;
                 }
             }
 
@@ -154,4 +158,13 @@
         }
 
     }
+}
+
+.pt-grid-body .pt-grid tr.selected>.autoserial.copy-autoserial:first-child:before {
+    color: #444;
+}
+
+.pt-grid-body .pt-grid tr.selected th .rowbtns .pt-btn span,
+.pt-grid-body .pt-grid tr.selected td .rowbtns .pt-btn span {
+    color: @danger;
 }
