@@ -1867,7 +1867,14 @@ var NetstarTemplate = {
 					    isSetMore:typeof(componentData.isSetMore)=='boolean' ? componentData.isSetMore : false,
 					    getPageDataFunc:function(){
 						  return _config.pageParam
-					   }
+						},
+						completeHandler : (function (_serverData, formId) {
+							return function(){
+							   if(typeof(_serverData) == "object" && $.isArray(_serverData.contrastInfoVOList)){
+								  NetstarComponent.setHistoryByFormID(_serverData.contrastInfoVOList, formId);
+							   }
+							}
+						 })(serverData, id)
 					};
 					if(typeof(componentData.blurHandler)=='function'){
 						formJson.blurHandler = componentData.blurHandler;
