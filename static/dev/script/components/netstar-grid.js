@@ -169,7 +169,7 @@ var NetStarGrid = (function () {
 					// 	'<col v-for="columnCofig in columns" :style="columnCofig.styleObj"></col>' +
 					// '</colgroup>' +
 					'<tbody>' +
-					'<tr v-for="(row,index) in rows" :ns-rowindex="index" @click="rowClickHandler" :ns-id="row[idField]" :primaryid="row[ui.parentField]" :nslevel="row.netstarLevel" @dblclick="rowdbClickHandler" :style="row[\'NETSTAR-TRSTYLE\']" :class="[{\'selected\':row.netstarSelectedFlag},{\'tr-disabled\':row[\'NETSTAR-TRDISABLE\']},{\'open\':row.netstarOpen},netstarTreeGridFlag(row),netstarRowStateFlag(row),{\'ns-tips-placeholder\':row\[\'NETSTAR-TIPS-PLACEHOLDER\'\]===true}]">' +
+					'<tr v-for="(row,index) in rows" :ns-rowindex="index" @click="rowClickHandler" :ns-id="row[idField]" :primaryid="row[ui.parentField]" :nslevel="row.netstarLevel" @dblclick="rowdbClickHandler" :style="row[\'NETSTAR-TRSTYLE\']" :class="[{\'selected\':row.netstarSelectedFlag},{\'tr-disabled\':row[\'NETSTAR-TRDISABLE\']},{\'open\':row.netstarOpen},netstarTreeGridFlag(row),netstarRowStateFlag(row),{\'ns-tips-placeholder\':row\[\'NETSTAR-TIPS-PLACEHOLDER\'\]===true},row[\'NETSTAR-ROWSOURCE-CLASS\']]">' +
 					'<td v-for="columnCofig in columns" \
 											:class="[columnCofig.columnType,NetstarTdStateFlag(row,columnCofig)]" \
 											:ns-edit-type="[columnCofig.editConfig&&columnCofig.editConfig.type?columnCofig.editConfig.type.toLowerCase():\'\']" \

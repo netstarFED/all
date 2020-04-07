@@ -2465,6 +2465,7 @@ NetstarComponent.switchHistoryByTable = function(config){
         NetstarComponent.showHistoryByDataTableConfig(_config);
     }
 }
+// 表格单元格历史记录
 NetstarComponent.setHistoryByTableID = function(historyList, currentList, idField, tableID){
     // 验证
     var gridConfigs = NetStarGrid.configs[tableID];
@@ -2549,6 +2550,64 @@ NetstarComponent.setHistoryByTableID = function(historyList, currentList, idFiel
             $td.append($html);
         }
     }
+}
+// 表格行历史记录 只有新增（添加表格行，并添加标识设置新增颜色），删除（不需要添加，原有数据添加标识设置行颜色）
+NetstarComponent.setRowsHistoryByTableID = function(allHistoryList, _currentList, idField, keyField, tableID){
+    // 验证
+    var gridConfigs = NetStarGrid.configs[tableID];
+    if(typeof(gridConfigs)!='object'){
+        // tableID错误，表格不存在
+        console.error('tableID:'+tableID+'错误，该表格不存在');
+        return false;
+    }
+    var gridConfig = gridConfigs.gridConfig;
+    if(typeof(gridConfig)!='object'||typeof(gridConfig)!='object'){
+        // formID错误，表单不存在
+        console.error('tableID:'+tableID+'错误，该表格不存在');
+        return false;
+    }
+    var currentList = $.extend(true, [], _currentList);
+    // 通过所有历史记录获得当前表格的历史记录
+    var historyList = [];
+    for(var i=0; i<allHistoryList.length; i++){
+        if(keyField == allHistoryList[i].parentField){
+            historyList.push(allHistoryList[i]);
+        }
+    }
+    if(historyList.length == 0){
+        console.warn('tableID:'+tableID+'没有找到历史记录');
+        return false;
+    }
+    // 获取新的表格数据 新增（添加表格行，并添加标识设置新增颜色），删除（不需要添加，原有数据添加标识设置行颜色）
+    for(var i=0; i<historyList.length; i++){
+        var objectContent = historyList[i].objectContent;
+        if(objectContent && objectContent.length > 0){
+            objectContent = JSON.parse(objectContent);
+        }else{
+            continue;
+        }
+        switch(historyList[i].state){
+            case '-1':
+            case -1:
+                // 删除  添加行标识
+                var hisId = objectContent[idField];
+                if(hisId){
+                    for(var listI=0; listI<currentList.length; listI++){
+                        if(currentList[listI][idField] == hisId){
+                            currentList[listI]['NETSTAR-ROWSOURCE-CLASS'] = "pt-grid-delete";
+                        }
+                    }
+                }
+                break;
+            case '1':
+            case 1:
+                // 新增  添加行 添加行标识
+                objectContent['NETSTAR-ROWSOURCE-CLASS'] = "pt-grid-add";
+                currentList.push(objectContent);
+                break;
+        }
+    }
+    gridConfigs.vueObj.originalRows = currentList;
 }
 // 通用方法
 NetstarComponent.commonFunc = {

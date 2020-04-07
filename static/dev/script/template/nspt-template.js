@@ -2181,6 +2181,15 @@ var NetstarTemplate = {
 							$('#'+componentData.id).addClass('hide');
 						}
 					}
+					
+					if(!$.isEmptyObject(_config.serverData)){
+						if($.isArray(_config.serverData.contrastInfoVOList)){
+						   NetstarComponent.setHistoryByTableID(_config.serverData.contrastInfoVOList, _config.serverData[componentData.keyField], componentData.idField, componentData.keyField, gridId);NetstarComponent.setHistoryByTableID(_config.serverData.contrastInfoVOList, _config.serverData[componentData.keyField], componentData.idField, gridId);
+						}
+						if($.isArray(_config.serverData.contrastObjectInfoVOList)){
+						   NetstarComponent.setRowsHistoryByTableID(_config.serverData.contrastObjectInfoVOList, _config.serverData[componentData.keyField], componentData.idField, componentData.keyField, gridId);NetstarComponent.setHistoryByTableID(_config.serverData.contrastInfoVOList, _config.serverData[componentData.keyField], componentData.idField, componentData.keyField, gridId);
+						}
+					 }
 				}
 			},
 			//添加行
