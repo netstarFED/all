@@ -1678,6 +1678,13 @@ fieldset[disabled].pt-select .pt-btn:hover i.icon-arrow-down-o {
   padding-left: 0;
   vertical-align: middle;
 }
+.pt-form.pt-form-vertical.pt-form-grid .pt-form-body:before {
+  display: none;
+}
+.pt-form.pt-form-vertical.pt-form-grid .pt-form-body .pt-form-group {
+  border-top: 1px solid #e0e0e0;
+  margin-bottom: -1px;
+}
 .pt-form.pt-form-view .pt-form-group + .pt-form-group {
   margin-left: 10px;
 }
@@ -2971,7 +2978,6 @@ label.pt-checkbox-inline-none.checked:after {
 .pt-close .pt-btn {
   background: transparent;
   position: relative;
-  border-radius: 100px !important;
   -moz-transition: 0.35s;
   transition: ease-in-out all 0.35s;
   -moz-transition: ease-in-out all 0.35s;
@@ -2980,11 +2986,12 @@ label.pt-checkbox-inline-none.checked:after {
   -webkit-transition: 0.35s;
   -o-transition: 0.35s;
   transition: 0.35s;
+  color: #000000;
+  opacity: 0.3;
 }
 .pt-close .pt-btn:hover {
-  background: #c70019;
-  transform: rotate(180deg);
-  color: #fff;
+  background: #ccc;
+  opacity: 1;
 }
 .pt-title {
   display: inline-block;
@@ -7293,8 +7300,8 @@ a.list-group-item.active > .pt-badge,
 }
 .ztree li a.curSelectedNode.curSelectedNode .node_name,
 .ztree li a.curSelectedNode:hover .node_name {
-  background: #f6d0bb;
-  color: #940013;
+  background: #fcefe8;
+  color: #c70019;
 }
 .ztree li a.infonode .node_name {
   background: transparent;
@@ -7311,8 +7318,8 @@ a.list-group-item.active > .pt-badge,
 }
 .ztree li a.infonode.curSelectedNode .node_name,
 .ztree li a.infonode:hover .node_name {
-  background: #bcddf3;
-  color: #2182c2;
+  background: #e7f3fb;
+  color: #399cdd;
 }
 .ztree li a.warningnode .node_name {
   background: transparent;
@@ -7329,8 +7336,8 @@ a.list-group-item.active > .pt-badge,
 }
 .ztree li a.warningnode.curSelectedNode .node_name,
 .ztree li a.warningnode:hover .node_name {
-  background: #fa001f;
-  color: #940013;
+  background: #ff2e48;
+  color: #c70019;
 }
 .ztree li a.successnode .node_name {
   background: transparent;
@@ -7347,8 +7354,8 @@ a.list-group-item.active > .pt-badge,
 }
 .ztree li a.successnode.curSelectedNode .node_name,
 .ztree li a.successnode:hover .node_name {
-  background: #50d55d;
-  color: #259a30;
+  background: #79df83;
+  color: #2fc33d;
 }
 .ztree li a.errornode .node_name {
   background: transparent;
@@ -7365,8 +7372,8 @@ a.list-group-item.active > .pt-badge,
 }
 .ztree li a.errornode.curSelectedNode .node_name,
 .ztree li a.errornode:hover .node_name {
-  background: #fa001f;
-  color: #940013;
+  background: #ff2e48;
+  color: #c70019;
 }
 .ztree li a.disablenode .node_name {
   background: transparent;
@@ -7383,8 +7390,8 @@ a.list-group-item.active > .pt-badge,
 }
 .ztree li a.disablenode.curSelectedNode .node_name,
 .ztree li a.disablenode:hover .node_name {
-  background: #d5d5d5;
-  color: #858585;
+  background: #eeeeee;
+  color: #9e9e9e;
 }
 .ztree li a.disablenode:hover .node_name {
   background: #eee;
@@ -8952,30 +8959,39 @@ a.list-group-item.active > .pt-badge,
   background: #fff;
 }
 .pt-modal-header-bg {
-  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-  background-image: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-  background-image: linear-gradient(to bottom, #f5f5f5 0%, #eeeeee 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffeeeeee', GradientType=0);
+  background: #f1f1f1;
 }
 .pt-modal-header {
+  padding: 0;
   border-bottom: 1px solid #e0e0e0;
-  min-height: 48px;
+  min-height: 28px;
   text-align: right;
-  background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-  background-image: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-  background-image: linear-gradient(to bottom, #f5f5f5 0%, #eeeeee 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffeeeeee', GradientType=0);
+  background: #f1f1f1;
+}
+.pt-modal-header:before,
+.pt-modal-header:after {
+  content: " ";
+  display: table;
+}
+.pt-modal-header:after {
+  clear: both;
+}
+.pt-modal-header:before,
+.pt-modal-header:after {
+  content: " ";
+  display: table;
+}
+.pt-modal-header:after {
+  clear: both;
 }
 .pt-modal-header .pt-title {
   float: left;
+  padding: 0 16px;
 }
 .pt-modal-header .pt-title h4 {
   line-height: 28px;
 }
 .pt-modal-header .pt-modal-header-content {
-  margin: 10px -16px -11px;
   background: #fff;
 }
 .pt-modal-header .pt-modal-header-content .pt-nav {
@@ -9018,7 +9034,22 @@ a.list-group-item.active > .pt-badge,
   border-bottom-color: #fff;
 }
 .pt-modal-header .pt-close {
-  display: inline-block;
+  float: right;
+}
+.pt-modal-header .pt-close .pt-btn.pt-btn-icon {
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 0 !important;
+}
+.pt-modal-header .pt-close .pt-btn.pt-btn-icon.pt-btn-cirlce {
+  border-radius: 0 !important;
+}
+.pt-modal-header .pt-tab-header {
+  float: left;
+  width: 100%;
+  margin: 0 auto -1px;
 }
 .pt-modal-body {
   position: relative;
@@ -9058,7 +9089,7 @@ a.list-group-item.active > .pt-badge,
 }
 .pt-modal-body.pt-modal-tab .pt-tab-header {
   position: fixed;
-  top: 148px;
+  top: 128px;
   left: 50%;
   border-bottom: 1px solid #e0e0e0;
   width: 800px;
@@ -9284,14 +9315,14 @@ fieldset[disabled] .pt-modal.pt-confirm .pt-modal-footer .pt-btn-group .btn-defa
 }
 .pt-modal .pt-dragging .pt-modal-body.pt-modal-tab .pt-tab .pt-tab-header {
   position: absolute;
-  top: 48px;
+  top: 28px;
 }
 .pt-modal .pt-dragging .pt-modal-body.pt-modal-tab .pt-othertab {
   position: static;
 }
 .pt-modal .pt-dragging .pt-modal-body.pt-modal-tab .pt-othertab .pt-othertab-header {
   position: absolute;
-  top: 48px;
+  top: 28px;
   width: 100%;
   left: 0;
   margin-left: 0;
@@ -9317,16 +9348,13 @@ fieldset[disabled] .pt-modal.pt-confirm .pt-modal-footer .pt-btn-group .btn-defa
   font-weight: bold;
   font-size: 16px;
   border-bottom: 3px solid transparent;
-  line-height: 45px;
+  line-height: 25px;
   padding: 0 10px;
 }
 .pt-modal.pt-business-dialog .pt-container .pt-modal-content > .pt-modal-header .pt-title .pt-nav .pt-nav-item.current a {
   font-weight: bold;
   color: #c70019;
   border-bottom: 3px solid #c70019;
-}
-.pt-modal-header .pt-title {
-  padding: 0;
 }
 .pt-modal-content.pt-modal-notab .pt-modal-header .pt-tab-header {
   display: none;
@@ -10057,7 +10085,7 @@ fieldset[disabled] .pt-modal.pt-confirm .pt-modal-footer .pt-btn-group .btn-defa
   min-height: 30px;
   z-index: 2;
   position: fixed;
-  top: 148px;
+  top: 128px;
   left: 50%;
   border-bottom: 1px solid #e0e0e0;
   width: 1170px;
@@ -19885,11 +19913,11 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   background: #ededef;
 }
 .pt-grid-body .pt-grid tr.selected {
-  background: #ffcccb;
+  background: #ffdfdf;
 }
 .pt-grid-body .pt-grid tr.selected th,
 .pt-grid-body .pt-grid tr.selected td {
-  background: #ffcccb;
+  background: #ffdfdf;
   color: #444;
   border-right: 1px solid transparent;
 }
@@ -19907,7 +19935,7 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .pt-grid-body .pt-grid tr.selected th:last-child,
 .pt-grid-body .pt-grid tr.selected td:last-child {
-  border-right: 1px solid #ffcccb;
+  border-right: 1px solid #ffdfdf;
 }
 .pt-grid-body .pt-grid tr.selected th .autoserial.copy-autoserial:first-child:before,
 .pt-grid-body .pt-grid tr.selected td .autoserial.copy-autoserial:first-child:before {
@@ -19915,7 +19943,7 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .pt-grid-body .pt-grid tr.selected:hover th,
 .pt-grid-body .pt-grid tr.selected:hover td {
-  background: #ffa4a2;
+  background: #ffb6b6;
   color: #fff;
 }
 .pt-grid-body .pt-grid tr.selected:hover th .rowbtns .pt-btn span,
@@ -19926,7 +19954,7 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   color: #fff;
 }
 .pt-grid-body .pt-grid tr.selected td.dictionary label {
-  border-color: #ffe5e4;
+  border-color: #fff9f9;
   background: rgba(255, 255, 255, 0.1);
 }
 .pt-grid-body .pt-grid tr.selected td.columnstate.normal-message span,
@@ -19970,68 +19998,67 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 .pt-grid-body .pt-grid tr.selected td .rowbtns .pt-btn span {
   color: #c70019;
 }
-.ztree li a.curSelectedNode.curSelectedNode .node_name,
-.ztree li a.curSelectedNode.curSelectedNode:hover .node_name {
-  background: #daf4f7;
-  color: #fff;
+.ztree li a span.node_name {
+  background: transparent;
+  color: #000;
 }
-.ztree li span.node_name:hover {
-  background: #daf4f7;
-  color: #006d7f;
+.ztree li a span.node_name:hover {
+  background: #f4f4f4;
+  color: #000;
 }
 .ztree li a.curSelectedNode .node_name {
   background: transparent;
-  color: #ffa004;
+  color: #ffffff;
 }
 .ztree li a.curSelectedNode.curSelectedNode .node_name,
 .ztree li a.curSelectedNode:hover .node_name {
-  background: #f6d0bb;
-  color: #d08100;
+  background: #940013;
+  color: #e6e6e6;
 }
 .ztree li a.curSelectedNode .node_name {
   background: transparent;
-  color: #ffa004;
+  color: #ffffff;
 }
 .ztree li a.curSelectedNode.curSelectedNode .node_name,
 .ztree li a.curSelectedNode:hover .node_name {
-  background: #f6d0bb;
-  color: #d08100;
+  background: #c70019;
+  color: #ffffff;
 }
 .ztree li a.infonode .node_name {
   background: transparent;
-  color: #399cdd;
+  color: #58abff;
 }
 .ztree li a.infonode.curSelectedNode .node_name,
 .ztree li a.infonode:hover .node_name {
-  background: #bcddf3;
-  color: #2182c2;
+  background: #e6e6e6;
+  color: #2591ff;
 }
 .ztree li a.infonode .node_name {
   background: transparent;
-  color: #399cdd;
+  color: #58abff;
 }
 .ztree li a.infonode.curSelectedNode .node_name,
 .ztree li a.infonode:hover .node_name {
-  background: #bcddf3;
-  color: #2182c2;
+  background: #ffffff;
+  color: #58abff;
 }
 .ztree li a.warningnode .node_name {
   background: transparent;
-  color: #ffa004;
+  color: #c70019;
 }
 .ztree li a.warningnode.curSelectedNode .node_name,
 .ztree li a.warningnode:hover .node_name {
-  background: #ffeab3;
-  color: #d08100;
+  background: #fa001f;
+  color: #940013;
 }
 .ztree li a.warningnode .node_name {
   background: transparent;
-  color: #ffa004;
+  color: #c70019;
 }
 .ztree li a.warningnode.curSelectedNode .node_name,
 .ztree li a.warningnode:hover .node_name {
-  background: #ffeab3;
-  color: #d08100;
+  background: #ff2e48;
+  color: #c70019;
 }
 .ztree li a.successnode .node_name {
   background: transparent;
@@ -20039,7 +20066,7 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .ztree li a.successnode.curSelectedNode .node_name,
 .ztree li a.successnode:hover .node_name {
-  background: #b9f0d2;
+  background: #50d55d;
   color: #259a30;
 }
 .ztree li a.successnode .node_name {
@@ -20048,26 +20075,26 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .ztree li a.successnode.curSelectedNode .node_name,
 .ztree li a.successnode:hover .node_name {
-  background: #b9f0d2;
-  color: #259a30;
+  background: #79df83;
+  color: #2fc33d;
 }
 .ztree li a.errornode .node_name {
   background: transparent;
-  color: #e90000;
+  color: #c70019;
 }
 .ztree li a.errornode.curSelectedNode .node_name,
 .ztree li a.errornode:hover .node_name {
-  background: #ffb6b6;
-  color: #b60000;
+  background: #fa001f;
+  color: #940013;
 }
 .ztree li a.errornode .node_name {
   background: transparent;
-  color: #e90000;
+  color: #c70019;
 }
 .ztree li a.errornode.curSelectedNode .node_name,
 .ztree li a.errornode:hover .node_name {
-  background: #ffb6b6;
-  color: #b60000;
+  background: #ff2e48;
+  color: #c70019;
 }
 .ztree li a.disablenode .node_name {
   background: transparent;
@@ -20084,12 +20111,16 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .ztree li a.disablenode.curSelectedNode .node_name,
 .ztree li a.disablenode:hover .node_name {
-  background: #d5d5d5;
-  color: #858585;
+  background: #eeeeee;
+  color: #9e9e9e;
 }
 .ztree li a.disablenode:hover .node_name {
   background: #eee;
   color: #9e9e9e;
+}
+.ztree li span.node_name:hover {
+  background: #c70019;
+  color: #006d7f;
 }
 .pt-form.pt-form-grid {
   padding: 0;
@@ -20276,7 +20307,10 @@ body.pt-veritical.pt-systeminfo .pt-header ul.pt-nav.pt-dropdown .pt-top-menu-it
   top: 51px;
 }
 .pt-formeditor .pt-list li.current:not(.pt-nodata) {
-  background: #ffcccb;
+  background: #ffdfdf;
+}
+.pt-formeditor .pt-list li.current:not(.pt-nodata) span {
+  color: #333;
 }
 .pt-formeditor .pt-list li:hover {
   background: #f4f4f4;
