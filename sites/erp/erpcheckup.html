@@ -39,6 +39,13 @@
                             {
                                 title: '状态',
                                 field: 'state',
+                                ormatHandler: {
+                                    type: "stringReplace",
+                                    data: {
+                                        1: '未完成',
+                                        2: '已完成'
+                                    }
+                                },
                                 editConfig: {
                                     type: 'select',
                                     subdata: [{
@@ -57,13 +64,7 @@
                                     valueField: 'id',
                                     variableType: "number"
                                 },
-                                formatHandler: {
-                                    type: "stringReplace",
-                                    data: {
-                                        1: '未完成',
-                                        2: '已完成'
-                                    }
-                                }
+                                
                             },
                             {
                                 field: "bllTypeId",
@@ -155,6 +156,18 @@
                             {
                                 field: 'logisticsQuantity',
                                 title: '发货件数',
+                                columnType:"number",
+                                editConfig:{
+                                    type:'number'
+                                },
+                                formatHandler:{
+                                    data:{
+                                        format:{
+                                            places:"0",
+                                            thousand:","
+                                        }
+                                    }
+                                }
                             },
                             {
                                 field: 'logisticsInvoiceNo',
@@ -219,9 +232,9 @@
                                             var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
                                             func['submit'](function (res) {
                                                 nsalert('装箱单提交成功', 'success');
-                                                var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-checkup-blockList-0'].vueObj.rows;;
+                                                var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-checkup-blockList-0'].vueObj.rows;
                                                 for(var i=0; i<rows.length; i++){
-                                                    if(rows.id == rowDatas[i].id){
+                                                    if(rowData.id == rows[i].id){
                                                         rows.splice(i,1);
                                                     }
                                                 }

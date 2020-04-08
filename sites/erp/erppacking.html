@@ -112,6 +112,7 @@
                                 {
                                     field: 'lastQuantity',
                                     title: '未装箱数量',
+                                    columnType:"number",
                                     editConfig:{
                                         type:'number'
                                     },
@@ -128,6 +129,7 @@
                                 {
                                     field: 'thisQuantity',
                                     title: '本次装箱数量',
+                                    columnType:"number",
                                     editConfig:{
                                         type:'number'
                                     },
@@ -218,16 +220,22 @@
                             listExpression: `<div>\
                             <div class='block-list-item'>\
                                 <div class='block-list-item-title weight'>
-                                    <span>{{goodsShopName}}</span>
+                                    <span>商品名称：{{goodsShopName}}</span>
                                 </div>\
                                 <div class='block-list-item-title'>
-                                    <span class=" text-ml text-gray">{{goodsShopName}}</span>
+                                    <span class=" text-ml text-gray">商品编码：{{goodsShopCode}}</span>
                                 </div>\
                                 <div class='block-list-item-text'>
-                                    <span class="text-ml text-gray">{{dictBrandBrandName}}</span>
+                                    <span class="text-ml text-gray">品牌：{{dictBrandBrandName}}</span>
                                 </div>\
                                 <div class='block-list-item-text'>
-                                    <span class="text-ml text-gray">{{goodsPlatformModel}}</span>
+                                    <span class="text-ml text-gray">型号：{{goodsPlatformModel}}</span>
+                                </div>\
+                                <div class='block-list-item-text'>
+                                    <span class="text-ml text-gray">单位：{{dictGoodsPlatUnitName}}</span>
+                                </div>\
+                                <div class='block-list-item-text'>
+                                    <span class="text-ml text-gray">品质分类：{{locationsType}}</span>
                                 </div>\
                                 <div class='block-list-item-text flex-vertical'>
                                     <span class="text-ml text-gray">OEM码：{{goodsPlatformOem}}</span>
@@ -262,17 +270,23 @@
                                            var pageParamData = pageConfig.pageParam;
                                            var blockListData = NetstarBlockListM.dataManager.getData('nstemplate-layout-nscloud-erppaking-blockList-0');
                                           /*  var packingDetailVOList = $.extend(true,[],blockListData) */
-                                            var ajaxData = {
-                                                packingDetailVOList:blockListData
-                                            }
-                                            $.extend(true,ajaxData,pageParamData)
-                                           var ajaxConfig = {
-                                               url:getRootPath() + '/packingController/v2/createPackingOfLeft',
-                                               contentType:'application/json',
+                                          var ajaxConfig = {
+                                               url:getRootPath() + '/packingController/v2/getByPackingBoxId',
+                                               contentType: "application/x-www-form-urlencoded",
                                                type:"POST",
-                                               data:ajaxData
+                                               data:{
+                                                   id:pageParamData.id
+                                               }
                                            }
-                                           NetStarUtils.ajax(ajaxConfig,function(res){
+                                          NetStarUtils.ajax(ajaxConfig,function(res){
+                                              var data = res.data;
+                                            var ajaxConfig = {
+                                                url:getRootPath() + '/packingController/v2/createPackingOfLeft',
+                                                contentType:'application/json',
+                                                type:"POST",
+                                                data:data
+                                            }
+                                            NetStarUtils.ajax(ajaxConfig,function(res){
                                                 if(res.success){
                                                     nsalert('打包成功');
                                                     window.history.back()
@@ -280,6 +294,9 @@
                                                     nsalert(res.msg)
                                                 }
                                             })
+                                          })
+                                            
+                                          
                                        }
                                    },
                                    functionConfig:{
