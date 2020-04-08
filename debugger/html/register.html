@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+ <meta name="description" content="网星云服务" />
+ <meta name="author" content="netstar" />
+ <title>体检登记</title>
+
+ <script type="text/javascript">
+     var language = 'cn';
+     mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+ </script>
+ <!--# include file="/sites/include/login-static-dev.html" -->
+ <!--# include file="/sites/include/preload-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-dev.html" -->
+ <!--# include file="/sites/include/lazy-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+ <script type="text/javascript" src="/static/dev/script/template/nspt-physicalsreport.js?v=10.0.0"></script>
+ <script>NetstarHomePage=false</script>
+ <link rel="stylesheet" href="/static/dev/style/tj-common.css">
+ <style>
+     /* 临时STYLE CSS */
+ </style>
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+    <container>
+        <script>
+            var config = {
+                package : 'netstar.register',
+                // title : '体检登记',
+                template : 'physicalsReport',
+                components : [
+                    {
+                        type : 'btns',
+                        name : 'btns',
+                        field : [
+                            {
+                                "functionConfig": {
+                                    "text": "流程监控",
+                                    "defaultMode": "workflowViewer",
+                                    "englishName": "nsWorkflowViewer"
+                                },
+                                "btn": {
+                                    "text": "流程监控",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "提交",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "submit",
+                                    "englishName": "nsWorkflowSubmit"
+                                },
+                                "btn": {
+                                    "text": "提交",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "驳回",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "reject",
+                                    "englishName": "nsWorkflowReject"
+                                },
+                                "btn": {
+                                    "text": "驳回",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "查看办理意见",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "findHandleRec",
+                                    "englishName": "nsWorkflowFindHandleRec"
+                                },
+                                "btn": {
+                                    "text": "查看办理意见",
+                                    "isReturn": true
+                                }
+                            }
+                        ],
+                    },{
+                        type : 'vo',
+                        name : 'personal', // 个人信息
+                        keyField : 'personal',
+                        field : [],
+                    },{
+                        type : 'vo',
+                        name : 'register', // 登记信息
+                        keyField : 'root',
+                        field : [],
+                    },{
+                        type : 'list',
+                        name : 'project', // 项目信息
+                        keyField : 'project',
+                        field : [],
+                    },{
+                        type : 'list',
+                        name : 'cost', // 费用信息
+                        keyField : 'cost',
+                        field : [],
+                    },{
+                        type : 'vo',
+                        name : 'discount', // 优惠信息
+                        keyField : 'discount',
+                        field : [],
+                    },{
+                        type : 'list',
+                        name : 'harm', // 危害信息
+                        keyField : 'harm',
+                        field : [],
+                    }
+                ],
+                getValueAjax : {
+                    url : 'http://localhost:2000/debugger/data/physicalsreport.json',
+                    dataSrc : 'data',
+                }
+            }
+            var pageConfig = NetstarProject.init(config);
+            // NETSTAR添加url参数即pageParam
+            NetstarTemplate.init(pageConfig);
+        </script>
+    </container>
+</body>
+
+</html>

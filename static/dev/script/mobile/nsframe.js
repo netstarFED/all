@@ -443,7 +443,8 @@ nsFrame.loadPageVRouter = function(url){
 	var urlStr = url.substring(getRootPath().length,url.length);
 	// var pushUrl = getRootPath()+'/basemobile#'+urlStr;
 	var pushUrl = '';
-	if(url.indexOf('http') == 0){
+	// if(url.indexOf('http') == 0){
+	if(url.indexOf(NetstarHomePage.defaultServerUrl) == 0){
 		pushUrl = url;
 	}else{
 		pushUrl = (typeof(NetstarHomePage.defaultServerUrl) == "string" ? NetstarHomePage.defaultServerUrl : getRootPath())+'/basemobile#'+urlStr;
