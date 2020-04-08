@@ -123,7 +123,7 @@ var NetStarGrid = (function () {
 					// '{{ columnCofig.title }} '+
 						'<span v-html="columnCofig.title">'
 						+ '</span>'
-						+ '<button v-if="columnCofig.editable && (columnCofig.editConfig&&columnCofig.editConfig.type!=\'business\')" :ns-field="columnCofig.field" @click="thClickHandler($event, index, columnCofig)">编辑</button>'
+						+ '<button class="pt-btn pt-btn-default pt-btn-icon" v-if="columnCofig.editable && (columnCofig.editConfig&&columnCofig.editConfig.type!=\'business\')" :ns-field="columnCofig.field" @click="thClickHandler($event, index, columnCofig)"><i class="icon-pen"></i></button>'
 					+ '</td>' +
 					'</tr>' +
 					'</tbody>' +
@@ -170,8 +170,8 @@ var NetStarGrid = (function () {
 					// '<colgroup>' +
 					// 	'<col v-for="columnCofig in columns" :style="columnCofig.styleObj"></col>' +
 					// '</colgroup>' +
-					'<tbody>' +
-					'<tr v-for="(row,index) in rows" :ns-rowindex="index" @click="rowClickHandler" :ns-id="row[idField]" :primaryid="row[ui.parentField]" :nslevel="row.netstarLevel" @dblclick="rowdbClickHandler" :style="row[\'NETSTAR-TRSTYLE\']" :class="[{\'selected\':row.netstarSelectedFlag},{\'tr-disabled\':row[\'NETSTAR-TRDISABLE\']},{\'open\':row.netstarOpen},netstarTreeGridFlag(row),netstarRowStateFlag(row),{\'ns-tips-placeholder\':row\[\'NETSTAR-TIPS-PLACEHOLDER\'\]===true},row[\'NETSTAR-ROWSOURCE-CLASS\']]">' +
+					'<tbody @drop="gridRowsDrop($event)" @dragover="gridRowsDragover($event)">' +
+					'<tr v-for="(row,index) in rows" draggable="true" :ns-rowindex="index" @click="rowClickHandler" @dragstart="gridRowsDragstart($event)" :ns-id="row[idField]" :primaryid="row[ui.parentField]" :nslevel="row.netstarLevel" @dblclick="rowdbClickHandler" :style="row[\'NETSTAR-TRSTYLE\']" :class="[{\'selected\':row.netstarSelectedFlag},{\'tr-disabled\':row[\'NETSTAR-TRDISABLE\']},{\'open\':row.netstarOpen},netstarTreeGridFlag(row),netstarRowStateFlag(row),{\'ns-tips-placeholder\':row\[\'NETSTAR-TIPS-PLACEHOLDER\'\]===true},row[\'NETSTAR-ROWSOURCE-CLASS\']]">' +
 					'<td v-for="columnCofig in columns" \
 											:class="[columnCofig.columnType,NetstarTdStateFlag(row,columnCofig)]" \
 											:ns-edit-type="[columnCofig.editConfig&&columnCofig.editConfig.type?columnCofig.editConfig.type.toLowerCase():\'\']" \
@@ -3612,6 +3612,70 @@ var NetStarGrid = (function () {
 					// 编辑整列
 					thClickHandler : function (ev, index, columnCofig) {
 						methodsManager.thClickHandler(ev, _gridConfig, vueConfig);
+					},
+					// 拖拽的相关方法
+                	// 在一个拖动过程中，释放鼠标键时触发此事件
+					gridRowsDrop : function(ev){
+						/**
+						 * start : 开始位置 拖拽的位置
+						 * end : 结束位置 拖放结束的位置
+						 * seat : 在拖放位置 之前/之后
+						 */
+						var start = ev.dataTransfer.getData('start');
+						// 拖放到的容器 根据容器 确定结束位置
+						var $this = $(ev.target);
+						if(ev.target.nodeName == "TR"){
+							var $tr = $this;
+						}else{
+							var $tr = $this.parent('tr');
+						}
+						var end = $tr.attr('ns-rowindex');
+						// 插入位置 之前/之后
+						var seat = 'after';
+						var height = $tr.height();
+						var pageY = $tr.offset().top;
+						var centerHeightY = pageY + height/2;
+						var mousePageY = ev.pageY;
+						if(mousePageY < centerHeightY){
+							seat = 'before';
+						}
+						// 根据获得的star/end/seat三个值刷新表格数据
+						end = Number(end);
+						start = Number(start);
+						var originalRows = $.extend(true, [], this.originalRows);
+						if(end == start){
+							// 没有移动
+						}else{
+							var _originalRows = [];
+							for(var i=0; i<originalRows.length; i++){
+								if(i == start){
+									continue;
+								}
+								if(i == end){
+									if(seat == 'before'){
+										_originalRows.push(originalRows[start]);
+										_originalRows.push(originalRows[i]);
+									}else{
+										_originalRows.push(originalRows[i]);
+										_originalRows.push(originalRows[start]);
+									}
+									continue;
+								}
+								_originalRows.push(originalRows[i]);
+							}
+						}
+						this.originalRows = _originalRows;
+					},
+					// 当某被拖动的对象在另一对象容器范围内拖动时触发此事件
+					gridRowsDragover : function(ev){
+						ev.preventDefault();
+					},
+					// 用户开始拖动元素时触发
+					gridRowsDragstart : function(ev){
+						// 设置开始位置
+						var $this = $(ev.target);
+						var position = $this.attr('ns-rowindex');
+						ev.dataTransfer.setData("start", position);
 					},
 				},
 				mounted: function () {
