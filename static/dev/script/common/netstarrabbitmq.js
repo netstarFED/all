@@ -1303,7 +1303,7 @@ var NetStarRabbitMQ = (function(){
         setMessageIsLink : setMessageIsLink,
         subscribeCallBackFuncByTarget : subscribeCallBackFuncByTarget,
         printSend : printSubscribeManage.send,
-        printSubscribeManage : printSubscribeManage,
+        printSubscribeManage : printSubscribeManage, 
     }
 })(jQuery)
 // 操作本地软硬件资源 通过链接设备或软件获取数据 进行处理
