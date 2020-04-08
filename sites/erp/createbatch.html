@@ -74,10 +74,21 @@
                     NetStarUtils.ajax(ajaxConfig, function (res) {
                         console.log(res);
                         if (res.success) {
-                            nsAlert("保存成功");
-                            window.history.back();
+                            var ajaxConfig = {
+                                url:getRootPath() + '/checkups/v2/getByCheckupBatchId',
+                                data:{
+                                    id:nscloud.erpCheckUpId
+                                },
+                                type: 'POST',
+                                contentType: 'application/x-www-form-urlencoded',
+                            };
+                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                if(res.success){
+                                    NetstarBlockListM.refreshDataById("mobile-blocklist",res.data.checkupBatchDetailVOList)
+                                    nsalert('保存成功')
+                                }
+                            })
                         } else {
-                            window.history.back();
                         }
                     })
 
@@ -170,10 +181,19 @@
                         {
                             field: "outQuantity",
                             title: "已检数量",
-                            mindjetType: "number",
-                            editConfig: {
-                                type: "number"
+                            columnType:"number",
+                            editConfig:{
+                                type:'number'
+                            },
+                            formatHandler:{
+                                data:{
+                                    format:{
+                                        places:"0",
+                                        thousand:","
+                                    }
+                                }
                             }
+
                         }, {
                             field: "unCheckedQuantity",
                             title: "未检数量",
@@ -431,7 +451,7 @@
                         })
                     }
                 };
-            cameraScan.initHoneywellScan();
+            //cameraScan.initHoneywellScan();
             })
         </script>
     </container>
