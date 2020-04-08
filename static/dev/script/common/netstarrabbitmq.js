@@ -611,6 +611,12 @@ var NetStarRabbitMQ = (function(){
                             NetstarAppPlugin.media.play('success');
                         }
                     });
+                    var messageBody = {
+                        devType : '0',
+                        accountId : userId,
+                        mainInfo : JSON.stringify(mainInfo),
+                    }
+                    sendMessageToAppMobile(JSON.stringify(messageBody), toporgId, userId);
                     return;
                 }
                 recordSystemSubscribeData(workitemInfo, timestamp); // 记录订阅数据
@@ -1269,6 +1275,12 @@ var NetStarRabbitMQ = (function(){
         pageSubscribe[subConfig.containerId] = pageConfig;
     }
     /****************工作流订阅结束*****************/
+    /****************手机发送消息******************/
+    function sendMessageToAppMobile(messageBody, toporgId, userId){
+        var sendUrl = '/exchange/NetStarNoticeApp/'+ toporgId +'.notice.' + userId;
+        var client = NetStarRabbitMQ.client;
+        client.send(sendUrl, {}, messageBody);
+    }
     return {
         device : 'pc',
         infosArr : infosArr,
@@ -1291,6 +1303,7 @@ var NetStarRabbitMQ = (function(){
         setMessageIsLink : setMessageIsLink,
         subscribeCallBackFuncByTarget : subscribeCallBackFuncByTarget,
         printSend : printSubscribeManage.send,
+        printSubscribeManage : printSubscribeManage,
     }
 })(jQuery)
 // 操作本地软硬件资源 通过链接设备或软件获取数据 进行处理
