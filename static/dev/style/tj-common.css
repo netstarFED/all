@@ -20023,11 +20023,71 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 .block-list:after {
   clear: both;
 }
-.block-list .block-list-dropdown {
-  display: none;
-}
 .block-list.block-list-vertical .block-list-item {
   width: 100%;
+}
+.block-list .block-list-dropdown {
+  display: none;
+  width: 338px;
+  background: #fff;
+  top: 100%;
+  left: -1px;
+  position: absolute;
+  border: 1px solid #e0e0e0;
+  z-index: 9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.block-list .block-list-dropdown .pt-form {
+  padding: 10px;
+}
+.block-list .block-list-dropdown .pt-form form:before,
+.block-list .block-list-dropdown .pt-form form:after {
+  content: " ";
+  display: table;
+}
+.block-list .block-list-dropdown .pt-form form:after {
+  clear: both;
+}
+.block-list .block-list-dropdown .pt-form form:before,
+.block-list .block-list-dropdown .pt-form form:after {
+  content: " ";
+  display: table;
+}
+.block-list .block-list-dropdown .pt-form form:after {
+  clear: both;
+}
+.block-list .block-list-dropdown .pt-form .form-item {
+  display: block;
+  width: 50%;
+  float: left;
+}
+.block-list .block-list-dropdown .pt-form .form-item + .form-item {
+  margin-left: 10px;
+  width: calc(50% - 10px);
+}
+.block-list .block-list-dropdown .pt-form .form-item + .form-item .pt-btn {
+  line-height: 22px;
+  margin-right: 0;
+  margin-left: -1px;
+  padding: 0 5px;
+}
+.block-list .block-list-dropdown .pt-form .form-item:last-child {
+  width: 100%;
+  margin: 0;
+}
+.block-list .block-list-dropdown .pt-form .form-item:last-child textarea.form-control {
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin: 6px 0 0;
+  padding: 6px;
+  border: 1px solid #e0e0e0;
+}
+.block-list .block-list-dropdown .pt-form .form-item:last-child textarea.form-control:hover {
+  border-color: #e8743b;
+}
+.block-list .block-list-dropdown .pt-form .form-item:last-child textarea.form-control:focus {
+  border-color: #d3d3d3;
 }
 .block-list.block-list-grid .block-list-group {
   margin: 0 -5px;
@@ -20059,7 +20119,8 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 .block-list.block-list-grid .block-list-group .block-list-item .list-after {
   text-align: center;
   width: auto;
-  min-width: 30px;
+  min-width: 50px;
+  vertical-align: middle;
 }
 .block-list.block-list-grid.grid-col-2 .block-list-item {
   width: 50%;
@@ -20078,6 +20139,14 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .block-list.block-list-grid.grid-col-10 .block-list-item {
   width: 10%;
+}
+.block-list.block-list-normal .block-list-item .block-list-content {
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+.block-list.block-list-normal .block-list-item .block-list-content:hover .block-list-dropdown {
+  display: block;
 }
 body .price-grid .pt-grid-body .pt-grid-body-container table.pt-grid tbody tr .tr-control {
   position: absolute;
@@ -20651,6 +20720,67 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
 .sample-mark.sample-mark-cancel:before {
   content: '\ea88';
   color: #888;
+}
+.inquiry .inquiry-item .block-list-content {
+  height: 40px;
+}
+.inquiry .inquiry-warning .block-list-content {
+  border: 1px solid #e8743b;
+  padding: 5px;
+  padding-left: 10px;
+}
+.inquiry .inquiry-warning .block-list-content .list-body {
+  vertical-align: middle;
+  color: #e8743b;
+}
+.inquiry .inquiry-warning .block-list-content .list-after span {
+  color: #fff;
+  padding: 0 6px;
+  background: #e8743b;
+  min-width: 36px;
+  float: right;
+  height: 22px;
+  line-height: 22px;
+}
+.inquiry .inquiry-warning .block-list-content:before {
+  top: 2px;
+  left: 2px;
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 7px 7px 0 0;
+  border-color: #e8743b transparent transparent transparent;
+}
+.inquiry .inquiry-danger .block-list-content {
+  border: 1px solid #e83b43;
+  padding: 5px;
+  padding-left: 10px;
+}
+.inquiry .inquiry-danger .block-list-content .list-body {
+  vertical-align: middle;
+  color: #e83b43;
+}
+.inquiry .inquiry-danger .block-list-content .list-after span {
+  color: #fff;
+  padding: 0 6px;
+  background: #e83b43;
+  min-width: 36px;
+  float: right;
+  height: 22px;
+  line-height: 22px;
+}
+.inquiry .inquiry-danger .block-list-content:before {
+  top: 2px;
+  left: 2px;
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 7px 7px 0 0;
+  border-color: #e83b43 transparent transparent transparent;
 }
 @media only screen and (min-device-width: 768px) and (max-device-width: 1280px) {
   .border-pad {
