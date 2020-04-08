@@ -39,6 +39,7 @@
   color: #424242;
   font-size: 12px;
   padding: 9px 10px 9px;
+  word-break: break-all;
 }
 .pt-intro-copy ul li:hover {
   color: #c70019;
@@ -2269,6 +2270,7 @@ select[multiple].form-lg .pt-form-control {
 .pt-label-common {
   font-weight: bold;
   padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
 }
 .limsreg-blocklist .limsreg-blocklist-query {
   border: 1px solid #e0e0e0;
@@ -20116,6 +20118,11 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   background: #c70019;
   color: #006d7f;
 }
+.ztree li span.checkbox_true_full:after,
+.ztree li span.checkbox_true_full_focus:after,
+.ztree li span.checkbox_true_disable:after {
+  color: #c70019;
+}
 .pt-form.pt-form-grid {
   padding: 0;
   border: 0;
@@ -20135,7 +20142,6 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   right: 0;
   left: 0;
   background: #e0e0e0;
-  z-index: 2;
 }
 .pt-form.pt-form-grid .pt-form-body:after {
   content: '';
@@ -20144,7 +20150,6 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 .pt-form.pt-form-grid .pt-form-group {
   margin-bottom: 0;
   position: relative;
-  z-index: 1;
   display: block;
   float: left;
 }
@@ -20314,6 +20319,25 @@ body.pt-veritical.pt-systeminfo .pt-header ul.pt-nav.pt-dropdown .pt-top-menu-it
 }
 .pt-modal .pt-modal-header .pt-close .pt-btn.pt-btn-icon:hover i {
   color: #fff;
+}
+body .pt-form .pt-input-group .pt-input-group-addon .pt-btn,
+body.body-sm .pt-form .pt-input-group .pt-input-group-addon .pt-btn,
+body .pt-form .pt-input-group .pt-input-group-btn .pt-btn,
+body.body-sm .pt-form .pt-input-group .pt-input-group-btn .pt-btn {
+  line-height: 30px;
+}
+.datepicker table tr td.active,
+.datetimepicker table tr td.active,
+.datepicker table tr td.active.disabled,
+.datetimepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover,
+.datetimepicker table tr td.active.disabled:hover {
+  color: #fff;
+  background: #c70019 !important;
+}
+.datepicker table tr td.active:hover,
+.datetimepicker table tr td.active:hover {
+  background: #ae0016 !important;
 }
 body.pt-veritical {
   padding: 50px 0 0 216px;
