@@ -1,0 +1,71 @@
+@nav-triangle-size: 10px;
+@nav-triangle-dot-size: 5px;
+
+.nav {
+    &.nav-vertical {
+        // border: 1px solid @border-color;
+
+        position: relative;
+
+        &:before {
+            position: absolute;
+            content: '';
+            width: 1px;
+            height: 100%;
+            background: @border-color;
+            top: 0;
+            left: 5px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: (@base-padding / 2) @base-padding;
+            line-height: 1.5;
+            padding-left: 20px;
+            position: relative;
+
+
+
+            &:before {
+                position: absolute;
+                content: '';
+                .square(@nav-triangle-dot-size);
+                border-radius: @nav-triangle-dot-size;
+                top: 50%;
+                left: (@nav-triangle-dot-size / 2);
+                background: @border-color;
+                margin-top: (@nav-triangle-dot-size / 2);
+            }
+
+            &:hover {
+                color: #333;
+                font-weight: bold;
+
+                &:before {
+                    top: 50%;
+                    left: 2px;
+                    .triangle-right(@nav-triangle-size, darken(@border-color, 20));
+                    background: none;
+                    border-radius: 2px;
+                    margin-top: -4px;
+                }
+            }
+
+            &.current {
+                font-weight: bold;
+                color: @warning;
+
+                &:before {
+                    top: 50%;
+                    left: 2px;
+                    .triangle-right(@nav-triangle-size, @warning);
+                    background: none;
+                    border-radius: 2px;
+                    margin-top: -4px;
+                }
+            }
+
+
+        }
+    }
+}
