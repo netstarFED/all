@@ -5540,7 +5540,7 @@ var NetStarGrid = (function () {
 			for (var i = 0; i < rows.length; i++) {
 				var data = rows[i];
 				if (originalRows[i + startI]) {
-					if (data.netstarSelectedFlag && data['NETSTAR-TRDISABLE'] === true) {
+					if (data.netstarSelectedFlag && data['NETSTAR-TRDISABLE'] !== true) {
 						selectedRows.push(originalRows[i + startI]);
 					}
 				}
