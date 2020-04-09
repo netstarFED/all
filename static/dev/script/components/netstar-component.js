@@ -20926,6 +20926,7 @@ NetstarComponent.select = {
                     }
                     $('div[name="'+this.id+'"] ul li[ns-id="'+primaryId+'"]').removeClass('selected');
                     this.setSelectedValue();
+                    this.change('',true);
                 },
                 //按钮按下不验证值
                 clearMousedown: function(){
