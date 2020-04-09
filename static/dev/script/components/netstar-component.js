@@ -22225,20 +22225,24 @@ NetstarComponent.upload = {
     // 上传文件
     uploadFile : function(files, config, callBackFunc){
         var formData = new FormData();
+        var isAddCategories = false; // 是否已经添加了categories
         for (var i = 0; i < files.length; i++) {
             var item = files[i];
             formData.append('files', item, item.name);
             if(typeof(config.visibilityLevel) == "string" && config.visibilityLevel.length > 0){
                 formData.append('visibilityLevel', config.visibilityLevel);
             }
-            switch(item.type){
-                case 'image/img':
-                case 'image/jpg':
-                case 'image/png':
-                case 'image/jpeg':
-                case 'image/gif':
-                    formData.append('categories',['image:0.1']);
-                    break;
+            if(!isAddCategories){
+                switch(item.type){
+                    case 'image/img':
+                    case 'image/jpg':
+                    case 'image/png':
+                    case 'image/jpeg':
+                    case 'image/gif':
+                        isAddCategories = true;
+                        formData.append('categories',['image:0.1']);
+                        break;
+                }
             }
         }
         if(!$.isEmptyObject(config.uploadAjaxData)){

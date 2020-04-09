@@ -6210,6 +6210,7 @@ var businessBtnManage = {
 		};
 		var ajaxData = {};
 		if(typeof(getPanelDataAjax.data) == 'object' && !$.isEmptyObject(getPanelDataAjax.data)){
+			selectVal.page = callBackObj.dialogBeforeHandler(callBackObj).value;
 			ajaxData = NetStarUtils.getFormatParameterJSON(getPanelDataAjax.data, selectVal);
 		}
 		getPanelDataAjax.data = ajaxData;

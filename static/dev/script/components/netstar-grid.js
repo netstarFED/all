@@ -171,7 +171,7 @@ var NetStarGrid = (function () {
 					// 	'<col v-for="columnCofig in columns" :style="columnCofig.styleObj"></col>' +
 					// '</colgroup>' +
 					'<tbody @drop="gridRowsDrop($event)" @dragover="gridRowsDragover($event)">' +
-					'<tr v-for="(row,index) in rows" draggable="true" :ns-rowindex="index" @click="rowClickHandler" @dragstart="gridRowsDragstart($event)" :ns-id="row[idField]" :primaryid="row[ui.parentField]" :nslevel="row.netstarLevel" @dblclick="rowdbClickHandler" :style="row[\'NETSTAR-TRSTYLE\']" :class="[{\'selected\':row.netstarSelectedFlag},{\'tr-disabled\':row[\'NETSTAR-TRDISABLE\']},{\'open\':row.netstarOpen},netstarTreeGridFlag(row),netstarRowStateFlag(row),{\'ns-tips-placeholder\':row\[\'NETSTAR-TIPS-PLACEHOLDER\'\]===true},row[\'NETSTAR-ROWSOURCE-CLASS\']]">' +
+					'<tr v-for="(row,index) in rows" :draggable="ui.isEditMode" :ns-rowindex="index" @click="rowClickHandler" @dragstart="gridRowsDragstart($event)" :ns-id="row[idField]" :primaryid="row[ui.parentField]" :nslevel="row.netstarLevel" @dblclick="rowdbClickHandler" :style="row[\'NETSTAR-TRSTYLE\']" :class="[{\'selected\':row.netstarSelectedFlag},{\'tr-disabled\':row[\'NETSTAR-TRDISABLE\']},{\'open\':row.netstarOpen},netstarTreeGridFlag(row),netstarRowStateFlag(row),{\'ns-tips-placeholder\':row\[\'NETSTAR-TIPS-PLACEHOLDER\'\]===true},row[\'NETSTAR-ROWSOURCE-CLASS\']]">' +
 					'<td v-for="columnCofig in columns" \
 											:class="[columnCofig.columnType,NetstarTdStateFlag(row,columnCofig)]" \
 											:ns-edit-type="[columnCofig.editConfig&&columnCofig.editConfig.type?columnCofig.editConfig.type.toLowerCase():\'\']" \
@@ -3627,7 +3627,7 @@ var NetStarGrid = (function () {
 						if(ev.target.nodeName == "TR"){
 							var $tr = $this;
 						}else{
-							var $tr = $this.parent('tr');
+							var $tr = $this.closest('tr');
 						}
 						var end = $tr.attr('ns-rowindex');
 						// 插入位置 之前/之后
@@ -5540,7 +5540,7 @@ var NetStarGrid = (function () {
 			for (var i = 0; i < rows.length; i++) {
 				var data = rows[i];
 				if (originalRows[i + startI]) {
-					if (data.netstarSelectedFlag) {
+					if (data.netstarSelectedFlag && data['NETSTAR-TRDISABLE'] !== true) {
 						selectedRows.push(originalRows[i + startI]);
 					}
 				}
@@ -7622,12 +7622,16 @@ var NetStarGrid = (function () {
 											var value = data[dataSrc];
 											if ($.isArray(value) && value.length == 1) {
 												_vueConfig.setValue(value); // 赋值
+												var gridId = formId.substring(6, formId.length);
+												confirmQuickQueryHandler({
+													gridId: gridId,
+													formId: formId
+												});
+											}else{
+												NetstarComponent.business.buttonClick(_config, _vueConfig, true);
 											}
-											var gridId = formId.substring(6, formId.length);
-											confirmQuickQueryHandler({
-												gridId: gridId,
-												formId: formId
-											});
+										}else{
+											NetstarComponent.business.buttonClick(_config, _vueConfig, true);
 										}
 									});
 								} else {

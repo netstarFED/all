@@ -20363,11 +20363,22 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
 .filter .pt-btn-group .pt-btn.current span {
   color: #fff;
 }
+.pt-title {
+  display: block;
+}
+.pt-title .more {
+  float: right;
+  color: #666;
+}
+.pt-title .more:hover {
+  color: #000;
+  text-decoration: underline;
+}
 .pt-main .pt-main-row .pt-main-col:nth-child(3) {
   max-width: 320px;
 }
 .pt-panel .pt-panel-header {
-  line-height: 24px;
+  line-height: 22px;
   padding-bottom: 10px;
 }
 .pt-panel .pt-panel-header .title {
@@ -20477,6 +20488,72 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   border-color: transparent transparent #e8743b transparent;
   z-index: 2;
 }
+.nav.nav-vertical {
+  position: relative;
+}
+.nav.nav-vertical:before {
+  position: absolute;
+  content: '';
+  width: 1px;
+  height: 100%;
+  background: #e0e0e0;
+  top: 0;
+  left: 5px;
+}
+.nav.nav-vertical .nav-item {
+  display: block;
+  padding: 5px 10px;
+  line-height: 1.5;
+  padding-left: 20px;
+  position: relative;
+}
+.nav.nav-vertical .nav-item:before {
+  position: absolute;
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  top: 50%;
+  left: 2.5px;
+  background: #e0e0e0;
+  margin-top: 2.5px;
+}
+.nav.nav-vertical .nav-item:hover {
+  color: #333;
+  font-weight: bold;
+}
+.nav.nav-vertical .nav-item:hover:before {
+  top: 50%;
+  left: 2px;
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 10px;
+  border-color: transparent transparent transparent #adadad;
+  background: none;
+  border-radius: 2px;
+  margin-top: -4px;
+}
+.nav.nav-vertical .nav-item.current {
+  font-weight: bold;
+  color: #e8743b;
+}
+.nav.nav-vertical .nav-item.current:before {
+  top: 50%;
+  left: 2px;
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 10px;
+  border-color: transparent transparent transparent #e8743b;
+  background: none;
+  border-radius: 2px;
+  margin-top: -4px;
+}
 .user-photo {
   text-align: center;
   padding: 10px 0;
@@ -20489,6 +20566,8 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
 }
 .user-photo-eidt .pt-btn-group .pt-btn {
   width: 76.66666667px;
+  height: 28px;
+  line-height: 28px;
 }
 .user-info,
 .queue {
@@ -20634,6 +20713,9 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   font-weight: normal;
   margin-bottom: 0;
 }
+.price-block .price-block-body b {
+  color: #e8743b;
+}
 .price-block.price-paid {
   position: relative;
   overflow: hidden;
@@ -20689,8 +20771,11 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   float: right;
   line-height: 22px;
 }
+.queue .list .list-item.current {
+  color: #e8743b;
+}
 .queue .list .list-item:hover {
-  background: #f7f7f7;
+  background: #f9f9f9;
 }
 .occ-harm {
   padding: 5px 10px;
@@ -20702,6 +20787,10 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
 .occ-harm .title .more {
   float: right;
   color: #777;
+}
+.occ-harm .title .more:hover {
+  color: #000;
+  text-decoration: underline;
 }
 .occ-harm .pt-tags {
   padding: 0;
@@ -20771,6 +20860,7 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   float: right;
   height: 22px;
   line-height: 22px;
+  cursor: pointer;
 }
 .inquiry .inquiry-warning .block-list-content:before {
   top: 2px;
@@ -20800,6 +20890,7 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   float: right;
   height: 22px;
   line-height: 22px;
+  cursor: pointer;
 }
 .inquiry .inquiry-danger .block-list-content:before {
   top: 2px;
@@ -20811,6 +20902,10 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   border-style: solid;
   border-width: 7px 7px 0 0;
   border-color: #e83b43 transparent transparent transparent;
+}
+.uncheck .block-list-item:last-child,
+.uncheck .block-list-item:nth-last-child(2) {
+  margin-bottom: 0;
 }
 @media only screen and (min-device-width: 768px) and (max-device-width: 1280px) {
   .border-pad {

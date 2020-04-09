@@ -1209,6 +1209,7 @@ var NetstarTemplate = {
 							treeId = components[key].id;
 							break;
 						case 'businessDataBase':
+						case 'treeForm':
 							if($('#'+treeId).length == 0){
 								treeId = components[key].id;
 							}
@@ -3384,8 +3385,19 @@ var NetstarTemplate = {
 		//获取界面值
 		var templatePageData = data.dialogBeforeHandler(data);
 		var tempalteConfig = templatePageData.config;
-		if(typeof(NetstarTemplate.templates[tempalteConfig.template].fillValues)=='function'){
-			NetstarTemplate.templates[tempalteConfig.template].fillValues(value,tempalteConfig,controllerObj);
+		// lyw 修改 原因登记模板要求通过选中数据修改当前选中块 原来方法会重新给块状表格赋值
+		// if(typeof(NetstarTemplate.templates[tempalteConfig.template].fillValues)=='function'){
+		// 	NetstarTemplate.templates[tempalteConfig.template].fillValues(value,tempalteConfig,controllerObj);
+		// }
+		switch(tempalteConfig.template){
+			case 'limsReg':
+				NetstarTemplate.templates[tempalteConfig.template].editValues(value, tempalteConfig, controllerObj);
+				break;
+			default:
+				if(typeof(NetstarTemplate.templates[tempalteConfig.template].fillValues)=='function'){
+					NetstarTemplate.templates[tempalteConfig.template].fillValues(value,tempalteConfig,controllerObj);
+				}
+				break;
 		}
 	},
 	//根据模板定义的keyfield新增值

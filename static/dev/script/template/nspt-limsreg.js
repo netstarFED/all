@@ -2770,6 +2770,53 @@ NetstarTemplate.templates.limsReg = (function ($) {
             }  
          }
       },
+      editValues:function(value, tempalteConfig, controllObj){
+         var keyField = controllObj.targetField ? controllObj.targetField : '';
+         var isRoot = true;
+         if(keyField){
+            if(keyField != 'root'){
+               isRoot = false;
+            }
+         }
+         if(isRoot){
+            tempalteConfig.serverData = value;
+            initComponentByFillValues(tempalteConfig);
+         }else{
+            if(keyField == tempalteConfig.detailLeftComponent.keyField){
+               var detailLeftComponent = tempalteConfig.detailLeftComponent;
+               var valueData = value;
+               if($.isArray(value[keyField])){
+                  valueData = value[keyField];
+               }
+               if(!$.isArray(valueData) || valueData.length == 0){
+                  valueData = [];
+                  nsalert('修改失败，没有找到修改数据', 'warning');
+                  console.error('修改失败，没有找到修改数据');
+                  return false;
+               }
+               var editData = valueData[0];
+               var detailLeftComponentId = detailLeftComponent.id;
+               var idField = detailLeftComponent.idField;
+               // 块状表格数据
+               var detailLeftData = $.extend(true, [], NetstarBlockList.configs[detailLeftComponentId].vueObj.originalRows);
+               // 选中数据
+               var selectedData = NetstarBlockList.getSelectedData(detailLeftComponentId);
+               var selectedIndex = NetstarBlockList.getSelectedIndex(detailLeftComponentId);
+               if(typeof(selectedData[0]) == "object" && selectedData[0][idField] && selectedData[0][idField] !== null){
+                  editData[idField] = selectedData[0][idField];
+               }
+               detailLeftData[selectedIndex] = editData;
+
+               NetstarBlockList.refreshDataById(tempalteConfig.detailLeftComponent.id, detailLeftData);
+               tabComponentFunc(tempalteConfig, 'refresh', editData);
+               // if(valueData[0]){
+               //    tabComponentFunc(tempalteConfig,'refresh',valueData[0]);
+               // }else{
+               //    tabComponentFunc(tempalteConfig,'clear');
+               // }
+            }  
+         }
+      },
       setValueByDraft : setValueByDraft,
       tabComponentFunc:tabComponentFunc,
       clearByAll:function(_config){
