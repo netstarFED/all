@@ -1209,6 +1209,7 @@ var NetstarTemplate = {
 							treeId = components[key].id;
 							break;
 						case 'businessDataBase':
+						case 'treeForm':
 							if($('#'+treeId).length == 0){
 								treeId = components[key].id;
 							}
