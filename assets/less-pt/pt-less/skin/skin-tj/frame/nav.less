@@ -1,5 +1,6 @@
 @nav-triangle-size: 10px;
 @nav-triangle-dot-size: 5px;
+@nav-active-color: @warning;
 
 .nav {
     &.nav-vertical {
@@ -53,12 +54,12 @@
 
             &.current {
                 font-weight: bold;
-                color: @warning;
+                color: @nav-active-color;
 
                 &:before {
                     top: 50%;
                     left: 2px;
-                    .triangle-right(@nav-triangle-size, @warning);
+                    .triangle-right(@nav-triangle-size, @nav-active-color);
                     background: none;
                     border-radius: 2px;
                     margin-top: -4px;

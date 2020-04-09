@@ -1,21 +1,26 @@
-.queue{
-    .list{
-        .list-item{
+.queue {
+    .list {
+        .list-item {
             display: block;
             width: 100%;
             height: 32px;
             line-height: 22px;
-            i{
-                & + span{
+
+            i {
+                &+span {
                     padding-left: (@base-padding / 2);
                 }
             }
-            .list-after{
+
+            .list-after {
                 float: right;
                 line-height: 22px;
             }
-            &:hover{
+
+            &.current,
+            &:hover {
                 background: #f7f7f7;
+                color: @warning;
             }
         }
     }
