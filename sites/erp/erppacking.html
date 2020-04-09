@@ -266,25 +266,29 @@
                                        text:'整箱打包',
                                        isReturn:true,
                                        handler:function(){
-                                           var pageConfig = NetstarTemplate.templates.configs[erpPacking.package];
-                                           var pageParamData = pageConfig.pageParam;
+                                        //    debugger
+                                        //    var pageConfig = NetstarTemplate.templates.configs[erpPacking.package];
+                                           var pageConfig = NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erppaking']
+                                           var pageParamData = pageConfig.config.pageParam;
                                            var blockListData = NetstarBlockListM.dataManager.getData('nstemplate-layout-nscloud-erppaking-blockList-0');
                                           /*  var packingDetailVOList = $.extend(true,[],blockListData) */
-                                          var ajaxConfig = {
-                                               url:getRootPath() + '/packingController/v2/getByPackingBoxId',
-                                               contentType: "application/x-www-form-urlencoded",
-                                               type:"POST",
-                                               data:{
-                                                   id:pageParamData.id
-                                               }
-                                           }
-                                          NetStarUtils.ajax(ajaxConfig,function(res){
-                                              var data = res.data;
+                                        //   var ajaxConfig = {
+                                        //        url:getRootPath() + '/packingController/v2/getByPackingBoxId',
+                                        //        contentType: "application/x-www-form-urlencoded",
+                                        //        type:"POST",
+                                        //        data:{
+                                        //            id:pageParamData.id
+                                        //        }
+                                        //    }
+                                          var ajaxData = {
+                                            packingDetailVOList: blockListData
+                                          }
+                                          $.extend(true, ajaxData, pageParamData);
                                             var ajaxConfig = {
                                                 url:getRootPath() + '/packingController/v2/createPackingOfLeft',
                                                 contentType:'application/json',
                                                 type:"POST",
-                                                data:data
+                                                data:ajaxData
                                             }
                                             NetStarUtils.ajax(ajaxConfig,function(res){
                                                 if(res.success){
@@ -294,9 +298,6 @@
                                                     nsalert(res.msg)
                                                 }
                                             })
-                                          })
-                                            
-                                          
                                        }
                                    },
                                    functionConfig:{
