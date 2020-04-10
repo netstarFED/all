@@ -45,6 +45,9 @@ var NetstarTemplate = {
 		limsResultInput:{
 
 		},//lims结果录入
+		statisticalPlan:{
+
+		},//作业计划
 	},//模板定义
 	//获取模板公用的高度
 	getContainerCommonHeight: function () {
@@ -2107,6 +2110,13 @@ var NetstarTemplate = {
 								}
 							}
 							var pageParamJson = _config.pageParam;
+							switch(_config.template){
+								case 'statisticalPlan':
+									pageParamJson = componentData.blockSelectedData;
+									break;
+								default:
+									break;
+							}
 							if(isUseObject){
 								if(!$.isEmptyObject(pageParamJson)){
 									ajaxParams.data = NetStarUtils.getDefaultValues(ajaxParams.data,pageParamJson);
@@ -2256,6 +2266,7 @@ var NetstarTemplate = {
 							selectMode:'single',
 							defaultSelectedIndex:0,
 							listExpression:componentData.listExpression,
+							nullBlockExpression:componentData.nullBlockExpression,
 							displayMode:'block',
 						}
 					};

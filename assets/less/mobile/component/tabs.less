@@ -1,5 +1,6 @@
 [ns-system="mobile"] {
 
+
     .processdocbasetab,
     .businessdatabaseeditor {
         padding-top: 5rem;
@@ -37,6 +38,8 @@
                 }
             }
         }
+
+
 
         .pt-grid-body-footer {
             position: fixed;
@@ -220,6 +223,30 @@
     .businessdatabaseeditor {
         .pt-grid {
             padding-top: 4.5rem;
+        }
+    }
+
+
+    .is-header-show-tab {
+
+        &.padding-top-header,
+        &.padding-top-header-search {
+            padding-top: 0;
+        }
+
+        .processdocbasetab,
+        .businessdatabaseeditor {
+            .nspanel[nstype="tab"] {
+                top: 4.5rem
+            }
+
+            .pt-grid-body-addbtn {
+                top: 9.5rem;
+
+                &+.nsgrid {
+                    margin-top: 9.5rem;
+                }
+            }
         }
     }
 }
