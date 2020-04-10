@@ -255,6 +255,9 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 data.unshift(allData);
                 componentData.dataSource = data;
                 componentData.nullBlockExpression = '<span>未分类</span>'
+                if(componentData.params && componentData.params.nullBlockExpression){
+                    componentData.nullBlockExpression = componentData.params.nullBlockExpression;
+                }
                 var blockComponents = {};
                 blockComponents[componentData.id] = componentData;
                 NetstarTemplate.commonFunc.blockList.initBlockList(blockComponents, config);
