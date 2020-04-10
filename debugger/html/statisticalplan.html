@@ -1,0 +1,1252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+ <meta name="description" content="网星云服务" />
+ <meta name="author" content="netstar" />
+ <title>体检登记</title>
+
+ <script type="text/javascript">
+     var language = 'cn';
+     mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+ </script>
+ <!--# include file="/sites/include/login-static-dev.html" -->
+ <!--# include file="/sites/include/preload-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-dev.html" -->
+ <!--# include file="/sites/include/lazy-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+ <script type="text/javascript" src="/static/dev/script/template/nspt-statisticalplan.js?v=10.0.0"></script>
+ <script>NetstarHomePage=false</script>
+ <link rel="stylesheet" href="/static/dev/style/tj-common.css">
+ <style>
+     /* 临时STYLE CSS */
+ </style>
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+    <container>
+        <script>
+            window.getRootPath = function(){ return 'https://qaapi.wangxingcloud.com/' }
+            var config = {
+                package : 'netstar.statisticalplan',
+                // title : '体检登记',
+                template : 'statisticalPlan',
+                components : [
+                    {
+                        type : 'btns',
+                        plusClass : 'left',
+                        operatorObject : 'root',
+                        field : [
+                            {
+                                "functionConfig": {
+                                    "text": "流程监控",
+                                    "defaultMode": "workflowViewer",
+                                    "englishName": "nsWorkflowViewer",
+                                    isInlineBtn : true,
+                                    icon:'icon-close'
+                                },
+                                "btn": {
+                                    "text": "流程监控",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "提交",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "submit",
+                                    "englishName": "nsWorkflowSubmit"
+                                },
+                                "btn": {
+                                    "text": "提交",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "驳回",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "reject",
+                                    "englishName": "nsWorkflowReject"
+                                },
+                                "btn": {
+                                    "text": "驳回",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "查看办理意见",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "findHandleRec",
+                                    "englishName": "nsWorkflowFindHandleRec"
+                                },
+                                "btn": {
+                                    "text": "查看办理意见",
+                                    "isReturn": true
+                                }
+                            }
+                        ],
+                    },{
+                        type : 'btns',
+                        plusClass : 'right',
+                        operatorObject : 'right',
+                        field : [
+                            {
+                                "functionConfig": {
+                                    "text": "流程监控",
+                                    "defaultMode": "workflowViewer",
+                                    "englishName": "nsWorkflowViewer"
+                                },
+                                "btn": {
+                                    "text": "流程监控",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "提交",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "submit",
+                                    "englishName": "nsWorkflowSubmit"
+                                },
+                                "btn": {
+                                    "text": "提交",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "驳回",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "reject",
+                                    "englishName": "nsWorkflowReject"
+                                },
+                                "btn": {
+                                    "text": "驳回",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "查看办理意见",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "findHandleRec",
+                                    "englishName": "nsWorkflowFindHandleRec"
+                                },
+                                "btn": {
+                                    "text": "查看办理意见",
+                                    "isReturn": true
+                                }
+                            }
+                        ],
+                    },{
+                        "type": "blockList",
+                        "field": [
+                            {
+                                "englishName": "id",
+                                "className": "java.lang.Long",
+                                "gid": "60c59f0a-f08e-b992-360f-7b7dcbb4586f",
+                                "variableType": "string",
+                                "chineseName": "id",
+                                "isHaveChineseName": false,
+                                "id": "id",
+                                "label": "id",
+                                "type": "text",
+                                "field": "id",
+                                "title": "id",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 0,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "acceptId",
+                                "className": "java.lang.Long",
+                                "gid": "02256cf9-33f0-4aca-c087-81bbfeeb8a4f",
+                                "variableType": "string",
+                                "chineseName": "受理ID",
+                                "isHaveChineseName": true,
+                                "id": "acceptId",
+                                "label": "受理ID",
+                                "type": "text",
+                                "field": "acceptId",
+                                "title": "受理ID",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 1,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "batchId",
+                                "className": "java.lang.Long",
+                                "gid": "e02a0f1c-4685-d926-2b17-9a4b8645fe71",
+                                "variableType": "string",
+                                "chineseName": "批次ID",
+                                "isHaveChineseName": true,
+                                "id": "batchId",
+                                "label": "批次ID",
+                                "type": "text",
+                                "field": "batchId",
+                                "title": "批次ID",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 2,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "sampleCode",
+                                "chineseName": "样品编号",
+                                "variableType": "string",
+                                "field": "sampleCode",
+                                "title": "样品委托编号",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "da7ae00f-5d9f-9ba3-e31f-b1f1f4fef59a",
+                                "voName": "sampleSampleVO",
+                                "editConfig": {
+                                    "id": "sampleCode",
+                                    "englishName": "sampleCode",
+                                    "chineseName": "样品编号",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "da7ae00f-5d9f-9ba3-e31f-b1f1f4fef59a",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "样品委托编号",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 130,
+                                "mindjetIndexState": 3
+                            },
+                            {
+                                "englishName": "sampleCateId",
+                                "chineseName": "样品类别ID",
+                                "variableType": "string",
+                                "field": "sampleCateId",
+                                "title": "样品类别",
+                                "mindjetType": "business",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "f2c3c722-60ce-5c95-8561-64740033c2d9",
+                                "voName": "sampleSampleVO",
+                                "editConfig": {
+                                    "id": "sampleCateId",
+                                    "englishName": "sampleCateId",
+                                    "chineseName": "样品类别ID",
+                                    "variableType": "string",
+                                    "mindjetType": "business",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "f2c3c722-60ce-5c95-8561-64740033c2d9",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "business",
+                                    "label": "样品类别",
+                                    "rules": "required",
+                                    "dialogTitle": "样品类别选择",
+                                    "selectMode": "single",
+                                    "idField": "id",
+                                    "textField": "sampleCateName",
+                                    "relationField": "propertyValue,sampleStatusId",
+                                    "outputFields": {
+                                        "sampleCateName": "{sampleCateName}",
+                                        "sampleCateId": "{id}"
+                                    },
+                                    "innerFields": {
+                                        "sampleCateName": "{sampleCateName}",
+                                        "id": "{sampleCateId}"
+                                    },
+                                    "assignExpres": {
+                                        "sampleName": "{sampleCateName}"
+                                    },
+                                    "isOutputString": false,
+                                    "isInputText": false,
+                                    "displayMode": "tree",
+                                    "isAsync": false,
+                                    "isDeleteObjectState": false,
+                                    "disabled": false,
+                                    "width": "50%",
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "source": {
+                                        "type": "GET",
+                                        "suffix": "/templateMindPages/pageConfig/1317168241633657842",
+                                        "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1317168241633657842"
+                                    },
+                                    "search": {
+                                        "type": "POST",
+                                        "dataSrc": "rows",
+                                        "suffix": "/sampleCate/getSampleCateTreeList",
+                                        "url": "https://qaapi.wangxingcloud.com//sampleCate/getSampleCateTreeList"
+                                    }
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 154,
+                                "formatHandler": {
+                                    "type": "renderField",
+                                    "data": "{{sampleCateName}}"
+                                },
+                                "columnType": "renderField",
+                                "mindjetIndexState": 4
+                            }
+                        ],
+                        "voId": "1309191185989904361",
+                        "idField": "id",
+                        // "keyField": "sampleList",
+                        "parent": "root",
+                        "listExpression": "<div class='pt-block-content-item'>\n<span class=\"tag\">样品名称：</span>\n<span class=\"code\">{{sampleName}}</span>\n</div>\n<div class='pt-block-content-item'>\n<span class=\"tag\">委托编号：</span>\n<span class=\"code\">{{sampleCode}}</span>\n</div>",
+                        "isUseSearchInput": true,
+                        "isUseQRInput": false,
+                        ajax:{
+                            url: "http://localhost:2000/debugger/data/statisticalplanblock.json",
+                            type: "POST",
+                            dataSrc: "rows",
+                            contentType: "application/json",
+                        }
+                    },{
+                        "type": "list",
+                        "field": [
+                            {
+                                "englishName": "id",
+                                "className": "java.lang.Long",
+                                "gid": "c717791f-303b-42bb-290e-1cc08bc39004",
+                                "variableType": "string",
+                                "chineseName": "id",
+                                "isHaveChineseName": false,
+                                "id": "id",
+                                "label": "id",
+                                "type": "text",
+                                "field": "id",
+                                "title": "id",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 0,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "sampleId",
+                                "className": "java.lang.Long",
+                                "gid": "aed771bc-3bd3-1252-58e9-2c0e17225bac",
+                                "variableType": "string",
+                                "chineseName": "样品ID",
+                                "isHaveChineseName": true,
+                                "id": "sampleId",
+                                "label": "样品ID",
+                                "type": "text",
+                                "field": "sampleId",
+                                "title": "样品ID",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 1,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "disOrder",
+                                "chineseName": "显示顺序",
+                                "variableType": "string",
+                                "field": "disOrder",
+                                "title": "显示顺序",
+                                "mindjetType": "number",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "8c571a37-e481-e9b0-599c-634cf9919a91",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "disOrder",
+                                    "englishName": "disOrder",
+                                    "chineseName": "显示顺序",
+                                    "variableType": "string",
+                                    "mindjetType": "number",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "8c571a37-e481-e9b0-599c-634cf9919a91",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.Long",
+                                    "type": "number",
+                                    "label": "显示顺序",
+                                    "decimalDigit": 0,
+                                    "isShowCalculator": false,
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": true,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "isTitle": false,
+                                "isValue": false,
+                                "isQuickQuery": false,
+                                "width": 58,
+                                "mindjetIndexState": 2
+                            },
+                            {
+                                "englishName": "itemId",
+                                "chineseName": "检测项目",
+                                "variableType": "string",
+                                "field": "itemId",
+                                "title": "检测项目",
+                                "mindjetType": "business",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "4f147be0-277b-c423-8ff7-9a952fdd9f96",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "itemId",
+                                    "englishName": "itemId",
+                                    "chineseName": "检测项目",
+                                    "variableType": "string",
+                                    "mindjetType": "business",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "4f147be0-277b-c423-8ff7-9a952fdd9f96",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.Long",
+                                    "type": "business",
+                                    "label": "检测项目",
+                                    "rules": "required",
+                                    "dialogTitle": "按照产品标准选择项目",
+                                    "selectMode": "checkbox",
+                                    "idField": "itemId",
+                                    "textField": "itemName",
+                                    "outputFields": {
+                                        "itemReportName": "{itemName}"
+                                    },
+                                    "isOutputString": false,
+                                    "isInputText": false,
+                                    "isAsync": false,
+                                    "isDeleteObjectState": false,
+                                    "isNeedRowData": "true",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "isAloneQuery": false,
+                                    "source": {
+                                        "type": "GET",
+                                        "suffix": "/templateMindPages/pageConfig/1320271225582257138",
+                                        "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1320271225582257138"
+                                    },
+                                    "search": {
+                                        "type": "POST",
+                                        "dataSrc": "rows",
+                                        "data": {
+                                            "stdIds": "{nsPackage.sampleDetailList.stdIds}",
+                                            "reportStampType": "{page.reportStampType}",
+                                            "labels": "{page.childOrgId}"
+                                        },
+                                        "contentType": "application/x-www-form-urlencoded",
+                                        "suffix": "/sampleMethods/getSampleStdList",
+                                        "url": "https://qaapi.wangxingcloud.com//sampleMethods/getSampleStdList"
+                                    },
+                                    "getRowData": {
+                                        "type": "POST",
+                                        "dataSrc": "rows",
+                                        "data": {
+                                            "methodIds": "{selectedList.id}"
+                                        },
+                                        "contentType": "application/x-www-form-urlencoded",
+                                        "suffix": "/sample/accept/sampleItems/createByMethodIds",
+                                        "url": "https://qaapi.wangxingcloud.com//sample/accept/sampleItems/createByMethodIds"
+                                    }
+                                },
+                                "editable": true,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "isTitle": false,
+                                "isValue": false,
+                                "isQuickQuery": false,
+                                "isColumnCombine": false,
+                                "formatHandler": {
+                                    "type": "renderField",
+                                    "data": "{{itemReportName}}"
+                                },
+                                "columnType": "renderField",
+                                "mindjetIndexState": 3,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "deptId",
+                                "chineseName": "科室",
+                                "variableType": "string",
+                                "field": "deptId",
+                                "title": "科室",
+                                "mindjetType": "select",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "78fa5237-ef38-2ad9-707c-48b697ac6759",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "deptId",
+                                    "englishName": "deptId",
+                                    "chineseName": "科室",
+                                    "variableType": "string",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "78fa5237-ef38-2ad9-707c-48b697ac6759",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.Long",
+                                    "type": "select",
+                                    "label": "科室",
+                                    "textField": "name",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "method": "POST",
+                                    "dataSrc": "rows",
+                                    "data": {
+                                        "labelIds": "0"
+                                    },
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "isAloneQuery": false,
+                                    "suffix": "/system/orgs/getList",
+                                    "url": "https://qaapi.wangxingcloud.com//system/orgs/getList"
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "isTitle": false,
+                                "isValue": false,
+                                "isQuickQuery": false,
+                                "isColumnCombine": false,
+                                "width": 82,
+                                "mindjetIndexState": 4
+                            },
+                            {
+                                "englishName": "testQuantity",
+                                "chineseName": "检测数量",
+                                "variableType": "number",
+                                "field": "testQuantity",
+                                "title": "数量",
+                                "mindjetType": "number",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "706e9763-39b8-92e3-87f4-a58b6057ee9a",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "testQuantity",
+                                    "englishName": "testQuantity",
+                                    "chineseName": "检测数量",
+                                    "variableType": "number",
+                                    "mindjetType": "number",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "706e9763-39b8-92e3-87f4-a58b6057ee9a",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.Integer",
+                                    "type": "number",
+                                    "label": "数量",
+                                    "decimalDigit": 0,
+                                    "isShowCalculator": false,
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": true,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 34,
+                                "mindjetIndexState": 5
+                            },
+                            {
+                                "englishName": "itemTestFee",
+                                "chineseName": "项目价格",
+                                "variableType": "number",
+                                "field": "itemTestFee",
+                                "title": "项目价格",
+                                "mindjetType": "number",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "0677ddf7-5468-9b8e-62e9-da98bfda8b9b",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "itemTestFee",
+                                    "englishName": "itemTestFee",
+                                    "chineseName": "项目价格",
+                                    "variableType": "number",
+                                    "mindjetType": "number",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "0677ddf7-5468-9b8e-62e9-da98bfda8b9b",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.math.BigDecimal",
+                                    "type": "number",
+                                    "label": "项目价格",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "isTitle": false,
+                                "isValue": false,
+                                "isQuickQuery": false,
+                                "width": 58,
+                                "mindjetIndexState": 6
+                            },
+                            {
+                                "englishName": "unit",
+                                "chineseName": "单位",
+                                "variableType": "string",
+                                "field": "unit",
+                                "title": "价格单位",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "0f61618e-02b2-d2b0-58e6-7e022b904275",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "unit",
+                                    "englishName": "unit",
+                                    "chineseName": "单位",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "0f61618e-02b2-d2b0-58e6-7e022b904275",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "价格单位",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 34,
+                                "mindjetIndexState": 7
+                            },
+                            {
+                                "englishName": "methodId",
+                                "chineseName": "方法ID",
+                                "variableType": "string",
+                                "field": "methodId",
+                                "title": "方法标准",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "5d2084ca-9a82-0745-eb9c-dd09e7716bbd",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "methodId",
+                                    "englishName": "methodId",
+                                    "chineseName": "方法ID",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "5d2084ca-9a82-0745-eb9c-dd09e7716bbd",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.Long",
+                                    "type": "text",
+                                    "label": "方法标准",
+                                    "textField": "methodName",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "listExpression": "<li class=\"pt-list-table\"><span class=\"title\" style=\"width:150px\">{{stdCode}}</span><span class=\"note\"> {{methodName}}</span><span class=\"note\"> {{methodShortName}}</span></li>",
+                                    "selectMode": "single",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": true,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 130,
+                                "mindjetIndexState": 8
+                            },
+                            {
+                                "englishName": "methodStdName",
+                                "chineseName": "方法标准名称",
+                                "variableType": "string",
+                                "field": "methodStdName",
+                                "title": "方法",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "dc38906a-9e34-a85b-0710-146111e7e440",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "methodStdName",
+                                    "englishName": "methodStdName",
+                                    "chineseName": "方法标准名称",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "dc38906a-9e34-a85b-0710-146111e7e440",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "方法",
+                                    "dialogTitle": "重选方法",
+                                    "selectMode": "single",
+                                    "textField": "value",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "source": {
+                                        "type": "GET",
+                                        "dataSrc": "rows",
+                                        "suffix": "/templateMindPages/toPage/1309468238224032745"
+                                    }
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 130,
+                                "mindjetIndexState": 9
+                            },
+                            {
+                                "englishName": "methodStdCode",
+                                "chineseName": "方法标准编号",
+                                "variableType": "string",
+                                "field": "methodStdCode",
+                                "title": "方法标准编号",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "ffbcf16e-5eda-4a55-0687-de16f68d20b5",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "methodStdCode",
+                                    "englishName": "methodStdCode",
+                                    "chineseName": "方法标准编号",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "ffbcf16e-5eda-4a55-0687-de16f68d20b5",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "方法标准编号",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 82,
+                                "mindjetIndexState": 10
+                            },
+                            {
+                                "englishName": "isSubcontract",
+                                "chineseName": "是否分包",
+                                "variableType": "number",
+                                "field": "isSubcontract",
+                                "title": "分包",
+                                "mindjetType": "select",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "87d57b58-397c-aa8b-58a6-9f59910ac75b",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "isSubcontract",
+                                    "englishName": "isSubcontract",
+                                    "chineseName": "是否分包",
+                                    "variableType": "number",
+                                    "mindjetType": "select",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "87d57b58-397c-aa8b-58a6-9f59910ac75b",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.Byte",
+                                    "type": "select",
+                                    "label": "分包",
+                                    "textField": "value",
+                                    "valueField": "id",
+                                    "isObjectValue": false,
+                                    "selectMode": "single",
+                                    "subdata": [
+                                        {
+                                            "isDisabled": false,
+                                            "selected": false,
+                                            "value": "是",
+                                            "id": "1"
+                                        },
+                                        {
+                                            "isDisabled": false,
+                                            "selected": true,
+                                            "value": "否",
+                                            "id": "0"
+                                        }
+                                    ],
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 34,
+                                "mindjetIndexState": 11
+                            },
+                            {
+                                "englishName": "stdValue",
+                                "chineseName": "标准值",
+                                "variableType": "string",
+                                "field": "stdValue",
+                                "title": "标准值",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "1e2864de-81ad-ffd4-dc8a-7f921961a8ec",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "stdValue",
+                                    "englishName": "stdValue",
+                                    "chineseName": "标准值",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "1e2864de-81ad-ffd4-dc8a-7f921961a8ec",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "标准值",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": true,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 106,
+                                "mindjetIndexState": 12
+                            },
+                            {
+                                "englishName": "stdUnit",
+                                "chineseName": "标准单位",
+                                "variableType": "string",
+                                "field": "stdUnit",
+                                "title": "标准单位",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "a159d266-4123-319f-9d68-f2016189b632",
+                                "voName": "sampleSampleItemVO",
+                                "editConfig": {
+                                    "id": "stdUnit",
+                                    "englishName": "stdUnit",
+                                    "chineseName": "标准单位",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "a159d266-4123-319f-9d68-f2016189b632",
+                                    "voName": "sampleSampleItemVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "标准单位",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "isTitle": false,
+                                "isValue": false,
+                                "isQuickQuery": false,
+                                "width": 82,
+                                "formatHandler": {
+                                    "type": "htmlRender",
+                                    "data": {}
+                                },
+                                "columnType": "htmlRender",
+                                "mindjetIndexState": 13
+                            },
+                            {
+                                "englishName": "gdpGroup",
+                                "className": "java.math.BigDecimal",
+                                "gid": "ff168c17-6e41-7668-bb17-a651ecf30e89",
+                                "variableType": "number",
+                                "chineseName": "产值",
+                                "isHaveChineseName": true,
+                                "id": "gdpGroup",
+                                "label": "产值",
+                                "type": "text",
+                                "field": "gdpGroup",
+                                "title": "产值",
+                                "editConfig": {
+                                    "type": "number",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "number"
+                                },
+                                "mindjetIndexState": 14,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "createdBy",
+                                "className": "java.lang.Long",
+                                "gid": "b8e77dd4-74d8-5ab8-07a1-f697b5a82aaf",
+                                "variableType": "string",
+                                "chineseName": "创建人",
+                                "isHaveChineseName": true,
+                                "id": "createdBy",
+                                "label": "创建人",
+                                "type": "text",
+                                "field": "createdBy",
+                                "title": "创建人",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 15,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "createdByName",
+                                "className": "java.lang.String",
+                                "gid": "8224488d-c4ed-0d25-4911-43ba2266570c",
+                                "variableType": "string",
+                                "chineseName": "创建人名称",
+                                "isHaveChineseName": true,
+                                "id": "createdByName",
+                                "label": "创建人名称",
+                                "type": "text",
+                                "field": "createdByName",
+                                "title": "创建人名称",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 16,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "whenCreated",
+                                "className": "java.util.Date",
+                                "gid": "3c7a84f4-8eda-9959-b303-42cfa3846e04",
+                                "variableType": "date",
+                                "chineseName": "创建时间",
+                                "isHaveChineseName": true,
+                                "id": "whenCreated",
+                                "label": "创建时间",
+                                "type": "date",
+                                "field": "whenCreated",
+                                "title": "创建时间",
+                                "editConfig": {
+                                    "type": "date",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "date"
+                                },
+                                "mindjetIndexState": 17,
+                                "width": 200
+                            }
+                        ],
+                        "voId": "1309191185989905385",
+                        "idField": "id",
+                        // "keyField": "sampleItemList",
+                        "parent": "sampleList",
+                        params : {
+                            displayMode : 'all',
+                        },
+                        "hide": [
+                            "id",
+                            "sampleId",
+                            "methodId",
+                            "createdBy",
+                            "createdByName",
+                            "whenCreated"
+                        ],
+                        ajax:{
+                            src: "http://localhost:2000/debugger/data/statisticalplanlist.json",
+                            type: "POST",
+                            dataSrc: "rows",
+                            contentType: "application/json",
+                        }
+                    },{
+                        "type": "list",
+                        "field": [
+                            {
+                                "englishName": "id",
+                                "className": "java.lang.Long",
+                                "gid": "60c59f0a-f08e-b992-360f-7b7dcbb4586f",
+                                "variableType": "string",
+                                "chineseName": "id",
+                                "isHaveChineseName": false,
+                                "id": "id",
+                                "label": "id",
+                                "type": "text",
+                                "field": "id",
+                                "title": "id",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 0,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "acceptId",
+                                "className": "java.lang.Long",
+                                "gid": "02256cf9-33f0-4aca-c087-81bbfeeb8a4f",
+                                "variableType": "string",
+                                "chineseName": "受理ID",
+                                "isHaveChineseName": true,
+                                "id": "acceptId",
+                                "label": "受理ID",
+                                "type": "text",
+                                "field": "acceptId",
+                                "title": "受理ID",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 1,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "batchId",
+                                "className": "java.lang.Long",
+                                "gid": "e02a0f1c-4685-d926-2b17-9a4b8645fe71",
+                                "variableType": "string",
+                                "chineseName": "批次ID",
+                                "isHaveChineseName": true,
+                                "id": "batchId",
+                                "label": "批次ID",
+                                "type": "text",
+                                "field": "batchId",
+                                "title": "批次ID",
+                                "editConfig": {
+                                    "type": "text",
+                                    "formSource": "table",
+                                    "templateName": "PC",
+                                    "variableType": "string"
+                                },
+                                "mindjetIndexState": 2,
+                                "width": 200
+                            },
+                            {
+                                "englishName": "sampleCode",
+                                "chineseName": "样品编号",
+                                "variableType": "string",
+                                "field": "sampleCode",
+                                "title": "样品委托编号",
+                                "mindjetType": "text",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "da7ae00f-5d9f-9ba3-e31f-b1f1f4fef59a",
+                                "voName": "sampleSampleVO",
+                                "editConfig": {
+                                    "id": "sampleCode",
+                                    "englishName": "sampleCode",
+                                    "chineseName": "样品编号",
+                                    "variableType": "string",
+                                    "mindjetType": "text",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "da7ae00f-5d9f-9ba3-e31f-b1f1f4fef59a",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.String",
+                                    "type": "text",
+                                    "label": "样品委托编号",
+                                    "disabled": false,
+                                    "hidden": false,
+                                    "isDistinct": false
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 130,
+                                "mindjetIndexState": 3
+                            },
+                            {
+                                "englishName": "sampleCateId",
+                                "chineseName": "样品类别ID",
+                                "variableType": "string",
+                                "field": "sampleCateId",
+                                "title": "样品类别",
+                                "mindjetType": "business",
+                                "isSet": "是",
+                                "displayType": "all",
+                                "gid": "f2c3c722-60ce-5c95-8561-64740033c2d9",
+                                "voName": "sampleSampleVO",
+                                "editConfig": {
+                                    "id": "sampleCateId",
+                                    "englishName": "sampleCateId",
+                                    "chineseName": "样品类别ID",
+                                    "variableType": "string",
+                                    "mindjetType": "business",
+                                    "isSet": "是",
+                                    "displayType": "all",
+                                    "gid": "f2c3c722-60ce-5c95-8561-64740033c2d9",
+                                    "voName": "sampleSampleVO",
+                                    "className": "java.lang.Long",
+                                    "type": "business",
+                                    "label": "样品类别",
+                                    "rules": "required",
+                                    "dialogTitle": "样品类别选择",
+                                    "selectMode": "single",
+                                    "idField": "id",
+                                    "textField": "sampleCateName",
+                                    "relationField": "propertyValue,sampleStatusId",
+                                    "outputFields": {
+                                        "sampleCateName": "{sampleCateName}",
+                                        "sampleCateId": "{id}"
+                                    },
+                                    "innerFields": {
+                                        "sampleCateName": "{sampleCateName}",
+                                        "id": "{sampleCateId}"
+                                    },
+                                    "assignExpres": {
+                                        "sampleName": "{sampleCateName}"
+                                    },
+                                    "isOutputString": false,
+                                    "isInputText": false,
+                                    "displayMode": "tree",
+                                    "isAsync": false,
+                                    "isDeleteObjectState": false,
+                                    "disabled": false,
+                                    "width": "50%",
+                                    "hidden": false,
+                                    "isDistinct": false,
+                                    "source": {
+                                        "type": "GET",
+                                        "suffix": "/templateMindPages/pageConfig/1317168241633657842",
+                                        "url": "https://qaapi.wangxingcloud.com//templateMindPages/pageConfig/1317168241633657842"
+                                    },
+                                    "search": {
+                                        "type": "POST",
+                                        "dataSrc": "rows",
+                                        "suffix": "/sampleCate/getSampleCateTreeList",
+                                        "url": "https://qaapi.wangxingcloud.com//sampleCate/getSampleCateTreeList"
+                                    }
+                                },
+                                "editable": false,
+                                "hidden": false,
+                                "orderable": true,
+                                "searchable": false,
+                                "tooltip": false,
+                                "isDefaultSubdataText": true,
+                                "width": 154,
+                                "formatHandler": {
+                                    "type": "renderField",
+                                    "data": "{{sampleCateName}}"
+                                },
+                                "columnType": "renderField",
+                                "mindjetIndexState": 4
+                            }
+                        ],
+                        "voId": "1309191185989905385",
+                        "idField": "id",
+                        // "keyField": "sampleItemList",
+                        "parent": "sampleList",
+                        params : {
+                            displayMode : 'part',
+                        },
+                        ajax:{
+                            src: "http://localhost:2000/debugger/data/statisticalplanblock.json",
+                            type: "POST",
+                            dataSrc: "rows",
+                            contentType: "application/json",
+                        }
+                    }
+                ],
+            }
+            var pageConfig = NetstarProject.init(config);
+            // NETSTAR添加url参数即pageParam
+            NetstarTemplate.init(pageConfig);
+        </script>
+    </container>
+</body>
+
+</html>

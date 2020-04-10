@@ -29,6 +29,10 @@ var NetstarBlockList = (function () {
 		var column = _vueData.columnById;
 		var iconClass = _vueData.ui.iconClass ? _vueData.ui.iconClass : {};
 		var originalRow = _vueData.originalRows[rowIndex];
+		if(data['NETSTAR-ISADDNULLBLOCK'] && _vueData.ui.nullBlockExpression){
+			// 添加的空白块
+			return _vueData.ui.nullBlockExpression;
+		}
 		if (expression) {
 			//value = NetStarUtils.getHtmlByRegular(data,expression);
 
