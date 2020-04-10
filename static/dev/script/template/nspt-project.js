@@ -3959,6 +3959,7 @@ function initFunction(businessObj, controllerObj){
 		var controllerObj = obj.controllerObj;
 		var btnConfig = callback.data;
 		var sourceBtnConfig = controllerObj.func.config;
+		callback.controllerObj = controllerObj;
 		nsProject.businessBtnManage.configs = typeof(nsProject.businessBtnManage.configs) == "object" ? nsProject.businessBtnManage.configs : {};
 		nsProject.businessBtnManage.configs[btnConfig.id] = {
 			callback : callback,

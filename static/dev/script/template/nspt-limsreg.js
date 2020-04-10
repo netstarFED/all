@@ -99,6 +99,19 @@ NetstarTemplate.templates.limsReg = (function ($) {
          }
       }
       data.value = getPageData(templateConfig,isValid);
+      if(typeof(data.value) == "object"){
+         switch(controllerObj.defaultMode){
+            case 'business':
+               var detailLeftComponent = templateConfig.detailLeftComponent;
+               if(detailLeftComponent.type == "blockList"){
+                  var detailLeftComponentId = detailLeftComponent.id;
+                  // 选中数据
+                  var selectedData = NetstarBlockList.getSelectedData(detailLeftComponentId);
+                  data.value.selectedData = selectedData;
+               }
+               break;
+         }
+      }
       return data;
    }
    //ajax调用之前的回调
