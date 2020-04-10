@@ -13112,6 +13112,7 @@ var pagePropertyVo = (function($){
 			{ id : 'workRecordSimpleMobile', name : '简单作业记录模板(手机端)' },//sjj 20200106
 			{ id : 'listMobile', name : '单列表专用模板(手机端)' },	//sjj 20200106
 			{ id : 'businessDataBaseEditorMobile', name : '基本业务对象编辑(手机端)' },
+			{ id : 'statisticalPlan', name : '统计计划' },
 		],
 		position:{
 			businessDataBase:[
@@ -13262,6 +13263,13 @@ var pagePropertyVo = (function($){
 				{ id : 'footer-right', name : 'footer-right' }
 			],//sjj 20200106
 			businessDataBaseEditorMobile:[
+				{ id : 'body', name : 'body' },
+				{ id : 'header-right', name : 'header-right' },
+				{ id : 'header-body', name : 'header-body' },
+				{ id : 'footer', name : 'footer' },
+				{ id : 'footer-right', name : 'footer-right' }
+			],
+			statisticalPlan : [
 				{ id : 'body', name : 'body' },
 				{ id : 'header-right', name : 'header-right' },
 				{ id : 'header-body', name : 'header-body' },
