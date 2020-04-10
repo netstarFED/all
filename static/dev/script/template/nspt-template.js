@@ -870,6 +870,36 @@ var NetstarTemplate = {
 					}
 				}
 				break;
+			case 'statisticalPlan':
+				var packageName = pagePackageName.replace(/\./g, '-');
+				var templateId = 'nstemplate-layout-' + packageName.replace(/-/g, '-');
+				if (NetstarTemplate.templates.statisticalPlan.data) {
+					var config = NetstarTemplate.templates.statisticalPlan.data[templateId].config;
+					if (!$.isEmptyObject(config)) {
+						var mainId = config.mainComponent.id;
+						var data = NetstarBlockList.getDataByFieldAndValue(mainId, 'workItemId', workItemId);
+						if (!$.isEmptyObject(data)) {
+							// data.hasSuspend = isDisabled;
+							data['NETSTAR-TRDISABLE'] = isDisabled;
+							NetstarBlockList.setDataByFieldAndValue(mainId, 'workItemId', data);
+							//按钮的处理
+							var btnsArray = config.componentsConfig.btns;
+							for (var btnI = 0; btnI < btnsArray.length; btnI++) {
+								$('#' + btnsArray[btnI].id + ' button').prop('disabled', true)
+							}
+							// 设置只读按钮
+							if(data.netstarSelectedFlag){
+								// 选中 按钮的处理
+								var btnLeftId = config.componentsByName.btnLeft.id;
+								var $btns = $('#' + btnLeftId).find('button');
+								for(var i=0; i<$btns.length; i++){
+									$btns.eq(i).attr('disabled', isDisabled);
+								}
+							}
+						}
+					}
+				}
+				break;
 		}
 	},
 	// 设置状态 通过参数 lyw
@@ -989,6 +1019,47 @@ var NetstarTemplate = {
 				}
 				data['netstar-workItemState'] = stateConfig.workItemState;
 				mainTypeFunc.setDataByFieldAndValue(gridId, 'workItemId', stateConfig.workItemId, data);
+				break;
+			case 'statisticalPlan':
+				var packageName = stateConfig.pagePackage.replace(/\./g, '-');
+				var templateId = 'nstemplate-layout-' + packageName.replace(/-/g, '-');
+				if(typeof(NetstarTemplate.templates.statisticalPlan.data) != 'object'){
+					return;
+				}
+				//主详表  单据详情模板
+				var config = NetstarTemplate.templates.statisticalPlan.data[templateId].config;
+				if (typeof(config) != 'object' || $.isEmptyObject(config)) {
+					return;
+				}
+				// 块状表格
+				//存在单据详情模板的配置项
+				var mainComponent = config.mainComponent
+				var gridId = config.mainComponent.id;
+				// 普通表格
+				var mainTypeFunc = NetStarGrid;
+				if(mainComponent.type == "blockList"){
+					mainTypeFunc = NetstarBlockList;
+				}
+				var data = mainTypeFunc.getDataByFieldAndValue(gridId, 'workItemId', stateConfig.workItemId);
+				if ($.isEmptyObject(data)) {
+					return;
+				}
+				var attrs = stateConfig.attrs;
+				for(var key in attrs){
+					if(key == "workItemId"){
+						if(typeof(data[key]) != "undefined"){
+							data[key] = attrs[key];
+						}
+					}else{
+						data[key] = attrs[key];
+					}
+				}
+				data['netstar-workItemState'] = stateConfig.workItemState;
+				if(mainComponent.type == "blockList"){
+					mainTypeFunc.setDataByFieldAndValue(gridId, 'workItemId', data);
+				}else{
+					mainTypeFunc.setDataByFieldAndValue(gridId, 'workItemId', stateConfig.workItemId, data);
+				}
 				break;
 		}
 	},
