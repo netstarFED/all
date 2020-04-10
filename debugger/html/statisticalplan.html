@@ -39,6 +39,9 @@
                         type : 'btns',
                         plusClass : 'left',
                         operatorObject : 'root',
+                        params : {
+                            displayMode : 'left'
+                        },
                         field : [
                             {
                                 "functionConfig": {
@@ -332,9 +335,9 @@
                         "isUseQRInput": false,
                         ajax:{
                             url: "http://localhost:2000/debugger/data/statisticalplanblock.json",
-                            type: "POST",
+                            type: "GET",
                             dataSrc: "rows",
-                            contentType: "application/json",
+                            contentType: "application/x-www-form-urlencoded",
                         }
                     },{
                         "type": "list",
@@ -1042,9 +1045,9 @@
                         ],
                         ajax:{
                             src: "http://localhost:2000/debugger/data/statisticalplanlist.json",
-                            type: "POST",
+                            type: "GET",
                             dataSrc: "rows",
-                            contentType: "application/json",
+                            contentType: "application/x-www-form-urlencoded",
                         }
                     },{
                         "type": "list",
@@ -1235,9 +1238,9 @@
                         },
                         ajax:{
                             src: "http://localhost:2000/debugger/data/statisticalplanblock.json",
-                            type: "POST",
+                            type: "GET",
                             dataSrc: "rows",
-                            contentType: "application/json",
+                            contentType: "application/x-www-form-urlencoded",
                         }
                     }
                 ],

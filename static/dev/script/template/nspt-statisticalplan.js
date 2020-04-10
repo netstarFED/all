@@ -70,6 +70,11 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                         if(typeof(componentId) == "undefined"){
                             componentId = config.id + '-' + type + '-' + componentI;//定义容器id
                         }
+                        if(params.displayMode == "left"){
+                            name = 'btnLeft';
+                        }else{
+                            name = 'btnRight';
+                        }
                         break;
                 }
                 componentData.id = componentId;
@@ -357,19 +362,27 @@ NetstarTemplate.templates.statisticalPlan = (function(){
         // 按钮
         var btnsHtml = '';
         var btnsConfig = config.componentsConfig.btns;
-        for(var keyId in btnsConfig){
-            var btnPlusClass = btnsConfig[keyId].plusClass ? btnsConfig[keyId].plusClass : '';
-            btnsHtml += '<div class="pt-panel button-panel-component '+btnPlusClass+'">'
-							+'<div class="pt-panel">'
-								+'<div class="pt-container">'
-									+'<div class="pt-panel-row">'
-										+'<div class="pt-panel-col">'
-											+'<div class="nav-form" id="'+ keyId +'"></div>'
-										+'</div>'
-									+'</div>'
-								+'</div>'
-							+'</div>'
-						+'</div>';
+        // for(var keyId in btnsConfig){
+        //     var btnPlusClass = btnsConfig[keyId].plusClass ? btnsConfig[keyId].plusClass : '';
+        //     btnsHtml += '<div class="pt-panel button-panel-component '+btnPlusClass+'">'
+		// 					+'<div class="pt-panel">'
+		// 						+'<div class="pt-container">'
+		// 							+'<div class="pt-panel-row">'
+		// 								+'<div class="pt-panel-col">'
+		// 									+'<div class="nav-form" id="'+ keyId +'"></div>'
+		// 								+'</div>'
+		// 							+'</div>'
+		// 						+'</div>'
+		// 					+'</div>'
+		// 				+'</div>';
+        // }
+        var leftBtnId = '';
+        if(componentsByName.btnLeft){
+            leftBtnId = componentsByName.btnLeft.id;
+        }
+        var rightBtnId = '';
+        if(componentsByName.btnRight){
+            rightBtnId = componentsByName.btnRight.id;
         }
 		var templateClassStr = '';
 		if(config.plusClass){
@@ -378,30 +391,30 @@ NetstarTemplate.templates.statisticalPlan = (function(){
         var html = '<div class="pt-main statisticalplan '+templateClassStr+'" id="'+config.id+'" ns-package="'+config.package+'">'
                         + '<div class="pt-container">'
                             + titleHtml
+                            // +'<div class="pt-main-row">'
+                            //     +'<div class="pt-main-col">'
+                            //         + btnsHtml
+                            //     +'</div>'
+                            // +'</div>'
                             +'<div class="pt-main-row">'
                                 +'<div class="pt-main-col">'
-                                    + btnsHtml
-                                +'</div>'
-                            +'</div>'
-                            +'<div class="pt-main-row">'
-                                +'<div class="pt-main-col">'
-                                    + '<div class="pt-template-statisticalplan-left">'
-                                        + '<div class="pt-panel" id="'+leftId+'">'
-                                            // + '<div class="pt-container">'
-                                            //     + '<div class="nsgrid nsgrid-block">'
-                                            //     + '</div>'
-                                            // + '</div>'
+                                    + '<div class="pt-panel" id="'+leftBtnId+'">'
+                                    + '</div>'
+                                    + '<div class="pt-panel">'
+                                        + '<div class="pt-container">'
+                                            + '<div class="pt-panel-row">'
+                                                + '<div class="pt-panel-col">'
+                                                    + '<div class="nsgrid nsgrid-block" id="'+leftId+'">'
+                                                    + '</div>'
+                                                + '</div>'
+                                            + '</div>'
                                         + '</div>'
                                     + '</div>'
                                 +'</div>'
                                 +'<div class="pt-main-col">'
-                                    + '<div class="pt-template-statisticalplan-right">'
-                                        + '<div class="pt-panel" id="'+rightId+'">'
-                                            // + '<div class="pt-container">'
-                                            //     + '<div class="nsgrid nsgrid-table">'
-                                            //     + '</div>'
-                                            // + '</div>'
-                                        + '</div>'
+                                    + '<div class="pt-panel" id="'+rightBtnId+'">'
+                                    + '</div>'
+                                    + '<div class="pt-panel" id="'+rightId+'">'
                                     + '</div>'
                                 +'</div>'
                             +'</div>'

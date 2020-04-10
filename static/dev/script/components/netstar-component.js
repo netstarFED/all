@@ -8048,7 +8048,11 @@ NetstarComponent.business = {
                 },
                 // 获取inputText
                 getInputText:function(){
-                    return this.inputText;
+                    var inputText = this.inputText;
+                    if(inputText === ''){
+                        inputText = $('#' + config.fullID).val();
+                    }
+                    return inputText;
                 },
                 // 设置inputText
                 setInputText:function(inputText){
