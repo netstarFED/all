@@ -16,8 +16,13 @@
                 <div class="pt-main-col">
                     <!-- 用户照片 -->
                     <div class="pt-panel">
+                        <div class="search-box">
+                            <input type="text" class="pt-form-control" placeholder="体检编号" @blur.prevent='searchNo()'>
+                        </div>
+                    </div>
+                    <div class="pt-panel">
                         <div class="user-photo">
-                            <img src="../static/images/user-photo.jpg" alt="">
+                            <img src="../saas/static/images/user-photo.jpg" alt="">
                         </div>
                         <div class="user-photo-eidt">
                             <div class="pt-btn-group">
@@ -35,6 +40,7 @@
                     </div>
                     <!-- 用户照片 end-->
                     <!-- 排队 -->
+
                     <div class="pt-panel">
                         <div class="queue">
                             <div class="list">
@@ -189,6 +195,24 @@
                         </div>
                     </div>
                     <div id="netstar-saas-reg-vo"></div>
+                    <div class="pt-panel">
+                        <div class="pt-panel-header" id="netstar-saas-reg-hazard">
+                            <div class="title">职业危害因素</div>
+                            <div v-for="list in regHazardVOList" style="display: flexbox;">
+                                <div style="width:200px;height:70px;">
+                                    <select>
+                                        <option v-for="list in occTutelagesList">{{list.tutelageName}}
+                                        </option>
+                                    </select>
+                                    <select>
+                                        <option v-for="list in occHazardsList" value="list.id">{{list.hazardName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 图片上传 -->
                 </div>
                 <div class="pt-main-col">
@@ -200,7 +224,7 @@
                                     id="netstar-saas-reg-addCombo-dialog">
                                     <i class="icon icon-add"></i>
                                 </button>
-                                <button class="pt-btn pt-btn-default">
+                                <button class="pt-btn pt-btn-default" @click="clearAllItem()">
                                     <span>清空</span>
                                 </button>
                                 <button class="pt-btn pt-btn-default">
@@ -213,73 +237,43 @@
                             <div class="badge">
                                 <span>项目数量</span>
                                 <span class="pt-badge pt-badge-warning">
-                                    25
+                                    {{itemAmountNum}}
                                 </span>
                             </div>
                         </div>
                         <div class="pt-panel-body">
                             <div class="block-list block-list-vertical">
                                 <div class="block-list-group">
-                                    <div class="block-list-item ">
+                                    <div class="block-list-item " v-for='item in addComboVOList'>
                                         <div class="block-list-content">
                                             <div class="list-body">
                                                 <div class="list-title">
-                                                    <span>胸透</span>
+                                                    <span>{{item.comboName}}</span>
                                                 </div>
                                                 <div class="list-text">
-                                                    <span>￥400</span>
-                                                    <span class="text-through">￥300</span>
+                                                    <span>{{item.receivable}}</span><!-- 实收金额 -->
+                                                    <span class="text-through">{{item.standardAmount}}</span>
                                                 </div>
 
                                             </div>
                                             <div class="block-list-control">
                                                 <div class="pt-btn-group">
-                                                    <button class="pt-btn pt-btn-default pt-btn-icon">
+                                                    <button class="pt-btn pt-btn-default pt-btn-icon"
+                                                        @click="addItemFun(item.comboId)">
                                                         <i class="icon">
                                                             自
                                                         </i>
                                                     </button>
-                                                    <button class="pt-btn pt-btn-default pt-btn-icon">
+                                                    <button class="pt-btn pt-btn-default pt-btn-icon"
+                                                        @click="deleteItem(item.comboId)">
                                                         <i class="icon icon-trash-o"></i>
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="price-type-mark">
+                                            <div class="price-type-mark" v-if="item.isOwnExpense === 0">
                                                 自
                                             </div>
-                                            <div class="program-addon-mark">
-                                                +
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="block-list-item checked">
-                                        <div class="block-list-content">
-                                            <div class="list-body">
-                                                <div class="list-title">
-                                                    <span>胸透</span>
-                                                </div>
-                                                <div class="list-text">
-                                                    <span>￥400</span>
-                                                    <span class="text-through">￥300</span>
-                                                </div>
-
-                                            </div>
-                                            <div class="block-list-control">
-                                                <div class="pt-btn-group">
-                                                    <button class="pt-btn pt-btn-default pt-btn-icon">
-                                                        <i class="icon">
-                                                            自
-                                                        </i>
-                                                    </button>
-                                                    <button class="pt-btn pt-btn-default pt-btn-icon">
-                                                        <i class="icon icon-trash-o"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="price-type-mark">
-                                                自
-                                            </div>
-                                            <div class="program-addon-mark">
+                                            <div class="program-addon-mark" v-if="item.packageId">
                                                 +
                                             </div>
                                         </div>
@@ -294,7 +288,7 @@
         </div>
     </div>
     <script>
-     var saasReg =   new Vue({
+        var saasReg = new Vue({
             el: '#saasreg',
             data: {
                 time: '2020年2月18日', //预约时间
@@ -302,6 +296,9 @@
                 isbtnCutaways: 0, //个人单位切换
                 ischecked: true, //预约勾选
                 isOwnExpense: true,
+                itemAmountNum: '0', //项目数量
+                isOwnExpenseItem: true, //项目列表是否自费的显示隐藏
+                addItem: true, //项目列表加项目的显示隐藏
                 isChargeStyle: true, //是否已收费样式
                 isOwnExpenseStyle: false, //自费样式--
                 isPublicExpense: true, //公费样式
@@ -314,18 +311,46 @@
                           amount:''//实收金额
                       },*/
                 ],
-                regCouponVOList: [//登记使用优惠券
+                regCouponVOList: [ //登记使用优惠券
                     /*{
                         "couponType": "银行卡",//券类型  number
                         "parValue": 100, //面值   number
                     } */
 
-                ] ,
+                ],
 
-                addComboVOList:[//登记添加项目VO集合
+                addComboVOList: [ //登记添加项目VO集合
 
+                ],
+                occTutelagesList: [{
+                    id: '1',
+                    tutelageName: '22'
+                }],
+                occHazardsList: [{
+                    id: '2',
+                    hazardName: 'dddddd'
+                }],
+                regHazardVOList: [{
+                        "hazardName": "1",
+                        "ocpcName": ""
+                    },
+                    {
+                        "hazardName": "125133522",
+                        "ocpcName": ""
+                    },
+                    {
+                        "hazardName": "125133522",
+                        "ocpcName": ""
+                    },
+                    {
+                        "hazardName": "125133522",
+                        "ocpcName": ""
+                    },
+                    {
+                        "hazardName": "125133522",
+                        "ocpcName": ""
+                    }
                 ]
-
 
             },
             methods: {
@@ -349,6 +374,76 @@
                         _this.ischecked = true;
                     }
                 },
+                //自费与加项的显示与隐藏
+                itemShowOrHidden: function () {
+                    var _this = this;
+                    for (var i = 0; i < _this.addComboVOList.length; i++) {
+                        if (_this.addComboVOList[i].packageId) {
+                            _this.addItem = true
+                        } else {
+                            _this.addItem = false
+                        }
+
+                        if (_this.addComboVOList[i].isOwnExpense == '1') {
+                            _this.isOwnExpenseItem = false
+                        } else if (_this.addComboVOList[i].isOwnExpense == '0') {
+                            _this.isOwnExpenseItem = true
+                        }
+                    }
+                },
+                //删除项目
+                deleteItem(itemId) {
+                    var _this = this;
+                    for (var i = 0; i < _this.addComboVOList.length; i++) {
+                        if (_this.addComboVOList[i].comboId == itemId) {
+                            _this.addComboVOList.splice(i, 1);
+                            var itemLength = _this.addComboVOList.length;
+                            _this.itemAmountNum = itemLength;
+                        }
+                    }
+                },
+                //自费
+                addItemFun(itemId) {
+                    debugger;
+                    var _this = this;
+                    for (var i = 0; i < _this.addComboVOList.length; i++) {
+                        if (_this.addComboVOList[i].comboId == itemId) {
+                            _this.addComboVOList[i].isOwnExpense = 0;
+                        }
+                    }
+                },
+                //项目数量
+                itemAmount() {
+                    var _this = this;
+                    var length = _this.addComboVOList.length;
+                    console.log('项目数量', length);
+                    _this.itemAmountNum = length
+
+                },
+                //清空项目按钮
+                clearAllItem() {
+                    var _this = this;
+                    _this.addComboVOList = [];
+                    _this.itemAmountNum = "0";
+                },
+                //搜索体检编号(失去焦点搜索)
+                searchNo() {
+                    debugger;
+                    var data = $('.pt-form-control').val();
+                    var ajaxConfig = {
+                        url: getRootPath() + '/reg/regs/getByRegCode',
+                        contentType: 'application/x-www-form-urlencoded',
+                        /* contentType: 'application/json', */
+                        data: {
+                            regCode: data,
+                            params: ['regType', 'regCombo'],
+                        },
+                        type: 'POST',
+                    }
+                    NetStarUtils.ajax(ajaxConfig, function (res) {
+
+                    })
+                }
 
             },
             mounted() {
@@ -374,6 +469,21 @@
 
                 }).catch(function (error) {
 
+                });
+                //监护种类
+                axios.post('https://qaapi.wangxingcloud.com/npebase/occTutelages/getList').then(function (
+                    data) {
+                    debugger;
+
+                }).catch(function () {
+
+                });
+                //危害
+                axios.post('https://qaapi.wangxingcloud.com/npebase/occHazards/getList').then(function (data) {
+                    debugger;
+
+                }).catch(function () {
+
                 })
             }
 
@@ -382,6 +492,11 @@
 
         var getRootPath = function () {
             return 'https://qaapi.wangxingcloud.com/'
+        };
+        var pagesData = {
+            addComboVOListData: '', //项目数据
+            peTypeIdData: '',
+            serverData: {}
         };
         var regId = {
             btns: 'netstar-saas-reg-btns',
@@ -419,19 +534,47 @@
                     {
                         text: '保存',
                         handler: function () {
-                            var ajaxConfig = {
-                                url: getRootPath + '/reg/regs/save',
-                                contentType: '',
+                            debugger;
+                            var formData = NetstarComponent.getValues(regId.voId);
+                            if (!pagesData.addComboVOListData) {
+                                pagesData.addComboVOListData = []
                             }
-                            NetStarUtils.ajax(ajaxConfig, function () {
+                            var ajaxData = {
+                                params: ["regType", "regCombo"],
+                                peState: 1, //体检状态
+                                groupFlag: 0, //团体标志0个人1
+                                regComboVOList: pagesData.addComboVOListData,
+                                regTypeVOList: pagesData.peTypeIdData
+                            };
+                            var __ajaxData = $.extend(true, ajaxData, formData);
+                            var idFieldNames = {
+                                "root": "id",
+                                "root.regComboVOList": "comboId",
+                                "root.regTypeVOList": "peTypeId"
+                            };
+                            debugger;
 
+                            var _ajaxData = nsServerTools.getObjectStateData(pagesData.serverData,
+                                __ajaxData, idFieldNames)
+                            var ajaxConfig = {
+                                url: getRootPath() + '/reg/regs/save',
+                                contentType: 'application/json',
+                                data: _ajaxData,
+                                type: 'POST',
+                            }
+                            NetStarUtils.ajax(ajaxConfig, function (res) {
+                                var data = res.data;
+                                if (res.success) {
+                                    nsalert('保存成功');
+                                    NetstarComponent.fillValues(data, regId.voId)
+                                    pagesData.serverData = res.data;
+                                }
                             })
                         }
                     },
                     {
                         text: '预览',
                         handler: function () {
-
                         }
                     },
                     {
@@ -509,12 +652,31 @@
                         id: 'peTypeId',
                         type: 'select',
                         label: '体检类别',
+                        required: true,
                         url: getRootPath() + '/npebase/datPeClasss/getList',
-                        contentType: '',
+                        contentType: 'application/json',
+                        selectMode: 'multi',
                         mentod: 'POST',
                         dataSrc: 'rows',
                         valueField: 'id',
                         textField: 'name',
+                        changeHandler: function (res) {
+                            var idsStr = res.value;
+                            var ajaxConfig = {
+                                url: getRootPath() + 'reg/types/setPeType',
+                                contentType: 'application/x-www-form-urlencoded',
+                                type: 'POST',
+                                dataSrc: 'rows',
+                                data: {
+                                    peTypeIds: idsStr,
+                                }
+                            }
+                            NetStarUtils.ajax(ajaxConfig, function (res) {
+                                if (res.success) {
+                                    pagesData.peTypeIdData = res.rows
+                                }
+                            })
+                        }
                     },
                     {
                         id: "idNo",
@@ -524,7 +686,7 @@
                         textField: "name",
                         subdata: [{
                                 id: '0',
-                                name: '省份证'
+                                name: '身份证'
                             },
                             {
                                 id: '1',
@@ -533,19 +695,40 @@
                         ]
                     },
                     {
+                        id: "isVip",
+                        label: '是否是vip',
+                        type: 'select',
+                        valueField: 'id',
+                        textField: "name",
+                        rules: 'required',
+                        subdata: [{
+                                id: 0,
+                                name: '是'
+                            },
+                            {
+                                id: 1,
+                                name: '否'
+                            }
+                        ]
+                    },
+                    {
                         id: "regName",
                         label: '姓名',
                         type: 'text',
+                        rules: 'required',
                     },
                     {
                         id: "age",
                         label: '年龄',
-                        type: 'text',
+                        type: 'number',
+                        rules: 'required',
+                        isShowCalculator: false,
                     },
                     {
-                        id: "regRegVO",
+                        id: "birthday",
                         label: '出生日期',
                         type: 'date',
+                        rules: 'required',
                     },
                     {
                         id: "sex",
@@ -560,8 +743,10 @@
                                 name: '女'
                             }
                         ],
+                        value: '1',
                         valueField: "id",
-                        textField: 'name'
+                        textField: 'name',
+                        rules: 'required',
                     },
                     {
                         id: 'phoneNo',
@@ -581,8 +766,7 @@
                         id: 'nativePlace',
                         type: 'text',
                         label: '籍贯',
-                        textField: '',
-                        valueField: ''
+
                     },
                     {
                         id: 'address',
@@ -596,7 +780,8 @@
                         dictArguments: "nation",
                         type: 'select',
                         textField: 'value',
-                        valueField: 'id'
+                        valueField: 'id',
+
                     },
                     {
                         id: 'marriage',
@@ -604,12 +789,31 @@
                         dictArguments: "marriage",
                         type: 'select',
                         textField: 'value',
-                        valueField: 'id'
+                        valueField: 'value',
+                        subdata: [{
+                                id: '1',
+                                value: '已婚'
+                            },
+                            {
+                                id: '2',
+                                value: '未婚'
+                            },
+                            {
+                                id: '3',
+                                value: '不祥'
+                            }
+                        ]
                     },
                     {
                         id: 'customerName',
-                        type: 'text',
-                        label: '工作单位'
+                        type: 'select',
+                        label: '工作单位',
+                        url: getRootPath() + '/customer/getPageListOfAll',
+                        contentType: '',
+                        mentod: 'POST',
+                        dataSrc: 'rows',
+                        valueField: 'customerId',
+                        textField: 'customerName',
                     },
                     {
                         id: 'customerDeptName',
@@ -645,37 +849,20 @@
                         label: '入场日期'
                     },
                     {
-                        id: 'workYears',
-                        type: 'text',
-                        label: '总工龄'
+                        id: 'workYears', //number
+                        type: 'number',
+                        label: '总工龄',
+                        isShowCalculator: false,
                     },
                     {
                         id: 'hazardYears',
-                        type: 'text',
-                        label: '接害工龄'
+                        type: 'number',
+                        label: '接害工龄',
+                        isShowCalculator: false,
                     },
                     {
-                        id: 'ocpcId',
-                        type: 'select',
-                        label: '监护种类',
-                        url: getRootPath() + '/npebase/occTutelages/getList',
-                        contentType: '',
-                        mentod: 'POST',
-                        dataSrc: 'rows',
-                        valueField: 'id',
-                        textField: 'tutelageName'
-
-                    },
-                    {
-                        id: 'ss',
-                        type: 'select',
-                        label: '危害',
-                        url: getRootPath() + '/npebase/occHazards/getList',
-                        contentType: '',
-                        mentod: 'POST',
-                        dataSrc: 'rows',
-                        valueField: 'id',
-                        textField: 'hazardName'
+                        id: 'id',
+                        type: 'hidden'
                     }
                 ]
             },
@@ -859,10 +1046,11 @@
                 width: '80%',
                 title: '添加项目',
                 shownHandler: function (data) {
+                    var selectedData = ''; //存放选中行数据
                     var dialogBodyId = data.config.bodyId;
                     var footerBodyId = data.config.footerId;
                     $('#' + dialogBodyId).html(
-                    '<div class="pt-tab-header">\
+                        '<div class="pt-tab-header">\
                         <div class="pt-nav">\
                             <ul class="pt-tab-list-components-tabs">\
                                 <li id="tab-propertyList" class="component-list pt-nav-item current" ns-name="unitList">\
@@ -877,140 +1065,182 @@
                             </ul>\
                         </div>\
                     </div>\
-                    <div id="netstar-saas-addcombo"></div>' 
+                    <div id="netstar-saas-addcombo"></div>'
                     );
                     $('#' + footerBodyId).html(
                         '<div id="netstar-saas-addcombo-btns"></div>');
                     //项目
+                    var formData = NetstarComponent.getValues(regId.voId);
+                    var regListAjaxData = formData.customerName;
                     var itemList = {
                         id: 'netstar-saas-addcombo',
-                        data:{
-                            idField:'id',
-                            src:getRootPath() + '/npebase/datCombos/getList',
-                            contentType:'application/json',
-                            mentod:'GET',
-                            dataSrc:'rows',
-                            data:{},
+                        data: {
+                            idField: 'id',
+                            src: getRootPath() + '/npebase/datCombos/getList',
+                            contentType: 'application/json',
+                            mentod: 'GET',
+                            dataSrc: 'rows',
+                            data: {},
                         },
-                        columns:[
-                            {
-                                field:'itemClassId',
-                                title:'项目类别',
+                        columns: [{
+                                field: 'itemClassId',
+                                title: '项目类别',
                             },
                             {
-                                field:'comboName',
-                                title:'组合项目',
+                                field: 'comboName',
+                                title: '组合项目',
                             },
-                            {//number
-                                field:'comboPrice',
-                                title:'标准金额',
+                            { //number
+                                field: 'comboPrice',
+                                title: '标准金额',
 
                             }
                         ],
-                        ui:{
-                            isCheckSelect:true,
-                            isOpenQuery:true,
-                            height:500   
+                        ui: {
+                            isCheckSelect: true,
+                            isOpenQuery: true,
+                            height: 500
                         }
                     };
                     var regList = {
                         id: 'netstar-saas-addcombo',
-                        data:{
-                            idField:'id',
-                            src:getRootPath() + '/npebase/datPackages/getList',
-                            contentType:'application/json',
-                            mentod:'GET',
-                            data:{},
+                        data: {
+                            idField: 'id',
+                            src: getRootPath() + '/npebase/datPackages/getListWithoutCustomer',
+                            contentType: 'application/json',
+                            mentod: 'GET',
+                            data: {
+
+                            },
                         },
-                        columns:[
-                            {
-                                field:'itemType',
-                                title:'体检项目',
+                        columns: [{
+                                field: 'dictClassName',
+                                title: '体检项目',
                             },
                             {
-                                field:'itemType',
-                                title:'套餐名称',
+                                field: 'packageName',
+                                title: '套餐名称',
                             },
                             {
-                                field:'itemType',
-                                title:'标准金额',
+                                field: 'basePrice', //number
+                                title: '标准金额',
                             },
                             {
-                                field:'itemType',
-                                title:'优惠金额',
+                                field: 'itemType',
+                                title: '优惠金额',
                             },
                             {
-                                field:'itemType',
-                                title:'应收金额',
+                                field: 'price',
+                                title: '应收金额',
                             },
                             {
-                                field:'itemType',
-                                title:'折扣率',
+                                field: 'discount',
+                                title: '折扣率',
                             }
                         ],
-                        ui:{
-                            isOpenQuery:true,   
+                        ui: {
+                            isOpenQuery: true,
+                            selectedHandler: function (data) {
+                                debugger;
+                                var id = data.id
+                                var ajaxConfig = {
+                                    url: getRootPath() + '/npebase/datPackageCombos/getList',
+                                    contentType: 'application/json',
+                                    type: 'GET',
+                                    data: {
+                                        packageId: id
+                                    },
+                                }
+                                NetStarUtils.ajax(ajaxConfig, function (res) {
+                                    selectedData = res.rows
+                                    console.log(selectedData)
+                                })
+                            }
                         }
                     };
                     var unitList = {
                         id: 'netstar-saas-addcombo',
-                        data:{
-                            idField:'id',
-                            src:getRootPath() + '/npebase/datPackages/getList',
-                            contentType:'application/json',
-                            mentod:'GET',
-                            data:{},
+                        data: {
+                            idField: 'id',
+                            src: getRootPath() + '/npebase/datPackages/getList',
+                            contentType: 'application/json',
+                            mentod: 'GET',
+                            data: {
+                                customerId: regListAjaxData
+                            },
                         },
-                        columns:[
-                            {
-                                field:'itemType',
-                                title:'体检项目',
+                        columns: [{
+                                field: 'dictClassName',
+                                title: '体检项目',
                             },
                             {
-                                field:'itemType',
-                                title:'套餐名称',
+                                field: 'packageName',
+                                title: '套餐名称',
                             },
                             {
-                                field:'itemType',
-                                title:'标准金额',
+                                field: 'basePrice', //number
+                                title: '标准金额',
                             },
                             {
-                                field:'itemType',
-                                title:'优惠金额',
+                                field: 'itemType',
+                                title: '优惠金额',
                             },
                             {
-                                field:'itemType',
-                                title:'应收金额',
+                                field: 'price',
+                                title: '应收金额',
                             },
                             {
-                                field:'itemType',
-                                title:'折扣率',
+                                field: 'discount',
+                                title: '折扣率',
                             }
                         ],
-                        ui:{
-                            isOpenQuery:true,
-                            height:500  
+                        ui: {
+                            isOpenQuery: true,
+                            height: 500,
+                            selectedHandler: function (data) {
+                                setSelectedData(data)
+
+                            }
                         }
                     }
                     NetStarGrid.init(unitList);
                     var dialogDataManage = {
-                        currentName : 'unitList',
-                        data : {},
-                        table : {
-                            itemList : itemList,
-                            regList : regList,
-                            unitList : unitList,
+                        currentName: 'unitList',
+                        data: {},
+                        table: {
+                            itemList: itemList,
+                            regList: regList,
+                            unitList: unitList,
                         }
                     };
+                    //选中行调取方法返回转换数据
+                    var setSelectedData = function (selected) {
+                        debugger;
+                        var id = data.id
+                        var ajaxConfig = {
+                            url: getRootPath() + '/npebase/datPackageCombos/getList',
+                            contentType: 'application/json',
+                            type: 'GET',
+                            data: {
+                                packageId: id
+                            },
+                        }
+                        NetStarUtils.ajax(ajaxConfig, function (res) {
+                            if (res.success) {
+
+                            }
+                        })
+                    }
                     // NetStarGrid.init(unitList);
                     // NetStarGrid.init(regList);
                     // 添加tab事件
                     var $lis = $('#' + dialogBodyId).find('li');
                     $lis.off('click');
-                    $lis.on('click', function(ev){
+                    $lis.on('click', function (ev) {
                         var $this = $(this);
                         // 记录数据
-                        dialogDataManage.data[dialogDataManage.currentName] = NetStarGrid.getCheckedData('netstar-saas-addcombo');
+                        dialogDataManage.data[dialogDataManage.currentName] = NetStarGrid
+                            .getCheckedData('netstar-saas-addcombo');
                         // 切换tab
                         $lis.removeClass('current');
                         $this.addClass('current');
@@ -1021,45 +1251,69 @@
                         NetStarGrid.init(gridConfig);
                     });
                     var addComboBtns = {
-                        id:'netstar-saas-addcombo-btns',
-                        btns:[
-                            {
-                                text:'确认',
-                                handler:function(){
-                                    var checkedData = NetStarGrid.getCheckedData('netstar-saas-addcombo');
-                                    var comboIds=''
-                                    for(var i = 0;i<checkedData.length;i++){
-                                        comboIds += checkedData[i].id + ','
+                        id: 'netstar-saas-addcombo-btns',
+                        btns: [{
+                                text: '确认',
+                                handler: function () {
+                                    //传参 comboIds
+                                    var checkedData = NetStarGrid.getCheckedData(
+                                        'netstar-saas-addcombo');
+                                    var itemIds = '';
+                                    var unitList = ''
+                                    for (var i = 0; i < checkedData.length; i++) {
+                                        itemIds += checkedData[i].id + ','
                                     }
-                                    var ajaxConfig ={
-                                        url:getRootPath() + 'reg/combos/addCombo',
-                                        contentType:'application/x-www-form-urlencoded',
-                                        type:'POST',
-                                        data:{
-                                            comboIds:comboIds
+                                    for (var j = 0; j < selectedData.length; j++) {
+                                        unitList += selectedData[j].id + ','
+                                    }
+                                    var comboIds = '';
+                                    if (itemIds != '' && unitList == '') {
+                                        comboIds = itemIds
+                                    } else if (unitList != '' && itemIds == '') {
+                                        comboIds = unitList
+                                    } else {
+                                        comboIds = itemIds + unitList;
+                                    }
+
+                                    var ajaxConfig = {
+                                        url: getRootPath() + 'reg/combos/addCombo',
+                                        contentType: 'application/x-www-form-urlencoded',
+                                        type: 'POST',
+                                        data: {
+                                            comboIds: comboIds
                                         }
                                     }
-                                    NetStarUtils.ajax(ajaxConfig,function(res){
-                                        if(res.success){
-                                            nsalert('保存成功');
+                                    NetStarUtils.ajax(ajaxConfig, function (res) {
+                                        if (res.success) {
                                             //获取项目数据
-                                            saasReg.data.addComboVOList = res.rows
+                                            NetstarComponent.dialog[regId
+                                                .addComboDialogId].vueConfig.close();
+                                            for (var i = 0; i < res.rows.length; i++) {
+                                                res.rows[i].isOwnExpense = 1;
+                                                res.rows[0].packageId = "4444"
+                                            }
+                                            saasReg.addComboVOList = res.rows;
+                                            //存放数据
+                                            pagesData.addComboVOListData = res.rows;
+                                            saasReg.itemShowOrHidden();
+                                            saasReg.itemAmount();
                                         }
                                     })
                                 }
                             },
                             {
-                                text:'关闭',
-                                handler:function(){
-
+                                text: '关闭',
+                                handler: function () {
+                                    NetstarComponent.dialog[regId.addComboDialogId].vueConfig
+                                        .close()
                                 }
                             }
                         ]
                     }
-                   
+
                     vueButtonComponent.init(addComboBtns);
                 }
-               
+
             };
             NetstarComponent.dialogComponent.init(addComboDialog)
         }
@@ -1070,7 +1324,7 @@
             // NetstarBlockList.init(configs.hazardBlockList);
             // NetstarBlockList.init(configs.regcomboBlocklist);
             vueButtonComponent.init(configs.regBtns);
-            height:500
+            height: 500
 
             /* vueButtonComponent.init(configs.regcombobtns) */
         }
