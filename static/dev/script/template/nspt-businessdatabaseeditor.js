@@ -1464,7 +1464,7 @@ NetstarTemplate.templates.businessDataBaseEditor = (function ($) {
                         }
                         if(isUseObject == false){//ServerDataByAjax
                            var _pageData = {};
-                           if(typeof(ServerDataByAjax) == "object"){
+                           if(typeof(ServerDataByAjax) == "object" && !$.isEmptyObject(ServerDataByAjax)){
                               _pageData.page = ServerDataByAjax;
                            }else{
                               _pageData.page = pageData;
