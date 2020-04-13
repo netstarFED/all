@@ -266,7 +266,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 var componentsByName = config.componentsByName;
                 var componentData = componentsByName.blockList;
                 // 计算高度
-                var height = componentsFuncManage.getPanelComponentHeight(config);
+                var height = componentsFuncManage.getPanelComponentHeight(componentData, config);
                 componentData.componentHeight = height;
                 var ajaxConfig = $.extend(true, {}, componentData.ajax);
                 if(!$.isEmptyObject(config.pageParam)){
@@ -306,7 +306,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 // 清空上次初始化表格
                 $container.children().remove();
                 // 计算高度
-                var height = componentsFuncManage.getPanelComponentHeight(config);
+                var height = componentsFuncManage.getPanelComponentHeight(rightGridConfig, config);
                 rightGridConfig.componentHeight = height;
                 var gridComponents = {};
                 rightGridConfig.blockSelectedData = data;
@@ -332,14 +332,20 @@ NetstarTemplate.templates.statisticalPlan = (function(){
     }
     // 组件方法管理
     var componentsFuncManage = {
-        getPanelComponentHeight : function(config){
+        getPanelComponentHeight : function(componentData, config){
             var $container = $('#' + config.id);
             var $ptMainRow = $container.children().children('.pt-main-row');
             var ptMainRowHeight = 0;
             for(var i=0; i<$ptMainRow.length-1; i++){
                 ptMainRowHeight += $ptMainRow.outerHeight();
             }
-            var height = config.templateCommonHeight - ptMainRowHeight;
+            var btnsHeight = 0;
+            var $ptMainCol = $('#' + componentData.id).closest('.pt-main-col');
+            var $ptMainColChildren = $ptMainCol.children();
+            if($ptMainColChildren.length > 1){
+                btnsHeight  = $ptMainColChildren.eq(0).outerHeight();
+            }
+            var height = config.templateCommonHeight - ptMainRowHeight - btnsHeight - 10;
             return height;
         },
         gridSelectedHandler : function(data, $data, gridVue, gridConfig){
@@ -423,13 +429,19 @@ NetstarTemplate.templates.statisticalPlan = (function(){
 		// 					+'</div>'
 		// 				+'</div>';
         // }
+        var leftBtnHtml = '';
         var leftBtnId = '';
         if(componentsByName.btnLeft){
             leftBtnId = componentsByName.btnLeft.id;
+            leftBtnHtml = '<div class="pt-panel pt-grid-header" id="'+ leftBtnId +'">'
+                            + '</div>'
         }
         var rightBtnId = '';
+        var rightBtnHtml = '';
         if(componentsByName.btnRight){
             rightBtnId = componentsByName.btnRight.id;
+            rightBtnHtml = '<div class="pt-panel" id="'+rightBtnId+'">'
+                            + '</div>'
         }
 		var templateClassStr = '';
 		if(config.plusClass){
@@ -445,8 +457,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                             // +'</div>'
                             +'<div class="pt-main-row">'
                                 +'<div class="pt-main-col">'
-                                    + '<div class="pt-panel pt-grid-header" id="'+leftBtnId+'">'
-                                    + '</div>'
+                                    + leftBtnHtml
                                     + '<div class="pt-panel pt-grid-body">'
                                         + '<div class="pt-container">'
                                             + '<div class="pt-panel-row">'
@@ -459,8 +470,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                                     + '</div>'
                                 +'</div>'
                                 +'<div class="pt-main-col">'
-                                    + '<div class="pt-panel" id="'+rightBtnId+'">'
-                                    + '</div>'
+                                    + rightBtnHtml
                                     + '<div class="pt-panel" id="'+rightId+'">'
                                     + '</div>'
                                 +'</div>'
