@@ -230,23 +230,150 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         register : {
             // 获取数据
             getData : function(componentConfig, isValid, config){
-                
+                // header
+                var headerData = componentConfig.headerVueObj.data;
+                // boder
+                var formValue = NetstarComponent.getValues(componentConfig.bodyId, isValid);
+                if(!formValue){
+                    return formValue;
+                }
+                formValue = $.extend(false, formValue, headerData);
+                return formValue;
             },
             // 设置数据
             setData : function(data, componentConfig, config){
-                
+                // header
+                var headerValue = {
+                    time : data.time,
+                    orderNo : data.orderNo,
+                    type : data.type,
+                }
+                componentConfig.headerVueObj.data = headerValue;
+                // boder
+                NetstarComponent.fillValues(data, componentConfig.bodyId);
             },
             // 清空数据
             clearData : function(componentConfig, config){
-                
+                // header
+                componentConfig.headerVueObj.data = [];
+                // boder
+                NetstarComponent.clearValues(componentConfig.bodyId);
             },
             // 刷新
             refresh : function(data, componentConfig, config){
                 
             },
+            // 获取header的html
+            getHeaderHtml : function(componentConfig){
+                var html = '<div class="title">体检登记</div>'
+                                + '<div class="pt-panel-header-right">'
+                                    + '<span>预约时间：{{showData.time}}</span>'
+                                    + '<span>订单编号：{{showData.orderNo}}</span>'
+                                    + '<div class="switch">'
+                                        + '<div class="switch-item" v-on:click="btnCutaways" :class="{\'current\': showData.type==0}">'
+                                            + '<span>个人</span>'
+                                        + '</div>'
+                                        + '<div class="switch-item" v-on:click="btnCutawaysBack" :class="{\'current\': showData.type==1}">'
+                                            + '<span>单位</span>'
+                                        + '</div>'
+                                    + '</div>'
+                                    + '<div class="checkbox-box" v-on:click="btnChecked" :class="{\'checked\': ischecked==true}">'
+                                        + '<span>预约</span>'
+                                    + '</div>'
+                                + '</div>'
+                            + '</div>'
+                return html;
+            },
+            getHeaderShowData : function(data, componentConfig){
+                var time = '';
+                if(data.time){
+                    time = moment(data.time).format('YYYY-MM-DD')
+                }
+                var showData = {
+                    time : time,
+                    orderNo : data.orderNo,
+                    type : data.type,
+                };
+                return showData;
+            },
+            // 初始化header
+            initHeader : function(componentConfig, data, config){
+                var _this = this;
+                var headerId = componentConfig.headerId;
+                var $header = $('#' + headerId);
+                var html = this.getHeaderHtml(componentConfig);
+                $header.html(html);
+                var value = {
+                    time : data.time,
+                    orderNo : data.orderNo,
+                    type : data.type,
+                }
+                var showData = this.getHeaderShowData(value, componentConfig);
+                var vueObj = new Vue({
+                    el:'#' + headerId,
+                    data:{
+                        data : value,
+                        showData : showData,
+                        ischecked: true, //预约勾选
+                    },
+                    watch : {
+                        data : function(newData, oldValue){
+                            this.showData = _this.getHeaderShowData(newData, componentConfig);
+                        }
+                    },
+                    methods:{
+                        //体检登记  单位个人切换
+                        btnCutaways: function () {
+                            var _this = this;
+                            _this.isbtnCutaways = 0
+                        },
+                        btnCutawaysBack: function () {
+                            var _this = this;
+                            _this.isbtnCutaways = 1
+                        },
+                        //体检登记 预约勾选
+                        btnChecked: function () {
+                            var _this = this;
+                            console.log(_this);
+                            if (_this.ischecked) {
+                                _this.ischecked = false;
+                            } else {
+                                _this.ischecked = true;
+                            }
+                        },
+                    }
+                })
+                componentConfig.headerVueObj = vueObj;
+            },
+            // 初始化表单
+            initForm : function(componentConfig, data, config){
+                var formConfig = {
+                    id: componentConfig.bodyId,
+                    defaultComponentWidth: "33%",
+                    isSetMore: false,
+                    form : componentConfig.field,
+                }
+                NetstarComponent.formComponent.show(formConfig, data);
+            },
             // 初始化
             init : function(componentConfig, config){
-                
+                console.log(componentConfig);
+                var id = componentConfig.id;
+                var headerId = id + '-header';
+                var bodyId = id + '-body';
+                // 添加容器
+                var html = '<div class="pt-panel-header" id="'+ headerId +'"></div>'
+                            + '<div id="'+ bodyId +'"></div>'
+                var $container = $('#' + id);
+                componentConfig.headerId = headerId;
+                componentConfig.bodyId = bodyId;
+                $container.html(html);
+                // 数据
+                var data = typeof(config.serverData) == "object" ? config.serverData : {};
+                // 初始化header
+                this.initHeader(componentConfig, data);
+                // 初始化表单
+                this.initForm(componentConfig, data)
             }
         },
         // 项目信息
@@ -607,11 +734,14 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             var componentsByName = config.componentsByName;
             for(var keyName in componentsByName){
                 // 按钮不需要获取
-                if(componentsByName == "btns"){ continue; }
+                if(keyName == "btns"){ continue; }
                 // 没有该组件
-                if(typeof(componentManage[componentsByName]) != "object"){ continue; }
+                if(typeof(componentManage[keyName]) != "object"){ continue; }
                 var componentConfig = componentsByName[keyName];
-                var componentData = componentManage[componentsByName].getData(componentConfig, isValid, config);
+                var componentData = componentManage[keyName].getData(componentConfig, isValid, config);
+                if(componentData == undefined){
+                    continue;
+                }
                 if(!componentData){
                     data = false;
                     break;

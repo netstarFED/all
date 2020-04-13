@@ -96,7 +96,7 @@
                 "chineseName": "是否作为值",
                 "validType": "boolean",
                 "toolType": "check",
-                "default": false
+                "default": false 
             } ,
             "orderable":{
                 "chineseName":"是否允许列排序",
@@ -111,12 +111,22 @@
                 "default":false,
                 "help":""
             }, 
-            "footer": {
-                "chineseName": "页尾",
-                "validType": "object",
-                "toolType": "string",
+            "footer.type":{
+                "chineseName": "底部合计",
+                "validType":"string",
+                "toolType":"select",
                 "default": "",
-                "help":"举例:footer:{type:\"sum\"},sum合计,average平均值"
+                "subdata":[
+                    {
+                        "value":"sum",
+                        "text":"合计"
+                    },
+                    {
+                        "value":"average",
+                        "text":"平均值"
+                    }
+                ],
+                "help":""
             } 
         },
         "data": {
@@ -125,13 +135,6 @@
                 "validType": "boolean",
                 "toolType": "check",
                 "default": false
-            } ,
-            "total": {
-                "chineseName": "表达式",
-                "validType": "object",
-                "toolType": "textarea",
-                "default": "",
-                "help":"举例：{{money}}-{{price}}"
             },
             "isColumnCombine":{
                 "chineseName":"是否支持列合并",
@@ -139,12 +142,6 @@
                 "toolType":"check",
                 "default":false,
                 "help":"当前只用于统计模板"
-            },
-            "formatHandler": {
-                "chineseName": "格式化方法",
-                "validType": "object",
-                "toolType": "textarea",
-                "default": ""
             } 
         
             

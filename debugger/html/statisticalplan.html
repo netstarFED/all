@@ -37,11 +37,10 @@
                 components : [
                     {
                         type : 'btns',
-                        plusClass : 'left',
-                        operatorObject : 'root',
                         params : {
                             displayMode : 'left'
                         },
+                        
                         field : [
                             {
                                 "functionConfig": {
@@ -95,8 +94,6 @@
                         ],
                     },{
                         type : 'btns',
-                        plusClass : 'right',
-                        operatorObject : 'right',
                         field : [
                             {
                                 "functionConfig": {
@@ -329,6 +326,9 @@
                         "voId": "1309191185989904361",
                         "idField": "id",
                         // "keyField": "sampleList",
+                        params : {
+                            nullBlockExpression : '<div>全部</div>'
+                        },
                         "parent": "root",
                         "listExpression": "<div class='pt-block-content-item'>\n<span class=\"tag\">样品名称：</span>\n<span class=\"code\">{{sampleName}}</span>\n</div>\n<div class='pt-block-content-item'>\n<span class=\"tag\">委托编号：</span>\n<span class=\"code\">{{sampleCode}}</span>\n</div>",
                         "isUseSearchInput": true,
@@ -1238,7 +1238,7 @@
                         },
                         ajax:{
                             src: "http://localhost:2000/debugger/data/statisticalplanblock.json",
-                            type: "GET",
+                            type: "JSON",
                             dataSrc: "rows",
                             contentType: "application/x-www-form-urlencoded",
                         }

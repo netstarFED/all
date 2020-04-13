@@ -95,7 +95,230 @@
                         type : 'vo',
                         name : 'register', // 登记信息
                         keyField : 'root',
-                        field : [],
+                        field : [
+                            {
+                                id: "regCode",
+                                label: '体检编号',
+                                type: 'text'
+                            },
+                            {
+                                id: 'peTypeId',
+                                type: 'select',
+                                label: '体检类别',
+                                // required: true,
+                                url: getRootPath() + '/npebase/datPeClasss/getList',
+                                contentType: 'application/json',
+                                selectMode: 'multi',
+                                mentod: 'POST',
+                                dataSrc: 'rows',
+                                valueField: 'id',
+                                textField: 'name',
+                                changeHandler: function (res) {
+                                    var idsStr = res.value;
+                                    var ajaxConfig = {
+                                        url: getRootPath() + 'reg/types/setPeType',
+                                        contentType: 'application/x-www-form-urlencoded',
+                                        type: 'POST',
+                                        dataSrc: 'rows',
+                                        data: {
+                                            peTypeIds: idsStr,
+                                        }
+                                    }
+                                    NetStarUtils.ajax(ajaxConfig, function (res) {
+                                        if (res.success) {
+                                            pagesData.peTypeIdData = res.rows
+                                        }
+                                    })
+                                }
+                            },
+                            {
+                                id: "idNo",
+                                label: '证件类别',
+                                type: 'select',
+                                valueField: 'id',
+                                textField: "name",
+                                subdata: [{
+                                        id: '0',
+                                        name: '身份证'
+                                    },
+                                    {
+                                        id: '1',
+                                        name: '护照'
+                                    }
+                                ]
+                            },
+                            {
+                                id: "isVip",
+                                label: '是否是vip',
+                                type: 'select',
+                                valueField: 'id',
+                                textField: "name",
+                                // rules: 'required',
+                                subdata: [{
+                                        id: 0,
+                                        name: '是'
+                                    },
+                                    {
+                                        id: 1,
+                                        name: '否'
+                                    }
+                                ]
+                            },
+                            {
+                                id: "regName",
+                                label: '姓名',
+                                type: 'text',
+                                rules: 'required',
+                            },
+                            {
+                                id: "age",
+                                label: '年龄',
+                                type: 'number',
+                                rules: 'required',
+                                isShowCalculator: false,
+                            },
+                            {
+                                id: "birthday",
+                                label: '出生日期',
+                                type: 'date',
+                                rules: 'required',
+                            },
+                            {
+                                id: "sex",
+                                label: '性别',
+                                type: 'radio',
+                                subdata: [{
+                                        id: '1',
+                                        name: '男'
+                                    },
+                                    {
+                                        id: '2',
+                                        name: '女'
+                                    }
+                                ],
+                                value: '1',
+                                valueField: "id",
+                                textField: 'name',
+                                rules: 'required',
+                            },
+                            {
+                                id: 'phoneNo',
+                                type: 'text',
+                                label: '手机号'
+                            },
+                            {
+                                id: 'grade',
+                                type: 'text',
+                                label: '文化程度',
+                                dictArguments: "grade",
+                                type: 'select',
+                                textField: '',
+                                valueField: ''
+                            },
+                            {
+                                id: 'nativePlace',
+                                type: 'text',
+                                label: '籍贯',
+
+                            },
+                            {
+                                id: 'address',
+                                type: 'text',
+                                label: '家庭住址'
+                            },
+                            {
+                                id: 'nation',
+                                type: 'text',
+                                label: '民族',
+                                dictArguments: "nation",
+                                type: 'select',
+                                textField: 'value',
+                                valueField: 'id',
+
+                            },
+                            {
+                                id: 'marriage',
+                                label: '婚姻状态',
+                                dictArguments: "marriage",
+                                type: 'select',
+                                textField: 'value',
+                                valueField: 'value',
+                                subdata: [{
+                                        id: '1',
+                                        value: '已婚'
+                                    },
+                                    {
+                                        id: '2',
+                                        value: '未婚'
+                                    },
+                                    {
+                                        id: '3',
+                                        value: '不祥'
+                                    }
+                                ]
+                            },
+                            {
+                                id: 'customerName',
+                                type: 'select',
+                                label: '工作单位',
+                                url: getRootPath() + '/customer/getPageListOfAll',
+                                contentType: '',
+                                mentod: 'POST',
+                                dataSrc: 'rows',
+                                valueField: 'customerId',
+                                textField: 'customerName',
+                            },
+                            {
+                                id: 'customerDeptName',
+                                type: 'text',
+                                label: '车间部门',
+                            },
+                            {
+                                id: 'empNo',
+                                type: 'text',
+                                label: '工号',
+
+                            },
+                            {
+                                id: 'workTypeName',
+                                type: 'select',
+                                label: '工种',
+                                url: getRootPath() + '/pfdCustomerWorks/getList',
+                                contentType: '',
+                                mentod: 'POST',
+                                dataSrc: 'rows',
+                                valueField: 'id',
+                                textField: 'workName',
+
+                            },
+                            {
+                                id: 'customerBatchId',
+                                type: 'text',
+                                label: '合同批次'
+                            },
+                            {
+                                id: 'whenEntry',
+                                type: 'date',
+                                label: '入场日期'
+                            },
+                            {
+                                id: 'workYears', //number
+                                type: 'number',
+                                label: '总工龄',
+                                isShowCalculator: false,
+                            },
+                            {
+                                id: 'hazardYears',
+                                type: 'number',
+                                label: '接害工龄',
+                                isShowCalculator: false,
+                            },
+                            {
+                                id: 'id',
+                                type: 'hidden'
+                            }
+                        
+                        ],
                     },{
                         type : 'list',
                         name : 'project', // 项目信息

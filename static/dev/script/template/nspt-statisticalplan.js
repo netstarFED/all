@@ -27,6 +27,32 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 pageParam : {},
             }
             nsVals.setDefaultValues(config, defaultConfig);
+            var components = config.components;
+            for(var componentI=0; componentI<components.length; componentI++){
+                var componentData = components[componentI];
+                // params
+                componentData.params = typeof(componentData.params)=='object' ? componentData.params : {};
+                var params = componentData.params;
+                // type
+                var type = componentData.type;
+                switch(type){
+                    case 'blockList':
+                        break;
+                    case 'list':
+                        break;
+                    case 'btns':
+                        if(params.displayMode == "left"){
+                            if(typeof(componentData.operatorObject) == "undefined"){
+                                componentData.operatorObject = 'root';
+                            }
+                        }else{
+                            if(typeof(componentData.operatorObject) == "undefined"){
+                                componentData.operatorObject = 'right';
+                            }
+                        }
+                        break;
+                }
+			}
         },
         // 设置配置
         setConfig : function(config){
@@ -34,6 +60,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
             var components = config.components;
             var componentsByName = {};
             var templateId = config.id;
+            var componentIds = {};
             for(var componentI=0; componentI<components.length; componentI++){
                 var componentData = components[componentI];
                 // keyField
@@ -53,6 +80,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                         }
                         name = 'blockList';
                         componentId = templateId + '-blockList-root';
+                        componentIds.left = componentId;
                         break;
                     case 'list':
                         if(!keyField){
@@ -65,6 +93,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                         }
                         componentId = templateId + '-list-right';
                         componentData.isAjax = true;
+                        componentIds.right = componentId;
                         break;
                     case 'btns':
                         if(typeof(componentId) == "undefined"){
@@ -72,8 +101,16 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                         }
                         if(params.displayMode == "left"){
                             name = 'btnLeft';
+                            componentIds.btnLeft = componentId;
+                            if(typeof(componentData.operatorObject) == "undefined"){
+                                componentData.operatorObject = 'root';
+                            }
                         }else{
                             name = 'btnRight';
+                            componentIds.btnRight = componentId;
+                            if(typeof(componentData.operatorObject) == "undefined"){
+                                componentData.operatorObject = 'right';
+                            }
                         }
                         break;
                 }
@@ -87,6 +124,8 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 }
 			}
             config.componentsByName = componentsByName;
+            config.componentIds = componentIds;
+            config.mainComponent = componentsByName.blockList;
         },
         getConfig : function(package){
             var _configs = configs[package];
@@ -125,45 +164,42 @@ NetstarTemplate.templates.statisticalPlan = (function(){
             if(typeof(ajaxPlusData)=='undefined'){
                 ajaxPlusData = {};
             }
-            // templateConfig.pageInitDefaultData = getPageData(templateConfig, false, false); // 页面初始化数据改变
-            if(templateConfig.closeValidSaveTime > -1){
-                setTimeout(function(){
-                    templateConfig.pageInitDefaultData = dataManage.getPageData(templateConfig, false, false); // 页面初始化数据改变
-                }, templateConfig.closeValidSaveTime);
-            }
             if(ajaxPlusData.isCloseWindow === true){
                 //如果按钮上配置了关闭当前界面直接执行关闭操作
                 NetstarUI.labelpageVm.removeCurrent();
             }else{
                 if(!$.isArray(data)){
+                    var panelName = 'root';
+                    if(ajaxPlusData.operatorObject){
+                        panelName = ajaxPlusData.operatorObject;
+                    }
                     //返回值是对象 可以根据返回状态去处理界面逻辑
-                    switch(data.objectState){
-                        case NSSAVEDATAFLAG.DELETE:
-                        //删除
-                        templateConfig.serverData = {};
-                        clearByAll(templateConfig);
-                        break;
-                        case NSSAVEDATAFLAG.EDIT:
-                        //修改
-                        templateConfig.serverData = nsServerTools.setObjectStateData(data);//改变服务端数据值，删除ojbectState为-1的数据
-                        NetStarUtils.deleteAllObjectState(templateConfig.serverData);//删除objectState状态值
-                        templateConfig.pageData = NetStarUtils.deepCopy(templateConfig.serverData);
-                        clearByAll(templateConfig);
-                        initComponentByFillValues(templateConfig);
-                        break;
-                        case NSSAVEDATAFLAG.ADD:
-                        //新增
-                        templateConfig.serverData = {};
-                        clearByAll(templateConfig);
-                        break;
-                        case NSSAVEDATAFLAG.VIEW:
-                        //刷新
-                        templateConfig.serverData = nsServerTools.setObjectStateData(data);//改变服务端数据值，删除ojbectState为-1的数据
-                        NetStarUtils.deleteAllObjectState(templateConfig.serverData);//删除objectState状态值
-                        templateConfig.pageData = NetStarUtils.deepCopy(templateConfig.serverData);
-                        clearByAll(templateConfig);
-                        initComponentByFillValues(templateConfig);
-                        break;
+                    if(panelName == templateConfig.componentsByName.blockList.keyField){
+                        switch(data.objectState){
+                            case NSSAVEDATAFLAG.DELETE:
+                            //删除
+                            case NSSAVEDATAFLAG.EDIT:
+                            //修改
+                            case NSSAVEDATAFLAG.ADD:
+                            //新增
+                            case NSSAVEDATAFLAG.VIEW:
+                            //刷新
+                            componentsManage.blockList.refreshHandler(config);
+                            break;
+                        }
+                    }else{
+                        switch(data.objectState){
+                            case NSSAVEDATAFLAG.DELETE:
+                            //删除
+                            case NSSAVEDATAFLAG.EDIT:
+                            //修改
+                            case NSSAVEDATAFLAG.ADD:
+                            //新增
+                            case NSSAVEDATAFLAG.VIEW:
+                            //刷新
+                            componentsManage.grid.refreshHandler(config);
+                            break;
+                        }
                     }
                 }else{
                     //返回值是数组 没法根据objectState去处理逻辑
@@ -175,37 +211,6 @@ NetstarTemplate.templates.statisticalPlan = (function(){
         closePageHandler : function(){
 
         },
-        closePageBeforeHandler : function(package){
-            var templateConfig = configManage.getConfig(package);
-            if(!templateConfig){
-                return false;
-            }
-            function delUndefinedNull(obj){
-                if($.isArray(obj)){
-                for(var i=0; i<obj.length; i++){
-                    delUndefinedNull(obj[i]);
-                }
-                }else{
-                for(var key in obj){
-                    if(typeof(obj[key]) == "object"){
-                        delUndefinedNull(obj[key]);
-                    }else{
-                        if(obj[key] === '' || obj[key] === undefined){
-                            delete obj[key];
-                        }
-                    }
-                }
-                }
-            }
-            var pageData = dataManage.getPageData(package, false, false);
-            delUndefinedNull(pageData)
-            var pageInitDefaultData = templateConfig.pageInitDefaultData ? templateConfig.pageInitDefaultData : templateConfig.serverData;
-            delUndefinedNull(pageInitDefaultData)
-            return {
-                getPageData : pageData,
-                serverData : pageInitDefaultData,
-            }
-        }
     }
     // 组件初始化
     var componentsManage = {
@@ -215,6 +220,18 @@ NetstarTemplate.templates.statisticalPlan = (function(){
             NetstarTemplate.commonFunc.btns.initBtns(componentData, config);
         },
         blockList : {
+            refreshHandler : function(config){
+                // blockList初始化
+                componentsManage.blockList.init(config);
+                // 表格初始化
+                var rightGridConfig = config.componentsByName.all;
+                if(!rightGridConfig){
+                    nsalert('没有找到右侧表格配置', 'error');
+                    console.error('没有找到右侧表格配置');
+                    return false;
+                }
+                componentsManage.grid.init({}, rightGridConfig, config);
+            },
             selectedHandler : function(data, gridVue, gridConfig, templateConfig){
                 // 右侧表格的名字
                 var rightName = 'part';
@@ -238,6 +255,9 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 data.unshift(allData);
                 componentData.dataSource = data;
                 componentData.nullBlockExpression = '<span>未分类</span>'
+                if(componentData.params && componentData.params.nullBlockExpression){
+                    componentData.nullBlockExpression = componentData.params.nullBlockExpression;
+                }
                 var blockComponents = {};
                 blockComponents[componentData.id] = componentData;
                 NetstarTemplate.commonFunc.blockList.initBlockList(blockComponents, config);
@@ -275,6 +295,12 @@ NetstarTemplate.templates.statisticalPlan = (function(){
         },
         // 初始化表格
         grid : {
+            refreshHandler : function(config){
+                var blockId = config.componentsByName.blockList.id;
+                var data = NetstarBlockList.getSelectedData(blockId);
+                var blockConfigs = NetstarBlockList.configs[blockId];
+                componentsManage.blockList.selectedHandler(data, blockConfigs.vueObj, blockConfigs.gridConfig, config);
+            },
             init : function(data, rightGridConfig, config){
                 var $container = $('#' + rightGridConfig.id);
                 // 清空上次初始化表格
@@ -327,6 +353,27 @@ NetstarTemplate.templates.statisticalPlan = (function(){
             }
         },
     }
+    // 数据管理
+    var dataManage = {
+        getPageData : function(config){
+            var componentIds = config.componentIds;
+            // 左侧
+            var leftId = componentIds.left;
+            var leftData = NetstarBlockList.configs[leftId].vueObj.originalRows;
+            var leftSelectedData = NetstarBlockList.getSelectedData(leftId);
+            // 右侧
+            var rightId = componentIds.right;
+            var rightData = NetStarGrid.configs[rightId].vueObj.originalRows;
+            var rightSelectedData = NetStarGrid.getSelectedData(rightId);
+            var data = {
+                left : leftData,
+                leftSelected : leftSelectedData,
+                right : rightData,
+                rightSelected : rightSelectedData,
+            };
+            return data;
+        }
+    }
     //初始化组件容器
 	function initContainer(config){
 		var titleHtml = '';//标题
@@ -360,8 +407,8 @@ NetstarTemplate.templates.statisticalPlan = (function(){
             rightId = componentsByName.part.id;
         }
         // 按钮
-        var btnsHtml = '';
-        var btnsConfig = config.componentsConfig.btns;
+        // var btnsHtml = '';
+        // var btnsConfig = config.componentsConfig.btns;
         // for(var keyId in btnsConfig){
         //     var btnPlusClass = btnsConfig[keyId].plusClass ? btnsConfig[keyId].plusClass : '';
         //     btnsHtml += '<div class="pt-panel button-panel-component '+btnPlusClass+'">'
@@ -398,9 +445,9 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                             // +'</div>'
                             +'<div class="pt-main-row">'
                                 +'<div class="pt-main-col">'
-                                    + '<div class="pt-panel" id="'+leftBtnId+'">'
+                                    + '<div class="pt-panel pt-grid-header" id="'+leftBtnId+'">'
                                     + '</div>'
-                                    + '<div class="pt-panel">'
+                                    + '<div class="pt-panel pt-grid-body">'
                                         + '<div class="pt-container">'
                                             + '<div class="pt-panel-row">'
                                                 + '<div class="pt-panel-col">'
@@ -442,6 +489,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
             sourse : $.extend(true, {}, config),
             config : config,
         }
+        configManage.setDefault(config);
         // 设置模板通用参数默认值
         NetstarTemplate.commonFunc.setDefault(config);
         // 设置config
