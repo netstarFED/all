@@ -3663,8 +3663,8 @@ var NetStarGrid = (function () {
 								}
 								_originalRows.push(originalRows[i]);
 							}
+							this.originalRows = _originalRows;
 						}
-						this.originalRows = _originalRows;
 					},
 					// 当某被拖动的对象在另一对象容器范围内拖动时触发此事件
 					gridRowsDragover : function(ev){
@@ -4284,10 +4284,14 @@ var NetStarGrid = (function () {
 				}
 				// lyw 判断该方法是否由行事件驱动若是，是否存在复选框，若存在表示选中行时同时勾选行，取消上次勾选行
 				if(isEvent && gridConfig.ui.isCheckSelect){
-					if(prevSelectIndex > -1){
-						rows[prevSelectIndex].netstarCheckboxSelectedFlag = false;
-						rowData.netstarCheckboxSelectedFlag = true;
+					// if(prevSelectIndex > -1){
+					// 	rows[prevSelectIndex].netstarCheckboxSelectedFlag = false;
+					// 	rowData.netstarCheckboxSelectedFlag = true;
+					// }
+					for (var i = 0; i < rows.length; i++) {
+						rows[i].netstarCheckboxSelectedFlag = false;
 					}
+					rowData.netstarCheckboxSelectedFlag = true;
 				}
 				//回调行选中事件
 				if (gridConfig.ui.selectedHandler) {
