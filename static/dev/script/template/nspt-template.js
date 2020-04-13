@@ -2083,6 +2083,9 @@ var NetstarTemplate = {
 							defaultSelectedIndex:0,
 						}
 					};
+					if(componentData.pageLengthDefault){
+						gridConfig.ui.pageLengthDefault = componentData.pageLengthDefault;
+					}
 					if(componentData.getPageDataFunc){
 						gridConfig.getPageDataFunc = componentData.getPageDataFunc;
 					}
