@@ -4379,6 +4379,9 @@ var NetstarProject = (function(){
                                         dialogContentOld(callback,obj);
                                         return;
                                     }
+                                    for(var fieldI=0; fieldI<dialogField.length; fieldI++){
+                                        fieldManager.setFormField(dialogField[fieldI], dialogField[fieldI].type);
+                                    }
                                 var dialogJson = {
                                     id:'dialogCommon',//typeof(obj.config.dialogId) == 'undefined'?'dialogCommon':obj.config.dialogId,
                                     title: typeof(controllerObj.title) =='string'?controllerObj.title:'表单维护',
