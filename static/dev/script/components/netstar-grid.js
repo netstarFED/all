@@ -113,16 +113,18 @@ var NetStarGrid = (function () {
 					'<tbody>' +
 					'<tr>' +
 					'<td \
-											v-for="columnCofig in columns" \
+											v-for="(columnCofig, index) in columns" \
 											class="thead-th" \
 											:class="[columnCofig.columnType,NetstarOrderClass(columnCofig)]" \
 											:ns-field="columnCofig.field" \
-											v-html="columnCofig.title" \
 											:style="columnCofig.styleObj" \
 											@click.self="columnOrderHandler"\
 										>' +
-					//'{{ columnCofig.title }} '+
-					'</td>' +
+					// '{{ columnCofig.title }} '+
+						'<span v-html="columnCofig.title">'
+						+ '</span>'
+						+ '<button class="pt-btn pt-btn-default pt-btn-icon" v-if="columnCofig.editable && (columnCofig.editConfig&&columnCofig.editConfig.type!=\'business\')" :ns-field="columnCofig.field" @click="thClickHandler($event, index, columnCofig)"><i class="icon-pen"></i></button>'
+					+ '</td>' +
 					'</tr>' +
 					'</tbody>' +
 					'</table>' +
@@ -168,8 +170,8 @@ var NetStarGrid = (function () {
 					// '<colgroup>' +
 					// 	'<col v-for="columnCofig in columns" :style="columnCofig.styleObj"></col>' +
 					// '</colgroup>' +
-					'<tbody>' +
-					'<tr v-for="(row,index) in rows" :ns-rowindex="index" @click="rowClickHandler" :ns-id="row[idField]" :primaryid="row[ui.parentField]" :nslevel="row.netstarLevel" @dblclick="rowdbClickHandler" :style="row[\'NETSTAR-TRSTYLE\']" :class="[{\'selected\':row.netstarSelectedFlag},{\'tr-disabled\':row[\'NETSTAR-TRDISABLE\']},{\'open\':row.netstarOpen},netstarTreeGridFlag(row),netstarRowStateFlag(row),{\'ns-tips-placeholder\':row\[\'NETSTAR-TIPS-PLACEHOLDER\'\]===true},row[\'NETSTAR-ROWSOURCE-CLASS\']]">' +
+					'<tbody @drop="gridRowsDrop($event)" @dragover="gridRowsDragover($event)">' +
+					'<tr v-for="(row,index) in rows" :draggable="ui.isEditMode" :ns-rowindex="index" @click="rowClickHandler" @dragstart="gridRowsDragstart($event)" :ns-id="row[idField]" :primaryid="row[ui.parentField]" :nslevel="row.netstarLevel" @dblclick="rowdbClickHandler" :style="row[\'NETSTAR-TRSTYLE\']" :class="[{\'selected\':row.netstarSelectedFlag},{\'tr-disabled\':row[\'NETSTAR-TRDISABLE\']},{\'open\':row.netstarOpen},netstarTreeGridFlag(row),netstarRowStateFlag(row),{\'ns-tips-placeholder\':row\[\'NETSTAR-TIPS-PLACEHOLDER\'\]===true},row[\'NETSTAR-ROWSOURCE-CLASS\']]">' +
 					'<td v-for="columnCofig in columns" \
 											:class="[columnCofig.columnType,NetstarTdStateFlag(row,columnCofig)]" \
 											:ns-edit-type="[columnCofig.editConfig&&columnCofig.editConfig.type?columnCofig.editConfig.type.toLowerCase():\'\']" \
@@ -3607,6 +3609,74 @@ var NetStarGrid = (function () {
 						ev.stopPropagation();
 						methodsManager.showInfoDialog(ev, index, columnCofig, rowData, _gridConfig, this);
 					},
+					// 编辑整列
+					thClickHandler : function (ev, index, columnCofig) {
+						methodsManager.thClickHandler(ev, _gridConfig, vueConfig);
+					},
+					// 拖拽的相关方法
+                	// 在一个拖动过程中，释放鼠标键时触发此事件
+					gridRowsDrop : function(ev){
+						/**
+						 * start : 开始位置 拖拽的位置
+						 * end : 结束位置 拖放结束的位置
+						 * seat : 在拖放位置 之前/之后
+						 */
+						var start = ev.dataTransfer.getData('start');
+						// 拖放到的容器 根据容器 确定结束位置
+						var $this = $(ev.target);
+						if(ev.target.nodeName == "TR"){
+							var $tr = $this;
+						}else{
+							var $tr = $this.closest('tr');
+						}
+						var end = $tr.attr('ns-rowindex');
+						// 插入位置 之前/之后
+						var seat = 'after';
+						var height = $tr.height();
+						var pageY = $tr.offset().top;
+						var centerHeightY = pageY + height/2;
+						var mousePageY = ev.pageY;
+						if(mousePageY < centerHeightY){
+							seat = 'before';
+						}
+						// 根据获得的star/end/seat三个值刷新表格数据
+						end = Number(end);
+						start = Number(start);
+						var originalRows = $.extend(true, [], this.originalRows);
+						if(end == start){
+							// 没有移动
+						}else{
+							var _originalRows = [];
+							for(var i=0; i<originalRows.length; i++){
+								if(i == start){
+									continue;
+								}
+								if(i == end){
+									if(seat == 'before'){
+										_originalRows.push(originalRows[start]);
+										_originalRows.push(originalRows[i]);
+									}else{
+										_originalRows.push(originalRows[i]);
+										_originalRows.push(originalRows[start]);
+									}
+									continue;
+								}
+								_originalRows.push(originalRows[i]);
+							}
+							this.originalRows = _originalRows;
+						}
+					},
+					// 当某被拖动的对象在另一对象容器范围内拖动时触发此事件
+					gridRowsDragover : function(ev){
+						ev.preventDefault();
+					},
+					// 用户开始拖动元素时触发
+					gridRowsDragstart : function(ev){
+						// 设置开始位置
+						var $this = $(ev.target);
+						var position = $this.attr('ns-rowindex');
+						ev.dataTransfer.setData("start", position);
+					},
 				},
 				mounted: function () {
 					var _this = this;
@@ -3788,6 +3858,16 @@ var NetStarGrid = (function () {
 					}
 					$('body').on('click',outClickHandlerByCopyTr);
 				}
+			}
+		},
+		thClickHandler : function (ev, gridConfig, vueConfig,rowData) {
+			var $td = $(ev.currentTarget).parent();
+			if (gridConfig.ui.isEditMode) {
+				tdEditor.show($td, gridConfig, vueConfig);
+			} else {
+				//不支持编辑模式 可以稍微做一点响应 用于提示
+				//sjj 20200107 判断当前点击的列
+				methodsManager.tdClickHandler(ev, gridConfig, vueConfig, rowData);
 			}
 		},
 		//刷新纵向滚动条的的容器高度
@@ -4204,10 +4284,14 @@ var NetStarGrid = (function () {
 				}
 				// lyw 判断该方法是否由行事件驱动若是，是否存在复选框，若存在表示选中行时同时勾选行，取消上次勾选行
 				if(isEvent && gridConfig.ui.isCheckSelect){
-					if(prevSelectIndex > -1){
-						rows[prevSelectIndex].netstarCheckboxSelectedFlag = false;
-						rowData.netstarCheckboxSelectedFlag = true;
+					// if(prevSelectIndex > -1){
+					// 	rows[prevSelectIndex].netstarCheckboxSelectedFlag = false;
+					// 	rowData.netstarCheckboxSelectedFlag = true;
+					// }
+					for (var i = 0; i < rows.length; i++) {
+						rows[i].netstarCheckboxSelectedFlag = false;
 					}
+					rowData.netstarCheckboxSelectedFlag = true;
 				}
 				//回调行选中事件
 				if (gridConfig.ui.selectedHandler) {
@@ -5460,7 +5544,7 @@ var NetStarGrid = (function () {
 			for (var i = 0; i < rows.length; i++) {
 				var data = rows[i];
 				if (originalRows[i + startI]) {
-					if (data.netstarSelectedFlag) {
+					if (data.netstarSelectedFlag && data['NETSTAR-TRDISABLE'] !== true) {
 						selectedRows.push(originalRows[i + startI]);
 					}
 				}
@@ -5711,34 +5795,34 @@ var NetStarGrid = (function () {
 
 			// cy 20200307 判断是否上下超出范围 由于键盘驱动可能出现上下超出的问题
 			// 获取底部表格高度
-			var footerTableHeight = 0;
-			if(gridConfig.domParams.footerTableContainer && gridConfig.domParams.footerTableContainer.$dom ){
-				footerTableHeight = gridConfig.domParams.footerTableContainer.$dom.outerHeight();
-			}
-			//最大可视区域底部 单元格的位置 - 表格最大显示区域的底部 - 表格滚动位置 如果大于0 则是超出了表格底部
-			var maxBottom = ( tablePosition.top + tablePosition.height ) - footerTableHeight; 
-			var outBottom = ( tdPosition.top +tdPosition.height ) - maxBottom;
-			var isOutBottom = outBottom > 0;
-			//如果超出则需要滚动条处理并修改显示编辑表单的位置
-			if(isOutBottom){
-				var scrollTop = gridConfig.domParams.scrollY.$dom.parent().scrollTop() + outBottom;
-				gridConfig.domParams.contentTableContainer.$dom.scrollTop(scrollTop);
-				gridConfig.domParams.scrollY.$dom.parent().scrollTop(scrollTop);
-				tdPosition.top = tdManager.getPosition($td).top;
-				tdData.position = tdPosition;
-			}else{
-				// 超出底部和超出顶部不能同时出现 如果同时出现，优先照顾超出底部，理论上这种情况不应该出现
-				if(tdPosition.top < tablePosition.top){
-					var scrollTop = gridConfig.domParams.scrollY.$dom.parent().scrollTop() - (tablePosition.top - tdPosition.top);
+			// tdData==NaN 表示是整列编辑 不需要比较高度
+			if(!isNaN(tdData)){
+				var footerTableHeight = 0;
+				if(gridConfig.domParams.footerTableContainer && gridConfig.domParams.footerTableContainer.$dom ){
+					footerTableHeight = gridConfig.domParams.footerTableContainer.$dom.outerHeight();
+				}
+				//最大可视区域底部 单元格的位置 - 表格最大显示区域的底部 - 表格滚动位置 如果大于0 则是超出了表格底部
+				var maxBottom = ( tablePosition.top + tablePosition.height ) - footerTableHeight; 
+				var outBottom = ( tdPosition.top +tdPosition.height ) - maxBottom;
+				var isOutBottom = outBottom > 0;
+				//如果超出则需要滚动条处理并修改显示编辑表单的位置
+				if(isOutBottom){
+					var scrollTop = gridConfig.domParams.scrollY.$dom.parent().scrollTop() + outBottom;
 					gridConfig.domParams.contentTableContainer.$dom.scrollTop(scrollTop);
 					gridConfig.domParams.scrollY.$dom.parent().scrollTop(scrollTop);
-					tdPosition.top = 0;
+					tdPosition.top = tdManager.getPosition($td).top;
 					tdData.position = tdPosition;
+				}else{
+					// 超出底部和超出顶部不能同时出现 如果同时出现，优先照顾超出底部，理论上这种情况不应该出现
+					if(tdPosition.top < tablePosition.top){
+						var scrollTop = gridConfig.domParams.scrollY.$dom.parent().scrollTop() - (tablePosition.top - tdPosition.top);
+						gridConfig.domParams.contentTableContainer.$dom.scrollTop(scrollTop);
+						gridConfig.domParams.scrollY.$dom.parent().scrollTop(scrollTop);
+						tdPosition.top = 0;
+						tdData.position = tdPosition;
+					}
 				}
 			}
-
-			
-			
 			// // 获取是否超出高度
 			// var outTop = tdPosition.top - tablePosition.top;
 			// console.log('outTop:'+outTop);
@@ -6062,6 +6146,15 @@ var NetStarGrid = (function () {
 					//没有该属性是无法识别的则暂不处理
 					break;
 			}
+			if(isNaN(editRowIndex)){
+				// 整列赋值
+				var originalRowsArray = $.extend(true, [], vueConfig.data.originalRows);
+				for(var i=0; i<originalRowsArray.length; i++){
+					originalRowsArray[i][editColumn.field] = editValue;
+				}
+				NetStarGrid.refreshDataById(gridConfig.id, originalRowsArray);
+				return true;
+			}
 
 			var isModified = false; //是否修改
 			if (currentValue !== editValue || currentValue == undefined || currentValue == null) {
@@ -6279,7 +6372,7 @@ var NetStarGrid = (function () {
 					if (columnConfig.isNeedRowData) {
 						// 是否需要有行数据
 						var originalRows = vueConfig.data.originalRows;
-						if (typeof (originalRows[rowIndex]) == "undefined") {
+						if (typeof (originalRows[rowIndex]) == "undefined" && !isNaN(rowIndex)) {
 							editConfig.disabled = true;
 						}
 					}
@@ -6698,6 +6791,9 @@ var NetStarGrid = (function () {
 							editValue = '';
 							console.error('输入值错误');
 							console.error(editValue);
+							if(isNaN(rowIndex)){
+								return false;
+							}
 						}
 						var editRowIndex = rowIndex; //当前行的index
 						var editColumn = columnConfig; //当前列配置
@@ -6722,16 +6818,21 @@ var NetStarGrid = (function () {
 								editValue = '';
 								console.error('输入值错误');
 								console.error(editValue);
+								if(isNaN(rowIndex)){
+									return false;
+								}
 							}
 							var editRowIndex = rowIndex; //当前行的index
 							var editColumn = columnConfig; //当前列配置
 							_this.saveValue(editValue, editRowIndex, editColumn, $td, gridConfig, vueConfig);
-							this.setRowOtherField();
+							if(!isNaN(editRowIndex)){
+								this.setRowOtherField();
+							}
 							if (editConfig.type == 'select') {
 
 							}
 							//$('#'+this.id).closest('.table-editor-container').remove();
-							if (typeof (editConfig.countFuncConfig) == "object") {
+							if (typeof (editConfig.countFuncConfig) == "object" && !isNaN(editRowIndex)) {
 								var originalRows = $.extend(true, [], vueConfig.data.originalRows);
 								var rowData = originalRows[editRowIndex];
 								var countData = {};
@@ -7525,12 +7626,16 @@ var NetStarGrid = (function () {
 											var value = data[dataSrc];
 											if ($.isArray(value) && value.length == 1) {
 												_vueConfig.setValue(value); // 赋值
+												var gridId = formId.substring(6, formId.length);
+												confirmQuickQueryHandler({
+													gridId: gridId,
+													formId: formId
+												});
+											}else{
+												NetstarComponent.business.buttonClick(_config, _vueConfig, true);
 											}
-											var gridId = formId.substring(6, formId.length);
-											confirmQuickQueryHandler({
-												gridId: gridId,
-												formId: formId
-											});
+										}else{
+											NetstarComponent.business.buttonClick(_config, _vueConfig, true);
 										}
 									});
 								} else {

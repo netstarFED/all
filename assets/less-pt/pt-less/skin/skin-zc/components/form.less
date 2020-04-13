@@ -34,7 +34,7 @@
                 right: 0;
                 left: 0;
                 background: @border-color;
-                z-index: 2;
+                z-index: 1;
             }
 
             &:after {
@@ -46,7 +46,7 @@
         .pt-form-group {
             margin-bottom: 0;
             position: relative;
-            z-index: 1;
+            // z-index: 1;
             display: block;
             float: left;
             // background: #000;
@@ -97,9 +97,13 @@
                 .pt-input-group-btn {
                     min-height: @form-grid-min-height;
 
-                    .pt-btn-icon {
+                    .pt-btn {
                         min-height: @form-grid-min-height;
                     }
+
+                    // .pt-btn-icon {
+                    //     min-height: @form-grid-min-height;
+                    // }
                 }
 
                 &:before {
@@ -135,8 +139,10 @@
                 }
             }
 
+
             .pt-radio {
                 height: @form-grid-min-height;
+                padding-left: @base-padding;
 
                 &:before {
                     .form-left-border-variant();
@@ -182,6 +188,18 @@
                     width: 100%;
                 }
 
+            }
+
+            &+.pt-btn-group {
+                margin-top: -1px;
+
+                .pt-btn {
+                    margin-right: 0;
+
+                    &:last-child {
+                        margin-right: -1px;
+                    }
+                }
             }
         }
 

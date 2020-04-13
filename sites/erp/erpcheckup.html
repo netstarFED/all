@@ -39,6 +39,13 @@
                             {
                                 title: '状态',
                                 field: 'state',
+                                ormatHandler: {
+                                    type: "stringReplace",
+                                    data: {
+                                        1: '未完成',
+                                        2: '已完成'
+                                    }
+                                },
                                 editConfig: {
                                     type: 'select',
                                     subdata: [{
@@ -57,13 +64,7 @@
                                     valueField: 'id',
                                     variableType: "number"
                                 },
-                                formatHandler: {
-                                    type: "stringReplace",
-                                    data: {
-                                        1: '未完成',
-                                        2: '已完成'
-                                    }
-                                }
+                                
                             },
                             {
                                 field: "bllTypeId",
@@ -155,6 +156,18 @@
                             {
                                 field: 'logisticsQuantity',
                                 title: '发货件数',
+                                columnType:"number",
+                                editConfig:{
+                                    type:'number'
+                                },
+                                formatHandler:{
+                                    data:{
+                                        format:{
+                                            places:"0",
+                                            thousand:","
+                                        }
+                                    }
+                                }
                             },
                             {
                                 field: 'logisticsInvoiceNo',
@@ -213,18 +226,20 @@
                                         text: '提交',
                                         isReturn: true,
                                         handler: function () {
-                                            debugger
+                                            // debugger
                                             var rowData = NetstarTemplate.templates.configs["nscloud.checkup"].gridRowData;
                                             var workItemId = rowData.workItemId;
-                                            var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
+                                            var func = nsEngine.operation(workItemId).workitemId(workItemId).submitAllBatch(true).build();
                                             func['submit'](function (res) {
                                                 nsalert('装箱单提交成功', 'success');
-                                                var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-checkup-blockList-0'].vueObj.rows;;
+                                                // debugger;
+                                                var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-checkup-blockList-0'].vueObj.rows;
                                                 for(var i=0; i<rows.length; i++){
-                                                    if(rows.id == rowDatas[i].id){
+                                                    if(rowData.id == rows[i].id){
                                                         rows.splice(i,1);
                                                     }
                                                 }
+                                                rows.push(rowData);
                                             }, function (err) {
                                                 console.error(err);
                                             })
@@ -239,7 +254,7 @@
                                         text: '驳回',
                                         isReturn: true,
                                         handler: function () {
-                                            debugger;   
+                                            // debugger;   
                                             var rowData = NetstarTemplate.templates.configs["nscloud.checkup"].gridRowData;
                                             var workItemId = rowData.workItemId;
                                             var func = nsEngine.operation().workitemId(workItemId).build();
@@ -266,7 +281,7 @@
                                         text: '批次',
                                         isReturn: true,
                                         handler: function (data) {
-                                            console.log(data);
+                                            // debugger;
                                             var pageConfig = NetstarTemplate.templates.configs[erpCheckUp.package];
                                             var id = pageConfig.gridRowData.id
                                             console.log(pageConfig);
@@ -279,6 +294,7 @@
                                                 }
                                             }
                                             NetStarUtils.ajax(ajaxConfig,function(res){
+                                                // debugger;
                                                 var packingBoxId = res.data.checkupBatchVOList[0].id;
 
                                                 var tempValueName = erpCheckUp.package + new Date().getTime();

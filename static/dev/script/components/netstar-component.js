@@ -8048,7 +8048,11 @@ NetstarComponent.business = {
                 },
                 // 获取inputText
                 getInputText:function(){
-                    return this.inputText;
+                    var inputText = this.inputText;
+                    if(inputText === ''){
+                        inputText = $('#' + config.fullID).val();
+                    }
+                    return inputText;
                 },
                 // 设置inputText
                 setInputText:function(inputText){
@@ -20764,6 +20768,10 @@ NetstarComponent.select = {
                         }else{
                             // this.isShowPanel = true;
                             // _this.showPanel(config,this);
+                            if(config.isShowPanel){
+                                this.isShowPanel = true;
+                                NetstarComponent.select.showPanel(config, this);
+                            }
                         }
                     }
                 },
@@ -20926,6 +20934,7 @@ NetstarComponent.select = {
                     }
                     $('div[name="'+this.id+'"] ul li[ns-id="'+primaryId+'"]').removeClass('selected');
                     this.setSelectedValue();
+                    this.change('',true);
                 },
                 //按钮按下不验证值
                 clearMousedown: function(){
@@ -20992,6 +21001,10 @@ NetstarComponent.select = {
                             //     vueConfig.isShowPanel = true;
                             //     NetstarComponent.select.showPanel(_config,vueConfig);
                             // }
+                            if(_config.isShowPanel){
+                                vueConfig.isShowPanel = true;
+                                NetstarComponent.select.showPanel(_config,vueConfig);
+                            }
                             if(typeof(_callBackFunc) == "function"){
                                 _callBackFunc();
                             }
@@ -22224,20 +22237,24 @@ NetstarComponent.upload = {
     // 上传文件
     uploadFile : function(files, config, callBackFunc){
         var formData = new FormData();
+        var isAddCategories = false; // 是否已经添加了categories
         for (var i = 0; i < files.length; i++) {
             var item = files[i];
             formData.append('files', item, item.name);
             if(typeof(config.visibilityLevel) == "string" && config.visibilityLevel.length > 0){
                 formData.append('visibilityLevel', config.visibilityLevel);
             }
-            switch(item.type){
-                case 'image/img':
-                case 'image/jpg':
-                case 'image/png':
-                case 'image/jpeg':
-                case 'image/gif':
-                    formData.append('categories',['image:0.1']);
-                    break;
+            if(!isAddCategories){
+                switch(item.type){
+                    case 'image/img':
+                    case 'image/jpg':
+                    case 'image/png':
+                    case 'image/jpeg':
+                    case 'image/gif':
+                        isAddCategories = true;
+                        formData.append('categories',['image:0.1']);
+                        break;
+                }
             }
         }
         if(!$.isEmptyObject(config.uploadAjaxData)){

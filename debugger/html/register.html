@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+ <meta name="description" content="网星云服务" />
+ <meta name="author" content="netstar" />
+ <title>体检登记</title>
+
+ <script type="text/javascript">
+     var language = 'cn';
+     mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+ </script>
+ <!--# include file="/sites/include/login-static-dev.html" -->
+ <!--# include file="/sites/include/preload-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-dev.html" -->
+ <!--# include file="/sites/include/lazy-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+ <script type="text/javascript" src="/static/dev/script/template/nspt-physicalsreport.js?v=10.0.0"></script>
+ <script>NetstarHomePage=false</script>
+ <link rel="stylesheet" href="/static/dev/style/tj-common.css">
+ <style>
+     /* 临时STYLE CSS */
+ </style>
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+    <container>
+        <script>
+            var config = {
+                package : 'netstar.register',
+                // title : '体检登记',
+                template : 'physicalsReport',
+                components : [
+                    {
+                        type : 'btns',
+                        name : 'btns',
+                        field : [
+                            {
+                                "functionConfig": {
+                                    "text": "流程监控",
+                                    "defaultMode": "workflowViewer",
+                                    "englishName": "nsWorkflowViewer"
+                                },
+                                "btn": {
+                                    "text": "流程监控",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "提交",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "submit",
+                                    "englishName": "nsWorkflowSubmit"
+                                },
+                                "btn": {
+                                    "text": "提交",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "驳回",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "reject",
+                                    "englishName": "nsWorkflowReject"
+                                },
+                                "btn": {
+                                    "text": "驳回",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "查看办理意见",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "findHandleRec",
+                                    "englishName": "nsWorkflowFindHandleRec"
+                                },
+                                "btn": {
+                                    "text": "查看办理意见",
+                                    "isReturn": true
+                                }
+                            }
+                        ],
+                    },{
+                        type : 'vo',
+                        name : 'personal', // 个人信息
+                        keyField : 'personal',
+                        field : [],
+                    },{
+                        type : 'vo',
+                        name : 'register', // 登记信息
+                        keyField : 'root',
+                        field : [
+                            {
+                                id: "regCode",
+                                label: '体检编号',
+                                type: 'text'
+                            },
+                            {
+                                id: 'peTypeId',
+                                type: 'select',
+                                label: '体检类别',
+                                // required: true,
+                                url: getRootPath() + '/npebase/datPeClasss/getList',
+                                contentType: 'application/json',
+                                selectMode: 'multi',
+                                mentod: 'POST',
+                                dataSrc: 'rows',
+                                valueField: 'id',
+                                textField: 'name',
+                                changeHandler: function (res) {
+                                    var idsStr = res.value;
+                                    var ajaxConfig = {
+                                        url: getRootPath() + 'reg/types/setPeType',
+                                        contentType: 'application/x-www-form-urlencoded',
+                                        type: 'POST',
+                                        dataSrc: 'rows',
+                                        data: {
+                                            peTypeIds: idsStr,
+                                        }
+                                    }
+                                    NetStarUtils.ajax(ajaxConfig, function (res) {
+                                        if (res.success) {
+                                            pagesData.peTypeIdData = res.rows
+                                        }
+                                    })
+                                }
+                            },
+                            {
+                                id: "idNo",
+                                label: '证件类别',
+                                type: 'select',
+                                valueField: 'id',
+                                textField: "name",
+                                subdata: [{
+                                        id: '0',
+                                        name: '身份证'
+                                    },
+                                    {
+                                        id: '1',
+                                        name: '护照'
+                                    }
+                                ]
+                            },
+                            {
+                                id: "isVip",
+                                label: '是否是vip',
+                                type: 'select',
+                                valueField: 'id',
+                                textField: "name",
+                                // rules: 'required',
+                                subdata: [{
+                                        id: 0,
+                                        name: '是'
+                                    },
+                                    {
+                                        id: 1,
+                                        name: '否'
+                                    }
+                                ]
+                            },
+                            {
+                                id: "regName",
+                                label: '姓名',
+                                type: 'text',
+                                rules: 'required',
+                            },
+                            {
+                                id: "age",
+                                label: '年龄',
+                                type: 'number',
+                                rules: 'required',
+                                isShowCalculator: false,
+                            },
+                            {
+                                id: "birthday",
+                                label: '出生日期',
+                                type: 'date',
+                                rules: 'required',
+                            },
+                            {
+                                id: "sex",
+                                label: '性别',
+                                type: 'radio',
+                                subdata: [{
+                                        id: '1',
+                                        name: '男'
+                                    },
+                                    {
+                                        id: '2',
+                                        name: '女'
+                                    }
+                                ],
+                                value: '1',
+                                valueField: "id",
+                                textField: 'name',
+                                rules: 'required',
+                            },
+                            {
+                                id: 'phoneNo',
+                                type: 'text',
+                                label: '手机号'
+                            },
+                            {
+                                id: 'grade',
+                                type: 'text',
+                                label: '文化程度',
+                                dictArguments: "grade",
+                                type: 'select',
+                                textField: '',
+                                valueField: ''
+                            },
+                            {
+                                id: 'nativePlace',
+                                type: 'text',
+                                label: '籍贯',
+
+                            },
+                            {
+                                id: 'address',
+                                type: 'text',
+                                label: '家庭住址'
+                            },
+                            {
+                                id: 'nation',
+                                type: 'text',
+                                label: '民族',
+                                dictArguments: "nation",
+                                type: 'select',
+                                textField: 'value',
+                                valueField: 'id',
+
+                            },
+                            {
+                                id: 'marriage',
+                                label: '婚姻状态',
+                                dictArguments: "marriage",
+                                type: 'select',
+                                textField: 'value',
+                                valueField: 'value',
+                                subdata: [{
+                                        id: '1',
+                                        value: '已婚'
+                                    },
+                                    {
+                                        id: '2',
+                                        value: '未婚'
+                                    },
+                                    {
+                                        id: '3',
+                                        value: '不祥'
+                                    }
+                                ]
+                            },
+                            {
+                                id: 'customerName',
+                                type: 'select',
+                                label: '工作单位',
+                                url: getRootPath() + '/customer/getPageListOfAll',
+                                contentType: '',
+                                mentod: 'POST',
+                                dataSrc: 'rows',
+                                valueField: 'customerId',
+                                textField: 'customerName',
+                            },
+                            {
+                                id: 'customerDeptName',
+                                type: 'text',
+                                label: '车间部门',
+                            },
+                            {
+                                id: 'empNo',
+                                type: 'text',
+                                label: '工号',
+
+                            },
+                            {
+                                id: 'workTypeName',
+                                type: 'select',
+                                label: '工种',
+                                url: getRootPath() + '/pfdCustomerWorks/getList',
+                                contentType: '',
+                                mentod: 'POST',
+                                dataSrc: 'rows',
+                                valueField: 'id',
+                                textField: 'workName',
+
+                            },
+                            {
+                                id: 'customerBatchId',
+                                type: 'text',
+                                label: '合同批次'
+                            },
+                            {
+                                id: 'whenEntry',
+                                type: 'date',
+                                label: '入场日期'
+                            },
+                            {
+                                id: 'workYears', //number
+                                type: 'number',
+                                label: '总工龄',
+                                isShowCalculator: false,
+                            },
+                            {
+                                id: 'hazardYears',
+                                type: 'number',
+                                label: '接害工龄',
+                                isShowCalculator: false,
+                            },
+                            {
+                                id: 'id',
+                                type: 'hidden'
+                            }
+                        
+                        ],
+                    },{
+                        type : 'list',
+                        name : 'project', // 项目信息
+                        keyField : 'project',
+                        field : [],
+                    },{
+                        type : 'list',
+                        name : 'cost', // 费用信息
+                        keyField : 'cost',
+                        field : [],
+                    },{
+                        type : 'vo',
+                        name : 'discount', // 优惠信息
+                        keyField : 'discount',
+                        field : [],
+                    },{
+                        type : 'list',
+                        name : 'harm', // 危害信息
+                        keyField : 'harm',
+                        field : [],
+                    }
+                ],
+                getValueAjax : {
+                    url : 'http://localhost:2000/debugger/data/physicalsreport.json',
+                    dataSrc : 'data',
+                }
+            }
+            var pageConfig = NetstarProject.init(config);
+            // NETSTAR添加url参数即pageParam
+            NetstarTemplate.init(pageConfig);
+        </script>
+    </container>
+</body>
+
+</html>

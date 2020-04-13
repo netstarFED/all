@@ -1463,7 +1463,13 @@ NetstarTemplate.templates.businessDataBaseEditor = (function ($) {
                            }
                         }
                         if(isUseObject == false){//ServerDataByAjax
-                           var returnAjaxData = NetStarUtils.getFormatParameterJSON(saveOriginalParams,{page:ServerDataByAjax});
+                           var _pageData = {};
+                           if(typeof(ServerDataByAjax) == "object" && !$.isEmptyObject(ServerDataByAjax)){
+                              _pageData.page = ServerDataByAjax;
+                           }else{
+                              _pageData.page = pageData;
+                           }
+                           var returnAjaxData = NetStarUtils.getFormatParameterJSON(saveOriginalParams, _pageData);
                            $.each(returnAjaxData,function(key,value){
                               saveDataConfig.ajax.data[key] = value;
                            })
@@ -1738,6 +1744,11 @@ NetstarTemplate.templates.businessDataBaseEditor = (function ($) {
                         })(config);
                      }
                   }
+                  gridConfig.getPageDataFunc = (function (config) {
+                     return function () {
+                        return getPageData(config, false);
+                     };
+                  })(config);
                   if(config.formatComponentsArr[index].type == 'blockList'){
                      gridConfig.ui.listExpression = config.formatComponentsArr[index].templateOptions.listExpression;
                      gridConfig.ui.isCheckSelect = false;

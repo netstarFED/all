@@ -789,8 +789,28 @@ NetstarTemplate.templates.processDocBase = (function ($) {
                            NetstarUI.labelpageVm.removeCurrent();
                            NetstarTemplate.refreshByPackage(config.parentSourceParam, data,plusData);
                         } else {
-                           console.error('上一页面没有传递参数，不刷新父页面');
+                            //没有parentSourceParam有两种情况，一种是真的没有，一种是由于传参变化导致的没收到该参数，但是页面存在 cy 20200413
+                            if(currentConfig && currentConfig.pageParam && currentConfig.pageParam.templateparam){
+                                var parentPackageName = JSON.parse(decodeURIComponent(currentConfig.pageParam.templateparam)).packageName;
+                                if(NetstarTemplate.templates.configs[parentPackageName]){
+                                    config.parentSourceParam = NetstarTemplate.templates.configs[parentPackageName];
+                                }else{
+                                    for(var key in NetstarTemplate.templates.configs){
+                                        if(parentPackageName.indexOf(key) > -1){
+                                            config.parentSourceParam = NetstarTemplate.templates.configs[key];
+                                        }
+                                    }
+                                }
+                                //如果任一个能匹配到合适的页面配置config 则执行 cy 20200413
+                                if(config.parentSourceParam){
+                                    NetstarUI.labelpageVm.removeCurrent();
+                                    NetstarTemplate.refreshByPackage(config.parentSourceParam, data,plusData);
+                                }
+                            }else{
+                                console.error('上一页面没有传递参数，不刷新父页面');
                            NetstarUI.labelpageVm.removeCurrent();
+                            }
+                           
                         }
                      }, currentConfig.closeValidSaveTime);
                   }else{

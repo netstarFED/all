@@ -2962,6 +2962,7 @@ var NetstarProject = (function(){
                 config.contentType = sourceConfig.ajax.contentType;
                 config.data = sourceConfig.ajax.data;
                 config.ajaxData = sourceConfig.ajax.data;
+                config.dataSrc = sourceConfig.ajax.dataSrc;
             }
             
             if(sourceConfig.defaultMode == "editorDialog"){

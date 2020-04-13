@@ -29,6 +29,10 @@ var NetstarBlockList = (function () {
 		var column = _vueData.columnById;
 		var iconClass = _vueData.ui.iconClass ? _vueData.ui.iconClass : {};
 		var originalRow = _vueData.originalRows[rowIndex];
+		if(data['NETSTAR-ISADDNULLBLOCK'] && _vueData.ui.nullBlockExpression){
+			// 添加的空白块
+			return _vueData.ui.nullBlockExpression;
+		}
 		if (expression) {
 			//value = NetStarUtils.getHtmlByRegular(data,expression);
 
@@ -938,6 +942,32 @@ var NetstarBlockList = (function () {
 
 			}
 			return selectedRows;
+		},
+		getSelectedIndex: function (gridId) {
+			var config = NetstarBlockList.configs[gridId];
+			if (typeof (config) != 'object') {
+				var errorInfoStr = 'getSelectedData(gridId)方法出错，当前gridId：' + gridId + '错误， 该Grid不存在';
+				nsalert(errorInfoStr, 'error');
+				console.error(errorInfoStr)
+				return false;
+			}
+			var originalRows = config.vueObj.originalRows;
+			var rows = config.vueObj.rows;
+			var startI = 0;
+			var index = 0;
+			if (config.gridConfig.data.isServerMode == false) {
+				startI = config.vueConfig.data.page.start;
+			}
+			for (var i = 0; i < rows.length; i++) {
+				var data = rows[i];
+				if (originalRows[i + startI]) {
+					if (data.netstarSelectedFlag) {
+						index = i + startI;
+					}
+				}
+
+			}
+			return index;
 		}
 	};
 	return {
@@ -948,6 +978,7 @@ var NetstarBlockList = (function () {
 		setDataByFieldAndValue: setDataByFieldAndValue,
 		refreshDataById: refreshDataById,
 		getSelectedData: controllerManager.getSelectedData,
+		getSelectedIndex : controllerManager.getSelectedIndex,
 		getDataByFieldAndValue: getDataByFieldAndValue,
 		refreshDataByIdAndHideTr : refreshDataByIdAndHideTr,
 		clearTrHideOrderConfig : clearTrHideOrderConfig,

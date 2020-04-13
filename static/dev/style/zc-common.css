@@ -39,6 +39,7 @@
   color: #424242;
   font-size: 12px;
   padding: 9px 10px 9px;
+  word-break: break-all;
 }
 .pt-intro-copy ul li:hover {
   color: #c70019;
@@ -2269,6 +2270,7 @@ select[multiple].form-lg .pt-form-control {
 .pt-label-common {
   font-weight: bold;
   padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
 }
 .limsreg-blocklist .limsreg-blocklist-query {
   border: 1px solid #e0e0e0;
@@ -3262,6 +3264,32 @@ label.pt-checkbox-inline-none.checked:after {
   margin-left: 44px;
   margin-bottom: 0;
   line-height: 28px;
+}
+.pt-grid-body .pt-grid-body-head td.thead-th {
+  position: relative;
+}
+.pt-grid-body .pt-grid-body-head td.thead-th .pt-btn.pt-btn-icon {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  margin-top: -9px;
+  background: transparent;
+  border: 0;
+  transform: scale(0.75);
+}
+.pt-grid-body .pt-grid-body-head td.thead-th .pt-btn.pt-btn-icon i {
+  font-size: 12px;
+  color: #9e9e9e;
+}
+.pt-grid-body .pt-grid-body-head td.thead-th:hover .pt-btn.pt-btn-icon {
+  background: rgba(0, 0, 0, 0.25);
+}
+.pt-grid-body .pt-grid-body-head td.thead-th:hover .pt-btn.pt-btn-icon i {
+  color: #fff;
+}
+.pt-grid-body .pt-grid-body-head td.thead-th.pt-form-required-tips .pt-form-required-tips {
+  display: none !important;
+  opacity: 0;
 }
 .pt-grid-body .pt-grid-body-footer {
   position: absolute;
@@ -6698,6 +6726,21 @@ a.list-group-item.active > .pt-badge,
 }
 .nsgrid-strip + .nsgrid-strip-operation .nsgrid-strip-operation-drop-down .pt-block-list-state.pt-block-list + .pt-block-list {
   margin-left: 0;
+}
+.pt-grid-body.block .pt-block-list {
+  margin-top: 5px;
+}
+.pt-grid-body.block .pt-block-list:first-child {
+  margin-top: 0 !important;
+}
+.pt-grid-header.limsreg-blocklist + .pt-grid-body {
+  margin-top: -6px;
+}
+.pt-grid-header.limsreg-blocklist + .pt-grid-body .pt-block-list {
+  margin-top: 5px;
+}
+.pt-grid-header.limsreg-blocklist + .pt-grid-body .pt-block-list:first-child {
+  margin-top: 0 !important;
 }
 .pt-tags {
   display: inline-block;
@@ -20116,6 +20159,17 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   background: #c70019;
   color: #006d7f;
 }
+.ztree li span.checkbox_true_full:after,
+.ztree li span.checkbox_true_full_focus:after,
+.ztree li span.checkbox_true_disable:after {
+  color: #c70019;
+}
+.treeform-ztree > ul li span.button.radio_true_part:after,
+.ztree li span.button.radio_true_part:after,
+.treeform-ztree > ul li span.button.radio_true_part_focus:after,
+.ztree li span.button.radio_true_part_focus:after {
+  color: #c70019;
+}
 .pt-form.pt-form-grid {
   padding: 0;
   border: 0;
@@ -20135,7 +20189,7 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   right: 0;
   left: 0;
   background: #e0e0e0;
-  z-index: 2;
+  z-index: 1;
 }
 .pt-form.pt-form-grid .pt-form-body:after {
   content: '';
@@ -20144,7 +20198,6 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 .pt-form.pt-form-grid .pt-form-group {
   margin-bottom: 0;
   position: relative;
-  z-index: 1;
   display: block;
   float: left;
 }
@@ -20190,8 +20243,8 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 .pt-form.pt-form-grid .pt-form-group .pt-input-group .pt-input-group-btn {
   min-height: 32px;
 }
-.pt-form.pt-form-grid .pt-form-group .pt-input-group .pt-input-group-addon .pt-btn-icon,
-.pt-form.pt-form-grid .pt-form-group .pt-input-group .pt-input-group-btn .pt-btn-icon {
+.pt-form.pt-form-grid .pt-form-group .pt-input-group .pt-input-group-addon .pt-btn,
+.pt-form.pt-form-grid .pt-form-group .pt-input-group .pt-input-group-btn .pt-btn {
   min-height: 32px;
 }
 .pt-form.pt-form-grid .pt-form-group .pt-input-group:before {
@@ -20241,6 +20294,7 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .pt-form.pt-form-grid .pt-form-group .pt-radio {
   height: 32px;
+  padding-left: 10px;
 }
 .pt-form.pt-form-grid .pt-form-group .pt-radio:before {
   position: absolute;
@@ -20285,6 +20339,15 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   display: table-cell;
   width: 100%;
 }
+.pt-form.pt-form-grid .pt-form-group + .pt-btn-group {
+  margin-top: -1px;
+}
+.pt-form.pt-form-grid .pt-form-group + .pt-btn-group .pt-btn {
+  margin-right: 0;
+}
+.pt-form.pt-form-grid .pt-form-group + .pt-btn-group .pt-btn:last-child {
+  margin-right: -1px;
+}
 .pt-form.pt-form-grid .pt-radio {
   min-height: 32px;
 }
@@ -20314,6 +20377,25 @@ body.pt-veritical.pt-systeminfo .pt-header ul.pt-nav.pt-dropdown .pt-top-menu-it
 }
 .pt-modal .pt-modal-header .pt-close .pt-btn.pt-btn-icon:hover i {
   color: #fff;
+}
+body .pt-form .pt-input-group .pt-input-group-addon .pt-btn,
+body.body-sm .pt-form .pt-input-group .pt-input-group-addon .pt-btn,
+body .pt-form .pt-input-group .pt-input-group-btn .pt-btn,
+body.body-sm .pt-form .pt-input-group .pt-input-group-btn .pt-btn {
+  line-height: 30px;
+}
+.datepicker table tr td.active,
+.datetimepicker table tr td.active,
+.datepicker table tr td.active.disabled,
+.datetimepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover,
+.datetimepicker table tr td.active.disabled:hover {
+  color: #fff;
+  background: #c70019 !important;
+}
+.datepicker table tr td.active:hover,
+.datetimepicker table tr td.active:hover {
+  background: #ae0016 !important;
 }
 body.pt-veritical {
   padding: 50px 0 0 216px;
