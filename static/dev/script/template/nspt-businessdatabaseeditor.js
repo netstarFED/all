@@ -1739,14 +1739,14 @@ NetstarTemplate.templates.businessDataBaseEditor = (function ($) {
                         //改为闭包
                         itm.editConfig.getTemplateValueFunc = (function (config) {
                            return function () {
-                              return getPageData(config, false);
+                              return getPageData(config, false, false);
                            };
                         })(config);
                      }
                   }
                   gridConfig.getPageDataFunc = (function (config) {
                      return function () {
-                        return getPageData(config, false);
+                        return getPageData(config, false, false);
                      };
                   })(config);
                   if(config.formatComponentsArr[index].type == 'blockList'){
