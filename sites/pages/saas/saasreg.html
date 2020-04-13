@@ -7,13 +7,16 @@
  -->
 <!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
 <script src="https://qa.wangxingcloud.com/static/libs/axios.min.js"></script>
+<style>
+
+</style>
 <container>
     <div class="pt-main">
         <div class="pt-container">
             <div id="netstar-saas-reg-btns"></div>
-            <div class="pt-main-row" id="saasreg">
+            <div class="pt-main-row">
                 <!-- left -->
-                <div class="pt-main-col">
+                <div class="pt-main-col" id="saasreg">
                     <!-- 用户照片 -->
                     <div class="pt-panel">
                         <div class="search-box">
@@ -172,8 +175,8 @@
                 </div>
                 <!-- center -->
                 <div class="pt-main-col">
-                    <div class="pt-panel" id="saas-regvo-top">
-                        <div class="pt-panel-header" id="saas-regvo-top">
+                    <div class="pt-panel" id="netstar-saas-register">
+                        <div class="pt-panel-header">
                             <div class="title">体检登记</div>
                             <div class="pt-panel-header-right">
                                 <span>预约时间：{{time}}</span>
@@ -196,19 +199,89 @@
                     </div>
                     <div id="netstar-saas-reg-vo"></div>
                     <div class="pt-panel">
-                        <div class="pt-panel-header" id="netstar-saas-reg-hazard">
-                            <div class="title">职业危害因素</div>
-                            <div v-for="list in regHazardVOList" style="display: flexbox;">
-                                <div style="width:200px;height:70px;">
-                                    <select>
-                                        <option v-for="list in occTutelagesList">{{list.tutelageName}}
-                                        </option>
-                                    </select>
-                                    <select>
-                                        <option v-for="list in occHazardsList" value="list.id">{{list.hazardName}}
-                                        </option>
-                                    </select>
+                        <div class="pt-panel-header" id="netstar-saas-hazard">
+                            <div style="display: flex;">
+                                <div class="title" style="margin-top: 14px;margin-right: 5px;padding-top: 2px;">职业危害因素
                                 </div>
+                                <!-- 搜索 -->
+                                <div style="padding: 14px 43% 10px 0;" class="pt-panel-col">
+                                    <div class="pt-form pt-form-normal pt-form-inline pt-custom-query"
+                                        style="min-height: 24px;">
+                                        <div class="pt-form-header"></div>
+                                        <div class="pt-form-body">
+                                            <form>
+                                                <div ns-type="field" class="field">
+                                                    <div ns-field="filtermode" class="pt-form-group fg-select ">
+                                                        <label class="pt-control-label hide"></label>
+                                                        <div class="pt-select pt-input-group">
+                                                            <input type="text" placeholder="" selectmode="single"
+                                                                ns-id="filtermode" class="pt-form-control"
+                                                                style="width: 150px;">
+                                                            <div class="pt-input-group-btn">
+                                                                <button class="pt-btn pt-btn-default pt-btn-icon clear">
+                                                                    <i class="icon-close"></i>
+                                                                </button>
+                                                                <button class="pt-btn pt-btn-default pt-btn-icon">
+                                                                    <i class="icon-arrow-down-o"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div ns-field="filterstr" class="pt-form-group fg-text ">
+                                                        <label class="pt-control-label hide"></label>
+                                                        <div class="pt-text pt-input-group pt-text-assistant">
+                                                            <input type="text" placeholder="" class="pt-form-control"
+                                                                style="width: 150px;">
+                                                            <div class="pt-input-group-btn pt-input-group-btn-group">
+                                                                <button
+                                                                    class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide">
+                                                                    <i class="icon-close"></i>
+                                                                </button></div>
+                                                            <div class="pt-text-assistant-btns hide">
+                                                                <div class="pt-btn-group"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div ns-type="field-more" class="field-more hide custom"></div>
+                                            </form>
+                                        </div>
+                                        <div class="pt-form-footer"></div>
+                                    </div>
+                                    <div class="pt-btn-group"><button type="button"
+                                            class="pt-btn pt-btn-default pt-btn-icon" nstype="refresh"><i
+                                                class="icon-search"></i></button></div>
+                                </div>
+                                <!-- 搜索end -->
+                                <div id="netstar-saas-reg-hazard-btns" style="padding:14px 0px 10px 0"></div><!-- 按钮 -->
+                            </div>
+
+                            
+                            <div v-for="(list,index) in regHazardVOList">
+                                <div style="float: left; padding-right: 10px;padding-bottom: 10px;width: 20%;">
+                                    <div style="width:100%;height:70px;border: 1px solid #bfbfbf;">
+                                        <!-- <select>
+                                            <option v-for="list in occTutelagesList" value="list.id">{{list.tutelageName}}
+                                            </option>
+                                        </select>
+                                        <select>
+                                            <option v-for="list in occHazardsList" value="list.id">{{list.hazardName}}
+                                            </option>
+                                        </select> -->
+                                        <div style="padding: 10px;">
+                                            <div @click="clickTdHandler($event, list.hazardId, 'hazardName', index, list.hazardDomId)">
+                                                <span>{{list.hazardName}}</span>
+                                                <div :id = "list.hazardDomId" class="form-block-editor-container"></div>
+                                            </div>
+                                            <div @click="clickTdHandler($event, list.ocpcId, 'ocpcName', index, list.ocpcDomId)">
+                                                <span>{{list.ocpcName}}</span>
+                                                <div :id = "list.ocpcDomId" class="form-block-editor-container"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -288,13 +361,13 @@
         </div>
     </div>
     <script>
+        var getRootPath = function () {
+            return 'https://qaapi.wangxingcloud.com/'
+        };
         var saasReg = new Vue({
             el: '#saasreg',
             data: {
-                time: '2020年2月18日', //预约时间
-                orderNo: "20202187968545265", //订单编号
-                isbtnCutaways: 0, //个人单位切换
-                ischecked: true, //预约勾选
+               
                 isOwnExpense: true,
                 itemAmountNum: '0', //项目数量
                 isOwnExpenseItem: true, //项目列表是否自费的显示隐藏
@@ -322,58 +395,18 @@
                 addComboVOList: [ //登记添加项目VO集合
 
                 ],
-                occTutelagesList: [{
-                    id: '1',
-                    tutelageName: '22'
-                }],
-                occHazardsList: [{
-                    id: '2',
-                    hazardName: 'dddddd'
-                }],
-                regHazardVOList: [{
-                        "hazardName": "1",
-                        "ocpcName": ""
-                    },
-                    {
-                        "hazardName": "125133522",
-                        "ocpcName": ""
-                    },
-                    {
-                        "hazardName": "125133522",
-                        "ocpcName": ""
-                    },
-                    {
-                        "hazardName": "125133522",
-                        "ocpcName": ""
-                    },
-                    {
-                        "hazardName": "125133522",
-                        "ocpcName": ""
-                    }
+                occTutelagesList: [
+
+                ],
+                occHazardsList: [
+
+                ],
+                regHazardVOList: [ //职业危害
                 ]
 
             },
             methods: {
-                //体检登记  单位个人切换
-                btnCutaways: function () {
-                    var _this = this;
-                    console.log(_this)
-                    _this.isbtnCutaways = 0
-                },
-                btnCutawaysBack: function () {
-                    var _this = this;
-                    _this.isbtnCutaways = 1
-                },
-                //体检登记 预约勾选
-                btnChecked: function () {
-                    var _this = this;
-                    console.log(_this);
-                    if (_this.ischecked) {
-                        _this.ischecked = false;
-                    } else {
-                        _this.ischecked = true;
-                    }
-                },
+              
                 //自费与加项的显示与隐藏
                 itemShowOrHidden: function () {
                     var _this = this;
@@ -443,8 +476,9 @@
                     NetStarUtils.ajax(ajaxConfig, function (res) {
 
                     })
-                }
-
+                },
+                //职业危害
+                
             },
             mounted() {
                 var _this = this;
@@ -454,6 +488,7 @@
                     var data = data.data.data;
                     var regPricingVOList = data.regPricingVOList; //划价单vo
                     var regCouponVOList = data.regCouponVOList; //登记使用优惠券
+                    var regHazardVOList = data.regHazardVOList; //职业危害
                     //划价单vo数据处理 isOwnExpense/0/公费  1/自费
                     /* --是否付费处理 */
                     for (var regPricingI = 0; regPricingI < regPricingVOList.length; regPricingI++) {
@@ -464,35 +499,324 @@
                             regPricingVOList[regPricingI].isOwnExpense = "公费"
                         }
                     }
+                    for(var regHazardI = 0; regHazardI <regHazardVOList.length; regHazardI++){
+                        regHazardVOList[regHazardI].hazardDomId = "hazardDomId-" + regHazardI;
+                        regHazardVOList[regHazardI].ocpcDomId = "ocpcDomId-" + regHazardI;
+                    }
                     _this.regPricingVOList = regPricingVOList;
                     _this.regCouponVOList = regCouponVOList;
+                    _this.regHazardVOList = regHazardVOList;
+                    
 
                 }).catch(function (error) {
 
                 });
-                //监护种类
-                axios.post('https://qaapi.wangxingcloud.com/npebase/occTutelages/getList').then(function (
-                    data) {
-                    debugger;
-
-                }).catch(function () {
-
-                });
-                //危害
-                axios.post('https://qaapi.wangxingcloud.com/npebase/occHazards/getList').then(function (data) {
-                    debugger;
-
-                }).catch(function () {
+                var ajaxConfig = { //监护种类
+                    url: getRootPath() + '/npebase/occTutelages/getList',
+                    contentType: 'application/json',
+                    data: {},
+                    type: 'POST',
+                }
+                var occAjaxConfig = {
+                    url: getRootPath() + '/npebase/occHazards/getList', //危害
+                    contentType: 'application/json',
+                    data: {},
+                    type: 'POST',
+                }
+        /*         NetStarUtils.ajax(occAjaxConfig, function (res) {
 
                 })
+                NetStarUtils.ajax(ajaxConfig, function (res) {
+
+                }) */
+
             }
 
         })
+        //登记
+        var registerVue = new Vue({
+            el:'#netstar-saas-register',
+            data:{
+                time: '2020年2月18日', //预约时间
+                orderNo: "20202187968545265", //订单编号
+                isbtnCutaways: 0, //个人单位切换
+                ischecked: true, //预约勾选
+            },
+            methods:{
+                  //体检登记  单位个人切换
+                  btnCutaways: function () {
+                    var _this = this;
+                    console.log(_this)
+                    _this.isbtnCutaways = 0
+                },
+                btnCutawaysBack: function () {
+                    var _this = this;
+                    _this.isbtnCutaways = 1
+                },
+                //体检登记 预约勾选
+                btnChecked: function () {
+                    var _this = this;
+                    console.log(_this);
+                    if (_this.ischecked) {
+                        _this.ischecked = false;
+                    } else {
+                        _this.ischecked = true;
+                    }
+                },
+            }
+        })
+        //危害
+        
+        var harmAjax = {
+            url: 'http://localhost:2000//sites/pages/saas/getById.json', //危害
+            contentType: 'application/x-www-form-urlencoded',
+            data: {},
+            type: 'GET',
+        }
+        //职业危害
+        var harmConfig = {
+            field : [
+                {
+                    field:'ocpcName',
+                    editConfig:{
+                        type:'select',
+                        url:getRootPath() + '/npebase/occTutelages/getList',
+                        contentType:'application/json',
+                        mentod:'POST',
+                        dataSrc:'rows',
+                        valueField:'id',
+                        textField:'tutelageName',
+                        outputFields : {
+                            ocpcName : '{tutelageName}',
+                            ocpcId: '{id}',
+                        },
+                    }
+                },
+                {
+                    field:'hazardName',
+                    editConfig:{
+                        type:'select',
+                        url:getRootPath() + '/npebase/occHazards/getList',
+                        contentType:'application/json',
+                        mentod:'POST',
+                        dataSrc:'rows',
+                        valueField:'id',
+                        textField:'hazardName',
+                        outputFields : {
+                            hazardName : '{hazardName}',
+                            hazardId: '{id}',
+                        },
+                    }
+                }
+            ],
+            componentById : {
+                ocpcName : {
+                    editConfig : {
+                        type:'select',
+                        url:getRootPath()+'/npebase/occTutelages/getList',
+                        contentType:'application/json',
+                        mentod:'POST',
+                        dataSrc:'rows',
+                        valueField:'id',
+                        textField:'tutelageName',
+                        outputFields : {
+                            ocpcName : '{tutelageName}',
+                            ocpcId: '{id}',
+                        },
+                    }
+                },
+                hazardName : {
+                    editConfig : {
+                        type:'select',
+                        url:getRootPath() + '/npebase/occHazards/getList',
+                        contentType:'application/json',
+                        mentod:'POST',
+                        dataSrc:'rows',
+                        valueField:'id',
+                        textField:'hazardName',
+                        outputFields : {
+                            hazardName : '{hazardName}',
+                            hazardId: '{id}',
+                        },
+                    }
+                }
+            }
+        }
+        NetStarUtils.ajax(harmAjax, function (res) {
+            var data = res.data;
+            var regHazardVOList = data.regHazardVOList; //职业危害
+            for(var regHazardI = 0; regHazardI<regHazardVOList.length; regHazardI++){
+                regHazardVOList[regHazardI].hazardDomId = "hazardDomId-" + regHazardI;
+                regHazardVOList[regHazardI].ocpcDomId = "ocpcDomId-" + regHazardI;
+            }
+            var harmVue = new Vue({
+                el:'#netstar-saas-hazard',
+                data:{
+                    regHazardVOList : regHazardVOList
+                },
+                methods:{
+                    removeComponent:function($editorContainer){
+                        if ($editorContainer.length > 0) {
+                            var editorConfig = this.editorConfig;
+                            var editorVueConfig = this.editorVue;
+                            var editorVueComConfig = false;
+                            if(editorVueConfig){
+                                editorVueComConfig = editorVueConfig.$children[0];
+                            }
+                            /******lyw 20190411 计算器组件需要重新获取，进行保存值 end********/
+                            // 验证是否是日期组件 删除日器组件
+                            if(typeof(editorConfig) == "object"){
+                                switch(editorConfig.type){
+                                    case 'date':
+                                        break;
+                                    case 'provinceselect':
+                                        break;
+                                    case 'select':
+                                        if(editorVueComConfig){
+                                            if(editorConfig.panelVueObj){
+                                                $(document).off("click", editorConfig.panelVueObj.isSearchDropDown);
+                                            }
+                                            if(typeof(editorVueComConfig.blurHandler)=='function'){
+                                                editorVueComConfig.blurHandler();
+                                            }
+                                        }  
+                                        break;
+                                }
+                            }
+                            // 销毁组件
+                            if(typeof(editorVueConfig) == "object"){
+                                editorVueConfig.$destroy();
+                                delete this.editorVue;
+                            }
+                            this.removeRemoveEditorListener();
+                            $editorContainer.children().remove();
+                            if ($('.pt-select-panel').length > 0) {
+                                // 下拉组件下拉框删除 以及下拉框添加的事件关闭
+                                $('.pt-select-panel').remove();
+                                $(document).off('keyup',NetstarComponent.select.panelComponentConfig.keyup);
+                            }
+                        }
+                    },S
+                    removeRemoveEditorListener : function(){
+                        $('body').off('mousedown', this.outClickHandler);
+                    },
+                    outClickHandler:function(ev){
+                        //如果当前操作对象不再编辑器里则是out
+                        var isOut = $(ev.target).closest('.form-block-editor-container').length == 0;
+                        if (isOut) {
+                            if (ev.target.nodeName == 'LI') {
+                                isOut = false;
+                            }
 
+                            //sjj 2019106  如果当前下拉框出现滚动区域不可关闭
+                            if (ev.target.className == 'pt-dropdown') {
+                                if (ev.target.parentNode && ev.target.parentNode.className.indexOf('pt-input-group pt-select-panel')>-1){
+                                    isOut = false;
+                                }
+                            }
+                            if($(ev.target).closest('.pt-pager').length == 1){
+                                //sjj 20200113
+                                isOut = false;
+                            }
+                        }
+                        //如果当前操作也不在要点击的单元格里则不是out
+                        var $td = ev.data.$td;
+                        if ($td[0] == $(ev.target)[0] || $(ev.target).closest('td')[0] == $(ev.target)[0] || $td[0] == $(ev.target).closest('td')[0]) {
+                            isOut = false;
+                        }
+                        var _tdEditor = ev.data.this;
+                        if (isOut) {
+                            var $gridContainer = ev.data.$td.closest('container');
+                            if ($gridContainer.length == 0) {
+                                $gridContainer = $('body');
+                            }
+                            var $editorContainer = $gridContainer.find('.form-block-editor-container');
+                            _tdEditor.removeComponent($editorContainer);
+                        }
+                    },
+                    addRemoveListener : function($td){
+                        //$td是当前点击正在初始化的单元格
+                        var _this = this;
+                        //点击了其他地方的监听器
+                        this.removeRemoveEditorListener();
+                        //sjj 20190509 把body的click事件改为了mousedown事件
+                        $('body').on('mousedown', {
+                            this: _this,
+                            $td: $td
+                        }, this.outClickHandler);
+                    },
+                    showFormEditor : function(ev, editConfig, fieldName, index, hazardDomId){
+                        var _this = this;
+                        var $td = $(ev.currentTarget);
+                        var editConfig = editConfig;
+                        editConfig.changeHandler = function(obj){
+                            var editValue = obj.vueConfig.getValue();
+                            // 赋值
+                            if(typeof(editValue) == "object"){
+                                for(var key in editValue){
+                                    _this.regHazardVOList[index][key] = editValue[key];
+                                }
+                            }else{
+                                _this.regHazardVOList[index][fieldName] = editValue;
+                            }
+                            // 移除 
+                            var $editorContainer = $('#' + hazardDomId);
+                            _this.removeComponent($editorContainer);
+                        }
+                        var componentVueConfig = NetstarComponent[editConfig.type].getComponentConfig(editConfig);
+                        var editorVueConfig = {
+                            el: '#' + hazardDomId,
+                            data: {
+                            },
+                            components: {
+                                'editorinput': componentVueConfig
+                            }
+                        };
+                        NetstarComponent.config[editConfig.formID] = {
+                            vueConfig: {},
+                            config: {},
+                            source : {
+                                obj : {},
+                            },
+                        };
+                        this.editConfig = editConfig
+                        NetstarComponent.config[editConfig.formID].config[editConfig.id] = editConfig;
+                        NetstarComponent.config[editConfig.formID].source.obj[editConfig.id] = editConfig;
+                        this.editorVue = new Vue(editorVueConfig);
+                        //聚焦并选中文本框
+                        if (typeof (this.editorVue.$children[0]) == "object") {
+                            NetstarComponent.config[editConfig.formID].config[editConfig.id].index = index;
+                            this.editorVue.$children[0].focus();
+                        }
+                        NetstarComponent.config[editConfig.formID].vueConfig[editConfig.id] = this.editorVue.$children[0];
+                        // 其他点击事件都会关闭编辑器
+                        _this.addRemoveListener($td);
+                    },
+                    clickTdHandler(ev, value, fieldName, index, hazardDomId){
 
-        var getRootPath = function () {
-            return 'https://qaapi.wangxingcloud.com/'
-        };
+                        var $editContainer = $('#' + hazardDomId);
+                        $editContainer.html('<editorinput></editorinput>')
+                        var defaultComponentConfig = {
+                            type:'select',
+                            id: 'editor',
+                            type: 'select',
+                            formSource: 'table',
+                            templateName: 'PC',
+                            value: typeof (value) == "undefined" ? '' : value, // 当前单元格的value值。如果不存在设置“”
+                            formID: 'netstar-saas-hazard',
+                            variableType: 'string',
+                            tableIndex: index,
+                            isShowPanel : true,
+                        }
+                        var editConfig = harmConfig.componentById[fieldName].editConfig;
+                        NsUtils.setDefaultValues(editConfig, defaultComponentConfig);
+                        this.showFormEditor(ev, editConfig, fieldName, index, hazardDomId);
+                    }
+                },
+                mounted(){
+                }
+            })
+        })
         var pagesData = {
             addComboVOListData: '', //项目数据
             peTypeIdData: '',
@@ -500,6 +824,7 @@
         };
         var regId = {
             btns: 'netstar-saas-reg-btns',
+            regHazardbtns: 'netstar-saas-reg-hazard-btns',
             voId: "netstar-saas-reg-vo",
             pricingBlockListId: "netstar-saas-reg-pricing-BlockList",
             hazardBlockListId: "netstar-saas-reg-hazard-BlockList",
@@ -507,6 +832,8 @@
             regcombobtns: 'netstar-saas-reg-regcombobtns',
             regVoTop: 'netstar-saas-reg-vo-top',
             addComboDialogId: 'netstar-saas-reg-addCombo-dialog' //添加项目弹框Id
+
+
         }
         //体检登记vo
         var configs = {
@@ -574,8 +901,7 @@
                     },
                     {
                         text: '预览',
-                        handler: function () {
-                        }
+                        handler: function () {}
                     },
                     {
                         text: '保存草稿',
@@ -609,6 +935,22 @@
                     },
                     {
                         text: '历史记录',
+                        handler: function () {
+
+                        }
+                    }
+                ]
+            },
+            regHazardbtns: {
+                id: regId.regHazardbtns,
+                btns: [{
+                        text: '批量设置',
+                        handler: function () {
+
+                        }
+                    },
+                    {
+                        text: '必检项目',
                         handler: function () {
 
                         }
@@ -1324,6 +1666,7 @@
             // NetstarBlockList.init(configs.hazardBlockList);
             // NetstarBlockList.init(configs.regcomboBlocklist);
             vueButtonComponent.init(configs.regBtns);
+            vueButtonComponent.init(configs.regHazardbtns);
             height: 500
 
             /* vueButtonComponent.init(configs.regcombobtns) */
