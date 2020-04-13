@@ -20768,6 +20768,10 @@ NetstarComponent.select = {
                         }else{
                             // this.isShowPanel = true;
                             // _this.showPanel(config,this);
+                            if(config.isShowPanel){
+                                this.isShowPanel = true;
+                                NetstarComponent.select.showPanel(config, this);
+                            }
                         }
                     }
                 },
@@ -20997,6 +21001,10 @@ NetstarComponent.select = {
                             //     vueConfig.isShowPanel = true;
                             //     NetstarComponent.select.showPanel(_config,vueConfig);
                             // }
+                            if(_config.isShowPanel){
+                                vueConfig.isShowPanel = true;
+                                NetstarComponent.select.showPanel(_config,vueConfig);
+                            }
                             if(typeof(_callBackFunc) == "function"){
                                 _callBackFunc();
                             }
