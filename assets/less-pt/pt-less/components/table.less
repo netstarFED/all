@@ -1943,3 +1943,76 @@ td.thumb {
     }
 
 }
+
+.pt-grid-body {
+    .pt-grid-body-container {
+        .pt-grid {
+            tr {
+                &.pt-grid-delete {
+
+                    &:nth-child(even) {
+                        &:not(.selected) {
+                            &:not(:hover) {
+                                td {
+                                    background-color: lighten(@danger, 40%);
+                                }
+                            }
+                        }
+                    }
+
+                    &:nth-child(even) {
+                        &:not(.selected) {
+                            &:not(:hover) {
+                                td {
+                                    &:not(:first-child) {
+                                        td {
+                                            background-color: lighten(@danger, 40%);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    td {
+                        background-color: lighten(@danger, 40%);
+                    }
+
+                }
+
+                &.pt-grid-add {
+
+                    &:nth-child(even) {
+                        &:not(.selected) {
+                            &:not(:hover) {
+                                td {
+                                    background-color: lighten(@success, 35%);
+                                }
+                            }
+                        }
+                    }
+
+                    &:nth-child(even) {
+                        &:not(.selected) {
+                            &:not(:hover) {
+                                td {
+                                    &:not(:first-child) {
+                                        td {
+                                            background-color: lighten(@success, 35%);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    td {
+                        background-color: lighten(@success, 35%);
+                    }
+
+                }
+            }
+        }
+    }
+
+}

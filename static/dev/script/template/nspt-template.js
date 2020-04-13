@@ -1191,6 +1191,19 @@ var NetstarTemplate = {
 			if(NetstarUI.labelpageVm.labelPagesArr[currentTab].config){
                 packPackageName = NetstarUI.labelpageVm.labelPagesArr[currentTab].config.package;
                 var config = NetstarTemplate.templates.configs[packPackageName];
+                // 出现包名过长问题     例如"nscloud.netstar.purchase.plan.todo.-0-1330269934143419378"  对应 nscloud.netstar.purchase.plan.todo.-0-1330269934143419378.0.1330269934143419378:
+                // cy 20200413 出现后优先查找近似的，可能会导致找到多开页面中的其它页面
+                if(typeof(config)=='undefined'){
+                    for(var key in NetstarTemplate.templates.configs){
+                        if(packPackageName.indexOf(key)>-1){
+                            config = NetstarTemplate.templates.configs[key];
+                        }
+                    }
+                }
+                if(typeof(config)=='undefined'){
+                    console.error('刷新模板页失败，找不到对应页面:', packPackageName);
+                    return false
+                }
 				// data.id = NetstarUI.labelpageVm.labelPagesArr[currentTab].config.id;
 				data.id = config.id;
 			}
@@ -1881,10 +1894,14 @@ var NetstarTemplate = {
 					}else{
 						replaceValue = valueData[field];
 					}
-					if($.isEmptyObject(replaceValue)){
+					if($.isEmptyObject(replaceValue)){	
+					if(typeof(replaceValue)=='number'){
+
+					}else{
 						replaceValue = null;
 					}
-					listExpression = listExpression.replace(strArr[expI], replaceValue);
+				}					
+				listExpression = listExpression.replace(strArr[expI], replaceValue);
 				}
 				try{
 					booleanValue = eval(listExpression);
@@ -2083,6 +2100,9 @@ var NetstarTemplate = {
 							defaultSelectedIndex:0,
 						}
 					};
+					if(componentData.pageLengthDefault){
+						gridConfig.ui.pageLengthDefault = componentData.pageLengthDefault;
+					}
 					if(componentData.getPageDataFunc){
 						gridConfig.getPageDataFunc = componentData.getPageDataFunc;
 					}
@@ -3262,7 +3282,7 @@ var NetstarTemplate = {
 					if(!$.isEmptyObject(countListConfig.params)){
 						NetStarUtils.setDefaultValues(countConfig,countListConfig.params);
 					}
-					NetstarUI.countList.init(countConfig);
+					NetstarUI.countList.init(countConfig,_config.pageParam);
 				}
 			}
 		},
