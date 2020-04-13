@@ -1463,7 +1463,13 @@ NetstarTemplate.templates.businessDataBaseEditor = (function ($) {
                            }
                         }
                         if(isUseObject == false){//ServerDataByAjax
-                           var returnAjaxData = NetStarUtils.getFormatParameterJSON(saveOriginalParams,{page:ServerDataByAjax});
+                           var _pageData = {};
+                           if(typeof(ServerDataByAjax) == "object"){
+                              _pageData.page = ServerDataByAjax;
+                           }else{
+                              _pageData.page = pageData;
+                           }
+                           var returnAjaxData = NetStarUtils.getFormatParameterJSON(saveOriginalParams, _pageData);
                            $.each(returnAjaxData,function(key,value){
                               saveDataConfig.ajax.data[key] = value;
                            })
