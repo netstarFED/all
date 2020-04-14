@@ -877,7 +877,7 @@
     //已发布
     &.state-release {
         position: absolute;
-        top: 7px;
+        top: 6px;
         right: -18px;
         width: 67px !important;
         transform: rotate(45deg);
@@ -885,16 +885,20 @@
         span {
             margin-right: 0 !important;
 
-            i.state-release-complete {
-                width: 100px;
-                background-color: @success;
-                color: #fff;
-                padding: 2px 15px;
-                font-size: 12px;
+            i {
+                display: none;
+
+                &.state-release-complete {
+                    display: block;
+                    width: 100px;
+                    background-color: @success;
+                    color: #fff;
+                    padding: 2px 15px;
+                    font-size: 12px;
+                }
             }
         }
     }
-
 }
 
 //结果录入展开收起
