@@ -246,6 +246,11 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 }
                 componentsManage.grid.init(data, rightGridConfig, templateConfig);
             },
+            refresh : function(componentData, config){
+                this.getDataByAjax(componentData, config, function(resData, componentData, templateConfig){
+                    componentsManage.blockList.show(resData, componentData, templateConfig);
+                });
+            },
             show : function(data, componentData, config){
                 // 添加全部块数据
                 var allData = {
@@ -262,12 +267,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 blockComponents[componentData.id] = componentData;
                 NetstarTemplate.commonFunc.blockList.initBlockList(blockComponents, config);
             },
-            init : function(config){
-                var componentsByName = config.componentsByName;
-                var componentData = componentsByName.blockList;
-                // 计算高度
-                var height = componentsFuncManage.getPanelComponentHeight(componentData, config);
-                componentData.componentHeight = height;
+            getDataByAjax : function(componentData, config, callBackFunc){
                 var ajaxConfig = $.extend(true, {}, componentData.ajax);
                 if(!$.isEmptyObject(config.pageParam)){
                     if(!$.isEmptyObject(ajaxConfig.data)){
@@ -278,7 +278,8 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 }
                 ajaxConfig.plusData = {
                     packageName : config.package,
-                    templateId : config.id
+                    templateId : config.id,
+                    callBackFunc : callBackFunc,
                 };
                 NetStarUtils.ajax(ajaxConfig,function(res, ajaxPlusData){
                     var templateConfig = configManage.getConfig(ajaxPlusData.plusData.packageName);
@@ -289,8 +290,44 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                     }else{
                         nsalert('返回值false','error');
                     }
-                    componentsManage.blockList.show(resData, componentData, templateConfig);
+                    // componentsManage.blockList.show(resData, componentData, templateConfig);
+                    if(typeof(ajaxPlusData.plusData.callBackFunc) == "function"){
+                        ajaxPlusData.plusData.callBackFunc(resData, componentData, templateConfig);
+                    }
                 },true);
+            },
+            init : function(config){
+                var componentsByName = config.componentsByName;
+                var componentData = componentsByName.blockList;
+                // 计算高度
+                var height = componentsFuncManage.getPanelComponentHeight(componentData, config);
+                componentData.componentHeight = height;
+                this.getDataByAjax(componentData, config, function(resData, componentData, templateConfig){
+                    componentsManage.blockList.show(resData, componentData, templateConfig);
+                });
+                // var ajaxConfig = $.extend(true, {}, componentData.ajax);
+                // if(!$.isEmptyObject(config.pageParam)){
+                //     if(!$.isEmptyObject(ajaxConfig.data)){
+                //         ajaxConfig.data = NetStarUtils.getFormatParameterJSON(ajaxConfig.data, config.pageParam);
+                //     }else{
+                //         ajaxConfig.data = config.pageParam;
+                //     }
+                // }
+                // ajaxConfig.plusData = {
+                //     packageName : config.package,
+                //     templateId : config.id
+                // };
+                // NetStarUtils.ajax(ajaxConfig,function(res, ajaxPlusData){
+                //     var templateConfig = configManage.getConfig(ajaxPlusData.plusData.packageName);
+                //     var _componentData = templateConfig.componentsByName.blockList;
+                //     var resData = [];
+                //     if(res.success){
+                //         resData = res[ajaxPlusData.dataSrc] ? res[ajaxPlusData.dataSrc] : [];
+                //     }else{
+                //         nsalert('返回值false','error');
+                //     }
+                //     componentsManage.blockList.show(resData, componentData, templateConfig);
+                // },true);
             }
         },
         // 初始化表格
@@ -397,6 +434,16 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 value = {};
             }
             return value;
+        },
+        refreshComponent : function(componentConfig, pageConfig, controllerObj){
+            switch(componentConfig.type){
+                case 'list':
+                    NetStarGrid.refreshById(componentConfig.id);
+                    break;
+                case 'blockList':
+                    componentsManage.blockList.refresh(componentConfig, pageConfig);
+                    break;
+            }
         },
     }
     // 数据管理
@@ -591,5 +638,9 @@ NetstarTemplate.templates.statisticalPlan = (function(){
         getSelectedDataByGridId : componentsFuncManage.getSelectedDataByGridId,
         // 获取块状表格选中数据
         getSelectedDataByBlockGridId : componentsFuncManage.getSelectedDataByBlockGridId,
+        // 刷新
+		refreshByGridconfig:function(componentConfig, packageName, controllerObj){
+			componentsFuncManage.refreshComponent(componentConfig, NetstarTemplate.templates.configs[packageName], controllerObj);
+		},
 	};
 })(jQuery)
