@@ -12,6 +12,47 @@
  */
 /******************** 单据详表   start ***********************/
 NetstarTemplate.templates.docListViewer = (function(){
+	//根据组件配置的readonlyExpression设置只读操作
+	function setReadonlyByReadonlyExpression(_config,_compareData){
+		var componentByBtns = _config.componentsConfig.btns;
+		var tempalteParams = $.extend(true,{},_compareData);
+		if(!$.isEmptyObject(_config.pageParam)){
+		   tempalteParams.page = _config.pageParam;
+		}
+		for(btnId in componentByBtns){
+		   var btnConfig = componentByBtns[btnId];
+		   if(btnConfig.readonlyExpression){
+			  var readonlyExpression = JSON.parse(btnConfig.readonlyExpression);
+			  var expressionObj = {};
+			  for(var expValue in readonlyExpression){
+				 var valueExpression = readonlyExpression[expValue];
+				 var currentReadonly = NetstarTemplate.commonFunc.getBooleanValueByExpression(tempalteParams,valueExpression);
+				 var englishNameArr = expValue.split(',');
+				 for(var nameI=0; nameI<englishNameArr.length; nameI++){
+					//根据定义的按钮英文名字分别存储当前按钮所处的状态
+					expressionObj[englishNameArr[nameI]] = currentReadonly;
+				 }
+			  }
+			  if(!$.isEmptyObject(expressionObj)){
+				 //存在要设置的只读
+				 var fieldArray = btnConfig.field;
+				 for(var fieldI=0; fieldI<fieldArray.length; fieldI++){
+					var fieldData = fieldArray[fieldI];
+					var functionConfig = fieldData.functionConfig ? fieldData.functionConfig : {};
+					var englishName = functionConfig.englishName;
+					if(typeof(expressionObj[englishName])=='boolean'){
+					   var isDisabled = expressionObj[englishName];
+					   if(isDisabled){
+						  $('button[ns-field="'+englishName+'"]').attr('disabled',true);
+					   }else{
+						  $('button[ns-field="'+englishName+'"]').removeAttr('disabled');
+					   }
+					}
+				 }
+			  }
+		   }
+		}
+	}
 	//点击按钮获取界面配置以及参数的回调方法
 	function dialogBeforeHandler(data,templateId){
 		var config = NetstarTemplate.templates.docListViewer.data[templateId].config;
@@ -217,6 +258,8 @@ NetstarTemplate.templates.docListViewer = (function(){
 						break;
 					case NSSAVEDATAFLAG.EDIT:
 						//修改
+						// 添加编辑后修改编辑行数据 原来此方法没有，这里什么都没有执行 lyw 20200409 修改bug：修改后行数据没有刷新
+						NetStarGrid.editRow(res, config.mainComponent.id);
 						break;
 					case NSSAVEDATAFLAG.ADD:
 						//添加
@@ -386,9 +429,11 @@ NetstarTemplate.templates.docListViewer = (function(){
 					}
 				}
 			}
+			var currentSelectedData = {};
 			if(selectedIndex > -1){
 				//存在选中行的值
 				var data = originalRows[selectedIndex+startI];
+				currentSelectedData = originalRows[selectedIndex+startI];
 				//查找按钮是否设置了禁用
 				NetStarUtils.setBtnsDisabled(config.mainBtnArray,data);
 				refreshGridDataByConfig(config,data);
@@ -402,6 +447,9 @@ NetstarTemplate.templates.docListViewer = (function(){
 				isDisabled = true;
 			}
 			NetStarUtils.setBtnsDisabledByRequestSource(config.mainBtnArray,isDisabled);
+
+			//sjj 20200206 判断是否设置了readonlyExpresion hiddenExpression表达式的逻辑处理
+			setReadonlyByReadonlyExpression(config,currentSelectedData);
 		}
 	}
 	function refreshGridByData(_gridConfig,_data){
@@ -442,7 +490,7 @@ NetstarTemplate.templates.docListViewer = (function(){
 			//title:mainGridComponent.title,//表格标题
 			isOpenQuery:true,//是否开启查询
 			isOpenAdvanceQuery:true,//是否开启高级查询
-			isOpenFormQuery:isOpenFormQuery,//是否开启展开查询
+			isOpenFormQuery : isOpenFormQuery,
 			completeHandler:function(){
 				
 			},

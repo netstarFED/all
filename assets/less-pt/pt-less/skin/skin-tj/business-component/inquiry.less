@@ -1,0 +1,56 @@
+.inquiry {
+    .inquiry-state(@color) {
+
+
+        .block-list-content {
+            border: 1px solid @color;
+            padding: 5px;
+            padding-left: 10px;
+
+            .list-body {
+                vertical-align: middle;
+                color: @color;
+            }
+
+            .list-after {
+                span {
+                    color: #fff;
+                    padding: 0 6px;
+                    background: @color;
+                    min-width: 36px;
+                    float: right;
+                    height: 22px;
+                    line-height: 22px;
+                    cursor: pointer;
+                }
+            }
+
+            &:before {
+                top: 2px;
+                left: 2px;
+                .triangle-left-top(7px, @color);
+            }
+        }
+    }
+
+    .inquiry-item {
+        .block-list-content {
+            height: 40px;
+
+            .block-list-dropdown {
+                p {
+                    padding: @base-padding;
+                    color: #666;
+                }
+            }
+        }
+    }
+
+    .inquiry-warning {
+        .inquiry-state(@warning);
+    }
+
+    .inquiry-danger {
+        .inquiry-state(@danger);
+    }
+}

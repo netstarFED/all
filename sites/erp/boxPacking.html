@@ -70,14 +70,27 @@
                     contentType:'application/json',
                     data:dataManager.dataRes
                 };
-                NetStarUtils.ajax(ajaxConfig,function(res){
-                    
+                NetStarUtils.ajax(ajaxConfig,function(res){ 
                     console.log(res);
                     if(res.success){
-                        nsAlert("保存成功");
-                        window.history.back();
+                        //成功后刷新表格数据
+                        var ajaxConfig = {
+                            url:getRootPath() + '/packingController/v2/getByPackingBoxId',
+                            data:{
+                                id:erppakingId
+                            },
+                            dataSrc: 'data.packingDetailVOList',
+                            type: 'POST',
+                            contentType: 'application/x-www-form-urlencoded',
+                        };
+                        NetStarUtils.ajax(ajaxConfig,function(res){
+                            if(res.success){
+                                NetstarBlockListM.refreshDataById("mobile-blocklist",res.data.packingDetailVOList)
+                                nsAlert("保存成功");
+                            }
+                        })
+                       
                     }else{
-                        window.history.back();
                     }
                 })
 
@@ -203,6 +216,18 @@
                     {
                         field: "lastQuantity",
                         title: "未装箱数量",
+                        columnType: "number",
+                        editConfig:{
+                                type:'number'
+                            },
+                            formatHandler:{
+                                data:{
+                                    format:{
+                                        places:"0",
+                                        thousand:","
+                                    }
+                                }
+                            }
                     },
                     {
                         field: 'thisQuantity',
@@ -341,7 +366,7 @@
                     })
                 }
             };
-            cameraScan.initHoneywellScan();
+            /* cameraScan.initHoneywellScan(); */
              // NETSTAR添加url参数即pageParam
             })
 

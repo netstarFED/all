@@ -966,6 +966,7 @@ NetstarTemplate.templates.statisticsList = (function(){
 			var componentType = componentData.type;
 			if(componentData.params.displayMode == 'countList'){
 				componentType = 'countList';
+				componentData.package = _config.package;
 			}
 			_config.componentsConfig[componentType][componentData.id] = componentData;//根据类型和id存储组件信息
 			var componentClassStr = '';
@@ -989,8 +990,8 @@ NetstarTemplate.templates.statisticsList = (function(){
 			if(componentType == 'countList'){
 				componentsHtml += '<div class="pt-panel">'
 									+'<div class="pt-container">'
-										+'<div class="scroll-panel nspanel layout-customertable '+classStr+' '+componentClassStr+'">'
-											+'<table class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" id="'+componentData.id+'"></table>'
+										+'<div class="scroll-panel nspanel layout-customertable '+classStr+' '+componentClassStr+'" id="'+componentData.id+'">'
+											// +'<table class="table table-hover table-striped table-singlerow table-bordered table-sm scroll-table" id="'+componentData.id+'"></table>'
 										+'</div>'
 									+'</div>'
 								+'</div>';

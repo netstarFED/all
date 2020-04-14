@@ -1,0 +1,100 @@
+@ztree-select-bg: @danger;
+@ztree-select-color: #fff;
+@ztree-hover-bg: #f4f4f4;
+
+//竖菜单的各种状态
+.ztree-state(@ztree-state-bg, @ztree-state-color) {
+    .node_name {
+        background: transparent;
+        color: @ztree-state-color;
+    }
+
+    &.curSelectedNode,
+    &:hover {
+        .node_name {
+            background: @ztree-state-bg;
+            color: @ztree-state-color;
+        }
+    }
+}
+
+.ztree {
+    li {
+        a {
+
+            span.node_name {
+                background: transparent;
+                color: #000;
+
+                &:hover {
+                    background: #f4f4f4;
+                    color: #000;
+                }
+            }
+
+            //选中
+            &.curSelectedNode {
+                .ztree-state(@ztree-select-bg, @ztree-select-color);
+
+            }
+
+            //info
+            &.infonode {
+                .ztree-state(lighten(@info, 40%), @info)
+            }
+
+            //警告
+            &.warningnode {
+                .ztree-state(@bg-warning, @warning)
+            }
+
+            //成功
+            &.successnode {
+                .ztree-state(@bg-success, @success)
+            }
+
+            //错误
+            &.errornode {
+                .ztree-state(@bg-danger, @danger)
+            }
+
+            //禁用
+            &.disablenode {
+                .ztree-state(#eee, @gray);
+
+                &:hover {
+                    .node_name {
+                        background: #eee;
+                        color: @gray;
+                    }
+                }
+            }
+
+        }
+
+        span {
+            &.node_name {
+                &:hover {
+                    background: @ztree-select-bg;
+                    color: darken(@primary, 10);
+                }
+            }
+
+            // 多选-已选选
+            &.checkbox_true_full,
+            &.checkbox_true_full_focus,
+            &.checkbox_true_disable {
+                &:after {
+                    color: @danger;
+                }
+            }
+        }
+    }
+}
+
+.treeform-ztree>ul li span.button.radio_true_part:after,
+.ztree li span.button.radio_true_part:after,
+.treeform-ztree>ul li span.button.radio_true_part_focus:after,
+.ztree li span.button.radio_true_part_focus:after {
+    color: @danger;
+}

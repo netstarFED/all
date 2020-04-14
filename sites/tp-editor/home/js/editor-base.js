@@ -1650,8 +1650,8 @@ var NetstarEditorServer = (function(){
                             }
                             var defaultFieldConfig = { 
                                 type:formType, 
-                                formSource:'table', 
-                                templateName:'PC',
+                                // formSource:'table', 
+                                // templateName:'PC',
                                 variableType: _fieldConfig.variableType,
                             };
                             _fieldConfig.editConfig = defaultFieldConfig;
@@ -2865,8 +2865,8 @@ var NetstarProject = (function(){
                 }
                 var defaultFieldConfig = { 
                     type:formType, 
-                    formSource:'table', 
-                    templateName:'PC',
+                    // formSource:'table', 
+                    // templateName:'PC',
                     variableType: fieldConfig.variableType,
                 };
                 fieldConfig.editConfig = defaultFieldConfig;
@@ -2962,6 +2962,7 @@ var NetstarProject = (function(){
                 config.contentType = sourceConfig.ajax.contentType;
                 config.data = sourceConfig.ajax.data;
                 config.ajaxData = sourceConfig.ajax.data;
+                config.dataSrc = sourceConfig.ajax.dataSrc;
             }
             
             if(sourceConfig.defaultMode == "editorDialog"){
@@ -3870,22 +3871,28 @@ var NetstarProject = (function(){
             //sjj20181030 自定义按钮
             function customCommon(callback,configJson){
                 /*
-                 * normal  	则只附加参数
-                 * object 	则用对象名称包裹，返回标准对象格式
-                 * id 		只使用id作为参数
-                 * ids 		返回ids格式，用于批量操作
-                 */
+                * normal  	则只附加参数
+                * object 	则用对象名称包裹，返回标准对象格式
+                * id 		只使用id作为参数
+                * ids 		返回ids格式，用于批量操作
+                */
                 var $btnDom;
                 if(callback.event){
                     if(callback.event){
                         if(callback.event.target.nodeName == 'BODY'){
                             if(callback.data.id){
                                 $btnDom = $('#'+callback.data.id);
-                                $btnDom.attr('disabled',true);
+                                var $btns = $btnDom.parent().children('button:not([disabled="disabled"])');
+                                $btns.attr('ajax-disabled',true);
+                                $btns.attr('disabled',true);
+                                //$btnDom.attr('disabled',true);
                             }
                         }else{
                             $btnDom = $(callback.event.currentTarget);
-                            $btnDom.attr('disabled',true);
+                            var $btns = $btnDom.parent().children('button:not([disabled="disabled"])');
+                            $btns.attr('ajax-disabled',true);
+                            $btns.attr('disabled',true);
+                            //$btnDom.attr('disabled',true);
                         }
                     }
                 }
@@ -3899,7 +3906,10 @@ var NetstarProject = (function(){
                 if(confirmdata){
                     if($.isEmptyObject(confirmdata.value)){
                         if($btnDom){
-                            $btnDom.removeAttr('disabled');
+                            var $btns = $btnDom.parent().children('button[ajax-disabled="true"]');
+                            $btns.removeAttr('ajax-disabled');
+                            $btns.removeAttr('disabled');
+                            //$btnDom.removeAttr('disabled');
                         }
                         return;
                     }
@@ -4368,6 +4378,9 @@ var NetstarProject = (function(){
                                     if(isOld){
                                         dialogContentOld(callback,obj);
                                         return;
+                                    }
+                                    for(var fieldI=0; fieldI<dialogField.length; fieldI++){
+                                        fieldManager.setFormField(dialogField[fieldI], dialogField[fieldI].type);
                                     }
                                 var dialogJson = {
                                     id:'dialogCommon',//typeof(obj.config.dialogId) == 'undefined'?'dialogCommon':obj.config.dialogId,

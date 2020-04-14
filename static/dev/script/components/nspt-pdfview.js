@@ -1680,6 +1680,17 @@ NetstarUI.pdfDialog = (function ($) {
 				if (authorization) {
 					url += '?Authorization=' + authorization;
 				}
+			}else{
+				var urlData = _config.urlData;
+				url += ';'
+				for(var key in urlData){
+					url += key + '=' + urlData[key] + ';'
+				}
+				url = url.substring(0, url.length - 1);
+				var authorization = NetStarUtils.OAuthCode.get();
+				if (authorization) {
+					url += '?Authorization=' + authorization;
+				}
 			}
 			return url;
 		},
@@ -1804,20 +1815,20 @@ NetstarUI.pdfDialog = (function ($) {
 				url : url,
 				rangeChunkSize : 1024*512,
 			}
-			if(typeof(config.urlData) == "object" && !$.isEmptyObject(config.urlData)){
-				var urlData = config.urlData;
-				url += ';'
-				for(var key in urlData){
-					url += key + '=' + urlData[key] + ';'
-				}
-				url = url.substring(0, url.length - 1)
-				documentObj.url = url;
-				var authorization = NetStarUtils.OAuthCode.get();
-				documentObj.httpHeaders = {}
-				if(authorization){
-					documentObj.httpHeaders.authorization = authorization;
-				}
-			}
+			// if(typeof(config.urlData) == "object" && !$.isEmptyObject(config.urlData)){
+			// 	var urlData = config.urlData;
+			// 	url += ';'
+			// 	for(var key in urlData){
+			// 		url += key + '=' + urlData[key] + ';'
+			// 	}
+			// 	url = url.substring(0, url.length - 1)
+			// 	documentObj.url = url;
+			// 	var authorization = NetStarUtils.OAuthCode.get();
+			// 	documentObj.httpHeaders = {}
+			// 	if(authorization){
+			// 		documentObj.httpHeaders.authorization = authorization;
+			// 	}
+			// }
 			var loadingTask = pdfLib.getDocument(documentObj);
 			//挂载监听器，完成后执行
 			loadingTask.promise.then(function (pdf) {

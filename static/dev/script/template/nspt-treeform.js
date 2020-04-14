@@ -10,6 +10,20 @@ NetstarTemplate.templates.treeForm = (function(){
 		var config = NetstarTemplate.templates.treeForm.data[templateId].config;
 		var controllerObj = typeof(data.controllerObj)=='object' ? data.controllerObj : {};
 		data.config = config;
+		var requestSource = controllerObj.requestSource ? controllerObj.requestSource : 'selected';//默认读取选中行的操作，当前模板是单选
+		var treeConfig = config.treeConfig;
+		var treeId = treeConfig.id;
+		switch(requestSource){
+			case 'selected':
+				data.value = NetstarTemplate.tree.getSelectedNodes(treeId);
+				if($.isArray(data.value) && data.value.length > 0){
+					data.value = data.value[0];
+				}
+				break;
+			case 'checkbox':
+				data.value = NetstarTemplate.tree.getCheckedNodes(treeId);
+				break;
+		}
 		return data;
 	}
 	//ajax前置回调
@@ -339,7 +353,45 @@ NetstarTemplate.templates.treeForm = (function(){
 					defaultMode:'del',
 				}
 			],
+			callback:{
+				  dialogBeforeHandler:(function(_config){
+					 return function (data) {
+						return dialogBeforeHandler(data,_config.id);
+					 }
+				  })(_config),
+				  ajaxBeforeHandler:(function(_config){
+					 return function (data) {
+						return ajaxBeforeHandler(data,_config.id);
+					 }
+				  })(_config),
+				  ajaxAfterHandler:(function(_config){
+					 return function (data,plusData) {
+						return ajaxAfterHandler(data,_config.id,plusData);
+					 }
+				  })(_config),
+				  getOperateData:(function(_config){
+					 return function () {
+						var pageData = NetstarTemplate.getOperateData(_config);
+						return pageData;
+					 }
+				  })(_config),
+				  dataImportComplete:(function(_config){
+					 return function (data) {
+						refreshByConfig(_config);
+					 }
+				  })(_config),
+				  refreshByConfig:(function(_config){
+					 return function (data) {
+						refreshByConfig(_config);
+					 }
+				  })(_config),
+			}
 		};
+		for(var key in _config.componentsConfig.btns){
+			var field = _config.componentsConfig.btns[key].field;
+			var btns = NetstarTemplate.getBtnArrayByBtns(field);
+			btnJson.btns = btnJson.btns.concat(btns);
+		}
 		vueButtonComponent.init(btnJson);
 
 		if(!$.isEmptyObject(_config.tabConfig.components)){
@@ -444,6 +496,7 @@ NetstarTemplate.templates.treeForm = (function(){
 					var treeHeight = _config.commonPanelHeight - 44;
 					componentData.height = treeHeight;
 					_config.treeConfig = componentData;
+					_config.idFieldsNames['root'] = componentData.idField;//主键id
 					treeHtml = '<div class="pt-panel">'
 									+'<div class="pt-container">'
 										+'<div class="'+classStr+'" id="'+componentData.id+'" '+attrPackage+'>'

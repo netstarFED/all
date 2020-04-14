@@ -1,0 +1,475 @@
+// @navbar-bg: #e6e6e6;
+@header-bg: #fff;
+@header-bg: #444;
+@header-dropdown-list-height: 36px;
+@nav-bg: #c70019;
+@nav-bg-dark: darken(@nav-bg, 5);
+@nav-bg-darker: darken(@nav-bg, 10);
+@nav-width: 200px;
+@pt-logo-bg: @header-bg;
+@pt-tabbar-bg: #efefef;
+@tabbar-nav-mark-size: 5px;
+@header-color: #fff;
+@sidebar-collapse-width: 16px;
+@collapse-nav-width: 39px;
+@topbar-icon-link-width: 40px;
+
+body.pt-veritical {
+    padding: @header-height 0 0 (@nav-width + @sidebar-collapse-width);
+
+    .pt-header {
+        .pt-container {
+
+            // ================= topbar =================
+            .pt-topbar {
+                height: @header-height;
+                background: @header-bg;
+                z-index: 199;
+
+                // logo背景色
+                .pt-logo {
+                    background-color: @pt-logo-bg;
+                    height: @header-height;
+                    width: @nav-width;
+                }
+
+                .pt-nav.pt-dropdown {
+                    height: @header-height;
+
+                    .pt-top-menu-item {
+                        .pt-top-menu-item-row {
+                            .pt-nav-item {
+                                min-width: @topbar-icon-link-width;
+                                height: @header-height;
+                                line-height: @header-height;
+                                color: @header-color;
+
+                                &:hover {
+                                    background: lighten(@header-bg, 10);
+                                    color: #fff;
+                                }
+
+                                i {
+                                    line-height: @header-height;
+                                }
+                            }
+                        }
+                    }
+
+                    &[ns-name="message"] {
+                        .pt-top-menu-item {
+                            width: (@topbar-icon-link-width * 2);
+
+                            &:active,
+                            &:focus,
+                            &:hover {
+
+                                .pt-top-menu-item-row {
+                                    .pt-nav-item {
+                                        background: lighten(@header-bg, 10);
+                                        color: #fff;
+                                    }
+                                }
+                            }
+
+                            .pt-top-scroll {
+                                &:before {
+                                    .triangle-top(@tabbar-nav-mark-size, #fff);
+                                    position: fixed;
+                                    top: (@header-height - @tabbar-nav-mark-size);
+                                    right: ((@topbar-icon-link-width * 3) - @tabbar-nav-mark-size);
+                                    margin-left: -@tabbar-nav-mark-size;
+                                    border-width: 0 @tabbar-nav-mark-size @tabbar-nav-mark-size @tabbar-nav-mark-size;
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
+
+            // ================= tabbar =================
+
+            .pt-tabbar {
+                background: @header-bg;
+                height: @header-height;
+                left: (@nav-width + @sidebar-collapse-width);
+                right: 250px;
+                z-index: 200;
+
+                .pt-nav {
+                    height: @header-height;
+
+                    li.pt-nav-item {
+                        height: @header-height;
+                        line-height: @header-height;
+
+
+                        &:hover {
+                            background: lighten(@header-bg, 10);
+
+
+                            .pt-btn-clear {
+                                i {
+                                    color: rgba(255, 255, 255, .85);
+                                }
+                            }
+                        }
+
+                        a {
+                            line-height: @header-height;
+                            color: rgba(255, 255, 255, .75);
+
+                            &:hover {
+                                color: rgba(255, 255, 255, 1);
+                            }
+
+                        }
+
+                        &.current {
+                            background: @nav-bg;
+                            border-bottom: 0px solid @nav-bg;
+
+                            &:hover {
+                                background: @nav-bg-dark;
+                            }
+
+                            &:after {
+                                bottom: 0;
+                                left: 50%;
+                                margin-left: -@tabbar-nav-mark-size;
+                                .triangle-top(@tabbar-nav-mark-size, #fff);
+                                border-width: 0 @tabbar-nav-mark-size @tabbar-nav-mark-size @tabbar-nav-mark-size;
+                            }
+
+                            a {
+                                color: #fff;
+
+                                &:hover {
+                                    color: #fff;
+                                }
+                            }
+                        }
+                    }
+
+                    // 标签页控制按钮及下拉面板
+                    &.pt-tabbar-control {
+                        height: @header-height;
+                        border-right-color: @header-bg;
+
+                        .pt-nav-toggle {
+                            height: @header-height;
+                            line-height: @header-height;
+
+                            i {
+                                line-height: @header-height;
+                            }
+                        }
+
+                        .pt-dropdown-menu {
+                            .pt-nav-item {
+                                height: @header-dropdown-list-height;
+                                line-height: @header-dropdown-list-height;
+
+                                &:hover {
+                                    background: #f4f4f4;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            // ================= navbar =================
+            // 左侧菜单面板背景色
+
+            .pt-navbar {
+                width: @nav-width;
+                min-width: @nav-width;
+                background-color: @pt-tabbar-bg;
+                top: @header-height;
+                z-index: 201;
+
+                .pt-nav.pt-dropdown {
+                    ul {
+                        padding-top: 0;
+                    }
+
+                    li.pt-top-menu-item {
+                        padding-bottom: 0;
+
+                        .pt-top-menu-item-row {
+                            .pt-nav-item {
+                                color: #444;
+
+                                i {
+                                    color: #444;
+                                }
+
+                                &:visited,
+                                &:hover,
+                                &:active {
+                                    background: @nav-bg;
+                                }
+                            }
+                        }
+
+                        .pt-top-nav-block {
+                            z-index: 209;
+                            background: @nav-bg;
+
+                            .pt-top-menu-item {
+                                &>.pt-top-nav-block {
+                                    background: @nav-bg-darker;
+
+                                    .pt-top-menu-item {
+                                        .pt-top-menu-item-row {
+                                            .pt-nav-item {
+                                                span {
+                                                    color: #fff;
+                                                }
+
+                                                &:hover,
+                                                &:active {
+                                                    background: @nav-bg-darker;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &.dropdown-arrow {
+                                    &>.pt-top-menu-item-row {
+                                        &>.pt-nav-item {
+                                            &:after {
+                                                color: #fff;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .pt-top-menu-item-row {
+                                    .pt-nav-item {
+                                        color: #fff;
+
+                                        // 展开面板列表经过背景色
+                                        &:visited,
+                                        &:hover,
+                                        &:active {
+                                            background: @nav-bg-dark;
+                                        }
+                                    }
+                                }
+
+                                &.open {
+                                    .pt-top-menu-item-row {
+                                        .pt-nav-item {
+
+                                            &:visited,
+                                            &:hover,
+                                            &:active {
+                                                background: @nav-bg-dark;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                        // 列表右侧箭头颜色
+                        &.dropdown-arrow {
+                            &>.pt-top-menu-item-row {
+                                &>.pt-nav-item {
+                                    &:after {
+                                        color: #444;
+                                        right: 10px;
+                                    }
+                                }
+                            }
+
+                            &.open {
+                                &>.pt-top-menu-item-row {
+                                    &>.pt-nav-item {
+                                        &:after {
+                                            color: #fff;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &.open {
+                            .pt-top-menu-item-row {
+                                .pt-nav-item {
+                                    background: @nav-bg;
+
+                                    i {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+
+                            .pt-top-nav-block {
+                                .pt-top-menu-item-row {
+                                    .pt-nav-item {
+                                        background: @nav-bg;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                    @scrollar-bg: transparent;
+
+                    &::-webkit-scrollbar-thumb {
+                        height: @scrollbar-control-height;
+                        background: transparent !important;
+                        border-left: @scrollbar-border-width solid #fff;
+                        transition: ease-in-out all .25s;
+                        border-radius: 100px;
+                        cursor: pointer;
+
+                        &:hover {
+                            background: rgba(0, 0, 0, .15) !important;
+                            cursor: pointer;
+                            transition: ease-in-out all .4s;
+                        }
+                    }
+
+                    //滚动条里面轨道
+                    &::-webkit-scrollbar-track {
+                        background: @scrollar-bg;
+                        border-left: @scrollbar-border-width solid #fff;
+
+                        &:hover {
+                            background: rgba(255, 255, 255, 0.1);
+                        }
+                    }
+                }
+            }
+
+            .pt-navbar .pt-nav>ul>li.pt-top-menu-item:hover>.pt-top-menu-item-row>.pt-nav-item {
+                background: transparent;
+            }
+
+
+
+        }
+    }
+
+    // 顶部右侧按钮控制面板
+    &.pt-systeminfo {
+        .pt-header {
+            ul.pt-nav.pt-dropdown {
+                .pt-top-menu-item {
+                    &.pt-nav {
+                        height: @header-height;
+                    }
+
+                    &:last-child {
+                        .pt-setting-icon {
+                            width: 40px;
+                            height: @header-height;
+                            background: @header-bg;
+                            text-align: center;
+
+                            .icon {
+                                line-height: @header-height;
+                                color: @header-color;
+                            }
+                        }
+                    }
+
+                    // 下拉面板顶部距离
+                    .pt-top-nav-block {
+                        top: (@header-height + 1);
+
+                        .pt-top-menu-item {
+                            .pt-top-menu-item-row {
+                                .pt-nav-item {
+                                    padding: 0 @base-padding;
+                                    height: @header-dropdown-list-height;
+                                    line-height: @header-dropdown-list-height;
+                                    color: #444;
+
+                                    &:hover {
+                                        background: #f4f4f4;
+                                    }
+
+                                    i {
+                                        line-height: @header-dropdown-list-height;
+                                    }
+                                }
+                            }
+
+                            &:hover {
+                                &>.pt-top-menu-item-row {
+                                    &>.pt-nav-item {
+                                        color: #444;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    &.collapse {
+        .pt-header {
+            .pt-container {
+                .pt-navbar {
+                    width: (@collapse-nav-width + @sidebar-collapse-width);
+                }
+            }
+        }
+
+
+    }
+
+    // 左侧面板开关按钮
+    .pt-btn.pt-sidebar-collapse {
+        background: @header-bg;
+        left: @nav-width;
+        z-index: 199;
+
+        &:hover {
+            background: lighten(@header-bg, 10);
+        }
+
+        &.pt-btn-icon {
+            height: @header-height;
+            border-left: 1px solid @header-bg;
+
+            i {
+                color: #fff;
+            }
+        }
+
+    }
+
+}
+
+body.pt-veritical .pt-header .pt-container .pt-navbar .pt-nav.pt-dropdown li.pt-top-menu-item.open .pt-top-nav-block .pt-top-nav-block .pt-top-menu-item-row .pt-nav-item {
+    background: @nav-bg-dark;
+    color: #fff;
+}
+
+
+
+
+// .pt-header .pt-topbar .pt-nav.pt-dropdown>ul>li.pt-top-menu-item:hover>.pt-top-menu-item-row>.pt-nav-item {
+//     color: #000;
+// }
+
+// 顶部导航tooltips
+.pt-nav-tooltips {
+    margin-top: 17px;
+}

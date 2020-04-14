@@ -45,6 +45,9 @@ var NetstarTemplate = {
 		limsResultInput:{
 
 		},//lims结果录入
+		statisticalPlan:{
+
+		},//作业计划
 	},//模板定义
 	//获取模板公用的高度
 	getContainerCommonHeight: function () {
@@ -867,6 +870,36 @@ var NetstarTemplate = {
 					}
 				}
 				break;
+			case 'statisticalPlan':
+				var packageName = pagePackageName.replace(/\./g, '-');
+				var templateId = 'nstemplate-layout-' + packageName.replace(/-/g, '-');
+				if (NetstarTemplate.templates.statisticalPlan.data) {
+					var config = NetstarTemplate.templates.statisticalPlan.data[templateId].config;
+					if (!$.isEmptyObject(config)) {
+						var mainId = config.mainComponent.id;
+						var data = NetstarBlockList.getDataByFieldAndValue(mainId, 'workItemId', workItemId);
+						if (!$.isEmptyObject(data)) {
+							// data.hasSuspend = isDisabled;
+							data['NETSTAR-TRDISABLE'] = isDisabled;
+							NetstarBlockList.setDataByFieldAndValue(mainId, 'workItemId', data);
+							//按钮的处理
+							var btnsArray = config.componentsConfig.btns;
+							for (var btnI = 0; btnI < btnsArray.length; btnI++) {
+								$('#' + btnsArray[btnI].id + ' button').prop('disabled', true)
+							}
+							// 设置只读按钮
+							if(data.netstarSelectedFlag){
+								// 选中 按钮的处理
+								var btnLeftId = config.componentsByName.btnLeft.id;
+								var $btns = $('#' + btnLeftId).find('button');
+								for(var i=0; i<$btns.length; i++){
+									$btns.eq(i).attr('disabled', isDisabled);
+								}
+							}
+						}
+					}
+				}
+				break;
 		}
 	},
 	// 设置状态 通过参数 lyw
@@ -986,6 +1019,47 @@ var NetstarTemplate = {
 				}
 				data['netstar-workItemState'] = stateConfig.workItemState;
 				mainTypeFunc.setDataByFieldAndValue(gridId, 'workItemId', stateConfig.workItemId, data);
+				break;
+			case 'statisticalPlan':
+				var packageName = stateConfig.pagePackage.replace(/\./g, '-');
+				var templateId = 'nstemplate-layout-' + packageName.replace(/-/g, '-');
+				if(typeof(NetstarTemplate.templates.statisticalPlan.data) != 'object'){
+					return;
+				}
+				//主详表  单据详情模板
+				var config = NetstarTemplate.templates.statisticalPlan.data[templateId].config;
+				if (typeof(config) != 'object' || $.isEmptyObject(config)) {
+					return;
+				}
+				// 块状表格
+				//存在单据详情模板的配置项
+				var mainComponent = config.mainComponent
+				var gridId = config.mainComponent.id;
+				// 普通表格
+				var mainTypeFunc = NetStarGrid;
+				if(mainComponent.type == "blockList"){
+					mainTypeFunc = NetstarBlockList;
+				}
+				var data = mainTypeFunc.getDataByFieldAndValue(gridId, 'workItemId', stateConfig.workItemId);
+				if ($.isEmptyObject(data)) {
+					return;
+				}
+				var attrs = stateConfig.attrs;
+				for(var key in attrs){
+					if(key == "workItemId"){
+						if(typeof(data[key]) != "undefined"){
+							data[key] = attrs[key];
+						}
+					}else{
+						data[key] = attrs[key];
+					}
+				}
+				data['netstar-workItemState'] = stateConfig.workItemState;
+				if(mainComponent.type == "blockList"){
+					mainTypeFunc.setDataByFieldAndValue(gridId, 'workItemId', data);
+				}else{
+					mainTypeFunc.setDataByFieldAndValue(gridId, 'workItemId', stateConfig.workItemId, data);
+				}
 				break;
 		}
 	},
@@ -1117,6 +1191,19 @@ var NetstarTemplate = {
 			if(NetstarUI.labelpageVm.labelPagesArr[currentTab].config){
                 packPackageName = NetstarUI.labelpageVm.labelPagesArr[currentTab].config.package;
                 var config = NetstarTemplate.templates.configs[packPackageName];
+                // 出现包名过长问题     例如"nscloud.netstar.purchase.plan.todo.-0-1330269934143419378"  对应 nscloud.netstar.purchase.plan.todo.-0-1330269934143419378.0.1330269934143419378:
+                // cy 20200413 出现后优先查找近似的，可能会导致找到多开页面中的其它页面
+                if(typeof(config)=='undefined'){
+                    for(var key in NetstarTemplate.templates.configs){
+                        if(packPackageName.indexOf(key)>-1){
+                            config = NetstarTemplate.templates.configs[key];
+                        }
+                    }
+                }
+                if(typeof(config)=='undefined'){
+                    console.error('刷新模板页失败，找不到对应页面:', packPackageName);
+                    return false
+                }
 				// data.id = NetstarUI.labelpageVm.labelPagesArr[currentTab].config.id;
 				data.id = config.id;
 			}
@@ -1209,6 +1296,7 @@ var NetstarTemplate = {
 							treeId = components[key].id;
 							break;
 						case 'businessDataBase':
+						case 'treeForm':
 							if($('#'+treeId).length == 0){
 								treeId = components[key].id;
 							}
@@ -1806,10 +1894,14 @@ var NetstarTemplate = {
 					}else{
 						replaceValue = valueData[field];
 					}
-					if($.isEmptyObject(replaceValue)){
+					if($.isEmptyObject(replaceValue)){	
+					if(typeof(replaceValue)=='number'){
+
+					}else{
 						replaceValue = null;
 					}
-					listExpression = listExpression.replace(strArr[expI], replaceValue);
+				}					
+				listExpression = listExpression.replace(strArr[expI], replaceValue);
 				}
 				try{
 					booleanValue = eval(listExpression);
@@ -1867,7 +1959,14 @@ var NetstarTemplate = {
 					    isSetMore:typeof(componentData.isSetMore)=='boolean' ? componentData.isSetMore : false,
 					    getPageDataFunc:function(){
 						  return _config.pageParam
-					   }
+						},
+						completeHandler : (function (_serverData, formId) {
+							return function(){
+							   if(typeof(_serverData) == "object" && $.isArray(_serverData.contrastInfoVOList)){
+								  NetstarComponent.setHistoryByFormID(_serverData.contrastInfoVOList, formId);
+							   }
+							}
+						 })(serverData, id)
 					};
 					if(typeof(componentData.blurHandler)=='function'){
 						formJson.blurHandler = componentData.blurHandler;
@@ -2001,6 +2100,9 @@ var NetstarTemplate = {
 							defaultSelectedIndex:0,
 						}
 					};
+					if(componentData.pageLengthDefault){
+						gridConfig.ui.pageLengthDefault = componentData.pageLengthDefault;
+					}
 					if(componentData.getPageDataFunc){
 						gridConfig.getPageDataFunc = componentData.getPageDataFunc;
 					}
@@ -2099,6 +2201,13 @@ var NetstarTemplate = {
 								}
 							}
 							var pageParamJson = _config.pageParam;
+							switch(_config.template){
+								case 'statisticalPlan':
+									pageParamJson = componentData.blockSelectedData;
+									break;
+								default:
+									break;
+							}
 							if(isUseObject){
 								if(!$.isEmptyObject(pageParamJson)){
 									ajaxParams.data = NetStarUtils.getDefaultValues(ajaxParams.data,pageParamJson);
@@ -2181,6 +2290,15 @@ var NetstarTemplate = {
 							$('#'+componentData.id).addClass('hide');
 						}
 					}
+					
+					if(!$.isEmptyObject(_config.serverData)){
+						if($.isArray(_config.serverData.contrastInfoVOList)){
+						   NetstarComponent.setHistoryByTableID(_config.serverData.contrastInfoVOList, _config.serverData[componentData.keyField], componentData.idField, componentData.keyField, gridId);NetstarComponent.setHistoryByTableID(_config.serverData.contrastInfoVOList, _config.serverData[componentData.keyField], componentData.idField, gridId);
+						}
+						if($.isArray(_config.serverData.contrastObjectInfoVOList)){
+						   NetstarComponent.setRowsHistoryByTableID(_config.serverData.contrastObjectInfoVOList, _config.serverData[componentData.keyField], componentData.idField, componentData.keyField, gridId);NetstarComponent.setHistoryByTableID(_config.serverData.contrastInfoVOList, _config.serverData[componentData.keyField], componentData.idField, componentData.keyField, gridId);
+						}
+					 }
 				}
 			},
 			//添加行
@@ -2239,6 +2357,7 @@ var NetstarTemplate = {
 							selectMode:'single',
 							defaultSelectedIndex:0,
 							listExpression:componentData.listExpression,
+							nullBlockExpression:componentData.nullBlockExpression,
 							displayMode:'block',
 						}
 					};
@@ -2416,10 +2535,10 @@ var NetstarTemplate = {
 					}
 				}
 				// 获取页面数据表达式不为空时 按钮添加获取页面数据回调方法 end ---
-				pageConfig.closeHandler = (function(){
+				pageConfig.closeHandler = (function(configObj){
 					//根据当前模板去刷新
 					return function(){
-						NetstarTemplate.templates[configObj.templateName].refreshByGridconfig(configObj.gridConfig,configObj.package);
+						NetstarTemplate.templates[configObj.templateName].refreshByGridconfig(configObj.gridConfig,configObj.package, configObj.controllerObj);
 					}
 				})(configObj);
 				NetstarTemplate.init(pageConfig);
@@ -2468,6 +2587,21 @@ var NetstarTemplate = {
 					case 'businessDataBase':
 						//基本业务对象模板
 						currentGridConfig = tempalteConfig.mainComponent;
+						break;
+					case 'statisticalPlan':
+						// 统计计划
+						if(operatorObject == 'root'){
+							//获取模板主数据
+							currentGridConfig = tempalteConfig.mainComponent;
+						}else{
+							//根据keyField获取数据
+							if(tempalteConfig.componentsByName.all && tempalteConfig.componentsByName.all.keyField == operatorObject){
+								currentGridConfig = tempalteConfig.componentsByName.all;
+							}
+							if(tempalteConfig.componentsByName.part && tempalteConfig.componentsByName.part.keyField == operatorObject){
+								currentGridConfig = tempalteConfig.componentsByName.part;
+							}
+						}
 						break;
 				}
 				if(currentGridConfig){
@@ -3163,7 +3297,7 @@ var NetstarTemplate = {
 					if(!$.isEmptyObject(countListConfig.params)){
 						NetStarUtils.setDefaultValues(countConfig,countListConfig.params);
 					}
-					NetstarUI.countList.init(countConfig);
+					NetstarUI.countList.init(countConfig,_config.pageParam);
 				}
 			}
 		},
@@ -3368,8 +3502,19 @@ var NetstarTemplate = {
 		//获取界面值
 		var templatePageData = data.dialogBeforeHandler(data);
 		var tempalteConfig = templatePageData.config;
-		if(typeof(NetstarTemplate.templates[tempalteConfig.template].fillValues)=='function'){
-			NetstarTemplate.templates[tempalteConfig.template].fillValues(value,tempalteConfig,controllerObj);
+		// lyw 修改 原因登记模板要求通过选中数据修改当前选中块 原来方法会重新给块状表格赋值
+		// if(typeof(NetstarTemplate.templates[tempalteConfig.template].fillValues)=='function'){
+		// 	NetstarTemplate.templates[tempalteConfig.template].fillValues(value,tempalteConfig,controllerObj);
+		// }
+		switch(tempalteConfig.template){
+			case 'limsReg':
+				NetstarTemplate.templates[tempalteConfig.template].editValues(value, tempalteConfig, controllerObj);
+				break;
+			default:
+				if(typeof(NetstarTemplate.templates[tempalteConfig.template].fillValues)=='function'){
+					NetstarTemplate.templates[tempalteConfig.template].fillValues(value,tempalteConfig,controllerObj);
+				}
+				break;
 		}
 	},
 	//根据模板定义的keyfield新增值

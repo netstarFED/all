@@ -287,8 +287,12 @@
                                 text: '创建整批',
                                 isReturn: true,
                                 handler: function (data) {
-                                    var pageConfig = NetstarTemplate.templates.configs[erpBatchIn.package];
-                                    var pageParam = pageConfig.pageParam;
+                                    // console.log("创建整批数据",data)
+                                    // debugger;
+                                    // var pageConfig = NetstarTemplate.templates.configs[erpBatchIn.package];
+                                    var pageConfig = NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erpbatchin'];
+
+                                    var pageParam = pageConfig.config.pageParam;
                                     var blockListData = NetstarBlockListM.dataManager.getData('nstemplate-layout-nscloud-erpbatchin-blockList-0');
                                     var ajaxData = {
                                         checkupBatchDetailVOList: blockListData
@@ -324,6 +328,7 @@
                 }
                 // NETSTAR添加url参数即pageParam
                 if(NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erpbatchin']){
+                    // debugger
                     delete NetstarTemplate.templates.docListViewerMobile.data['nstemplate-layout-nscloud-erpbatchin'] 
                 }
                 NetstarTemplate.init(erpBatchIn);

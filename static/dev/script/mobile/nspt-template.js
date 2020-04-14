@@ -228,7 +228,12 @@ var NetstarTemplate = {
 			NetstarTemplate.templates.configs[config.package] = config;
 		}
 		this.templateInitComplete(config);
-
+		if(typeof(NetStarRabbitMQ) == "object" && NetStarRabbitMQ.device === 'app'){
+			// console.log(12342)
+			if(setTitle){
+				setTitle.controller.insertHtml();
+			}
+		}
 		/*if(NetStarUtils.Browser.browserSystem == 'pc'){
 			//sjj 20190606 执行订阅方法
 			NetStarRabbitMQ.subscribe({

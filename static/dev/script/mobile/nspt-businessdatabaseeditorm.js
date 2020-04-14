@@ -61,7 +61,8 @@ NetstarTemplate.templates.businessDataBaseEditorMobile = (function(){
 			}
 			var isCloseWindow = typeof(plusData.isCloseWindow)=='boolean' ? plusData.isCloseWindow : false;
 			if(isCloseWindow){
-				window.history.back();
+                // window.history.back();
+                nsFrame.historyBackFunc();
 			}
 		}
 	}

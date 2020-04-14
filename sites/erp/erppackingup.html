@@ -74,7 +74,10 @@
                                     formatHandler: {
                                         type: "dictionary",
                                         data: {
-                                            1: '销售'
+                                            1: '销售',
+                                            2:'采购',
+                                            5:'销售退货',
+                                            13:'物流状态'
                                         }
                                     }
                                 },
@@ -98,6 +101,35 @@
                                 {
                                     field: 'customerName',
                                     title: '客户',
+                                },
+                                {
+                                    field: 'state',
+                                    title: '客户',
+                                    editConfig: {
+                                        type: 'select',
+                                        subdata: [{
+                                                id: '1',
+                                                value: '未装箱'
+                                            },
+                                            {
+                                                id: '2',
+                                                value: '已装箱'
+                                            },
+
+
+
+                                        ],
+                                        textField: 'value',
+                                        valueField: 'id',
+                                        variableType: "number"
+                                    },
+                                    formatHandler: {
+                                        type: "stringReplace",
+                                        data: {
+                                            1: '未装箱',
+                                            2:'已装箱',
+                                        }
+                                    }
                                 },
                                 {
                                     field: 'warehouseId',
@@ -162,6 +194,7 @@
                             listExpression: `<div class='block-list-item'>
                                                 <div class='block-list-item-text'>
                                                     <span class="weight">{{customerName}}</span>
+                                                    <span class="title right-state">{{state}}</span>
                                                 </div>
                                                 <div class='block-list-item-text'>
                                                     <span class='text-ml text-gray'>{{bllCode}}</span>
@@ -208,19 +241,21 @@
                                         text:'提交',
                                         isReturn:true,
                                         handler:function(){
-                                            debugger
+                                            // debugger
                                             var rowData = NetstarTemplate.templates.configs["nscloud.erppackingup"].gridRowData;
                                             var workItemId = rowData.workItemId;
-                                            var func = nsEngine.operation().workitemId(workItemId).submitAllBatch(true).build();
+                                            var func = nsEngine.operation(workItemId).workitemId(workItemId).submitAllBatch(true).build();
                                             func['submit'](function(res){
-                                                nsalert(res, 'success');
+                                                nsalert('装箱单提交成功', 'success');
+                                                // debugger
                                                 //提交成功后删除当前行
                                                 var rows = NetstarBlockListM.configs['nstemplate-layout-nscloud-erppackingup-blockList-0'].vueObj.rows;;
                                                 for(var i=0; i<rows.length; i++){
-                                                    if(rows.id == rowDatas[i].id){
+                                                    if(rows[i].id == rowData.id){
                                                         rows.splice(i,1);
                                                     }
                                                 }
+                                                rows.unshift(rowData);
                                             }, function(err){
                                                 console.error(err);
                                             })

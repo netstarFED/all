@@ -1,4 +1,4 @@
-@modal-header-height: 48px;
+@modal-header-height: 28px;
 
 @modal-bg-zindex: (@zindex-modal - 1);
 @modal-margin: 100px;
@@ -11,7 +11,7 @@
 @modal-body-height: calc(~"100% -"(@modal-margin * 4));
 @modal-footer-height: (@btn-size-base + (@padding-lg-v * 2));
 @modal-min-height: 320px;
-@modal-header-title-lineheight: (@modal-header-height - (@padding-lg-v * 2));
+@modal-header-title-lineheight: @modal-header-height;
 @modal-scroll-height: 400px;
 
 .pt-modal {
@@ -99,18 +99,23 @@
 
 // modal-header模态框头部
 .pt-modal-header-bg {
-    #gradient .vertical(@gray-lighter, @gray-light, 0%, 100%);
+    // #gradient .vertical(@gray-lighter, @gray-light, 0%, 100%);
+    background: #f1f1f1;
 }
 
 .pt-modal-header {
+    padding: 0;
     border-bottom: 1px solid @border-color;
     // height: @modal-header-height;
     min-height: @modal-header-height;
     text-align: right;
     .pt-modal-header-bg();
+    .clearfix();
+    cursor: move;
 
     .pt-title {
         float: left;
+        padding: 0 @padding-lg-h;
 
         h4 {
             line-height: @modal-header-title-lineheight;
@@ -118,7 +123,7 @@
     }
 
     .pt-modal-header-content {
-        margin: 10px -16px -11px;
+        // margin: 10px -16px -11px;
         background: #fff;
 
         .pt-nav {
@@ -171,7 +176,25 @@
     }
 
     .pt-close {
-        display: inline-block;
+        float: right;
+
+        .pt-btn.pt-btn-icon {
+            .square(@modal-header-height);
+            line-height: @modal-header-height;
+            text-align: center;
+            border-radius: 0 !important;
+
+            &.pt-btn-cirlce {
+                border-radius: 0 !important;
+            }
+        }
+
+    }
+
+    .pt-tab-header {
+        float: left;
+        width: 100%;
+        margin: 0 auto -1px;
     }
 
 }
@@ -356,7 +379,7 @@
     bottom: 0;
     width: @window-control-size;
     height: @window-control-size;
-    cursor: pointer;
+    cursor: se-resize;
 
     &:after {
         right: 1px;
@@ -518,11 +541,6 @@
     }
 }
 
-.pt-modal-header {
-    .pt-title {
-        padding: 0;
-    }
-}
 
 
 //弹框中带tab的模板没有tab的情况，任务分配-查看人员

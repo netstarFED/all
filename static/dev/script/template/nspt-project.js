@@ -3959,6 +3959,7 @@ function initFunction(businessObj, controllerObj){
 		var controllerObj = obj.controllerObj;
 		var btnConfig = callback.data;
 		var sourceBtnConfig = controllerObj.func.config;
+		callback.controllerObj = controllerObj;
 		nsProject.businessBtnManage.configs = typeof(nsProject.businessBtnManage.configs) == "object" ? nsProject.businessBtnManage.configs : {};
 		nsProject.businessBtnManage.configs[btnConfig.id] = {
 			callback : callback,
@@ -6081,6 +6082,11 @@ function initFunction(businessObj, controllerObj){
 		}
 	}
 	//--------------------------------------------------wxk公共弹窗------------------------------------------------------------
+
+	// 将按钮方法放开到全局 是其他形式按钮可以调用
+	nsProject.btnHandlerFuncs = {
+		workflowSubmit : workflowSubmit,
+	}
 }
 // lyw 20190930 业务组件
 var businessBtnManage = {
@@ -6205,6 +6211,7 @@ var businessBtnManage = {
 		};
 		var ajaxData = {};
 		if(typeof(getPanelDataAjax.data) == 'object' && !$.isEmptyObject(getPanelDataAjax.data)){
+			selectVal.page = callBackObj.dialogBeforeHandler(callBackObj).value;
 			ajaxData = NetStarUtils.getFormatParameterJSON(getPanelDataAjax.data, selectVal);
 		}
 		getPanelDataAjax.data = ajaxData;
@@ -7603,6 +7610,7 @@ return {
 	businessBtnManage : businessBtnManage,
 	sendPrintInfo:sendPrintInfo,
 	acceptImportExportMessage : acceptImportExportMessage,
+	btnHandlerFuncs : {},
 }
 //--------------------------------项目处理组件 end  --------------------------------
 })(jQuery)

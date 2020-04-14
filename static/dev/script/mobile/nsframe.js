@@ -443,7 +443,8 @@ nsFrame.loadPageVRouter = function(url){
 	var urlStr = url.substring(getRootPath().length,url.length);
 	// var pushUrl = getRootPath()+'/basemobile#'+urlStr;
 	var pushUrl = '';
-	if(url.indexOf('http') == 0){
+	// if(url.indexOf('http') == 0){
+	if(url.indexOf(NetstarHomePage.defaultServerUrl) == 0){
 		pushUrl = url;
 	}else{
 		pushUrl = (typeof(NetstarHomePage.defaultServerUrl) == "string" ? NetstarHomePage.defaultServerUrl : getRootPath())+'/basemobile#'+urlStr;
@@ -452,6 +453,81 @@ nsFrame.loadPageVRouter = function(url){
 	window.history.pushState('forward',null,pushUrl);
 	nsFrame.cacheUrlVRouter.counter ++;
 	nsFrame.cacheUrlVRouter.urlObject[nsFrame.cacheUrlVRouter.counter] = url;
+}
+nsFrame.historyBackFunc = function(e){
+	if($('.ns-confirm-container').length > 0){
+		$('.ns-confirm-container').remove();
+	}
+	if($('[nspanel="moblieButtons"]').length > 0){
+		$('[nspanel="moblieButtons"]').remove();
+	}
+	if($('.mobilewindow-halfscreen').length > 0){
+		$('.mobilewindow-halfscreen').remove();
+	}
+	var isContinue = true;
+	if($('.mobilewindow-fullscreen').length > 0){
+		if(!$('.mobilewindow-fullscreen').hasClass('hide')){
+			isContinue = false;
+		}
+		if($('.ns-map-container').length > 0){
+			isContinue = false;
+		}
+		$('.mobilewindow-fullscreen').remove();
+	}
+	if(isContinue){
+		nsFrame.cacheUrlVRouter.counter--;
+		var $backPageContainer = nsFrame.cacheUrlVRouter.container[0];
+		if(nsFrame.cacheUrlVRouter.counter>0){
+			$backPageContainer = nsFrame.cacheUrlVRouter.container[nsFrame.cacheUrlVRouter.counter];
+			$backPageContainer.children('nstemplate').remove();
+			var templateConfig = nsFrame.cacheUrlVRouter.pageParam[nsFrame.cacheUrlVRouter.counter].config;
+			var url = nsFrame.cacheUrlVRouter.urlObject[nsFrame.cacheUrlVRouter.counter];
+			var tempValueName = url.substring(url.lastIndexOf('=')+1,url.length);
+			//var tempValueName = templateConfig.package + new Date().getTime();
+			if(typeof(NetstarTempValues)=='undefined'){NetstarTempValues = {};}
+			NetstarTempValues[tempValueName] = templateConfig.pageParam;
+			//var url = nsFrame.cacheUrlVRouter.urlObject[nsFrame.cacheUrlVRouter.counter];
+			//nsFrame.loadPage(url);
+		}else{
+			nsFrame.cacheUrlVRouter.counter = 0;
+			$backPageContainer.children('script').remove();
+			//nsFrame.urlReplace(nsFrame.cacheUrlVRouter.home);
+		}
+		$('container').remove();
+		//sjj 20191116 
+		if($backPageContainer.children('.doclistviewermobile').length == 0){
+			NetstarTemplate.templates.docListViewerMobile.data = {};
+		}
+		if($backPageContainer.children('.businessdatabasem').length == 0){
+			NetstarTemplate.templates.businessDataBaseMobile.data = {};
+		}
+		if($backPageContainer.children('.listmobile').length == 0){
+			NetstarTemplate.templates.listMobile.data = {};
+		}
+		if($backPageContainer.children('.processdocbasetab').length == 0){
+			NetstarTemplate.templates.processDocBaseMobile.data = {};
+		}
+		if($backPageContainer.children('.businessdatabaseeditor').length == 0){
+			NetstarTemplate.templates.businessDataBaseEditorMobile.data = {};
+		}
+		$('body').append($backPageContainer);
+		// 回退到首页时 判断是否链接mq，连接判断菜单是否变化，变化刷新菜单
+		if(nsFrame.cacheUrlVRouter.counter === 0){
+			if(typeof(NetstarHomePage) == "object" && NetstarHomePage.config.isLinkWorkflow){
+				NetstarHomePage.showMainMeuns();
+			}
+		}
+		// 判断是否需要执行页面操作 processDocBaseMobile模板会记录tab页切换操作
+		var containerId = $backPageContainer.attr('id');
+		if(typeof(nsFrame.cacheUrlVRouter.pageOperate[containerId]) == "object"){
+			if(typeof(nsFrame.cacheUrlVRouter.pageOperate[containerId].func) == "function"){
+				nsFrame.cacheUrlVRouter.pageOperate[containerId].func();
+			}
+		}
+	}else{
+		var pushUrl = (typeof(NetstarHomePage.defaultServerUrl) == "string" ? NetstarHomePage.defaultServerUrl : getRootPath())+'/basemobile#'+nsFrame.cacheUrlVRouter.counter;
+		window.history.pushState('forward',null,pushUrl);
+	}
 }
 nsFrame.listenVRouter = function(){
 	if(window.history && window.history.pushState){

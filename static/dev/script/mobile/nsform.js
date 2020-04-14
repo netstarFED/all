@@ -453,7 +453,8 @@ nsForm.setDefault = function(formJson){
             return {
                 id : id,
                 type : 'hidden',
-                isSave : false,
+				isSave : false,
+				isDelNull : true,
                 changeField : componentId,
 				mindjetFieldPosition : _component.mindjetFieldPosition ? _component.mindjetFieldPosition : 'field',
                 changeHandler : function(_value, _config){
@@ -2589,6 +2590,9 @@ nsForm.getFormJSONMobile = function(formID, isNeedValid, isForm){
 					//跳过该值
 				}else{
 					value = $.trim($('#'+component.fullID).val());
+					if(component.isDelNull && value === ''){
+						isContinue = true;
+					}
 				}
 				break;
 			case 'provinceSelect':
