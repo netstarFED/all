@@ -1,0 +1,167 @@
+<!--# include file="/lims/include/page-prefix.html" -->
+<container>
+    <div class="page-title nav-form alone-form" id="nav">
+        <!--按钮组-->
+    </div>
+    <div class="row form-content">
+        <div class="col-sm-12 nspanel">
+            <div class="nspanel-title">
+                PDF插件 nsUI.pdfview
+            </div>
+            <div class="nspanel-body">
+                <ul class="code">
+                    <li>作用：以全屏弹出框形式打开pdf</li>
+                    <li>第三方插件地址：assets/js/pdf/pdf.js</li>
+                    <li>nsUI.pdfView文件地址：assets/js/ui/nsui-pdfview.js</li>
+                    <li>该组件需要 nsFrame.contentDialog组件，该组件位于common/nsframe.js</li>
+                </ul>
+                使用方式：nsUI.pdfView.show({url:url});
+            </div>
+        </div>
+    </div>
+    <div class="row form-content">
+        <div class="col-sm-12 nspanel">
+            <div class="nspanel-body">
+                <table class="table table-bordered table-striped table-condensed table-hover code">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>参数</th>
+                            <th>类型</th>
+                            <th>说明</th>
+                            <th>默认值</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>url</td>
+                            <td>string</td>
+                            <td>请求的url链接</td>
+                            <td>无</td>
+                            <td>必填</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>pageNumber</td>
+                            <td>number</td>
+                            <td>打开第几页</td>
+                            <td>1</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>isDownload</td>
+                            <td>boolean</td>
+                            <td>是否允许下载</td>
+                            <td>false</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>isPrint</td>
+                            <td>boolean</td>
+                            <td>是否允许打印</td>
+                            <td>false</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pre>
+	//直接打开
+	nsUI.pdfView.show({
+		url:'../../image/wps-w.pdf',
+	});
+	
+	//带按钮
+	url = '../../image/1.pdf';
+	nsUI.pdfView.show({
+		isDownload:true,//下载
+		isPrint:true, 	//打印
+		url:url
+	});
+			</pre>
+            </div>
+        </div>
+    </div>
+    <div id="test-pdf"></div>
+    <script src="/static/libs/require.js"></script>
+    <script>
+        $(function (argument) {
+            //var url = '../../image/helloworld.pdf';
+            //var url = '../../image/1.pdf';
+            //nsUI.pdfView.show({url:url});
+
+            var navJson = {
+                id: "nav",
+                btns: 
+                [
+                    [
+                        {
+                            text: '加载PDF(第二版)',
+                            handler: function () {
+                                url = '/lims/pages/ui/pdf-viewer-demo.pdf';
+                                nsUI.pdfViewer.dialog({
+                                    id:'test-pdf',
+                                    url:        url,
+                                    zoomFit:    'width',
+                                    isDownload: true,             //是否有下载
+                                });
+                            }
+                        },
+                        {
+                            text: '加载PDF',
+                            handler: function () {
+                                url = '/lims/pages/ui/pdf-viewer-demo.pdf';
+                                nsUI.pdfView.show({
+                                    url: url,
+                                    isZoom: true,
+                                });
+                            }
+                        },
+                        {
+                            text: '横版PDF',
+                            handler: function () {
+                                url = '../../image/wps-w.pdf';
+                                nsUI.pdfView.show({
+                                    url: url
+                                });
+                            }
+                        },
+                        {
+                            text: '全部按钮',
+                            handler: function () {
+                                url = '../../image/1.pdf';
+                                nsUI.pdfView.show({
+                                    isDownload: true,
+                                    isPrint: true,
+                                    isZoom: true,
+                                    url: url
+                                });
+                            }
+                        },
+                        {
+                            text: '连续页面按钮',
+                            handler: function () {
+                                url = '../../image/1.pdf';
+                                nsUI.pdfView.show({
+                                    isDownload: true,
+                                    isPrint: true,
+                                    isAllPage: true,
+                                    isZoom: true,
+                                    zoomMultipleNumber: 1.5,
+                                    url: url
+                                });
+                            }
+                        }
+                    ]
+                ]
+            }
+            controlPlane.formNavInit(navJson);
+
+        })
+    </script>
+</container>
+<!--# include file="/lims/include/page-suffix.html" -->

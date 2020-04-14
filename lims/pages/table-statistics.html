@@ -1,0 +1,299 @@
+<!--# include file="/lims/include/page-prefix.html" -->
+<container>
+    <script type="text/javascript">
+        $(function () {
+            var config = {
+                template: 'countCharttable',
+                package: 'templatetest.countecharttable',
+                title: '机会统计面板',
+                isShowHistoryBtn: true,
+                isAutoReloadTable: false,
+                isShowTitle: false,
+                beforeInitHandler: function (config) {
+                    return config;
+                },
+                afterInitHandler: function () {
+                    //console.log('afterInit')
+                    /*nsUI.customertable.exportXls('table-echart-Opportunity-demo-customertable')*/
+                },
+                nav: {
+                    field: [{
+                            text: '切换图表',
+                            handler: function () {}
+                        },
+                        {
+                            text: '筛选器',
+                            handler: function () {}
+                        },
+                        {
+                            text: '刷新',
+                            handler: function () {}
+                        },
+                        {
+                            text: '设置',
+                            handler: function () {}
+                        },
+                        {
+                            text: '导出',
+                            handler: function () {}
+                        },
+                        {
+                            text: '编辑',
+                            subdata: [{
+                                    text: '复制',
+                                    handler: function () {}
+                                },
+                                {
+                                    text: '保存',
+                                    handler: function () {}
+                                },
+                                {
+                                    text: '导出',
+                                    handler: function () {}
+                                },
+                                {
+                                    text: '删除',
+                                    handler: function () {}
+                                }
+                            ]
+                        }, {
+                            text: '新增',
+                            handler: function () {
+                                var configS = {
+                                    id: "plane-dialogS",
+                                    title: "测试新增",
+                                    size: "s",
+                                    form: [{
+                                        id: 'add1',
+                                        label: '测试新增文本框',
+                                        type: 'text',
+                                    }, ],
+                                    btns: [{
+                                        text: '确认',
+                                        handler: function () {
+                                            var formJson = nsForm.getFormJSON(
+                                                'plane-dialogS');
+                                            var tableID =
+                                                'nstemplate-layout-templatetest-countecharttable-customertable';
+                                            nsUI.customertable[tableID].config.ajax
+                                                .data = formJson;
+                                            nsUI.customertable.refresh(tableID);
+                                            nsdialog.hide();
+                                        },
+                                    }]
+                                }
+                                nsdialog.initShow(configS);
+                            }
+                        }, {
+                            text: '上一年',
+                            handler: function () {
+                                var tableID =
+                                    'nstemplate-layout-templatetest-countecharttable-customertable';
+                                nsUI.customertable[tableID].config.ajax.data = {
+                                    year: 'go',
+                                }
+                                nsUI.customertable.refresh(tableID);
+                            }
+                        }
+                    ]
+                },
+                table: {
+                    ajax: {
+                        src: getRootPath() + '/json/list/counttable.json',
+                        type: 'GET',
+                        data: {},
+                    },
+                    isScroll: true,
+                    //	data:[],
+                    format: {
+                        handler: function (res) {
+                            res.data.countInfoList = {
+                                predictSaleAmounts: res.data.predictSaleAmounts,
+                                count: res.data.count
+                            };
+                            return res;
+                        }, //data数据
+                        totalType: 'both', //column row both//行合计还是列合计  必填
+                        dataType: 'rowTowLevel', //column row  both rowTowLevel columnTwoLevel bothTwoLevel // 数据展示类型 必填 
+                        fields: {
+                            rootField: 'data',
+                            levelField: ['monthCountList'],
+                            totalField: {
+                                //column:'stageInfoList',
+                                //count:'countInfoList',
+                                //row:'stageRowInfoList'
+                            },
+                            //totalField:['stageInfoList','countInfoList'],
+                            titleField: [{
+                                    title: '西安',
+                                    length: 8,
+                                    type: 'repeat'
+                                },
+                                {
+                                    title: '山西',
+                                    length: 8,
+                                    type: 'repeat'
+                                },
+                                '操作'
+                            ],
+                            //titleField:'nameList',
+                            describute: [
+                                [{
+                                        name: '小计',
+                                        type: "join",
+                                        split: '-',
+                                        field: ['starttime', 'endtime'],
+                                        countField: 'quarterNum'
+                                    },
+                                    {
+                                        name: '宣传人数',
+                                        value: 'people'
+                                    }
+                                ],
+                                [{
+                                        name: '西安铁道报报社发行量',
+                                        value: 'num1'
+                                    },
+                                    {
+                                        name: '报社网站点击浏览量',
+                                        value: 'num2'
+                                    },
+                                    {
+                                        name: '健康管理网站点击浏览量',
+                                        value: 'num3'
+                                    },
+                                    {
+                                        name: '疾控所网站点击浏览量',
+                                        value: 'num4'
+                                    },
+                                    {
+                                        name: '西铁影院健康知识阅读人数',
+                                        value: 'num5'
+                                    },
+                                    {
+                                        name: '西铁微信平台健康知识阅读量',
+                                        value: 'num6'
+                                    },
+                                    {
+                                        name: '西铁电视台健康知识阅读量',
+                                        value: 'num7'
+                                    },
+                                    {
+                                        name: '其他',
+                                        value: 'other'
+                                    },
+                                    {
+                                        name: '山西铁道报报社发行量',
+                                        value: 'num1'
+                                    },
+                                    {
+                                        name: '报社网站点击浏览量',
+                                        value: 'num2'
+                                    },
+                                    {
+                                        name: '健康管理网站点击浏览量',
+                                        value: 'num3'
+                                    },
+                                    {
+                                        name: '疾控所网站点击浏览量',
+                                        value: 'num4'
+                                    },
+                                    {
+                                        name: '山西影院健康知识阅读人数',
+                                        value: 'num5'
+                                    },
+                                    {
+                                        name: '山西微信平台健康知识阅读量',
+                                        value: 'num6'
+                                    },
+                                    {
+                                        name: '山西电视台健康知识阅读量',
+                                        value: 'num7'
+                                    },
+                                    {
+                                        name: '其他',
+                                        value: 'other'
+                                    },
+                                ]
+                            ],
+                        },
+                        //type:'special',//special
+                        //模式如果是single mode:'single',type:['bar,line,funnel']
+                        //模式如果是 tab mode:'tab',type:['bar','line','pie'],defaultIndex:1
+                        //模式如果是 column mode:'column' type:['bar','line']
+                        /*charts:{
+                            mode:'column', //'tab' 'single'，column([3,9])
+                            column:[6,6],
+                            //title:['统计合计'],
+                            title:['金额统计','机会数统计'],
+                            type:['bar','line'],
+                            defaultIndex:0,
+                        },*/
+                    },
+                    rowBtnBeforeHandler: function (data) {
+                        //根据每行的数据值决定当前行是否显示按钮，如有5个按钮只有第二和第四显示则返回[false,true,false,false,true]
+                        var valueArray = [true, true];
+                        if (data.quarterNum) {
+                            valueArray = [false, false];
+                        }
+                        return valueArray;
+                    },
+                    btns: [{
+                        text: '删除',
+                        handler: function (data) {
+                            nsconfirm('是否确认删除', function (res) {
+                                if (res.sussess) {
+                                    //$.ajax({});
+                                }
+                            }, 'warning');
+                        }
+                    }, {
+                        text: '修改',
+                        handler: function (data) {
+                            var configS = {
+                                id: "plane-dialogS",
+                                title: "测试修改",
+                                size: "s",
+                                form: [{
+                                    id: 'add1',
+                                    label: '测试修改文本框',
+                                    type: 'text',
+                                }, ],
+                                btns: [{
+                                    text: '确认',
+                                    handler: function () {
+                                        var formJson = nsForm.getFormJSON(
+                                            'plane-dialogS');
+                                        var tableID =
+                                            'nstemplate-layout-templatetest-countecharttable-customertable';
+                                        nsUI.customertable[tableID].config.ajax
+                                            .data = formJson;
+                                        nsUI.customertable.refresh(tableID);
+                                        nsdialog.hide();
+                                    },
+                                }]
+                            }
+                            nsdialog.initShow(configS);
+                        }
+                    }],
+                    columnWidthArray: [80, 60, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120,
+                        120, 120, 120, 120, 80
+                    ],
+                    rowHeightArray: [40, 40, 40, 40, 40],
+                    combineColumnArray: [false, false, false, false, false, false, false, false, false,
+                        false, false, false, false, false, false, false, false, false, false
+                    ],
+                    columnRenderArray: ['number', 'text', 'number', 'number', 'number', 'number', 'number',
+                        'number', 'number', 'number', 'number', 'number', 'number', 'number', 'number',
+                        'number', 'number', 'number', 'button'
+                    ],
+                    containerHeight:'auto',        //Numbewr:String 表格高度 auto是自动计算高度
+                    leftFixedColumnsNumber:4,   //Number 固定左边列 cy 190626
+                }
+            }
+            templatetest = {};
+            nsTemplate.init(config);
+        })
+    </script>
+</container>
+<!--# include file="/lims/include/page-suffix.html" -->

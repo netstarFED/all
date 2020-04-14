@@ -1,0 +1,900 @@
+<!--
+ * @Desription: 结果录入DEMO 
+ * @Author: netstar.cy
+ * @Date: 2019-10-18 20:20:49
+ * @LastEditTime: 2019-10-18 21:03:38
+ -->
+<!--# include file="/lims/include/page-prefix.html" -->
+<container>
+<style type="text/css">
+	.shortcut-html-input {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 200px;
+		min-height: 30px;
+		line-height: 28px;
+		background-color: #f0ff00;
+		padding:6px 12px;
+	}
+	.shortcut-html-input span{
+		position: relative;
+	}
+	.shortcut-html-input span.active:after{
+		content: "";
+		background: #000;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 1px;
+		left: -1px;
+	}
+	.shortcut-html-input span.selected{
+		color:#fff;
+		background: #4091fd;
+	}
+</style>
+<div class="page-title nav-form" id="resultTableNav">
+	<!--按钮组-->
+</div>
+<div class="row" style="padding-top:15px">
+	<div class="col-sm-12 nspanel" id="resultTableContainer">
+	</div>
+</div>
+<div class="row form-content">
+	<div class="col-sm-12 nspanel">
+		<div class="nspanel-title">
+			结果录入表格样式示例
+		</div>
+	</div>
+	<div class="col-sm-2">
+	</div>
+	<div class="col-sm-10 nspanel resultinput">
+		<table class="table-result">
+			<thead>
+				<tr>
+					<th class="first-top"></th>
+					<th style="width:80px" ns-columnindex="0">0</th>
+					<th style="width:120px" ns-columnindex="0">0</th>
+					<th style="width:120px" ns-columnindex="1">1</th>
+					<th style="width:120px" ns-columnindex="2">2</th>
+					<th style="width:120px" ns-columnindex="2">2</th>
+					<th style="width:120px" ns-columnindex="2">2</th>
+					<th style="width:200px" ns-columnindex="3">3</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="first-rowtd" style="height:40px"></td>
+					<td class="none">类型</td>
+					<td class="none" colspan="5">状态演示</td>
+					<td class="none">说明</td>
+				</tr>
+				<tr>
+					<td class="first-rowtd" style="height:40px"></td>
+					<td class="none">none</td>
+					<td class="none" colspan="3"></td>
+					<td class="none complete">保存成功状态</td>
+					<td class="none readonly">只读状态</td>
+					<td class="none">无</td>			
+				</tr>
+				<tr>
+					<td class="first-rowtd" style="height:40px"></td>
+					<td class="none">string</td>
+					<td class="string">未修改状态<div class="history">99</div></td>
+					<td class="string edit">编辑后状态</td>
+					<td class="string process">保存中状态</td>
+					<td class="string complete">保存成功状态</td>
+					<td class="string readonly">只读状态</td>
+					<td class="none">无</td>
+				</tr>
+				<tr>
+					<td class="first-rowtd" style="height:40px"></td>
+					<td class="none">number</td>
+					<td class="number">135.23<div class="history">5</div></td>
+					<td class="number minus edit">-140,000</td>
+					<td class="number positive process">5000</td>
+					<td class="number square complete">2.5<sup>3</sup></td>
+					<td class="number readonly">5000</td>
+					<td class="none">无</td>
+				</tr>
+				<tr>
+					<td class="first-rowtd" style="height:40px"></td>
+					<td class="none">date</td>
+					<td class="date">2017-10-03<div class="history">5</div></td>
+					<td class="date edit">2017-10-03</td>
+					<td class="date process">2017-10-03</td>
+					<td class="number complete">2017-10-03</td>
+					<td class="number readonly">2017-10-03</td>
+					<td class="none">无</td>
+				</tr>
+				<tr>
+					<td class="first-rowtd" style="height:40px"></td>
+					<td class="none">datetime</td>
+					<td class="datetime" colspan="2">2017-10-03 12:10:05<div class="history">99</div></td>
+					<td class="datetime edit" colspan="2">2017-10-03 12:10:05</td>
+					<td class="datetime readonly" >2017-10-03 12:10:05</td>
+					<td class="none">无</td>
+				</tr>
+				<tr>
+					<td class="first-rowtd" style="height:40px"></td>
+					<td class="none">selectinput</td>
+					<td class="selectinput">selectinput<div class="history">35</div></td>
+					<td class="selectinput edit">selectinput</td>
+					<td class="selectinput">selectinput</td>
+					<td class="selectinput edit">selectinput</td>
+					<td class="selectinput readonly">selectinput</td>
+					<td class="none">无</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="row form-content">
+	<div class="col-sm-12 nspanel">
+		<div class="nspanel-title">
+			结果录入说明
+			<div class="nspanel-body">
+			<ul class="code">
+				<li>作用：结果录入相关操作，有预览模式和编辑模式等。</li>
+			</ul>
+			</div>
+		</div>
+		<div class="nspanel-body">
+			<p>结果录入表格参数说明：</p>
+			<table class="table table-bordered table-striped table-condensed table-hover code">
+				<thead>
+					<tr>
+						<th></th>
+						<th>参数</th>
+						<th>类型</th>
+						<th>说明</th>
+						<th>默认值</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>id</td>
+						<td>string</td>
+						<td>当前类型元素的id</td>
+						<td>无</td>
+						<td>必填，否则无法找到组件</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>isUseControlPanel</td>
+						<td>boolean</td>
+						<td>是否使用控制面板</td>
+						<td></td>
+						<td></td>
+					</tr>
+					
+					<tr>
+						<td>3</td>
+						<td>isUseAutoWindowHeight</td>
+						<td>boolean</td>
+						<td>容器是否根据显示区域设置高度</td>
+						<td></td>
+						<td>不使用则整体出滚动条，使用则仅区域范围出滚动</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>isUseSettingWidthSize</td>
+						<td>boolean</td>
+						<td>是否使用设置宽度尺寸</td>
+						<td></td>
+						<td>如果不使用则匹配屏幕</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>isUseSettingHeightSize</td>
+						<td>boolean</td>
+						<td>是否使用设置高度尺寸</td>
+						<td>无</td>
+						<td>不使用则全部默认为30像素一行</td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td>tableAjax</td>
+						<td>array</td>
+						<td>表格ajax数据</td>
+						<td>无</td>
+						<td><p>示例</p>
+						<pre>
+tableAjax:{
+	url:resultTableUrl,
+	type:'get',
+	data:{
+		id:'DEMO-TM201',
+		uid:'UID001'
+	},
+	dataSrc:'data',
+}
+						</pre>
+						</td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td>saveTimer</td>
+						<td>number</td>
+						<td>自动保存时间</td>
+						<td>无</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td>historyAjax</td>
+						<td>array</td>
+						<td>历史ajax数据</td>
+						<td>无</td>
+						<td><p>示例</p>
+						<pre>
+historyAjax:{
+	url:getRootPath() + '/assets/json/resultmanager/historylist.json',
+	type:'get',
+	data:{
+		id:'abc',
+		uid:'abcde'
+	},
+	dataSrc:'data',
+}
+						</pre>
+						</td>
+					</tr>
+					<tr>
+						<td>9</td>
+						<td>default</td>
+						<td>array</td>
+						<td>默认参数配置</td>
+						<td>无</td>
+						<td><p>示例</p>
+						<pre>
+default:{
+	urlPrefix:getRootPath(), 		//url前缀
+	inputLength:12, 				//输入框默认长度
+	selectLength:8, 				//下拉框默认长度
+	checkboxajax:{ 					//系统数据多选组件相关配置项
+		isNumberID:true, 				//id是否是数字
+		isMultiSelect:true, 			//更多下拉框是否多选
+		type:'GET', 					//ajax type
+		dataSrc:'row', 					//ajax datascr
+		field:{							//数据配置
+			id:'id', 					//id
+			name:'name', 			 	//名称
+			py:'py', 					//拼音简拼
+			wb:'wb', 					//五笔简拼
+		},
+		show:['name']
+	},
+	uploadAjax:{
+		src:"http://ui-pc:8888/NPE/File/upload",//保存图片的路径
+		dataSrc:"rows",//数据源
+		field:{//数据配置
+			name:"name",//名称
+			id:"id",//id
+		}
+	},
+	uploadSaveAjax:{
+		src:"http://ui-pc:8888/NPE/File/upload",//保存图片的路径
+		dataSrc:"rows",//数据源
+		field:{//数据配置
+			id:"id",//id
+			smallThumb:"smallThumb",//小缩略图
+			bigThumb:"bigThumb",//大缩略图
+			title:"title"//标题
+		}
+	},
+	uploadDelAjax:{
+		src:"http://ui-pc:8888/NPE/File/upload",
+	},
+	datestring:{
+		format:'MM月DD日'
+	}
+}
+						</pre>
+						</td>
+					</tr>
+					<tr>
+						<td>10</td>
+						<td>callback</td>
+						<td>function</td>
+						<td>回调函数</td>
+						<td>无</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>11</td>
+						<td>isUseSettingIndex</td>
+						<td>boolean</td>
+						<td>是否使用配置的nsCompleteIndex属性</td>
+						<td>无</td>
+						<td>nsCompleteIndex可以是服务器反的 在setAutoIndex!="h/v"时有用</td>
+					</tr>
+					<tr>
+						<td>12</td>
+						<td>setAutoIndex</td>
+						<td>string</td>
+						<td>是否为服务器端数据添加nsCompleteIndex属性</td>
+						<td>空</td>
+						<td>isUseSettingIndex==true时setAutoIndex才起作用 h/v表示横竖</td>
+					</tr>
+				</tbody>
+			</table> 
+			<p>结果录入表格参数配置举例：</p>
+			<pre>
+		var resultTableConfig = {
+			id:'resultTableContainer',
+			//containerID:'resultTableContainer',
+			isUseControlPanel:true,
+			isUseSettingWidthSize:false, //是否使用设置宽度尺寸，如果不使用则匹配屏幕
+			isUseSettingHeightSize:true, //是否使用设置高度，不使用则全部默认为30像素一行
+			//isAllReadonly:true, 		 //是否全部设为只读
+			//unUseSettingStyle:['border','background','align','font'], 
+			//unUseSettingStyle 不使用的样式表对象类，只有这四类，写上了就不起作用
+			tableAjax:{
+				url:resultTableUrl,
+				type:'get',
+				data:{
+					id:'DEMO-TM201',
+					uid:'UID001'
+				},
+				dataSrc:'data',
+			},
+			saveTimer:2,
+			saveAjax:{
+				url:getRootPath() + '/assets/json/resultmanager/tablesave.json',
+				type:'get',
+				data:{
+					id:'DEMO-TM201',
+					uid:'UID001'
+				},
+				dataSrc:'data',
+			},
+			historyAjax:{
+				url:getRootPath() + '/assets/json/resultmanager/historylist.json',
+				type:'get',
+				data:{
+					id:'abc',
+					uid:'abcde'
+				},
+				dataSrc:'data',
+			},
+			default:{
+				urlPrefix:getRootPath(), 		//url前缀
+				inputLength:12, 				//输入框默认长度
+				selectLength:8, 				//下拉框默认长度
+				checkboxajax:{ 					//系统数据多选组件相关配置项
+					isNumberID:true, 				//id是否是数字
+					isMultiSelect:true, 			//更多下拉框是否多选
+					type:'GET', 					//ajax type
+					dataSrc:'row', 					//ajax datascr
+					field:{							//数据配置
+						id:'id', 					//id
+						name:'name', 			 	//名称
+						py:'py', 					//拼音简拼
+						wb:'wb', 					//五笔简拼
+					},
+					show:['name']
+				},
+				uploadAjax:{
+					src:"http://ui-pc:8888/NPE/File/upload",//上传图片的路径
+					dataSrc:"rows",//数据源
+					field:{//数据配置
+						name:"name",//名称
+						id:"id",//id
+					}
+				},
+				uploadSaveAjax:{
+					src:"http://ui-pc:8888/NPE/File/upload",//保存图片的路径
+					dataSrc:"rows",//数据源
+					field:{//数据配置
+						id:"id",//id
+						smallThumb:"smallThumb",//小缩略图
+						bigThumb:"bigThumb",//大缩略图
+						title:"title"//标题
+					}
+				},
+				uploadDelAjax:{
+					src:"http://ui-pc:8888/NPE/File/upload",
+				},
+				datestring:{
+					format:'MM月DD日'
+				}
+			},
+			callback:{
+				notesFunc:function(data){console.log(data)}
+			},
+			//缓存相关配置
+			cache:{
+				//列表
+				cacheListKeyName:'taskGroupName',//离线下载列表显示字段
+				cachelistAjax:{
+					url:getRootPath() + '/assets/json/resultmanager/cachelist.json',
+					type:'get',
+					data:{
+						state:0,
+						activityId:21355
+					},
+					dataSrc:'rows',
+				},
+				//数据
+				cacheDataAjax:{
+					//缓存ajax地址
+					url:getRootPath() + '/assets/json/resultmanager/tabledata.json',
+					//读取cachelistAjax的返回结果里的数据作为参数发出去
+					dataNames:{
+						recordId: 			'recordId',
+						taskIds: 			'taskIds',
+						recordTemplateId: 	'recordTemplateId'
+					}
+				},
+				//固定缓存项
+				cacheDataPlusAjax:[
+					{
+						url:getRootPath() + '/assets/json/project-list.json',
+						type:'get',
+						data:{
+							state:0,
+							activityId:1
+						}
+					},{
+						url:getRootPath() + '/assets/json/project-list.json',
+						type:'get',
+						data:{
+							state:0,
+							activityId:2
+						}
+					}
+				]
+				
+			}
+		}
+		nsUI.resultTable.init(resultTableConfig);
+			</pre>
+			<p>常用按钮配置参数举例：</p>
+			<pre>
+		btns:
+		[
+			[
+				{
+					text: 		'结果录入保存',
+					handler: 	save
+				},{
+					text: 		'复制',
+					handler: 	nsUI.resultTable.copy
+				},{
+					text: 		'粘贴',
+					handler: 	nsUI.resultTable.paste
+				},{
+					text: 		'预览模式',
+					handler: 	nsUI.resultTable.previewMode
+				},{
+					text: 		'输入模式',
+					handler: 	nsUI.resultTable.inputMode
+				}
+			]
+		]
+			</pre>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		function save(){
+			var values = nsUI.resultTable.getSubmitData()
+			if(values){
+				nsAlert('获取保存数据成功,请查看console面板','success');
+				console.log(values);
+			}else{
+				nsAlert('没有要保存的数据','error');
+			}
+		}
+		var changeType = 1;
+		var navConfig = {
+			id:'resultTableNav',
+			btns:
+			[
+				[
+					{
+						text: 		'结果录入保存',
+						handler: 	save
+					},{
+						text: 		'复制',
+						handler: 	nsUI.resultTable.copy
+					},{
+						text: 		'粘贴',
+						handler: 	nsUI.resultTable.paste
+					},{
+						text: 		'预览模式',
+						handler: 	nsUI.resultTable.previewMode
+					},{
+						text: 		'输入模式',
+						handler: 	nsUI.resultTable.inputMode
+					}
+				],
+				[
+					{
+						text: 		'获取数据',
+						handler: 	function(){
+							var data = nsUI.resultTable.getCurrentData();
+							console.log(data);
+						}
+					},{
+						text: 		'改变批注状态',
+						handler: 	function(){
+							if(changeType>=2){
+								changeType = 0;
+							}else{
+								changeType ++;
+							}
+							nsUI.resultTable.notesChangeState(1302,changeType);
+						}
+					},{
+						text:'切换表格数据',
+						handler:function(){
+							if(resultTableMode==1){
+								resultTableMode == 0;
+							}else{
+								resultTableMode++;
+							}
+							nsUI.resultTable.init(resultTableConfig);
+						}
+					},{
+						text:'设置顺序',
+						handler:function(){
+							nsUI.resultTable.setSampleOrderInterface({sampleId:902});
+						}
+					},{
+						text:'插入样品数据',
+						subdata:[
+							//下拉按钮 begin-----
+							{
+								'text':'有样品id',
+								handler:function(){
+										var sampleData = 
+											[	
+												{
+												"testNo": "1",
+												"sampleId": 902,
+												"itemValues": 
+													[
+														{"编号": 'KWM002',"数量": '60','日期':'20170606','数值':'1500000','有效期':'无'}
+													]
+												},
+												{
+												"testNo": "1",
+												"sampleId": 901,
+												"itemValues": 
+													[
+														{"编号": 'KSWM001',"数量": '20','日期':'20131203','数值':'9885110000','有效期':'无'}
+													]
+												}
+											]
+										console.log('有样品id的插入');
+										console.log(sampleData);
+										nsUI.resultTable.setSampleDataInterface(sampleData);
+								}
+							},
+							{
+								'text':'错误输入 id错误',
+								handler:function(){
+										var sampleData = 
+											[	
+												{
+												"testNo": "1",
+												"sampleId": 906,
+												"itemValues": 
+													[
+														{"编号": 'KWM002',"数量": '60','日期':'20170606','数值':'1500000','有效期':'无'}
+													]
+												}
+											]
+										console.log('有排序无ID的插入');
+										console.log(sampleData);
+										var insertResult = nsUI.resultTable.setSampleDataInterface(sampleData);
+										console.log(insertResult);
+								}
+							},
+							{
+								'text':'错误输入 itemname错误',
+								handler:function(){
+										var sampleData = 
+											[	
+												{
+												"testNo": "3",
+												"sampleId": 901,
+												"itemValues": 
+													[
+														{"编号": 'KWM002',"数量": '60','日期':'20170606','数值':'1500000','有效期1':'无'}
+													]
+												}
+											]
+										console.log('有排序无ID的插入');
+										console.log(sampleData);
+										var insertResult = nsUI.resultTable.setSampleDataInterface(sampleData);
+										console.log(insertResult);
+								}
+							},
+							{
+								'text':'有排序无ID',
+								handler:function(){
+										var sampleData = 
+											[	
+												{
+												"testNo": "1",
+												"itemValues": 
+													[
+														{"编号": '有排序无ID001',"数量": '160','日期':'20170606','数值':'1500000','有效期':'无'}
+													]
+												}
+											]
+										console.log('有排序无ID的插入');
+										console.log(sampleData);
+										var insertResult = nsUI.resultTable.setSampleDataInterface(sampleData);
+										console.log(insertResult);
+								}
+							},
+							{
+								'text':'无排序无ID',
+								handler:function(){
+										var sampleData = 
+											[	
+												{
+												"itemValues": 
+													[
+														{"编号": '无排序无ID001',"数量": '160','日期':'20170606','数值':'1500000','有效期':'无'}
+													]
+												}
+											]
+										console.log('有排序无ID的插入');
+										console.log(sampleData);
+										var insertResult = nsUI.resultTable.setSampleDataInterface(sampleData);
+										console.log(insertResult);
+								}
+							},
+							{
+								'text':'平行样录入',
+								handler:function(){
+										var sampleData = 
+											[	
+												{
+												"sampleId": 903,
+												"itemValues": 
+													[
+														{"编号": 'PXY001',"数量": '60','日期':'20170606','数值':'1500000','有效期':'无'},
+														{"编号": 'PXY002',"数量": '19','日期':'20170901','数值':'609800','有效期':'有'}
+													]
+												}
+											]
+										console.log('平行样录入');
+										console.log(sampleData);
+										var insertResult = nsUI.resultTable.setSampleDataInterface(sampleData);
+										console.log(insertResult);
+								}
+							},
+							{
+								'text':'无排序无ID只有一个值',
+								handler:function(){
+										var sampleData = 
+											[	
+												{
+												"itemValues": 
+													[
+														{'数值':'1500000'}
+													]
+												}
+											]
+										console.log('无排序无ID只有一个值');
+										console.log(sampleData);
+										var insertResult = nsUI.resultTable.setSampleDataInterface(sampleData);
+										console.log(insertResult);
+								}
+							}
+							//下拉按钮 end-----
+						]
+						
+					}
+				],
+				[
+					{
+				text: 		'复制',
+				handler: 	nsUI.resultTable.copy,
+				isShowText: false,
+				index:{
+					fid:0
+				}
+			},{
+				text: 		'粘贴',
+				handler: 	nsUI.resultTable.paste,
+				isShowText: false
+			},
+			// {
+			// 	text: 		'批量编辑',
+			// 	handler: 	nsUI.resultTable.multiedit,
+			// 	isShowText: false
+			// },
+			{
+				text: 		'预览模式',
+				handler: 	nsUI.resultTable.previewMode,
+				isShowText: false
+			},{
+				text: 		'输入模式',
+				handler: 	nsUI.resultTable.inputMode,
+				isShowText: false
+			},{
+				text: 		'全屏模式',
+				handler: 	nsUI.resultTable.fullScreenMode,
+				isShowText: false
+			},{
+				text: 		'退出全屏',
+				handler: 	nsUI.resultTable.exitFullScreenMode,
+				isShowText: false
+			},{
+				text: 		'离线模式',
+				handler: 	nsUI.resultTable.offlineMode,
+				isShowText: false
+			},{
+				text: 		'退出离线',
+				handler: 	nsUI.resultTable.exitOfflineMode,
+				isShowText: false
+			}
+				]
+			]
+		}
+		nsNav.init(navConfig);
+		var resultTableUrl = '';
+		var resultTableMode = 1;
+		switch(resultTableMode){
+			case 0:
+				resultTableUrl = 'json/tabledata.json';
+				break;
+			case 1:
+				resultTableUrl = 'json/091018-resulttable-data.json';
+				break;
+		}
+		var resultTableConfig = {
+			id:'resultTableContainer',
+			//containerID:'resultTableContainer',
+			isUseAutoWindowHeight:false,
+			isUseControlPanel:true,
+			isUseSettingWidthSize:false, //是否使用设置宽度尺寸，如果不使用则匹配屏幕
+			isUseSettingHeightSize:true, //是否使用设置高度，不使用则全部默认为30像素一行
+
+			isUseSettingIndex:true,
+			setAutoIndex:'v',
+			//isAllReadonly:true, 		 //是否全部设为只读
+			//isShowHistory:false, 		//是否显示历史记录
+			//unUseSettingStyle:['border','background','align','font'], 
+			//unUseSettingStyle 不使用的样式表对象类，只有这四类，写上了就不起作用
+			tableAjax:{
+				url:resultTableUrl,
+				type:'get',
+				data:{
+					id:'DEMO-TM201',
+					uid:'UID001'
+				},
+				dataSrc:'data',
+			},
+			saveTimer:2,
+			timer:500,
+			saveAjax:{
+				url:'json/091018-response.json',
+				type:'get',
+				data:{
+					id:'DEMO-TM201',
+					uid:'UID001'
+				},
+				dataSrc:'data',
+			},
+			historyAjax:{
+				url: 'json/historylist.json',
+				type:'get',
+				data:{
+					id:'abc',
+					uid:'abcde'
+				},
+				dataSrc:'data',
+			},
+			default:{
+				urlPrefix:getRootPath(), 		//url前缀
+				inputLength:12, 				//输入框默认长度
+				selectLength:8, 				//下拉框默认长度
+				checkboxajax:{ 					//系统数据多选组件相关配置项
+					isNumberID:true, 				//id是否是数字
+					isMultiSelect:true, 			//更多下拉框是否多选
+					type:'GET', 					//ajax type
+					dataSrc:'row', 					//ajax datascr
+					field:{							//数据配置
+						id:'id', 					//id
+						name:'name', 			 	//名称
+						py:'py', 					//拼音简拼
+						wb:'wb', 					//五笔简拼
+					},
+					data:{},
+					show:['name']
+				},
+				uploadAjax:{
+					src:"http://ui-pc:8888/NPE/File/upload",//上传图片的路径
+					dataSrc:"rows",//数据源
+					field:{//数据配置
+						name:"name",//名称
+						id:"id",//id
+					},
+					downLoadAjax:{
+						src:getRootPath()+'/Attachment/download',
+						id:'attachmentId'
+					},
+				},
+				uploadSaveAjax:{
+					src:"http://ui-pc:8888/NPE/File/upload",//保存图片的路径
+					dataSrc:"rows",//数据源
+					field:{//数据配置
+						id:"id",//id
+						smallThumb:"smallThumb",//小缩略图
+						bigThumb:"bigThumb",//大缩略图
+						title:"title"//标题
+					}
+				},
+				uploadDelAjax:{
+					src:"http://ui-pc:8888/NPE/File/upload",
+				},
+				datestring:{
+					format:'MM月DD日'
+				}
+			},
+			callback:{
+				notesFunc:function(data){console.log(data)}
+			},
+			//缓存相关配置
+			cache:{
+				//列表
+				cacheListKeyName:'taskGroupName',
+				cachelistAjax:{
+					url:'json/cachelist.json',
+					type:'get',
+					data:{
+						state:0,
+						activityId:21355
+					},
+					dataSrc:'rows',
+				},
+				//数据
+				cacheDataAjax:{
+					//缓存ajax地址
+					url:'/json//tabledata.json',
+					//读取cachelistAjax的返回结果里的数据作为参数发出去
+					dataNames:{
+						recordId: 			'recordId',
+						taskIds: 			'taskIds',
+						recordTemplateId: 	'recordTemplateId'
+					}
+				},
+				//固定缓存项
+				cacheDataPlusAjax:[
+					{
+						url:getRootPath() + '/assets/json/project-list.json',
+						type:'get',
+						data:{
+							state:0,
+							activityId:1
+						}
+					},{
+						url:getRootPath() + '/assets/json/project-list.json',
+						type:'get',
+						data:{
+							state:0,
+							activityId:2
+						}
+					}
+				]
+				
+			}
+
+		}
+		nsUI.resultTable.init(resultTableConfig);
+	})
+</script>
+</container>
+<!--# include file="/lims/include/page-suffix.html" -->

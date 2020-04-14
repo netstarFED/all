@@ -1,0 +1,344 @@
+<!--
+ * @Desription: 时间日期功能演示
+ * @Author: netstar.cy
+ * @Date: 2020-03-19 14:30:37
+ * @LastEditTime: 2020-03-19 15:05:27
+ -->
+<!--# include file="/lims/include/page-prefix.html" -->
+<container>
+<div class="page-title nav-form">
+	<!--按钮组-->
+</div>
+<div class="row form-content">
+	<div class="col-sm-12" id="form-datetime">
+		<!--form-->
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 nspanel">
+		<div class="nspanel-title">
+			datetime使用
+		</div>
+		<div class="nspanel-body">
+			<p>datetime参数说明：</p>
+			<table class="table table-bordered table-striped table-condensed table-hover code">
+				<thead>
+					<tr>
+						<th></th>
+						<th>参数</th>
+						<th>类型</th>
+						<th>说明</th>
+						<th>默认值</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>id</td>
+						<td>string</td>
+						<td>当前类型元素的id</td>
+						<td>无，必填</td>
+						<td>实际生成的表单中名称为'form-'+id</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>label</td>
+						<td>string</td>
+						<td>当前类型元素的文本</td>
+						<td>无</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>type</td>
+						<td>string</td>
+						<td>当前类型元素的类型</td>
+						<td>无，必填</td>
+						<td>日期时间类型的type必须是datetime</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>rules</td>
+						<td>string</td>
+						<td>必填验证</td>
+						<td>无</td>
+						<td>日期时间的类型必填验证rules:'required'</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>column</td>
+						<td>Number</td>
+						<td>所占的列宽</td>
+						<td>无</td>
+						<td>值为1-12的数值</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>value</td>
+						<td>string</td>
+						<td>默认显示的值</td>
+						<td>无</td>
+						<td>因为值是日期时间类型所以中间默认用空格分割 如：2016-06-02 11:23:00</td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td>format</td>
+						<td>string</td>
+						<td>默认支持的日期时间格式</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td>
+							<p>默认按年-月-日 时:分:秒的格式，年月日和时分秒中间空格隔断来区分</p>
+							<p>注意：年月日的格式必须是小写的</p>
+						</td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td>readonly</td>
+						<td>boolean</td>
+						<td>是否只读不可编辑</td>
+						<td>false</td>
+						<td>即文本内容是否支持手动输入,默认支持</td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td>disabled</td>
+						<td>boolean</td>
+						<td>是否禁用日期时间选择</td>
+						<td>false</td>
+						<td>禁用之后只能看不能选日期和时间</td>
+					</tr>
+					<tr>
+						<td>9</td>
+						<td>changeHandler</td>
+						<td>function</td>
+						<td>回调函数调用方法</td>
+						<td>无</td>
+						<td>
+							<p>改变日期时间之后的回调函数,返回一个json,参数有：</p>
+							<table class="table table-bordered table-striped table-condensed table-hover code">
+								<thead>
+									<tr>
+										<th></th>
+										<th>参数</th>
+										<th>类型</th>
+										<th>说明</th>
+										<th>默认值</th>
+										<th>备注</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>datevalue</td>
+										<td>string</td>
+										<td>日期值</td>
+										<td>无</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>dateID</td>
+										<td>string</td>
+										<td>日期的id</td>
+										<td>无</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>timeValue</td>
+										<td>string</td>
+										<td>时间的值</td>
+										<td>无</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>timeID</td>
+										<td>string</td>
+										<td>时间的id</td>
+										<td>无</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>5</td>
+										<td>datetimervalue</td>
+										<td>string</td>
+										<td>日期时间的值</td>
+										<td>无</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>6</td>
+										<td>datetimerID</td>
+										<td>string</td>
+										<td>日期时间的id</td>
+										<td>无</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="hide">
+	<textarea id="datetime-code">
+	var defaultStr = commonConfig.formatDate('1471862506000','YYYY-MM-DD HH:MM:DD');
+	var formJson = 
+{
+	id:  		"form-datetime",
+	size: 		"standard",
+	format: 	"standard",
+	fillbg: 	true,
+	form:
+	[
+		[
+			{
+				id: 		'formdatetime',
+				label: 		'datetime类型',
+				type: 		'datetime',
+				rules: 		'required',
+				column: 	6,
+				//value: 		defaultStr,
+				format: 	'yyyy-mm-dd',
+				changeHandler:function(obj){
+					console.log(obj);
+				}
+			},{
+				id: 		'datetimeseconds',
+				label: 		'不显示秒',
+				type: 		'datetime',
+				column: 	6,
+				format: 	'yyyy-mm-dd hh:mm',
+				value: 		defaultStr
+			}
+		],[
+			{
+				id: 		'datetimereadonly',
+				label: 		'只读',
+				type: 		'datetime',
+				column: 	6,
+				readonly: 	true,
+				value: 		defaultStr
+			},{
+				id: 		'datetimereadonlyDisabled',
+				label: 		'只读并且禁用',
+				type: 		'datetime',
+				column: 	6,
+				readonly: 	true,
+				disabled: 	true,
+				value: 		defaultStr
+			}
+		]
+	]
+};
+	</textarea>
+	<textarea id="fillvalue-code">
+	<script type="text/javascript">
+	var fillJson = {formdatetime:'2017-08-10 11:00'};
+	formPlane.fillValues(fillJson,'form-datetime');
+	</script>
+	</textarea>
+	<textarea id="edit-code">
+	<script type="text/javascript">
+	var editArr = [{id:'formdatetime',readonly:true}]
+	formPlane.edit(editArr,'form-datetime')
+	</script>
+	</textarea>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	controlPlane.formNavInit(navJson);
+	formPlane.formInit(formJson);
+})
+var navJson = {
+		btns:[
+		[
+			{
+				text: 		'页面配置',
+				handler: 	function(){nsDebuger.codeDialog('代码','datetime-code',false)}
+			}
+		],[
+			{
+				text: 		'获取值',
+				handler: 	function(){console.log(formPlane.getFormJSON('form-datetime'))}
+			}
+		],[
+			{
+				text: 		'赋值',
+				handler: 	function(){nsDebuger.codeDialog('代码','fillvalue-code',true)}
+			},{
+				text: 		'编辑',
+				handler: 	function(){nsDebuger.codeDialog('代码','edit-code',true)}
+			}
+		]
+	]
+	}
+var defaultStr = commonConfig.formatDate('1471862506000','YYYY-MM-DD HH:MM:DD');
+var formJson = 
+{
+	id:  		"form-datetime",
+	size: 		"standard",
+	format: 	"standard",
+	fillbg: 	true,
+	form:
+	[
+		[
+			{
+				id: 		'formdatetime',
+				label: 		'datetime类型',
+				type: 		'datetime',
+				rules: 		'required',
+				column: 	6,
+				//value: 		defaultStr,
+				//format: 	'yyyy-mm-dd',
+				format: 	'dd-mm-yyyy',
+				changeHandler:function(obj){
+					console.log(obj);
+				}
+			},{
+				id: 		'datetimeseconds',
+				label: 		'不显示秒',
+				type: 		'datetime',
+				column: 	6,
+				format: 	'YYYY-MM-DD hh:mm', 	
+				value: 		defaultStr
+			}
+		],[
+			{
+				id: 		'datetimereadonly',
+				label: 		'只读',
+				type: 		'datetime',
+				column: 	6,
+				readonly: 	true,
+				value: 		defaultStr
+			},{
+				id: 		'datetimereadonlyDisabled',
+				label: 		'只读并且禁用',
+				type: 		'datetime',
+				column: 	6,
+				readonly: 	true,
+				disabled: 	true,
+				value: 		defaultStr
+			}
+		],[
+			{
+				id: 		'timepicker',
+				label: 		'timer',
+				type: 		'timer',
+				column: 	12,
+				format: 	'hh:mm', 	
+				changeHandler: 	function(obj){
+					console.log(obj)
+				}, 	
+			}
+		]
+	]
+};
+</script>
+</container>
+<!--# include file="/lims/include/page-suffix.html" -->

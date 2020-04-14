@@ -1,0 +1,125 @@
+<footer>
+    <div class="links-group">
+        <a href="javascript:NetstarHelpDialog.show();" title="" class="links-item">
+            <i class="fa-question-circle-o"></i>
+        </a>
+    </div>
+    <div class="copyright">
+        <p>版权所有&copy;2018<br>河北网星软件</p>
+    </div>
+</footer>
+<script>
+    var NetstarHelpDialog = {
+        html:'',
+        //获取数据
+        getData: function (cb) {
+            var _this = this;
+            $.ajax({
+                url: getRootPath() + '/assets/json/ajaxform.json',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    //正确之后操作
+                    if (data.success == true) {
+                        var arr = data.rows;
+                        for (var i = 0; i < arr.length; i++) {
+                            _this.html +=
+                                '<div class="help-info-detailed" style="display: none;position: absolute;top:10px;">' +
+                                '<div class="help-info-img">' +
+                                '<img src="/NPE/' + arr[i].img + '" width="150" alt="" />' +
+                                '<span>微信&nbsp|&nbsp公众号</span>' +
+                                '</div>' +
+                                '<div class="help-info-word">' +
+                                '<table style="border:0">' +
+                                '<tr>' +
+                                '<td class="text-right">' +
+                                '公司名称：' +
+                                '</td>' +
+                                '<td>' +
+                                arr[i].linkName +
+                                '</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                '<td class="text-right">' +
+                                '联系方式：' +
+                                '</td>' +
+                                '<td>' +
+                                arr[i].linkPhone +
+                                '</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                '<td class="text-right">' +
+                                'QQ：' +
+                                '</td>' +
+                                '<td>' +
+                                arr[i].qq +
+                                '</td>' +
+                                '</tr>' +
+                                '<tr>' +
+                                '<td class="text-right">' +
+                                'Email：' +
+                                '</td>' +
+                                '<td>' +
+                                arr[i].eMail +
+                                '</td>' +
+                                '</tr>' +
+                                '</table>' +
+                                '</div>' +
+                                '</div>'
+                        };
+                        //完成后回调
+                        if(typeof(cb)=='function'){
+                            cb(data);
+                        }
+                    } else {
+                        nsalert(data.msg);
+                        _this.html = false;
+                    }
+                },
+                error: function (error) {
+                    //错误之后操作
+                }
+            });
+        },
+        // 展示 
+        show:function(){
+            var _this = this;
+            if(_this.html == ''){
+                getData(function(){
+                    _this.dialog();
+                });
+            }
+        },
+        // 弹框
+        dialog: function () {
+            var html1 = '<div class="help-info-total">' +
+                '<div class="help-before" onclick="togglePrev()"><i class="fa fa-angle-left"></i></div>' +
+                '<div class="help-info-content" style="width:475.98px;height:179px">' +
+                this.html +
+                '</div>' +
+                '<div class="help-after" onclick="toggleNext()"><i class="fa fa-angle-right"></i></div>' +
+                '</div>';
+            var configHelpInfo = {
+                id: "plane-helpInfo",
+                title: "帮助信息",
+                form: [{
+                    html: html1,
+                }, ],
+                btns: [{
+                    text: '关闭',
+                    handler: nsCloseCallBack,
+                }],
+            }
+            popupBoxMore.initShow(configHelpInfo);
+            $(".help-info-detailed").eq(0).css("display", "");
+            $("div.modal-header button").hide();
+            $("div.modal-footer button").last().hide();
+            $("div.modal-body").css("height", "199px");
+            var divLength = $(".help-info-detailed").length;
+            if (divLength == 1) {
+                $("div.help-before").hide();
+                $("div.help-after").hide();
+            }
+        }
+    }
+</script>
