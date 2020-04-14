@@ -228,7 +228,7 @@ var NetstarTemplate = {
 			NetstarTemplate.templates.configs[config.package] = config;
 		}
 		this.templateInitComplete(config);
-		if(typeof(NetStarRabbitMQ) == "object" && NetStarRabbitMQ.device === 'app'){
+		if(typeof(NetStarRabbitMQ) == "object" || NetStarRabbitMQ.device === 'app'){
 			// console.log(12342)
 			if(setTitle){
 				setTitle.controller.insertHtml();

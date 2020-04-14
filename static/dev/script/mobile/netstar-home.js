@@ -158,7 +158,7 @@ var NetstarHomePage = {
                                 //添加对static 静态文件地址的支持 cy 20200327
                                 var urlStaticIndex = url.indexOf('static:');
                                 console.log(urlStaticIndex);
-                                if(typeof(NetStarRabbitMQ) == "object" && NetStarRabbitMQ.device === 'app'){
+                                if(typeof(NetStarRabbitMQ) == "object" || NetStarRabbitMQ.device === 'app'){
                                     // console.log(12342)
                                     if(setTitle){
                                          setTitle.controller.insertHtml("main");
