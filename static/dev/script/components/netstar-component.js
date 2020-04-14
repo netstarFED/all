@@ -2242,6 +2242,12 @@ NetstarComponent.showHistoryByData = function(config, vueComponent){
                 var idObj = NetstarComponent.commonFunc.getObjBySub(config.subdata, config);
                 title = idObj[data.value];
                 break;
+            case "date":
+                var format = config.format;
+                if(data.value != ''){
+                    title = moment(Number(data.value)).format(format);
+                }
+                break;
             default:
                 break;
         }
