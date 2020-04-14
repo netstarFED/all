@@ -263,6 +263,9 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 if(componentData.params && componentData.params.nullBlockExpression){
                     componentData.nullBlockExpression = componentData.params.nullBlockExpression;
                 }
+                if(componentData.params && componentData.params.iconClass){
+                    componentData.iconClass = componentData.params.iconClass;
+                }
                 var blockComponents = {};
                 blockComponents[componentData.id] = componentData;
                 NetstarTemplate.commonFunc.blockList.initBlockList(blockComponents, config);

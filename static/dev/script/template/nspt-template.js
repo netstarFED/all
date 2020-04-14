@@ -2364,6 +2364,9 @@ var NetstarTemplate = {
 					if(typeof(componentData.componentHeight)=='number'){
 						gridConfig.ui.height = componentData.componentHeight;
 					}
+					if(typeof(componentData.iconClass)=='object'){
+						gridConfig.ui.iconClass = componentData.iconClass;
+					}
 					if(componentData.isAjax){
 						var ajaxParams = $.extend(true,{},componentData.ajax);
 						if(!$.isEmptyObject(_config.pageParam)){
