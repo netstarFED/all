@@ -359,6 +359,45 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                     break;
             }
         },
+        //获取表格选中值
+        getSelectedDataByGridId : function(gridId){
+            var value;
+            if(NetStarGrid.configs[gridId].gridConfig.ui.isCheckSelect){
+                value = NetStarGrid.getCheckedData(gridId);
+                if(value.length == 0){
+                    value = NetstarTemplate.commonFunc.list.getSelectedData(gridId);
+                    if($.isArray(value)){
+                        if(value.length == 1){
+                            value = value[0];
+                        }
+                    }else{
+                        value = {};
+                    }
+                }
+            }else{
+                value = NetstarTemplate.commonFunc.list.getSelectedData(gridId);
+                if($.isArray(value)){
+                    if(value.length == 1){
+                        value = value[0];
+                    }
+                }else{
+                    value = {};
+                }
+            }
+            return value;
+        },
+        //块状表格获取选中值
+        getSelectedDataByBlockGridId : function(gridId){
+            var value = NetstarTemplate.commonFunc.blockList.getSelectedData(gridId);
+            if($.isArray(value)){
+                if(value.length == 1){
+                    value = value[0];
+                }
+            }else{
+                value = {};
+            }
+            return value;
+        },
     }
     // 数据管理
     var dataManage = {
@@ -548,5 +587,9 @@ NetstarTemplate.templates.statisticalPlan = (function(){
         // 模板方法
         // 块状表格/表格选中行事件
         gridSelectedHandler : componentsFuncManage.gridSelectedHandler,
+        // 获取表格选中数据
+        getSelectedDataByGridId : componentsFuncManage.getSelectedDataByGridId,
+        // 获取块状表格选中数据
+        getSelectedDataByBlockGridId : componentsFuncManage.getSelectedDataByBlockGridId,
 	};
 })(jQuery)

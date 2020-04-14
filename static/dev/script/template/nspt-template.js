@@ -2588,6 +2588,21 @@ var NetstarTemplate = {
 						//基本业务对象模板
 						currentGridConfig = tempalteConfig.mainComponent;
 						break;
+					case 'statisticalPlan':
+						// 统计计划
+						if(operatorObject == 'root'){
+							//获取模板主数据
+							currentGridConfig = tempalteConfig.mainComponent;
+						}else{
+							//根据keyField获取数据
+							if(tempalteConfig.componentsByName.all && tempalteConfig.componentsByName.all.keyField == operatorObject){
+								currentGridConfig = tempalteConfig.componentsByName.all;
+							}
+							if(tempalteConfig.componentsByName.part && tempalteConfig.componentsByName.part.keyField == operatorObject){
+								currentGridConfig = tempalteConfig.componentsByName.part;
+							}
+						}
+						break;
 				}
 				if(currentGridConfig){
 					//存在grid配置
