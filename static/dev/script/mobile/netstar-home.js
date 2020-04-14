@@ -160,7 +160,9 @@ var NetstarHomePage = {
                                 console.log(urlStaticIndex);
                                 if(typeof(NetStarRabbitMQ) == "object" && NetStarRabbitMQ.device === 'app'){
                                     // console.log(12342)
-                                    setTitle.controller.insertHtml("main");
+                                    if(setTitle){
+                                         setTitle.controller.insertHtml("main");
+                                    }
                                 }
                                 if(urlStaticIndex > -1){
                                 // console.log(urlStaticIndex);
