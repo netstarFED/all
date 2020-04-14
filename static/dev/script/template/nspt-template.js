@@ -2535,10 +2535,10 @@ var NetstarTemplate = {
 					}
 				}
 				// 获取页面数据表达式不为空时 按钮添加获取页面数据回调方法 end ---
-				pageConfig.closeHandler = (function(){
+				pageConfig.closeHandler = (function(configObj){
 					//根据当前模板去刷新
 					return function(){
-						NetstarTemplate.templates[configObj.templateName].refreshByGridconfig(configObj.gridConfig,configObj.package);
+						NetstarTemplate.templates[configObj.templateName].refreshByGridconfig(configObj.gridConfig,configObj.package, configObj.controllerObj);
 					}
 				})(configObj);
 				NetstarTemplate.init(pageConfig);

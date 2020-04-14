@@ -196,15 +196,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="pt-palpanel-body">
+                            <div id="netstar-saas-reg-vo"></div>
+                        </div>
                     </div>
-                    <div id="netstar-saas-reg-vo"></div>
+                   
                     <div class="pt-panel">
-                        <div class="pt-panel-header" id="netstar-saas-hazard">
-                            <div>
+                        <div class="pt-panel-header">
                                 <div class="title">职业危害因素
                                 </div>
                                 <!-- 搜索 -->
-                                <div class="pt-panel-col">
+                               
                                     <div class="pt-form pt-form-normal pt-form-inline pt-custom-query">
                                         <div class="pt-form-header"></div>
                                         <div class="pt-form-body">
@@ -250,30 +252,29 @@
                                     <div class="pt-btn-group"><button type="button"
                                             class="pt-btn pt-btn-default pt-btn-icon" nstype="refresh"><i
                                                 class="icon-search"></i></button></div>
-                                </div>
+                               
                                 <!-- 搜索end -->
-                                <div id="netstar-saas-reg-hazard-btns"></div><!-- 按钮 -->
-                            </div>
-
-                            
-                            <div v-for="(list,index) in regHazardVOList">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div @click="clickTdHandler($event, list.hazardId, 'hazardName', index, list.hazardDomId)">
+                                <div id="netstar-saas-reg-hazard-btns" class="pt-panel-header-right"></div><!-- 按钮 -->
+                        
+                        </div>
+                        <div class="pt-panel-body"  id="netstar-saas-hazard">
+                            <div  class="block-list block-list-grid grid-col-4">
+                                <div class="block-list-group">
+                                    <div class="block-list-item" v-for="(list,index) in regHazardVOList">
+                                        <div class="block-list-content">
+                                            <div @click="clickTdHandler($event, list.hazardId, 'hazardName', index, list.hazardDomId)" class="pt-form-control">
                                                 <span>{{list.hazardName}}</span>
                                                 <div :id = "list.hazardDomId" class="form-block-editor-container"></div>
                                             </div>
-                                            <div @click="clickTdHandler($event, list.ocpcId, 'ocpcName', index, list.ocpcDomId)">
+                                            <div @click="clickTdHandler($event, list.ocpcId, 'ocpcName', index, list.ocpcDomId)" class="pt-form-control">
                                                 <span>{{list.ocpcName}}</span>
                                                 <div :id = "list.ocpcDomId" class="form-block-editor-container"></div>
                                             </div>
                                         </div>
-
                                     </div>
-                                </div>
 
-                            </div>
+                                </div>
+                        </div>
                         </div>
                     </div>
 
