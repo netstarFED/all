@@ -184,7 +184,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                             //新增
                             case NSSAVEDATAFLAG.VIEW:
                             //刷新
-                            componentsManage.blockList.refreshHandler(config);
+                            componentsManage.blockList.refreshHandler(templateConfig);
                             break;
                         }
                     }else{
@@ -197,7 +197,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                             //新增
                             case NSSAVEDATAFLAG.VIEW:
                             //刷新
-                            componentsManage.grid.refreshHandler(config);
+                            componentsManage.grid.refreshHandler(templateConfig);
                             break;
                         }
                     }
