@@ -310,6 +310,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                 rightGridConfig.componentHeight = height;
                 var gridComponents = {};
                 rightGridConfig.blockSelectedData = data;
+                rightGridConfig.pageLengthDefault = 10;
                 gridComponents[rightGridConfig.id] = rightGridConfig;
                 NetstarTemplate.commonFunc.list.initList(gridComponents, config);
             },
