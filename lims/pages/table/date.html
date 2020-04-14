@@ -1,0 +1,248 @@
+<!--# include file="/lims/include/page-prefix.html" -->
+<container>
+<div class="row">
+	<div class="col-sm-12 main-panel">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table cellspacing="0" class="table table-singlerow table-hover table-bordered table-striped" id="simple-table">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 nspanel">
+		<div class="nspanel-title">radio详细说明</div>
+		<div class="nspanel-body">
+			<p>formatHandler.data中参数配置</p>
+			<table class="table table-bordered table-striped table-condensed table-hover code">
+				<thead>
+					<tr>
+						<th></th>
+						<th>参数</th>
+						<th>类型</th>
+						<th>说明</th>
+						<th>默认值</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>value</td>
+						<td>string</td>
+						<td>默认值</td>
+						<td>无</td>
+						<td>默认选中值，当type=formatDate时使用，值为时间戳格式或正确的日期格式</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>formatDate</td>
+						<td>string</td>
+						<td>日期格式</td>
+						<td>无</td>
+						<td>当type=date时使用，仅用来设置日期格式，如：YYYY-MM-DD MM-DD-YYYYY</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>handler</td>
+						<td>function</td>
+						<td>回调函数</td>
+						<td>无</td>
+						<td>当type=formatDate时使用，选择日期时的回调函数，会返回一个json数据格式的数据</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>date使用举例：</p>
+			<pre>
+	formatHandler:	{
+		type:'date',
+		data:
+		{
+			formatDate:'YYYY-MM-DD'
+		}
+	}
+			</pre>
+			<p>formatDate使用举例：</p>
+			<pre>
+	formatHandler:{
+		type:'formatDate',
+		data:[
+			{
+				//value:
+				handler:function(obj){console.log(obj)}
+			}
+		]
+	}
+			</pre>
+		</div>
+	</div>
+</div>
+<div class="hide">
+	<textarea id="date-code">
+	formatHandler:	{
+		type:'date',
+		data:
+		{
+			formatDate:'YYYY-MM-DD'
+		}
+	}
+	</textarea>
+	<textarea id="formatDate-code">
+	formatHandler:{
+		type:'formatDate',
+		data:[
+			{
+				//value:
+				handler:function(obj){console.log(obj)}
+			}
+		]
+	}
+	</textarea>
+</div>
+<script type="text/javascript">
+	var inputI = 0;
+	//自定义按钮DEMO
+	var columnConfig_btn = [ 
+		{
+			field : 'code',
+			title : '编号',
+			width:30,
+			hidden:true
+		},{
+			field : 'hazardClassName',
+			title : '危害名称',
+			width:200,
+		},{
+			field:'time',
+			title:'date',
+			width:150,
+			formatHandler:	{
+				type:'date',
+				data:
+				{
+					formatDate:'YYYY-MM-DD hh:mm:ss'
+				}
+			}
+		},{
+			field:'formatDate',
+			title:'formatDate',
+			formatHandler:{
+				type:'formatDate',
+				data:[
+					{
+						//value:
+						handler:function(obj){console.log(obj)}
+					}
+				]
+			}
+		},{
+			field:'formatDate',
+			title:'自定义格式 datetimepicker',
+			formatHandler:function(a,b,c){
+				console.log(a,b,c);
+				inputI++;
+				var html = '<input class="func-datetimepicker ns-table-input form-control" id="input-'+ inputI +'" value="" />';
+			return html;
+			}
+		}
+	]
+	var dataSrc = getRootPath() + '/json/list/button.json';
+	var dataConfig = {
+		tableID: 		"simple-table",
+		src:  			dataSrc,		//数据源地址
+		type: 			"GET",			//GET POST
+		data: 			'',				//参数对象{id:1,page:100}
+		isServerMode:  	false,			//是否开启服务器模式
+		isSearch:       false,      //是否开启搜索功能
+		isPage:         false,      //是否开启分页
+		dataSrc:        'data',
+		isLengthChange: false,
+	}
+	var uiConfig = {
+		searchTitle: 		"危害搜索",				//搜索框前面的文字，默认为检索
+		searchPlaceholder: 	"编号，名称",			//搜索框提示文字，默认为可搜索的列名
+		isSelectColumns: 	false, 					//是否开启列选择，默认为选择
+		isAllowExport: 		false,					//是否允许导出数据，默认允许
+		dragWidth: true,
+		pageLengthMenu: 	12, 					//可选页面数  auto是自动计算  all是全部
+		isSingleSelect: false,			 			//是否单选
+		onselectHandler:function(){},
+		onLoadSuccess:function(){
+			// debugger;
+		},
+		onLoadFilter:function(){
+			$('.func-datetimepicker').datetimepicker({
+				language:  'zh-CN',
+				weekStart: 1,
+				todayBtn:  1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				forceParse: 0,
+				showMeridian: 1
+			})
+			$('.func-datetimepicker').on('change', function(ev){
+				console.log($(this).val())
+				var index = $(this).closest('tr').index();
+				var rowData = baseDataTable.getAllTableData('simple-table')[index];
+				console.log(rowData);
+				// baseDataTable.table["simple-table"].data().rows().invalidate().draw();
+				debugger;
+			})
+		}
+	}
+	var btnConfig = {
+		title:'formatHandler.type=date/formatDate使用',
+		selfBtn:[
+			{
+				text:'date配置',
+				handler:function(){
+					var configS = {
+						id: 	"plane-code2",
+						title: 	"date使用",
+						size: 	"b",
+						form:[
+							{
+								id: 		'demo',
+								label: 		'date使用',
+								type: 		'textarea',
+								isFullWidth: true,
+								height: '300px',
+								value: function(){return $('#date-code').html()}
+							}
+						]
+					}
+					nsdialog.initShow(configS);
+				}
+			},{
+				text:'formatDate配置',
+				handler:function(){
+					var configS = {
+						id: 	"plane-code2",
+						title: 	"formatDate使用",
+						size: 	"b",
+						form:[
+							{
+								id: 		'demo',
+								label: 		'formatDate使用',
+								type: 		'textarea',
+								isFullWidth: true,
+								height: '300px',
+								value: function(){return $('#formatDate-code').html()}
+							}
+						]
+					}
+					nsdialog.initShow(configS);
+				}
+			}
+		]
+	}
+	$(function(){
+		baseDataTable.init(dataConfig, columnConfig_btn, uiConfig,btnConfig);
+	});
+</script>
+</container>
+<!--# include file="/lims/include/page-suffix.html" -->

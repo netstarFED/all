@@ -1,0 +1,22 @@
+<div id="sidebar-menu"></div>
+<script>
+$(function(){
+    var menuConfig = {
+        id:'sidebar-menu',
+        url:getRootPath() + '/json/mainmenu.json',
+        type:'GET', //请求方式
+        data:{},//参数
+        dataSrc:'rows',//数据源
+        isTurnTree:false,
+        isUseTabField:'isUseTab',
+        menuIcon:{
+            "流程":"fa-random",
+            "管理":"fa-cog",
+            "查询":"fa-search",
+            "设备":"fa-server",
+            "人员":"fa-user",
+        }
+    };
+    nsMenus.init(menuConfig);
+})
+</script>

@@ -1,0 +1,1049 @@
+<!--
+ * @Desription: 文件说明
+ * @Author: netstar.cy
+ * @Date: 2019-11-04 11:22:58
+ * @LastEditTime: 2019-11-04 11:43:43
+ -->
+<!--# include file="/lims/include/page-prefix.html" -->
+<container>
+<div class="page-title nav-form" id="project-select-nav">
+	<!--按钮组-->
+</div>
+<div class="row form-content">
+	<div class="col-sm-12 nspanel">
+		<div class="nspanel-title">
+			选择项目组件使用说明
+		</div>
+		<div class="nspanel-body">
+			<p>请使用右键另存为 
+				<a class="btn btn-info" href="/NPE/assets/js/netstar-ui.js"><i class="fa fa-save"></i> 下载最新版本js</a>
+				<a class="btn btn-success" href="/NPE/assets/css/netstar-common.css"><i class="fa fa-save"></i> 下载最新版本css</a>
+				<a class="btn btn-success" href="/NPE/assets/css/netstar-skins.css"><i class="fa fa-save"></i> 下载最新皮肤css</a>
+			</p>
+			<ul class="code">
+				<li>js位置：assets/js/netstar-ui.js </li>
+				<li>样式css位置：assets/css/netstar-common.css </li>
+				<li>皮肤css位置：assets/css/netstar-skins.css </li>
+				<li>作用：form输入面板管理,已经集成了验证控件</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="row form-content">
+	<div class="col-sm-12 nspanel">
+		<div class="nspanel-title">
+			选择项目组件说明
+		</div>
+		<div class="nspanel-body">
+			<p>项目组件按钮生成调用方法：<code>nsUI.projectSelect.init(config)</code></p>
+			<p>该方法调用后，第二次点击会重现之前的操作。<br>如果需要打开时重新初始化，需要先进行清空操作，请使用下面的清除方法</p>
+			<p>调用方法：<code>nsUI.projectSelect.clear()</code></p>
+			<p>navJson参数说明</p>
+			<table class="table table-bordered table-striped table-condensed table-hover code">
+				<thead>
+					<tr>
+						<th></th>
+						<th>参数</th>
+						<th>类型</th>
+						<th>说明</th>
+						<th>默认值</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>id</td>
+						<td>string</td>
+						<td>生成项目组件按钮的id</td>
+						<td>无,必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>btns</td>
+						<td>[]</td>
+						<td>要生成的按钮数组</td>
+						<td>无,必填</td>
+						<td>btns为数组，但数组中只能包含一个按钮，不支持多个</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>btns text</td>
+						<td>string</td>
+						<td>标题，要显示的按钮标题</td>
+						<td>无,必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>btns handler</td>
+						<td>function</td>
+						<td>调用项目组件的方法</td>
+						<td>无,必填</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+			<p>navJson使用示例：</p>
+	<pre>
+	var navJson = {
+		id: "project-select-nav",
+		btns:[
+			[
+				{
+					text: 		'项目选择',
+					handler: 	test,
+					isReturn: 	true
+				}
+			]
+		]
+	}
+	controlPlane.formNavInit(navJson);
+	function test(ev){
+		nsUI.projectSelect.init(config)
+	}
+	</pre>
+			<p>调用项目组件方法：nsUI.projectSelect.init(config)</p>
+			<P>config参数说明</P>
+			<table class="table table-bordered table-striped table-condensed table-hover code">
+				<thead>
+					<tr>
+						<th></th>
+						<th>参数</th>
+						<th>类型</th>
+						<th>说明</th>
+						<th>默认值</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>$btn</td>
+						<td>container</td>
+						<td>当前点击的按钮元素</td>
+						<td>$(ev.target)</td>
+						<td>在传该参数值时，必须传送该默认值</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>selected</td>
+						<td>Array</td>
+						<td>已选择的列表的默认值</td>
+						<td>无</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>classWidth</td>
+						<td>number string</td>
+						<td>宽配置</td>
+						<td>无</td>
+						<td>支持两种类型的，即宽度可以输入为数字类型，也可配置字符串类型</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>classAjax</td>
+						<td>object</td>
+						<td>所有分类的配置</td>
+						<td>无</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>classAjax url</td>
+						<td>string</td>
+						<td>分类请求的链接</td>
+						<td>无,必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td>classAjax type</td>
+						<td>string</td>
+						<td>分类请求的方式</td>
+						<td>post</td>
+						<td>两种支持方式post和get,默认请求数据方式是post</td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td>classAjax data</td>
+						<td>object</td>
+						<td>分类请求的参数</td>
+						<td>空对象</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td>classAjax dataSrc</td>
+						<td>string</td>
+						<td>分类请求的数据源参</td>
+						<td>rows</td>
+						<td>返回的数据源参，默认读取的是rows</td>
+					</tr>
+					<tr>
+						<td>9</td>
+						<td>classAjax textField</td>
+						<td>string</td>
+						<td>分类配置的文本字段</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>10</td>
+						<td>classAjax valueField</td>
+						<td>string</td>
+						<td>分类配置的id字段</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>11</td>
+						<td>classAjax value</td>
+						<td>object</td>
+						<td>分类配置的默认分类,value值和文本值必须和配置的valueField和textField字段一致</td>
+						<td>无</td>
+						<td>举例：{valueField:'',textField:''}</td>
+					</tr>
+					<tr>
+						<td>12</td>
+						<td>listAjax</td>
+						<td>object</td>
+						<td>所有列表的配置</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>13</td>
+						<td>listAjax url</td>
+						<td>string</td>
+						<td>列表请求的链接</td>
+						<td>无,必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>14</td>
+						<td>listAjax type</td>
+						<td>string</td>
+						<td>列表请求的方式</td>
+						<td>post</td>
+						<td>两种支持方式post和get,默认请求数据方式是post</td>
+					</tr>
+					<tr>
+						<td>15</td>
+						<td>listAjax data</td>
+						<td>object</td>
+						<td>列表请求的参数</td>
+						<td>空对象</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>16</td>
+						<td>listAjax dataSrc</td>
+						<td>string</td>
+						<td>列表请求的数据源参</td>
+						<td>rows</td>
+						<td>返回的数据源参，默认读取的是rows</td>
+					</tr>
+					<tr>
+						<td>17</td>
+						<td>listAjax textField</td>
+						<td>string</td>
+						<td>列表配置的文本字段</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>18</td>
+						<td>listAjax valueField</td>
+						<td>string</td>
+						<td>列表配置的id字段</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>19</td>
+						<td>listAjax classField</td>
+						<td>string</td>
+						<td>列表配置的分类字段</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>20</td>
+						<td>listAjax pyField</td>
+						<td>string</td>
+						<td>列表配置的拼音字段</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>21</td>
+						<td>listAjax wbField</td>
+						<td>string</td>
+						<td>列表配置的五笔字段</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>22</td>
+						<td>listAjax childField</td>
+						<td>string</td>
+						<td>子元素字段</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>23</td>
+						<td>listAjax selectField</td>
+						<td>string</td>
+						<td>是否选中</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>24</td>
+						<td>confirmHandler</td>
+						<td>function</td>
+						<td>返回参数</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>25</td>
+						<td>pageLength</td>
+						<td>number</td>
+						<td>显示条数</td>
+						<td>默认显示10条</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>26</td>
+						<td>treeAjax</td>
+						<td>object</td>
+						<td>配置下拉树</td>
+						<td>无</td>
+						<td>刷新左侧列表</td>
+					</tr>
+					<tr>
+						<td>27</td>
+						<td>treeAjax url</td>
+						<td>string</td>
+						<td>下拉树请求的链接</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>28</td>
+						<td>treeAjax treeType</td>
+						<td>string</td>
+						<td>下拉树请求的方式</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>29</td>
+						<td>treeAjax data</td>
+						<td>object</td>
+						<td>下拉树请求的参数</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>30</td>
+						<td>treeAjax dataSrc</td>
+						<td>string</td>
+						<td>下拉树请求的数据源</td>
+						<td>rows</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>31</td>
+						<td>treeAjax textField</td>
+						<td>string</td>
+						<td>下拉树配置的文本字段</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>32</td>
+						<td>treeAjax valueField</td>
+						<td>string</td>
+						<td>下拉树配置的id字段</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>33</td>
+						<td>treeAjax ajaxDataField</td>
+						<td>array，string</td>
+						<td>传送的数据</td>
+						<td>无</td>
+						<td>传多个参数['',''](数组);传一个值''(字符串)</td>
+					</tr>
+					<tr>
+						<td>34</td>
+						<td>treeAjax value</td>
+						<td>string</td>
+						<td>默认值</td>
+						<td>无</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>35</td>
+						<td>treeVisible</td>
+						<td>boolean</td>
+						<td>是否显示下拉树</td>
+						<td>true,显示</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>36</td>
+						<td>treeWidth</td>
+						<td>number</td>
+						<td>下拉树的宽度</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>37</td>
+						<td>searchVisible</td>
+						<td>boolean</td>
+						<td>是否显示搜索项</td>
+						<td>true,显示</td>
+						<td></td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<p>config使用示例：</p>
+	<pre>
+	var config = {
+			$btn: 		$(ev.target),
+			selected: 	'["000004","000006","1000013"]',  //选中的
+			classWidth:  	 200,
+			classAjax: 	{
+				url: 		 getRootPath() + '/assets/json/project-class.json',
+				type: 		 'GET',
+				data: 		 {id:1},
+				dataSrc: 	 'rows',
+				textField: 	 'text',
+				valueField:  	'dictId',
+				value:{
+					dictId:'0305',
+					text:'现场(0305)',
+				}
+			},
+			listAjax: 	{
+				url: 		getRootPath() + '/assets/json/project-list.json',
+				type: 		'GET',
+				data: 		{id:1},
+				dataSrc: 	'row',
+				textField: 	'itemName',
+				valueField: 	'itemCode',
+				classField: 	'itemCateId1',
+				pyField: 	'py',
+				wbField: 	'wb',
+				childField:'children',
+				selectField:'isselect',
+			},
+			confirmHandler: confirmHandler,
+	}
+	nsUI.projectSelect.init(config);
+	</pre>
+		</div>
+	</div>
+</div>
+<div class="hide">
+	<textarea id="textarea-projectHtml-demo">
+		<div class="page-title nav-form" id="project-select-nav">
+			<!--项目组件-->
+		</div>
+	</textarea>
+	<textarea id="textarea-projectJS-demo">
+demos.form.car1 = {
+	main:function(){
+		var classArr = [];
+		function test(ev){
+			var config = {
+				$btn: 			$(ev.target),
+				selected: 		'["000004","000006","1000013"]',  //选中的
+				//classWidth:  	200,
+				classAjax: 		{
+					url: 		getRootPath() + '/assets/json/project-class.json',
+					type: 		'GET',
+					data: 		{id:1},
+					dataSrc: 	'rows',
+					textField: 	'text',
+					valueField: 'dictId',
+
+				},
+				listAjax: 		{
+					url: 		getRootPath() + '/assets/json/project-list.json',
+					type: 		'GET',
+					data: 		{id:1},
+					dataSrc: 	'row',
+					textField: 	'itemName',
+					valueField: 'itemCode',
+					classField: 'itemCateId1',
+					pyField: 	'py',
+					//wbField: 	'wb',
+					childField:'children',
+					selectField:'isselect',
+				},
+				confirmHandler: confirmHandler,
+
+			}
+			nsUI.projectSelect.init(config);
+		}
+		function confirmHandler(data){
+			console.log(data);
+		}
+		var navJson = {
+			id: "project-select-nav",
+			btns:[
+				[
+					{
+						text: 		'项目选择',
+						handler: 	test
+					}
+				]
+			]
+		}
+		controlPlane.formNavInit(navJson);
+	}
+}
+nsFrame.init(demos.form.car1);
+	</textarea>
+	<textarea id="textarea-projectData-demo">
+value:["000004", "000006"]
+string:"["000004","000006"]"
+array:[
+	{
+		canbeReaplced:0,
+		changed:true,
+		codeIsAuto:null,
+		deleted:false,
+		englishName:"",
+		entityState:"Changed",
+		id:3,
+		isCMA:0,
+		isCNAL:null,
+		isComb:0,
+		isDelete:0,
+		isInResult:true,
+		isMapping:null,
+		isPricing:null,
+		isPrior:0,
+		isResult:null,
+		isSubItem:null,
+		itemCateId1:"0304",
+		itemCateId2:"",
+		itemCateName:"理化",
+		itemCode:"000004",
+		itemName:"脂肪",
+		mappItemIds:null,
+		new:false,
+		orderId:3,
+		parentId:0,
+		py:"ZF",
+		replaceItemIds:null,
+		reportWay:null,
+		stdName:"脂肪",
+		subItemIds:null,
+		tableName"lsitem",
+		taskingType:null,
+		wb:""
+	}
+]
+	</textarea>
+</div>
+<script type="text/javascript">
+demos.form.car1 = {
+	main:function(){
+		var classArr = [];
+		function dialogDemo(){
+			var configS = {
+				id: 	"plane-dialogS",
+				title: 	"小弹框DEMO",
+				size: 	"652px",
+				format:"close",
+				plusClass:"compactmode",
+				form:[
+					{
+						id: 		'plusPositionId',
+						label: 		'监护种类',
+						type: 		'select',
+						plusClass:"plus-positionId-option",
+						textField: 	'plusPositionName',
+						valueField: 'plusPositionId',
+						subdata: 	[
+							{
+								plusPositionName:'在岗期间',
+								plusPositionId:'0'
+							},{
+								plusPositionName:'离岗期间',
+								plusPositionId:'1'
+							},{
+								plusPositionName:'离岗时',
+								plusPositionId:'2'
+							}
+						],
+						openSelectHandler:function(config){
+							$('#'+config.fullID+'SelectBoxItOptions').css('z-index',9999);
+						},
+						commonChangeHandler:function(obj){
+							var resultArr = nsUI.projectSelect.getData();
+							var value = obj.value;
+							var text = obj.text;
+							var valueField = obj.config.valueField;
+							var textField = obj.config.textField;
+							for(var resultI=0; resultI<resultArr.length; resultI++){
+								resultArr[resultI][valueField] = value;
+								resultArr[resultI][textField] = text;
+							}
+							nsUI.projectSelect.refreshResultData(resultArr);
+						}
+					},
+					{
+						html: '<div id="dialogProject"></div>'
+					}
+				],
+				btns:[
+					{
+						text: 		'确认',
+						handler: 	function(){
+							var resultArr = nsUI.projectSelect.getData();
+							console.log(resultArr)
+							nsdialog.hide();
+						},
+					}
+				]
+			}
+			nsdialog.initShow(configS);
+			var config = {
+				title: 			'',
+				searchPlaceHolder: '自定义Placeholder', 
+				$container: 	$("#dialogProject"),
+				containerMode: 	'inner',
+				selected: 		'[]',  //选中的
+				classVisible: 	false,
+				searchVisible:true,//可允许搜索
+				//classWidth:  	200,
+				classAjax: 		{
+					url: 		getRootPath() + '/page/ui/project-select-class.json',
+					type: 		'GET',
+					data: 		{id:1},
+					dataSrc: 	'rows',
+					textField: 	'text',
+					valueField: 'dictId',
+				},
+				listAjax: 		{
+					url: 		getRootPath() + '/page/ui/project-select-list.json',
+					type: 		'GET',
+					data: 		{id:1},
+					dataSrc: 	'row',
+					textField: 	'itemName',
+					valueField: 'itemCode',
+					classField: 'itemCateId1',
+					pyField: 	'py',
+					//wbField: 	'wb',
+				},
+				plusComponentType:'select',//附加表单类型
+				plusComponentConfig:{
+					textField:'plusPositionName',
+					valueField:'plusPositionId',
+					subdata:[
+						{
+							plusPositionName:'在岗期间',
+							plusPositionId:'0'
+						},{
+							plusPositionName:'离岗',
+							plusPositionId:'1'
+						},{
+							plusPositionName:'停职',
+							plusPositionId:'2'
+						}
+					]
+				},
+				confirmHandler: confirmHandler,
+			}
+			nsUI.projectSelect.clear();
+			nsUI.projectSelect.init(config);
+		}
+		function dialogDemoList(){
+			var configS = {
+				id: 	"plane-dialogS",
+				title: 	"修改密码 - 小弹框DEMO",
+				size: 	"b",
+				form:[
+					{
+						id: 		'oldpassword',
+						label: 		'现有密码',
+						type: 		'password',
+						rules: 		'required minlength=6',
+						placeholder:''
+					},{
+						id: 		'newpassword',
+						label: 		'新密码',
+						type: 		'password',
+						rules: 		'required minlength=6'
+					},{
+						html: '<div id="dialogProject"></div>'
+					},{
+						html: '<div id="stateGroupsList" class="state-group-list">'
+									+'<ul>'
+										+'<li>'
+											+'<label class="label">aa</label>'
+											+'<div class="state-group-content">'
+												+'<span>联系人VoList</span><span>联系人VoList</span><span>联系人VoList</span><span>联系人VoList</span>'
+											+'</div>'
+											+'<div class="btn-group">'
+												+'<button class="btn btn-info btn-icon">'
+													+'<i class="fa fa-edit"></i>'
+												+'</button>'
+												+'<button class="btn btn-warning btn-icon">'
+													+'<i class="fa fa-trash"></i>'
+												+'</button>'
+											+'</div>'
+										+'</li>'
+										+'<li>'
+											+'<label class="label">aa</label>'
+											+'<div class="state-group-content">'
+												+'<span>联系人VoList</span><span>联系人VoList</span><span>联系人VoList</span><span>联系人VoList</span>'
+											+'</div>'
+											+'<div class="btn-group">'
+												+'<button class="btn btn-info btn-icon">'
+													+'<i class="fa fa-edit"></i>'
+												+'</button>'
+												+'<button class="btn btn-warning btn-icon">'
+													+'<i class="fa fa-trash"></i>'
+												+'</button>'
+											+'</div>'
+										+'</li>'
+									+'</ul>'
+								+'</div>'
+					}
+				],
+				btns:[
+					{
+						text: 		'确认修改',
+						handler: 	'hideDialog',
+					}
+				]
+			}
+			nsdialog.initShow(configS);
+			var config = {
+				title: 			'自定义标题',
+				searchPlaceHolder: '自定义Placeholder', 
+				$container: 	$("#dialogProject"),
+				containerMode: 	'inner',
+				selected: 		'[]',  //选中的
+				classVisible: 	false,
+				searchVisible:false,//可允许搜索
+				//classWidth:  	200,
+				classAjax: 		{
+					url: 		getRootPath() + '/pages/ui/project-select-class.json',
+					type: 		'GET',
+					data: 		{id:1},
+					dataSrc: 	'rows',
+					textField: 	'text',
+					valueField: 'dictId',
+				},
+				listAjax: 		{
+					url: 		getRootPath() + '/pages/ui/project-select-list.json',
+					type: 		'GET',
+					data: 		{id:1},
+					dataSrc: 	'row',
+					textField: 	'itemName',
+					valueField: 'itemCode',
+					classField: 'itemCateId1',
+					pyField: 	'py',
+					//wbField: 	'wb',
+				},
+				confirmHandler: confirmHandler,
+				plusComponentType:true,
+				plusComponentConfig:{
+					textField:'plusPositionName',
+					valueField:'plusPositionId',
+					subdata:[
+						{
+							plusPositionName:'在岗期间',
+							plusPositionId:'0'
+						},{
+							plusPositionName:'离岗',
+							plusPositionId:'1'
+						},{
+							plusPositionName:'停职',
+							plusPositionId:'2'
+						}
+					]
+				},
+			}
+			nsUI.projectSelect.clear();
+			nsUI.projectSelect.init(config);
+		}
+		function demo(ev){
+			var classDataSource = [
+				{
+					"entityState":"Changed",
+					"id":1,
+					"dictId":"0305",
+					"parentDictId":"003",
+					"dictName":"现场",
+					"dictValue":"",
+					"dictKey":"",
+					"grade":2,
+					"isDefault":0,
+					"isUsing":1,
+					"remark":"",
+					"orderId":3,
+					"orgId":1,
+					"text":"现场(0305)",
+					"state":"open",
+					"rows":null,
+					"page":null,
+					"tableName":"LsDict",
+					"new":false,
+					"deleted":false,
+					"changed":true
+				},{
+					"entityState": "Changed",
+					"id": 20256,
+					"dictId": "0304",
+					"parentDictId": "003",
+					"dictName": "理化",
+					"dictValue": "",
+					"dictKey": "",
+					"grade": 2,
+					"isDefault": 0,
+					"isUsing": 1,
+					"remark": "",
+					"orderId": 1,
+					"orgId": 1,
+					"text": "理化(0304)",
+					"state": "open",
+					"rows": null,
+					"page": null,
+					"tableName": "LsDict",
+					"new": false,
+					"deleted": false,
+					"changed": true
+				},{
+					"entityState": "Changed",
+					"id": 20257,
+					"dictId": "0303",
+					"parentDictId": "003",
+					"dictName": "微生物",
+					"dictValue": "",
+					"dictKey": "",
+					"grade": 2,
+					"isDefault": 0,
+					"isUsing": 1,
+					"remark": "",
+					"orderId": 2,
+					"orgId": 1,
+					"text": "微生物(0303)",
+					"state": "open",
+					"rows": null,
+					"page": null,
+					"tableName": "LsDict",
+					"new": false,
+					"deleted": false,
+					"changed": true
+				}
+			];
+			var config = {
+				selected: 		'["000365", "000812"]',  //选中的
+				//classWidth:  	200,
+				title:'',
+				pageLength:  	15,
+				classAjax: 		{
+					//url: 		getRootPath() + '/assets/json/project-class.json',
+					//type: 		'GET',
+					//data: 		{id:1},
+					//dataSrc: 	'rows',
+					textField: 	'text',
+					valueField: 'dictId',
+					value:{
+						dictId:'0305',
+						text:'现场(0305)',
+					},
+					dataSource:classDataSource,//分类信息
+				},
+				classVisible:false,//允许选择分类
+				searchVisible:true,//可允许搜索
+				listAjax: 		{
+					/*url: 		getRootPath() + '/assets/json/project-list.json',
+					type: 		'GET',
+					data: 		{id:1},
+					dataSrc: 	'row',*/
+					textField: 	'itemName',
+					valueField: 'itemCode',
+					classField: 'itemCateId1',
+					pyField: 	'py',
+					subItemField:'isSubItem',
+					childField:'children',
+					selectField:'isselect',
+					//wbField: 	'wb',
+				},
+				// treeVisible:true,
+				/*treeAjax:{
+					// url:           getRootPath() +'/assets/json/ztree/ztree.json',
+					url:           getRootPath() +'/assets/json/ztree/ztree1.json',
+					data:           {parentId:0},
+					treeType:         'GET',
+					dataSrc:         'rows',
+					treeWidth: 			250,
+					// dataSrc:         'list',
+					textField:         'text',
+					valueField:         'cateid',
+					ajaxDataField: ['catename','tableName'],
+					value:          '47',
+				},*/
+				plusComponentType:true,
+				plusComponentConfig:{
+					textField:'plusPositionName',
+					valueField:'plusPositionId',
+					subdata:[
+						{
+							plusPositionName:'在岗期间',
+							plusPositionId:'0'
+						},{
+							plusPositionName:'离岗',
+							plusPositionId:'1'
+						},{
+							plusPositionName:'停职',
+							plusPositionId:'2'
+						}
+					]
+				},
+				maximumItem:10,//允许最大选择数量
+				confirmHandler: confirmHandler,
+			}
+			var listAjax = {
+				url: 		getRootPath() + '/pages/ui/project-select-list.json',
+				type: 		'GET',
+				data: 		{id:1},
+				dataSrc: 	'row',
+				plusData:	{dataSrc:'row'}
+			}
+			nsVals.ajax(listAjax,function(res,ajaxData){
+				if(res.success){
+					config.listAjax.dataSource = res[ajaxData.plusData.dataSrc];
+					nsUI.projectSelect.clear();
+					nsUI.projectSelect.init(config);
+				}
+			},true);
+		}
+		function confirmHandler(data){
+			console.log(data);
+		}
+		var navJson = {
+			id: "project-select-nav",
+			isShowTitle:false,
+			btns:[
+				[
+					{
+						text: 		'项目选择',
+						handler: 	demo
+					},{
+						text: 'dialog 项目选择器',
+						handler: dialogDemo
+					},{
+						text: 'dialog 项目选择器 list',
+						handler: dialogDemoList
+					}
+				]
+			]
+		}
+		controlPlane.formNavInit(navJson);
+		/*var demoNavJson = {
+			id:"project-select-demoNav",
+			btns:[
+				[
+					{
+						text:'示例使用HTML容器代码',
+						handler:demosProjectHtml
+					},{
+						text:'示例使用JS代码',
+						handler:demosProjectJS
+					},{
+						text:'获取得到的返回数据格式',
+						handler:getProjectFormatData
+					}
+				],[
+					{
+						text:'清除操作数据',
+						handler:clearData
+					}
+				]
+			]
+		}
+		controlPlane.formNavInit(demoNavJson);
+		function clearData(){
+			nsUI.projectSelect.clear();
+		}*/
+		function demosProjectJS(){
+			var configS = {
+				id: 	"plane-code2",
+				title: 	"DEMO代码",
+				size: 	"b",
+				form:[
+					{
+						id: 		'demo',
+						label: 		'DEMO代码',
+						type: 		'textarea',
+						isFullWidth: true,
+						height: '300px',
+						value: function(){return $('#textarea-projectJS-demo').html()}
+					}
+				]
+			}
+			nsdialog.initShow(configS);
+		}
+		function demosProjectHtml(){
+			var configS = {
+				id: 	"plane-code2",
+				title: 	"DEMO代码",
+				size: 	"b",
+				form:[
+					{
+						id: 		'demo',
+						label: 		'DEMO代码',
+						type: 		'textarea',
+						isFullWidth: true,
+						height: '300px',
+						value: function(){return $('#textarea-projectHtml-demo').html()}
+					}
+				]
+			}
+			nsdialog.initShow(configS);
+		}
+		function getProjectFormatData(){
+			var configS = {
+				id: 	"plane-code2",
+				title: 	"DEMO代码",
+				size: 	"b",
+				form:[
+					{
+						id: 		'demo',
+						label: 		'DEMO代码',
+						type: 		'textarea',
+						isFullWidth: true,
+						height: '300px',
+						value: function(){return $('#textarea-projectData-demo').html()}
+					}
+				]
+			}
+			nsdialog.initShow(configS);
+		}
+	}
+}
+$(function(){
+	nsFrame.init(demos.form.car1);
+});
+</script>
+</container>
+<!--# include file="/lims/include/page-suffix.html" -->

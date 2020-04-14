@@ -1,0 +1,73 @@
+<!--
+ * @Desription: 文件说明
+ * @Author: netstar.cy
+ * @Date: 2019-09-02 15:11:12
+ * @LastEditTime: 2019-09-02 16:31:45
+ -->
+<!--# include file="/lims/include/page-prefix.html" -->
+<container>
+    <script type="text/javascript">
+        $(function () {
+            nsUI.scanCode = {
+                getStrByKeyCode:function(code){
+                    return str;
+                },
+                listener:function(){
+
+                },
+                init:function(config){
+                    // config.id 是要初始化的input
+                },
+                remove:function(){
+
+                },
+            }
+            var keydownCodeArray = [];
+            $(document).on('keyup', function(ev){
+
+                var str = String.fromCharCode(ev.keyCode);
+                var isEnter = ev.keyCode == 13;
+                if(isEnter == false){
+                    //不是回车则添加到数组
+                    var keyInfo = {
+                        keyCode:ev.keyCode,
+                        keyChar:String.fromCharCode(ev.keyCode),
+                        ts:new Date().getTime(),
+                        tsDistance:0,
+                    }
+                    if(keydownCodeArray.length > 0){
+                        keyInfo.tsDistance = keyInfo.ts - keydownCodeArray[keydownCodeArray.length-1].ts;
+                    }
+                    console.log(keyInfo);
+                    keydownCodeArray.push(keyInfo);
+                    
+                }else{
+                    //如果是回车，则可能是扫描条码了
+                    var disArr = [];
+                    var lastInputIndex = 0;
+                    for(var i = keydownCodeArray.length - 1;  i>=0;  i--){
+                        disArr.push(keydownCodeArray[i].tsDistance);
+                        var tsDistance = keydownCodeArray[i].tsDistance;
+                        if(tsDistance > 100){
+                            lastInputIndex = i;
+                            console.log("lastInputIndex:"+lastInputIndex);
+                            break;
+                        }
+                    }
+                    var first = lastInputIndex;
+                    var codeStr = '';
+                    var codeArray = [];
+                    for(var codeI = first; codeI< keydownCodeArray.length; codeI++ ){
+                        codeStr += keydownCodeArray[codeI].keyChar;
+                        codeArray.push(keydownCodeArray[codeI]);
+                    }
+                    console.log(keydownCodeArray);
+                    console.log(disArr);
+                    console.log(codeStr);
+                    console.log(codeArray);
+                }
+            });
+        })
+    </script>
+</container>
+<!--# include file="/lims/include/page-suffix.html" -->

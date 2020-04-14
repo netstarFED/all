@@ -1,0 +1,357 @@
+<!--
+ * @Desription: 文件说明
+ * @Author: netstar.cy
+ * @Date: 2019-10-09 11:58:31
+ * @LastEditTime: 2019-10-09 13:29:59
+ -->
+<!--# include file="/lims/include/page-prefix.html" -->
+<container>
+	<div id="topnav" class="nav-form"></div>
+	<table class="table table-bordered table-striped table-condensed table-hover code" id="exporttable">
+		<div class="nspanel-title">
+			<h3>导出数据（1.6W+）<small>nsexportxlsx.getexcel(config)</small></h3>
+		</div>
+		<div class="nspanel-body">
+			<table class="table table-bordered table-striped table-condensed table-hover code">
+				<h4>config参数说明:</h4>
+				<thead>
+					<tr>
+						<th></th>
+						<th>参数</th>
+						<th>类型</th>
+						<th>说明</th>
+						<th>默认值</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>type</td>
+						<td>string</td>
+						<td>导出类型</td>
+						<td>无，必填</td>
+						<td>currentData(导出当前表格数据),serversData(导出由服务器中通过ajax请求到的数据),selectData(导出当前表格选中/未选中数据)</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>tableId</td>
+						<td>string</td>
+						<td>表格Id</td>
+						<td>无，必填</td>
+						<td>导出数据的表格，要拿到标题</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>excelName</td>
+						<td>string</td>
+						<td>导出表格的文件名</td>
+						<td>无，必填</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>ext</td>
+						<td>string</td>
+						<td>文件后缀</td>
+						<td>必填</td>
+						<td>决定了文件的格式</td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td>sheets</td>
+						<td>boolean</td>
+						<td>是否分页</td>
+						<td>无</td>
+						<td>如果分页请填写sheetFilter函数</td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td>sheetFilter</td>
+						<td>function</td>
+						<td>分页过滤函数</td>
+						<td>无</td>
+						<td>根据条件返回json,json.sheetName将用于每页的页名</td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td>sheetName</td>
+						<td>string</td>
+						<td>页名</td>
+						<td>无</td>
+						<td>只可用于不分页时的页名，默认sheet_1</td>
+					</tr>
+					<tr>
+						<td>9</td>
+						<td>ajaxConfig</td>
+						<td>json</td>
+						<td>用于获取数据</td>
+						<td>无,当配置type:serversData时必填</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+
+			举例:
+			<pre>
+			//导出当前表格为xlsx,并根据条件分页为 cy 和 其他
+			nsexportxlsx.getexcel({
+				tableId: table.data.tableID,
+				type: "currentData",
+				excelName: "textFirst",
+				ext: "xlsx",
+				sheets: true,
+				sheetFilter: function (data) {
+					switch (data.validperson) {
+						case 'Cy':
+							return {
+								sheetName: "cy"
+							}
+							break;
+						default:
+							return {
+								sheetName: "其他"
+							}
+							break;
+					}
+				}
+			})
+	
+			//ajax导出csv
+			nsexportxlsx.getexcel({
+				tableId: table.data.tableID,
+				type: "serversData",
+				ajaxConfig: {
+					url: getRootPath() + "/assets/json/excel/excel.json",
+					type: "GET",
+					data: {},
+					dataSrc: "rows"
+				},
+				excelName: "textFirst",
+				ext: "csv"
+			})
+	
+			//导出选中数据为xlsx
+			//会读取页面常量NSCHECKEDFLAT.VALUE的值，true则为导出选中数据，false则导出未选中数据
+			NSCHECKEDFLAG.VALUE = true;
+			nsexportxlsx.getexcel({
+				tableId: table.data.tableID,
+				type: "selectData",
+				excelName: "textFirst",
+				ext: "xlsx"
+			})
+	
+			//导出非选中数据为xlsx
+			NSCHECKEDFLAG.VALUE = false;
+			nsexportxlsx.getexcel({
+				tableId: table.data.tableID,
+				type: "selectData",
+				excelName: "textFirst",
+				ext: "xlsx"
+			})
+			</pre>
+		</div>
+		<!-- <script type="text/javascript" src="../../assets/js/jsxlsx/Blob.js"></script>
+	<script type="text/javascript" src="../../assets/js/jsxlsx/FileSaver.js"></script> -->
+		<script type="text/javascript">
+			var navJson = {
+				id: "topnav",
+				isShowTitle: false,
+				btns: [
+					[
+						{
+							text: '导出当前表格为xlsx',
+							handler: function () {
+								nsexportxlsx.getexcel({
+									tableId: table.data.tableID,
+									type: "currentData",
+									excelName: "textFirst",
+									ext: "xlsx",
+									sheets: true,
+									html:'<tr role="row"><td colspan="11" align="center">056设备台帐</td></tr><tr role="row"><td colspan="11">SKJ/D026-16</td></tr>',
+									sheetFilter: function (data) {
+										switch (data.validperson) {
+											case 'Cy':
+												return {
+													sheetName: "cy"
+												}
+												break;
+											default:
+												return {
+													sheetName: "其他"
+												}
+												break;
+										}
+									}
+								})
+							},
+						},
+						{
+							text: 'ajax导出csv',
+							handler: function () {
+								nsexportxlsx.getexcel({
+									tableId: table.data.tableID,
+									type: "serversData",
+									ajaxConfig: {
+										url: getRootPath() + "/assets/json/excel/excel.json",
+										type: "GET",
+										data: {},
+										dataSrc: "rows"
+									},
+									excelName: "textFirst",
+									ext: "csv"
+								})
+							},
+						},
+						{
+							text: '导出选中数据为xlsx',
+							handler: function () {
+								//会读取页面常量NSCHECKEDFLAT.VALUE的值，true则为导出选中数据，false则导出未选中数据
+								NSCHECKEDFLAG.VALUE = true;
+								nsexportxlsx.getexcel({
+									tableId: table.data.tableID,
+									type: "selectData",
+									excelName: "textFirst",
+									ext: "xlsx"
+								})
+							},
+						},
+						{
+							text: '导出选中数据为xlsx',
+							handler: function () {
+								//会读取页面常量NSCHECKEDFLAT.VALUE的值，true则为导出选中数据，false则导出未选中数据
+								NSCHECKEDFLAG.VALUE = false;
+								nsexportxlsx.getexcel({
+									tableId: table.data.tableID,
+									type: "selectData",
+									excelName: "textFirst",
+									ext: "xlsx"
+								})
+							},
+						}
+					]
+				],
+			}
+			nsNav.init(navJson);
+			var table = {
+				columns: [
+					{
+						field: 'type',
+						title: '任务类型',
+						width: 60,
+					},
+					{
+						field: 'wbs',
+						title: 'WBS',
+						width: 40,
+					},
+					{
+						field: 'name',
+						title: '任务名称',
+					},
+					{
+						field: 'intro',
+						title: '任务说明',
+						width: 200,
+						formatHandler: {
+							type: 'href',
+							data: [{
+								text: '我是超链接',
+								handler: function (obj) { console.log(obj); }
+							}]
+						}
+					},
+					{
+						field: 'start',
+						title: '开始时间',
+						width: 100,
+						formatHandler: {
+							type: 'date',
+							data:
+							{
+								formatDate: 'YYYY-MM-DD'
+							}
+						}
+					},
+					{
+						field: 'end',
+						title: '结束时间',
+						width: 100,
+						formatHandler: {
+							type: 'date',
+							data: {
+								formatDate: 'YYYY-MM-DD'
+							}
+						}
+					},
+					{
+						field: 'time',
+						title: '计划工时',
+						width: 80,
+					}, {
+						field: 'difficulty',
+						title: '难度',
+						width: 80,
+					}, {
+						field: 'chargeperson',
+						title: '负责人',
+						width: 80,
+					}, {
+						field: 'validperson',
+						title: '验证人',
+						width: 80,
+					}
+				],
+				data: {
+					tableID: 'exporttable',
+					dataSource: [
+						{
+							id: 1,
+							orgid: 2,
+							type: "PC",
+							wbs: 1,
+							name: "excel导出",
+							intro: "利用插件实现任意导出excel",
+							start: 1503221565,
+							end: 1502221565,
+							time: 12,
+							difficulty: "S",
+							chargeperson: "Lxh",
+							validperson: "Cy"
+						},
+						{
+							id: 2,
+							orgid: 3,
+							type: "Mobile",
+							wbs: 2,
+							name: "excel导出2",
+							intro: "利用插件实现任意导出excel2",
+							start: 1503221565,
+							end: 1502221565,
+							time: 8,
+							difficulty: "M",
+							chargeperson: "Lxh2",
+							validperson: "Cy2"
+						}
+					],
+					configTitle: "日常计划",
+					isSearch: true,      //是否开启搜索功能
+					isPage: false,      //是否开启分页
+				},
+				ui: {
+					//isSelectColumns: 	true, 					//是否开启列选择，默认为选择
+					isAllowExport: true,					//是否允许导出数据，默认允许
+					//pageLengthMenu: 	[5,], 					//可选页面数  auto是自动计算  all是全部
+					//isSingleSelect: true,			 			//是否单选
+					isMulitSelect: true,			 			//是否多选
+					//defaultSelect:true,
+					//isUseTabs:true, 
+				},
+
+			}
+			$(document).ready(function () {
+				baseDataTable.init(table.data, table.columns, table.ui);
+			})
+		</script>
+</container>
+<!--# include file="/lims/include/page-suffix.html" -->

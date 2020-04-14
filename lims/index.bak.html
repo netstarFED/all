@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <title>LIMS 前端框架演示</title>
+    <meta content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, user-scalable=0, width=device-width" name="viewport" />
+
+    <script type="text/javascript">
+        var language = 'cn';
+    </script>
+    <!--icon start-->
+<link rel="stylesheet" href="/assets/css/fonts/linecons/css/linecons.css?v=1">
+<link rel="stylesheet" href="/assets/css/fonts/fontawesome/css/font-awesome.min.css?v=4.6.3">
+<link rel="stylesheet" href="/assets/css/fonts/icomoon/css/icomoon.css">
+<!--icon end-->
+<!--bootstarp start-->
+<link rel="stylesheet" href="/assets/css/bootstrap.css?v=3.0.1">
+<!--bootstarp end-->
+<link rel="stylesheet" href="/assets/css/jsplumb/default.css?v=0.0.1">
+
+<!-- fullcalendar start-->
+<!-- <link rel="stylesheet" href="/assets/js/fullcalendar/fullcalendar.min.css?v=3.4.0">
+<link rel="stylesheet" href="/assets/js/fullcalendar/fullcalendar.print.min.css?v=3.4.0" media='print'> -->
+<link rel="stylesheet" href="/assets/css/animate.min.css?v=3.5.1">
+<!-- <link rel="stylesheet" href="/assets/less/netstar-common.css?v=0.1"> -->
+<link rel="stylesheet" href="/assets/less/ns-template.css?v=0.1">
+<link rel="stylesheet" href="/assets/less/ns-peis.css?v=0.1">
+<!-- <link rel="stylesheet" href="/assets/less/nsui-document.css?v=0.1"> -->
+<!-- <link rel="stylesheet" href="/assets/less/ns-crm.css?v=0.1"> -->
+<!-- <link rel="stylesheet" href="/assets/less/netstar-car.css?v=0.1"> -->
+<link rel="stylesheet" href="/assets/less/ns-mobile.css?v=0.1">
+
+<!-- fullcalendar end-->
+<!--codemirror-->
+<link rel="stylesheet" href="/assets/less/codemirror/codemirror.css?v=5.38.0">
+<!-- jquery code start-->
+<script src="/assets/js/jquery.min.js?v=1.11.1"></script>
+<!-- jquery code end-->
+<script src="/assets/js/netstar-language.js?v=0.0.1"></script>
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+	<script src="/assets/js/ie/html5shiv.min.js"></script>
+	<script src="/assets/js/ie/respond.min.js"></script>
+<![endif]-->
+
+<!-- jquery code end-->
+<script src="/assets/js/bootstrap.min.js?v=3.3.6"></script>
+
+<script src="/assets/js/datatables/js/jquery.dataTables.min.js?v=1.10.15"></script>
+<script src="/assets/js/datatables/yadcf/jquery.dataTables.yadcf.js?v=0.8.3"></script>
+<script src="/assets/js/datatables/tabletools/dataTables.tableTools.min.js?v=2.2.3"></script>
+<script src="/assets/js/datatables/js/dataTables.bootstrap.min.js?v=1.10.2"></script>
+
+<!--sjj20181128 引入vue.min.js  -->
+<script src="/assets/js/vue.min.js?v=v2.5.17"></script>
+
+<script src="/assets/js/TweenMax.min.js?v=1.13.1"></script>
+<script src="/assets/js/resizeable.js?v=1"></script>
+<script src="/assets/js/joinable.js?v=1.18.9"></script>
+<script src="/assets/js/jquery-validate/jquery.validate.js?v=1.15.0"></script>
+<script src="/assets/js/base64/jquery.base64.js?v=10.0.0"></script>
+<script src="/assets/js/export/tableExport.js?v=10.0.0"></script>
+<script src="/assets/js/dropzone/dropzone.min.js"></script>
+<script src="/assets/js/dropzone/image-compressor.min.js"></script>
+<!-- <script src="/assets/js/dropzone/polyfill.min.js"></script> -->
+<script src="/assets/js/moment.js?v=0.1.0"></script>
+<script src="/assets/js/datepicker/bootstrap-datepicker.js?v=1.7.0"></script>
+<script src="/assets/js/timepicker/bootstrap-timepicker.min.js?v=10.0.0"></script>
+<script src="/assets/js/daterangepicker/daterangepicker.js?v=1.3.13"></script>
+<script src="/assets/js/inputmask/jquery.inputmask.bundle.js?v=3.1.25"></script>
+
+<script src="/assets/js/webupload/webuploader.js?v=1.5.0"></script>
+<script src="/assets/js/webupload/webupload.js?v=0.1.0"></script>
+
+<script src="/assets/js/jsplumb/jsplumb.min.js?v=2.7.9"></script>
+
+<!--fullcalendar start-->
+<script src="/assets/js/fullcalendar/fullcalendar.min.js?v=3.4.0"></script>
+<!--fullcalendar end-->
+
+<script src="/assets/js/select2/select2.full.js?v=4.0.3"></script>
+<script src="/assets/js/multiselect/jquery.multi-select.js?v=0.9.12"></script>
+<script src="/assets/js/multiselect/jquery.quicksearch.js?v=0.9.12"></script>
+<script src="/assets/js/selectboxit/jquery.selectBoxIt.min.js?v=3.8.1"></script>
+<script src="/assets/js/provincedata.min.js?v=0.1.0"></script>
+<script src="/assets/js/netstar-provinceSelect.js?v=0.1.0"></script>
+
+<!-- 
+<script src="/assets/js/uikit/js/uikit.min.js?v=2.10.0"></script>
+<script src="/assets/js/uikit/js/addons/nestable.min.js"></script> -->
+
+<script src="/assets/js/jquery.typeahead.js?v=2.7.0"></script>
+
+<script src="/assets/js/echarts/echarts.min.js?v=14.1.7"></script>
+<script src="/assets/js/echarts/ecstat/ecStat.min.js"></script>
+
+<script src="/assets/js/jquery.hotkeys.js?v=0.2.0"></script>
+<script src="/assets/js/store.min.js?v=0.1.0"></script>
+<script src="/assets/js/toastr/toastr.min.js?v=2.1.2"></script>
+
+
+<script src="/assets/js/orgchart/second/jquery.orgchart.js?v=14.1.7"></script>
+
+<script src="/assets/js/netstar-api.js?v=1.0.0"></script>
+<script src="/assets/js/netstar-toggles.js?v=1.0.0"></script>
+<script src="/assets/js/netstar-widgets.js?v=1.0.0"></script>
+<script src="/assets/js/netstar-custom.js?v=1.0.0"></script>
+<script src="/assets/js/netstar-base.js?v=0.1.0"></script>
+
+<script src="/assets/js/ui/nstree.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-addsearchinput.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-chart.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-keyboard.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-personselect.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-personselectsystem.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-projectandtree.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-projectselect.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-statetable.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-treeplane.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-organizaselect.js?v=0.1.0"></script>
+<script src="/assets/js/ui/fullcalendar.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-confirm.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-notify.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-tablemanager.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-statictable.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-login.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-soundplayer.js?v=0.1.0"></script>
+
+<script src="/assets/js/ui/advancesearch.js?v=0.1.0"></script>
+<script src="/assets/js/ui/modelselector.js?v=0.1.0"></script>
+<script src="/assets/js/ui/inputSelect.js?v=0.1.0"></script>
+<script src="/assets/js/ui/ztree.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-quicktyping.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-resulttable.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-timeline.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-timedisplay.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-logtimeline.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-formplate.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-orgchart.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-htmlinput.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-questionlist.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-numrange.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui.radiocheckstring.js?v=0.1.0"></script>
+
+<script src="/assets/js/common/getrootpath.js?v=0.1.0"></script>
+<script src="/assets/js/common/height.js?v=0.1.0"></script>
+<script src="/assets/js/common/mainmenu.js?v=0.1.0"></script>
+<script src="/assets/js/common/baseframe.js?v=0.1.0"></script>
+<script src="/assets/js/common/nsdebuger.js?v=0.1.0"></script>
+<script src="/assets/js/common/nsframe.js?v=0.1.0"></script>
+<script src="/assets/js/common/nslayout.js?v=0.1.0"></script>
+<script src="/assets/js/common/nsvals.js?v=0.1.0"></script>
+<script src="/assets/js/common/nsnav.js?v=0.1.0"></script>
+<script src="/assets/js/common/screen.js?v=0.1.0"></script>
+<script src="/assets/js/common/provinceselect.js?v=0.1.0"></script>
+
+<script src="/assets/js/common/nscomponent.js?v=0.1.0"></script>
+
+<script src="/assets/js/common/component-combine.js?v=0.1.0"></script>
+<!--sjj 自定义组合组件-->
+
+<script src="/assets/js/common/nsformbase.js?v=0.1.0"></script>
+<script src="/assets/js/common/nsform.js?v=0.1.0"></script>
+
+<script src="/assets/js/common/controlplane.js?v=0.1.0"></script>
+<script src="/assets/js/common/nsmultiselect.js?v=0.1.0"></script>
+<script src="/assets/js/common/personui.js?v=0.1.0"></script>
+<script src="/assets/js/common/tree-ui.js?v=0.1.0"></script>
+<script src="/assets/js/common/nsvalidate.js?v=0.1.0"></script>
+<script src="/assets/js/common/nsalert.js?v=0.1.0"></script>
+
+<script src="/assets/js/common/shortcutmenus.js?v=0.1.0"></script>
+<script src="/assets/js/common/landing.js?v=0.1.0"></script>
+<script src="/assets/js/dialog/nswindow.js?v=0.1.0"></script>
+<script src="/assets/js/dialog/popupbox.js?v=0.1.0"></script>
+<script src="/assets/js/dialog/popupboxmore.js?v=0.1.0"></script>
+<script src="/assets/js/dialog/custom.js?v=0.1.0"></script>
+
+<script src="/assets/js/common/nsbutton.js?v=0.1.0"></script>
+<script src="/assets/js/common/commonbutton.js?v=0.1.0"></script>
+<script src="/assets/js/common/commonconfig.js?v=0.1.0"></script>
+<script src="/assets/js/common/transactor.js?v=0.1.0"></script>
+
+
+<script src="/assets/js/nsCommon.js?v=0.1.0"></script>
+
+<script src="/assets/js/netstar-datatable.js?v=0.1.0"></script>
+
+
+<script src="/assets/js/netstar-customConfig.js?v=0.1.0"></script>
+<script src="/assets/js/netstar-messager.js"></script>
+<script src="/assets/js/dicts/pinyin.js?v=0.1.0"></script>
+<script src="/assets/js/dicts/wb.js?v=0.1.0"></script>
+<!--ueditor-->
+<script type="text/javascript" charset="utf-8" src="/assets/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/assets/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="/assets/js/ueditor/kityformula-plugin/addKityFormulaDialog.js"></script>
+<script type="text/javascript" charset="utf-8" src="/assets/js/ueditor/kityformula-plugin/getKfContent.js"></script>
+<script type="text/javascript" charset="utf-8" src="/assets/js/ueditor/kityformula-plugin/defaultFilterFix.js"></script>
+
+<!--codemirror-->
+<script src="/assets/js/codemirror/codemirror.js?v=5.38.0"></script>
+<script src="/assets/js/codemirror/mode/javascript/javascript.js?v=5.38.0"></script>
+
+
+<!--模板-->
+<script src="/assets/js/template/nstemplate-common.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-managertable.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-doubletables.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-formmanager.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-formtable.js?v=0.1.0"></script>
+
+<script src="/assets/js/template/nstemplate-treetable.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-treelist.js?v=0.1.0"></script>
+<script src="/assets/js/common/treeformat.js?v=0.1.0"></script>
+<script src="/assets/js/table/nslist.js?v=0.1.0"></script>
+<script src="/assets/js/table/blocktable.js?v=0.1.0"></script>
+<script src="/assets/js/table/treetable.js?v=0.1.0"></script>
+<script src="/assets/js/table/datatable.js?v=0.1.0"></script>
+
+
+<script src="/assets/js/ui/nsui-tablecolumn.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-simplestats.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-tabformlist.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-singleform.js?v=0.1.0"></script>
+<!-- <script src="/assets/js/template/nstemplate-mobileform.js?v=0.1.0"></script> -->
+<script src="/assets/js/template/nstemplate-advancesearch.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-listfilter.js?v=0.1.0"></script>
+<script src="/assets/js/template/nstemplate-singletable.js?v=0.1.0"></script>
+
+<script src="/assets/js/template/nstemplate-mobilelistfilter.js?v=0.1.0"></script><!-- sjj20181022 -->
+<!--uiconfig 禁止把此文件放到assets目录-->
+<script src="/lims/js/uiconfig.js?v=0.1.0"></script>
+<!-- 工作流表单组件cy lyw添加 20181029 -->
+<script type="text/javascript">
+	mxBasePath = '/assets/flow/';  //mx基础库 应当有resource css images等 '../src';
+</script>
+<!-- 工作流lyw -->
+<script src="/assets/js/workflow/workflow.js?v=0.1.0"></script>
+<script src="/assets/js/workflow/mxClient.min.js?v=0.1.0"></script>
+<script src="/assets/js/workflow/flowchartviewer.js?v=0.1.0"></script>
+
+
+<script src="/assets/js/ui/nsui-charttable.js?v=0.1.0"></script>
+
+<script src="/assets/js/ui/nsui-jsplumb.js?v=2.7.9"></script>
+
+<script type="text/javascript" src="/assets/js/netstar-project.js?v=0.1.0"></script>
+
+<!-- XML生成的json对象 -->
+<script src="/assets/js/editor/nsmindjettoolsjson.js?v=0.1.0"></script>
+<!-- 新菜单 -->
+<script src="/assets/js/menu/menu.js?v=0.1.0"></script>
+
+
+<script type="text/javascript" src="/assets/js/ui/nsui-importdialog.js?v=0.1.0"></script>
+<script type="text/javascript" src="/assets/js/ui/nsui-simpletags.js?v=0.1.0"></script>
+<script src="/assets/js/ui/nsui-customertable.js?v=0.1.0"></script>
+
+<script type="text/javascript" src="/assets/js/colorpicker/bootstrap-colorpicker.min.js?v=0.1.0"></script>
+<!-- <script type="text/javascript" src="/assets/js/workflow/workflow.js"></script> -->
+
+<!-- 体检项目 -->
+<!-- 导入组件 -->
+<script type="text/javascript" src="/assets/js/ui/importedcomponents.js"></script>
+<!-- canvas画图组件 -->
+<script type="text/javascript" src="/assets/js/ui/canvas.js"></script>
+<!-- 规则录入 -->
+<script type="text/javascript" src="/assets/js/ui/ruleentry.js"></script>
+<!-- maskInput类输入组件 -->
+<script type="text/javascript" src="/assets/js/ui/input-mask.js"></script>
+<script type="text/javascript" src="/assets/js/ui/nsform-component.js"></script>
+<!-- pdf浏览器 -->
+<script type="text/javascript" src="/assets/js/pdf/pdf.js"></script>
+<script type="text/javascript" src="/assets/js/ui/nsui-pdfview.js"></script>
+<!-- 网星通 -->
+<script type="text/javascript" src="/assets/js/chat/netstar-chat.js"></script>
+<!-- 导出excel -->
+<script type="text/javascript" src="/assets/js/jsxlsx/shim.min.js"></script>
+<script type="text/javascript" src="/assets/js/jsxlsx/xlsx.full.min.js"></script>
+<script type="text/javascript" src="/assets/js/export/nsui-exportxlsx.js"></script>
+<!-- 手机搜索框 -->
+<script type="text/javascript" src="/assets/js/mobile/mobileSearch.js"></script>
+<!-- 移动窗口 -->
+<script type="text/javascript" src="/assets/js/ui/nsui-dragwindows.js"></script>
+<!-- NetStarLayout,新版layout -->
+<script type="text/javascript" src="/assets/js/pt/nslayout.js"></script>
+<script type="text/javascript" src="/assets/js/mobile/filldatawithconfig.js"></script>
+<!-- 新组件 -->
+<script src="/assets/js/template/nstemplate-pagelayout.js?v=0.1.0"></script>
+<script type="text/javascript" src="/assets/js/common/newtemplatecomponent.js"></script>
+<script type="text/javascript" src="/assets/js/mobile/filldatawithconfig.js"></script>
+<script type="text/javascript" src="/assets/js/pt/nspt-nav.js"></script>
+
+<!-- sjj 20181225 -->
+<script type="text/javascript" src="/assets/js/pt/nspt-button.js"></script>
+<!-- 新增弹框 -->
+<script type="text/javascript" src="/assets/js/pt/nspt-labelpage.js"></script>
+<!-- 确认弹框 -->
+<script type="text/javascript" src="/assets/js/pt/nspt-confirm.js"></script>
+
+<!-- sjj 20181226 -->
+<script type="text/javascript" src="/assets/js/image/img-compressor.min.js"></script>
+
+<style>
+
+</style>
+</head>
+
+<body class="page-body skin-peis frame-standard">
+        <div class="page-container">
+            <header class="header">
+                <div class="logo">
+                    <a href="javascript:void(0)" title="">
+                        <img src="/lims/images/netstar-logo-white.png" alt="LOGO" />
+                    </a>
+                </div>
+                <nav class="navbar">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-icon"> <i class="fa-navicon"></i>
+                        </button>
+                        <button type="button" class="btn btn-icon" data-toggle="tooltip" title="主页" data-placement="bottom" onclick="nsHome()"> <i class="fa-home"></i>
+                        </button>
+                        <button type="button" class="btn btn-icon" data-toggle="tooltip" title="全屏" data-placement="bottom" onclick="nsfullscreen();">
+                            <i class="fa-arrows-alt"></i>
+                        </button>
+                        
+                    
+                    </div>
+                    <div class="navbar-nav">
+                        <div class="page-currentdate"></div>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa-user-circle-o"></i>
+                                <span>超级管理员</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li>
+                                    <a href="javascript:openPasswordChange();">修改密码</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-icon notice" data-toggle="tooltip" title="消息" data-placement="bottom">
+                                <i class="fa-bell-o"></i>
+                                <span class="badge badge-danger">99</span>
+                            </button>
+                            <button type="button" class="btn btn-icon" data-toggle="tooltip" title="注销" data-placement="bottom" onclick="logout();">
+                                <i class="fa-power-off"></i>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div id="sidebar-menu"></div>
+            <div class="content-box">
+                <container>
+                    
+            <div class="main-content table-content" id="lims-home-panel">	
+                <div class="nstable-panel">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="ns-table-panel-header">
+                                <h4 class="ns-table-panel-title">
+                                    <i class="fa fa-line-chart">工作量统计</i>
+                                </h4>
+                            </div>
+                            <div class="nstable-panel-body">
+                                <div id="barchart" class="bar-echart" style="width:100%;height:500px"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="ns-table-panel-header">
+                                <h4 class="ns-table-panel-title">
+                                    <i class="fa fa-line-chart">待办任务</i>
+                                </h4>
+                            </div>
+                            <div class="nstable-panel-body">
+                                <ul id="card-list">
+                                    <li class="card-list-item card-list-lg">
+                                        <a href="#">
+                                            <div class="card-list-before"></div>
+                                            <div class="card-list-info">
+                                                <h5 class="title">报告编制</h5>
+                                                <span>日检、周检、月检、管网检测流程</span>
+                                            </div>
+                                            <div class="card-list-after">
+                                                <span class="badge">12</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nstable-panel">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="ns-table-panel-body">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="ns-table-panel-header">
+                                <h4 class="ns-table-panel-title">
+                                    <i class="fa fa-line-chart">待办任务</i>
+                                </h4>
+                            </div>
+                            <div class="nstable-panel-body">
+                                <ul id="card-list">
+                                    <li class="card-list-item card-list-lg">
+                                        <a href="#">
+                                            <div class="card-list-before"></div>
+                                            <div class="card-list-info">
+                                                <h5 class="title">报告编制</h5>
+                                                <span>日检、周检、月检、管网检测流程</span>
+                                            </div>
+                                            <div class="card-list-after">
+                                                <span class="badge">12</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="ns-table-panel-header">
+                                <h4 class="ns-table-panel-title">
+                                    <i class="fa fa-line-chart">待办任务</i>
+                                </h4>
+                            </div>
+                            <div class="nstable-panel-body">
+                                <ul id="card-list">
+                                    <li class="card-list-item card-list-lg">
+                                        <a href="#">
+                                            <div class="card-list-before"></div>
+                                            <div class="card-list-info">
+                                                <h5 class="title">报告编制</h5>
+                                                <span>日检、周检、月检、管网检测流程</span>
+                                            </div>
+                                            <div class="card-list-after">
+                                                <span class="badge">12</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>	
+                </div>
+            </div>
+            <script type="text/javascript">
+        
+                var homeConfigSource = [
+                    {
+                        id:'lims-panel-chart',
+                        type:'chart',
+                        column:8,
+                        isvisable:1,  //0隐藏 1显示
+                        height:1, //1正常  2两倍高度
+                        order:1,
+                        title:'工作量统计',
+                    },{
+                        id:'lims-panel-mylist',
+                        type:'list',
+                        column:4,
+                        isvisable:1,
+                        height:1, //1正常  2两倍高度
+                        order:2,
+                        title:'我的待办',
+                    },{
+                        id:'lims-panel-calendar',
+                        type:'calendar',
+                        column:8,
+                        isvisable:1,
+                        height:1, //1正常  2两倍高度
+                        order:3,
+                        title:'日历统计',
+                    },{
+                        id:'lims-panel-companylist',
+                        type:'list',
+                        column:4,
+                        isvisable:1,
+                        height:1, //1正常  2两倍高度
+                        order:4,
+                        title:'公告通知',
+                    },{
+                        id:'lims-panel-msginfolist',
+                        type:'list',
+                        column:4,
+                        isvisable:1,
+                        height:1, //1正常  2两倍高度  1是455 2是455*2 = 910
+                        order:5,
+                        title:'消息提醒',
+                    }
+                ];
+                var limsHomeConfig = {
+                    id:'lims-home-panel',
+                    data:homeConfigSource,//数据源参
+                    url:'',//配置链接
+                    dataSrc:'',//数据源参
+                    completeHandler:function(){
+                        //图标
+                        var chartJson = {
+                            title:'商品名',
+                            type:'bar',
+                            xAxisField:'people',
+                            yAxisField:'name',
+                            showPosition:'Y',
+                            data:[
+                                {
+                                    people:'AA',
+                                    name:'AAA'
+                                }
+                            ]
+                        }
+                        var $chartDom = echarts.init($('#lims-panel-chart')[0]);
+                        nsUI.chart(chartJson,$chartDom);
+        
+                        //日历
+                        var dataSource = [
+                            {
+                                title: 'All Day Event',
+                                start: '2018-05-01',
+                                end:'2018-05-01',
+                                rendering: 'background',
+                                color: '#000000'
+                            },
+                            {
+                                title: 'Long Event',
+                                start: '2018-05-08 00:00:00.0',
+                                end: '2018-05-10 00:00:00.0',
+                                rendering: '',
+                                color: ''
+                            },
+                            {
+                                id: 999,
+                                title: 'Repeating Event',
+                                start: '2018-05-11 00:00:00',
+                                end: '2018-05-12 00:00:00'
+                            },
+                            {
+                                id: 999,
+                                title: 'Repeating Event',
+                                start: '2018-05-16 00:00:00',
+                                end: '2018-05-16 00:00:00'
+                            },
+                            {
+                                title: 'Conference',
+                                start: '2018-05-11',
+                                end: '2018-05-13'
+                            },
+                            {
+                                title: 'Meeting',
+                                start: '2018-05-12T10:30:00',
+                                end: '2018-05-12T12:30:00'
+                            },
+                            {
+                                title: 'Lunch',
+                                start: '2018-05-12T12:00:00'
+                            },
+                            {
+                                title: 'Meeting',
+                                start: '2018-05-12T14:30:00'
+                            },
+                            {
+                                title: 'Happy Hour',
+                                start: '2018-05-12T17:30:00'
+                            },
+                            {
+                                title: 'Dinner',
+                                start: '2018-05-12T20:00:00'
+                            },
+                            {
+                                title: 'Birthday Party',
+                                start: '2018-05-13T07:00:00'
+                            },
+                            {
+                                title: 'Click for Google',
+                                url: 'http://google.com/',
+                                start: '2018-05-28'
+                            },{
+                                title: 'sepember date1',
+                                start: '2018-09-01 00:00',
+                                end:'2018-09-08 00:00'
+                            },{
+                                title: 'sepember date',
+                                start: '2018-09-28 00:00',
+                                end:'2018-09-30 00:00'
+                            }
+                        ];
+                        var fullCalendarJson = {
+                            id:'lims-panel-calendar',						//要显示日程表的元素id
+                            //defaultDate:'2018-05-20',			//默认显示的日期
+                            isSelect:true,						//是否支持选中
+                            dataSource:dataSource,				//数据源，支持自定义和ajax
+                            //url:getRootPath() + '/assets/json/fullcalendar.json',								//请求链接
+                            method:'GET',						//请求方式 GET OR POST
+                            data:{},							//请求参数
+                            dataSrc:'data',						//数据源参数
+                            //字段参数
+                            fieldConfig:{
+                                title:'title',					//标题
+                                start:'start',					//开始时间
+                                end:'end'						//结束时间  
+                            },
+                            firstDay:1,							//设置一周中显示的第一天是哪天，周日是0，周一是1，类推。
+                        }
+                        nsFullcalendar.init(fullCalendarJson);
+                    }
+                };
+                var limsHomeUI = {
+                    htmlInit:function(data){
+                        var config = this.configs.config;
+                        var html = '';
+                        data.sort(function(a,b){return a.order-b.order});//排序
+                        var idsData = {};
+                        for(var i=0; i<data.length; i++){
+                            var panelData = data[i];
+                            var titleHtml = '';
+                            var contentHtml = '';
+                            var id = 'lims-home-'+panelData.type+'-'+i;
+                            var classStr = '';
+                            if(typeof(panelData.isvisable)=='boolean'){
+                                if(panelData.isvisable == true){
+                                    classStr = 'hide';
+                                }
+                            }else{
+                                if(Number(panelData.isvisable) == 0){
+                                    //0隐藏 1显示
+                                    classStr = 'hide';
+                                }
+                            }
+                            if(panelData.id){
+                                id = panelData.id;
+                            }
+                            idsData[id] = panelData;
+                            switch(panelData.type){
+                                case 'chart':
+                                    contentHtml = '<div id="'+id+'" class="bar-echart" style="width:100%;height:500px"></div>';
+                                    break;
+                                case 'calendar':
+                                    contentHtml = '<div id="'+id+'"></div>';
+                                    break;
+                                case 'list':
+                                    contentHtml = '<ul id="'+id+'"></ul>';
+                                    break;
+                            }
+                            if(panelData.title){
+                                titleHtml = '<div class="ns-table-panel-header">'
+                                                +'<h4 class="ns-table-panel-title">'
+                                                    +'<i class="fa fa-line-chart">'+panelData.title+'</i>'
+                                                +'</h4>'
+                                                +'<button type="button" class="btn btn-white" ns-type="homesettings" ns-containerid="'+id+'"><i class="fa-table"></i></button>'
+                                            +'</div>';
+                            }
+                            html += '<div class="col-xs-'+panelData.column+' '+classStr+'">'
+                                        +titleHtml
+                                        +'<div class="nstable-panel-body">'
+                                            +contentHtml
+                                        +'</div>'
+                                    +'</div>';
+                        }
+                        $('#'+config.id).html(html);
+                        this.idsData = idsData;
+                        if(typeof(config.completeHandler)=='function'){
+                            config.completeHandler();
+                        }
+                        $('button[ns-type="homesettings"]').off('click');
+                        $('button[ns-type="homesettings"]').on('click',function(ev){
+                            var $this = $(this);
+                            var containerId = $this.attr('ns-containerid');
+                            var valuesData = limsHomeUI.idsData[containerId];
+                            var dialogConfig = {
+                                id:'dialog-common',
+                                title: "配置",
+                                size: 	"s",
+                                form:[
+                                    {
+                                        id:'id',
+                                        type:'hidden',
+                                        hidden:true,
+                                    },
+                                    {
+                                        id: 		'type',
+                                        label: 		'类型',
+                                        type: 		'select',
+                                        subdata:[
+                                            {
+                                                value:'list',
+                                                text:'list'
+                                            },{
+                                                value:'chart',
+                                                text:'chart'
+                                            },{
+                                                value:'calendar',
+                                                text:'calendar'
+                                            }
+                                        ],
+                                        commonChangeHandler:function(data){
+                                            var subdata = [];
+                                            switch(data.value){
+                                                case 'chart':
+                                                case 'calendar':
+                                                    subdata = [
+                                                        {
+                                                            value:8,
+                                                            text:8
+                                                        },{
+                                                            value:12,
+                                                            text:12
+                                                        }
+                                                    ];
+                                                    break;
+                                                case 'list':
+                                                    subdata = [
+                                                        {
+                                                            value:4,
+                                                            text:4
+                                                        },{
+                                                            value:8,
+                                                            text:8
+                                                        }
+                                                    ];
+                                                    break;
+                                            }
+                                            nsForm.edit([{id:'column',subdata:subdata}],'dialog-common');
+                                        }
+                                    },
+                                    {
+                                        id: 		'column',
+                                        label: 		'列宽',
+                                        type: 		'select',
+                                        subdata:[
+                                            {
+                                                value:4,
+                                                text:4,
+                                            },{
+                                                value:8,
+                                                text:8
+                                            },{
+                                                value:12,
+                                                text:12
+                                            }
+                                        ]
+                                    },{
+                                        id: 		'height',
+                                        label: 		'高度',
+                                        type: 		'radio',
+                                        subdata:[
+                                            {
+                                                value:1,
+                                                text:1
+                                            },{
+                                                value:2,
+                                                text:2
+                                            }
+                                        ]
+                                    },{
+                                        id:'isvisable',
+                                        label: 		'是否可见',
+                                        type: 		'radio',
+                                        subdata:[
+                                            {
+                                                value:1,
+                                                text:true
+                                            },{
+                                                value:0,
+                                                text:false
+                                            }
+                                        ]
+                                    },{
+                                        id:'order',
+                                        label: 		'排序',
+                                        type: 		'radio',
+                                        subdata:[
+                                            {
+                                                value:1,
+                                                text:1
+                                            },{
+                                                value:2,
+                                                text:2
+                                            },{
+                                                value:3,
+                                                text:3
+                                            },{
+                                                value:4,
+                                                text:4,
+                                            },{
+                                                value:5,
+                                                text:5
+                                            }
+                                        ]
+                                    }
+                                ],
+                                btns:[
+                                    {
+                                        text: 		'确认',
+                                        handler: 	function(){
+                                            var formJson = nsForm.getFormJSON('dialog-common');
+                                            if(formJson){
+                                                formJson.column = Number(formJson.column);
+                                                formJson.isvisable = Number(formJson.isvisable);
+                                                formJson.order = Number(formJson.order);
+                                                formJson.height = Number(formJson.height);
+                                                formJson.isvisable = Number(formJson.isvisable);
+                                                var data = limsHomeUI.rowsData;
+                                                var existIndex = -1;
+                                                for(var i=0; i<data.length; i++){
+                                                    if(data[i].id == formJson.id){
+                                                        existIndex = i;
+                                                        break;
+                                                    }
+                                                }
+                                                if(existIndex > -1){
+                                                    if(data[existIndex].order != formJson.order){
+                                                        //改变了排序
+                                                        var orderIndex = -1;
+                                                        for(var i=0; i<data.length; i++){
+                                                            if(data[i].order == formJson.order){
+                                                                orderIndex = i;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(orderIndex > -1){
+                                                            //找到原来排序占用的值互换顺序
+                                                            data[orderIndex].order = data[existIndex].order;
+                                                            nsVals.extendJSON(data[existIndex],formJson);
+                                                        }
+                                                    }else{
+                                                        nsVals.extendJSON(data[existIndex],formJson);
+                                                    }
+                                                }
+                                                store.set('lims-home-store',data);
+                                                nsdialog.hide();
+                                                limsHomeUI.htmlInit(data);
+                                            }
+                                        },
+                                    }
+                                ]
+                            };
+                            dialogConfig = nsForm.resetValues(valuesData,dialogConfig);
+                            nsdialog.initShow(dialogConfig);
+                        });
+                    },
+                    panelInit:function() {
+                        var config = this.configs.config;
+                        var _this = this;
+                        var storeData = store.get('lims-home-store');
+                        if(storeData){
+                            limsHomeUI.originalData = $.extend(true,[],storeData);
+                            limsHomeUI.rowsData = storeData;
+                            _this.htmlInit(storeData);
+                        }else if(config.url){
+                            $.ajax({
+                                url:config.url,
+                                data:{},
+                                type:'GET',
+                                dataType:'json',
+                                plusData:{
+                                    dataSrc:config.dataSrc
+                                },
+                                success:function(res,ajaxData){
+                                    if(res.success == true){
+                                        //返回值存在
+                                        var plusData = ajaxData.plusData;
+                                        limsHomeUI.originalData = $.extend(true,[],res[plusData.dataSrc]);
+                                        limsHomeUI.rowsData = res[plusData.dataSrc];
+                                        limsHomeUI.htmlInit(res[plusData.dataSrc]);
+                                    }
+                                }
+                            });
+                        }else{
+                            limsHomeUI.originalData = $.extend(true,[],config.data);
+                            limsHomeUI.rowsData = config.data;
+                            _this.htmlInit(config.data);
+                        }
+                    },
+                    init:function(_config){
+                        var config = _config;
+                        limsHomeUI.configs = {
+                            original:$.extend(true,{},_config),
+                            config:config
+                        }
+                        this.panelInit();
+                    }
+                };
+                limsHomeUI.init(limsHomeConfig);
+        
+        
+                /*
+                */
+            </script>
+        
+                </container>
+        
+                    <!--<footer class="main-footer sticky footer-type-1 fixed">
+                        <div class="footer-inner">
+                            <div class="footer-text">
+                                &copy; 2016 
+                                <strong>NetStar</strong> 
+                            </div>
+                            <div class="go-up">
+                                <a href="#" rel="go-top">
+                                    <i class="fa-angle-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </footer>-->
+            </div>
+            <footer>
+                <div class="links-group">
+                    <a href="javascript:nshelpInfoDialog();" title="" class="links-item">
+                        <i class="fa-question-circle-o"></i>
+                    </a>
+                </div>
+                <div class="copyright">
+                    <p>版权所有&copy;2018<br>河北网星软件</p>
+                </div>
+            </footer>
+        </div>
+        <div class="page-loading-overlay">
+            <div class="loader-2"></div>
+        </div>
+        
+        <div id="placeholder-popupbox"></div>
+        <script type="text/javascript">
+        var formHtml='';
+        getFormdate();
+        $('.page-currentdate').html('<i class="fa-clock-o" style="padding-right:5px;"></i>当前服务器时间：'+moment().format('YYYY-MM-DD HH:DD:SS'));
+        //获取form表单数据html			
+        function getFormdate(){
+           $.ajax({
+               url : getRootPath() + '/assets/json/ajaxform.json',
+               type: 'GET',
+               dataType:'json',
+               success:function(data){	
+                   //正确之后操作
+                   if(data.success == true){
+                       var arr=data.rows;
+                    for(var i=0;i<arr.length;i++){
+                        formHtml +='<div class="help-info-detailed" style="display: none;position: absolute;top:10px;">'
+                                    +'<div class="help-info-img">'
+                                        +'<img src="/NPE/'+arr[i].img+'" width="150" alt="" />'
+                                        +'<span>微信&nbsp|&nbsp公众号</span>'
+                                    +'</div>'
+                                    +'<div class="help-info-word">'
+                                    +'<table style="border:0">'
+                                        +'<tr>'
+                                            +'<td class="text-right">'
+                                                +'公司名称：'
+                                                +'</td>'
+                                                +'<td>'
+                                                +arr[i].linkName
+                                            +'</td>'
+                                        +'</tr>'
+                                        +'<tr>'
+                                            +'<td class="text-right">'
+                                            +'联系方式：'
+                                            +'</td>'
+                                            +'<td>'
+                                            +arr[i].linkPhone
+                                            +'</td>'
+                                        +'</tr>'
+                                        +'<tr>'
+                                            +'<td class="text-right">'
+                                                +'QQ：'
+                                                +'</td>'
+                                                +'<td>'
+                                                +arr[i].qq
+                                            +'</td>'
+                                        +'</tr>'
+                                        +'<tr>'
+                                            +'<td class="text-right">'
+                                                +'Email：'
+                                                +'</td>'
+                                                +'<td>'
+                                                +arr[i].eMail
+                                        +'</td>'
+                                        +'</tr>'
+                                    +'</table>'
+                                    +'</div>'
+                                +'</div>'
+                    };
+                   }else{
+                       nsalert(data.msg);
+                   }
+               },
+               error:function(error){
+                   //错误之后操作
+               }
+           });
+        }
+        var i = 0;
+        function toggleNext(){
+            var now = $(".help-info-detailed");
+            var divLength = now.length;
+            now.removeClass('animated slideInLeft slideOutRight');
+            if(i < divLength){
+                now.eq(i).addClass('animated slideOutLeft').removeClass('slideInRight');
+                setTimeout(function(){
+                    if(i!=0){
+                        now.eq(i).prev().css("display","none");
+                    }else{now.last().css("display","none");}
+                }, 500);
+                
+                if(i < divLength - 1){
+                    now.eq(i).next().addClass('animated slideInRight').removeClass('slideOutLeft');
+                    now.eq(i).next().css("display","");
+                    i++;
+                }else{
+                    now.eq(0).addClass('animated slideInRight').removeClass('slideOutLeft');
+                    now.eq(0).css("display","");
+                    i=0;
+                }
+            }
+            else{i = 0;toggleNext();}
+        };
+        function togglePrev(){
+            var now = $(".help-info-detailed");
+            var divLength = now.length;
+            now.removeClass('animated slideOutLeft slideInRight');
+            if(i < divLength && i >= 0){
+                now.eq(i).addClass('animated slideOutRight').removeClass('slideInLeft');
+                setTimeout(function(){
+                    if(i!=divLength-1){
+                        now.eq(i).next().css("display","none");
+                    }else{now.first().css("display","none");}
+                }, 500);
+                if(i < divLength && i > 0){
+                    now.eq(i).prev().addClass('animated slideInLeft').removeClass('slideOutRight');
+                    now.eq(i).prev().css("display","");
+                    i--;
+                }else{
+                    now.eq(divLength-1).addClass('animated slideInLeft').removeClass('slideOutRight');
+                    now.eq(divLength-1).css("display","");
+                    i=divLength-1;
+                }
+            }
+            else{i = divLength-1;togglePrev();}
+        };
+        function nsCloseCallBack(){
+            i = 0;
+            $(".help-info-detailed").eq(i).css("display","");
+            $(".help-info-detailed").next().css("display","none");
+            $(".help-info-detailed").removeClass('animated slideInLeft slideInRight slideOutLeft slideOutRight');
+            popupBoxMore.hide();
+        };
+        function nshelpInfoDialog(){
+            var html1 = '<div class="help-info-total">'
+                            +'<div class="help-before" onclick="togglePrev()"><i class="fa fa-angle-left"></i></div>'
+                            +'<div class="help-info-content" style="width:475.98px;height:179px">'
+                            + formHtml
+                            +'</div>'
+                            +'<div class="help-after" onclick="toggleNext()"><i class="fa fa-angle-right"></i></div>'
+                        +'</div>'
+                        ;
+            var configHelpInfo = {
+                id: 	"plane-helpInfo",
+                title: 	"帮助信息",
+                form:[
+                    {
+                        html:html1,
+                    },
+                ],
+                btns:[
+                    {
+                        text: 		'关闭',
+                        handler: 	nsCloseCallBack,
+                    }
+                ],
+            }
+            popupBoxMore.initShow(configHelpInfo);
+            $(".help-info-detailed").eq(0).css("display","");
+            $("div.modal-header button").hide();
+            $("div.modal-footer button").last().hide();
+            $("div.modal-body").css("height","199px");
+            var divLength = $(".help-info-detailed").length;
+            if (divLength==1){$("div.help-before").hide();$("div.help-after").hide();}
+        }
+        function openPasswordChange(){
+            var config = {
+                id: 	"plane-passwordchange",
+                title: 	"修改密码",
+                size: 	"s",
+                form:[
+                    {
+                        id: 		'username',
+                        label: 		'用户名',
+                        type: 		'text',
+                        readonly: 	true,
+                        value: 		'',
+                        placeholder:'登录用户名',
+                    },{
+                        id: 		'oldpassword',
+                        label: 		'现有密码',
+                        type: 		'password',
+                        rules: 		'required minlength=6',
+                        placeholder:''
+                    },{
+                        html: 		'<hr>',
+                    },{
+                        note: 		'各地相继公布的上半年经济“成绩单”，印证了权威人士的预判：“经济分化趋势在延续，甚至在加剧，确实是‘几家欢乐几家愁’。',
+                    },{
+                        id: 		'newpassword',
+                        label: 		'新密码',
+                        type: 		'password',
+                        rules: 		'required minlength=6'
+                    },{
+                        id: 		'newpassword2',
+                        label: 		'重复密码',
+                        type: 		'password',
+                        rules: 		'required minlength=6 equalTo=newpassword',
+                        placeholder:'请重复输入新密码'
+                    }
+                ],
+                btns:[
+                    {
+                        text: 		'确认修改',
+                        handler: 	'abc',
+                    },{
+                        text: 		'确认修改',
+                        type: 		'success',
+                        iconCls: 	'fa-check',
+                        handler: 	'abc',
+                    }
+                ]
+            }
+            popupBox.initShow(config);
+        }
+        
+        function logout() {
+            top.location.href = getRootPath() + "/LogOut";
+        }
+        function nsHome(){
+            window.location.href =  getRootPath() + "/home";
+        }
+        $(function(){
+            var menuConfig = {
+                id:'sidebar-menu',
+                url:getRootPath() + '/json/mainmenu.json',
+                type:'GET', //请求方式
+                data:{},//参数
+                dataSrc:'rows',//数据源
+                isTurnTree:false,
+                isUseTabField:'isUseTab',
+                menuIcon:{
+                    "流程":"fa-random",
+                    "管理":"fa-cog",
+                    "查询":"fa-search",
+                    "设备":"fa-server",
+                    "人员":"fa-user",
+                }
+            };
+            nsMenus.init(menuConfig);
+        })
+        </script>
+        
+</html>

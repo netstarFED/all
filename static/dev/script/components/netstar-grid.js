@@ -322,7 +322,7 @@ var NetStarGrid = (function () {
 					title="{{text}}" \
 					ns-index="{{index}}" \
 					onclick="javascript:NetStarGrid.rowBtnsHandler(event, \'{{gridId}}\',this)" \
-					class="pt-btn pt-btn-icon pt-btn-default">\
+					class="pt-btn pt-btn-default">\
 						<span>\
 							{{text}}\
 						</span>\
