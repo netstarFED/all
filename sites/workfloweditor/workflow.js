@@ -20,6 +20,7 @@ var nsWorkFlow = {
 			doWhenforward:'0',
 			doWhenRollBack:'0',
             cannotReplay:'0',
+            noNeedTransactor:'0'
 		},
 		// 办理人 选择设置
 		'transactorSet-selectSet':{
@@ -40,6 +41,7 @@ var nsWorkFlow = {
 		transactorsDef:'transactorSet-selectSet',
 		transactorApi:'transactorSet-selectSet',
         cannotReplay:'baseAttr-moreSet',
+        noNeedTransactor: 'baseAttr-moreSet',
 	},
 	// 保存字段的key值 {id:'',type:''} --> {name:{id:''},type:''}
 	fieldParentName:{
@@ -141,6 +143,7 @@ var nsWorkFlow = {
                     { id:'cannotReplay',name:'禁止复盘  '},
                     { id:'autoCompleteBridge',name:'自动签收接口' },
                     { id:'autoForwardBridge',name:'自动转移接口' },
+                    { id:'noNeedTransactor',name:'不需要办理人' },
 				],
                 changeHandler: function () {
                     var formJson = nsForm.getFormJSON('dialog-body');
@@ -232,7 +235,7 @@ var nsWorkFlow = {
             },
             loopFlagType: {
                 id: 'loopFlagType',
-                label: '转移方式',
+                label: '自循环条件方式',
                 type: 'radio',
                 column: 12,
                 textField: 'name',
@@ -354,6 +357,23 @@ var nsWorkFlow = {
                     }
                     nsForm.edit(editArr, nsWorkFlow.page.allId.bodyId);
                 }
+            },
+            canUndoComplete: {
+                id: 'canUndoComplete',
+                label: '是否允许撤销结束',
+                type: 'radio',
+                column: 12,
+                textField: 'name',
+                valueField: 'id',
+                subdata: [{
+                    id: 'true',
+                    name: '是',
+                    isChecked: false,
+                },{
+                    id: 'false',
+                    name: '否',
+                    isChecked: true,
+                }]
             },
             endFlagExpression:{
                 id:'endFlagExpression',
@@ -1954,6 +1974,7 @@ var nsWorkFlow = {
 					{ id:'activityNameExt', },
 					{ id:'nameDisplayWay', },
 					{ id:'formUrl', },
+					{ id:'baseAttr-moreSet', },
 				]
             }, {
                 title: '回调接口设置',
@@ -2111,6 +2132,13 @@ var nsWorkFlow = {
 			}
 		],
 		end:[
+		    {
+		        title: '基本属性',
+		        fieldType: 'baseAttr',
+		        fieldName: [
+		            {id: 'canUndoComplete',}
+		        ]
+		    },
 			{
 				keyField:'key',
 				idField:'id',
@@ -2214,7 +2242,8 @@ var nsWorkFlow = {
 				case 'doWhenRollBack':
                 case 'endFlag':
 				case "loopFlag":
-                case 'cannotReplay':    
+                case 'cannotReplay':
+                case 'noNeedTransactor':
 					// checkbox 直接存的字段
 					// checkbox选择出的字段 通过this.fieldRelationParent格式化
 					if(typeof(fieldRelationParent[attrId])!='undefined'){
