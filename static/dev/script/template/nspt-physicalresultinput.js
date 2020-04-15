@@ -253,6 +253,7 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                     label : '',
                     id : 'textarea',
                     type : 'textarea',
+                    inputHeight : 102,
                     changeHandler : function(obj){
                         console.log(obj);
                     }
