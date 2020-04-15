@@ -522,7 +522,7 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                     var html = '<ul class="">'
                                     + '<li class="media-item" :class="[{active:data.showOnReport}]" v-for="(data, listI) in list" @click="switchSelect($event, listI, data)">'
                                         + '<img :src="(imgUrl+data.id)" />'
-                                        + '<button class="pt-btn pt-btn-icon pt-btn-default" @click="deleteFunc($event, listI, data)"><i class="icon icon-trash-o"></i></button>'
+                                        + '<div class="pt-btn-group"><button class="pt-btn pt-btn-icon pt-btn-default" @click="deleteFunc($event, listI, data)"><i class="icon icon-trash-o"></i></button></div>'
                                     + '</li>'
                                     + '<li class="media-item">'
                                         + '<input class="pt-upload-control" accept = "image/*" type="file" @change="uploadFile" ref="uploadInput" />'
