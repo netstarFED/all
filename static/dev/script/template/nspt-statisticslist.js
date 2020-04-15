@@ -507,13 +507,21 @@ NetstarTemplate.templates.statisticsList = (function(){
 											var sourceArr = [];
 											for(var rowI=0; rowI<gridDataArr.length; rowI++){
 												var rowData = gridDataArr[rowI];
+												// sourceArr.push({
+												// 	product:rowI,
+												// 	businessAmount:rowData.businessAmount,
+												// 	invoicedAmount:rowData.invoicedAmount,
+												// 	notInvoicedAmount:rowData.notInvoicedAmount,
+												// 	invoicedAprAmount:rowData.invoicedAprAmount,
+												// 	backRate:rowData.backRate,
+												// });
 												sourceArr.push({
 													product:rowI,
-													businessAmount:rowData.businessAmount,
-													invoicedAmount:rowData.invoicedAmount,
-													notInvoicedAmount:rowData.notInvoicedAmount,
-													invoicedAprAmount:rowData.invoicedAprAmount,
-													backRate:rowData.backRate,
+													'业务量':rowData.businessAmount,
+													'开票金额':rowData.invoicedAmount,
+													'未开票金额':rowData.notInvoicedAmount,
+													'已开票应收金额':rowData.invoicedAprAmount,
+													'回款率':rowData.backRate,
 												});
 											} 
 											options = {
