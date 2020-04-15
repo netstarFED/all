@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+ <meta name="description" content="网星云服务" />
+ <meta name="author" content="netstar" />
+ <title>体检录入</title>
+
+ <script type="text/javascript">
+     var language = 'cn';
+     mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+ </script>
+ <!--# include file="/sites/include/login-static-dev.html" -->
+ <!--# include file="/sites/include/preload-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-dev.html" -->
+ <!--# include file="/sites/include/lazy-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+ <script type="text/javascript" src="/static/dev/script/template/nspt-physicalresultinput.js?v=10.0.0"></script>
+ <script>
+    NetstarHomePage=false
+    nsPublic = {
+        getAppendContainer : function(){
+            var insertLocation = $('container:not(.hidden)').not('.content');
+            if ($('.nswindow .content').length > 0) {
+                insertLocation = $('.nswindow .content:last');
+            }
+            return insertLocation;
+        }
+    }
+ </script>
+ <link rel="stylesheet" href="/static/dev/style/tj-common.css">
+ <style>
+     /* 临时STYLE CSS */
+ </style>
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+    <container>
+        <script>
+            var config = {
+                package : 'netstar.physicalresultinput',
+                // title : '体检登记',
+                template : 'physicalResultInput',
+                components : [
+                    {
+                        type : 'btns',
+                        name : 'btns',
+                        field : [
+                            {
+                                "functionConfig": {
+                                    "text": "流程监控",
+                                    "defaultMode": "workflowViewer",
+                                    "englishName": "nsWorkflowViewer"
+                                },
+                                "btn": {
+                                    "text": "流程监控",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "提交",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "submit",
+                                    "englishName": "nsWorkflowSubmit"
+                                },
+                                "btn": {
+                                    "text": "提交",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "驳回",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "reject",
+                                    "englishName": "nsWorkflowReject"
+                                },
+                                "btn": {
+                                    "text": "驳回",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "查看办理意见",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "findHandleRec",
+                                    "englishName": "nsWorkflowFindHandleRec"
+                                },
+                                "btn": {
+                                    "text": "查看办理意见",
+                                    "isReturn": true
+                                }
+                            }
+                        ],
+                    },{
+                        type : 'btns',
+                        name : 'btns',
+                        operatorObject : 'project',
+                        field : [
+                            {
+                                "functionConfig": {
+                                    "text": "流程监控",
+                                    "defaultMode": "workflowViewer",
+                                    "englishName": "nsWorkflowViewer"
+                                },
+                                "btn": {
+                                    "text": "流程监控",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "提交",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "submit",
+                                    "englishName": "nsWorkflowSubmit"
+                                },
+                                "btn": {
+                                    "text": "提交",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "驳回",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "reject",
+                                    "englishName": "nsWorkflowReject"
+                                },
+                                "btn": {
+                                    "text": "驳回",
+                                    "isReturn": true
+                                }
+                            },
+                            {
+                                "functionConfig": {
+                                    "text": "查看办理意见",
+                                    "defaultMode": "workflowSubmit",
+                                    "workflowType": "findHandleRec",
+                                    "englishName": "nsWorkflowFindHandleRec"
+                                },
+                                "btn": {
+                                    "text": "查看办理意见",
+                                    "isReturn": true
+                                }
+                            }
+                        ],
+                    },{
+                        type : 'switch',
+                        name : 'project',
+                        keyField : 'ResComboList',
+                        gridKeyField : "resItemVOList",
+                        imgKeyField : "resMedicalPhotoVOList",
+                        doctorKeyField : "resComboDoctorVOList",
+                        idField : 'id',
+                        field : [
+                            {
+                                field : "itemId",
+                                title : "项目",
+                                editable : false,
+                                width : '25%',
+                                formatHandler: {
+                                    type: "textFieldReplace",
+                                    data: {
+                                        textField : 'itemName',
+                                    }
+                                },
+                            },{
+                                field : "itemFinding",
+                                title : "检查所见",
+                                editable : true,
+                                width : '25%',
+                                editConfig : {
+                                    type : 'text',
+                                }
+                            },{
+                                field : "resRange",
+                                title : "参考范围",
+                                width : '25%',
+                                editable : false,
+                            },{
+                                field : "isEx",
+                                title : "是否异常",
+                                editable : true,
+                                width : '25%',
+                                editConfig : {
+                                    type : 'radio',
+                                    subdata : [
+                                        {
+                                            text : '是',
+                                            value : '1',
+                                        },{
+                                            text : '否',
+                                            value : '0',
+                                        }
+                                    ]
+                                },
+                                formatHandler: {
+                                    type: "dictionary",
+                                    data: {
+                                        0 : '否',
+                                        1 : '是'
+                                    }
+                                },
+                            },
+                        ]
+                    },
+                ],
+                getValueAjax : {
+                    url : 'http://localhost:2000/debugger/data/resultinput.json',
+                    dataSrc : 'data',
+                }
+            }
+            var pageConfig = NetstarProject.init(config);
+            // NETSTAR添加url参数即pageParam
+            NetstarTemplate.init(pageConfig);
+        </script>
+    </container>
+</body>
+
+</html>
