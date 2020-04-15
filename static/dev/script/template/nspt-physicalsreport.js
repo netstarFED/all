@@ -221,13 +221,74 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             refresh : function(data, componentConfig, config){
                 
             },
+            //html
+            initHtml:function(componentConfig,config){
+                var id = componentConfig.id + '-personal-search';
+                var inputId = componentConfig.id + '-input';
+                var html = 
+                        '<div class="pt-panel" id = "'+ id + '">'
+                            +'<div class="search-box">'
+                            +' <input type="text" class="pt-form-control" id="'+ inputId + '" placeholder="体检编号" @blur.prevent=\'searchNo()\'>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="pt-panel">'
+                            +'<div class="user-photo">'
+                                +'<img src="../saas/static/images/user-photo.jpg" alt="">'
+                            +'</div>'
+                            +'<div class="user-photo-eidt">'
+                            +' <div class="pt-btn-group">'
+                                    +'<button class="pt-btn pt-btn-default">'
+                                        +'<i class="icon icon-image"></i>'
+                                    +'</button>'
+                                    +'<button class="pt-btn pt-btn-default">'
+                                        +'<i class="icon icon-id"></i>'
+                                    +'</button>'
+                                    +'<button class="pt-btn pt-btn-default">'
+                                        +'<i class="icon icon-camera"></i>'
+                                    +'</button>'
+                                +'</div>'
+                        + '</div>'
+                        +'</div>';
+                componentConfig.searchId = id;
+                componentConfig.inputId = inputId;
+                return html;
+            },
             // 初始化
-            init : function(componentConfig, config){
-                
+            init :function(componentConfig, config){
+                var id = componentConfig.id;
+                var $container = $('#' + id);
+                var html = this.initHtml(componentConfig,config)
+                $container.html(html)
+                this.initHtml(componentConfig,config)
+                var personalVue = new Vue({
+                    el:componentConfig.searchId,
+                    data:{
+
+                    },
+                    methods:{
+                        searchNo(){
+                            var data = $('#'+ componentConfig.inputId).val();
+                            var ajaxConfig = {
+                                url: getRootPath() + '/reg/regs/getByRegCode',
+                                contentType: 'application/x-www-form-urlencoded',
+                                /* contentType: 'application/json', */
+                                data: {
+                                    regCode: data,
+                                    params: ['regType', 'regCombo'],
+                                },
+                                type: 'POST',
+                            }
+                            NetStarUtils.ajax(ajaxConfig, function (res) {
+        
+                            })
+                        }
+                    }
+                })
             }
         },
         // 登记信息
         register : {
+           
             // 获取数据
             getData : function(componentConfig, isValid, config){
                 // header
@@ -378,9 +439,320 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         },
         // 项目信息
         project : {
+            dialog:{
+                //获取弹框列表配置
+                getDialogConfig:function(componentConfig){
+                    //regList的传参
+                /*   var formData = NetstarComponent.getValues();
+                    var regListAjaxData = formData.customerName; */
+                    var itemList = {
+                        id: componentConfig.dialoglistId,
+                        data: {
+                            idField: 'id',
+                            src: getRootPath() + '/npebase/datCombos/getList',
+                            contentType: 'application/json',
+                            mentod: 'GET',
+                            dataSrc: 'rows',
+                            data: {},
+                        },
+                        columns: [{
+                                field: 'itemClassId',
+                                title: '项目类别',
+                            },
+                            {
+                                field: 'comboName',
+                                title: '组合项目',
+                            },
+                            { //number
+                                field: 'comboPrice',
+                                title: '标准金额',
+
+                            }
+                        ],
+                        ui: {
+                            isCheckSelect: true,
+                            isOpenQuery: true,
+                            height: 500
+                        }
+                    };
+                    var regList = {
+                        id:  componentConfig.dialoglistId,
+                        data: {
+                            idField: 'id',
+                            src: getRootPath() + '/npebase/datPackages/getListWithoutCustomer',
+                            contentType: 'application/json',
+                            mentod: 'GET',
+                            data: {
+
+                            },
+                        },
+                        columns: [{
+                                field: 'dictClassName',
+                                title: '体检项目',
+                            },
+                            {
+                                field: 'packageName',
+                                title: '套餐名称',
+                            },
+                            {
+                                field: 'basePrice', //number
+                                title: '标准金额',
+                            },
+                            {
+                                field: 'itemType',
+                                title: '优惠金额',
+                            },
+                            {
+                                field: 'price',
+                                title: '应收金额',
+                            },
+                            {
+                                field: 'discount',
+                                title: '折扣率',
+                            }
+                        ],
+                        ui: {
+                            isOpenQuery: true,
+                            selectedHandler: function (data) {
+                                var id = data.id
+                                var ajaxConfig = {
+                                    url: getRootPath() + '/npebase/datPackageCombos/getList',
+                                    contentType: 'application/json',
+                                    type: 'GET',
+                                    data: {
+                                        packageId: id
+                                    },
+                                }
+                                NetStarUtils.ajax(ajaxConfig, function (res) {
+                                    selectedData = res.rows
+                                    console.log(selectedData)
+                                })
+                            }
+                        }
+                    };
+                    var unitList = {
+                        id:  componentConfig.dialoglistId,
+                        data: {
+                            idField: 'id',
+                            src: getRootPath() + '/npebase/datPackages/getList',
+                            contentType: 'application/json',
+                            mentod: 'GET',
+                            data: {
+                                /* customerId: regListAjaxData */
+                            },
+                        },
+                        columns: [{
+                                field: 'dictClassName',
+                                title: '体检项目',
+                            },
+                            {
+                                field: 'packageName',
+                                title: '套餐名称',
+                            },
+                            {
+                                field: 'basePrice', //number
+                                title: '标准金额',
+                            },
+                            {
+                                field: 'itemType',
+                                title: '优惠金额',
+                            },
+                            {
+                                field: 'price',
+                                title: '应收金额',
+                            },
+                            {
+                                field: 'discount',
+                                title: '折扣率',
+                            }
+                        ],
+                        ui: {
+                            isOpenQuery: true,
+                            height: 500,
+                            selectedHandler: function (data) {
+                                /* setSelectedData(data) */
+
+                            }
+                        }
+                    }
+                    var dialogConfig = {
+                        itemList:itemList,
+                        regList:regList,
+                        unitList:unitList
+                    }
+                    componentConfig.dialogConfig = dialogConfig
+                    return {
+                        itemList:itemList,
+                        regList:regList,
+                        unitList:unitList
+                    }
+                },
+                //按钮的配置
+                btnHandler:function(componentConfig){
+                   var selectedData = '';//存放选中行的数据
+                    var addComboBtns = {
+                        id: componentConfig.dialogBtnId,
+                        btns: [{
+                                text: '确认',
+                                handler: function () {
+                                    //传参 comboIds
+                                    var checkedData = NetStarGrid.getCheckedData(componentConfig.dialoglistId);
+                                    //拼接套餐里面的项目加勾选的项目
+                                    var itemIds = '';
+                                    var unitList = ''
+                                    for (var i = 0; i < checkedData.length; i++) {
+                                        itemIds += checkedData[i].id + ','
+                                    }
+                                    for (var j = 0; j < selectedData.length; j++) {
+                                        unitList += selectedData[j].id + ','
+                                    }
+                                    var comboIds = '';
+                                    if (itemIds != '' && unitList == '') {
+                                        comboIds = itemIds
+                                    } else if (unitList != '' && itemIds == '') {
+                                        comboIds = unitList
+                                    } else {
+                                        comboIds = itemIds + unitList;
+                                    }
+                                    //返回处理好的项目
+                                    var ajaxConfig = {
+                                        url: getRootPath() + 'reg/combos/addCombo',
+                                        contentType: 'application/x-www-form-urlencoded',
+                                        type: 'POST',
+                                        data: {
+                                            comboIds: comboIds
+                                        }
+                                    }
+                                    NetStarUtils.ajax(ajaxConfig, function (res) {
+                                        if (res.success) {
+                                            //获取项目数据
+                                            NetstarComponent.dialog[componentConfig.dialogId].vueConfig.close();
+                                            for (var i = 0; i < res.rows.length; i++) {
+                                                res.rows[i].isOwnExpense = 1;
+                                            }
+                                            //存放数据 用来显示项目列表
+                                            componentConfig.itemData = res.rows;
+                                            componentConfig.itemVue.addComboVOList = componentConfig.itemData;
+                                            //显示项目长度
+                                            componentConfig.vueObj.itemAmountNum = res.rows.length;
+                                        }
+                                    })
+                                }
+                            },
+                            {
+                                text: '关闭',
+                                handler: function () {
+                                    NetstarComponent.dialog[componentConfig.dialogId].vueConfig
+                                        .close()
+                                }
+                            }
+                        ]
+                    };
+                    return addComboBtns
+                },
+                //获取项目弹框html
+                getDialogShownHtml:function(componentConfig,data){
+                    var dialoglistId = componentConfig.headerId + '-dialog-list'
+                    var dialogBtnId = componentConfig.headerId + '-dialog-btn'
+                    var html = '<div class="pt-tab-header">\
+                                    <div class="pt-nav">\
+                                        <ul class="pt-tab-list-components-tabs">\
+                                            <li id="tab-propertyList" class="component-list pt-nav-item current" ns-name="unitList">\
+                                                <a id="tab-color" href="javascript:void(0);">单位套餐 </a>\
+                                            </li>\
+                                            <li id="tab-processorList" class="component-list pt-nav-item" ns-name="regList">\
+                                                <a id="tab-color-2" href="javascript:void(0);" hidden> 体检套餐 </a>\
+                                            </li>\
+                                            <li id="tab-processorList" class="component-list pt-nav-item" ns-name="itemList">\
+                                                <a id="tab-color-2" href="javascript:void(0);" hidden> 体检项目</a>\
+                                            </li>\
+                                        </ul>\
+                                    </div>\
+                                </div>\
+                                <div id="'+ dialoglistId +'"></div>'
+                    var btnHtml = '<div id="'+dialogBtnId+'"></div>'
+                    componentConfig.dialoglistId = dialoglistId;
+                    componentConfig.dialogBtnId = dialogBtnId;
+                    return {
+                        html:html,
+                        btnHtml:btnHtml
+                    }
+                },
+          
+                //新增项目弹框
+                getDialogShownHandler:function(componentConfig,data) {     
+                //页面容器
+                    var dialogBodyId = data.config.bodyId;
+                    var footerBodyId = data.config.footerId; 
+                    var html =this.getDialogShownHtml(componentConfig,data).html;
+                    var BtnHtml =this.getDialogShownHtml(componentConfig,data).btnHtml;
+                    $('#' + dialogBodyId).html(html);
+                    $('#' + footerBodyId).html(BtnHtml); 
+                    //初始化表格tab页初始表格
+                    var dialogConfig = this.getDialogConfig(componentConfig,data).unitList;//表格配置
+                    NetStarGrid.init(dialogConfig); 
+                    //弹框数据 
+                    var dialogDataManage = { 
+                        currentName: 'unitList',
+                        data: {},
+                        table: {
+                            itemList: componentConfig.dialogConfig.itemList,
+                            regList: componentConfig.dialogConfig.regList,
+                            unitList: componentConfig.dialogConfig.unitList,
+                        }
+                    };
+                    // 添加tab事件
+                    var $lis = $('#' + dialogBodyId).find('li');
+                    $lis.off('click');
+                    $lis.on('click', function (ev) {
+                        var $this = $(this);
+                        // 记录数据
+                        dialogDataManage.data[dialogDataManage.currentName] = NetStarGrid.getCheckedData(componentConfig.dialoglistId);
+                        // 切换tab  current字体样式
+                        $lis.removeClass('current');
+                        $this.addClass('current');
+                        dialogDataManage.currentName = $this.attr('ns-name');
+                        // 切换table
+                        var gridConfig = dialogDataManage.table[dialogDataManage.currentName];
+                        // 设置默认值
+                        NetStarGrid.init(gridConfig);
+                    });
+                    //按钮初始化
+                    console.log(this.btnHandler(componentConfig))
+                    vueButtonComponent.init(this.btnHandler(componentConfig));
+                },
+            },
+            //获取header的html
+            getHeaderHtml:function(componentConfig){
+                var dialogId = componentConfig.id + '-dialog'
+                componentConfig.dialogId = dialogId;
+                var html = '<div class="pt-btn-group">'
+                                +  '<button class="pt-btn pt-btn-default pt-btn-icon" id="'+ dialogId +'" @click="itemDialog()">'
+                                    +  '<i class="icon icon-add"></i>'
+                                +   '</button>'
+                                +   '<button class="pt-btn pt-btn-default" @click = "clearData()">'
+                                    +   '<span>清空</span>'
+                                +  '</button>'
+                                +  '<button class="pt-btn pt-btn-default">'
+                                        +'<span>计算价格</span>'
+                                +  '</button>'
+                                +  '<button class="pt-btn pt-btn-default">'
+                                        +'<span>项目详情</span>'
+                                +  '</button>'
+                        +  '</div>'
+                            +  '<div class="badge">'
+                                +  '<span>项目数量</span>'
+                                +  '<span class="pt-badge pt-badge-warning">'
+                                    +'{{itemAmountNum}}'
+                                +  '</span>'
+                            +  '</div>';
+                return html;
+                
+            },
             // 获取数据
             getData : function(componentConfig, isValid, config){
-                
+                var itemData = componentConfig.itemVue.addComboVOList;
+                return  itemData
             },
             // 设置数据
             setData : function(data, componentConfig, config){
@@ -388,15 +760,148 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             },
             // 清空数据
             clearData : function(componentConfig, config){
-                
+                componentConfig.itemVue.addComboVOList = [];
             },
             // 刷新
             refresh : function(data, componentConfig, config){
                 
+            },          
+            //初始化header
+            initHeader:function(componentConfig,config){
+                /* 
+                    *项目的数据  itemData 
+                */
+                var _this = this;
+                var headerId = componentConfig.headerId;
+                var $header = $('#' + headerId);
+                var html = this.getHeaderHtml(componentConfig);
+                $($header).html(html);
+                var vueObj = new Vue({
+                    el:'#' + headerId,
+                    data:{
+                        itemAmountNum:'0'
+                    },
+                    methods:{
+                        //点击加号弹出项目页面
+                        itemDialog(){
+                            NetstarComponent.dialogComponent.init(dialog);
+                        },
+                        //清空按钮
+                        clearData(){
+                            _this.clearData(componentConfig);
+                        },
+
+                    }
+                });
+                var dialog = {
+                    id: componentConfig.dialogId,
+                    templateName: 'PC',
+                    height: '80%',
+                    width: '80%',
+                    title: '添加项目',
+                    shownHandler:function(data){
+                        _this.dialog.getDialogShownHandler(componentConfig,data)
+                    }
+                };
+                componentConfig.vueObj = vueObj;
+
+            },
+            //body的html
+            bodyHtml:function(componentConfig){
+                var html = 
+                        '<div class="block-list block-list-vertical">'
+                            + '<div class="block-list-group">'
+                                 +'<div class="block-list-item " v-for="item in addComboVOList">'
+                                    +'<div class="block-list-content">'
+                                       + '<div class="list-body">'
+                                            +'<div class="list-title">'
+                                                +'<span>{{item.comboName}}</span>'
+                                            +'</div>'
+                                            +'<div class="list-text">'
+                                                +'<span>{{item.receivable}}</span>'
+                                                +'<span class="text-through">{{item.standardAmount}}</span>'
+                                            +'</div>'
+                                        +'</div>'
+                                        +'<div class="block-list-control">'
+                                            +'<div class="pt-btn-group">'
+                                                +'<button class="pt-btn pt-btn-default pt-btn-icon" @click="addItemFun(item.comboId)">'
+                                                    +'<i class="icon">自</i>'
+                                               +'</button>'
+                                                +'<button class="pt-btn pt-btn-default pt-btn-icon"@click="deleteItem(item.comboId)">'
+                                                    +'<i class="icon icon-trash-o"></i>'
+                                                +'</button>'
+                                            +'</div>'
+                                        +'</div>'
+                                        +'<div class="price-type-mark" v-if="item.isOwnExpense === 0">自</div>'
+                                        +'<div class="program-addon-mark" v-if="item.packageId"></div>'
+                                    +'</div>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>'
+                return html;
+            },
+            //初始化body
+            initBody:function(componentConfig,config){
+                var bodyId = componentConfig.bodyId;
+                var html = this.bodyHtml(componentConfig);
+
+                //添加项目容器
+                $('#' +bodyId).html(html);
+                var vueObj = new Vue ({
+                    el:'#' +bodyId,
+                    data:{
+                        addComboVOList:componentConfig.itemData,
+                    },
+                    methods:{
+                        /* 
+                            *自费
+                            * 点击时添加自费标签
+                            * isOwnExpense 0： 是  1： 否
+                         */
+                        addItemFun(itemId){
+                            var _this = this;
+                            for (var i = 0; i < _this.addComboVOList.length; i++) {
+                                if (_this.addComboVOList[i].comboId == itemId) {
+                                    _this.addComboVOList[i].isOwnExpense = 0;
+                                }
+                            }
+                        },
+                        /* 
+                            *点击时删除项目
+                            *删除时项目数量同是变化
+                         */
+                        deleteItem(itemId){
+                            var _this = this;
+                            for (var i = 0; i < _this.addComboVOList.length; i++) {
+                                if (_this.addComboVOList[i].comboId == itemId) {
+                                    _this.addComboVOList.splice(i, 1);
+                                    var itemLength = _this.addComboVOList.length;
+                                    componentConfig.vueObj.itemAmountNum = itemLength; 
+                                }
+                            }
+                        }
+                    }
+
+                })
+                componentConfig.itemVue = vueObj;
             },
             // 初始化
             init : function(componentConfig, config){
-                
+                var id = componentConfig.id;
+                var headerId = id + '-header'
+                var bodyId = id + '-body'
+                //添加容器
+                var html = '<div class = "pt-panel-header" id="'+ headerId + '"></div>'
+                         + '<div class = "pt-panel-body" id = "'+ bodyId +'"></div>';
+             
+                var $container = $('#' + id);
+                componentConfig.headerId = headerId;
+                componentConfig.bodyId = bodyId;
+                $container.html(html);
+                //初始化header
+                this.initHeader(componentConfig,config);
+                 //初始化body
+                this.initBody(componentConfig,config);
             }
         },
         // 费用信息
@@ -424,43 +929,48 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             blockList : {
                 TEMPLATE : '<div class="price-block" v-for="(row, index) in rows">'
                             + '<div class="price-block-header">'
-                                + '<span class="price-type" :class="row[\'NETSTAR-HEADER-CLASS\']">公费</span>'
-                                + '<span>20200325354688</span>'
+                                + '<span class="price-type" :class="row[\'NETSTAR-HEADER-CLASS\']">{{row.isOwn}}</span>'
+                                + '<span>{{row.pricingCode}}</span>'
                             + '</div>'
                             + '<div class="price-block-body">'
                                 + '<ul>'
                                     + '<li>'
                                         + '<label for="">标准价格：</label>'
-                                        + '<span>￥{{row.biaozhun}}</span>'
+                                        + '<span>￥{{row.standardAmount}}</span>'
                                     + '</li>'
                                     + '<li>'
                                         + '<label for="">优惠券：</label>'
-                                        + '<span>￥{{row.youhui}}</span>'
+                                        + '<span>￥{{row.discountAmount}}</span>'
                                     + '</li>'
                                     + '<li>'
                                         + '<label for="">实收金额：</label>'
-                                        + '<span><b>￥{{row.shishou}}</b></span>'
+                                        + '<span><b>￥{{row.amount}}</b></span>'
                                     + '</li>'
                                 + '</ul>'
                             + '</div>'
                         + '</div>',
                 getRows : function(originalRows){
+                    
                     var rows = [];
                     for(var i=0; i<originalRows.length; i++){
                         var originalRow = originalRows[i];
                         var classStr = '';
-                        switch(originalRow.type){
+                        switch(originalRow.isOwnExpense){
                             case 0:
                                 classStr = 'price-type-public';
+                                originalRow.isOwn = '自费'
                                 break;
                             case 1:
                                 classStr = 'price-type-own';
+                                originalRow.isOwn = '公费'
                                 break;
                         }
                         var row = {
-                            biaozhun : originalRow.biaozhun,
-                            youhui : originalRow.youhui,
-                            shishou : originalRow.shishou,
+                            standardAmount : originalRow.standardAmount,
+                            discountAmount : originalRow.discountAmount,
+                            amount : originalRow.amount,
+                            isOwn:originalRow.isOwn,
+                            pricingCode: originalRow.pricingCode,
                             'NETSTAR-HEADER-CLASS' : classStr,
                         }
                         rows.push(row);
@@ -533,10 +1043,15 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             // 获取数据
             getData : function(componentConfig, isValid, config){
                 
+            
+            
+            
             },
             // 设置数据
             setData : function(data, componentConfig, config){
-                
+                var regHazardVOList = data; //职业危害
+                /* componentConfig.harmVue.regHazardVOList = regHazardVOList; */
+
             },
             // 清空数据
             clearData : function(componentConfig, config){
@@ -546,9 +1061,363 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             refresh : function(data, componentConfig, config){
                 
             },
+            //按钮和搜索（header）
+            sourceAddBtn:{
+                btninit:function(componentConfig,config){
+                    var btns = {
+                        id:'netstar-saas-reg-hazard-btns',
+                        btns: [
+                            {
+                                text: '批量设置',
+                                handler: function () {
+        
+                                }
+                            },
+                            {
+                                text: '必检项目',
+                                handler: function () {
+        
+                                }
+                            }
+                        ]
+                    }
+                    vueButtonComponent.init(btns);
+                },
+                init:function(componentConfig,config){
+                    this.btninit();
+                }
+            },
+            //块状表格
+            blockList:{
+                init:function(componentConfig,config){
+                    var _this = this;
+                    var originalRows = [];
+                    if(typeof(config.serverData) == "object" && $.isArray(config.serverData[componentConfig.keyField])){
+                        originalRows = config.serverData[componentConfig.keyField];
+                    }
+                    for(var regHazardI = 0; regHazardI<originalRows.length; regHazardI++){
+                        originalRows[regHazardI].hazardDomId = "hazardDomId-" + regHazardI;
+                        originalRows[regHazardI].ocpcDomId = "ocpcDomId-" + regHazardI;
+                    }
+                    var harmConfig = {
+                        field : [
+                            {
+                                field:'ocpcName',
+                                editConfig:{
+                                    type:'select',
+                                    url:getRootPath() + '/npebase/occTutelages/getList',
+                                    contentType:'application/json',
+                                    mentod:'POST',
+                                    dataSrc:'rows',
+                                    valueField:'id',
+                                    textField:'tutelageName',
+                                    outputFields : {
+                                        ocpcName : '{tutelageName}',
+                                        ocpcId: '{id}',
+                                    },
+                                }
+                            },
+                            {
+                                field:'hazardName',
+                                editConfig:{
+                                    type:'select',
+                                    url:getRootPath() + '/npebase/occHazards/getList',
+                                    contentType:'application/json',
+                                    mentod:'POST',
+                                    dataSrc:'rows',
+                                    valueField:'id',
+                                    textField:'hazardName',
+                                    outputFields : {
+                                        hazardName : '{hazardName}',
+                                        hazardId: '{id}',
+                                    },
+                                }
+                            }
+                        ],
+                        componentById : {
+                            ocpcName : {
+                                editConfig : {
+                                    type:'select',
+                                    url:getRootPath()+'/npebase/occTutelages/getList',
+                                    contentType:'application/json',
+                                    mentod:'POST',
+                                    dataSrc:'rows',
+                                    valueField:'id',
+                                    textField:'tutelageName',
+                                    outputFields : {
+                                        ocpcName : '{tutelageName}',
+                                        ocpcId: '{id}',
+                                    },
+                                }
+                            },
+                            hazardName : {
+                                editConfig : {
+                                    type:'select',
+                                    url:getRootPath() + '/npebase/occHazards/getList',
+                                    contentType:'application/json',
+                                    mentod:'POST',
+                                    dataSrc:'rows',
+                                    valueField:'id',
+                                    textField:'hazardName',
+                                    outputFields : {
+                                        hazardName : '{hazardName}',
+                                        hazardId: '{id}',
+                                    },
+                                }
+                            }
+                        }
+                    }
+                    var harmVue = new Vue({
+                        el:'#netstar-saas-hazard',
+                        data:{
+                            regHazardVOList : originalRows,
+                        },
+                        methods:{
+                            removeComponent:function($editorContainer){
+                                if ($editorContainer.length > 0) {
+                                    var editorConfig = this.editorConfig;
+                                    var editorVueConfig = this.editorVue;
+                                    var editorVueComConfig = false;
+                                    if(editorVueConfig){
+                                        editorVueComConfig = editorVueConfig.$children[0];
+                                    }
+                                    /******lyw 20190411 计算器组件需要重新获取，进行保存值 end********/
+                                    // 验证是否是日期组件 删除日器组件
+                                    if(typeof(editorConfig) == "object"){
+                                        switch(editorConfig.type){
+                                            case 'date':
+                                                break;
+                                            case 'provinceselect':
+                                                break;
+                                            case 'select':
+                                                if(editorVueComConfig){
+                                                    if(editorConfig.panelVueObj){
+                                                        $(document).off("click", editorConfig.panelVueObj.isSearchDropDown);
+                                                    }
+                                                    if(typeof(editorVueComConfig.blurHandler)=='function'){
+                                                        editorVueComConfig.blurHandler();
+                                                    }
+                                                }  
+                                                break;
+                                        }
+                                    }
+                                    // 销毁组件
+                                    if(typeof(editorVueConfig) == "object"){
+                                        editorVueConfig.$destroy();
+                                        delete this.editorVue;
+                                    }
+                                    this.removeRemoveEditorListener();
+                                    $editorContainer.children().remove();
+                                    if ($('.pt-select-panel').length > 0) {
+                                        // 下拉组件下拉框删除 以及下拉框添加的事件关闭
+                                        $('.pt-select-panel').remove();
+                                        $(document).off('keyup',NetstarComponent.select.panelComponentConfig.keyup);
+                                    }
+                                }
+                            },
+                            removeRemoveEditorListener : function(){
+                                $('body').off('mousedown', this.outClickHandler);
+                            },
+                            outClickHandler:function(ev){
+                                //如果当前操作对象不再编辑器里则是out
+                                var isOut = $(ev.target).closest('.form-block-editor-container').length == 0;
+                                if (isOut) {
+                                    if (ev.target.nodeName == 'LI') {
+                                        isOut = false;
+                                    }
+        
+                                    //sjj 2019106  如果当前下拉框出现滚动区域不可关闭
+                                    if (ev.target.className == 'pt-dropdown') {
+                                        if (ev.target.parentNode && ev.target.parentNode.className.indexOf('pt-input-group pt-select-panel')>-1){
+                                            isOut = false;
+                                        }
+                                    }
+                                    if($(ev.target).closest('.pt-pager').length == 1){
+                                        //sjj 20200113
+                                        isOut = false;
+                                    }
+                                }
+                                //如果当前操作也不在要点击的单元格里则不是out
+                                var $td = ev.data.$td;
+                                if ($td[0] == $(ev.target)[0] || $(ev.target).closest('td')[0] == $(ev.target)[0] || $td[0] == $(ev.target).closest('td')[0]) {
+                                    isOut = false;
+                                }
+                                var _tdEditor = ev.data.this;
+                                if (isOut) {
+                                    var $gridContainer = ev.data.$td.closest('container');
+                                    if ($gridContainer.length == 0) {
+                                        $gridContainer = $('body');
+                                    }
+                                    var $editorContainer = $gridContainer.find('.form-block-editor-container');
+                                    _tdEditor.removeComponent($editorContainer);
+                                }
+                            },
+                            addRemoveListener : function($td){
+                                //$td是当前点击正在初始化的单元格
+                                var _this = this;
+                                //点击了其他地方的监听器
+                                this.removeRemoveEditorListener();
+                                //sjj 20190509 把body的click事件改为了mousedown事件
+                                $('body').on('mousedown', {
+                                    this: _this,
+                                    $td: $td
+                                }, this.outClickHandler);
+                            },
+                            showFormEditor : function(ev, editConfig, fieldName, index, hazardDomId){
+                                var _this = this;
+                                var $td = $(ev.currentTarget);
+                                var editConfig = editConfig;
+                                editConfig.changeHandler = function(obj){
+                                    var editValue = obj.vueConfig.getValue();
+                                    // 赋值
+                                    if(typeof(editValue) == "object"){
+                                        for(var key in editValue){
+                                            _this.regHazardVOList[index][key] = editValue[key];
+                                        }
+                                    }else{
+                                        _this.regHazardVOList[index][fieldName] = editValue;
+                                    }
+                                    // 移除 
+                                    var $editorContainer = $('#' + hazardDomId);
+                                    _this.removeComponent($editorContainer);
+                                }
+                                var componentVueConfig = NetstarComponent[editConfig.type].getComponentConfig(editConfig);
+                                var editorVueConfig = {
+                                    el: '#' + hazardDomId,
+                                    data: {
+                                    },
+                                    components: {
+                                        'editorinput': componentVueConfig
+                                    }
+                                };
+                                NetstarComponent.config[editConfig.formID] = {
+                                    vueConfig: {},
+                                    config: {},
+                                    source : {
+                                        obj : {},
+                                    },
+                                };
+                                this.editConfig = editConfig
+                                NetstarComponent.config[editConfig.formID].config[editConfig.id] = editConfig;
+                                NetstarComponent.config[editConfig.formID].source.obj[editConfig.id] = editConfig;
+                                this.editorVue = new Vue(editorVueConfig);
+                                //聚焦并选中文本框
+                                if (typeof (this.editorVue.$children[0]) == "object") {
+                                    NetstarComponent.config[editConfig.formID].config[editConfig.id].index = index;
+                                    this.editorVue.$children[0].focus();
+                                }
+                                NetstarComponent.config[editConfig.formID].vueConfig[editConfig.id] = this.editorVue.$children[0];
+                                // 其他点击事件都会关闭编辑器
+                                _this.addRemoveListener($td);
+                            },
+                            clickTdHandler(ev, value, fieldName, index, hazardDomId){
+                                var $editContainer = $('#' + hazardDomId);
+                                $editContainer.html('<editorinput></editorinput>')
+                                var defaultComponentConfig = {
+                                    type:'select',
+                                    id: 'editor',
+                                    type: 'select',
+                                    formSource: 'table',
+                                    templateName: 'PC',
+                                    value: typeof (value) == "undefined" ? '' : value, // 当前单元格的value值。如果不存在设置“”
+                                    formID: 'netstar-saas-hazard',
+                                    variableType: 'string',
+                                    tableIndex: index,
+                                    isShowPanel : true,
+                                }
+                                var editConfig = harmConfig.componentById[fieldName].editConfig;
+                                NsUtils.setDefaultValues(editConfig, defaultComponentConfig);
+                                this.showFormEditor(ev, editConfig, fieldName, index, hazardDomId);
+                            }
+                        },
+                        mounted(){
+                        }
+                    });
+                    componentConfig.harmVue = harmVue
+                }
+            },
+            //获取html
+            getHtml:function(componentConfig){     
+                var id =  componentConfig.id + '-block-harm';
+                var html = 
+                        '<div class="pt-panel">'
+                        +' <div class="pt-panel-header">'
+                                +'<div class="title">职业危害因素</div>'
+                                    +'<div class="pt-form pt-form-normal pt-form-inline pt-custom-query">'
+                                        +'<div class="pt-form-header"></div>'
+                                        +'<div class="pt-form-body">'
+                                            +'<form>'
+                                                +'<div ns-type="field" class="field">'
+                                                    +'<div ns-field="filtermode" class="pt-form-group fg-select ">'
+                                                        +'<label class="pt-control-label hide"></label>'
+                                                        +'<div class="pt-select pt-input-group">'
+                                                            +'<input type="text" placeholder="" selectmode="single" ns-id="filtermode" class="pt-form-control">'
+                                                            +'<div class="pt-input-group-btn">'
+                                                                +'<button class="pt-btn pt-btn-default pt-btn-icon clear">'
+                                                                    +'<i class="icon-close"></i>'
+                                                                +'</button>'
+                                                                +'<button class="pt-btn pt-btn-default pt-btn-icon">'
+                                                                    +'<i class="icon-arrow-down-o"></i>'
+                                                                +'</button>'
+                                                        + '</div>'
+                                                        +'</div>'
+                                                    +'</div>'
+                                                    +'<div ns-field="filterstr" class="pt-form-group fg-text ">'
+                                                        +'<label class="pt-control-label hide"></label>'
+                                                        +'<div class="pt-text pt-input-group pt-text-assistant">'
+                                                            +'<input type="text" placeholder="" class="pt-form-control">'
+                                                            +'<div class="pt-input-group-btn pt-input-group-btn-group">'
+                                                                +'<button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear hide">'
+                                                                    +'<i class="icon-close"></i>'
+                                                                +'</button>'
+                                                        +'</div>'
+                                                            +'<div class="pt-text-assistant-btns hide">'
+                                                            +'<div class="pt-btn-group"></div>'
+                                                            +'</div>'
+                                                        +'</div>'
+                                                    +'</div>'
+                                                +'</div>'
+                                                +'<div ns-type="field-more" class="field-more hide custom"></div>'
+                                            +'</form>'
+                                        +'</div>'
+                                        +'<div class="pt-form-footer"></div>'
+                                    +'</div>'
+                                    +'<div class="pt-btn-group">'
+                                    +' <button type="button"class="pt-btn pt-btn-default pt-btn-icon" nstype="refresh">'
+                                        +'<i class="icon-search"></i>'
+                                        +'</button>'
+                                    +'</div>'   
+                                +'<div id="netstar-saas-reg-hazard-btns" class="pt-panel-header-right"></div>'
+                            +'</div>'
+                        +'<div class="pt-panel-body"  id="netstar-saas-hazard">'
+                            +'<div  class="block-list block-list-grid grid-col-4">'
+                                +'<div class="block-list-group">'
+                                    +'<div class="block-list-item" v-for="(list,index) in regHazardVOList">'
+                                        +'<div class="block-list-content">'
+                                            +'<div @click="clickTdHandler($event, list.hazardId, \'hazardName\', index, list.hazardDomId)" class="pt-form-control">'
+                                                +'<span>{{list.hazardName}}</span>'
+                                                +'<div :id="list.hazardDomId" class="form-block-editor-container"></div>'
+                                            +'</div>'
+                                            +'<div @click="clickTdHandler($event, list.ocpcId, \'ocpcName\', index, list.ocpcDomId)" class="pt-form-control">'
+                                                +'<span>{{list.ocpcName}}</span>'
+                                                +'<div :id="list.ocpcDomId" class="form-block-editor-container"></div>'
+                                            +'</div>'
+                                        +'</div>'
+                                +' </div>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>'
+                    +'</div>'
+        return html;
+            },
             // 初始化
-            init : function(componentConfig, config){
-                
+            init : function(componentConfig, config){  
+                var id = componentConfig.id;
+                var $container = $('#' + id)
+                var html = this.getHtml(componentConfig);
+                $container.html(html);
+                this.sourceAddBtn.init(componentConfig,config);
+                this.blockList.init(componentConfig,config);
             }
         },
         init : function(config){
@@ -688,30 +1557,34 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                             + '<div class="pt-container">'
                                 + titleHtml
                                 // 按钮
-                                + '<div class="pt-main-col">'
-                                    // 按钮
-                                    + btnsHtml
+                                + '<div class="pt-main-row">'
+                                    + '<div class="pt-main-col">'
+                                        // 按钮
+                                        + btnsHtml
+                                    + '</div>'
                                 + '</div>'
                                 // left
-                                + '<div class="pt-main-col">'
-                                    // 个人信息
-                                    + personalHtml
-                                    // 费用信息
-                                    + costHtml
-                                    // 优惠信息
-                                    + discountHtml
-                                + '</div>'
-                                // center
-                                + '<div class="pt-main-col">'
-                                    // 登记信息
-                                    + registerHtml
-                                    // 危害信息
-                                    + harmHtml
-                                + '</div>'
-                                // right
-                                + '<div class="pt-main-col">'
-                                    // 项目信息
-                                    + projectHtml
+                                + '<div class="pt-main-row">'
+                                    + '<div class="pt-main-col">'
+                                        // 个人信息
+                                        + personalHtml
+                                        // 费用信息
+                                        + costHtml
+                                        // 优惠信息
+                                        + discountHtml
+                                    + '</div>'
+                                    // center
+                                    + '<div class="pt-main-col">'
+                                        // 登记信息
+                                        + registerHtml
+                                        // 危害信息
+                                        + harmHtml
+                                    + '</div>'
+                                    // right
+                                    + '<div class="pt-main-col">'
+                                        // 项目信息
+                                        + projectHtml
+                                    + '</div>'
                                 + '</div>'
                             + '</div>'
                         + '</div>';
