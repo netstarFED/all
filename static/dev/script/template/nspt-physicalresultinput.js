@@ -306,7 +306,7 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                                         + '小结'
                                     + '</div>'
                                     // 小结信息
-                                    + '<div class="" id="'+ panelConfig.summaryInfoId +'">'
+                                    + '<div class="sum-up-header-right" id="'+ panelConfig.summaryInfoId +'">'
                                     + '</div>'
                                 + '</div>'
                                 + '<div class="sum-up-body">'
