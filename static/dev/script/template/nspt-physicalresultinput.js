@@ -209,36 +209,47 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
         },
         // 项目信息
         project : {
+            classNames : {
+                open : {
+                    state : 'open',
+                    icon : 'icon icon-add',
+                },
+                close : {
+                    state : 'close',
+                    icon : 'icon icon-minus',
+                }
+            },
             formField : [
+                // {
+                //     id : 'netstar-doctor-0',
+                //     label : '检查医生',
+                //     type : 'select',
+                //     doctorIndex : 0,
+                //     valueField : 'doctorId',
+                //     textField : 'doctorName',
+                // },{
+                //     id : 'netstar-doctor-1',
+                //     label : '审查医生',
+                //     type : 'select',
+                //     doctorIndex : 1,
+                //     valueField : 'doctorId',
+                //     textField : 'doctorName',
+                // },{
+                //     id : 'netstar-doctor-2',
+                //     label : '小结医生',
+                //     type : 'select',
+                //     doctorIndex : 2,
+                //     valueField : 'doctorId',
+                //     textField : 'doctorName',
+                // },{
+                //     id : 'netstar-doctor-3',
+                //     label : '操作人',
+                //     type : 'select',
+                //     doctorIndex : 3,
+                //     valueField : 'doctorId',
+                //     textField : 'doctorName',
+                // },
                 {
-                    id : 'netstar-doctor-0',
-                    label : '检查医生',
-                    type : 'select',
-                    doctorIndex : 0,
-                    valueField : 'doctorId',
-                    textField : 'doctorName',
-                },{
-                    id : 'netstar-doctor-1',
-                    label : '审查医生',
-                    type : 'select',
-                    doctorIndex : 1,
-                    valueField : 'doctorId',
-                    textField : 'doctorName',
-                },{
-                    id : 'netstar-doctor-2',
-                    label : '小结医生',
-                    type : 'select',
-                    doctorIndex : 2,
-                    valueField : 'doctorId',
-                    textField : 'doctorName',
-                },{
-                    id : 'netstar-doctor-3',
-                    label : '操作人',
-                    type : 'select',
-                    doctorIndex : 3,
-                    valueField : 'doctorId',
-                    textField : 'doctorName',
-                },{
                     label : '',
                     id : 'textarea',
                     type : 'textarea',
@@ -569,6 +580,50 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                         }
                     })
                 },
+                // 
+                initInfo : function(index, componentConfig, config){
+                    // 列表配置
+                    var listConfigs = componentConfig.listConfigs;
+                    // 面板配置
+                    var panelConfig = listConfigs[index];
+                    var summaryInfoId = panelConfig.summaryInfoId;
+                    var $summaryInfo = $('#' + summaryInfoId);
+                    // 面板数据
+                    var panelData = componentConfig.listData[index];
+                    var doctorValArr = $.isArray(panelData[componentConfig.doctorKeyField]) ? panelData[componentConfig.doctorKeyField] : [];
+                    var doctor0 = '', doctor1 = '', doctor2 = '', doctor3 = '';
+                    if(doctorValArr[0]){
+                        doctor0 = doctorValArr[0].operateByName;
+                    }
+                    if(doctorValArr[1]){
+                        doctor1 = doctorValArr[1].operateByName;
+                    }
+                    if(doctorValArr[2]){
+                        doctor2 = doctorValArr[2].operateByName;
+                    }
+                    if(doctorValArr[3]){
+                        doctor3 = doctorValArr[3].operateByName;
+                    }
+                    var html = '<ul>'
+                                    + '<li>'
+                                        + '<span>检查医生:</span>'
+                                        + '<span>'+ doctor0 +'</span>'
+                                    + '</li>'
+                                    + '<li>'
+                                        + '<span>审查医生:</span>'
+                                        + '<span>'+ doctor1 +'</span>'
+                                    + '</li>'
+                                    + '<li>'
+                                        + '<span>小结医生:</span>'
+                                        + '<span>'+ doctor2 +'</span>'
+                                    + '</li>'
+                                    + '<li>'
+                                        + '<span>操作人:</span>'
+                                        + '<span>'+ doctor3 +'</span>'
+                                    + '</li>'
+                                + '</ul>'
+                    $summaryInfo.html(html);
+                },
             },
             // 打开面板
             openPanel : function(index, componentConfig, config){
@@ -580,11 +635,17 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                 var html = this.getPanelHtml(index, componentConfig, config);
                 var $panel = $('#' + panelConfig.bodyId);
                 $panel.html(html);
+                // 修改按钮状态
+                var $defBtns = $('#' + panelConfig.defaultBtnsId).find('button');
+                $defBtns.attr('ns-state', this.classNames.close.state);
+                $defBtns.children('i').attr('class', this.classNames.close.icon);
                 // 添加打开样式
                 var $parent = $('#' + panelConfig.blockId);
                 $parent.addClass('open');
                 // 初始化表格
                 this.panel.initGrid(index, componentConfig, config);
+                // 初始化信息
+                this.panel.initInfo(index, componentConfig, config);
                 // 初始化表单
                 this.panel.initForm(index, componentConfig, config);
                 // 初始化图片
@@ -596,6 +657,10 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                 var listConfigs = componentConfig.listConfigs;
                 var panelConfig = listConfigs[index];
                 $('#' + panelConfig.bodyId).children().remove();
+                // 修改按钮状态
+                var $defBtns = $('#' + panelConfig.defaultBtnsId).find('button');
+                $defBtns.attr('ns-state', this.classNames.open.state);
+                $defBtns.children('i').attr('class', this.classNames.open.icon);
                 // 添加关闭样式
                 var $parent = $('#' + panelConfig.blockId);
                 $parent.removeClass('open');
@@ -632,25 +697,25 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                         var $this = $(this);
                         var nsState = $this.attr('ns-state');
                         var nsIndex = Number($this.attr('ns-index'));
-                        var changeStateName = '';
-                        var changeIcon = '';
+                        // var changeStateName = '';
+                        // var changeIcon = '';
                         switch(nsState){
                             case 'open':
                                 // 打开
-                                changeIcon = 'icon icon-minus';
-                                changeStateName = 'close';
+                                // changeIcon = 'icon icon-minus';
+                                // changeStateName = 'close';
                                 _this.openPanel(nsIndex, componentConfig, config);
                                 break;
                             case 'close':
                                 // 关闭
-                                changeIcon = 'icon icon-add';
-                                changeStateName = 'open';
+                                // changeIcon = 'icon icon-add';
+                                // changeStateName = 'open';
                                 _this.closePanel(nsIndex, componentConfig, config);
                                 break;
                         }
                         // 改变状态
-                        $this.attr('ns-state', changeStateName);
-                        $this.children('i').attr('class', changeIcon);
+                        // $this.attr('ns-state', changeStateName);
+                        // $this.children('i').attr('class', changeIcon);
                     });
                 }
             },
