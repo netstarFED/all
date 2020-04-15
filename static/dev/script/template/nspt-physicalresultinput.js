@@ -211,27 +211,31 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
         project : {
             formField : [
                 {
-                    id : 'doctorId',
+                    id : 'netstar-doctor-0',
                     label : '检查医生',
                     type : 'select',
+                    doctorIndex : 0,
                     valueField : 'doctorId',
                     textField : 'doctorName',
                 },{
-                    id : 'doctorVal1',
+                    id : 'netstar-doctor-1',
                     label : '审查医生',
                     type : 'select',
+                    doctorIndex : 1,
                     valueField : 'doctorId',
                     textField : 'doctorName',
                 },{
-                    id : 'doctorVal2',
+                    id : 'netstar-doctor-2',
                     label : '小结医生',
                     type : 'select',
+                    doctorIndex : 2,
                     valueField : 'doctorId',
                     textField : 'doctorName',
                 },{
-                    id : 'doctorVal3',
+                    id : 'netstar-doctor-3',
                     label : '操作人',
                     type : 'select',
+                    doctorIndex : 3,
                     valueField : 'doctorId',
                     textField : 'doctorName',
                 },{
@@ -395,10 +399,47 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                     };
                     NetStarGrid.init(gridConfig);
                 },
-                setFormDataByChange : function(fieldId, value, index, componentConfig, pageConfig){
+                setFormDataByChange : function(fieldConfig, value, index, componentConfig, pageConfig){
                     // 面板数据
                     var panelData = componentConfig.listData[index];
-                    panelData[fieldId] = value;
+                    if(typeof(fieldConfig.doctorIndex) == "number"){
+                        panelData.resComboOperateVOList = $.isArray(panelData.resComboOperateVOList) ? panelData.resComboOperateVOList : [];                       
+                        if(panelData.resComboOperateVOList[fieldConfig.doctorIndex]){
+                            panelData.resComboOperateVOList[fieldConfig.doctorIndex].id = value;
+                        }else{
+                            panelData.resComboOperateVOList[fieldConfig.doctorIndex] = {
+                                id : value
+                            }
+                        }
+                        for(var i=0; i<panelData.resComboOperateVOList.length; i++){
+                            if(typeof(panelData.resComboOperateVOList[i]) == "undefined"){
+                                panelData.resComboOperateVOList[i] = {};
+                            }
+                        }
+                    }else{
+                        panelData[fieldConfig.id] = value;
+                    }
+                },
+                // 获取表单数据
+                getFormData : function(panelData){
+                    var formData = {};
+                    var doctorValArr = $.isArray(panelData.resComboOperateVOList) ? panelData.resComboOperateVOList : [];
+                    if(doctorValArr[0]){
+                        formData['netstar-doctor-0'] = doctorValArr[0].id;
+                    }
+                    if(doctorValArr[1]){
+                        formData['netstar-doctor-1'] = doctorValArr[1].id;
+                    }
+                    if(doctorValArr[2]){
+                        formData['netstar-doctor-2'] = doctorValArr[2].id;
+                    }
+                    if(doctorValArr[3]){
+                        formData['netstar-doctor-3'] = doctorValArr[3].id;
+                    }
+                    if(panelData.summary){
+                        formData.summary = panelData.summary;
+                    }
+                    return formData;
                 },
                 initForm : function(index, componentConfig, config){
                     // 列表配置
@@ -410,11 +451,13 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                     // 获取医生下拉框
                     var doctorArr = panelData[componentConfig.doctorKeyField] ? panelData[componentConfig.doctorKeyField] : [];
                     var formField = componentManage.project.formField;
+                    // 获取表单数据
+                    var formData = this.getFormData(panelData);
                     for(var i=0; i<formField.length; i++){
                         formField[i].subdata = doctorArr;
                         formField[i].commonChangeHandler = function(obj){
                             var value = typeof(obj.value) != "undefined" ? obj.value : '';
-                            componentManage.project.panel.setFormDataByChange(obj.id, value, index, componentConfig, pageConfig);
+                            componentManage.project.panel.setFormDataByChange(obj.config, value, index, componentConfig, pageConfig);
                         };
                     }
                     // 初始化表单
@@ -424,9 +467,40 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                         formStyle : 'pt-form-normal',
                         form : formField
                     }
-                    NetstarComponent.formComponent.show(formConfig, panelData);
+                    NetstarComponent.formComponent.show(formConfig, formData);
+                },
+                // 上传文件
+                uploadFile : function(files, callBackFunc){
+                    var formData = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        var item = files[i];
+                        formData.append('files', item, item.name);
+                    }
+                    // 发送ajax
+                    var ajaxConfig = {
+                        url : getRootPath() + '/files/uploadList',
+                        processData : false,
+                        contentType : false,
+                        data : formData,
+                        plusData : {
+                            originalFiles : files,
+                            callBackFunc : callBackFunc,
+                        },
+                    }
+                    NetStarUtils.ajax(ajaxConfig, function(res, _ajaxConfig){
+                        if(res.success){
+                            nsalert("上传成功");
+                            if(typeof(plusData.callBackFunc) == "function"){
+                                plusData.callBackFunc(res.rows);
+                            }
+                        }else{
+                            nsalert("上传失败");
+                            nsalert(res.msg, 'error');
+                        }
+                    })
                 },
                 initImages : function(index, componentConfig, config){
+                    var _this = this;
                     // 列表配置
                     var listConfigs = componentConfig.listConfigs;
                     // 面板配置
@@ -438,6 +512,11 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                     var html = '<ul class="">'
                                     + '<li :class="[{active:data.showOnReport}]" v-for="(data, listI) in list" @click="switchSelect($event, listI, data)">'
                                         + '<img :src="(imgUrl+data.id)" />'
+                                        + '<button @click="deleteFunc($event, listI, data)">删除</button>'
+                                    + '</li>'
+                                    + '<li class="">'
+                                        + '<input class="pt-upload-control" accept = "image/*" type="file" @change="uploadFile" ref="uploadInput" />'
+                                        + '<i class="icon-add"></i>'
                                     + '</li>'
                                 + '</ul>'
                     var summaryImagesId = panelConfig.summaryImagesId;
@@ -447,11 +526,35 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                         el : '#' + summaryImagesId,
                         data : {
                             imgUrl : 'http://localhost:2000/sites/tj/static/images/user-photo.jpg?',
-                            list : imgList
+                            list : $.extend(true, [], imgList)
+                        },
+                        watch : {
+                            list : function(newList){
+                                panelData[componentConfig.imgKeyField] = newList;
+                            }
                         },
                         methods : {
                             switchSelect : function(ev, listI, data){
                                 data.showOnReport = !data.showOnReport;
+                            },
+                            setValueFiles : function(data){
+                                if(!$.isArray(data)){
+                                    data = [data];
+                                }
+                                this.list = this.list.concat(data);
+                            },
+                            deleteFunc : function(ev, listI, data){
+                                this.list.splice(listI,1)
+                            },
+                            uploadFile : function(ev){
+                                var $upload = $(this.$refs.uploadInput);
+                                var files = $upload.prop('files');
+                                _this.uploadFile(files, config, (function(__this){
+                                    return function(resData){
+                                        __this.setValueFiles(resData);
+                                    }
+                                })(this))
+                                $upload.val("");
                             }
                         }
                     })
@@ -467,6 +570,9 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                 var html = this.getPanelHtml(index, componentConfig, config);
                 var $panel = $('#' + panelConfig.bodyId);
                 $panel.html(html);
+                // 添加打开样式
+                var $parent = $('#' + panelConfig.blockId);
+                $parent.addClass('open');
                 // 初始化表格
                 this.panel.initGrid(index, componentConfig, config);
                 // 初始化表单
@@ -480,6 +586,9 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                 var listConfigs = componentConfig.listConfigs;
                 var panelConfig = listConfigs[index];
                 $('#' + panelConfig.bodyId).children().remove();
+                // 添加关闭样式
+                var $parent = $('#' + panelConfig.blockId);
+                $parent.removeClass('open');
             },
             // 初始化配置按钮
             initBtns : function(componentConfig, config){
@@ -551,6 +660,8 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                 this.initBtns(componentConfig, config);
                 // 初始化默认按钮
                 this.initDefBtns(componentConfig, config);
+                // 默认打开
+                this.openPanel(0, componentConfig, config);
             }
         },
         init : function(config){
