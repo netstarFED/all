@@ -1135,6 +1135,9 @@ input[type="button"].pt-btn-block {
 i[class=""] + span {
   padding: 0;
 }
+.pt-btn span + i {
+  padding-left: 5px;
+}
 .pt-btn-icon-sm {
   width: 18px;
   height: 18px;
@@ -5995,6 +5998,27 @@ a.list-group-item.active > .pt-badge,
   font-family: "icomoon";
   content: "\ea3a";
   color: #f00;
+  font-size: 12px;
+}
+.pt-block-content-item.state-release {
+  position: absolute;
+  top: 6px;
+  right: -18px;
+  width: 67px !important;
+  transform: rotate(45deg);
+}
+.pt-block-content-item.state-release span {
+  margin-right: 0 !important;
+}
+.pt-block-content-item.state-release span i {
+  display: none;
+}
+.pt-block-content-item.state-release span i.state-release-complete {
+  display: block;
+  width: 100px;
+  background-color: #42c091;
+  color: #fff;
+  padding: 2px 15px;
   font-size: 12px;
 }
 .pt-main-col {
@@ -20212,7 +20236,7 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .block-list-content .pt-form-control {
   position: relative;
-  height: 24px;
+  height: 22px;
   line-height: 1.5;
   padding: 0;
   border-color: #f4f4f4;
@@ -20224,10 +20248,10 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   content: '\e941';
   font-family: "icomoon";
   color: #9e9e9e;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   text-align: center;
-  line-height: 24px;
+  line-height: 22px;
 }
 .block-list-content .pt-form-control.name {
   font-weight: bold;
@@ -20245,7 +20269,7 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 }
 .block-list-content .pt-form-control span {
   display: inline-block;
-  height: 24px;
+  height: 22px;
   padding: 2px 5px;
 }
 .block-list-content .pt-form-control .form-block-editor-container .pt-input-group {
@@ -20266,8 +20290,8 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
   text-align: right;
 }
 .block-list-content .pt-form-control .form-block-editor-container .pt-input-group .pt-input-group-btn .pt-btn {
-  height: 24px;
-  line-height: 24px;
+  height: 22px;
+  line-height: 22px;
 }
 body .price-grid .pt-grid-body .pt-grid-body-container table.pt-grid tbody tr .tr-control {
   position: absolute;
@@ -20420,8 +20444,8 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
 }
 .media-group .media-item img {
   display: block;
-  width: 120px;
-  height: 64px;
+  width: 100%;
+  height: 100%;
 }
 .media-group .media-item .pt-btn-group {
   position: absolute;
@@ -20430,8 +20454,36 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   opacity: 0;
   transition: ease-in-out all 0.25s;
 }
+.media-group .media-item:hover {
+  border-color: #e8743b;
+}
 .media-group .media-item:hover .pt-btn-group {
   opacity: 1;
+}
+.media-group .media-item .pt-upload-control {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  opacity: 0;
+  background: transparent;
+  z-index: 2;
+  cursor: pointer;
+}
+.media-group .media-item .pt-upload-control:hover {
+  background: #f8f8f8;
+}
+.media-group .media-item i.icon-add {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  font-size: 32px;
+  margin: -16px;
+  color: #e0e0e0;
 }
 .text-through {
   text-decoration: line-through;
@@ -20673,7 +20725,6 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   display: block;
   width: 100%;
   background: #fff;
-  border: 1px solid #e0e0e0;
 }
 .user-info .list .list-item,
 .queue .list .list-item {
@@ -20696,6 +20747,21 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
 .user-info .list .list-item .sex.sex-female i,
 .queue .list .list-item .sex.sex-female i {
   color: #ff5277;
+}
+.user-info .pt-btn-group,
+.queue .pt-btn-group {
+  display: flex;
+  flex: 1px;
+  justify-content: start;
+  align-items: center;
+}
+.user-info .pt-btn-group .pt-btn,
+.queue .pt-btn-group .pt-btn {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 28px;
 }
 .card-group .card-list .card {
   display: table;
@@ -20997,6 +21063,20 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
 .uncheck .block-list-item:last-child,
 .uncheck .block-list-item:nth-last-child(2) {
   margin-bottom: 0;
+}
+.sum-up {
+  height: auto;
+  overflow: hidden;
+}
+.sum-up .sum-up-form {
+  width: 50%;
+  float: left;
+}
+.sum-up .media-group {
+  width: 50%;
+  float: left;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
 }
 @media only screen and (min-device-width: 768px) and (max-device-width: 1280px) {
   .border-pad {
