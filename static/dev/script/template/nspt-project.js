@@ -4511,6 +4511,7 @@ function initFunction(businessObj, controllerObj){
 		var isCountExport = false;
 		switch(templateConfig.template){
 			case 'businessDataBase':
+			case 'businessbasePanoramic':
 				if(!$.isEmptyObject(templateConfig.mainComponent)){
 					currentGridConfig = templateConfig.mainComponent;
 				}else{
