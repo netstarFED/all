@@ -287,16 +287,23 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                                 // 表格
                             + '</div>'
                             // 小结
-                            + '<div class="" id="'+ panelConfig.summaryId +'">'
+                            + '<div class="sum-up" id="'+ panelConfig.summaryId +'">'
                                 // 标题
-                                + '<div class="">'
-                                    + '小结'
+                                + '<div class="sum-up-header">'
+                                    + '<div class="title">'
+                                        + '小结'
+                                    + '</div>'
+                                    // 小结信息
+                                    + '<div class="" id="'+ panelConfig.summaryInfoId +'">'
+                                    + '</div>'
                                 + '</div>'
-                                // 小结form
-                                + '<div class="" id="'+ panelConfig.summaryFormId +'">'
-                                + '</div>'
-                                // 图片列表
-                                + '<div class="" id="'+ panelConfig.summaryImagesId +'">'
+                                + '<div class="sum-up-body">'
+                                    // 小结form
+                                    + '<div class="sum-up-form" id="'+ panelConfig.summaryFormId +'">'
+                                    + '</div>'
+                                    // 图片列表
+                                    + '<div class="media-group" id="'+ panelConfig.summaryImagesId +'">'
+                                    + '</div>'
                                 + '</div>'
                             + '</div>'
                 return html;
@@ -317,6 +324,7 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                         defaultBtnsId : componentConfig.id +'-block-def-btn-'+ i,
                         gridId : componentConfig.id +'-block-grid-'+ i,
                         summaryId : componentConfig.id +'-block-summary-'+ i,
+                        summaryInfoId : componentConfig.id +'-block-summary-info-'+ i,
                         summaryFormId : componentConfig.id +'-block-summary-form-'+ i,
                         summaryImagesId : componentConfig.id +'-block-summary-images-'+ i,
                     })
@@ -331,19 +339,21 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                 var html = '';
                 for(var i=0; i<listConfigs.length; i++){
                     var dataConfig = listConfigs[i];
-                    html += '<div class="" ns-index="'+ i +'" id="'+ dataConfig.blockId +'">'
+                    html += '<div class="result-according-item" ns-index="'+ i +'" id="'+ dataConfig.blockId +'">'
+                                +'<div class="pt-panel">'
                                 // 头部
-                                + '<div class="" id="'+ dataConfig.headerId +'">'
-                                    // 标题
-                                    + '<div class="">'+ dataConfig.title +'</div>'
-                                    // 配置按钮
-                                    + '<div class="" id="'+ dataConfig.btnsId +'"></div>'
-                                    // 默认按钮
-                                    + '<div class="" id="'+ dataConfig.defaultBtnsId +'"></div>'
-                                + '</div>'
-                                // 内容
-                                + '<div class="" id="'+ dataConfig.bodyId +'">'
-                                + '</div>'
+                                    + '<div class="pt-panel-header" id="'+ dataConfig.headerId +'">'
+                                        // 标题
+                                        + '<div class="title">'+ dataConfig.title +'</div>'
+                                        // 配置按钮
+                                        + '<div class="pt-btn-group" id="'+ dataConfig.btnsId +'"></div>'
+                                        // 默认按钮
+                                        + '<div class="pt-panel-header-right" id="'+ dataConfig.defaultBtnsId +'"></div>'
+                                    + '</div>'
+                                    // 内容
+                                    + '<div class="pt-panel-body" id="'+ dataConfig.bodyId +'">'
+                                    + '</div>'
+                                +'</div>'
                             + '</div>'
                 }
                 return html;
@@ -510,11 +520,11 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                     // 图片数据
                     var imgList = panelData[componentConfig.imgKeyField] ? panelData[componentConfig.imgKeyField] : [];
                     var html = '<ul class="">'
-                                    + '<li :class="[{active:data.showOnReport}]" v-for="(data, listI) in list" @click="switchSelect($event, listI, data)">'
+                                    + '<li class="media-item" :class="[{active:data.showOnReport}]" v-for="(data, listI) in list" @click="switchSelect($event, listI, data)">'
                                         + '<img :src="(imgUrl+data.id)" />'
-                                        + '<button @click="deleteFunc($event, listI, data)">删除</button>'
+                                        + '<button class="pt-btn pt-btn-icon pt-btn-default" @click="deleteFunc($event, listI, data)"><i class="icon icon-trash-o"></i></button>'
                                     + '</li>'
-                                    + '<li class="">'
+                                    + '<li class="media-item">'
                                         + '<input class="pt-upload-control" accept = "image/*" type="file" @change="uploadFile" ref="uploadInput" />'
                                         + '<i class="icon-add"></i>'
                                     + '</li>'
@@ -609,7 +619,7 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                 var listConfigs = componentConfig.listConfigs;
                 for(var i=0; i<listConfigs.length; i++){
                     var html = '<div class="pt-btn-group">'
-                                    + '<button type="button" class="pt-btn pt-btn-default" ns-state="open" ns-index="'+ i +'">'
+                                    + '<button type="button" class="pt-btn pt-btn-icon pt-btn-default" ns-state="open" ns-index="'+ i +'">'
                                         + '<i class="icon icon-add"></i>'
                                     + '</button>'
                                 + '</div>'
@@ -627,7 +637,7 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
                         switch(nsState){
                             case 'open':
                                 // 打开
-                                changeIcon = 'icon icon-arrow-down-o';
+                                changeIcon = 'icon icon-minus';
                                 changeStateName = 'close';
                                 _this.openPanel(nsIndex, componentConfig, config);
                                 break;
@@ -725,7 +735,11 @@ NetstarTemplate.templates.physicalResultInput = (function ($) {
             if(!projectConfig){
                 return '';
             }
-            var html = '<div class="pt-panel" id="'+ projectConfig.id +'">'
+            var html = '<div class="pt-panel">'
+                            + '<div class="pt-panel-body">'
+                                + '<div class="result-according" id="'+ projectConfig.id +'">'
+                                + '</div>'
+                            + '</div>'
                         + '</div>'
             return html;
         },
