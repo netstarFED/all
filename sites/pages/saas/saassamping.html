@@ -1,0 +1,389 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: 祁倩
+ * @Date: 2020-2-13 10:30
+ * @LastEditTime: 2020-2-13 10:30
+ * @LastEditors: Please set LastEditors
+ -->
+<!--# include file="/sites/docs/include/homepage-html-dev-1.html" -->
+    <container>
+        <div class="pt-main">
+            <div class="pt-container">
+                <div class="pt-main-row">
+                    <!-- left -->
+                    <div class="pt-main-col">
+                        <div class="pt-panel">
+                            <div class="search-box">
+                                <input type="text" class="pt-form-control" placeholder="体检编号">
+                            </div>
+                        </div>
+                        <!-- 用户照片 -->
+                        <div class="pt-panel">
+                            <div class="user-photo">
+                                <img src="../saas/static/images/user-photo.jpg" alt="">
+                            </div>
+                            <div class="user-photo-eidt">
+                                <div class="pt-btn-group">
+                                    <button class="pt-btn pt-btn-default">
+                                        <i class="icon icon-image"></i>
+                                    </button>
+                                    <button class="pt-btn pt-btn-default">
+                                        <i class="icon icon-id"></i>
+                                    </button>
+                                    <button class="pt-btn pt-btn-default">
+                                        <i class="icon icon-camera"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 用户照片 end-->
+                        <!-- 用户信息 -->
+                        <div class="pt-panel">
+                            <div class="user-info">
+                                <ul class="list">
+                                    <li class="list-item">
+                                        <span class="name">张文远</span>
+                                        <!-- 男 -->
+                                        <span class="sex sex-male">
+                                            <i class="fa fa-mars"></i>
+                                        </span>
+                                        <!-- 女 -->
+                                        <span class="sex sex-female"><i class="fa fa-venus"></i></span>
+                                    </li>
+                                    <li class="list-item"><span>28岁</span></li>
+                                    <li class="list-item"><span>建筑工</span></li>
+                                    <li class="list-item"><span>体检类别</span></li>
+                                    <li class="list-item"><span>河北网星软件有限公司</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                     
+                        <!-- 用户信息 end-->
+                        <!-- 排队 -->
+                        <div class="pt-panel">
+                            <div class="queue">
+                                <div class="list">
+                                    <a class="list-item" href="#">
+                                        <i class="fa fa-venus"></i>
+                                        <span>王晓霖</span>
+                                        <div class="list-after">
+                                            <i class="icon icon-arrow-top-o"></i>
+                                        </div>
+                                    </a>
+                                    <a class="list-item current" href="#">
+                                        <i class="fa fa-mars"></i>
+                                        <span>张文远</span>
+                                        <div class="list-after">
+                                            <i class="icon icon-user"></i>
+                                        </div>
+                                    </a>
+                                    <a class="list-item" href="#">
+                                        <i class="fa fa-mars"></i>
+                                        <span>宋文涛</span>
+                                        <div class="list-after">
+                                            <i class="icon icon-arrow-down-o"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 排队 end -->             
+                    </div>
+                    <!-- center -->
+                    <div class="pt-main-col">
+                        <!-- 采样管理 -->
+                        <div class="pt-panel" id="samping">
+                            <div class="block-list block-list-grid grid-col-4">
+                                <div class="block-list-group" v-for="item in samList">
+                                    <div class="block-list-item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：202003246538</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品编号</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-complete"></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-list-item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：202003246538</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-waiting"></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-list-item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品编号</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-waiting"></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-list-item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：202003246538</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品编号</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-waiting"></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-list-item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：202003246538</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品编号</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-cancel"></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-list-item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：202003246538</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品编号</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-complete"></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-list-item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：202003246538</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品编号</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-complete"></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-list-item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：202003246538</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品编号</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-complete"></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 采样管理 end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var getRootPath = function(){
+                return "https://qaapi.wangxingcloud.com/"
+            }
+            var saasSamping = new Vue({
+                el:'samping',
+                data:{
+
+                },
+                methods:{
+
+                },
+                mounted() {
+                    var ajaxConfig = {
+                        url:'/result/sam/samplings/getToDoList',
+                        contentType: 'application/json; charset=utf-8',
+                        type:'POST',
+
+                    }
+                    NetStarUtils.ajax(ajaxConfig, function(data){
+
+                    })
+                }
+            })
+        </script>
+    </container>

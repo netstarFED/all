@@ -959,7 +959,7 @@ var NetStarGrid = (function () {
 			return orderType;
 		},
 		//获取column.width
-		getColumnWidth: function (columnConfig) {
+		getColumnWidth: function (columnConfig, containerWidth) {
 			//计算单元格宽度
 			var width = this.DEFAULT.THWIDTH;
 			//默认宽度和最小宽度 支持使用数字\百分比\自动\列名称自动（根据列名称计算宽度）三种方式设定 如 22 \ 20%  \ auto \ titleauto
@@ -1154,7 +1154,7 @@ var NetStarGrid = (function () {
 				}
 
 				//计算单元格宽度
-				var columnWidth = this.getColumnWidth(columnConfig);
+				var columnWidth = this.getColumnWidth(columnConfig, containerWidth);
 				if (storageData.field[columnConfig.field]) {
 					//如果当前列存在于缓存中数据则列宽需要从缓存中读取配置 sjj 20190318
 					columnWidth = storageData.field[columnConfig.field].w;
@@ -1856,7 +1856,59 @@ var NetStarGrid = (function () {
 			var rowStyleExpress = _gridConfig.ui.styleExpress.row ? _gridConfig.ui.styleExpress.row : {};
 			rowData['NETSTAR-TRSTYLE'] = {};
 
-			$.each(_rowData, function (key, value) {
+			// $.each(_rowData, function (key, value) {
+			// 	//获取column配置
+			// 	var columnConfig = _gridConfig.columnById[key];
+			// 	if (rowStyleExpress[key]) {
+			// 		var rowStyleStr = NetStarUtils.getStyleByCompareValue({
+			// 			rowData: _rowData,
+			// 			tdField: key,
+			// 			styleExpress: rowStyleExpress[key]
+			// 		});
+			// 		for (var attrStyle in rowStyleStr) {
+			// 			rowData['NETSTAR-TRSTYLE'][attrStyle] = rowStyleStr[attrStyle];
+			// 		}
+			// 	}
+			// 	if (typeof (columnConfig) == 'object') {
+			// 		//有可能需要处理的数据
+			// 		if (colStyleExpress[key]) {
+			// 			var styleStr = NetStarUtils.getStyleByCompareValue({
+			// 				rowData: _rowData,
+			// 				tdField: key,
+			// 				styleExpress: colStyleExpress[key]
+			// 			});
+			// 			for (var attrStyle in styleStr) {
+			// 				columnConfig.styleObj[attrStyle] = styleStr[attrStyle];
+			// 			}
+			// 		}
+			// 		if (columnConfig.columnType == 'thumb') {
+			// 			// cy.202003201 处理ids 转为url数组
+			// 			var fileIds =  _rowData[key];
+			// 			// fileIds = fileIds +',1327781183131485170,1327781272252056562'; 模拟ids用
+			// 			var fileIdArr = fileIds.split(',');
+			// 			var fileUrlArr = [];
+			// 			var authorization = NetStarUtils.OAuthCode.get();
+			// 			for(var i = 0; i<fileIdArr.length; i++){
+			// 				var fileUrl = getRootPath() + '/files/images/' + fileIdArr[i] + '?Authorization=' + authorization;
+			// 				fileUrlArr.push(fileUrl);
+			// 			}
+			// 			rowData['NETSTAR-FILEURL-' + key] = fileUrlArr;
+			// 			/* cy.bak.202003201 只处理id，不处理ids 临时备份 一个月后删除
+			// 			rowData['NETSTAR-URL'] = getRootPath() + '/files/images/' + _rowData[key];
+			// 			var authorization = NetStarUtils.OAuthCode.get();
+			// 			if (authorization) {
+			// 				rowData['NETSTAR-URL'] += '?Authorization=' + authorization;
+			// 			}
+			// 			*/
+			// 		}
+			// 		rowData[key] = _this.getValueByColumnType(_rowData[key], _rowData, columnConfig);
+			// 	} else {
+			// 		//没有配置， 这些是不用处理的数据
+			// 		rowData[key] = _rowData[key];
+			// 	}
+			// });
+			for(var key in _rowData){
+				var value = _rowData[key];
 				//获取column配置
 				var columnConfig = _gridConfig.columnById[key];
 				if (rowStyleExpress[key]) {
@@ -1906,7 +1958,7 @@ var NetStarGrid = (function () {
 					//没有配置， 这些是不用处理的数据
 					rowData[key] = _rowData[key];
 				}
-			});
+			}
 			// 执行 设置行显示数据 方法 lyw 20190917
 			if (typeof (_gridConfig.ui.setRowShowDataHandler) == "function") {
 				_gridConfig.ui.setRowShowDataHandler(rowData);
@@ -2393,7 +2445,7 @@ var NetStarGrid = (function () {
 					break;
 				case 'textFieldReplace':
 					// id替换 下拉框或单选/多选时 保存的是id需要返显name 这种类型会根据该行返显的显示字段显示
-					if (originalValue) {
+					if (typeof(originalValue) != "undefined" && originalValue !== '') {
 						var data = columnConfig.formatHandler.data;
 						var textField = data && data.textField ? data.textField : '';
 						returnValue = rowData[textField] ? rowData[textField] : '';

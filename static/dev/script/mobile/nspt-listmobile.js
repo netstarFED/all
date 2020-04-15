@@ -811,7 +811,8 @@ NetstarTemplate.templates.listMobile = (function(){
 			ajaxConfig.plusData = {
 				idField:config.mainComponent.idField,
 				gridRowData:config.gridRowData,
-				gridId:config.mainComponent.id
+				gridId:config.mainComponent.id,
+				configId : _config.id,
 			};
 			NetStarUtils.ajax(ajaxConfig,function(res,ajaxOptions){
 				var rowsArray = [];
@@ -849,6 +850,8 @@ NetstarTemplate.templates.listMobile = (function(){
 						NetstarBlockListM.dataManager.delRow(originalRowsArr[originalIndex],gridId);
 					}
 				}
+				var config = NetstarTemplate.templates.listMobile.data[ajaxOptions.plusData.configId].config;
+				inputSearchPanelInit(config);
 			},true)
 		}else{
 			NetstarTemplate.templates.listMobile.data[_config.id] = {

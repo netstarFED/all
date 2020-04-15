@@ -173,6 +173,9 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                     if(ajaxPlusData.operatorObject){
                         panelName = ajaxPlusData.operatorObject;
                     }
+                    if(ajaxPlusData.targetField){
+                        panelName = ajaxPlusData.targetField;
+                    }
                     //返回值是对象 可以根据返回状态去处理界面逻辑
                     if(panelName == templateConfig.componentsByName.blockList.keyField){
                         switch(data.objectState){
@@ -184,7 +187,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                             //新增
                             case NSSAVEDATAFLAG.VIEW:
                             //刷新
-                            componentsManage.blockList.refreshHandler(config);
+                            componentsManage.blockList.refreshHandler(templateConfig);
                             break;
                         }
                     }else{
@@ -197,7 +200,7 @@ NetstarTemplate.templates.statisticalPlan = (function(){
                             //新增
                             case NSSAVEDATAFLAG.VIEW:
                             //刷新
-                            componentsManage.grid.refreshHandler(config);
+                            componentsManage.grid.refreshHandler(templateConfig);
                             break;
                         }
                     }
