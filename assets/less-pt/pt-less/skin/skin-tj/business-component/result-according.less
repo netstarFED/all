@@ -1,12 +1,122 @@
-.sum-up{
+.result-according {
+    .result-according-item {
+        border: 1px solid @border-color;
+        padding: @base-padding;
+        margin-top: @base-margin;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &.open {
+            border: 0;
+            padding: 0;
+
+            &>.pt-panel {
+                margin-bottom: @base-margin;
+
+                .pt-panel-header {
+                    padding-bottom: @base-padding;
+
+                    .pt-panel-header-right {
+                        .pt-btn-icon {
+                            border-color: @border-color;
+
+                            &:hover {
+                                border-color: @warning;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &>.pt-panel {
+            margin-bottom: 0;
+
+            .pt-panel-header {
+                padding: 0;
+
+                .pt-panel-header-right {
+                    .pt-btn-icon {
+                        border-color: transparent;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+// 结果录入
+.sum-up {
     height: auto;
     overflow: hidden;
-    .sum-up-form{
+    margin-top: @base-margin;
+
+    .sum-up-form {
         width: 50%;
         float: left;
+        padding-right: @base-padding;
+
+        .pt-form {
+            width: 100%;
+        }
+
+        .pt-form-group {
+            width: 100%;
+
+            .pt-textarea {
+                width: 100%;
+
+                textarea.pt-form-control {
+                    width: 100%;
+                    height: 82px;
+                }
+            }
+
+        }
     }
-    .media-group{
+
+    .sum-up-header {
+        padding-bottom: @base-padding;
+
+        .title {
+            position: relative;
+            padding-bottom: 0;
+            display: inline-block;
+            font-size: 14px;
+            padding-left: 20px;
+
+            &:before {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                font-family: "icomoon";
+                content: '\ea85';
+                width: 14px;
+                height: 14px;
+                margin-top: -10px;
+                color: #f8d5c4;
+            }
+        }
+
+        .sum-up-header-right {
+            float: right;
+
+            ul {
+                li {
+                    display: inline;
+                    padding-left: @base-padding;
+                    line-height: 1.5;
+                }
+            }
+        }
+    }
+
+    .media-group {
         width: 50%;
+        min-width: 532px;
         float: left;
         border: 1px solid @border-color;
         padding: @base-padding;
