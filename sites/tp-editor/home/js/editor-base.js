@@ -5051,6 +5051,8 @@ var NetstarProject = (function(){
                         if(!$.isEmptyObject(value)){
                             titleStr = NetStarUtils.getHtmlByRegular(value,titleStr);
                         }
+                        // 当前页面的包名
+                        defaultPageData.prevPagePackageName = packageName;
                         NetstarUI.labelpageVm.loadPage(url,titleStr, isAlwaysNewTab, defaultPageData);
                     }else{
                         nsalert(validStr,'warning');
