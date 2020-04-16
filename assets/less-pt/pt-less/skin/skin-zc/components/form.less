@@ -294,6 +294,18 @@
                         .pt-btn {
                             min-height: @form-grid-min-height;
                         }
+
+                        .pt-btn {
+                            &.pt-input-clear {
+                                &:hover {
+                                    background: @danger;
+
+                                    i {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+                        }
                     }
 
                 }
@@ -340,6 +352,16 @@
             }
 
 
+        }
+    }
+
+    &.pt-form-normal {
+        &+.pt-btn-group {
+            button.pt-btn {
+                &:hover {
+                    background: @danger;
+                }
+            }
         }
     }
 
