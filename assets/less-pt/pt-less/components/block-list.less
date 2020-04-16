@@ -1839,3 +1839,138 @@
         }
     }
 }
+
+
+//流程图中表单快状表格
+.pt-grid-list-form {
+    &>.pt-btn-group {
+        display: flex;
+        margin-bottom: @base-margin;
+    }
+}
+
+.pt-grid-list-form-block {
+    width: 100%;
+
+    .pt-block-list {
+
+        &.pt-block-list-vertical-simple {
+            &+.pt-block-list-vertical-simple {
+                margin-top: 0 !important;
+            }
+        }
+
+        &.pt-block-list-form {
+            width: 50%;
+            max-width: none;
+            border: none;
+            margin-bottom: @base-margin;
+
+            .pt-block-content {
+                border: 1px solid @border-color;
+
+                .pt-block-content-item {
+                    &.pt-form-group {
+                        text-overflow: inherit;
+                        margin-bottom: @base-margin;
+
+                        span {
+                            &.pt-block-list-form-label {
+                                min-width: 78px;
+                                text-align: right;
+                                vertical-align: middle;
+                                display: inline-block;
+                                margin: 0;
+                                padding-right: 5px !important;
+                            }
+                        }
+
+                        .pt-block-list-form-input {
+                            width: calc(~"100% - "78px);
+                            border: 1px solid @border-color;
+                            display: inline-block;
+                            height: 24px;
+                            padding: 3px 5px !important;
+                            font-size: 12px;
+                            vertical-align: middle;
+                            background-color: #fff;
+                        }
+
+                        //隐藏的
+                        .pt-form {
+                            &.pt-form-normal {
+
+                                width: calc(~"100% - "78px);
+                                float: right;
+                                margin-top: -24px;
+
+                                .pt-input-group {
+
+                                    &.fg-select,
+                                    &.fg-text {
+                                        width: 100%;
+
+                                        .pt-form-control {
+                                            width: 100%;
+                                        }
+
+                                        .pt-input-group-btn {
+                                            text-align: right;
+                                        }
+                                    }
+
+                                    &.fg-radio {
+                                        border: none;
+                                        background-color: #fff;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    &.select {
+                        position: relative;
+
+                        &:after {
+                            position: absolute;
+                            top: 2px;
+                            right: 5px;
+                            font-family: "icomoon";
+                            content: "\e941";
+                            color: #424242;
+                            font-size: 14px;
+                        }
+                    }
+
+                    &.radio {
+                        .pt-block-list-form-input {
+                            // background-color: transparent;
+                            border: none;
+                        }
+                    }
+                }
+
+                &+.pt-btn-group {
+                    top: 1px;
+                    right: 1px;
+                }
+            }
+
+            &:hover,
+            &.seleted {
+                background-color: transparent;
+            }
+
+            &:nth-child(odd) {
+                padding-right: @base-padding;
+
+                .pt-block-content {
+                    &+.pt-btn-group {
+                        top: 1px;
+                        right: 11px;
+                    }
+                }
+            }
+        }
+    }
+}
