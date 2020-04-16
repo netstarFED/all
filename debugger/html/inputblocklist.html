@@ -1,0 +1,324 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <title>可编辑块状表格</title>
+
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+    <script>
+        NetstarHomePage = false;
+        nsPublic = {
+            getAppendContainer : function(){
+                var insertLocation = $('container:not(.hidden)').not('.content');
+                if ($('.nswindow .content').length > 0) {
+                    insertLocation = $('.nswindow .content:last');
+                }
+                return insertLocation;
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/static/dev/style/tj-common.css">
+    <style>
+        /* 临时STYLE CSS */
+    </style>
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+    <div id="block"></div>
+    <container>
+        <script>
+            var getRootPath = function () {
+                return 'https://qaapi.wangxingcloud.com/'
+            };
+            var list = [
+                {
+                    "app": "logistics2-server",
+                    "api": "signingAfter",
+                    "callbackType": "beforeComplete",//签收前
+                    "params": "aaa"//参数
+                },{
+                    "app": "logistics2-server",
+                    "api": "signingAfter",
+                    "callbackType": "afterComplete",//签收后
+                    "params": "aaa"
+                },{
+                    "app": "logistics2-server",
+                    "api": "signingAfter",
+                    "callbackType": "beforeForward",//提交前
+                    "params": "aaa"
+                },{
+                    "app": "logistics2-server",
+                    "api": "signingAfter",
+                    "callbackType": "afterForward",//提交后
+                    "params": "aaa"
+                },{
+                    "app": "logistics2-server",
+                    "api": "signingAfter",
+                    "callbackType": "beforeRollback",//回退前
+                    "callRollbackTime": "passBy",//回退经过时调用
+                    "params": "aaa"
+                },{
+                    "app": "logistics2-server",
+                    "api": "signingAfter",
+                    "callbackType": "afterRollback",//回退后
+                    "callRollbackTime": "target",//回退至此时调用
+                    "params": "aaa"
+                },{
+                    "app": "logistics2-server",
+                    "api": "signingAfter",
+                    "callbackType": "pendingToWaiting",//未决转待办
+                    "params": "aaa"
+                },{
+                    "app": "logistics2-server",
+                    "api": "signingAfter",
+                    "callbackType": "afterArchived",//归档后
+                    "params": "aaa"
+                }
+            ]
+            var html  = '<div class="">'
+                            + '<div class="" v-for="(row,index) in rows">'
+                                    + '<div class="" v-for="column in columns">'
+                                        + '<div class="" @click="clickTdHandler($event, index, row, column)">'
+                                            + '<span class="">{{column.title}}</span>'
+                                            + '<span class="">{{row[column.field]}}</span>'
+                                        + '</div>'
+                                        + '<div class="" iseditcontainer="true" v-if="row[\'dom-id-\'+column.field]" :id="row[\'dom-id-\'+column.field]">'
+                                        + '</div>'
+                                    + '</div>'
+                            + '</div>'
+                        + '<div>'
+            $('#block').html(html);
+            var columns = [
+                {
+                    field : 'app',
+                    title : '回调方法服务',
+                    editable : true,
+                    editConfig : {
+                        type : 'select',
+                        textField : 'name',
+                        valueField : 'name',
+                        subdataName : 'app',
+                    }
+                },{
+                    field : 'api',
+                    title : '回调方法',
+                    editable : true,
+                    editConfig : {
+                        type : 'select',
+                        textField : 'name',
+                        valueField : 'name',
+                        subdataName : 'api',
+                    }
+                },{
+                    field : 'params',
+                    title : '参数',
+                    editable : true,
+                    editConfig : {
+                        type : 'text',
+                    }
+                },{
+                    field : 'callbackType',
+                    title : '状态',
+                    editable : true,
+                    editConfig : {
+                        type : 'select',
+                        textField : 'name',
+                        valueField : 'name',
+                        subdataName : 'callbackType',
+                    }
+                },{
+                    field : 'callRollbackTime',
+                    title : '调用位置',
+                    editConfig : {
+                        type : 'radio',
+                        textField : 'name',
+                        valueField : 'name',
+                        subdataName : 'callRollbackTime',
+                    }
+                }
+            ]
+            var columnsById = {};
+            for(var i=0; i<columns.length; i++){
+                columnsById[columns[i].field] = columns[i];
+            }
+            function getRows(data){
+                var rows = [];
+                for(var i=0; i<data.length; i++){
+                    var row = $.extend(true, {}, data[i]);
+                    for(var key in row){
+                        if(columnsById[key] && columnsById[key].editable){
+                            row['dom-id-' + key] = 'ns-field-edit-' + key + '-' + i;
+                        }
+                    }
+                    rows.push(row);
+                }
+                return rows;
+            }
+            getRows(list);
+            new Vue({
+                el : '#block',
+                data : {
+                    rows : getRows(list),
+                    list : list,
+                    columns : columns,
+                },
+                watch : {
+                    list : function(newList){
+                        this.rows = getRows(newList);
+                    },
+                },
+                methods : {
+                    removeComponent:function($editorContainer){
+                        if ($editorContainer.length > 0) {
+                            var domId = $editorContainer.attr('id');
+                            var editorConfig;
+                            var editorVueComConfig;
+                            if(NetstarComponent.config[domId] && NetstarComponent.config[domId].vueConfig){
+                                for(var key in NetstarComponent.config[domId].vueConfig){
+                                    editorConfig = NetstarComponent.config[domId].config[key];
+                                    editorVueComConfig = NetstarComponent.config[domId].vueConfig[key];
+                                }
+                            }
+                            /******lyw 20190411 计算器组件需要重新获取，进行保存值 end********/
+                            // 验证是否是日期组件 删除日器组件
+                            if(typeof(editorConfig) == "object"){
+                                switch(editorConfig.type){
+                                    case 'date':
+                                        break;
+                                    case 'provinceselect':
+                                        break;
+                                    case 'select':
+                                        if(editorVueComConfig){
+                                            if(editorConfig.panelVueObj){
+                                                $(document).off("click", editorConfig.panelVueObj.isSearchDropDown);
+                                            }
+                                            if(typeof(editorVueComConfig.blurHandler)=='function'){
+                                                editorVueComConfig.blurHandler();
+                                            }
+                                        }  
+                                        break;
+                                }
+                            }
+                            // 销毁组件
+                            if(typeof(editorVueConfig) == "object"){
+                                editorVueConfig.$destroy();
+                                delete this.editorVue;
+                            }
+                            this.removeRemoveEditorListener();
+                            $editorContainer.html('');
+                            if ($('.pt-select-panel').length > 0) {
+                                // 下拉组件下拉框删除 以及下拉框添加的事件关闭
+                                $('.pt-select-panel').remove();
+                                $(document).off('keyup',NetstarComponent.select.panelComponentConfig.keyup);
+                            }
+                        }
+                    },
+                    removeRemoveEditorListener : function(){
+                        $('body').off('mousedown', this.outClickHandler);
+                    },
+                    outClickHandler:function(ev){
+                        //如果当前操作对象不再编辑器里则是out
+                        var isOut = $(ev.target).closest('[iseditcontainer]').length == 0;
+                        if (isOut) {
+                            if (ev.target.nodeName == 'LI') {
+                                isOut = false;
+                            }
+
+                            //sjj 2019106  如果当前下拉框出现滚动区域不可关闭
+                            if (ev.target.className == 'pt-dropdown') {
+                                if (ev.target.parentNode && ev.target.parentNode.className.indexOf('pt-input-group pt-select-panel')>-1){
+                                    isOut = false;
+                                }
+                            }
+                            if($(ev.target).closest('.pt-pager').length == 1){
+                                //sjj 20200113
+                                isOut = false;
+                            }
+                        }
+                        //如果当前操作也不在要点击的单元格里则不是out
+                        var $td = ev.data.$td;
+                        if ($td[0] == $(ev.target)[0] || $(ev.target).closest('td')[0] == $(ev.target)[0] || $td[0] == $(ev.target).closest('td')[0]) {
+                            isOut = false;
+                        }
+                        var _tdEditor = ev.data.this;
+                        if (isOut) {
+                            var $gridContainer = ev.data.$td.closest('container');
+                            if ($gridContainer.length == 0) {
+                                $gridContainer = $('body');
+                            }
+                            var $editorContainer = $gridContainer.find('[iseditcontainer]');
+                            _tdEditor.removeComponent($editorContainer);
+                        }
+                    },
+                    addRemoveListener : function($dom){
+                        //$td是当前点击正在初始化的单元格
+                        var _this = this;
+                        //点击了其他地方的监听器
+                        this.removeRemoveEditorListener();
+                        //sjj 20190509 把body的click事件改为了mousedown事件
+                        $('body').on('mousedown', {
+                            this: _this,
+                            $td: $dom
+                        }, this.outClickHandler);
+                    },
+                    showFormEditor : function(editConfig, index, row, column){
+                        var _this = this;
+                        var domId = row['dom-id-' + column.field];
+                        editConfig.changeHandler = function(obj){
+                            var editValue = obj.vueConfig.getValue();
+                            var list = $.extend(true, [], _this.list);
+                            // 赋值
+                            list[index][obj.id] = editValue;
+                            _this.list = list;
+                            // 移除 
+                            _this.removeComponent($('#' + domId));
+                        }
+                        var formConfig = {
+                            id : domId,
+                            isSetMore : false,
+                            formStyle : 'pt-form-normal',
+                            formSource : 'table',
+                            form : [
+                                editConfig
+                            ],
+                            completeHandler : (function(domId, fieldId){
+                                return function(obj){
+                                    NetstarComponent.config[domId].vueConfig[fieldId].focus()
+                                }
+                            })(domId, column.field)
+                        }
+                        NetstarComponent.formComponent.show(formConfig);
+                        // 其他点击事件都会关闭编辑器
+                        _this.addRemoveListener($('#' + domId));
+                    },
+                    clickTdHandler(ev, index, row, column){
+                        if(!column.editable){ return false; }
+                        var domId = row['dom-id-' + column.field];
+                        var editConfig = column.editConfig;
+                        editConfig.id = column.field;
+                        editConfig.isStartToChange = false;
+                        editConfig.isShowPanel = true;
+                        editConfig.value = row[column.field] == undefined ? '' : row[column.field];
+                        this.showFormEditor(editConfig, index, row, column);
+                    }
+                }
+            })
+        </script>
+    </container>
+</body>
+
+</html>

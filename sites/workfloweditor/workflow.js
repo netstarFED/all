@@ -2265,6 +2265,13 @@ var nsWorkFlow = {
 					formatValueData[attrId] = JSON.parse(value[attrId]);
 					formatValueData[fieldRelationParent[attrId]] = attrId;
 					break;
+                case 'callbackDef':
+                    if(typeof(value[attrId]) == "string" && value[attrId].length > 0){
+                        formatValueData[attrId] = JSON.parse(value[attrId]);
+                    }else{
+                        formatValueData[attrId] = [];
+                    }
+                    break;
                 case 'hastenDef':
                 case 'ccDef':
 					formatValueData[attrId] = JSON.parse(value[attrId]);
@@ -2450,6 +2457,8 @@ var nsWorkFlow = {
 		content:[],
 		// 字段内容
 		fields:{},
+		// 上次显示的id
+		prevActiveId:'',
 		// 正显示的id
 		activeId:'',
 		// 当前value值
@@ -2530,16 +2539,17 @@ var nsWorkFlow = {
 			var _this = this;
 			$tabs.on('click',function(){
 				var $this = $(this);
-				var liNsId = $this.attr('nsid');
+                var liNsId = $this.attr('nsid');
+                _this.prevActiveId = _this.activeId;
 				_this.activeId = liNsId;
-				_this.saveData();
+				_this.saveData(_this.prevActiveId);
 				_this.setActiveTab();
 			})
 			$btns.on('click',function(){
 				var $this = $(this);
 				var $i = $this.children();
 				if($i.hasClass('fa-save')){
-					_this.saveData();
+					_this.saveData(_this.activeId);
 					if(typeof(_this.config.confirmHandler)=='function'){
 						var formatValueData = nsWorkFlow.formatValue(_this.value);
 						_this.config.confirmHandler(formatValueData);
@@ -2548,7 +2558,7 @@ var nsWorkFlow = {
 				if($i.hasClass('fa-close')){
 					_this.closePanel();
 					if(typeof(_this.config.closeHandler)=='function'){
-						_this.saveData();
+						_this.saveData(_this.activeId);
 						_this.config.closeHandler(_this.sourceValue,_this.value);
 					}
 				}
@@ -2796,20 +2806,399 @@ var nsWorkFlow = {
 			for(var j=0;j<setField.length;j++){
 				setAttrByShowAttr(formArr,setField[j])
 			}
-		},
+        },
+        block : {
+            TEMPLATE : '<div class="">'
+                            + '<div class="pt-btn-group">'
+                                + '<button class="pt-btn pt-btn-default" @click="add">新增</button>'
+                            + '</div>'
+                            + '<div class="" v-for="(row,index) in rows">'
+                                    + '<div class="" v-for="column in columns">'
+                                        + '<div class="" @click="clickTdHandler($event, index, row, column)">'
+                                            + '<span class="">{{column.title}}</span>'
+                                            + '<span class="">{{(column.formatHandler ? column.formatHandler(row[column.field], row) : row[column.field])}}</span>'
+                                        + '</div>'
+                                        + '<div class="" iseditcontainer="true" v-if="row[\'dom-id-\'+column.field]" :id="row[\'dom-id-\'+column.field]">'
+                                        + '</div>'
+                                    + '</div>'
+                                    + '<div class="pt-btn-group">'
+                                        + '<button class="pt-btn pt-btn-icon pt-btn-default" @click="deleteFunc($event, index)">'
+                                            + '<i class="icon icon-trash-o"></i>'
+                                        + '</button>'
+                                    + '</div>'
+                            + '</div>'
+                        + '<div>',
+            subdataObj : {
+                app : [],
+                callbackType : [
+                    {
+                        id : 'beforeComplete',
+                        name : '签收前',
+                    },{
+                        id : 'afterComplete',
+                        name : '签收后',
+                    },{
+                        id : 'beforeForward',
+                        name : '提交前',
+                    },{
+                        id : 'afterForward',
+                        name : '提交后',
+                    },{
+                        id : 'beforeRollback',
+                        name : '回退前',
+                    },{
+                        id : 'afterRollback',
+                        name : '回退后',
+                    },{
+                        id : 'pendingToWaiting',
+                        name : '未决转待办',
+                    },{
+                        id : 'afterArchived',
+                        name : '归档后',
+                    }
+                ],
+                callRollbackTime : [
+                    {
+                        id : 'passBy',
+                        name : '回退经过时调用',
+                    },{
+                        id : 'target',
+                        name : '回退至此时调用',
+                    }
+                ],
+            },
+            columns : [
+                {
+                    field : 'app',
+                    title : '回调方法服务',
+                    editable : true,
+                    editConfig : {
+                        type : 'select',
+                        textField : 'name',
+                        valueField : 'name',
+                        subdataName : 'app',
+                    }
+                },{
+                    field : 'api',
+                    title : '回调方法',
+                    editable : true,
+                    editConfig : {
+                        type : 'select',
+                        textField : 'name',
+                        valueField : 'name',
+                        dataSrc: 'rows',
+                        data : {
+                            interfaceClazz : 'com.netstar.nsworkflow.business.api.callback.WorkflowCallback',
+                            application : "{row.app}"
+                        },
+                        url: serverUrl + '/dubboApi/groups',
+                        method : 'GET',
+                        contentType : 'application/x-www-form-urlencoded',
+                    }
+                },{
+                    field : 'params',
+                    title : '参数',
+                    editable : true,
+                    editConfig : {
+                        type : 'text',
+                    }
+                },{
+                    field : 'callbackType',
+                    title : '状态',
+                    editable : true,
+                    editConfig : {
+                        type : 'select',
+                        textField : 'name',
+                        valueField : 'id',
+                        subdataName : 'callbackType',
+                    }
+                },{
+                    field : 'callRollbackTime',
+                    title : '调用位置',
+                    editable : true,
+                    editConfig : {
+                        type : 'radio',
+                        textField : 'name',
+                        valueField : 'id',
+                        subdataName : 'callRollbackTime',
+                    }
+                }
+            ],
+            addObj : {
+                app : '',
+                api : '',
+                params : '',
+                callbackType : '',
+                callRollbackTime : '',
+            },
+            getColumns : function(){
+                var columns = this.columns;
+                var subdataObj = this.subdataObj;
+                for(var i=0; i<columns.length; i++){
+                    var column = columns[i];
+                    if(column.editConfig){
+                        var subdataName = column.editConfig.subdataName;
+                        if(subdataObj[subdataName]){
+                            var subdata = subdataObj[subdataName];
+                            column.editConfig.subdata = subdata;
+                            var textField = column.editConfig.textField ? column.editConfig.textField : 'text';
+                            var valueField = column.editConfig.valueField ? column.editConfig.valueField : 'value';
+                            var subdataReplace = {};
+                            for(var subI=0; subI<subdata.length; subI++){
+                                subdataReplace[subdata[subI][valueField]] = subdata[subI][textField];
+                            }
+                            column.formatHandler = (function(subdataReplace){
+                                return function(value, row){
+                                    if(typeof(subdataReplace[value]) != "undefined"){
+                                        value = subdataReplace[value];
+                                    }
+                                    return value;
+                                }
+                            })(subdataReplace)
+                        }
+                    }
+                }
+                return columns;
+            },
+            getColumnsById : function(columns){
+                var columnsById = {};
+                for(var i=0; i<columns.length; i++){
+                    columnsById[columns[i].field] = columns[i];
+                }
+                return columnsById;
+            },
+            getRows : function(list, columnsById){
+                var rows = [];
+                for(var i=0; i<list.length; i++){
+                    var row = $.extend(true, {}, list[i]);
+                    for(var key in row){
+                        if(columnsById[key] && columnsById[key].editable){
+                            row['dom-id-' + key] = 'ns-field-edit-' + key + '-' + i;
+                        }
+                    }
+                    rows.push(row);
+                }
+                return rows;
+            },
+            init : function(values, domId){
+                var _this = this;
+                var html = _this.TEMPLATE;
+                $('#' + domId).html(html);
+                var columns = _this.getColumns();
+                var list = $.isArray(values.callbackDef) ? values.callbackDef : [];
+                var columnsById = _this.getColumnsById(columns);
+                var rows = _this.getRows(list, columnsById);
+                this.vueObj = new Vue({
+                    el : '#' + domId,
+                    data : {
+                        rows : rows,
+                        list : $.extend(true, [], list),
+                        columns : columns,
+                        columnsById : columnsById,
+                    },
+                    watch : {
+                        list : function(newList){
+                            this.rows = _this.getRows(newList, this.columnsById);
+                            values.callbackDef = newList;
+                        },
+                    },
+                    methods : {
+                        add : function(){
+                            var list = $.extend(true, [], this.list);
+                            list.push(_this.addObj);
+                            this.list = list;
+                        },
+                        deleteFunc : function(ev, index){
+                            var __this = this;
+                            nsConfirm('确定删除吗？', function(isDel){
+                                if(isDel){
+                                    var list = $.extend(true, [], __this.list);
+                                    list.splice(index, 1);
+                                    __this.list = list;
+                                }
+                            })
+                        },
+                        removeComponent:function($editorContainer){
+                            if ($editorContainer.length > 0) {
+                                var domId = $editorContainer.attr('id');
+                                var editorConfig;
+                                var editorVueComConfig;
+                                if(NetstarComponent.config[domId] && NetstarComponent.config[domId].vueConfig){
+                                    for(var key in NetstarComponent.config[domId].vueConfig){
+                                        editorConfig = NetstarComponent.config[domId].config[key];
+                                        editorVueComConfig = NetstarComponent.config[domId].vueConfig[key];
+                                    }
+                                }
+                                /******lyw 20190411 计算器组件需要重新获取，进行保存值 end********/
+                                // 验证是否是日期组件 删除日器组件
+                                if(typeof(editorConfig) == "object"){
+                                    switch(editorConfig.type){
+                                        case 'date':
+                                            break;
+                                        case 'provinceselect':
+                                            break;
+                                        case 'select':
+                                            if(editorVueComConfig){
+                                                if(editorConfig.panelVueObj){
+                                                    $(document).off("click", editorConfig.panelVueObj.isSearchDropDown);
+                                                }
+                                                if(typeof(editorVueComConfig.blurHandler)=='function'){
+                                                    editorVueComConfig.blurHandler();
+                                                }
+                                            }  
+                                            break;
+                                    }
+                                }
+                                // 销毁组件
+                                if(typeof(editorVueConfig) == "object"){
+                                    editorVueConfig.$destroy();
+                                    delete this.editorVue;
+                                }
+                                this.removeRemoveEditorListener();
+                                $editorContainer.html('');
+                                if ($('.pt-select-panel').length > 0) {
+                                    // 下拉组件下拉框删除 以及下拉框添加的事件关闭
+                                    $('.pt-select-panel').remove();
+                                    $(document).off('keyup',NetstarComponent.select.panelComponentConfig.keyup);
+                                }
+                            }
+                        },
+                        removeRemoveEditorListener : function(){
+                            $('body').off('mousedown', this.outClickHandler);
+                        },
+                        outClickHandler:function(ev){
+                            //如果当前操作对象不再编辑器里则是out
+                            var isOut = $(ev.target).closest('[iseditcontainer]').length == 0;
+                            if (isOut) {
+                                if (ev.target.nodeName == 'LI') {
+                                    isOut = false;
+                                }
+    
+                                //sjj 2019106  如果当前下拉框出现滚动区域不可关闭
+                                if (ev.target.className == 'pt-dropdown') {
+                                    if (ev.target.parentNode && ev.target.parentNode.className.indexOf('pt-input-group pt-select-panel')>-1){
+                                        isOut = false;
+                                    }
+                                }
+                                if($(ev.target).closest('.pt-pager').length == 1){
+                                    //sjj 20200113
+                                    isOut = false;
+                                }
+                            }
+                            //如果当前操作也不在要点击的单元格里则不是out
+                            var $td = ev.data.$td;
+                            if ($td[0] == $(ev.target)[0] || $(ev.target).closest('td')[0] == $(ev.target)[0] || $td[0] == $(ev.target).closest('td')[0]) {
+                                isOut = false;
+                            }
+                            var _tdEditor = ev.data.this;
+                            if (isOut) {
+                                var $gridContainer = ev.data.$td.closest('container');
+                                if ($gridContainer.length == 0) {
+                                    $gridContainer = $('body');
+                                }
+                                var $editorContainer = $gridContainer.find('[iseditcontainer]');
+                                _tdEditor.removeComponent($editorContainer);
+                            }
+                        },
+                        addRemoveListener : function($dom){
+                            //$td是当前点击正在初始化的单元格
+                            var _this = this;
+                            //点击了其他地方的监听器
+                            this.removeRemoveEditorListener();
+                            //sjj 20190509 把body的click事件改为了mousedown事件
+                            $('body').on('mousedown', {
+                                this: _this,
+                                $td: $dom
+                            }, this.outClickHandler);
+                        },
+                        showFormEditor : function(editConfig, index, row, column){
+                            var _this = this;
+                            var domId = row['dom-id-' + column.field];
+                            editConfig.changeHandler = function(obj){
+                                var editValue = obj.vueConfig.getValue();
+                                var list = $.extend(true, [], _this.list);
+                                // 赋值
+                                var sourceValue = list[index][obj.id];
+                                if(obj.id == "app"){
+                                    if(sourceValue != editValue){
+                                        list[index].api = '';
+                                    }
+                                }
+                                list[index][obj.id] = editValue;
+                                _this.list = list;
+                                // 移除 
+                                _this.removeComponent($('#' + domId));
+                            }
+                            var formConfig = {
+                                id : domId,
+                                isSetMore : false,
+                                formStyle : 'pt-form-normal',
+                                formSource : 'table',
+                                form : [
+                                    editConfig
+                                ],
+                                completeHandler : (function(domId, fieldId){
+                                    return function(obj){
+                                        NetstarComponent.config[domId].vueConfig[fieldId].focus()
+                                    }
+                                })(domId, column.field)
+                            }
+                            NetstarComponent.formComponent.show(formConfig);
+                            // 其他点击事件都会关闭编辑器
+                            _this.addRemoveListener($('#' + domId));
+                        },
+                        clickTdHandler(ev, index, row, column){
+                            if(!column.editable){ return false; }
+                            var domId = row['dom-id-' + column.field];
+                            var editConfig = column.editConfig;
+                            editConfig.id = column.field;
+                            editConfig.isStartToChange = false;
+                            editConfig.isShowPanel = true;
+                            editConfig.value = row[column.field] == undefined ? '' : row[column.field];
+                            editConfig.relationData = {
+                                row : row,
+                            }
+                            this.showFormEditor(editConfig, index, row, column);
+                        }
+                    }
+                })
+            }
+        },
 		// 刷新面板
 		refreshTabsPanel:function(nsId){
-			var formArr = this.fields[nsId];
-            this.setPanelValue(formArr, nsId);
-			var allId = this.allId;
-			var formJson = {
-				id:  		allId.bodyId,
-				size: 		"standard",
-				format: 	"standard",
-				fillbg: 	true,
-				form:		formArr,
-			}
-			formPlane.formInit(formJson);
+			var formArr = $.extend(true, [], this.fields[nsId]);
+            var allId = this.allId;
+            switch(nsId){
+                case 'callbackSet':
+                    NetStarUtils.ajax({
+                        data: {interfaceClazz: 'com.netstar.nsworkflow.business.api.callback.WorkflowCallback'},
+                        dataSrc: 'rows',
+                        url: serverUrl + '/dubboApi/applications',
+                        type : 'GET',
+                        contentType : 'application/x-www-form-urlencoded',
+                    }, (function(_this, values, domId){
+                        return function(res){
+                            var arr = [];
+                            if(res.success){
+                                arr = res.rows ? res.rows : [];
+                            }
+                            _this.block.subdataObj.app = arr;
+                            _this.block.init(values, domId);
+                        }
+                    })(this, this.value, allId.bodyId))
+                    break;
+                default:
+                    this.setPanelValue(formArr, nsId);
+                    var formJson = {
+                        id:  		allId.bodyId,
+                        size: 		"standard",
+                        format: 	"standard",
+                        fillbg: 	true,
+                        form:		formArr,
+                    }
+                    formPlane.formInit(formJson);
+                    break;
+            }
 		},
 		// 关闭弹框
 		closePanel:function(){
@@ -2843,7 +3232,10 @@ var nsWorkFlow = {
 			this.allId = allId;
 		},
 		// 保存数据
-		saveData:function(){
+		saveData:function(saveId){
+            if(saveId == "callbackSet"){
+                return;
+            }
 			var formData = nsForm.getFormJSON(this.allId.bodyId,true);
 			var value = this.value;
 			for(var key in formData){

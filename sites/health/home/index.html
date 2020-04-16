@@ -1,0 +1,1174 @@
+<!--
+ * @Desription: 文件说明
+ * @Author: netstar.cy
+ * @Date: 2019-08-22 16:17:01
+ * @LastEditTime : 2020-01-20 10:16:20
+
+ * @LastEditTime: 2019-11-19 13:43:05
+
+ * @LastEditTime: 2019-12-06 11:24:48
+ -->
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <link rel="stylesheet" href="../static/style/welcomepage/css/bs-less/animate.min.css">
+    <link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/guide.css">
+    <link rel="stylesheet" href="../static/style/welcomepage/css/guide-less/Index-welcome.css">
+    <title>DEV.网星云.HOME</title>
+
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+    <script type="text/javascript" src="gjjs-sign.js?v=0.1.0"></script>
+    <style>
+        /* 临时STYLE CSS */
+    </style>
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+    <div id="placeholder-popupbox"></div>
+    <!-- 主页的内容 start -->
+    <div id="netstar-main-page" class="netstar-main-page netstar-project-erp">
+        <!-- 头部 包含logo 主菜单 start -->
+        <div class="pt-header">
+            <div class="pt-container">
+                <div class="pt-topbar">
+                    <div class="pt-container">
+                        <div class="pt-logo">
+                            <img src="/static/dev/images/erp/logo.png" alt="LOGO">
+                        </div>
+                        <!-- 系统选择器 -->
+                        <div class="system-change">
+                            <a href="#">
+                                <i class="icon-transtion-o"></i>
+                                <span>CRM</span>
+                            </a>
+                        </div>
+                        <div id="mainpage-systeminfo-contianer"></div>
+                    </div>
+                </div>
+                <div class="pt-navbar">
+                    <div class="pt-container">
+                        <!-- 主菜单 -->
+                        <div id="mainpage-menus-contianer" class="pt-nav pt-dropdown"></div>
+                    </div>
+                </div>
+                <!-- zy 20191112 点击事件在body上添加class类名collapse -->
+                <button class="pt-btn pt-btn-default pt-btn-icon pt-sidebar-collapse" id="mainpage-menus-btn">
+                    <i class="icon-menu"></i>
+                </button>
+                <div id="labelPages" class="pt-tabbar"></div>
+            </div>
+        </div>
+        <!-- 状态列表 -->
+        <div class="pt-state hide">
+            <div class="pt-state-item pt-state-primary">
+                <span class="pt-label">全部</span>
+                <span class="pt-badge">99</span>
+            </div>
+            <div class="pt-state-item pt-state-success">
+                <span class="pt-label">全部</span>
+                <span class="pt-badge">99</span>
+            </div>
+            <div class="pt-state-item pt-state-warning">
+                <span class="pt-label">全部</span>
+                <span class="pt-badge">99</span>
+            </div>
+            <div class="pt-state-item pt-state-danger">
+                <span class="pt-label">全部</span>
+                <span class="pt-badge">99</span>
+            </div>
+            <div class="pt-state-item">
+                <span class="pt-label">全部</span>
+                <span class="pt-badge">99</span>
+            </div>
+        </div>
+        <!-- 系统选择器弹框 -->
+        <div class="system-change-modal hide">
+            <div class="title">
+                请选择项目
+            </div>
+            <!-- 列表 -->
+            <ul class="nav">
+                <li class="nav-item"><a href="#">CRM</a></li>
+                <li class="nav-item current"><a href="#">ERP</a></li>
+                <li class="nav-item"><a href="#">OA</a></li>
+                <li class="nav-item"><a href="#">LIMS</a></li>
+            </ul>
+            <!-- 关闭按钮 -->
+            <a href="#" class="close">
+                <i class="icon-close"></i>
+            </a>
+        </div>
+        <!-- 头部 包含logo 主菜单 end ---->
+        <!-- 主页的内容 end   -->
+        <container>
+            <div class="container">
+                <div class="row hide" id="netstar-welcomeGuide">
+                    <div class="guide-item">
+                        <!-- 导航 -->
+                        <div class="guide-nav">
+                            <ul class="" id="netstar-guide-nav">
+                                <li class="netstar-guide-nav-item current">
+                                    <a href="javascript:NetstarWelocmePage.toPage(0);" title="开始">
+                                        <div class="btn-icon">
+                                            <span class="icon icon-arrow-right"></span>
+                                        </div>
+                                        <span>开始</span>
+                                    </a>
+                                </li>
+                                <li class="netstar-guide-nav-item">
+                                    <a href="javascript:NetstarWelocmePage.toPage(1);" title="">
+                                        <div class="btn-icon ">
+                                            <span class="icon icon-appointment"></span>
+                                        </div>
+                                        <span>设备管理</span>
+                                    </a>
+                                </li>
+                                <li class="netstar-guide-nav-item">
+                                    <a href="javascript:NetstarWelocmePage.toPage(2);" title="">
+                                        <div class="btn-icon">
+                                            <span class="icon icon-warehouse-o"></span>
+                                        </div>
+                                        <span>库房管理</span>
+                                    </a>
+                                </li>
+                                <li class="netstar-guide-nav-item">
+                                    <a href="javascript:NetstarWelocmePage.toPage(3);" title="">
+                                        <div class="btn-icon">
+                                            <span class="icon icon-minicode-bed-o"></span>
+                                        </div>
+                                        <span>床位管理</span>
+                                    </a>
+                                </li>
+                                <li class="netstar-guide-nav-item">
+                                    <a href="javascript:NetstarWelocmePage.toPage(4);" title="">
+                                        <div class="btn-icon">
+                                            <span class="icon icon-stop-o"></span>
+                                        </div>
+                                        <span>结束</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 轮播 -->
+                    </div>
+                    <div class="netstar-guide-banner">
+                        <ul class="netstar-guide-banner-item clearfix" id="netstar-guide-slider">
+                            <li class="netstar-guide-slider-item">
+                                <!-- 图片 -->
+                                <div class="left">
+                                    <img src="../images/welcomepage/banner1.png" alt="">
+                                </div>
+                                <!-- 文字 -->
+                                <div class="right">
+                                    <span class="icon icon-arrow-right"></span>
+                                    <span class="slider-text">
+                                        <p class="text">新手导航将带领您</p>
+                                        <p class="text2">完成基本资料的维护，
+                                        </p>
+                                        <p class="text2">
+                                            请根据导航，开始第一步吧</p>
+                                    </span>
+                                    <!-- <a href="" class="link">点击进入 >></a> -->
+                                </div>
+                            </li>
+                            <li class="netstar-guide-slider-item hide">
+                                <!-- 图片 -->
+                                <div class="left">
+                                    <img src="../images/welcomepage/banner2.png" alt="">
+                                </div>
+                                <!-- 文字 -->
+                                <div class="right">
+                                    <span class="icon icon-appointment"></span>
+                                    <span class="slider-text">
+                                        <p class="text">从平台引入您需要的设备</p>
+                                        <p class="text2">并针对不同设备设置个性化告警</p>
+                                    </span>
+                                    <a href="" class="link">点击进入 >></a>
+                                </div>
+                            </li>
+                            <li class="netstar-guide-slider-item hide">
+                                <!-- 文字 -->
+                                <div class="right">
+                                    <span class="icon icon-warehouse-o"></span>
+                                    <span class="slider-text">
+                                        <p class="text">建立一个存放设备库房</p>
+                                        <!-- <p class="text2">并针对不同设备设置个性化告警</p> -->
+                                    </span>
+                                    <a href="" class="link">点击进入 >></a>
+                                </div>
+                                <!-- 图片 -->
+                                <div class="left">
+                                    <img src="../images/welcomepage/banner3.png" alt="">
+                                </div>
+                            </li>
+                            <li class="netstar-guide-slider-item hide">
+                                <!-- 图片 -->
+                                <div class="left">
+                                    <img src="../images/welcomepage/banner4.png" alt="">
+                                </div>
+                                <!-- 文字 -->
+                                <div class="right">
+                                    <span class="icon icon-warehouse-o"></span>
+                                    <span class="slider-text">
+                                        <p class="text">住户入住前，需要先为住户准备好床位</p>
+                                        <p class="text2">您还可以为床位绑定智能设备，住户选择该床位，</p>
+                                        <p class="text2">入住后就可接收设备的监护</p>
+                                    </span>
+                                    <a href="" class="link">点击进入 >></a>
+                                </div>
+                            </li>
+                            <li class="netstar-guide-slider-item hide">
+                                <!-- 图片 -->
+                                <div class="left">
+                                    <img src="../images/welcomepage/banner5.png" alt="">
+                                </div>
+                                <!-- 文字 -->
+                                <div class="right">
+                                    <span class="icon icon-stop-o"></span>
+                                    <span class="slider-text">
+                                        <p class="text">导航结束</p>
+                                        <p class="text2">导航结束，您可以使用本平台</p>
+                                    </span>
+                                    <!-- <a href="" class="link">点击进入 >></a> -->
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="welcome hide" id="netstar-welcomeContent">
+                    <div class="welocmeContent">
+                        <image src="../images/welcomepage/welcome.png"></image>
+                    </div>
+                </div>
+                <!-- 警告/待办 -->
+                <div class="netstar-welcome-content hide" id="netstar-indexWelcome">
+                    <!-- 预警 -->
+                    <div class="netstar-welcome-item" id="netstar-welcomeContent-alarmData">
+                        <div class="netstar-welcome-item-title"></div>
+                        <div class="netstar-welcome-item-body">
+                            <!-- card -->
+                            <div class="list-block">
+                                <div class="card-box card-task-width" v-for="alarmdata in alarmList"
+                                    @click="gotoAlarmUrl($event,alarmdata)">
+                                    <div :class="alarmdata.style">
+                                        <div class="card-task-left">
+                                            <div class="card-title">
+                                                <i :class="alarmdata.icon"></i>
+                                                <span>{{alarmdata.title}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-task-right">
+                                            <div class="card-num">
+                                                <span>{{alarmdata.num}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 我的待办 -->
+                    <div class="netstar-welcome-item hide" id="netstar-userdetails">
+                        <div class="netstar-welcome-item-title">我的待办</div>
+                        <div class="netstar-welcome-item-body">
+                            <!-- card -->
+                            <div class="list-block">
+                                <div class="card-box" v-for="detail in detailsData" @click="gotoUrl($event, detail)">
+                                    <div class="card-task card-task-vertical">
+                                        <div class="card-task-top">
+                                            <div class="card-title">
+                                                <!-- <i class="icon icon-alarm"></i> -->
+                                                <a href="javascript:void(0);"
+                                                    :title="detail.activityName">{{detail.activityName}}</a>
+                                            </div>
+                                            <span class="card-task-num">{{detail.workitemCount}}</span>
+                                        </div>
+                                        <div class="card-task-bottom">
+                                            <div class="card-task-tag">
+                                                <span>{{detail.processName}}</span>
+                                                <div class="card-task-time">{{detail.latestTime}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中车 我的待办 -->
+                <div class="netstar-welcome-content hide landing-zc" id="netstar-indexWelcome-zc">
+                    <div class="pt-main">
+                        <div class="pt-container">
+                            <div class="pt-main-row">
+                                <!--每日工作计划-->
+                                <div class="pt-main-col">
+                                    <div class="panel">
+                                        <div class="panel-heading">
+                                            <span class="panel-title">每日工作计划</span>
+                                            <!--templateMindPages/pageConfig/1323774290029446130-->
+                                            <span class="more" id="day-workplane-page">MORE<i
+                                                    class="icon-arrow-up-bold-o"></i></span>
+                                        </div>
+                                        <div class="panel-body" id="workplaneday-panel">
+                                            <div class="col-md-6" v-for="detail in workPlaneData">
+                                                <div class="pt-block-list">
+                                                    <div class="title">{{detail.area}}</div>
+                                                    <div class="pt-block-content">
+                                                        <div class="pt-block-content-item">
+                                                            <i class="icon-clock-o"></i>
+                                                            <span class="time">{{detail.startTimer}}—{{detail.endTimer}}
+                                                            </span>
+                                                        </div>
+                                                        <div class="pt-block-content-item">
+                                                            <!---作业内容-->
+                                                            <span class="tag">{{detail.itemReportName}}</span>
+                                                        </div>
+                                                        <div class="pt-block-content-item">
+                                                            <!---人员-->
+                                                            <span class="tag">{{detail.transactors}}</span>
+                                                        </div>
+                                                        <div class="pt-block-content-item">
+                                                            <!---工况-->
+                                                            <span class="tag">{{detail.operatingModeNames}}</span>
+                                                        </div>
+                                                        <div class="pt-block-content-item">
+                                                            <!---其他说明-->
+                                                            <span class="tag">{{detail.remark}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--消息提醒-->
+                                <div class="pt-main-col">
+                                    <div class="panel">
+                                        <div class="panel-heading">
+                                            <span class="panel-title">消息提醒</span>
+                                            <span class="more">MORE<i class="icon-arrow-up-bold-o"></i></span>
+                                        </div>
+                                        <div class="panel-body panel-list">
+                                            <div class="list-group">
+                                                <a href="#" class="list-group-item active">
+                                                    <span class="badge">1</span>
+                                                    <div class="list-group-item-content">
+                                                        <h6 class="list-group-item-heading">
+                                                            根据国家法定假期规定，现将2020年春节放假工作安排。
+                                                        </h6>
+                                                        <p class="list-group-item-text">消息类型：消息类型一</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item">
+                                                    <span class="badge">2</span>
+                                                    <div class="list-group-item-content">
+                                                        <h6 class="list-group-item-heading">
+                                                            根据国家法定假期规定，现将2020年春节放假工作安排。
+                                                        </h6>
+                                                        <p class="list-group-item-text">消息类型：消息类型二</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item">
+                                                    <span class="badge">3</span>
+                                                    <div class="list-group-item-content">
+                                                        <h6 class="list-group-item-heading">
+                                                            预享受2020年个人所得税附加扣除政策的员工，年底前及时下载更新”个人所得税APP“。
+                                                        </h6>
+                                                        <p class="list-group-item-text">消息类型：消息类型三</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item">
+                                                    <span class="badge">4</span>
+                                                    <div class="list-group-item-content">
+                                                        <h6 class="list-group-item-heading">
+                                                            根据国家法定假期规定，现将2020年春节放假工作安排。
+                                                        </h6>
+                                                        <p class="list-group-item-text">消息类型：消息类型四</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item">
+                                                    <span class="badge">5</span>
+                                                    <div class="list-group-item-content">
+                                                        <h6 class="list-group-item-heading">
+                                                            根据国家法定假期规定，现将2020年春节放假工作安排。
+                                                        </h6>
+                                                        <p class="list-group-item-text">消息类型：消息类型五</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item">
+                                                    <span class="badge">6</span>
+                                                    <div class="list-group-item-content">
+                                                        <h6 class="list-group-item-heading">
+                                                            预享受2020年个人所得税附加扣除政策的员工，年底前及时下载更新”个人所得税APP“。
+                                                        </h6>
+                                                        <p class="list-group-item-text">消息类型：消息类型三</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item">
+                                                    <span class="badge">7</span>
+                                                    <div class="list-group-item-content">
+                                                        <h6 class="list-group-item-heading">
+                                                            根据国家法定假期规定，现将2020年春节放假工作安排。
+                                                        </h6>
+                                                        <p class="list-group-item-text">消息类型：消息类型四</p>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="list-group-item">
+                                                    <span class="badge">8</span>
+                                                    <div class="list-group-item-content">
+                                                        <h6 class="list-group-item-heading">
+                                                            根据国家法定假期规定，现将2020年春节放假工作安排。
+                                                        </h6>
+                                                        <p class="list-group-item-text">消息类型：消息类型五</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-main-row pt-main-row-tab">
+                                <div class="pt-main-col">
+                                    <div class="pt-tab-components-tabs pt-tab pt-tab-noboder">
+                                        <div class="pt-container">
+                                            <div class="pt-tab-header">
+                                                <div class="pt-nav">
+                                                    <ul class="pt-tab-list-components-tabs" id="message-tab-panel">
+                                                        <li class="component-vo pt-nav-item current"><a
+                                                                href="javascript:void(0);"
+                                                                aid="li-process-message">我发起的流程</a></li>
+                                                        <li class="component-list pt-nav-item"><a
+                                                                href="javascript:void(0);"
+                                                                aid="li-waiting-message">我的待办</a></li>
+                                                        <li class="component-list pt-nav-item"><a
+                                                                href="javascript:void(0);"
+                                                                aid="li-already-message">我的已办</a></li>
+                                                        <li class="component-list pt-nav-item"><a
+                                                                href="javascript:void(0);"
+                                                                aid="li-finish-message">完结任务</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="pt-tab-body">
+                                                <!--我发起的流程-->
+                                                <div class="pt-tab-content current" id="li-process-message">
+                                                    <div class="pt-tab-components nsgrid">
+                                                        <div id="list-li-process-message" class="nsgrid-zc"></div>
+                                                    </div>
+                                                </div>
+                                                <!--我的待办-->
+                                                <div class="pt-tab-content hide" id="li-waiting-message">
+                                                    <div class="pt-tab-components nsgrid">
+                                                        <div id="list-li-waiting-message" class="pt-grid">
+                                                            <!--<div class="pt-block-list card-task pt-block-list-zc"
+                                                                v-for="detail in detailsData"
+                                                                @click="gotoUrl($event, detail)">
+                                                                <div class="pt-block-content">
+                                                                    <div class="card-task-top">
+                                                                        <div class="card-task-title">
+                                                                            <a href="javascript:void(0);"
+                                                                                :title="detail.activityName">{{detail.activityName}}</a>
+                                                                        </div>
+                                                                        <span
+                                                                            class="card-task-number">{{detail.workitemCount}}</span>
+                                                                    </div>
+                                                                    <div class="card-task-tag">
+                                                                        <div class="card-task-tag">
+                                                                            <div class="card-task-sub-title">
+                                                                                {{detail.processName}}</div>
+                                                                            <div class="card-task-time">
+                                                                                {{detail.timeLength}}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--我的已办-->
+                                                <div class="pt-tab-content hide" id="li-already-message">
+                                                    <div class="pt-tab-components nsgrid">
+                                                        <div id="list-li-already-message" class="pt-grid">
+                                                            <!--<div class="pt-block-list card-task pt-block-list-zc"
+                                                                v-for="detail in alreadyData"
+                                                                @click="gotoUrl($event, detail)">
+                                                                <div class="pt-block-content">
+                                                                    <div class="card-task-top">
+                                                                        <div class="card-task-title">
+                                                                            <a href="javascript:void(0);"
+                                                                                :title="detail.activityName">{{detail.activityName}}</a>
+                                                                        </div>
+                                                                        <span
+                                                                            class="card-task-number">{{detail.workitemCount}}</span>
+                                                                    </div>
+                                                                    <div class="card-task-tag">
+                                                                        <div class="card-task-tag">
+                                                                            <div class="card-task-sub-title">
+                                                                                {{detail.processName}}</div>
+                                                                            <div class="card-task-time">
+                                                                                {{detail.timeLength}}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--完结任务-->
+                                                <div class="pt-tab-content hide" id="li-finish-message">
+                                                    <div class="pt-tab-components nsgrid">
+                                                        <div id="list-li-finish-message" class="pt-grid">
+                                                            <!--<div class="pt-block-list card-task pt-block-list-zc"
+                                                                v-for="detail in finishData"
+                                                                @click="gotoUrl($event, detail)">
+                                                                <div class="pt-block-content">
+                                                                    <div class="card-task-top">
+                                                                        <div class="card-task-title">
+                                                                            <a href="javascript:void(0);"
+                                                                                :title="detail.activityName">{{detail.activityName}}</a>
+                                                                        </div>
+                                                                        <span
+                                                                            class="card-task-number">{{detail.workitemCount}}</span>
+                                                                    </div>
+                                                                    <div class="card-task-tag">
+                                                                        <div class="card-task-tag">
+                                                                            <div class="card-task-sub-title">
+                                                                                {{detail.processName}}</div>
+                                                                            <div class="card-task-time">
+                                                                                {{detail.timeLength}}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </container>
+        <script type="text/javascript">
+            $(function () {
+                function toLoginPage(res) {
+                    window.location.href = '/';
+                }
+                var authCode = NetStarUtils.OAuthCode.get();
+                if (authCode == false) {
+                    //登录信息已经过期需要重新登录
+                    toLoginPage();
+                }
+
+                //由于某些特殊情况 config可能出现问题，比如手工删除了 cy 190828
+                var config = store.get('NetstarLoginConfig');
+                if (typeof (config) != 'string') {
+                    toLoginPage();
+                    return false;
+                }
+                config = JSON.parse(config);
+                config.mainMenus.menuType = "left";
+                var mainPageConfig = {
+                    html: '', //页面
+                    mainMenus: config.mainMenus, //主菜单配置
+                    userMode: config.userMode, //用户模式
+                    getLoginProperty: config.getLoginProperty, //获取登录信息地址
+                    getDict: config.getDict, //系统字典
+                    mainPage: config.mainPage, // 主页面
+                    toLoginPage: toLoginPage, //跳转到登录页
+                    loginConfig: $.extend(true, {}, config), // 登录保存的全部信息
+                    // 系统展示配置
+                    systemInfo: {
+                        id: 'mainpage-systeminfo-contianer',
+                        text: '请补充文字',
+                        messageHandler: function (resData) {
+                            var topOrgId = NetstarHomePage.config.systemInfo.userInfo.topOrgId;
+                            var waitingMessageId = 'netstar-userdetails';
+                            // 国家金属制品质量监督检验中心
+                            if (topOrgId == "1310954084307567602") {
+                                $("#netstar-indexWelcome").removeClass("hide");
+                            }
+                            // 国华电子/erp
+                            else if (topOrgId == "1314506232714757106" || topOrgId == "1310230808593695730" || topOrgId == "1318033010750128640" ||
+                                topOrgId == "1318039549837836800" || topOrgId == "1318039664728211968" || topOrgId == "1318039721636528640" ||
+                                topOrgId == "1318043389538599424" || topOrgId == "1311333887192310770" || topOrgId == "1323316718172373504") {
+                                $("#netstar-indexWelcome").removeClass("hide")
+                            } else if (topOrgId == '1319119564461573106') {
+                                //sjj 20200115 中车研究所
+                                $('#netstar-indexWelcome-zc').removeClass("hide");
+                                // var messageTabHeight = $(window).outerHeight() - 450;
+                                var messageTabHeight = $(window).outerHeight() - 396;
+
+                                $('#message-tab-panel').closest('.pt-main-row-tab').css({
+                                    height: messageTabHeight + 'px'
+                                });
+                                //waitingMessageId = 'list-li-waiting-message';
+
+                                //获取每日计划
+                                var workPlaneList = new Vue({
+                                    el: '#workplaneday-panel',
+                                    data: {
+                                        workPlaneData: []
+                                    },
+                                    watch: {},
+                                    // 事件
+                                    methods: {},
+                                    mounted: function () { }
+                                });
+                                var workPlaneAjaxConfig = {
+                                    //url: getRootPath() + '/taskTestDetail/getHomePageTaskTestDetailVO',
+                                    url: getRootPath() + '/taskTestDetail/getTaskTestDetailToday',
+                                    type: 'POST',
+                                    dataSrc: 'rows',
+                                    data: {
+                                        type: 3
+                                    },
+                                };
+                                NetStarUtils.ajax(workPlaneAjaxConfig, function (res) {
+                                    if (res.success) {
+                                        var workPlaneData = [];
+                                        for (var i = 0; i < res.rows.length; i++) {
+                                            var data = res.rows[i];
+                                            data.startTimer = moment(data.whenBegin).format(
+                                                'HH:mm:ss');
+                                            data.endTimer = moment(data.whenEnd).format(
+                                                'HH:mm:ss');
+                                            workPlaneData.push(data);
+                                        }
+                                        workPlaneList.workPlaneData = workPlaneData;
+                                    }
+                                }, true)
+                                $('#day-workplane-page').on('click', function (ev) {
+                                    NetstarUI.labelpageVm.loadPage('/templateMindPages/pageConfig/1323774290029446130', '每日作业计划', true);
+                                })
+                                //我发起的流程
+                                var gridConfig = {
+                                    id: 'list-li-process-message',
+                                    type: 'list',
+                                    idField: 'processId',
+                                    data: {
+                                        isSearch: false,
+                                        isPage: true,
+                                        primaryID: 'processId',
+                                        idField: 'processId',
+                                        src: getRootPath() + '/nsEngine/iCreatedInstances',
+                                        type: 'post',
+                                        dataSrc: 'rows',
+                                    },
+                                    columns: [{
+                                        field: 'processName',
+                                        title: '流程名称',
+                                        width: 150
+                                    }, {
+                                        field: 'processCate',
+                                        title: '流程标签',
+                                        width: 200
+                                    }, {
+                                        field: 'whenCreated',
+                                        title: '发起时间',
+                                        width: 150,
+                                        formatHandler: {
+                                            type: 'date',
+                                            data: {
+                                                formatDate: 'YYYY-MM-DD'
+                                            }
+                                        }
+                                    }, {
+                                        field: 'activityName',
+                                        title: '当前环节',
+                                        width: 180
+                                    }, {
+                                        field: 'transactorNames',
+                                        title: '当前环节办理人',
+                                        width: 260
+                                    }],
+                                    ui: {
+                                        isHaveEditDeleteBtn: false,
+                                        isEditMode: false,
+                                        selectMode: 'single',
+                                        defaultSelectedIndex: 0,
+                                        isPage: true,
+                                        pageLengthDefault: Math.floor((messageTabHeight - 100) /
+                                            54),
+                                        height: messageTabHeight - 100,
+                                        isAutoSerial: false,
+                                        tableRowBtns: [{
+                                            text: '流程监控',
+                                            handler: function (data) {
+                                                //console.log(data)
+                                                var rowData = data.rowData;
+                                                var workitemId = rowData.workitemId;
+                                                if (typeof (workitemId) !=
+                                                    'undefined') {
+                                                    var flowChartViewerConfig = {
+                                                        id: 'btn-default-486179763-' +
+                                                            workitemId,
+                                                        workitemId: workitemId,
+                                                        title: '流程监控',
+                                                        attrs: {},
+                                                        //rootWorkitemUrlName : 'id',
+                                                    }
+                                                    NetstarUI.flowChartViewer.tab.init(
+                                                        flowChartViewerConfig);
+                                                } else {
+                                                    console.error('没有找到workitemId');
+                                                    console.error(rowData);
+                                                }
+                                            },
+                                            functionConfig: {
+                                                icon: 'icon-sitemap'
+                                            }
+                                        }, {
+                                            text: '查看办理意见',
+                                            handler: function (data) {
+                                                //console.log(data)
+                                                var rowData = data.rowData;
+                                                var instanceIds = rowData.instanceIds;
+                                                if (instanceIds) {
+                                                    var operationFunc = nsEngine
+                                                        .operation().instanceIds(
+                                                            instanceIds).submitAllBatch(
+                                                                true).build();
+                                                    if (typeof (operationFunc[
+                                                        'findHandleRec']) ==
+                                                        "function") {
+                                                        operationFunc['findHandleRec']
+                                                            ();
+                                                    } else {
+                                                        console.error(
+                                                            'findHandleRec方法不存在');
+                                                        console.error(operationFunc);
+                                                    }
+                                                } else {
+                                                    console.error('没有找到instanceIds');
+                                                    console.error(rowData);
+                                                }
+                                            },
+                                            functionConfig: {
+                                                icon: 'icon-eye-o'
+                                            }
+                                        }]
+                                    }
+                                };
+                                NetStarGrid.init(gridConfig);
+                                var messageHeight = messageTabHeight - 100;
+                                $('#list-li-waiting-message').css({
+                                    height: messageHeight + 'px'
+                                });
+                                $('#list-li-already-message').css({
+                                    height: messageHeight + 'px'
+                                });
+                                $('#list-li-finish-message').css({
+                                    height: messageHeight + 'px'
+                                });
+                                var waitingGridConfig = {
+                                    id: 'list-li-waiting-message',
+                                    type: 'list',
+                                    idField: 'activityId',
+                                    plusClass: 'card-task',
+                                    data: {
+                                        isSearch: false,
+                                        isPage: true,
+                                        primaryID: 'activityId',
+                                        idField: 'activityId',
+                                        dataSource: resData,
+                                        primaryID: 'activityId',
+                                    },
+                                    columns: [{
+                                        field: 'activityName',
+                                        title: '环节名称'
+                                    }, {
+                                        field: 'processName',
+                                        title: '所属流程'
+                                    }, {
+                                        field: 'latestTime',
+                                        title: '时间差',
+                                        formatHandler: {
+                                            type: 'diffUnit'
+                                        }
+                                    }],
+                                    ui: {
+                                        isHaveEditDeleteBtn: false,
+                                        isEditMode: false,
+                                        selectMode: 'single',
+                                        //defaultSelectedIndex: null,
+                                        isPage: true,
+                                        pageLengthDefault: Math.floor((messageTabHeight - 100) /
+                                            105) * 4,
+                                        height: messageTabHeight - 100,
+                                        isAutoSerial: false,
+                                        selectedHandler: function (data, $data, _vueData,
+                                            _gridConfig, _rowIndex) {
+                                            var rows = NetstarBlockList.configs[_gridConfig.id]
+                                                .vueObj.rows;
+                                            for (var r = 0; r < rows.length; r++) {
+                                                rows[r].netstarSelectedFlag = false;
+                                            }
+                                            var processId = data.processId;
+                                            var formUrl = data.formUrl;
+                                            var activityId = data.activityId;
+                                            var activityName = data.activityName;
+                                            if (formUrl.indexOf('/') != 0) {
+                                                formUrl = '/' + formUrl;
+                                            }
+                                            if (formUrl.indexOf(',') >= 0) {
+                                                var urls = formUrl.split(',');
+                                                formUrl = urls[0];
+                                            }
+                                            var packageSuffix = '-1-' + activityId;
+                                            var workflowType;
+                                            var url;
+                                            switch(_gridConfig.id){
+                                                case 'list-li-waiting-message':
+                                                    workflowType = 0;
+                                                    url = formUrl + ';activityName=' +activityName +";workflowType=0;packageSuffix=" +packageSuffix + ";";
+                                                    break;
+                                                case 'list-li-already-message':
+                                                    workflowType = 1;
+                                                    url = formUrl + ';activityName=' +activityName +";workflowType=1;packageSuffix=" +packageSuffix + ";";
+                                                    break;
+                                                case 'list-li-finish-message':
+                                                    workflowType = 1;
+                                                    url = formUrl + ';activityName=' +activityName +";workflowType=2;packageSuffix=" +packageSuffix + ";";
+                                                    break;
+                                            }
+                                            //var url = formUrl + ';activityName=' +activityName +";workflowType=1;packageSuffix=" +packageSuffix + ";";
+                                            if (activityId != "undefined" && processId !=
+                                                "undefined") {
+                                                url = url + ';processId=' + processId +
+                                                    ";activityId=" + activityId;
+                                            }
+                                            NetstarUI.labelpageVm.loadPage(url, activityName);
+                                        },
+                                        listExpression: '<div class="card-task-top">' +
+                                            '<div class="card-task-title"><a href="javascript:void(0);" title={{activityName}}>{{activityName}}</a></div>' +
+                                            '<span class="card-task-number">{{workitemCount}}</span>' +
+                                            '</div>' +
+                                            '<div class="card-task-tag">' +
+                                            '<div class="card-task-sub-title">{{processName}}</div>' +
+                                            '<div class="card-task-time">{{latestTime}}</div>' +
+                                            '</div>',
+                                    }
+                                };
+                                NetstarBlockList.init(waitingGridConfig);
+
+                                var alreadyGridConfig = $.extend(true, {}, waitingGridConfig);
+                                var finishGridConfig = $.extend(true, [], waitingGridConfig);
+
+                                alreadyGridConfig.id = 'list-li-already-message';
+                                finishGridConfig.id = 'list-li-finish-message';
+                                nsEngine.getForwardedList(null, function (rows) {
+                                    // debugger;
+                                    if (rows != null) {
+                                        var nameMap = {};
+                                        var nameRows = [];
+                                        for (var i = 0; i < rows.length; i++) {
+                                            var row = rows[i];
+                                            var name = row.activityName;
+                                            if (!nameMap[name]) {
+                                                nameMap[name] = {
+                                                    activityName: name,
+                                                    activityId: row.activityId,
+                                                    processId: row.processId,
+                                                    workitemCount: 0,
+                                                    formUrl: row.formUrl,
+                                                    processName: row.processName,
+                                                    latestTime: row.latestTime,
+                                                    rows: []
+                                                };
+                                                nameRows.push(nameMap[name]);
+                                            } else {
+                                                //有重复的activityName时
+                                                //delete nameMap[name].activityId;
+                                                //delete nameMap[name].processId;
+                                            }
+                                            if (!nameMap[name].formUrl && row.formUrl) {
+                                                nameMap[name].formUrl = row.formUrl;
+                                            }
+                                            nameMap[name].rows.push(row);
+                                            nameMap[name].workitemCount += row.workitemCount;
+                                        }
+                                        alreadyGridConfig.data.dataSource = nameRows;
+                                        NetstarBlockList.init(alreadyGridConfig);
+                                    }
+                                }, function (msg) {
+                                    nsalert(msg, 'error');
+                                });
+                                nsEngine.getTaskDoneList(null, function (rows) {
+                                    if (rows != null) {
+                                        var nameMap = {};
+                                        var nameRows = [];
+                                        for (var i = 0; i < rows.length; i++) {
+                                            var row = rows[i];
+                                            var name = row.activityName;
+                                            if (!nameMap[name]) {
+                                                nameMap[name] = {
+                                                    activityName: name,
+                                                    activityId: row.activityId,
+                                                    processId: row.processId,
+                                                    workitemCount: 0,
+                                                    formUrl: row.formUrl,
+                                                    processName: row.processName,
+                                                    // latestTime: NetStarUtils.getDiffByTimeUnit(row.latestTime),
+                                                     latestTime: row.latestTime,
+
+                                                    rows: []
+                                                };
+                                                nameRows.push(nameMap[name]);
+                                            } else {
+                                                //有重复的activityName时
+                                                //delete nameMap[name].activityId;
+                                                //delete nameMap[name].processId;
+                                            }
+                                            if (!nameMap[name].formUrl && row.formUrl) {
+                                                nameMap[name].formUrl = row.formUrl;
+                                            }
+                                            nameMap[name].rows.push(row);
+                                            nameMap[name].workitemCount += row.workitemCount;
+                                        }
+
+                                        finishGridConfig.data.dataSource = nameRows;
+                                        NetstarBlockList.init(finishGridConfig);
+                                    }
+                                }, function (msg) {
+                                    nsalert(msg, 'error');
+                                });
+                                $('#message-tab-panel > li > a').on('click', function (ev) {
+                                    var $this = $(this);
+                                    var aid = $this.attr('aid');
+                                    $('div[id="' + aid + '"]').removeClass('hide');
+                                    $this.closest('li').addClass('current');
+                                    $('div[id="' + aid + '"]').addClass('current');
+                                    $this.closest('li').siblings().removeClass('current');
+                                    $('div[id="' + aid + '"]').siblings().addClass('hide');
+                                    $('div[id="' + aid + '"]').siblings().removeClass(
+                                        'current');
+                                })
+                            }
+                            if (waitingMessageId) {
+                                // var detailsData = [];
+                                // for (var i = 0; i < resData.length; i++) {
+                                //     var _resData = resData[i];
+                                //     var timeLength = NetStarUtils.getDiffByTimeUnit(_resData
+                                //         .latestTime); //时间差
+                                //     var data = _resData;
+                                //     data.timeLength = timeLength;
+                                //     detailsData.push(data);
+                                // }
+                                var detailsData = NetstarUI.message.getShowRows();
+                                var data = {
+                                    detailsData: detailsData,
+                                    // sourceData: resData,
+                                }
+                                var todoList = new Vue({
+                                    el: '#netstar-userdetails',
+                                    data: data,
+                                    watch: {
+                                        // sourceData: function (value) {
+                                        //     var detailsData = [];
+                                        //     for (var i = 0; i < value.length; i++) {
+                                        //         var _value = value[i];
+                                        //         var timeLength = NetStarUtils.getDiffByTimeUnit(
+                                        //             _resData.latestTime); //时间差
+                                        //         var data = _resData;
+                                        //         data.timeLength = timeLength;
+                                        //         detailsData.push(data);
+                                        //     }
+                                        //     this.detailsData = detailsData;
+                                        // }
+                                    },
+                                    // 事件
+                                    methods: {
+                                        gotoUrl: function (ev, detail) {
+                                            var url = detail.formUrl;
+                                            var title = detail.activityName;
+                                            var activityId = detail.activityId;
+                                            var processId = detail.processId;
+                                            if (url.indexOf('/') != 0) {
+                                                url = '/' + url;
+                                            }
+                                            if (url.indexOf(',') >= 0) {
+                                                url = url.split(',')[0];
+                                            }
+                                            var packageSuffix = '-0-' + activityId;
+                                            url = url + ';activityName=' + title +
+                                                ';workflowType=0;packageSuffix=' +
+                                                packageSuffix + ';';
+                                            if (typeof activityId != 'undefined' &&
+                                                typeof processId != 'undefined') {
+                                                url = url + ';processId=' + processId +
+                                                    ';activityId=' + activityId;
+                                            }
+                                            NetstarUI.labelpageVm.loadPage(url, title);
+                                        }
+                                    },
+                                    mounted: function () { 
+                                        $('#netstar-userdetails').removeClass('hide')
+                                    }
+                                });
+                                NetstarHomePage.mainMessageVue = todoList;
+                            }
+                        }
+                    },
+                }
+                NetstarHomePage.init(mainPageConfig);
+
+                // 新手导航页面 
+                var NetstarWelocmePage = {};
+                NetstarHomePage.config.callBackFunc = function () {
+                    var topOrgId = NetstarHomePage.config.systemInfo.userInfo.topOrgId;
+                    if (topOrgId == "1310307103319000050" || topOrgId == "1310239567105754098" ||
+                        topOrgId == "1310307241831695346") {
+                        var $netstarWelcome = $("#netstar-welcomeContent");
+                        $netstarWelcome.removeClass("hide");
+                    }
+                    // 国家金属制品质量监督检验中心
+                    else if (topOrgId == "1310954084307567602") {
+                        $(".container").css({
+                            'width': '100%'
+                        });
+                        $("#netstar-welcomeContent-alarmData").remove()
+                    }
+                    //中车研究所
+                    else if (topOrgId == "1319119564461573106") {
+                        $(".container").css({
+                            'width': '100%'
+                        })
+                    }
+                    // 国华电子/erp
+                    else if (topOrgId == "1314506232714757106" || topOrgId == "1310230808593695730" ||
+                        topOrgId == "1318033010750128640" || topOrgId == "1318039549837836800" ||
+                        topOrgId == "1318039664728211968" || topOrgId == "1318039721636528640" ||
+                        topOrgId == "1318043389538599424" || topOrgId == "1311333887192310770" ||
+                        topOrgId == "1320529799793345024" || topOrgId == "1321529797028901376" || topOrgId == "1323316718172373504") {
+                        $(".container").css({
+                            'width': '100%'
+                        });
+                        $("#netstar-indexWelcome").removeClass("hide");
+                        //警报弹框 
+                        var alarmVm = new Vue({
+                            el: "#netstar-welcomeContent-alarmData",
+                            data: {
+                                alarmList: [{
+                                    title: '库存预警',
+                                    num: '',
+                                    icon: 'icon-bell-o ',
+                                    style: 'card-task  card-task-warn card-box-warm',
+                                    url: getRootPath() +
+                                        '/templateMindPages/pageConfig/1318115675985675250'
+                                },
+                                {
+                                    title: '保质期预警',
+                                    num: '',
+                                    icon: 'icon-bell-o',
+                                    style: 'card-task  card-task-warn card-box-warm',
+                                    url: getRootPath() +
+                                        '/templateMindPages/pageConfig/1318115703902962674'
+                                },
+                                {
+                                    title: '已过期',
+                                    num: '',
+                                    icon: 'icon-dashboard-o',
+                                    style: 'card-task  card-task-warn card-overdue',
+                                    url: getRootPath() +
+                                        '/templateMindPages/pageConfig/1318115664174515186'
+                                }
+                                ]
+                            },
+                            methods: {
+                                gotoAlarmUrl: function (ev, detail) {
+                                    var url = detail.url;
+                                    var title = detail.title;
+                                    NetstarUI.labelpageVm.loadPage(url, title);
+                                }
+                            }
+                        })
+
+                        // 库存预警
+                        NetStarUtils.ajax({
+                            url: getRootPath() + '/inventoryAlarm/v2/getListOfAlarm'
+                        }, function (res) {
+                            // console.log(res);
+                            var num = res.rows.length;
+                            alarmVm.alarmList[0].num = num;
+                            // console.log(res.rows.length)
+                        })
+                        // 保质期预警
+                        NetStarUtils.ajax({
+                            url: getRootPath() + '/inventoryAlarm/v2/getAlarmListInWarningDay'
+                        }, function (res) {
+                            // console.log(res);
+                            var num = res.rows.length;
+                            alarmVm.alarmList[1].num = num;
+
+                        })
+                        // 已过期
+                        NetStarUtils.ajax({
+                            url: getRootPath() + '/inventoryAlarm/v2/getPastDueAlarmList'
+                        }, function (res) {
+                            // console.log(res);
+                            var num = res.rows.length;
+                            if (res.rows == "") {
+                                alarmVm.alarmList[2].num = 0;
+                            } else {
+                                alarmVm.alarmList[2].num = num;
+                            }
+                        })
+                    } else if (topOrgId == '1319119564461573106') {
+                        //中车研究所 sjj 20200115
+                    } else {
+                        $netstarWelocmeGuide = $("#netstar-welcomeGuide");
+                        $netstarWelocmeGuide.removeClass("hide");
+                        var $WelocmenavLis = $('#netstar-guide-nav li');
+                        var currentSlideNumber = 0;
+                        NetstarWelocmePage.toPage = function (pageNumber) {
+                            $WelocmenavLis.removeClass('current');
+                            $WelocmenavLis.eq(pageNumber).addClass('current');
+                            var $sliderLis = $("#netstar-guide-slider li");
+                            // 图显示/隐藏
+                            $sliderLis.addClass("hide");
+                            $sliderLis.removeClass("animated fadeInLeft fadeOutRight");
+                            $sliderLis.eq(pageNumber).removeClass("hide");
+                            $sliderLis.eq(pageNumber).addClass("animated fadeInLeft");
+
+                            $sliderLis.eq(currentSlideNumber).removeClass("hide");
+                            $sliderLis.eq(currentSlideNumber).addClass("animated fadeOutRight");
+                            $sliderLis.eq(currentSlideNumber).on('animationend', function () { })
+                            currentSlideNumber = pageNumber;
+                        }
+                    }
+                }
+                // zy 20191112 在body上添加类名collapse的方法
+                function addBodyClass() {
+                    if ($("body").hasClass("collapse")) {
+                        $("body").removeClass("collapse");
+                    } else {
+                        $("body").addClass("collapse");
+                    }
+                }
+
+            })
+        </script>
+</body>
+
+</html>
