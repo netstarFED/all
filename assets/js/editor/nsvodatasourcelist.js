@@ -2251,6 +2251,7 @@ nsProjectPagesManager.pages.voList = (function($) {
 				 * isIsSave
 				 * isMobileInlineBtn
 				 * templateId 
+				 * funcId
 				 * shortcutKey 
 				 * isKeepSelected 
 				 * isUseAjaxByCopyAdd 
@@ -2325,6 +2326,7 @@ nsProjectPagesManager.pages.voList = (function($) {
 					getPanelDataAjax : {},
 					columns : '',
 					templateId : '',
+					funcId : '',
 					shortcutKey : '',
 					isKeepSelected : false,
 					tabTitles : '',

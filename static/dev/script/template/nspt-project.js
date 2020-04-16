@@ -1468,6 +1468,9 @@ function initFunction(businessObj, controllerObj){
 			break;
 		case 'excelImportVer3':
 		case 'excelExportVer3':
+			// controllerObj.funcId = '1332101246995137522';
+			// controllerObj.templateId = '1332038097017242614';
+			controllerObj.defaultMode = 'excelImportVer3';
 			controllerObj.showBtnType = 'importAndExport';
 			break;
 	}
@@ -5985,12 +5988,37 @@ function initFunction(businessObj, controllerObj){
 														+ '</ul>'
 													+ '</div>'
 				}
+				// 模板id
+				var templateId = functionConfig.templateId;
 				var importConfig = {
 					id : 'netstar-import-dialog',
 					expression : importInstructionsExpression,
-					confirmHandler : (function(_btnVueConfig, _eventFuncName, _functionConfig){
+					templateId : templateId,
+					confirmHandler : (function(_btnVueConfig, _eventFuncName, _functionConfig, _stateObj){
 						return function(data){
 							console.log(data);
+							// 按钮信息
+							var btnsConfigName = _stateObj.btnsVue.btnsConfigName;
+							var btntimeStamp = _btnVueConfig.timestamp;
+							var btnIndex = _stateObj.index;
+							var btnInfos = {
+								timestamp : btntimeStamp,
+								btnsConfigName : btnsConfigName,
+								btnIndex : btnIndex,
+								taskNo : btnsConfigName + '-' + btnIndex + '-' + btntimeStamp,
+							}
+							btnInfos = JSON.stringify(btnInfos);
+							data.append('info', btnInfos);
+							var ajaxConfig = {
+								url : NetStarUtils.getStaticUrl() + '/middleware/' + _functionConfig.funcId,
+								processData : false,
+								contentType : false,
+								data : data,
+							}
+							NetStarUtils.ajax(ajaxConfig, function(res){
+								console.log(res)
+							})
+
 							_btnVueConfig.showType = 'loading';
 							_btnVueConfig.loadingStyle = {
 								width : '0%',
@@ -5999,7 +6027,7 @@ function initFunction(businessObj, controllerObj){
 							_btnVueConfig.showText = '取消导入';
 							_btnVueConfig.isShowDropdown = false;
 						}
-					})(btnVueConfig, eventFuncName, functionConfig),
+					})(btnVueConfig, eventFuncName, functionConfig, stateObj),
 				};
 				NetstarExcelImportVer3.init(importConfig);
 				break;
@@ -6022,17 +6050,41 @@ function initFunction(businessObj, controllerObj){
 				btnVueConfig.isShowDropdown = false;
 				break;
 			case 'details': // 点击设置
-				var importConfig = {
-					type : 'details',
-					title : '导入详情',
-					id : 'netstar-import-details-dialog',
-					infos : {
-						addNum : 10,
-						updateNum : 15,
-						errorNum : 5,
+				var dropdownSubdata = $.extend(true, [], btnVueConfig.dropdownSubdata);
+				var detailsLi = dropdownSubdata[stateObj.subIndex];
+				var detailsAjax = {
+					url : getRootPath() + '/servicemanages/xlsx/task/getById?id=' + detailsLi.id,
+					type : "GET",
+					contentType : 'application/x-www-form-urlencoded',
+					plusData : {
+						sourceFileId : detailsLi.sourceFileId
 					}
-				};
-				NetstarExcelImportVer3.init(importConfig);
+				}
+				NetStarUtils.ajax(detailsAjax, function(res, _detailsAjax){
+					if(res.success){
+						var infosData = res.data;
+						if(typeof(infosData) != "object"){
+							infosData = {};
+						}
+						var importConfig = {
+							type : 'details',
+							title : '导入详情',
+							id : 'netstar-import-details-dialog',
+							// infos : {
+							// 	addNum : 10,
+							// 	updateNum : 15,
+							// 	errorNum : 5,
+							// },
+							infos : infosData,
+							templateId : _detailsAjax.plusData.sourceFileId,
+
+						};
+						NetstarExcelImportVer3.init(importConfig);
+					}else{
+						nsAlert('获取详情失败', 'error');
+						console.error('获取详情失败');
+					}
+				});
 				break;
 		}
 	}
@@ -6056,12 +6108,33 @@ function initFunction(businessObj, controllerObj){
 		switch(eventFuncName){
 			case 'click':
 				btnVueConfig.timestamp = new Date().getTime();
+				// 按钮信息
+				var btnsConfigName = stateObj.btnsVue.btnsConfigName;
+				var btntimeStamp = btnVueConfig.timestamp;
+				var btnIndex = stateObj.index;
+				var btnInfos = {
+					timestamp : btntimeStamp,
+					btnsConfigName : btnsConfigName,
+					btnIndex : btnIndex,
+					taskNo : btnsConfigName + '-' + btnIndex + '-' + btntimeStamp,
+				}
+				var ajaxConfig = {
+					url : NetStarUtils.getStaticUrl() + '/middleware/' + functionConfig.funcId,
+					processData : false,
+					contentType : false,
+					data : {
+						info : JSON.stringify(btnInfos),
+					},
+				}
+				NetStarUtils.ajax(ajaxConfig, function(res){
+					console.log(res)
+				})
 				btnVueConfig.showType = 'loading';
 				btnVueConfig.loadingStyle = {
 					width : '0%',
 				}
 				btnVueConfig.loadingText = '0%';
-				btnVueConfig.showText = '取消导入';
+				btnVueConfig.showText = '取消导出';
 				btnVueConfig.isShowDropdown = false;
 				break;
 			case 'clickCancel': // 点击按钮
@@ -7477,120 +7550,67 @@ function sendPrintInfo(data){
 }
 // 接收导入消息
 function acceptImportExportMessage(data){
-	var btnsConfigName = data.btnsConfigName;
-	var btnIndex = data.btnIndex;
+	var info = data.info ? data.info : {};
+	var btnsConfigName = info.btnsConfigName;
+	var btnIndex = info.btnIndex;
 	var vueConfig = nsManageBtnsConfigs[btnsConfigName].vueConfig.vueConfigs[btnIndex];
-	console.log(data);
 	var tipInfo = false;
-	switch(data.errorCode){
-		case '0':
-			var isSuccess = true;
-			var taskCompleted = 0; // 完成进度
-			if(typeof(data.taskCompleted) != "undefined"){
-				isSuccess = false;
-				taskCompleted = Number(data.taskCompleted);
-				if(1 == taskCompleted){
-					tipInfo = data.errorMessage;
-					isSuccess = true;
-				}
-			}else{
-				tipInfo = data.errorMessage;
-			}
-			if(isSuccess){
-				switch(data.action){
-					case 'import':
-						// 导入
-						vueConfig.showType = 'check';
-						vueConfig.showText = '导入成功';
-						vueConfig.isShowDropdown = false;
-						break;
-					case 'export':
-						// 导出
-						vueConfig.showType = 'check';
-						vueConfig.showText = '导出成功';
-						vueConfig.isShowDropdown = false;
-						break;
-					case 'cancelImport':
-						// 取消导入
-					case 'cancelExport':
-						// 取消导出
-						vueConfig.showType = 'default';
-						vueConfig.showText = vueConfig.defaultText;
-						vueConfig.dropdownState = 'list';
-						vueConfig.isShowDropdown = false;
-						break;
-				}
-			}else{
-				vueConfig.showType = 'loading';
-				vueConfig.isShowDropdown = false;
-				var numStr = taskCompleted * 100 + '%';
-				vueConfig.loadingText = numStr;
-				vueConfig.loadingStyle = {
-					width : numStr,
-				};
-				switch(data.action){
-					case 'import':
-						// 导入
-						vueConfig.showText = '取消导入';
-						break;
-					case 'export':
-						// 导出
-						vueConfig.showText = '取消导出';
-						break;
-				}
-			}
-			break;
-		case '1024':
-			break;
-		case '1':
-		case '1048576':
-		case '128':
-		case '16':
-		case '2':
-		case '2048':
-		case '262144':
-		case '32':
-		case '32768':
-		case '4':
-		case '4096':
-		case '4194304':
-		case '512':
-		case '65536':
-		case '8':
-		case '8388608':
-		case '9999':
-			var showText = '';
-			switch(data.action){
-				case 'import':
-					// 导入
-					showText = '导入错误';
-					break;
-				case 'export':
-					// 导出
-					showText = '导出错误';
-					break;
-				case 'cancelImport':
-					// 取消导入
-					showText = '取消导入错误';
-				case 'cancelExport':
-					// 取消导出
-					showText = '取消导出错误';
-					break;
-			}
-			tipInfo = data.errorMessage;
-			vueConfig.showType = 'warn';
-			vueConfig.showText = showText;
-			vueConfig.dropdownState = 'info';
-			vueConfig.infoTitle = tipInfo;
-			vueConfig.isShowDropdown = true;
-			break;
-		default:
-			tipInfo = data.msg;
-			break;
+	var isSuccess = true;
+	var taskCompleted = 0; 	// 完成条数
+	var taskQuantity = 0; 	// 总条数
+	var percentage = 0; 	// 进度
+	if(typeof(data.taskCompleted) != "undefined"){
+		isSuccess = false;
+		taskCompleted = Number(data.taskCompleted);
+		taskQuantity = Number(data.taskQuantity);
+		if(taskCompleted == taskQuantity){
+			isSuccess = true;
+		}else{
+			percentage = data.percentage;
+		}
 	}
-	if(tipInfo){
-		nsAlert(tipInfo);
-		console.warn(tipInfo);
+	if(isSuccess){
+		switch(data.action){
+			case 'import':
+				// 导入
+				vueConfig.showType = 'check';
+				vueConfig.showText = '导入成功';
+				vueConfig.isShowDropdown = false;
+				break;
+			case 'export':
+				// 导出
+				vueConfig.showType = 'check';
+				vueConfig.showText = '导出成功';
+				vueConfig.isShowDropdown = false;
+				break;
+			case 'cancelImport':
+				// 取消导入
+			case 'cancelExport':
+				// 取消导出
+				vueConfig.showType = 'default';
+				vueConfig.showText = vueConfig.defaultText;
+				vueConfig.dropdownState = 'list';
+				vueConfig.isShowDropdown = false;
+				break;
+		}
+	}else{
+		vueConfig.showType = 'loading';
+		vueConfig.isShowDropdown = false;
+		var numStr = percentage * 100 + '%';
+		vueConfig.loadingText = numStr;
+		vueConfig.loadingStyle = {
+			width : numStr,
+		};
+		switch(data.action){
+			case 'import':
+				// 导入
+				vueConfig.showText = '取消导入';
+				break;
+			case 'export':
+				// 导出
+				vueConfig.showText = '取消导出';
+				break;
+		}
 	}
 }
 //实例

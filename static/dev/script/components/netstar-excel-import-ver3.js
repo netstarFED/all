@@ -33,7 +33,7 @@ var NetstarExcelImportVer3 = (function($){
             configManage.setDefault(config);
             var _nsImport = $.extend(true, {}, nsExcelImportVer3);
             for(var key in _nsImport){
-                _nsImport[key].url = NetstarHomePage.config.staticPageRootPath + _nsImport[key].url;
+                _nsImport[key].url = getRootPath() + _nsImport[key].url;
             }
             for(var key in _nsImport){
                 config[key] = _nsImport[key];
@@ -132,7 +132,7 @@ var NetstarExcelImportVer3 = (function($){
             var html = '<div class="import-content-operation">'
                             + '<label>' + config.downloadText + '</label>'
                             + '<button type="button" class="pt-btn pt-btn-default" ns-name="download">'
-                                + '<a href="' + config.download.url + '/' + config.templateId + '" class="">'
+                                + '<a href="' + config.download.url + config.templateId + '" class="">'
                                     + '下载'
                                 + '</a>'
                             + '</button>'
@@ -220,6 +220,11 @@ var NetstarExcelImportVer3 = (function($){
                         break;
                     case 'confirm':
                         var data = funcManage.getData(config);
+                        if(!data){
+                            nsAlert('导入失败，请检查是否上传文件', 'error');
+                            consoel.log('导入失败，请检查是否上传文件');
+                            return false;
+                        }
                         if(typeof(config.confirmHandler) == "function"){
                             config.confirmHandler(data);
                         }
@@ -307,7 +312,11 @@ var NetstarExcelImportVer3 = (function($){
             var formVals = NetstarComponent.getValues(formId);
             var inputId = config.uploadInputId;
             var $upload = $('#' + inputId);
-            var staicfile = $upload.prop('files')[0];
+            var files = $upload.prop('files');
+            if(files.length == 0){
+                return false;
+            }
+            var staicfile = files[0];
             var formData = new FormData();
             formData.append('file', staicfile);
             formData.append('templateId', config.templateId);
@@ -324,7 +333,7 @@ var NetstarExcelImportVer3 = (function($){
                             + '<div class="title">'
                                 + '导入详情'
                                 + '<button type="button" title="下载错误数据文件" class="pt-btn pt-btn-link" id="' + config.downloadId + '">'
-                                    + '<a href="' + config.download.url + '/' + config.templateId + '" class="">下载错误数据文件</a>'
+                                    + '<a href="' + config.downloadDetails.url + '/' + config.templateId + '" class="">下载错误数据文件</a>'
                                 + '</button>'
                             + '</div>'
                             + '<div class="import-nstructions-content">'
@@ -336,10 +345,13 @@ var NetstarExcelImportVer3 = (function($){
         },
         initInfos : function(config){
             var infos = config.infos;
+            var newQuantity = typeof(infos.newQuantity) == "number" ? infos.newQuantity : 0;
+            var updateQuantity = typeof(infos.updateQuantity) == "number" ? infos.updateQuantity : 0;
+            var errorQuantity = typeof(infos.errorQuantity) == "number" ? infos.errorQuantity : 0;
             var html = '<ul>'
-                            + '<li>新增数据：'+ infos.addNum +'条</li>'
-                            + '<li>更新数据：'+ infos.updateNum +'条</li>'
-                            + '<li>错误数据：'+ infos.errorNum +'条</li>'
+                            + '<li>新增数据：'+ newQuantity +'条</li>'
+                            + '<li>更新数据：'+ updateQuantity +'条</li>'
+                            + '<li>错误数据：'+ errorQuantity +'条</li>'
                         + '</ul>'
             var $infosContainer = $('#' + config.infosId);
             $infosContainer.html(html);
