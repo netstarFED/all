@@ -2808,17 +2808,18 @@ var nsWorkFlow = {
 			}
         },
         block : {
-            TEMPLATE : '<div class="">'
-                            + '<div class="pt-btn-group">'
-                                + '<button class="pt-btn pt-btn-default" @click="add">新增</button>'
+            TEMPLATE : '<div class="pt-grid-list-form">' 
+                            + '<div class="pt-btn-group">' 
+                                + '<button class="pt-btn pt-btn-default" @click="add">新增</button>' 
                             + '</div>'
-                            + '<div class="" v-for="(row,index) in rows">'
-                                    + '<div class="" v-for="column in columns">'
-                                        + '<div class="" @click="clickTdHandler($event, index, row, column)">'
-                                            + '<span class="">{{column.title}}</span>'
-                                            + '<span class="">{{(column.formatHandler ? column.formatHandler(row[column.field], row) : row[column.field])}}</span>'
-                                        + '</div>'
-                                        + '<div class="" iseditcontainer="true" v-if="row[\'dom-id-\'+column.field]" :id="row[\'dom-id-\'+column.field]">'
+                            + '<div class="pt-grid-list-form-block">'
+                                + '<div class="pt-block-list pt-block-list-vertical-simple pt-plusclass-closebtn pt-block-list-form" v-for="(row,index) in rows">'
+                                    + '<div class="pt-block-content">'
+                                        + '<div class="pt-block-content-item pt-form-group" :class="column.editConfig && column.editConfig.type ? column.editConfig.type : \'\'" @click="clickTdHandler($event, index, row, column)" v-for="column in columns">'
+                                            + '<span class="pt-block-list-form-label">{{column.title}}</span>'
+                                            + '<div class="pt-block-list-form-input">{{(column.formatHandler ? column.formatHandler(row[column.field], row) : row[column.field])}}</div>'
+                                            + '<div class="" iseditcontainer="true" v-if="row[\'dom-id-\'+column.field]" :id="row[\'dom-id-\'+column.field]">'
+                                            + '</div>'
                                         + '</div>'
                                     + '</div>'
                                     + '<div class="pt-btn-group">'
@@ -2826,6 +2827,7 @@ var nsWorkFlow = {
                                             + '<i class="icon icon-trash-o"></i>'
                                         + '</button>'
                                     + '</div>'
+                                + '</div>'
                             + '</div>'
                         + '<div>',
             subdataObj : {
@@ -2971,7 +2973,7 @@ var nsWorkFlow = {
                 var rows = [];
                 for(var i=0; i<list.length; i++){
                     var row = $.extend(true, {}, list[i]);
-                    for(var key in row){
+                    for(var key in columnsById){
                         if(columnsById[key] && columnsById[key].editable){
                             row['dom-id-' + key] = 'ns-field-edit-' + key + '-' + i;
                         }
@@ -3148,6 +3150,11 @@ var nsWorkFlow = {
                             _this.addRemoveListener($('#' + domId));
                         },
                         clickTdHandler(ev, index, row, column){
+                            var $target = $(ev.target);
+                            var $parent = $target.closest('[iseditcontainer]');
+                            if ($parent.length > 0 || $target.attr('iseditcontainer')) {
+                                return false;
+                            }
                             if(!column.editable){ return false; }
                             var domId = row['dom-id-' + column.field];
                             var editConfig = column.editConfig;
