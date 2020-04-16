@@ -111,6 +111,18 @@
 
         return result;
     })();
+    nsPublic = {
+        getAppendContainer : function(){
+            var insertLocation = $('container:not(.hidden)').not('.content');
+            if ($('.nswindow .content').length > 0) {
+                insertLocation = $('.nswindow .content:last');
+            }
+            if(insertLocation.length == 0){
+                insertLocation = $('body');
+            }
+            return insertLocation;
+        }
+    }
 </script>
 <!--[if (IE 9)|(IE 10)]-->
 <script type="text/vbscript">
