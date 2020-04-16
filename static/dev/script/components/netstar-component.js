@@ -7007,13 +7007,24 @@ NetstarComponent.business = {
                     if(typeof(NetstarTemplate) != "object" || typeof(NetstarTemplate.templates) != "object" || typeof(NetstarTemplate.templates.configs) != "object"){
                         break;
                     }
-                    if(typeof(config.packageName) != "string"){
+                    var packageName = config.packageName;
+                    if(typeof(packageName) != "string"){
+                        var formConfigs = NetstarComponent.form[config.formID];
+                        if(typeof(formConfigs)!='object'){
+                            console.error('表单不存在');
+                            console.error(config.formID);
+                            console.error(config);
+                            break;
+                        }
+                        packageName = formConfigs.config.packageName;
+                    }
+                    if(typeof(packageName) != "string"){
                         break;
                     }
-                    if(typeof(NetstarTemplate.templates.configs[config.packageName]) != "object"){
+                    if(typeof(NetstarTemplate.templates.configs[packageName]) != "object"){
                         break;
                     }
-                    var operateData = NetstarTemplate.getOperateData(NetstarTemplate.templates.configs[config.packageName]);
+                    var operateData = NetstarTemplate.getOperateData(NetstarTemplate.templates.configs[packageName]);
                     var formatValue = {
                         value : '{' + defaultSearchDataVal.field + '}'
                     }
