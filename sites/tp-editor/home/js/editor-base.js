@@ -7323,6 +7323,24 @@ var NetstarProject = (function(){
             }
         },
     }
+    // 面板块管理
+    var componentManage = {
+        init : function(component){
+            // 处理块组件的ajax list/vo/tab/.....
+            if(typeof(component.ajax) == "object"){
+                if(component.ajax.datasourceType == 'api'){
+                    if(component.ajax.isUseGetRootPath){
+                        component.ajax.src = getRootPath() + component.ajax.url;
+                    }
+                }else{
+                    // 此判断为兼容之前编辑器
+                    if(typeof(component.ajax.src) == "undefined"){
+                        delete component.ajax;
+                    }
+                }
+            }
+        }
+    }
     // config
     var configManage = {
         validate : function(config){
@@ -7397,6 +7415,7 @@ var NetstarProject = (function(){
         for(var i=0; i<components.length; i++){
             var comType = components[i].type;
             var fields = components[i].field;
+            componentManage.init(components[i]);
             // 没有fields的面板component不需要状态处理
             if(typeof(fields) == "undefined"){
                 continue;

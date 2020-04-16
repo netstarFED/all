@@ -207,7 +207,8 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         personal : {
             // 获取数据
             getData : function(componentConfig, isValid, config){
-                
+                var photoFileId = componentConfig.personalVue.data
+                return photoFileId 
             },
             // 设置数据
             setData : function(data, componentConfig, config){
@@ -222,33 +223,62 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 
             },
             //html
-            initHtml:function(componentConfig,config){
+            html:function(componentConfig,config){
                 var id = componentConfig.id + '-personal-search';
                 var inputId = componentConfig.id + '-input';
-                var html = 
-                        '<div class="pt-panel" id = "'+ id + '">'
-                            +'<div class="search-box">'
-                            +' <input type="text" class="pt-form-control" id="'+ inputId + '" placeholder="体检编号" @blur.prevent=\'searchNo()\'>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="pt-panel">'
-                            +'<div class="user-photo">'
-                                +'<img src="../saas/static/images/user-photo.jpg" alt="">'
-                            +'</div>'
-                            +'<div class="user-photo-eidt">'
-                            +' <div class="pt-btn-group">'
-                                    +'<button class="pt-btn pt-btn-default">'
-                                        +'<i class="icon icon-image"></i>'
-                                    +'</button>'
-                                    +'<button class="pt-btn pt-btn-default">'
-                                        +'<i class="icon icon-id"></i>'
-                                    +'</button>'
-                                    +'<button class="pt-btn pt-btn-default">'
-                                        +'<i class="icon icon-camera"></i>'
-                                    +'</button>'
-                                +'</div>'
-                        + '</div>'
-                        +'</div>';
+                // var html = 
+                //     '<div id = "'+ id + '">'
+                //         +'<div class="pt-panel">'
+                //             +'<div class="search-box">'
+                //             +'<input type="text" class="pt-form-control" id="'+ inputId + '" placeholder="体检编号" @blur.prevent=\'searchNo()\'>'
+                //             +'</div>'
+                //         +'</div>'
+                //         +'<div class="pt-panel">'
+                //             +'<div class="user-photo">'
+                //                 +'<img src="../saas/static/images/user-photo.jpg" alt="">'
+                //             +'</div>'
+                //             +'<div class="user-photo-eidt">'
+                //             +' <div class="pt-btn-group">'
+                //                     +'<button class="pt-btn pt-btn-default" @click="clickUpload()">'
+                //                         +'<i class="icon icon-image"></i>'
+                //                     +'</button>'
+                //                     +'<button class="pt-btn pt-btn-default" @click=\'clickPhoto()\'>'
+                //                         +'<i class="icon icon-id"></i>'
+                //                     +'</button>'
+                //                     +'<button class="pt-btn pt-btn-default">'
+                //                         +'<i class="icon icon-camera"></i>'
+                //                     +'</button>'
+                //                 +'</div>'
+                //         + '</div>'
+                //         +'</div>'
+                //      + '</div>';
+                var html = `
+                <div id=${id}>
+                    <div class="pt-panel">
+                            <div class="search-box">
+                                <input type="text" class="pt-form-control" placeholder="体检编号" @blur.prevent='searchNo()'>
+                            </div>
+                    </div>
+                    <div class="pt-panel">
+                        <div class="user-photo">
+                            <img src="../saas/static/images/user-photo.jpg" alt="">
+                        </div>
+                        <div class="user-photo-eidt">
+                            <div class="pt-btn-group">
+                                <button class="pt-btn pt-btn-default" @click=uploadImg()>
+                                    <i class="icon icon-image"></i>
+                                </button>
+                                <button class="pt-btn pt-btn-default">
+                                    <i class="icon icon-id"></i>
+                                </button>
+                                <button class="pt-btn pt-btn-default" @click=clickPhoto()>
+                                    <i class="icon icon-camera"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                `
                 componentConfig.searchId = id;
                 componentConfig.inputId = inputId;
                 return html;
@@ -257,13 +287,14 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             init :function(componentConfig, config){
                 var id = componentConfig.id;
                 var $container = $('#' + id);
-                var html = this.initHtml(componentConfig,config)
+                var html = this.html(componentConfig,config)
                 $container.html(html)
-                this.initHtml(componentConfig,config)
+                this.html(componentConfig,config)
                 var personalVue = new Vue({
-                    el:componentConfig.searchId,
+                    el:"#" + componentConfig.searchId,
                     data:{
-
+                        photoFileId:'',//照片id
+                        databaseUrl:""
                     },
                     methods:{
                         searchNo(){
@@ -281,14 +312,38 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                             NetStarUtils.ajax(ajaxConfig, function (res) {
         
                             })
+                        },
+                        //拍照
+                        clickPhoto(){
+                            var _this = this;
+                            NetStarUtil.wangxingTong.websocket({command:'打开摄像头'},function(res){
+                                console.log(res);
+                                if(res.image){
+                                    _this.databaseUrl = res.image
+                                }
+
+                            })
+                            // console.log(1111)
+                        },
+                        //上传图片
+                        uploadImg(){
+                            var _this = this;
+                            if(_this.databaseUrl){
+                                var base64Url = _this.databaseUrl
+                                NetStarUtil.wangxingTong.upLoadImage.init(base64Url,'pic',function(res){
+                                  var photoFileId = res.data.id
+                                  _this.photoFileId = photoFileId
+
+                                })
+                            }
                         }
                     }
                 })
+                componentConfig.personalVue =  personalVue
             }
         },
         // 登记信息
-        register : {
-           
+        register : {   
             // 获取数据
             getData : function(componentConfig, isValid, config){
                 // header
@@ -299,6 +354,10 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     return formValue;
                 }
                 formValue = $.extend(false, formValue, headerData);
+                var config = config.peTypeData;
+                formValue.peState =  1; //体检状态
+                formValue.groupFlag =  0; //团体标g志0个人1
+                formValue.regTypeVOList = $.isArray(componentConfig.peTypeIdResData) ? componentConfig.peTypeIdResData : [];
                 return formValue;
             },
             // 设置数据
@@ -386,11 +445,11 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         //体检登记  单位个人切换
                         btnCutaways: function () {
                             var _this = this;
-                            _this.isbtnCutaways = 0
+                            _this.showData.type = 0;
                         },
                         btnCutawaysBack: function () {
                             var _this = this;
-                            _this.isbtnCutaways = 1
+                            _this.showData.type = 1;
                         },
                         //体检登记 预约勾选
                         btnChecked: function () {
@@ -408,16 +467,22 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             },
             // 初始化表单
             initForm : function(componentConfig, data, config){
+                var field = componentConfig.field;
+                for(var i=0; i<field.length; i++){
+                    field[i].packageName = config.package;
+                }
                 var formConfig = {
                     id: componentConfig.bodyId,
                     defaultComponentWidth: "33%",
                     isSetMore: false,
-                    form : componentConfig.field,
+                    form : field,
                 }
+
                 NetstarComponent.formComponent.show(formConfig, data);
             },
             // 初始化
             init : function(componentConfig, config){
+                debugger;
                 console.log(componentConfig);
                 var id = componentConfig.id;
                 var headerId = id + '-header';
@@ -432,19 +497,26 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 // 数据
                 var data = typeof(config.serverData) == "object" ? config.serverData : {};
                 // 初始化header
-                this.initHeader(componentConfig, data);
+                this.initHeader(componentConfig, data,config);
                 // 初始化表单
-                this.initForm(componentConfig, data)
+                this.initForm(componentConfig, data,  )
+
             }
         },
         // 项目信息
         project : {
+            //添加项目
             dialog:{
                 //获取弹框列表配置
-                getDialogConfig:function(componentConfig){
+                getDialogConfig:function(componentConfig,data,config){
+                    var _this = this;
+                    console.log(_this);
+                    console.log(componentManage);
+                    console.log(componentConfig);
+                    console.log('config',componentConfig);
                     //regList的传参
-                /*   var formData = NetstarComponent.getValues();
-                    var regListAjaxData = formData.customerName; */
+                  var formData = NetstarComponent.getValues();
+                    var regListAjaxData = formData.customerName;
                     var itemList = {
                         id: componentConfig.dialoglistId,
                         data: {
@@ -538,7 +610,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                             contentType: 'application/json',
                             mentod: 'GET',
                             data: {
-                                /* customerId: regListAjaxData */
+                                customerId: regListAjaxData
                             },
                         },
                         columns: [{
@@ -680,7 +752,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 },
           
                 //新增项目弹框
-                getDialogShownHandler:function(componentConfig,data) {     
+                getDialogShownHandler:function(componentConfig,data,config) {     
                 //页面容器
                     var dialogBodyId = data.config.bodyId;
                     var footerBodyId = data.config.footerId; 
@@ -689,7 +761,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     $('#' + dialogBodyId).html(html);
                     $('#' + footerBodyId).html(BtnHtml); 
                     //初始化表格tab页初始表格
-                    var dialogConfig = this.getDialogConfig(componentConfig,data).unitList;//表格配置
+                    var dialogConfig = this.getDialogConfig(componentConfig,data,config).unitList;//表格配置
                     NetStarGrid.init(dialogConfig); 
                     //弹框数据 
                     var dialogDataManage = { 
@@ -733,7 +805,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 +   '<button class="pt-btn pt-btn-default" @click = "clearData()">'
                                     +   '<span>清空</span>'
                                 +  '</button>'
-                                +  '<button class="pt-btn pt-btn-default">'
+                                +  '<button class="pt-btn pt-btn-default" @click ="pricingFun()">'
                                         +'<span>计算价格</span>'
                                 +  '</button>'
                                 +  '<button class="pt-btn pt-btn-default">'
@@ -765,7 +837,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             // 刷新
             refresh : function(data, componentConfig, config){
                 
-            },          
+            },        
             //初始化header
             initHeader:function(componentConfig,config){
                 /* 
@@ -790,6 +862,21 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         clearData(){
                             _this.clearData(componentConfig);
                         },
+                        //计算价格
+                        pricingFun(){
+                            var ajaxConfig = {
+                                url:getRootPath() + '/reg/pricingPersonals/pricing',
+                                contentType: 'application/x-www-form-urlencoded',
+                                contentType: 'application/json',
+                                data: {
+
+                                },
+                                type: 'POST',
+                            }
+                            NetStarUtils.ajax(ajaxConfig,function(res){
+                                debugger;
+                            })
+                        }
 
                     }
                 });
@@ -800,7 +887,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     width: '80%',
                     title: '添加项目',
                     shownHandler:function(data){
-                        _this.dialog.getDialogShownHandler(componentConfig,data)
+                        _this.dialog.getDialogShownHandler(componentConfig,data,config)
                     }
                 };
                 componentConfig.vueObj = vueObj;
@@ -1042,10 +1129,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         harm : {
             // 获取数据
             getData : function(componentConfig, isValid, config){
-                
-            
-            
-            
+
             },
             // 设置数据
             setData : function(data, componentConfig, config){
@@ -1063,14 +1147,113 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             },
             //按钮和搜索（header）
             sourceAddBtn:{
+                //vo的配置
+                harmDialogVoConfig:function(componentConfig){
+                    var voConfig = {
+                        id:componentConfig.harmDialogVOId,
+                        templateName:'form',
+                        componentTemplateName:'PC',
+                        isSetMore:false,
+                        form:[
+                            {
+                                id:'ocpcId',
+                                type:'select',
+                                label:'监护种类',
+                                url:getRootPath() + '/npebase/occTutelages/getList',
+                                contentType:'application/json',
+                                mentod:'POST',
+                                dataSrc:'rows',
+                                valueField:'id',
+                                textField:'tutelageName',
+                                outputFields : {
+                                    ocpcName : '{tutelageName}',
+                                    ocpcId: '{id}',
+                                },
+                            }
+                        ]
+                    };
+                    return voConfig
+                },
+                //弹框按钮配置
+                harmDialogBtnConfig:function(componentConfig,data,config){
+                    var _this = this;
+                    /* 
+                        * 获取到页面表单id 把块状表格所有的监护种类id替换  进行批量设置
+                    */ 
+                   
+                    var btnConfig = {
+                        id:componentConfig.harmDialogBtnd,
+                        btns:[
+                            {
+                                text:'确定',
+                                handler:function(){
+                                    var ocpcName = NetstarComponent.getValues(componentConfig.harmDialogVOId,true).ocpcName;
+                                    var ocpcId = NetstarComponent.getValues(componentConfig.harmDialogVOId,true).ocpcId;
+                                    if(ocpcName){
+                                        var harmData = componentConfig.harmVue.regHazardVOList;
+                                        for(var i = 0; i<harmData.length;i++){
+                                            harmData[i].ocpcName = ocpcName;
+                                            harmData[i].ocpcId = ocpcId;
+                                        }
+                                        componentConfig.harmVue.regHazardVOList = harmData;
+                                        
+                                    }
+                                    NetstarComponent.dialog[componentConfig.harmDialogId].vueConfig.close()
+                                }
+                            }
+                        ]
+
+                    };
+                    return btnConfig
+                },
+                //危害弹框的配置
+                harmDialogConfig:function(componentConfig,data){
+                    var bodyId = data.config.bodyId;
+                    var footerId = data.config.footerId;
+                    var harmDialogVOId = componentConfig.id + '-vo';
+                    var harmDialogBtnd = componentConfig.id + '-btn';
+                    componentConfig.harmDialogVOId = harmDialogVOId;
+                    componentConfig.harmDialogBtnd = harmDialogBtnd;
+                    //插入容器
+                    $('#' +bodyId).html(
+                        '<div id = "'+ harmDialogVOId + '"></div>'
+                    );
+                    $('#' +footerId).html(
+                        '<div id = "'+ harmDialogBtnd + '"></div>'
+                    );
+                    //初始化弹框vo与btn
+                    var voConfig = this.harmDialogVoConfig(componentConfig);
+                    var btnConfig = this.harmDialogBtnConfig(componentConfig)
+                    NetstarComponent.formComponent.show(voConfig);
+                    vueButtonComponent.init(btnConfig)
+                },
+                //批量设置弹框
+                harmDialog:function(componentConfig,data,config){
+                    var _this = this;
+                    var id = componentConfig.id +'-harmDialog'
+                    //弹框
+                    var dialogConfig = {
+                        id:id,
+                        templateName:"PC",
+                        title:"批量设置",
+                        shownHandler:function(data){
+                            _this.harmDialogConfig(componentConfig,data,config);
+                        }
+
+                    }
+                    NetstarComponent.dialogComponent.init(dialogConfig);
+                    componentConfig.harmDialogId = id
+                },
+                //按钮初始化
                 btninit:function(componentConfig,config){
+                    var _this = this;
                     var btns = {
-                        id:'netstar-saas-reg-hazard-btns',
+                        id:componentConfig.hazardBtnId,
                         btns: [
                             {
                                 text: '批量设置',
-                                handler: function () {
-        
+                                handler: function (data) {
+                                    _this.harmDialog(componentConfig,data,config)
                                 }
                             },
                             {
@@ -1084,12 +1267,13 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     vueButtonComponent.init(btns);
                 },
                 init:function(componentConfig,config){
-                    this.btninit();
+                    this.btninit(componentConfig,config);
                 }
             },
             //块状表格
             blockList:{
                 init:function(componentConfig,config){
+                    debugger;
                     var _this = this;
                     var originalRows = [];
                     if(typeof(config.serverData) == "object" && $.isArray(config.serverData[componentConfig.keyField])){
@@ -1168,7 +1352,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         }
                     }
                     var harmVue = new Vue({
-                        el:'#netstar-saas-hazard',
+                        el:"#" + componentConfig.hazardblockId,
                         data:{
                             regHazardVOList : originalRows,
                         },
@@ -1338,7 +1522,8 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             },
             //获取html
             getHtml:function(componentConfig){     
-                var id =  componentConfig.id + '-block-harm';
+                var blockId =  componentConfig.id + '-block-harm';
+                var btnId =  componentConfig.id + '-btns'
                 var html = 
                         '<div class="pt-panel">'
                         +' <div class="pt-panel-header">'
@@ -1387,9 +1572,9 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                         +'<i class="icon-search"></i>'
                                         +'</button>'
                                     +'</div>'   
-                                +'<div id="netstar-saas-reg-hazard-btns" class="pt-panel-header-right"></div>'
+                                +'<div id="'+ btnId +'" class="pt-panel-header-right"></div>'
                             +'</div>'
-                        +'<div class="pt-panel-body"  id="netstar-saas-hazard">'
+                        +'<div class="pt-panel-body"  id="'+blockId+'">'
                             +'<div  class="block-list block-list-grid grid-col-4">'
                                 +'<div class="block-list-group">'
                                     +'<div class="block-list-item" v-for="(list,index) in regHazardVOList">'
@@ -1407,7 +1592,9 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 +'</div>'
                             +'</div>'
                         +'</div>'
-                    +'</div>'
+                    +'</div>';
+                    componentConfig.hazardBtnId = btnId;
+                    componentConfig.hazardblockId = blockId;
         return html;
             },
             // 初始化
@@ -1747,6 +1934,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         }
     }
     return {
+        getConfig : configManage.getConfig,
         init : init,
         dialogBeforeHandler : baseFuncManage.dialogBeforeHandler,
         ajaxBeforeHandler : baseFuncManage.ajaxBeforeHandler,

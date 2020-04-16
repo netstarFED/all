@@ -20,6 +20,8 @@
     <!--# include file="/sites/include/lazy-static-dev.html" -->
     <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
     <script type="text/javascript" src="/static/dev/script/template/nspt-physicalsreport.js?v=10.0.0"></script>
+    <script type="text/javascript" src="/static/dev/script/common/netstar-rabbitmqTool.js"></script>
+
     <script>
         NetstarHomePage = false;
         nsPublic = {
@@ -76,34 +78,10 @@
                         },
                         {
                             "functionConfig": {
-                                "text": "驳回",
-                                "defaultMode": "workflowSubmit",
-                                "workflowType": "reject",
-                                "englishName": "nsWorkflowReject"
-                            },
-                            "btn": {
-                                "text": "驳回",
-                                "isReturn": true
-                            }
-                        },
-                        {
-                            "functionConfig": {
-                                "text": "查看办理意见",
-                                "defaultMode": "workflowSubmit",
-                                "workflowType": "findHandleRec",
-                                "englishName": "nsWorkflowFindHandleRec"
-                            },
-                            "btn": {
-                                "text": "查看办理意见",
-                                "isReturn": true
-                            }
-                        },
-                        {
-                            "functionConfig": {
                                 "englishName": "save",
                                 "text": "保存",
                                 "defaultMode": "custom",
-                                "isCloseWindow": false,
+                                "isCloseWindow": true,
                                 "isInlineBtn": false,
                                 "isMobileInlineBtn": true,
                                 "isKeepSelected": false,
@@ -113,8 +91,6 @@
                                     "type": "POST",
                                     "data": {
                                         params: ["regType", "regCombo"],
-                                        peState: 1, //体检状态
-                                        groupFlag: 0, //团体标志0个人1
                                     },
                                     "dataSrc": "rows",
                                     "contentType": "application/json",
@@ -150,7 +126,134 @@
                                     
                                 }
                             }
-                        }
+                        },
+                        {
+                            "functionConfig": {
+                                "englishName": "save",
+                                "text": "新增",
+                                "defaultMode": "custom",
+                                "isCloseWindow": true,
+                                "isInlineBtn": false,
+                                "isMobileInlineBtn": true,
+                                "isKeepSelected": false,
+                                "ajax": {
+                                    "datasourceType": "api",
+                                    "url": "/reg/regs/save",
+                                    "type": "POST",
+                                    "data": {
+                                        params: ["regType", "regCombo"],
+                                    },
+                                    "dataSrc": "rows",
+                                    "contentType": "application/json",
+                                    "isUseGetRootPath": true,
+                                    "filterType": "",
+                                    "filterData": "",
+                                    "src": "/reg/regs/save"
+                                },
+                                "isMainDbAction": false,
+                                "parameterFormatType": "add",
+                                "isSendPageParams": true,
+                                "isSetValueToSourcePage": false,
+                                "isUseAjaxByCopyAdd": true,
+                                "isIsSave": false,
+                                "disabledByWorkflow": false,
+                                "title": "",
+                                "targetField": "",
+                                "shortcutKey": "",
+                                "successOperate": "",
+                                "successMsg": "",
+                                "requestSource": "",
+                                "validateParams": "",
+                                "matrixVariable": "",
+                                "disabledExpression": "",
+                                "parameterFormat": ""
+                                
+
+                            },
+                            "btn": {
+                                "text": "新增",
+                                "isReturn": true,
+                                handler:function(){
+                                    
+                                }
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "打印",
+                            },
+                            "btn": {
+                                "text": "打印",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "预览",
+                            },
+                            "btn": {
+                                "text": "预览",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "流程查看",
+                            },
+                            "btn": {
+                                "text": "流程查看",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "驳回",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "reject",
+                                "englishName": "nsWorkflowReject"
+                            },
+                            "btn": {
+                                "text": "驳回",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "查看办理意见",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "findHandleRec",
+                                "englishName": "nsWorkflowFindHandleRec"
+                            },
+                            "btn": {
+                                "text": "查看办理意见",
+                                "isReturn": true
+                            }
+                        }, 
+                       
+                        {
+                            "functionConfig": {
+                                "text": "查看办理意见",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "findHandleRec",
+                                "englishName": "nsWorkflowFindHandleRec"
+                            },
+                            "btn": {
+                                "text": "查看办理意见",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "查看办理意见",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "findHandleRec",
+                                "englishName": "nsWorkflowFindHandleRec"
+                            },
+                            "btn": {
+                                "text": "查看办理意见",
+                                "isReturn": true
+                            }
+                        },
                     ],
                 }, {
                     type: 'vo',
@@ -161,42 +264,51 @@
                     type: 'vo',
                     name: 'register', // 登记信息
                     keyField: 'root',
-                    field: [{
+                    field: [
+                        {
                             id: "regCode",
                             label: '体检编号',
-                            type: 'text',
-                            changeHandler: function (res) {
-                                console.log(res);
-                            }
+                            type: 'text'
                         },
                         {
                             id: 'peTypeId',
                             type: 'select',
                             label: '体检类别',
+                            // required: true,
                             url: getRootPath() + '/npebase/datPeClasss/getList',
                             contentType: 'application/json',
                             selectMode: 'multi',
                             mentod: 'POST',
                             dataSrc: 'rows',
-                            valueField: '',
+                            valueField: 'id',
                             textField: 'className',
                             changeHandler: function (res) {
-                                var config = res.config
                                 console.log(res);
+                                var config = res.config
                                 var idsStr = res.value;
                                 var ajaxConfig = {
                                     url: getRootPath() + 'reg/types/setPeType',
-                                    contentType: 'application/x-www-form-urlencoded', 
+                                    contentType: 'application/x-www-form-urlencoded',
                                     type: 'POST',
                                     dataSrc: 'rows',
                                     data: {
                                         peTypeIds: idsStr,
+                                    },
+                                    plusData : {
+                                        packageName : config.packageName
                                     }
                                 }
-                                NetStarUtils.ajax(ajaxConfig, function (res) {
-                                    var rows = res.rows;
-                                    if (res.success) {
-                                        config.peTypeData = rows;
+                                NetStarUtils.ajax(ajaxConfig, function (data, _ajaxConfig) {
+                                    var plusData = _ajaxConfig.plusData;
+                                    if (data.success) {
+                                        var rows = data.rows;
+                                        // 通过包名获取页面配置
+                                        var pageConfig = NetstarTemplate.templates.physicalsReport.getConfig(plusData.packageName);
+                                        if(pageConfig){
+                                            // 登记信息
+                                            var registerComponent = pageConfig.componentsByName.register;
+                                            registerComponent.peTypeIdResData = rows;
+                                        }
                                     }
                                 })
                             }
@@ -392,7 +504,7 @@
                 }, {
                     type: 'list',
                     name: 'project', // 项目信息
-                    keyField: 'project',
+                    keyField: 'regComboVOList',
                     field: [],
                 }, {
                     type: 'list',
@@ -411,7 +523,7 @@
                     field: [],
                 }],
                 getValueAjax: {
-                   /*  url: 'http://localhost:2000/debugger/data/physicalsreport.json', */
+                    url: 'http://localhost:2000/debugger/data/physicalsreport.json',
                     dataSrc: 'data',
                     type : 'GET',
                     contentType : 'application/x-www-form-urlencoded',
