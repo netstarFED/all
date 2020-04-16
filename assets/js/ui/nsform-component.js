@@ -2241,6 +2241,20 @@ nsUI.textInput = {
 			//支持快捷键插入html
 			nsUI.htmlInput.init(config, 'form');
 		}
+		//输入助手按钮
+		if($.isArray(config.assistant)){
+			if(config.isUseHtmlInput){
+				config.assistantClickhandler = function(operatorObj){
+					var dom = operatorObj.dom;
+					var position = operatorObj.position;
+					console.log("click",dom,position,dom.value);
+					var value = $(dom).val();
+					value  = value.substr(0,position) + dom.value  + value.substr(position);
+					$(dom).trigger('keyup')
+				}
+			}
+			nsComponent.init.assistantBtnInit(config);
+		}
 		if(typeof(config.changeHandler)=='function'){
 			var eventStr = 'change';
 			if(config.onKeyChange){
@@ -2438,9 +2452,9 @@ nsUI.textInput = {
 			}
 		});
 		//输入助手按钮 2018.2.22by张青
-		if($.isArray(config.assistant)){
-			nsComponent.init.assistantBtnInit(config);
-		}
+		// if($.isArray(config.assistant)){
+		// 	nsComponent.init.assistantBtnInit(config);
+		// }
 	},
 	//设置焦点
 	setFocus:function(_config){

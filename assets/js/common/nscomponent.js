@@ -3005,7 +3005,7 @@ nsComponent.init = (function($) {
         var $input = $('#' + config.fullID);
         //按钮代码-----------------------------------------------------
         var btnId = config.fullID + '-assistantBtn';
-        var assistantHtml = '<div class="input-group-btn text-btn">' +
+        var assistantHtml = '<div class="input-group-btn text-btn" style="position: absolute;z-index: 1000;right: 25px;top: 0px;">' +
             '<button type="button" class="btn btn-info btn-icon" ns-btn-type="assistant" ns-state="close" id="' + btnId + '">' +
             '<i class="fa-keyboard-o"></i>' +
             '</button>'; +
@@ -3044,7 +3044,7 @@ nsComponent.init = (function($) {
                 }
                 nsComponent.assistantDocumentClickHandler = documentClickHandler;
                 //a标签点击方法
-                function aTagClickHandler(event) {
+                function aTagClickHandler() {
                     //标签内容替换
                     var that = this;
                     var inputDom = $input[0];
@@ -3062,6 +3062,10 @@ nsComponent.init = (function($) {
                     inputDom.focus();
                     var position = startP + that.innerText.length;
                     inputDom.selectionStart = inputDom.selectionEnd = position;
+                    if(typeof(config.assistantClickhandler) == "function"){
+                        console.log(inputDom);
+                        config.assistantClickhandler({dom:inputDom, position:position})
+                    }
                     //卸载方法调用
                     assistantPanelRemove();
                 }
