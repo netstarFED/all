@@ -1470,7 +1470,9 @@ function initFunction(businessObj, controllerObj){
 		case 'excelExportVer3':
 			// controllerObj.funcId = '1332101246995137522';
 			// controllerObj.templateId = '1332038097017242614';
-			controllerObj.defaultMode = 'excelImportVer3';
+			// controllerObj.funcId = '1328062366455476837';
+			// controllerObj.templateId = '1332038097017242614';
+			// controllerObj.defaultMode = 'excelExportVer3';
 			controllerObj.showBtnType = 'importAndExport';
 			break;
 	}
@@ -6120,10 +6122,8 @@ function initFunction(businessObj, controllerObj){
 				}
 				var ajaxConfig = {
 					url : NetStarUtils.getStaticUrl() + '/middleware/' + functionConfig.funcId,
-					processData : false,
-					contentType : false,
 					data : {
-						info : JSON.stringify(btnInfos),
+						info : btnInfos,
 					},
 				}
 				NetStarUtils.ajax(ajaxConfig, function(res){
@@ -7550,6 +7550,7 @@ function sendPrintInfo(data){
 }
 // 接收导入消息
 function acceptImportExportMessage(data){
+	// console.log(data);
 	var info = data.info ? data.info : {};
 	var btnsConfigName = info.btnsConfigName;
 	var btnIndex = info.btnIndex;
@@ -7596,7 +7597,7 @@ function acceptImportExportMessage(data){
 	}else{
 		vueConfig.showType = 'loading';
 		vueConfig.isShowDropdown = false;
-		var numStr = percentage * 100 + '%';
+		var numStr = Number((percentage * 100).toFixed(2)) + '%';
 		vueConfig.loadingText = numStr;
 		vueConfig.loadingStyle = {
 			width : numStr,

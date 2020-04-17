@@ -570,7 +570,7 @@ var NetStarRabbitMQ = (function(){
 
             var toporgId = NetStarRabbitMQ.toporgId;
             var userId = NetStarRabbitMQ.userId;
-            var xQueueName = 'netstar-import-' + userId;
+            var xQueueName = 'netstar-import-' + userId + new Date().getTime();
             if(!toporgId || !userId){
                 nsAlert("订阅失败，请检查页面参数toporgId/userId",'error');
                 console.error("订阅失败，请检查页面参数toporgId/userId");
@@ -629,7 +629,7 @@ var NetStarRabbitMQ = (function(){
 
             var toporgId = NetStarRabbitMQ.toporgId;
             var userId = NetStarRabbitMQ.userId;
-            var xQueueName = 'netstar-export-' + userId;
+            var xQueueName = 'netstar-export-' + userId + new Date().getTime();
             if(!toporgId || !userId){
                 nsAlert("订阅失败，请检查页面参数toporgId/userId",'error');
                 console.error("订阅失败，请检查页面参数toporgId/userId");
