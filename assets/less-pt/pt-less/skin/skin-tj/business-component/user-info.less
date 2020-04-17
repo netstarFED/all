@@ -4,6 +4,28 @@
     background: #fff;
     border: 1px solid @border-color;
     margin-bottom: @base-margin;
+    height: 140px;
+
+    img {
+        display: block;
+        margin: 0 auto;
+        width: 85px;
+        height: 118px;
+        background: rgba(0, 0, 0, .055);
+        position: relative;
+
+        &:after {
+            position: absolute;
+            content: '\ea2e';
+            font-family: @icon-font-icomoon;
+            top: 50%;
+            left: 50%;
+            color: rgba(0, 0, 0, .085);
+            font-size: 32px;
+            margin: -16px;
+
+        }
+    }
 
 }
 
@@ -24,7 +46,7 @@
     display: block;
     width: 100%;
     background: #fff;
-    // border: 1px solid @border-color;
+    border: 1px solid @border-color;
 
     .list {
         .list-item {
@@ -58,18 +80,23 @@
         }
     }
 
-    .pt-btn-group{
+    .pt-btn-group {
         display: flex;
         flex: 1px;
         justify-content: start;
         align-items: center;
-        .pt-btn{
+
+        .pt-btn {
             display: flex;
             flex: 1;
             justify-content: center;
             align-items: center;
             height: 28px;
-            
+
         }
     }
+}
+
+.queue {
+    border: 0;
 }

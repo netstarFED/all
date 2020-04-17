@@ -226,59 +226,41 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             html:function(componentConfig,config){
                 var id = componentConfig.id + '-personal-search';
                 var inputId = componentConfig.id + '-input';
-                // var html = 
-                //     '<div id = "'+ id + '">'
-                //         +'<div class="pt-panel">'
-                //             +'<div class="search-box">'
-                //             +'<input type="text" class="pt-form-control" id="'+ inputId + '" placeholder="体检编号" @blur.prevent=\'searchNo()\'>'
-                //             +'</div>'
-                //         +'</div>'
-                //         +'<div class="pt-panel">'
-                //             +'<div class="user-photo">'
-                //                 +'<img src="../saas/static/images/user-photo.jpg" alt="">'
-                //             +'</div>'
-                //             +'<div class="user-photo-eidt">'
-                //             +' <div class="pt-btn-group">'
-                //                     +'<button class="pt-btn pt-btn-default" @click="clickUpload()">'
-                //                         +'<i class="icon icon-image"></i>'
-                //                     +'</button>'
-                //                     +'<button class="pt-btn pt-btn-default" @click=\'clickPhoto()\'>'
-                //                         +'<i class="icon icon-id"></i>'
-                //                     +'</button>'
-                //                     +'<button class="pt-btn pt-btn-default">'
-                //                         +'<i class="icon icon-camera"></i>'
-                //                     +'</button>'
-                //                 +'</div>'
-                //         + '</div>'
-                //         +'</div>'
-                //      + '</div>';
-                var html = `
-                <div id=${id}>
-                    <div class="pt-panel">
-                            <div class="search-box">
-                                <input type="text" class="pt-form-control" placeholder="体检编号" @blur.prevent='searchNo()'>
-                            </div>
-                    </div>
-                    <div class="pt-panel">
-                        <div class="user-photo">
-                            <img src="../saas/static/images/user-photo.jpg" alt="">
-                        </div>
-                        <div class="user-photo-eidt">
-                            <div class="pt-btn-group">
-                                <button class="pt-btn pt-btn-default" @click=uploadImg()>
-                                    <i class="icon icon-image"></i>
-                                </button>
-                                <button class="pt-btn pt-btn-default">
-                                    <i class="icon icon-id"></i>
-                                </button>
-                                <button class="pt-btn pt-btn-default" @click=clickPhoto()>
-                                    <i class="icon icon-camera"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-                `
+                var html = 
+                    '<div id = "'+ id + '">'
+                        +'<div class="pt-panel">'
+                            +'<div class="search-box">'
+                            +'<input type="text" class="pt-form-control" id="'+ inputId + '" placeholder="体检编号" @blur.prevent=\'searchNo()\'>'
+                            +'</div>'
+                        +'</div>'
+                        +'<div class="pt-panel">'
+                            +'<div class="user-photo">'
+                                +'<img src="../saas/static/images/user-photo.jpg" alt="">'
+                            +'</div>'
+                            +'<div class="user-photo-eidt">'
+                            +' <div class="pt-btn-group">'
+                                    +'<button class="pt-btn pt-btn-default" @click="clickUpload()">'
+                                        +'<i class="icon icon-image"></i>'
+                                    +'</button>'
+                                    +'<button class="pt-btn pt-btn-default" @click=\'clickPhoto()\'>'
+                                        +'<i class="icon icon-id"></i>'
+                                    +'</button>'
+                                    +'<button class="pt-btn pt-btn-default">'
+                                        +'<i class="icon icon-camera"></i>'
+                                    +'</button>'
+                                +'</div>'
+                        + '</div>'
+                        +'</div>'
+                        +'<div class="pt-panel">'
+                            +'<div class="queue">'
+                                +'<div class="pt-btn-group">'
+                                   +' <button class="pt-btn pt-btn-default"><i class="icon icon-arrow-left-o"></i><span>上一位</span></button>'
+                                    +'<button class="pt-btn pt-btn-default"><span>下一位</span><i class="icon icon-arrow-right-o"></i></button>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>'
+                     + '</div>';
+
                 componentConfig.searchId = id;
                 componentConfig.inputId = inputId;
                 return html;
@@ -310,7 +292,9 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 type: 'POST',
                             }
                             NetStarUtils.ajax(ajaxConfig, function (res) {
-        
+                                if(!res.rows){
+                                    nsalert('当前编号不存在');
+                                }
                             })
                         },
                         //拍照
@@ -354,10 +338,13 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     return formValue;
                 }
                 formValue = $.extend(false, formValue, headerData);
-                var config = config.peTypeData;
+                var peTypeDataConfig = config.peTypeData;
                 formValue.peState =  1; //体检状态
                 formValue.groupFlag =  0; //团体标g志0个人1
+                formValue.processId = "1330801290317399026";
+
                 formValue.regTypeVOList = $.isArray(componentConfig.peTypeIdResData) ? componentConfig.peTypeIdResData : [];
+                console.log('按钮配置' + config)
                 return formValue;
             },
             // 设置数据
@@ -482,7 +469,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             },
             // 初始化
             init : function(componentConfig, config){
-                debugger;
                 console.log(componentConfig);
                 var id = componentConfig.id;
                 var headerId = id + '-header';
@@ -499,7 +485,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 // 初始化header
                 this.initHeader(componentConfig, data,config);
                 // 初始化表单
-                this.initForm(componentConfig, data,  )
+                this.initForm(componentConfig, data,config)
 
             }
         },
@@ -509,14 +495,10 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             dialog:{
                 //获取弹框列表配置
                 getDialogConfig:function(componentConfig,data,config){
-                    var _this = this;
-                    console.log(_this);
-                    console.log(componentManage);
-                    console.log(componentConfig);
-                    console.log('config',componentConfig);
                     //regList的传参
-                  var formData = NetstarComponent.getValues();
-                    var regListAjaxData = formData.customerName;
+                 var voId = config.components[2].bodyId
+                  var formData = NetstarComponent.getValues(voId);
+                  var regListAjaxData = formData.customerName;             
                     var itemList = {
                         id: componentConfig.dialoglistId,
                         data: {
@@ -527,7 +509,8 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                             dataSrc: 'rows',
                             data: {},
                         },
-                        columns: [{
+                        columns: [
+                            {
                                 field: 'itemClassId',
                                 title: '项目类别',
                             },
@@ -558,7 +541,8 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
 
                             },
                         },
-                        columns: [{
+                        columns: [
+                            {
                                 field: 'dictClassName',
                                 title: '体检项目',
                             },
@@ -575,7 +559,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 title: '优惠金额',
                             },
                             {
-                                field: 'price',
+                                field: 'pkgPrice',
                                 title: '应收金额',
                             },
                             {
@@ -596,8 +580,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                     },
                                 }
                                 NetStarUtils.ajax(ajaxConfig, function (res) {
-                                    selectedData = res.rows
-                                    console.log(selectedData)
+                                    componentConfig.selectedData = res.rows       
                                 })
                             }
                         }
@@ -613,7 +596,8 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 customerId: regListAjaxData
                             },
                         },
-                        columns: [{
+                        columns: [
+                            {
                                 field: 'dictClassName',
                                 title: '体检项目',
                             },
@@ -630,7 +614,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 title: '优惠金额',
                             },
                             {
-                                field: 'price',
+                                field: 'pkgPrice',
                                 title: '应收金额',
                             },
                             {
@@ -661,7 +645,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 },
                 //按钮的配置
                 btnHandler:function(componentConfig){
-                   var selectedData = '';//存放选中行的数据
+                   var selectedData = "";//存放选中行的数据
                     var addComboBtns = {
                         id: componentConfig.dialogBtnId,
                         btns: [{
@@ -750,7 +734,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         btnHtml:btnHtml
                     }
                 },
-          
                 //新增项目弹框
                 getDialogShownHandler:function(componentConfig,data,config) {     
                 //页面容器
@@ -874,7 +857,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 type: 'POST',
                             }
                             NetStarUtils.ajax(ajaxConfig,function(res){
-                                debugger;
                             })
                         }
 
@@ -1036,8 +1018,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 + '</ul>'
                             + '</div>'
                         + '</div>',
-                getRows : function(originalRows){
-                    
+                getRows : function(originalRows){ 
                     var rows = [];
                     for(var i=0; i<originalRows.length; i++){
                         var originalRow = originalRows[i];
@@ -1273,7 +1254,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             //块状表格
             blockList:{
                 init:function(componentConfig,config){
-                    debugger;
                     var _this = this;
                     var originalRows = [];
                     if(typeof(config.serverData) == "object" && $.isArray(config.serverData[componentConfig.keyField])){
