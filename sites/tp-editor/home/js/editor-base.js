@@ -4916,7 +4916,8 @@ var NetstarProject = (function(){
                 if(value == false){
                     return;
                 }
-                if(typeof(value.parentSourceParam)=='object'){
+
+                if(typeof(value)=='object' && typeof(value.parentSourceParam)=='object'){
                     value.parentSourceParam.isEditMode = obj.controllerObj.isEditMode;
                 }
                 var isContinue = true;
