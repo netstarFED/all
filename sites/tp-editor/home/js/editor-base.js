@@ -2874,6 +2874,15 @@ var NetstarProject = (function(){
             if(typeof(fieldConfig.editConfig)=="object"){
                 fieldManager.setFormField(fieldConfig.editConfig, fieldConfig.editConfig.type);
             }
+            // 未知原因 footer.type == ''  删除
+            if(typeof(fieldConfig.footer) == "object" && fieldConfig.footer.type == ''){
+                delete fieldConfig.footer;
+            }
+            if(fieldConfig.columnType == "grid"){
+                delete fieldConfig.columnType;
+                delete fieldConfig.formatHandler;
+            }
+
         },
         init : function(fields, type){
             switch(type){
