@@ -171,8 +171,8 @@ var vueButtonComponent = (function($){
                                                 // + '<div class="list-check">'
                                                 //     + '<i class="icon-check-circle"></i>'
                                                 // + '</div>'
-                                                + '<span class="list-text">{{dropObj.title}}</span>'
-                                                + '<span class="list-text">{{dropObj.info}}</span>'
+                                                + '<span class="list-text">{{dropObj.name}}</span>'
+                                                // + '<span class="list-text">{{dropObj.info}}</span>'
                                                 + '<div class="pt-btn-group">'
                                                     + '<template v-if="item.defaultMode==\'excelImportVer3\'">'
                                                         + '<button class="pt-btn pt-btn-default pt-btn-icon" @click="importAndExportHandler($event,index,vueConfigs[index],item,\'details\',subIndex,dropObj)">'
@@ -687,12 +687,17 @@ var vueButtonComponent = (function($){
                                     setDocumentFunc($event, vueConfig);
                                     break;
                                 }
+                                // 模板id
+                                var templateId = '';
+                                if(item.functionConfig){
+                                    templateId = item.functionConfig.templateId;
+                                }
                                 var historyAjax = {
-                                    // url : getRootPath() + '',
-                                    url : NetstarHomePage.config.staticPageRootPath + '/debugger/data/history.json',
-                                    type : "POST",
-                                    data : {},
-                                    contentType : 'application/json',
+                                    url : getRootPath() + '/servicemanages/xlsx/task/getListByTemplateId?templateId=' + templateId,
+                                    // url : NetstarHomePage.config.staticPageRootPath + '/debugger/data/history.json',
+                                    type : "GET",
+                                    // data : {},
+                                    contentType : 'application/x-www-form-urlencoded',
                                 }
                                 NetStarUtils.ajax(historyAjax, (function(_setDocumentFunc, _vueConfig, _$event){
                                     return function(res){

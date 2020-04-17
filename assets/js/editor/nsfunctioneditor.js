@@ -970,7 +970,13 @@ var nsFuncEditor = (function($){
 		},
 		templateId : {
 			id:'templateId',
-			label:'导入模板ID',
+			label:'模板ID',
+			type:'text',
+			column:12,
+		},
+		funcId : {
+			id:'funcId',
+			label:'方法ID',
 			type:'text',
 			column:12,
 		},
@@ -1334,8 +1340,8 @@ var nsFuncEditor = (function($){
 		excelExport:['englishName','chineseName','defaultMode','functionClass','type','dataSrc','text','ajaxData','contentType',"targetField","ext","excelName","requestSource","disabledByWorkflow"],
 		downloadByFile : ['englishName','chineseName','defaultMode','functionClass','isCloseWindow','type','dataFormat','dataSrc','text','dataLevel','title','ajaxData',"requestSource","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','successMsg','successOperate','matrixVariable','isSendPageParams','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
 		wxtPrint:['englishName','chineseName','defaultMode','functionClass','suffix','dataSrc','ajaxData','text','callbackAjax','webSocketUrl','btnType','fileField','textField','valueField',"requestSource","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','listName','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField",'dropdownSubdata','dropSelectMode',"disabledByWorkflow"],
-		excelImportVer3 : ['englishName','chineseName','defaultMode','functionClass','suffix','dataSrc','ajaxData','text',"requestSource","templateId","importInstructionsExpression","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
-		excelExportVer3 : ['englishName','chineseName','defaultMode','functionClass','suffix','dataSrc','ajaxData','text',"requestSource","templateId","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
+		excelImportVer3 : ['englishName','chineseName','defaultMode','functionClass','suffix','dataSrc','ajaxData','text',"requestSource","templateId",'funcId',"importInstructionsExpression","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
+		excelExportVer3 : ['englishName','chineseName','defaultMode','functionClass','suffix','dataSrc','ajaxData','text',"requestSource","templateId",'funcId',"isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
 	}
 	var addFormArrList = {
 		dialog:['englishName','chineseName','defaultMode','functionClass','isCloseWindow','dataSrc','type','contentType','voId','dataFormat','dataLevel','text','title','functionField','ajaxData','width','height',"requestSource","isMainDbAction","isSetMore",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormat','validateParams','getDataByAjax','successMsg','successOperate','matrixVariable','isSendPageParams','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
@@ -1369,8 +1375,8 @@ var nsFuncEditor = (function($){
 		excelExport:['englishName','chineseName','defaultMode','functionClass','voId','suffix','dataSrc','text','type','contentType','ajaxData',"targetField","ext","excelName","requestSource","disabledByWorkflow"],
 		downloadByFile:['englishName','chineseName','defaultMode','functionClass','isCloseWindow','dataSrc','type','contentType','voId','dataFormat','dataLevel','text','title','ajaxData',"requestSource","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormat','validateParams','successMsg','successOperate','matrixVariable','isSendPageParams','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
 		wxtPrint:['englishName','chineseName','defaultMode','functionClass','voId','suffix','dataSrc','ajaxData','text','callbackAjax','webSocketUrl','btnType','fileField','textField','valueField',"requestSource","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormat','validateParams','matrixVariable','listName','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField",'dropdownSubdata','dropSelectMode',"disabledByWorkflow"],
-		excelImportVer3 : ['englishName','chineseName','defaultMode','functionClass','voId','suffix','dataSrc','ajaxData','text',"requestSource","templateId","importInstructionsExpression","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
-		excelExportVer3 : ['englishName','chineseName','defaultMode','functionClass','voId','suffix','dataSrc','ajaxData','text',"requestSource","templateId","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
+		excelImportVer3 : ['englishName','chineseName','defaultMode','functionClass','voId','suffix','dataSrc','ajaxData','text',"requestSource","templateId",'funcId',"importInstructionsExpression","isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
+		excelExportVer3 : ['englishName','chineseName','defaultMode','functionClass','voId','suffix','dataSrc','ajaxData','text',"requestSource","templateId",'funcId',"isMainDbAction",'isInlineBtn','isMobileInlineBtn','disabledExpression','parameterFormatType','parameterFormat','validateParams','matrixVariable','isSendPageParams','formatValueData','shortcutKey','isKeepSelected','isSetValueToSourcePage',"targetField","disabledByWorkflow"],
 	};
 	// 编辑器整体框架
 	var container = {

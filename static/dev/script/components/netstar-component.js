@@ -7007,13 +7007,24 @@ NetstarComponent.business = {
                     if(typeof(NetstarTemplate) != "object" || typeof(NetstarTemplate.templates) != "object" || typeof(NetstarTemplate.templates.configs) != "object"){
                         break;
                     }
-                    if(typeof(config.packageName) != "string"){
+                    var packageName = config.packageName;
+                    if(typeof(packageName) != "string"){
+                        var formConfigs = NetstarComponent.form[config.formID];
+                        if(typeof(formConfigs)!='object'){
+                            console.error('表单不存在');
+                            console.error(config.formID);
+                            console.error(config);
+                            break;
+                        }
+                        packageName = formConfigs.config.packageName;
+                    }
+                    if(typeof(packageName) != "string"){
                         break;
                     }
-                    if(typeof(NetstarTemplate.templates.configs[config.packageName]) != "object"){
+                    if(typeof(NetstarTemplate.templates.configs[packageName]) != "object"){
                         break;
                     }
-                    var operateData = NetstarTemplate.getOperateData(NetstarTemplate.templates.configs[config.packageName]);
+                    var operateData = NetstarTemplate.getOperateData(NetstarTemplate.templates.configs[packageName]);
                     var formatValue = {
                         value : '{' + defaultSearchDataVal.field + '}'
                     }
@@ -27528,6 +27539,695 @@ NetstarComponent.expressionEditor = {
                     config.$validate = $(validateDom);
                 }
                 this.codemirrorInit()
+            },
+        }
+        return component;
+    },
+}
+
+// 体检表达式
+NetstarComponent.physicalsExpression = {
+	VERSION: '0.1.0', //版本号
+	I18N: {
+		en:{
+		},
+		zh:{
+		}
+    },
+    TEMPLATE:{
+        PC:{
+            input:'<input class="pt-form-control" type="text" :placeholder="placeholder" :class="inputClass" :disabled="disabled" v-model="inputText" ref="inputName" :id="id" v-on:keyup.ctrl.alt.r="keyupCtrlAltR" />',
+            buttonClear:'<button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear">'
+                            +'<i class="icon-close"></i>'
+                        + '</button>',
+            button:'<button class="pt-btn pt-btn-default" v-for="btn in btns" v-on:click="btn.handler" v-html="btn.name">'
+                        + '{{btn.name}}'
+                    + '</button>',
+            btnsContent : '<div class="pt-text-assistant-btns" :class="{hide:markbtnsIsHide}" :style="markbtnsStyle" ref="assistant">'
+                            + '<div class="pt-btn-group">'
+                                + '<button class="pt-btn pt-btn-default" v-for="btnone in markbtns" @click="clickMark($event, btnone)" @mousedown="btnMouseDown">{{btnone.name}}</button>'
+                            + '</div>'
+                        + '</div>',
+        },
+        MOBILE:{
+            input:'<input class="pt-form-control" type="text" :class="inputClass" :disabled="disabled" v-model="inputText" ref="inputName" :id="id" />',
+        },
+    },
+	// 设置config的默认配置
+	setDefault: function(config){
+        var defaultConfig = {
+            // inputWidth :        100,            // 输入框宽度
+            label :             '',             // label
+            templateName :      'PC',           // 模板名字
+            value :             '',             // value
+            disabled:           false,          // 是否只读
+            rules :             '',             // 规则
+            formSource:         'form',         // 显示类型 默认form table/staticData
+            hidden:             false,          // 是否隐藏
+            isHasClose:         true,          // 是否存在清空按钮
+
+            assistant :         '',             // 输入助手 ‘※,▲,△,■,＃,＆’
+            cols :              'auto',
+            placeholder :       '',
+		}
+		nsVals.setDefaultValues(config, defaultConfig);
+        if(config.formSource == 'staticData'){
+            config.acts = config.acts ? config.acts : 'label';
+        }
+    },
+    // 设置config
+    setConfig: function(config){
+        if(config.readonly == true){
+            config.disabled = true;
+        }
+    },
+    // 验证配置是否正确
+    validatConfig: function(config){
+        var isVali = true;
+        var rules = config.rules;
+        if(rules.indexOf('remote')>-1){
+            if(typeof(config.remoteAjax)!="string"){
+                isVali = false;
+                nsAlert('text组件验证配置错误，rules是remote(ajax排重时)remoteAjax必填', 'error');
+                console.error('text组件验证配置错误，rules是remote(ajax排重时)remoteAjax必填');
+            }
+        }
+        return isVali;
+    },
+    getHtml: function(config){
+        // 模板格式
+        var templateName = config.templateName;
+        var tempalte = this.TEMPLATE[templateName];
+        var contentHtml = '';
+        var containerHtml = NetstarComponent.common.formComponent; // 容器模板
+        switch(config.formSource){
+            case 'form':
+            case 'table':
+                var $input = $(tempalte.input);
+                // 为每一部分添加事件属性
+                // 为input和button添加事件
+                // $input.attr('v-bind:style', '{width:inputWidth+"px"}');
+                $input.attr('v-bind:style', 'styleObject');
+                $input.attr('v-on:keyup.13', 'inputEnter');  // 回车事件keyup.13
+                if(config.formSource == "table"){
+                    $input.attr('v-on:keyup', 'keyup');
+                    $input.attr('v-on:keydown', 'keydown');
+                }
+                $input.attr('v-on:blur', 'blurHandler');
+                $input.attr('v-on:focus', 'focusHandler');
+                $input.attr('v-on:change', 'change');
+                var inputHtml = $input.prop('outerHTML');   // input模板
+                var buttonHtml = '';
+                if(config.isHasClose){
+                    var $button = $(tempalte.buttonClear);
+                    $button.attr('v-on:click', 'btnClickClose');
+                    $button.attr('v-on:mousedown', 'btnMouseDown');
+                    $button.attr(':class','{hide:ishide}');
+                    buttonHtml = $button.prop('outerHTML');
+                }
+                var btncontainer = NetstarComponent.common.btncontainer;
+                var $btncontainer = $(btncontainer);
+                $btncontainer.addClass('pt-input-group-btn-group');
+                if($.isArray(config.btns)&&config.btns.length > 0){
+                    var btnsHtml = tempalte.button;
+                    buttonHtml += btnsHtml;
+                    // 现在没有用 为了以后添加text按钮时用 按钮数量超过1时添加类名pt-input-group-btn-group
+                    // if(config.isHasClose){
+                    //     $btncontainer.addClass('pt-input-group-btn-group');
+                    // }else{
+                    //     if(config.btns.length > 1){
+                    //         $btncontainer.addClass('pt-input-group-btn-group');
+                    //     }
+                    // }
+                }
+                btncontainer = $btncontainer.prop('outerHTML').replace('{{nscontainer}}', buttonHtml);
+                var btnsContent = tempalte.btnsContent;
+                contentHtml = inputHtml + btncontainer + btnsContent;   // input+button整体模板
+                // contentHtml += '<div :class="stateClass" ref="validate">{{validatInfo}}</div>';
+                if(config.formSource=='table'){
+                    containerHtml = NetstarComponent.common.tableComponent;
+                }
+                break;
+            case 'staticData':
+                // contentHtml = NetstarComponent.common.staticComponent;
+                // var $content = $(contentHtml);
+                // // $content.attr('v-bind:style', '{width:inputWidth+"px"}');
+                // $content.attr('v-bind:style', 'styleObject');
+                // contentHtml = $content.prop('outerHTML');   // 静态模板
+                contentHtml = NetstarComponent.getStaticTemplate(config);
+                break;
+        }
+        containerHtml = containerHtml.replace('{{nscontainer}}',contentHtml);
+        return containerHtml;
+    },
+    getMarkBtns : function(str, num){
+        if(str === ''){
+            return [];
+        }
+        var arr = str;
+        if(typeof(str) == "string"){
+            arr = str.split(',');
+        }
+        var _arr = [];
+        // for(var i=0; i<arr.length; i++){
+        //     if(i%num === 0){
+        //         _arr.push([]);
+        //     }
+        //     _arr[_arr.length-1].push(arr[i]);
+        // }
+        for(var i=0; i<arr.length; i++){
+            _arr.push({
+                name : arr[i],
+            });
+        }
+        return _arr;
+    },
+    getData: function(config){
+        var data = NetstarComponent.getNewVueComponentData(config);
+        data.markbtnsIsHide = true;
+        data.markbtnsStyle = {};
+        data.assistant = config.assistant;
+        data.markbtns = this.getMarkBtns(config.assistant);
+        // if(data.markbtns.length > 0){
+            data.containerClass += ' pt-text-assistant';
+        // }
+        return data;
+    },
+    inputEnter: function(config, vueComponent){
+        NetstarComponent.setNextComponentFocus(config, vueComponent);
+        // var nextFieldId = config.enterFocusField;
+        // if(nextFieldId){
+        //     var nextComponent = NetstarComponent.config[config.formID].vueConfig[nextFieldId];
+        //     nextComponent.focus();
+        // }else{
+        //     vueComponent.blur();
+        // }
+    },
+    // 验证value
+    validatValue: function(_value, _rules, returnType, config){
+        /*
+         * value : 表单的value值
+         * ruleStr : rules的配置值 如 max=0 ；required
+         * returnType : 返回验证结果
+         */
+        returnType = typeof(returnType)=="undefined" ? 'object' : returnType;
+        var isTrue = true;
+        var _validatInfo = '';
+        function validateVal(value, __rules){
+            var rules = __rules.split(' ');
+            var isPass = true; // 是否合法
+            var validatInfo = ''; // 错误信息
+            for(var i=0; i<rules.length; i++){
+                var ruleNameStr = rules[i];
+                var formatRules = NetstarComponent.getFormatRules(ruleNameStr);
+                var ruleName = formatRules.ruleName; // 规则名称
+                var compareArr = formatRules.compareArr; // 若有 = 等号后边值 数组 没有比较值为空数组
+                if(ruleName == 'required'){
+                    if(value === "" || value === null){
+                        isPass = false;
+                        validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                    }
+                }else{
+                    if(value !== "" && value != null){
+                        switch(ruleName){
+                            case 'remote':
+                                // ajax验证
+                                break;
+                            case 'ismobile':
+                            case 'mobile':
+                            case 'fax':
+                                //手机号验证
+                                regStr=/^(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])\d{8}$/;
+                                if(!regStr.test(value)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'isphone':
+                            case 'phone':
+                                //固定电话验证
+                                regStr = /^((0\d{2,3})-)?(\d{7,8})(-(\d{3,}))?$/;//d*$;
+                                if(!regStr.test(value)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'postalcode':
+                                //邮政编码验证
+                                regStr = /^[0-9]\d{5}$/;
+                                if(!regStr.test(value)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'bankno':
+                                //银行卡号验证
+                                var isTrue = nsValid.bankno(value);
+                                if(!isTrue){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'Icd':
+                                //身份证号验证
+                                var isTrue = nsValid.Icd(value);
+                                if(!isTrue){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'positiveInteger':
+                                //正整数验证
+                                var g = /^[1-9]*[1-9][0-9]*$/;
+                                if(!g.test(value)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'nonnegativeInteger':
+                                //非负整数验证
+                                var g = /^([1-9]\d*|[0]{1,1})$/;
+                                if(!g.test(value)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'integer':
+                                //整数验证
+                                /*var reg = /^-?[1-9]*[1-9][0-9]*$/;*/
+                                var reg = /^-?\d+$/;
+                                if(!reg.test(value)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;	
+                            case 'max':
+                                var compareNum = compareArr[0];
+                                if(!(Number(value) <= compareNum)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
+                                }
+                                break;
+                            case 'min':
+                                var compareNum = compareArr[0];
+                                if(!(compareNum <= Number(value))){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
+                                }
+                                break;
+                            case 'positive':
+                                // 正数
+                                if(!(Number(value) > 0)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'negative':
+                                //负数验证
+                                if(!(Number(value) <= 0)){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'range':
+                                // 范围在 {0} 到 {1} 之间
+                                if(!(Number(value)>=compareArr[0] && Number(value)<=compareArr[1])){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName](compareArr[0],compareArr[1]);
+                                }
+                                break;
+                            case 'precision':
+                                var compareNum = compareArr[0];
+                                // 小数 {0} 位
+                                var isTrue = nsValid.precision(value,Number(compareNum));
+                                if(!isTrue){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
+                                }
+                                break;
+                            case 'url':
+                                // url
+                                var reg = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+                                var isTrue = reg.test(value);
+                                if(!isTrue){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'email':
+                                //邮箱验证
+                                var reg = /^([a-zA-Z0-9\._-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+                                var isTrue = reg.test(value);
+                                if(!isTrue){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName] + ',';
+                                }
+                                break;
+                            case 'minlength':
+                                // 最少字符
+                                var compareNum = compareArr[0];
+                                if(compareNum > value.length){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
+                                }
+                                break;
+                            case 'maxlength':
+                                // 最多字符
+                                var compareNum = compareArr[0];
+                                if(compareNum < value.length){
+                                    isPass = false;
+                                    validatInfo += NetstarComponent.validateMsg[ruleName](compareNum);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            if(validatInfo.length > 0){
+                var validatInfoArr = validatInfo.split('');
+                if(validatInfoArr[validatInfoArr.length-1]==","){
+                    validatInfo = validatInfo.substring(0, validatInfo.length-1);
+                }
+            }
+            return {
+                isTrue : isPass,
+                validatInfo: validatInfo,
+            };
+        }
+        var obj = validateVal(_value, _rules);
+        if(typeof(_value)=="string"&&_value.length>0&&_rules.indexOf('remote')>-1 && typeof(config)=="object"){
+            // 排重
+            var isSendAjax = true;
+            if(typeof(config.sourceValue)=="undefined"){
+                isSendAjax = false;
+            }else{
+                if(config.sourceValue == _value){
+                    isSendAjax = false;
+                }
+            }
+            if(isSendAjax){
+                var ajaxData = {};
+                ajaxData[config.id] = _value;
+                var ajaxConfig = {
+                    url : config.remoteAjax,
+                    type : 'POST',
+                    data : ajaxData,
+                    plusData : {
+                        formID : config.formID,
+                        componentId : config.id,
+                    },
+                }
+                NetStarUtils.ajax(ajaxConfig, function(res, _ajaxConfig){
+                    if(res.success){
+                        var data = res.data;
+                        if((data && data.validateResult) || !data){
+                            return; 
+                        }
+                        var plusData = _ajaxConfig.plusData;
+                        var form = NetstarComponent.config[plusData.formID];
+                        if(typeof(form)!="object"){
+                            return;
+                        }
+                        var vueComponent = form.vueConfig[plusData.componentId];
+                        var component = form.config[plusData.componentId];
+                        vueComponent.validatInfo = data.validateMsg;
+                        var warnInfoStr = component.label + ':' + data.validateMsg;
+                        vueComponent.focus();
+                        // NetstarComponent.setComponentWarnInfoState(vueComponent, warnInfoStr);
+                        NetstarComponent.setComponentWarnInfoState(component, data.validateMsg);
+                    }
+                })
+            }
+            
+        }
+        if(returnType == "boolean"){
+            isTrue = obj.isTrue;
+            return isTrue;
+        }
+        return obj;
+    },
+    // 获取组件配置
+    getComponentConfig:function(config){
+        var _this = this;
+        _this.setDefault(config);
+        var isTrue = _this.validatConfig(config);
+        if(!isTrue){
+            return false;
+        }
+        _this.setConfig(config);
+        var html = _this.getHtml(config);
+        var component = {
+            template: html,
+            data: function(){
+                var data = _this.getData(config);
+                data.btns = config.btns;
+                return data;
+            },
+            watch: {
+                inputText:function(value, oldValue){
+                    NetstarComponent.watchTemplateShowData(config, this, 'inputText');
+                    if(typeof(value) == "string" && value.length > 0){
+                        this.ishide = false;
+                    }else{
+                        this.ishide = true;
+                    }
+                },
+                assistant : function(value){
+                    this.markbtns = _this.getMarkBtns(value);
+                    if(this.markbtns.length > 0){
+                        if(this.containerClass.indexOf('pt-text-assistant') == -1){
+                            this.containerClass += ' pt-text-assistant';
+                        }
+                    }else{
+                        this.containerClass = this.containerClass.replace('pt-text-assistant', '');
+                    }
+                },
+                markbtnsIsHide : function(value){
+                    if(!value){
+                        var __this = this;
+                        setTimeout(function(){
+                            // 默认显示在输入框下 判断是否能撑下 不能向上
+                            var $input = $('#' + config.fullID);
+                            var $window = $(window);
+                            var wHeight = $window.height();
+                            var iHeight = $input.parent().height();
+                            var oHeight = $input.offset().top;
+                            var $assistant = $(__this.$refs.assistant);
+                            var cHeight = $assistant.height();
+                            if(oHeight + cHeight + iHeight > wHeight){
+                                if(oHeight > cHeight){
+                                    __this.markbtnsStyle = {
+                                        bottom : iHeight + 'px',
+                                    }
+                                }
+                            }
+                        },0)
+                    }
+                }
+            },
+            methods: {
+                // 
+                keyup : function(ev){
+                    // 在表格中用到了上下左右
+                },
+                // 
+                keydown : function(ev){
+                    // 在表格中用到了上下左右
+                    if(config.formSource == 'table'){
+                        var keyCode = ev.keyCode;
+                        switch(keyCode){
+							case 37: // 左
+							case 39: // 右
+                                ev.preventDefault();
+								break;
+						}
+                    }
+                },
+                keyupCtrlAltR : function(){
+                    if(typeof(nsVals) == "object" && typeof(nsVals.dictData) == "object" && typeof(nsVals.dictData.INPUTASSIST) == "object"){
+                        var assistantDict = [];
+                        var subdata = $.isArray(nsVals.dictData.INPUTASSIST.subdata) ? nsVals.dictData.INPUTASSIST.subdata : [];
+                        for(var i=0; i<subdata.length; i++){
+                            if(typeof(subdata[i].value) != "undefined"){
+                                assistantDict.push(subdata[i].value);
+                            }
+                        }
+                        if(assistantDict.length > 0){
+                            this.isCtrlAltR = true;
+                            this.assistant = assistantDict;
+                            this.markbtnsIsHide = false;
+                        }else{
+                            nsAlert('输入辅助未配置或配置错误，请检查字典配置','warning');
+                            console.warn('输入辅助未配置或配置错误，请检查字典配置');
+                        }
+                    }else{
+                        nsAlert('输入辅助未配置，请检查字典配置','warning');
+                        console.warn('输入辅助未配置，请检查字典配置');
+                        return false;
+                    }
+                },
+                clickMark : function(ev, markinfo){
+                    ev.stopPropagation();
+                    var __this = this;
+                    __this.isnotblur = true;
+                    var inputEv = __this.$refs.inputName;
+                    var text = __this.inputText;
+                    var name = markinfo.name;
+                    var selectionStart = inputEv.selectionStart;
+                    var selectionEnd = inputEv.selectionEnd;
+                    var selectionDirection = inputEv.selectionDirection;
+                    text = text.toString();
+                    var starText = text.substring(0, selectionStart);
+                    var endText = text.substring(selectionEnd);
+                    text = starText + name + endText;
+                    __this.inputText = text;
+                    var cursorPosition = selectionStart + name.length;
+                    if(selectionDirection == 'backward'){
+                        cursorPosition = selectionStart;
+                    }
+                    setTimeout(function(){
+                        __this.change();
+                        __this.isnotblur = false;
+                        inputEv.focus();
+                        inputEv.setSelectionRange(cursorPosition, cursorPosition);
+                    },100)
+                },
+                // 
+                btnMouseDown: function(){
+                    this.isnotblur = true;
+                },
+                // 点击清空
+                btnClickClose: function(ev){
+                    this.inputText = "";
+                    this.change();
+                    this.isnotblur = false;
+                    this.focus();
+                },
+                // 回车
+                inputEnter:function(){
+                    _this.inputEnter(config, this);
+                },
+                // 验证value
+                validatValue: function(value){
+                    var rules = config.rules;
+                    var validObj = _this.validatValue(value, rules, 'object', config);
+                    var isTrue = validObj.isTrue;
+                    var validatInfo = validObj.validatInfo;
+                    if(!isTrue){
+                        // this.validatInfo = validatInfo;
+                        // var warnInfoStr = config.label + ':' + validatInfo;
+                        // NetstarComponent.setComponentWarnInfoState(this, warnInfoStr);
+                        NetstarComponent.setComponentWarnInfoState(config, validatInfo);
+                    }
+                    return isTrue;
+                },
+                // 获取value
+                getValue:function(isValid){
+                    // isValid : 是否需要验证 默认需要
+                    isValid = typeof(isValid)=='boolean'?isValid:true;
+                    var value = config.value;
+                    if(isValid){
+                        var isTrue = this.validatValue(value);
+                        if(!isTrue){
+                            value = false;
+                        }
+                    }
+                    return value;
+                },
+                // 设置value
+                setValue:function(value){
+                    var sourceValue = config.value;
+                    // this.value = value;
+                    config.value = value;
+                    this.inputText = value;
+                    var isSame = true;
+                    // 判断是否改变
+                    if(sourceValue != value){
+                        isSame = false;
+                    }
+                    if(!isSame){
+                        this.change();
+                    }
+                },
+                // 设置焦点
+                focusHandler: function(ev){
+                    $(ev.target).select();
+                    config.sourceValue = $(ev.target).val();
+                    if(this.inputText.length > 0){
+                        this.ishide = false;
+                    }
+                    // if(this.markbtns.length > 0){
+                    if(config.assistant.length > 0){
+                        this.assistant = config.assistant;
+                        this.markbtnsIsHide = false;
+                    }
+                    if(this.isCtrlAltR){
+                        this.keyupCtrlAltR();
+                    }
+                },
+                // 获得焦点
+                focus: function(){
+                    this.$refs.inputName.focus();
+                },
+                // 设置失去焦点
+                blurHandler: function(){
+                    if(this.isnotblur){
+                        return;
+                    }
+                    this.getValue();
+                    this.ishide = true;
+                    this.markbtnsIsHide = true;
+                    this.isCtrlAltR = false;
+                    // 判断是否执行blurHandler
+                    NetstarComponent.formBlurHandler(config, this);
+                    // if(typeof(config.blurHandler)=='function'){
+                    //     config.blurHandler(_config, this);
+                    // }
+                },
+                // 失去焦点
+                blur: function(){
+                    this.$refs.inputName.blur();
+                },
+                // 改变 change
+                change: function(){
+                    // value和inputText同时变化 
+                    // 原因：input上存的值是inputText所以改变input的输入时value不会改变所以在这里改
+                    this.inputText = typeof(this.inputText)=="number"?this.inputText.toString():this.inputText;
+                    var vueConfig = this;
+                    var text = this.inputText;
+                    config.value = text;
+                    var value = config.value;
+                    var obj = {
+                        id:config.id,
+                        text:text,
+                        value:value,
+                        config:config,
+                        vueConfig:vueConfig,
+                    }
+                    if(typeof(config.changeHandler)=='function'){
+                        config.changeHandler(obj);
+                    }
+                    if(typeof(config.commonChangeHandler)=='function'){
+                        config.commonChangeHandler(obj);
+                    }
+                },
+                // 修改组件
+                edit: function(obj){
+                    // 修改数据和方法不可以修改dom （可以修改dom属性，暂不支持，通过refs修改）
+                    NetstarComponent.editVueComponent(obj, this, config);
+                },
+                // 历史记录
+                switchHistory : function(){
+                    NetstarComponent.switchHistoryByComponent(config, this);
+                },
+            },
+            mounted : function(){
+                if(typeof(config.$validate)!="object"){
+                    var validateDom = this.$refs.validate;
+                    config.$validate = $(validateDom);
+                }
             },
         }
         return component;

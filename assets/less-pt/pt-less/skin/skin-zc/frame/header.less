@@ -18,6 +18,9 @@ body.pt-veritical {
     padding: @header-height 0 0 (@nav-width + @sidebar-collapse-width);
 
     .pt-header {
+        width: (@nav-width + @sidebar-collapse-width);
+        min-width: (@nav-width + @sidebar-collapse-width);
+
         .pt-container {
 
             // ================= topbar =================
@@ -186,8 +189,8 @@ body.pt-veritical {
             // 左侧菜单面板背景色
 
             .pt-navbar {
-                width: @nav-width;
-                min-width: @nav-width;
+                width: (@nav-width + @sidebar-collapse-width);
+                min-width: (@nav-width + @sidebar-collapse-width);
                 background-color: @pt-tabbar-bg;
                 top: @header-height;
                 z-index: 201;
@@ -423,6 +426,8 @@ body.pt-veritical {
 
 
     &.collapse {
+        padding-left: (@collapse-nav-width + @sidebar-collapse-width);
+
         .pt-header {
             .pt-container {
                 .pt-navbar {

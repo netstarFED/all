@@ -411,6 +411,8 @@ var NetStarRabbitMQ = (function(){
             mindSubscribeManage.subscribe();
             pageSubscribeManage.subscribe();
             printSubscribeManage.subscribe();
+            importSubscribeManage.subscribe();
+            exportSubscribeManage.subscribe();
             // sounderSubscribeManage.subscribe();
         };
         rabbitMQLinkConfig.callbackFunc = callbackFunc;
@@ -537,6 +539,124 @@ var NetStarRabbitMQ = (function(){
         },
     }
     /*****************打印订阅结束********************/
+    /*****************导入订阅开始********************/
+    var importSubscribeManage = {
+        // 页面订阅
+        subscribe: function(){
+            var token = NetStarRabbitMQ.content['x-queue-name'];
+
+            /***
+             * token 使用base64URL 解析后是三段 
+             * header : 加密说明 {"typ":"JWT","alg":"HS256"}
+             * payload: 消息体 {"clientIp":"10.10.10.150","refreshTime":1583735580661,"iss":"netstar","sessionId":"1328593805976273910","userName":"erp企业版!#%_&@erp","tokenType":"USER","exp":1583656380,"userId":"1310230809667459058","iat":1583649180,"queue":"8c2903fb-870b-4bf1-acdd-ac4c6967aa0d"}
+             * 签名 显示出来是乱码 这段乱码需要解析后处理，提前处理会导致某些情况或字符情况下出现不可见字符，解析出问题
+             */
+            // var xQueueName = '';
+            // try {
+            //     var tokenStr = NetStarUtils.base64Safe.urlsafe_decode(NetStarUtils.OAuthCode.get()); //
+            //     tokenStr = tokenStr.substr(tokenStr.indexOf('}{')+1);
+            //     tokenStr = tokenStr.substr(0, tokenStr.indexOf('}')+1);
+
+            //     var tokenInfoJson = JSON.parse(tokenStr);
+            //     xQueueName = tokenInfoJson.queue;
+            // } catch (error) {
+            //     nsAlert('rabbitMQ订阅失败，无法从token中找到队列名', 'error');
+            //     console.error('没有找到队列名', error);
+            // }
+            
+            // if(tokenStr == ''){
+            //     return false;
+            // }
+
+            var toporgId = NetStarRabbitMQ.toporgId;
+            var userId = NetStarRabbitMQ.userId;
+            var xQueueName = 'netstar-import-' + userId + new Date().getTime();
+            if(!toporgId || !userId){
+                nsAlert("订阅失败，请检查页面参数toporgId/userId",'error');
+                console.error("订阅失败，请检查页面参数toporgId/userId");
+                return false;
+            }
+            var targetUrl = '/exchange/xlsx/' + '*' + '.imOrEx.*';
+            var subscribeConfig = {
+                target : targetUrl + '.' + userId + '.import',
+                sendUrl : targetUrl,
+                unitId : 'NetStarRabbitMQImport',
+                content : {
+                    'x-queue-name' : xQueueName
+                },
+                callbackHandler : function(subscribeInfo){
+                    console.warn('订阅导入');
+                    printInfosArr.push(subscribeInfo);
+                    infosArr.push(subscribeInfo);
+                    var printInfo = JSON.parse(subscribeInfo.body);
+                    printInfo.action = 'import';
+                    nsProject.acceptImportExportMessage(printInfo);//sjj 20200211 处理接受到的消息
+                }
+            }
+            importSubscribeManage.config = subscribeConfig;
+            NetStarRabbitMQ.subscribe(subscribeConfig);
+        },
+    }
+    /*****************导入订阅结束********************/
+    /*****************导出订阅开始********************/
+    var exportSubscribeManage = {
+        // 页面订阅
+        subscribe: function(){
+            var token = NetStarRabbitMQ.content['x-queue-name'];
+
+            /***
+             * token 使用base64URL 解析后是三段 
+             * header : 加密说明 {"typ":"JWT","alg":"HS256"}
+             * payload: 消息体 {"clientIp":"10.10.10.150","refreshTime":1583735580661,"iss":"netstar","sessionId":"1328593805976273910","userName":"erp企业版!#%_&@erp","tokenType":"USER","exp":1583656380,"userId":"1310230809667459058","iat":1583649180,"queue":"8c2903fb-870b-4bf1-acdd-ac4c6967aa0d"}
+             * 签名 显示出来是乱码 这段乱码需要解析后处理，提前处理会导致某些情况或字符情况下出现不可见字符，解析出问题
+             */
+            // var xQueueName = '';
+            // try {
+            //     var tokenStr = NetStarUtils.base64Safe.urlsafe_decode(NetStarUtils.OAuthCode.get()); //
+            //     tokenStr = tokenStr.substr(tokenStr.indexOf('}{')+1);
+            //     tokenStr = tokenStr.substr(0, tokenStr.indexOf('}')+1);
+
+            //     var tokenInfoJson = JSON.parse(tokenStr);
+            //     xQueueName = tokenInfoJson.queue;
+            // } catch (error) {
+            //     nsAlert('rabbitMQ订阅失败，无法从token中找到队列名', 'error');
+            //     console.error('没有找到队列名', error);
+            // }
+            
+            // if(tokenStr == ''){
+            //     return false;
+            // }
+
+            var toporgId = NetStarRabbitMQ.toporgId;
+            var userId = NetStarRabbitMQ.userId;
+            var xQueueName = 'netstar-export-' + userId + new Date().getTime();
+            if(!toporgId || !userId){
+                nsAlert("订阅失败，请检查页面参数toporgId/userId",'error');
+                console.error("订阅失败，请检查页面参数toporgId/userId");
+                return false;
+            }
+            var targetUrl = '/exchange/xlsx/' + '*' + '.imOrEx.*';
+            var subscribeConfig = {
+                target : targetUrl + '.' + userId + '.export',
+                sendUrl : targetUrl,
+                unitId : 'NetStarRabbitMQImport',
+                content : {
+                    'x-queue-name' : xQueueName
+                },
+                callbackHandler : function(subscribeInfo){
+                    console.warn('订阅导入');
+                    printInfosArr.push(subscribeInfo);
+                    infosArr.push(subscribeInfo);
+                    var printInfo = JSON.parse(subscribeInfo.body);
+                    printInfo.action = 'export';
+                    nsProject.acceptImportExportMessage(printInfo);//sjj 20200211 处理接受到的消息
+                }
+            }
+            exportSubscribeManage.config = subscribeConfig;
+            NetStarRabbitMQ.subscribe(subscribeConfig);
+        },
+    }
+    /*****************导出订阅结束********************/
     /*****************声音订阅开始********************/
     var sounderSubscribeManage = {
         // 页面订阅
