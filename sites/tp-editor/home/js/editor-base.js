@@ -7163,12 +7163,37 @@ var NetstarProject = (function(){
                                                                 + '</ul>'
                                                             + '</div>'
                         }
+                        // 模板id
+                        var templateId = functionConfig.templateId;
                         var importConfig = {
                             id : 'netstar-import-dialog',
                             expression : importInstructionsExpression,
-                            confirmHandler : (function(_btnVueConfig, _eventFuncName, _functionConfig){
+                            templateId : templateId,
+                            confirmHandler : (function(_btnVueConfig, _eventFuncName, _functionConfig, _stateObj){
                                 return function(data){
                                     console.log(data);
+                                    // 按钮信息
+                                    var btnsConfigName = _stateObj.btnsVue.btnsConfigName;
+                                    var btntimeStamp = _btnVueConfig.timestamp;
+                                    var btnIndex = _stateObj.index;
+                                    var btnInfos = {
+                                        timestamp : btntimeStamp,
+                                        btnsConfigName : btnsConfigName,
+                                        btnIndex : btnIndex,
+                                        taskNo : btnsConfigName + '-' + btnIndex + '-' + btntimeStamp,
+                                    }
+                                    btnInfos = JSON.stringify(btnInfos);
+                                    data.append('info', btnInfos);
+                                    var ajaxConfig = {
+                                        url : NetStarUtils.getStaticUrl() + '/middleware/' + _functionConfig.funcId,
+                                        processData : false,
+                                        contentType : false,
+                                        data : data,
+                                    }
+                                    NetStarUtils.ajax(ajaxConfig, function(res){
+                                        console.log(res)
+                                    })
+
                                     _btnVueConfig.showType = 'loading';
                                     _btnVueConfig.loadingStyle = {
                                         width : '0%',
@@ -7177,7 +7202,7 @@ var NetstarProject = (function(){
                                     _btnVueConfig.showText = '取消导入';
                                     _btnVueConfig.isShowDropdown = false;
                                 }
-                            })(btnVueConfig, eventFuncName, functionConfig),
+                            })(btnVueConfig, eventFuncName, functionConfig, stateObj),
                         };
                         NetstarExcelImportVer3.init(importConfig);
                         break;
@@ -7200,17 +7225,41 @@ var NetstarProject = (function(){
                         btnVueConfig.isShowDropdown = false;
                         break;
                     case 'details': // 点击设置
-                        var importConfig = {
-                            type : 'details',
-                            title : '导入详情',
-                            id : 'netstar-import-details-dialog',
-                            infos : {
-                                addNum : 10,
-                                updateNum : 15,
-                                errorNum : 5,
+                        var dropdownSubdata = $.extend(true, [], btnVueConfig.dropdownSubdata);
+                        var detailsLi = dropdownSubdata[stateObj.subIndex];
+                        var detailsAjax = {
+                            url : getRootPath() + '/servicemanages/xlsx/task/getById?id=' + detailsLi.id,
+                            type : "GET",
+                            contentType : 'application/x-www-form-urlencoded',
+                            plusData : {
+                                sourceFileId : detailsLi.sourceFileId
                             }
-                        };
-                        NetstarExcelImportVer3.init(importConfig);
+                        }
+                        NetStarUtils.ajax(detailsAjax, function(res, _detailsAjax){
+                            if(res.success){
+                                var infosData = res.data;
+                                if(typeof(infosData) != "object"){
+                                    infosData = {};
+                                }
+                                var importConfig = {
+                                    type : 'details',
+                                    title : '导入详情',
+                                    id : 'netstar-import-details-dialog',
+                                    // infos : {
+                                    // 	addNum : 10,
+                                    // 	updateNum : 15,
+                                    // 	errorNum : 5,
+                                    // },
+                                    infos : infosData,
+                                    templateId : _detailsAjax.plusData.sourceFileId,
+
+                                };
+                                NetstarExcelImportVer3.init(importConfig);
+                            }else{
+                                nsAlert('获取详情失败', 'error');
+                                console.error('获取详情失败');
+                            }
+                        });
                         break;
                 }
             }
@@ -7234,12 +7283,31 @@ var NetstarProject = (function(){
                 switch(eventFuncName){
                     case 'click':
                         btnVueConfig.timestamp = new Date().getTime();
+                        // 按钮信息
+                        var btnsConfigName = stateObj.btnsVue.btnsConfigName;
+                        var btntimeStamp = btnVueConfig.timestamp;
+                        var btnIndex = stateObj.index;
+                        var btnInfos = {
+                            timestamp : btntimeStamp,
+                            btnsConfigName : btnsConfigName,
+                            btnIndex : btnIndex,
+                            taskNo : btnsConfigName + '-' + btnIndex + '-' + btntimeStamp,
+                        }
+                        var ajaxConfig = {
+                            url : NetStarUtils.getStaticUrl() + '/middleware/' + functionConfig.funcId,
+                            data : {
+                                info : btnInfos,
+                            },
+                        }
+                        NetStarUtils.ajax(ajaxConfig, function(res){
+                            console.log(res)
+                        })
                         btnVueConfig.showType = 'loading';
                         btnVueConfig.loadingStyle = {
                             width : '0%',
                         }
                         btnVueConfig.loadingText = '0%';
-                        btnVueConfig.showText = '取消导入';
+                        btnVueConfig.showText = '取消导出';
                         btnVueConfig.isShowDropdown = false;
                         break;
                     case 'clickCancel': // 点击按钮
