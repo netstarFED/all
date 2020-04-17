@@ -87,7 +87,7 @@
                                 "isKeepSelected": false,
                                 "ajax": {
                                     "datasourceType": "api",
-                                    "url": "/reg/regs/save?wfHandlerType=2",
+                                    "url": "/reg/regs/save?wfHandleType=2",
                                     "type": "POST",
                                     "data": {
                                         params: ["regType", "regCombo"],
@@ -129,12 +129,10 @@
                         },
                         {
                             "functionConfig": {
-                             
-                                
-
+                                "text": "保存草稿",
                             },
                             "btn": {
-                                "text": "新增",
+                                "text": "保存草稿",
                                 "isReturn": true,
                                 handler:function(){
                                     
@@ -143,19 +141,10 @@
                         },
                         {
                             "functionConfig": {
-                                "text": "打印",
+                                "text": "草稿箱",
                             },
                             "btn": {
-                                "text": "打印",
-                                "isReturn": true
-                            }
-                        },
-                        {
-                            "functionConfig": {
-                                "text": "预览",
-                            },
-                            "btn": {
-                                "text": "预览",
+                                "text": "草稿箱",
                                 "isReturn": true
                             }
                         },
@@ -170,53 +159,37 @@
                         },
                         {
                             "functionConfig": {
-                                "text": "驳回",
+                                "text": "撤回",
+                            },
+                            "btn": {
+                                "text": "撤回",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "回退",
                                 "defaultMode": "workflowSubmit",
                                 "workflowType": "reject",
                                 "englishName": "nsWorkflowReject"
                             },
                             "btn": {
-                                "text": "驳回",
+                                "text": "回退",
                                 "isReturn": true
                             }
                         },
                         {
                             "functionConfig": {
-                                "text": "查看办理意见",
+                                "text": "历史记录",
                                 "defaultMode": "workflowSubmit",
                                 "workflowType": "findHandleRec",
                                 "englishName": "nsWorkflowFindHandleRec"
                             },
                             "btn": {
-                                "text": "查看办理意见",
+                                "text": "历史记录",
                                 "isReturn": true
                             }
                         }, 
-                       
-                        {
-                            "functionConfig": {
-                                "text": "查看办理意见",
-                                "defaultMode": "workflowSubmit",
-                                "workflowType": "findHandleRec",
-                                "englishName": "nsWorkflowFindHandleRec"
-                            },
-                            "btn": {
-                                "text": "查看办理意见",
-                                "isReturn": true
-                            }
-                        },
-                        {
-                            "functionConfig": {
-                                "text": "查看办理意见",
-                                "defaultMode": "workflowSubmit",
-                                "workflowType": "findHandleRec",
-                                "englishName": "nsWorkflowFindHandleRec"
-                            },
-                            "btn": {
-                                "text": "查看办理意见",
-                                "isReturn": true
-                            }
-                        },
                     ],
                 }, {
                     type: 'vo',
@@ -486,7 +459,7 @@
                     field: [],
                 }],
                 getValueAjax: {
-                    // url: 'http://localhost:2000/debugger/data/physicalsreport.json',
+                    url: 'http://localhost:2000/debugger/data/physicalsreport.json',
                     dataSrc: 'data',
                     type : 'GET',
                     contentType : 'application/x-www-form-urlencoded',

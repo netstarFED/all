@@ -226,6 +226,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             html:function(componentConfig,config){
                 var id = componentConfig.id + '-personal-search';
                 var inputId = componentConfig.id + '-input';
+                var selectVoId = componentConfig.id + '-selectVo';
                 var html = 
                     '<div id = "'+ id + '">'
                         +'<div class="pt-panel">'
@@ -235,17 +236,17 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         +'</div>'
                         +'<div class="pt-panel">'
                             +'<div class="user-photo">'
-                                +'<img src="../saas/static/images/user-photo.jpg" alt="">'
+                                +'<img :src="databaseUrl" alt="">'
                             +'</div>'
                             +'<div class="user-photo-eidt">'
                             +' <div class="pt-btn-group">'
-                                    +'<button class="pt-btn pt-btn-default" @click="clickUpload()">'
+                                    +'<button class="pt-btn pt-btn-default" @click="uploadImg()">'
                                         +'<i class="icon icon-image"></i>'
                                     +'</button>'
-                                    +'<button class="pt-btn pt-btn-default" @click=\'clickPhoto()\'>'
+                                    +'<button class="pt-btn pt-btn-default">'
                                         +'<i class="icon icon-id"></i>'
                                     +'</button>'
-                                    +'<button class="pt-btn pt-btn-default">'
+                                    +'<button class="pt-btn pt-btn-default" @click=\'clickPhoto()\'>'
                                         +'<i class="icon icon-camera"></i>'
                                     +'</button>'
                                 +'</div>'
@@ -254,14 +255,16 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         +'<div class="pt-panel">'
                             +'<div class="queue">'
                                 +'<div class="pt-btn-group">'
-                                   +' <button class="pt-btn pt-btn-default"><i class="icon icon-arrow-left-o"></i><span>上一位</span></button>'
-                                    +'<button class="pt-btn pt-btn-default"><span>下一位</span><i class="icon icon-arrow-right-o"></i></button>'
+                                   +' <button class="pt-btn pt-btn-default" @click="getPrevious()"><i class="icon icon-arrow-left-o"></i><span>上一位</span></button>'
+                                    +'<button class="pt-btn pt-btn-default" @click="getNext()"><span>下一位</span><i class="icon icon-arrow-right-o"></i></button>'
                                 +'</div>'
                             +'</div>'
                         +'</div>'
+                        +'<div id="'+selectVoId+'"></div>'
                      + '</div>';
 
                 componentConfig.searchId = id;
+                componentConfig.selectVoId = selectVoId;
                 componentConfig.inputId = inputId;
                 return html;
             },
@@ -272,6 +275,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 var html = this.html(componentConfig,config)
                 $container.html(html)
                 this.html(componentConfig,config)
+                //拍照+上传+体检搜索
                 var personalVue = new Vue({
                     el:"#" + componentConfig.searchId,
                     data:{
@@ -279,6 +283,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         databaseUrl:""
                     },
                     methods:{
+                        //体检编号查询
                         searchNo(){
                             var data = $('#'+ componentConfig.inputId).val();
                             var ajaxConfig = {
@@ -299,11 +304,18 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         },
                         //拍照
                         clickPhoto(){
+                            debugger;
                             var _this = this;
                             NetStarUtil.wangxingTong.websocket({command:'打开摄像头'},function(res){
                                 console.log(res);
                                 if(res.image){
                                     _this.databaseUrl = res.image
+                                    NetStarUtil.wangxingTong.upLoadImage.init(res.image,'pic',function(res){
+                                        /* var photoFileId = res.data[0].id
+                                        _this.photoFileId = photoFileId */
+                                        console.log(res)
+      
+                                      })
                                 }
 
                             })
@@ -320,7 +332,39 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
 
                                 })
                             }
-                        }
+                        },
+                        //获取上一位
+                        getPrevious(){
+                            debugger;
+                            var ajaxConfig = {
+                                url: getRootPath() + '/reg/regs/getPrevious',
+                                contentType: 'application/json',
+                                data: {
+                                },
+                                type: 'POST',
+                            }
+                            NetStarUtils.ajax(ajaxConfig, function (res) {
+                                if(!res.rows){
+                                    nsalert('当前编号不存在');
+                                }
+                            })
+                        },
+                        //获取下一位
+                       getNext(){
+                            var ajaxConfig = {
+                                url: getRootPath() + '/reg/regs/getNext',
+                                contentType: 'application/json',
+                                data: {
+                                },
+                                type: 'POST',
+                            }
+                            NetStarUtils.ajax(ajaxConfig, function (res) {
+                                if(!res.rows){
+                                    nsalert('当前编号不存在');
+                                }
+                            })
+                       }
+
                     }
                 })
                 componentConfig.personalVue =  personalVue
@@ -330,8 +374,9 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         register : {   
             // 获取数据
             getData : function(componentConfig, isValid, config){
+                debugger;
                 // header
-                var headerData = componentConfig.headerVueObj.data;
+                var headerData = componentConfig.headerVueObj.showData;
                 // boder
                 var formValue = NetstarComponent.getValues(componentConfig.bodyId, isValid);
                 if(!formValue){
@@ -339,8 +384,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 }
                 formValue = $.extend(false, formValue, headerData);
                 var peTypeDataConfig = config.peTypeData;
-                formValue.peState =  1; //体检状态
-                formValue.groupFlag =  0; //团体标g志0个人1
                 formValue.processId = "1330801290317399026";
 
                 formValue.regTypeVOList = $.isArray(componentConfig.peTypeIdResData) ? componentConfig.peTypeIdResData : [];
@@ -377,14 +420,14 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                     + '<span>预约时间：{{showData.time}}</span>'
                                     + '<span>订单编号：{{showData.orderNo}}</span>'
                                     + '<div class="switch">'
-                                        + '<div class="switch-item" v-on:click="btnCutaways" :class="{\'current\': showData.type==0}">'
+                                        + '<div class="switch-item" v-on:click="btnCutaways" :class="{\'current\': showData.groupFlag==0}">'
                                             + '<span>个人</span>'
                                         + '</div>'
-                                        + '<div class="switch-item" v-on:click="btnCutawaysBack" :class="{\'current\': showData.type==1}">'
+                                        + '<div class="switch-item" v-on:click="btnCutawaysBack" :class="{\'current\': showData.groupFlag==1}">'
                                             + '<span>单位</span>'
                                         + '</div>'
                                     + '</div>'
-                                    + '<div class="checkbox-box" v-on:click="btnChecked" :class="{\'checked\': ischecked==true}">'
+                                    + '<div class="checkbox-box" v-on:click="btnChecked" :class="{\'checked\': showData.peState==1}">'
                                         + '<span>预约</span>'
                                     + '</div>'
                                 + '</div>'
@@ -399,7 +442,8 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 var showData = {
                     time : time,
                     orderNo : data.orderNo,
-                    type : data.type,
+                    groupFlag : data.groupFlag,
+                    peState:data.peState
                 };
                 return showData;
             },
@@ -413,7 +457,8 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 var value = {
                     time : data.time,
                     orderNo : data.orderNo,
-                    type : data.type,
+                    groupFlag : 0,
+                    peState:1
                 }
                 var showData = this.getHeaderShowData(value, componentConfig);
                 var vueObj = new Vue({
@@ -421,7 +466,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     data:{
                         data : value,
                         showData : showData,
-                        ischecked: true, //预约勾选
                     },
                     watch : {
                         data : function(newData, oldValue){
@@ -432,20 +476,20 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         //体检登记  单位个人切换
                         btnCutaways: function () {
                             var _this = this;
-                            _this.showData.type = 0;
+                            _this.showData.groupFlag = 0;
                         },
                         btnCutawaysBack: function () {
                             var _this = this;
-                            _this.showData.type = 1;
+                            _this.showData.groupFlag = 1;
                         },
                         //体检登记 预约勾选
+                        /* 1是预约 */
                         btnChecked: function () {
                             var _this = this;
-                            console.log(_this);
-                            if (_this.ischecked) {
-                                _this.ischecked = false;
+                            if (_this.showData.peState == 1) {
+                                _this.showData.peState = 0;
                             } else {
-                                _this.ischecked = true;
+                                _this.showData.peState = 1;
                             }
                         },
                     }
@@ -644,13 +688,13 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     }
                 },
                 //按钮的配置
-                btnHandler:function(componentConfig){
-                   var selectedData = "";//存放选中行的数据
+                btnHandler:function(componentConfig){                 
                     var addComboBtns = {
                         id: componentConfig.dialogBtnId,
                         btns: [{
                                 text: '确认',
                                 handler: function () {
+                                    var selectedData= componentConfig.selectedData;
                                     //传参 comboIds
                                     var checkedData = NetStarGrid.getCheckedData(componentConfig.dialoglistId);
                                     //拼接套餐里面的项目加勾选的项目
@@ -839,7 +883,15 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     methods:{
                         //点击加号弹出项目页面
                         itemDialog(){
-                            NetstarComponent.dialogComponent.init(dialog);
+                            //验证如果登记信息必填内容为空的不可点击
+                            var voData = config.components[2].bodyId;
+                            var _voData = NetstarComponent.getValues(voData);
+                            if(_voData){
+                                NetstarComponent.dialogComponent.init(dialog);
+                            }else{
+                                nsalert('必填项目未填写','error');
+                            }
+                            
                         },
                         //清空按钮
                         clearData(){
