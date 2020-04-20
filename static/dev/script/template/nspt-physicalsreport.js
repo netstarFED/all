@@ -168,6 +168,12 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     templateConfig.pageInitDefaultData = dataManage.getPageData(templateConfig, false, false); // 页面初始化数据改变
                 }, templateConfig.closeValidSaveTime);
             }
+            if(ajaxPlusData.clickBtnType == "isUseSave" || ajaxPlusData.clickBtnType == "isUseSaveSubmit" || ajaxPlusData.isIsSave){
+               var _currentConfig = NetstarTemplate.draft.configByPackPage[templateConfig.package];
+               if(_currentConfig && _currentConfig.draftBox){
+                  delete _currentConfig.draftBox.useDraftId;
+               }
+            }
             if(ajaxPlusData.isCloseWindow === true){
                 //如果按钮上配置了关闭当前界面直接执行关闭操作
                 NetstarUI.labelpageVm.removeCurrent();
