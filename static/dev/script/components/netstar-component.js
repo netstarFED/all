@@ -648,7 +648,10 @@ NetstarComponent.getValueBySubdata = function(parameter){
             }
             break;
         case 'select':
-            if(value.length>0 && !parameter.multiple){
+            // if(value.length>0 && !parameter.multiple){
+            //     isValueSub = false;
+            // }
+            if(value.length>0){
                 isValueSub = false;
             }
             break;
@@ -1428,6 +1431,7 @@ NetstarComponent.getNewVueComponentData = function(config){
         case 'treeInput':
         case 'expressionEditor':
         case 'numberRange':
+        case 'physicalsExpression':
             if(config.formSource != 'staticData'){
                 containerClass += ' pt-input-group';
             }
@@ -4585,6 +4589,9 @@ NetstarComponent.formComponent = {
         // 如果formEditData==object 表示设置value
         if(typeof(formEditData)=="object"  && !$.isEmptyObject(formEditData)){
             _this.setComponentValue(config, formEditData);
+            // 根据changeHandlerData设置表单组件的状态
+            // 注意：changeHandlerData有两个机制 1.初始化之前执行 2.change执行（只在checkbox，radio，select起作用）
+            _this.setFormComponentsByChangeHandlerData(config.form);
         }
         NetstarComponent.config[config.id].config = _this.getComponentConfig(config);
         NetstarComponent.form[config.id].config = config;
@@ -27556,21 +27563,12 @@ NetstarComponent.physicalsExpression = {
     },
     TEMPLATE:{
         PC:{
-            input:'<input class="pt-form-control" type="text" :placeholder="placeholder" :class="inputClass" :disabled="disabled" v-model="inputText" ref="inputName" :id="id" v-on:keyup.ctrl.alt.r="keyupCtrlAltR" />',
+            input:'<div class="pt-form-control" :class="inputClass" :contenteditable="!disabled" :id="id" v-html="valueText" ref="valueContainer"></div>',
             buttonClear:'<button class="pt-btn pt-btn-default pt-btn-icon pt-input-clear">'
                             +'<i class="icon-close"></i>'
                         + '</button>',
-            button:'<button class="pt-btn pt-btn-default" v-for="btn in btns" v-on:click="btn.handler" v-html="btn.name">'
-                        + '{{btn.name}}'
-                    + '</button>',
-            btnsContent : '<div class="pt-text-assistant-btns" :class="{hide:markbtnsIsHide}" :style="markbtnsStyle" ref="assistant">'
-                            + '<div class="pt-btn-group">'
-                                + '<button class="pt-btn pt-btn-default" v-for="btnone in markbtns" @click="clickMark($event, btnone)" @mousedown="btnMouseDown">{{btnone.name}}</button>'
-                            + '</div>'
-                        + '</div>',
         },
         MOBILE:{
-            input:'<input class="pt-form-control" type="text" :class="inputClass" :disabled="disabled" v-model="inputText" ref="inputName" :id="id" />',
         },
     },
 	// 设置config的默认配置
@@ -27585,10 +27583,12 @@ NetstarComponent.physicalsExpression = {
             formSource:         'form',         // 显示类型 默认form table/staticData
             hidden:             false,          // 是否隐藏
             isHasClose:         true,          // 是否存在清空按钮
-
-            assistant :         '',             // 输入助手 ‘※,▲,△,■,＃,＆’
-            cols :              'auto',
             placeholder :       '',
+            shortcutKeys :      {},
+            keysData :          {},
+            keysArr :           {},
+            textField :         'text',
+            valueField :        'value',
 		}
 		nsVals.setDefaultValues(config, defaultConfig);
         if(config.formSource == 'staticData'){
@@ -27600,6 +27600,11 @@ NetstarComponent.physicalsExpression = {
         if(config.readonly == true){
             config.disabled = true;
         }
+        var shortcutKeysLength = 0;
+        for(var key in config.shortcutKeys){
+            shortcutKeysLength ++;
+        }
+        config.shortcutKeysLength = shortcutKeysLength;
     },
     // 验证配置是否正确
     validatConfig: function(config){
@@ -27628,14 +27633,13 @@ NetstarComponent.physicalsExpression = {
                 // 为input和button添加事件
                 // $input.attr('v-bind:style', '{width:inputWidth+"px"}');
                 $input.attr('v-bind:style', 'styleObject');
-                $input.attr('v-on:keyup.13', 'inputEnter');  // 回车事件keyup.13
-                if(config.formSource == "table"){
-                    $input.attr('v-on:keyup', 'keyup');
-                    $input.attr('v-on:keydown', 'keydown');
-                }
+                // $input.attr('v-on:keyup.13', 'inputEnter');  // 回车事件keyup.13
+                $input.attr('v-on:keyup', 'keyup');
+                $input.attr('v-on:keydown', 'keydown');
                 $input.attr('v-on:blur', 'blurHandler');
                 $input.attr('v-on:focus', 'focusHandler');
                 $input.attr('v-on:change', 'change');
+                // $input.attr('v-on:input', 'input');
                 var inputHtml = $input.prop('outerHTML');   // input模板
                 var buttonHtml = '';
                 if(config.isHasClose){
@@ -27651,77 +27655,30 @@ NetstarComponent.physicalsExpression = {
                 if($.isArray(config.btns)&&config.btns.length > 0){
                     var btnsHtml = tempalte.button;
                     buttonHtml += btnsHtml;
-                    // 现在没有用 为了以后添加text按钮时用 按钮数量超过1时添加类名pt-input-group-btn-group
-                    // if(config.isHasClose){
-                    //     $btncontainer.addClass('pt-input-group-btn-group');
-                    // }else{
-                    //     if(config.btns.length > 1){
-                    //         $btncontainer.addClass('pt-input-group-btn-group');
-                    //     }
-                    // }
                 }
                 btncontainer = $btncontainer.prop('outerHTML').replace('{{nscontainer}}', buttonHtml);
-                var btnsContent = tempalte.btnsContent;
-                contentHtml = inputHtml + btncontainer + btnsContent;   // input+button整体模板
+                contentHtml = inputHtml + btncontainer;   // input+button整体模板
                 // contentHtml += '<div :class="stateClass" ref="validate">{{validatInfo}}</div>';
                 if(config.formSource=='table'){
                     containerHtml = NetstarComponent.common.tableComponent;
                 }
                 break;
             case 'staticData':
-                // contentHtml = NetstarComponent.common.staticComponent;
-                // var $content = $(contentHtml);
-                // // $content.attr('v-bind:style', '{width:inputWidth+"px"}');
-                // $content.attr('v-bind:style', 'styleObject');
-                // contentHtml = $content.prop('outerHTML');   // 静态模板
                 contentHtml = NetstarComponent.getStaticTemplate(config);
                 break;
         }
         containerHtml = containerHtml.replace('{{nscontainer}}',contentHtml);
         return containerHtml;
     },
-    getMarkBtns : function(str, num){
-        if(str === ''){
-            return [];
-        }
-        var arr = str;
-        if(typeof(str) == "string"){
-            arr = str.split(',');
-        }
-        var _arr = [];
-        // for(var i=0; i<arr.length; i++){
-        //     if(i%num === 0){
-        //         _arr.push([]);
-        //     }
-        //     _arr[_arr.length-1].push(arr[i]);
-        // }
-        for(var i=0; i<arr.length; i++){
-            _arr.push({
-                name : arr[i],
-            });
-        }
-        return _arr;
-    },
     getData: function(config){
         var data = NetstarComponent.getNewVueComponentData(config);
-        data.markbtnsIsHide = true;
-        data.markbtnsStyle = {};
-        data.assistant = config.assistant;
-        data.markbtns = this.getMarkBtns(config.assistant);
-        // if(data.markbtns.length > 0){
-            data.containerClass += ' pt-text-assistant';
-        // }
+        data.valueText = this.getUseValue(config.value, config);
+        data.ishide = true;
+        data.isShowSelect = false;
         return data;
     },
     inputEnter: function(config, vueComponent){
         NetstarComponent.setNextComponentFocus(config, vueComponent);
-        // var nextFieldId = config.enterFocusField;
-        // if(nextFieldId){
-        //     var nextComponent = NetstarComponent.config[config.formID].vueConfig[nextFieldId];
-        //     nextComponent.focus();
-        // }else{
-        //     vueComponent.blur();
-        // }
     },
     // 验证value
     validatValue: function(_value, _rules, returnType, config){
@@ -27968,6 +27925,340 @@ NetstarComponent.physicalsExpression = {
         }
         return obj;
     },
+    // 获取格式化的value
+    getFormatValue : function(textStr){
+        // 性别：<span ns-id="123" ns-keys="k">女</span>年龄：<span ns-id="12" ns-keys="c"></span>
+        var html = '<div>' + textStr + '</div>';
+        var $parent = $(html);
+        var $spans = $parent.children('span');
+        for(var i=0; i<$spans.length; i++){
+            var $span = $spans.eq(i);
+            var spanHtml = $span.prop('outerHTML');;
+            var nsId = $span.attr('ns-id');
+            var nsKeys = $span.attr('ns-keys');
+            var valStr = '${"id":"' + nsId + '", "key":"' + nsKeys + '"}';
+            textStr = textStr.replace(spanHtml, valStr);
+        }
+        return textStr;
+    },
+    // 获取显示的value
+    getUseValue : function(valStr, config){
+        // 性别：${id:'123', key:'xx'}
+        var keysData = config.keysData;
+        var rex = /\$\{(.*?)\}/g;
+        var _rex = /\$\{(.*?)\}/;
+        var matchs = valStr.match(rex);
+        if(matchs.length > 0){
+            for(var i=0; i<matchs.length; i++){
+                var matchStr = matchs[i];
+                var _matchStr = matchStr.match(_rex)[1];
+                var jsonStr = '{' + _matchStr + '}';
+                var json = JSON.parse(jsonStr);
+                var keysName = json.key;
+                var nsId = json.id;
+                if(typeof(nsId) == "undefined" || typeof(keysName) == "undefined"){
+                    continue;
+                }
+                var keyData = {};
+                if(keysData[keysName]){
+                    keyData = keysData[keysName];
+                }
+                var text = typeof(keyData[nsId]) == "string" ? keyData[nsId] : '';
+                var textHtml = '<span ns-id="'+ nsId +'" ns-keys="'+ keysName +'" contenteditable="false">'+ text +'</span>';
+                valStr = valStr.replace(matchStr, textHtml);
+            }
+        }
+        return valStr;
+    },
+    // 获取显示的value通过
+    getUseValueBySelect : function(valStr, start, end, id, text, shortcutKeys){
+        var textHtml = '<span ns-id="'+ id +'" ns-keys="'+ shortcutKeys +'" contenteditable="false">'+ text +'</span>';
+        var _start = start;
+        var len = 0;
+        if(end >= start){
+            len = end - start;
+        }else{
+            _start = end;
+            len = start - end;
+        }
+        var valArr = valStr.split('');
+        valArr.splice(_start, len, textHtml);
+        var _valStr = '';
+        for(var i=0; i<valArr.length; i++){
+            _valStr += valArr[i];
+        }
+        valStr = _valStr;
+        return valStr;
+    },
+    // 设置光标位置
+    setCursorIndex : function(dom){
+        if (window.getSelection) {//ie11 10 9 ff safari
+            dom.focus(); //解决ff不获取焦点无法定位问题
+            var range = window.getSelection();//创建range
+            range.selectAllChildren(dom);//range 选择obj下所有子内容
+            range.collapseToEnd();//光标移至最后
+        }
+        else if (document.selection) {//ie10 9 8 7 6 5
+            var range = document.selection.createRange();//创建选择对象
+            //var range = document.body.createTextRange();
+            range.moveToElementText(dom);//range定位到obj
+            range.collapse(false);//光标移至最后
+            range.select();
+        }
+    },
+    getKeysData : function(arr, config){
+        var textField = config.textField;
+        var valueField = config.valueField;
+        var data = {};
+        for(var i=0; i<arr.length; i++){
+            data[arr[i][valueField]] = arr[i][textField];
+        }
+        return data;
+    },
+    select: {
+        template : {
+            container : '<div class="pt-dropdown" :name="id">'
+                            + '<input type="text" class="pt-form-control" ref="focusInput" @keydown="keydown" @keyup="keyup">'
+                            + '<ul class="pt-dropdown-components" ref="list">'
+                                + '<li class="" :class="listData.isHover?\'active\':\'\'" v-for="(listData,index) in list" @click="clickSelect($event, index, listData)">'
+                                    + '{{listData[textField]}}'
+                                + '</li>'
+                            + '</ul>'
+                        + '</div>',
+        },
+        // 设置下拉框内容
+        setSelectContent: function(config, contentId){
+            var _this = this;
+            var html = _this.template.container;
+            var $form = $("#"+config.formID);
+            var $container = $form.closest('container');
+            if($container.length==0){
+                $container = $('body');
+            }
+            var content = '<div id="'+contentId+'" class="pt-input-group pt-physicalsexpression-panel" style="height:0px;">'
+                                + html
+                            + '</div>';
+            $container.append(content);
+        },
+        // 获得列表数据
+        getData : function(config){
+            var subdata = $.extend(true, [], config.subdata);
+            if(subdata[0]){
+                subdata[0].isHover = true;
+            }
+            var data = {
+                isShowSelect : true,
+                id : config.fullID,
+                list : subdata,
+                textField : config.textField,
+            }
+            return data;
+        },
+        // 获取当前li位置 通过上一个
+        getHoverIndex : function(keyCode, list, config){
+            var _this = this;
+            var index = 0;
+            for(var i=0; i<list.length; i++){
+                var data = list[i];
+                if(data.isHover){
+                    index = i;
+                    break;
+                }
+            }
+            var currentIndex = index;
+            switch(keyCode){
+                case 38:
+                    if(index > 0){
+                        currentIndex = index - 1;
+                    }
+                    break;
+                case 40:
+                    if(index > 0 || index < list.length){
+                        currentIndex = index + 1;
+                    }
+                    break;
+                case 13:
+                    break;
+            }
+            return currentIndex;
+        },
+        // 完成选中 并跳转
+        completeSelect : function(config, vueConfig){
+            var _this = this;
+            var selectVuePanel = config.selectVuePanel;
+            selectVuePanel.close();
+            // 跳转
+            // NetstarComponent.setNextComponentFocus(config, vueConfig);
+        },
+        init: function(config, vueConfig){
+            /**
+             * config 业务组件配置参数 :returnData 页面配置返回参数
+             * vueConfig 业务组件vue配置
+             */
+            var _this = this;
+            // 关闭其它业务组件下拉框
+            // NetstarComponent.businessSelect.closeSelect();
+            // 开始初始化下拉框
+            var contentId = "ns-physicalsexpression-"+config.id;
+            _this.setSelectContent(config, contentId); // 添加下拉框内容
+            config.selectContainerId = contentId;
+            var data = _this.getData(config);
+            config.selectVuePanel = new Vue({
+                el: '#' + contentId,
+                data: data,
+                watch: {
+                    isShowSelect : function(value){
+                        vueConfig.isShowSelect = value;
+                    },
+                },
+                methods: {
+                    clickSelect : function(ev, index, listData){
+                        var __this = this;
+                        var list = $.extend(true, [], this.list);
+                        for(var i=0; i<list.length; i++){
+                            list[i].isSelect = false;
+                        }
+                        list[index].isSelect = true;
+                        this.list = list;
+                        _this.completeSelect(config, vueConfig);
+                    },
+                    close : function(){
+                        var value = this.getValue();
+                        if(!$.isEmptyObject(value)){
+                            vueConfig.setValueByDropdown(value);
+                        }
+                        vueConfig.isShowSelect = false;
+                    },
+                    getValue : function(){
+                        var list = $.extend(true, [], this.list);
+                        var selectData = {};
+                        for(var i=0; i<list.length; i++){
+                            if(list[i].isSelect){
+                                selectData = list[i];
+                            }
+                        }
+                        return selectData;
+                    },
+                    keydown : function(ev){
+                        switch(ev.keyCode){
+                            case 32:
+                            // case 40:
+                                ev.preventDefault();
+                                break;
+                        }
+                    },
+                    keyup : function(ev){
+                        ev.stopImmediatePropagation();
+                        var __this = this;
+                        var list = $.extend(true, [], __this.list);
+                        var id = __this.id;
+                        var $input = $('#' + id);
+                        switch(ev.keyCode){
+                            case 38:
+                                // 上
+                            case 40:
+                                // 下
+                                var currentIndex = _this.getHoverIndex(ev.keyCode, list, config);
+                                for(var i=0; i<list.length; i++){
+                                    list[i].isHover = false;
+                                }
+                                list[currentIndex].isHover = true;
+                                this.list = list;
+                                this.$nextTick(function(){
+                                    var $ul = $('[name="' + config.fullID + '"].pt-dropdown').find('ul.pt-dropdown-components');
+                                    var $li = $ul.find('li.active');
+                                    $ul.scrollTop($ul.scrollTop() - $li.outerHeight());
+                                })
+                                break;
+                            case 13:
+                                // enter
+                                var currentIndex = _this.getHoverIndex(ev.keyCode, list, config);
+                                for(var i=0; i<list.length; i++){
+                                    list[i].isSelect = false;
+                                }
+                                list[currentIndex].isSelect = true;
+                                this.list = list;
+                                _this.completeSelect(config, vueConfig);
+                                break;
+                        }
+                    },
+                    documentScroll : function(ev){
+                        this.close();
+                    },
+                    documentClose : function(ev){
+                        NetstarComponent.commonFunc.clickAnyWhereToFunc(ev);
+                    },
+                },
+                mounted: function(){
+                    var __this = this;
+                    // 添加键盘事件
+                    $(document).on('keyup', __this.keyup);
+                    $(document).on('keydown', __this.keydown);
+                    $(document).on('scroll', __this.documentScroll);
+                    // 添加点击任意位置关闭
+                    var obj = {
+                        relId : __this.id,
+                        containerId : contentId,
+                        parentName : '.pt-form-group',
+                        func : function(){
+                            __this.close();
+                        }
+                    }
+                    $(document).on('click', obj, __this.documentClose);
+                    
+                    // _this.setfocusInputFocus(this, vueConfig);
+                    // 添加选中样式 根据列表设置选中列表宽度
+                    var allListDom = __this.$refs.list;
+                    var allListOffsetWidth = allListDom.children[0].offsetWidth;
+                    var allListOffsetHeight = allListDom.offsetHeight;
+                    var isYScroll = false;
+                    if(allListOffsetHeight > 300){
+                        isYScroll = true;
+                        allListOffsetHeight = 300;
+                    }
+                    var selectedStyle = {
+                        width : allListOffsetWidth + 'px',
+                    }
+                    __this.selectedStyle = selectedStyle;
+                    var allListStyle = {
+                        height : allListOffsetHeight + 'px',
+                    }
+                    __this.allListStyle = allListStyle;
+                    // 计算位置
+                    var $select = $('[name="'+__this.id+'"]');
+                    var scrollWidth = 0;
+                    if(isYScroll){
+                        scrollWidth = 7;
+                    }
+                    $select.width(allListOffsetWidth+scrollWidth);
+                    var $input = $('#'+__this.id);
+                    NetstarComponent.commonFunc.setContainerPosition($select, $input);
+                }
+            })
+        },
+    },
+    showSelect : function(config, vueConfig){
+        this.select.init(config, vueConfig);
+    },
+    closeSelect : function(config, vueConfig){
+        var _this = this;
+        if(config.$containerPage){
+            // 清除加载页面的js
+            config.$containerPage.remove();
+        }
+        if(config.selectContainerId){
+            // 清除加载下拉框容器
+            $('#'+config.selectContainerId).remove();
+        }
+        if(config.selectVuePanel){
+            // 取消键盘事件
+            config.selectVuePanel.isShowSelect = false;
+            $(document).off('keyup', config.selectVuePanel.keyup);
+            $(document).off('keyup', config.selectVuePanel.keydown);
+            $(document).off('click', config.selectVuePanel.documentClose);
+            $(document).off('scroll', config.selectVuePanel.documentScroll);
+        }
+    },
     // 获取组件配置
     getComponentConfig:function(config){
         var _this = this;
@@ -27986,113 +28277,92 @@ NetstarComponent.physicalsExpression = {
                 return data;
             },
             watch: {
-                inputText:function(value, oldValue){
-                    NetstarComponent.watchTemplateShowData(config, this, 'inputText');
-                    if(typeof(value) == "string" && value.length > 0){
-                        this.ishide = false;
+                valueText:function(value, oldValue){
+                    this.change();
+                },
+                isShowSelect : function(value, oldValue){
+                    if(value){
+                        // 显示下拉框
+                        _this.showSelect(config, this);
                     }else{
-                        this.ishide = true;
+                        // 关闭下拉框
+                        _this.closeSelect(config, this);
                     }
                 },
-                assistant : function(value){
-                    this.markbtns = _this.getMarkBtns(value);
-                    if(this.markbtns.length > 0){
-                        if(this.containerClass.indexOf('pt-text-assistant') == -1){
-                            this.containerClass += ' pt-text-assistant';
-                        }
-                    }else{
-                        this.containerClass = this.containerClass.replace('pt-text-assistant', '');
-                    }
-                },
-                markbtnsIsHide : function(value){
-                    if(!value){
-                        var __this = this;
-                        setTimeout(function(){
-                            // 默认显示在输入框下 判断是否能撑下 不能向上
-                            var $input = $('#' + config.fullID);
-                            var $window = $(window);
-                            var wHeight = $window.height();
-                            var iHeight = $input.parent().height();
-                            var oHeight = $input.offset().top;
-                            var $assistant = $(__this.$refs.assistant);
-                            var cHeight = $assistant.height();
-                            if(oHeight + cHeight + iHeight > wHeight){
-                                if(oHeight > cHeight){
-                                    __this.markbtnsStyle = {
-                                        bottom : iHeight + 'px',
-                                    }
-                                }
-                            }
-                        },0)
-                    }
-                }
             },
             methods: {
-                // 
+                setValueByDropdown : function(data){
+                    var $valueContainer = $(this.$refs.valueContainer);
+                    var valueText = $valueContainer.html();
+                    var nsId = data[config.valueField];
+                    var text = data[config.textField];
+                    valueText = _this.getUseValueBySelect(valueText, valueText.length, valueText.length, nsId, text, config.shortcutKeysName);
+                    $valueContainer.html(valueText);
+                    _this.setCursorIndex($valueContainer[0]);
+                },
+                input : function(ev){
+                    // var keyCode = ev.keyCode;
+                    // var $valueContainer = $(this.$refs.valueContainer);
+                    // var valueText = $valueContainer.html();
+                    // console.log(valueText);
+                },
+                // 通过keyup模拟change
                 keyup : function(ev){
-                    // 在表格中用到了上下左右
+                    var keyCode = ev.keyCode;
+                    // var $valueContainer = $(this.$refs.valueContainer);
+                    // var valueText = $valueContainer.html();
+                    // console.log(valueText);
+                    // this.valueText = valueText;
+                    // this.$nextTick(function(){
+                    //     _this.setCursorIndex($valueContainer[0]);
+                    // })
+                    if(this.isShowSelect){
+                        config.selectVuePanel.keyup(ev);
+                    }
                 },
                 // 
                 keydown : function(ev){
-                    // 在表格中用到了上下左右
-                    if(config.formSource == 'table'){
-                        var keyCode = ev.keyCode;
-                        switch(keyCode){
-							case 37: // 左
-							case 39: // 右
-                                ev.preventDefault();
-								break;
-						}
+                    if(this.isShowSelect){
+                        return true;
                     }
-                },
-                keyupCtrlAltR : function(){
-                    if(typeof(nsVals) == "object" && typeof(nsVals.dictData) == "object" && typeof(nsVals.dictData.INPUTASSIST) == "object"){
-                        var assistantDict = [];
-                        var subdata = $.isArray(nsVals.dictData.INPUTASSIST.subdata) ? nsVals.dictData.INPUTASSIST.subdata : [];
-                        for(var i=0; i<subdata.length; i++){
-                            if(typeof(subdata[i].value) != "undefined"){
-                                assistantDict.push(subdata[i].value);
-                            }
-                        }
-                        if(assistantDict.length > 0){
-                            this.isCtrlAltR = true;
-                            this.assistant = assistantDict;
-                            this.markbtnsIsHide = false;
-                        }else{
-                            nsAlert('输入辅助未配置或配置错误，请检查字典配置','warning');
-                            console.warn('输入辅助未配置或配置错误，请检查字典配置');
-                        }
-                    }else{
-                        nsAlert('输入辅助未配置，请检查字典配置','warning');
-                        console.warn('输入辅助未配置，请检查字典配置');
+                    ev.stopPropagation();
+                    // 在表格中用到了上下左右
+                    // if(config.formSource == 'table'){
+                    //     var keyCode = ev.keyCode;
+                    //     switch(keyCode){
+					// 		case 37: // 左
+					// 		case 39: // 右
+                    //             ev.preventDefault();
+					// 			break;
+					// 	}
+                    // }
+                    var keysArr = config.keysArr;
+                    var key = ev.key;
+                    var ctrlKey = ev.ctrlKey;
+                    var shiftKey = ev.shiftKey;
+                    var altKey = ev.altKey;
+                    var shortcutKeysName = '';
+                    if(ctrlKey){
+                        shortcutKeysName += 'ctrl+';
+                    }
+                    if(altKey){
+                        shortcutKeysName += 'shift+';
+                    }
+                    if(shiftKey){
+                        shortcutKeysName += 'alt+';
+                    }
+                    shortcutKeysName += key;
+                    if($.isArray(keysArr[shortcutKeysName]) && keysArr[shortcutKeysName].length > 0){
+                        ev.stopPropagation();
+                        ev.stopImmediatePropagation();
+                        ev.preventDefault(); 
+                        console.log(keysArr[shortcutKeysName]);
+                        config.shortcutKeysName = shortcutKeysName;
+                        config.subdata = keysArr[shortcutKeysName];
+                        this.isShowSelect = true;
                         return false;
                     }
-                },
-                clickMark : function(ev, markinfo){
-                    ev.stopPropagation();
-                    var __this = this;
-                    __this.isnotblur = true;
-                    var inputEv = __this.$refs.inputName;
-                    var text = __this.inputText;
-                    var name = markinfo.name;
-                    var selectionStart = inputEv.selectionStart;
-                    var selectionEnd = inputEv.selectionEnd;
-                    var selectionDirection = inputEv.selectionDirection;
-                    text = text.toString();
-                    var starText = text.substring(0, selectionStart);
-                    var endText = text.substring(selectionEnd);
-                    text = starText + name + endText;
-                    __this.inputText = text;
-                    var cursorPosition = selectionStart + name.length;
-                    if(selectionDirection == 'backward'){
-                        cursorPosition = selectionStart;
-                    }
-                    setTimeout(function(){
-                        __this.change();
-                        __this.isnotblur = false;
-                        inputEv.focus();
-                        inputEv.setSelectionRange(cursorPosition, cursorPosition);
-                    },100)
+                    return true;
                 },
                 // 
                 btnMouseDown: function(){
@@ -28100,7 +28370,7 @@ NetstarComponent.physicalsExpression = {
                 },
                 // 点击清空
                 btnClickClose: function(ev){
-                    this.inputText = "";
+                    this.valueText = "";
                     this.change();
                     this.isnotblur = false;
                     this.focus();
@@ -28141,50 +28411,42 @@ NetstarComponent.physicalsExpression = {
                     var sourceValue = config.value;
                     // this.value = value;
                     config.value = value;
-                    this.inputText = value;
                     var isSame = true;
                     // 判断是否改变
                     if(sourceValue != value){
                         isSame = false;
                     }
-                    if(!isSame){
-                        this.change();
-                    }
+                    this.valueText = _this.getUseValue(value, config);
+                    // if(!isSame){
+                    //     this.change();
+                    // }
                 },
                 // 设置焦点
                 focusHandler: function(ev){
                     $(ev.target).select();
                     config.sourceValue = $(ev.target).val();
-                    if(this.inputText.length > 0){
+                    if(this.valueText.length > 0){
                         this.ishide = false;
-                    }
-                    // if(this.markbtns.length > 0){
-                    if(config.assistant.length > 0){
-                        this.assistant = config.assistant;
-                        this.markbtnsIsHide = false;
-                    }
-                    if(this.isCtrlAltR){
-                        this.keyupCtrlAltR();
                     }
                 },
                 // 获得焦点
                 focus: function(){
-                    this.$refs.inputName.focus();
+                    this.$refs.valueContainer.focus();
                 },
                 // 设置失去焦点
                 blurHandler: function(){
                     if(this.isnotblur){
                         return;
                     }
+                    // 设置value
+                    var $valueContainer = $(this.$refs.valueContainer);
+                    var valueText = $valueContainer.html();
+                    this.valueText = valueText;
+                    // 验证
                     this.getValue();
                     this.ishide = true;
-                    this.markbtnsIsHide = true;
-                    this.isCtrlAltR = false;
                     // 判断是否执行blurHandler
                     NetstarComponent.formBlurHandler(config, this);
-                    // if(typeof(config.blurHandler)=='function'){
-                    //     config.blurHandler(_config, this);
-                    // }
                 },
                 // 失去焦点
                 blur: function(){
@@ -28194,10 +28456,10 @@ NetstarComponent.physicalsExpression = {
                 change: function(){
                     // value和inputText同时变化 
                     // 原因：input上存的值是inputText所以改变input的输入时value不会改变所以在这里改
-                    this.inputText = typeof(this.inputText)=="number"?this.inputText.toString():this.inputText;
+                    this.valueText = typeof(this.valueText)=="number" ? this.valueText.toString() : this.valueText;
                     var vueConfig = this;
-                    var text = this.inputText;
-                    config.value = text;
+                    var text = this.valueText;
+                    config.value = _this.getFormatValue(text);
                     var value = config.value;
                     var obj = {
                         id:config.id,
@@ -28218,12 +28480,39 @@ NetstarComponent.physicalsExpression = {
                     // 修改数据和方法不可以修改dom （可以修改dom属性，暂不支持，通过refs修改）
                     NetstarComponent.editVueComponent(obj, this, config);
                 },
+                setInitValue : function(){
+                    this.valueText = _this.getUseValue(config.value, config);
+                },
                 // 历史记录
                 switchHistory : function(){
                     NetstarComponent.switchHistoryByComponent(config, this);
                 },
             },
             mounted : function(){
+                // 发送ajax
+                var shortcutKeys = config.shortcutKeys;
+                config.ajaxIndex = 0;
+                for(var key in shortcutKeys){
+                    var ajaxConfig = $.extend(true, {}, shortcutKeys[key]);
+                    NetStarUtils.ajax(ajaxConfig, (function(config, vueConfig, keysName){
+                        return function(res){
+                            config.ajaxIndex ++;
+                            var _ajaxConfig = config.shortcutKeys[keysName];
+                            var dataSrc = _ajaxConfig.dataSrc;
+                            var keysArr = [];
+                            if(res.success){
+                                if(dataSrc && $.isArray(res[dataSrc])){
+                                    keysArr = res[dataSrc];
+                                }
+                            }
+                            config.keysArr[keysName] = keysArr;
+                            config.keysData[keysName] = NetstarComponent.physicalsExpression.getKeysData(keysArr, config);
+                            if(config.ajaxIndex == config.shortcutKeysLength){
+                                vueConfig.setInitValue(config.value, config);
+                            }
+                        }
+                    })(config, this, key), true);
+                }
                 if(typeof(config.$validate)!="object"){
                     var validateDom = this.$refs.validate;
                     config.$validate = $(validateDom);

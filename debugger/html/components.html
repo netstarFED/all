@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+ <meta name="description" content="网星云服务" />
+ <meta name="author" content="netstar" />
+ <title>components</title>
+
+ <script type="text/javascript">
+     var language = 'cn';
+     mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+ </script>
+ <!--# include file="/sites/include/login-static-dev.html" -->
+ <!--# include file="/sites/include/preload-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-dev.html" -->
+ <!--# include file="/sites/include/lazy-static-dev.html" -->
+ <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+ <script>
+    NetstarHomePage=false
+    nsPublic = {
+        getAppendContainer : function(){
+            var insertLocation = $('container:not(.hidden)').not('.content');
+            if ($('.nswindow .content').length > 0) {
+                insertLocation = $('.nswindow .content:last');
+            }
+            return insertLocation;
+        }
+    }
+ </script>
+ <link rel="stylesheet" href="/static/dev/style/tj-common.css">
+ <style>
+     /* 临时STYLE CSS */
+ </style>
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+    <p contenteditable="true" id="contenteditable">这是一个可编<span contenteditable="false">你好</span>辑的段落。</p>
+    <div id="form"></div>
+    <script>
+        // $('#contenteditable').focus();
+        $('#contenteditable').off('keyup')
+        $('#contenteditable').on('keyup', function(ev){
+            // console.log(ev.key);
+            // console.log(ev.keyCode);
+            // console.log(ev.shiftKey);
+            // console.log(ev.ctrlKey);
+            // console.log(ev.altKey);
+            // console.log(ev.selectionStart);
+            // console.log(ev.selectionEnd);
+            // console.log(ev.selectionDirection);
+            var range = window.getSelection().getRangeAt(0);//创建range
+            console.log(range.endContainer);
+            console.log(range.endOffset);
+            console.log(range.startOffset);
+        })
+        function keepLastIndex(obj) {
+            if (window.getSelection) {//ie11 10 9 ff safari
+                obj.focus(); //解决ff不获取焦点无法定位问题
+                var range = window.getSelection();//创建range
+                range.selectAllChildren(obj);//range 选择obj下所有子内容
+                range.collapseToEnd();//光标移至最后
+            }
+            else if (document.selection) {//ie10 9 8 7 6 5
+                var range = document.selection.createRange();//创建选择对象
+                //var range = document.body.createTextRange();
+                range.moveToElementText(obj);//range定位到obj
+                range.collapse(false);//光标移至最后
+                range.select();
+            }
+        }
+        // keepLastIndex(document.getElementById("contenteditable"))
+
+        var formConfig = {
+            id : 'form',
+            form : [
+                {
+                    id : 'contenteditable',
+                    label : 'contenteditable',
+                    type : 'physicalsExpression',
+                    inputWidth : 200,
+                    shortcutKeys : {
+                        'ctrl+k' : {
+                            url : 'http://localhost:2000/debugger/data/physicalsexpression-select.json',
+                            dataSrc : 'rows',
+                        },
+                        'ctrl+g' : {
+                            url : 'http://localhost:2000/debugger/data/physicalsexpression-select.json',
+                            dataSrc : 'ages',
+                        }
+                    },
+                    value : '性别：${"id":"1", "key":"ctrl+k"};年龄：${"id":"a", "key":"ctrl+g"}',
+                    changeHandler : function(obj){
+                        console.log(obj);
+                    },
+                }
+            ]
+        }
+        NetstarComponent.formComponent.show(formConfig);
+    </script>
+</body>
+
+</html>

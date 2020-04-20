@@ -129,10 +129,15 @@ var NetstarExcelImportVer3 = (function($){
             return html;
         },
         getDownBodyHtml : function(config){
+            var downloadUrl = config.download.url + config.templateId;
+            var token = NetStarUtils.OAuthCode.get();
+            if(token){
+                downloadUrl += '&Authorization=' + token;
+            }
             var html = '<div class="import-content-operation">'
                             + '<label>' + config.downloadText + '</label>'
                             + '<button type="button" class="pt-btn pt-btn-default" ns-name="download">'
-                                + '<a href="' + config.download.url + config.templateId + '" class="">'
+                                + '<a href="' + downloadUrl + '" class="">'
                                     + '下载'
                                 + '</a>'
                             + '</button>'
@@ -327,13 +332,18 @@ var NetstarExcelImportVer3 = (function($){
     // 详情面板
     var detailsManage = {
         getHtml : function(config){
+            var downloadDetailsUrl = config.downloadDetails.url + '/' + config.templateId;
+            var token = NetStarUtils.OAuthCode.get();
+            if(token){
+                downloadDetailsUrl += '?Authorization=' + token;
+            }
             var html = '<div class="import-content-operation" id="' + config.formId + '">'
                         + '</div>'
                         + '<div class="import-nstructions" id="' + config.containerBodyId + '">'
                             + '<div class="title">'
                                 + '导入详情'
                                 + '<button type="button" title="下载错误数据文件" class="pt-btn pt-btn-link" id="' + config.downloadId + '">'
-                                    + '<a href="' + config.downloadDetails.url + '/' + config.templateId + '" class="">下载错误数据文件</a>'
+                                    + '<a href="' + downloadDetailsUrl + '" class="">下载错误数据文件</a>'
                                 + '</button>'
                             + '</div>'
                             + '<div class="import-nstructions-content">'
