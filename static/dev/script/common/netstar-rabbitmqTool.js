@@ -51,7 +51,7 @@ NetStarUtil.rabbitmq.unSubscribe = function(exchange,routingKey,callback){
  * @param command   Obj  对象  {command:'打开摄像头'}或{command:'关闭摄像头'} 
  * @param callback  Fun  回调函数   传出一个参数 {messageType: "camaraData",image:"base64格式图片"}
  * 注: 1.必须在本地开启网星通服务器(NetStarTray.exe)
- *     2.指令必须写正确
+ *     2.指令必须写正确;
  *     3.调用NetStarUtil.wangxingTong.websocket(...)
  */
 NetStarUtil.wangxingTong.websocket = function(command,callback){
