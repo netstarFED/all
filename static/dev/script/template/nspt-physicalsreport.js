@@ -46,6 +46,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             // 设置各组件配置 通过name
             var components = config.components;
             var componentsByName = {};
+            var componentsById = {};
             for(var componentI=0; componentI<components.length; componentI++){
                 var componentData = components[componentI];
                 // keyField
@@ -70,8 +71,59 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 // 名字
                 var componentName = componentData.name;
                 componentsByName[componentName] = componentData;
+                componentsById[componentId] = componentData;
 			}
             config.componentsByName = componentsByName;
+            config.componentsById = componentsById;
+            // 设置草稿箱
+            if(config.draftBox && config.draftBox.isUse == true){
+                if(typeof(config.componentsByName.btns) == "undefined"){
+                    config.componentsByName.btns = {};
+                }
+                var btns = config.componentsByName.btns;
+                if(config.draftBox.isUseSave){
+                   var draftBoxSaveBtn = {
+                        btn : {
+                        text : '保存草稿',
+                        isReturn : true,
+                        handler : (function(_config){
+                                return function(){
+                                    NetstarTemplate.draft.btnManager.save(_config, function(obj){
+                                        var package = obj.ajaxConfig.plusData.saveData.formName;
+                                        var pageConfig = NetstarTemplate.templates.configs[package];
+                                        if(!pageConfig){ return false; }
+                                        if(pageConfig.draftBox.closeOrClear){
+                                            NetstarTemplate.templates.physicalsReport.clearPageData(pageConfig);
+                                        }
+                                    });
+                                }
+                            })(config),
+                        },
+                        functionConfig : {},
+                   }
+                   btns.field.push(draftBoxSaveBtn);
+                   if($.isArray(btns.outBtns)){
+                       btns.outBtns.push(draftBoxSaveBtn);
+                   }
+                }
+                var draftBoxBtn = {
+                    btn : {
+                        text : '草稿箱',
+                        isReturn : true,
+                        handler : (function(_config){
+                            return function(){
+                                NetstarTemplate.draft.btnManager.show(_config);
+                            }
+                        })(config),
+                   },
+                   functionConfig : {},
+                }
+                btns.field.push(draftBoxBtn);
+                if($.isArray(btns.outBtns)){
+                    btns.outBtns.push(draftBoxBtn);
+                }
+                NetstarTemplate.draft.setConfig(config); // 设置草稿箱相关参数
+            }
         },
         getConfig : function(package){
             var _configs = configs[package];
@@ -116,6 +168,12 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     templateConfig.pageInitDefaultData = dataManage.getPageData(templateConfig, false, false); // 页面初始化数据改变
                 }, templateConfig.closeValidSaveTime);
             }
+            if(ajaxPlusData.clickBtnType == "isUseSave" || ajaxPlusData.clickBtnType == "isUseSaveSubmit" || ajaxPlusData.isIsSave){
+               var _currentConfig = NetstarTemplate.draft.configByPackPage[templateConfig.package];
+               if(_currentConfig && _currentConfig.draftBox){
+                  delete _currentConfig.draftBox.useDraftId;
+               }
+            }
             if(ajaxPlusData.isCloseWindow === true){
                 //如果按钮上配置了关闭当前界面直接执行关闭操作
                 NetstarUI.labelpageVm.removeCurrent();
@@ -124,30 +182,30 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                     //返回值是对象 可以根据返回状态去处理界面逻辑
                     switch(data.objectState){
                         case NSSAVEDATAFLAG.DELETE:
-                        //删除
-                        templateConfig.serverData = {};
-                        clearByAll(templateConfig);
+                            //删除
+                            templateConfig.serverData = {};
+                            clearByAll(templateConfig);
                         break;
                         case NSSAVEDATAFLAG.EDIT:
-                        //修改
-                        templateConfig.serverData = nsServerTools.setObjectStateData(data);//改变服务端数据值，删除ojbectState为-1的数据
-                        NetStarUtils.deleteAllObjectState(templateConfig.serverData);//删除objectState状态值
-                        templateConfig.pageData = NetStarUtils.deepCopy(templateConfig.serverData);
-                        clearByAll(templateConfig);
-                        initComponentByFillValues(templateConfig);
+                            //修改
+                            templateConfig.serverData = nsServerTools.setObjectStateData(data);//改变服务端数据值，删除ojbectState为-1的数据
+                            NetStarUtils.deleteAllObjectState(templateConfig.serverData);//删除objectState状态值
+                            templateConfig.pageData = NetStarUtils.deepCopy(templateConfig.serverData);
+                            clearByAll(templateConfig);
+                            initComponentByFillValues(templateConfig);
                         break;
                         case NSSAVEDATAFLAG.ADD:
-                        //新增
-                        templateConfig.serverData = {};
-                        clearByAll(templateConfig);
+                            //新增
+                            templateConfig.serverData = {};
+                            clearByAll(templateConfig);
                         break;
                         case NSSAVEDATAFLAG.VIEW:
-                        //刷新
-                        templateConfig.serverData = nsServerTools.setObjectStateData(data);//改变服务端数据值，删除ojbectState为-1的数据
-                        NetStarUtils.deleteAllObjectState(templateConfig.serverData);//删除objectState状态值
-                        templateConfig.pageData = NetStarUtils.deepCopy(templateConfig.serverData);
-                        clearByAll(templateConfig);
-                        initComponentByFillValues(templateConfig);
+                            //刷新
+                            templateConfig.serverData = nsServerTools.setObjectStateData(data);//改变服务端数据值，删除ojbectState为-1的数据
+                            NetStarUtils.deleteAllObjectState(templateConfig.serverData);//删除objectState状态值
+                            templateConfig.pageData = NetStarUtils.deepCopy(templateConfig.serverData);
+                            clearByAll(templateConfig);
+                            initComponentByFillValues(templateConfig);
                         break;
                     }
                 }else{
@@ -304,7 +362,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         },
                         //拍照
                         clickPhoto(){
-                            debugger;
                             var _this = this;
                             NetStarUtil.wangxingTong.websocket({command:'打开摄像头'},function(res){
                                 console.log(res);
@@ -335,7 +392,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         },
                         //获取上一位
                         getPrevious(){
-                            debugger;
                             var ajaxConfig = {
                                 url: getRootPath() + '/reg/regs/getPrevious',
                                 contentType: 'application/json',
@@ -374,7 +430,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         register : {   
             // 获取数据
             getData : function(componentConfig, isValid, config){
-                debugger;
                 // header
                 var headerData = componentConfig.headerVueObj.showData;
                 // boder
@@ -1702,6 +1757,25 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 config.pageInitDefaultData = dataManage.getPageData(config, false, false);
                }, config.closeValidSaveTime);
             }
+            // 重新设置草稿箱formatFields 中字段的containerId
+            if(config.draftBox && config.draftBox.isUse == true){
+                var componentsById = config.componentsById;
+                var formatFields = config.draftBox.formatFields;
+                for(var key in formatFields){
+                    var draftBoxField = formatFields[key];
+                    var draftBoxFieldContainerId = draftBoxField.containerId;
+                    if(componentsById[draftBoxFieldContainerId]){
+                        switch(draftBoxField.nsType){
+                            case 'vo':
+                                draftBoxField.containerId = componentsById[draftBoxFieldContainerId].bodyId;
+                                break;
+                            case 'list':
+                                draftBoxField.containerId = componentsById[draftBoxFieldContainerId].bodyId;
+                                break;
+                        }
+                    }
+                }
+            }
         }
     }
     // 整体面板管理
@@ -1921,6 +1995,9 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         },
         // 设置页面数据
         setPageData : function(value, config){
+            if(typeof(config)=='string'){
+               config = configManage.getConfig(config);
+            }
             // 验证
             value = typeof(value)=='object' ? value : {};
             var data = config.serverData;
@@ -1936,9 +2013,9 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             var componentsByName = config.componentsByName;
             for(var keyName in componentsByName){
                 // 按钮不需要获取
-                if(componentsByName == "btns"){ continue; }
+                if(keyName == "btns"){ continue; }
                 // 没有该组件
-                if(typeof(componentManage[componentsByName]) != "object"){ continue; }
+                if(typeof(componentManage[keyName]) != "object"){ continue; }
                 var componentConfig = componentsByName[keyName];
                 var componentData = {};
                 var keyField = componentConfig.keyField;
@@ -1947,7 +2024,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 }else{
                     componentData = data[keyField];
                 }
-                componentManage[componentsByName].setData(componentData, componentConfig, config);
+                componentManage[keyName].setData(componentData, componentConfig, config);
             }
         },
         // 清空页面数据
@@ -1962,6 +2039,10 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 componentManage[keyName].clearData(componentConfig, config);
             }
         },
+        // 通过草稿箱设置页面数据
+        setValueByDraft : function(data, package){
+            dataManage.setPageData(data, package);
+        }
     }
     // 初始化
     function init(config){
@@ -2008,7 +2089,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                   componentManage.init(templateConfig);//组件化分别调用
                }
             },true);
-         }else{
+        }else{
             componentManage.init(config);
         }
     }
@@ -2024,5 +2105,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
         setPageData : dataManage.setPageData,
         // 清空页面数据
         clearPageData : dataManage.clearPageData,
+        // 通过草稿箱设置页面数据
+        setValueByDraft : dataManage.setValueByDraft,
     };
 })(jQuery);
