@@ -88,7 +88,7 @@
                                 "isKeepSelected": false,
                                 "ajax": {
                                     "datasourceType": "api",
-                                    "url": "/reg/regs/save?wfHandleType=2&params=regCombo",
+                                    "url": "/reg/regs/save?wfHandleType=2&params="+encodeURI(JSON.stringify(["regCombo","regType"])),
                                     "type": "POST",
                                     //
                                     "data": {
@@ -451,7 +451,7 @@
                 }, {
                     type: 'vo',
                     name: 'discount', // 优惠信息
-                    keyField: 'discount',
+                    keyField: 'regCouponVOList',
                     field: [],
                 }, {
                     type: 'list',
@@ -460,7 +460,7 @@
                     field: [],
                 }],
                 getValueAjax: {
-                   // url: 'http://localhost:2000/debugger/data/physicalsreport.json',
+                    url: 'http://localhost:2000/debugger/data/physicalsreport.json',
                     dataSrc: 'data',
                     type : 'GET',
                     contentType : 'application/x-www-form-urlencoded',

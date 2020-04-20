@@ -694,7 +694,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         btns: [{
                                 text: '确认',
                                 handler: function () {
-                                    var selectedData= ''
+                                    var selectedData= '';
                                     //传参 comboIds
                                     var checkedData = NetStarGrid.getCheckedData(componentConfig.dialoglistId);
                                     //拼接套餐里面的项目加勾选的项目
@@ -1057,15 +1057,15 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 + '<ul>'
                                     + '<li>'
                                         + '<label for="">标准价格：</label>'
-                                        + '<span>￥{{row.couponType}}</span>'
+                                        + '<span>￥{{row.standardAmount}}</span>'
                                     + '</li>'
                                     + '<li>'
                                         + '<label for="">优惠券：</label>'
-                                        + '<span>￥{{row.}}</span>'
+                                        + '<span>￥{{row.discountAmount}}</span>'
                                     + '</li>'
                                     + '<li>'
                                         + '<label for="">实收金额：</label>'
-                                        + '<span><b>￥{{row.}}</b></span>'
+                                        + '<span><b>￥{{row.amount}}</b></span>'
                                     + '</li>'
                                 + '</ul>'
                             + '</div>'
@@ -1157,24 +1157,24 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 var id = componentConfig.id + '-discount'
                 var html =  
                             '<div class="pt-panel" id="'+ id +'">'
-                               +'<div class="card-group">'
-                                    +'<div class="card-list">'
+                               +'<div class="card-group" >'
+                                    +'<div class="card-list" v-for="list in rows">'
                                         +'<div class="card">'
                                             +'<div class="card-before">'
-                                                +'<span>{{rows.couponType}}</span>'
+                                                +'<span>{{list.couponType}}</span>'
                                            + '</div>'
                                             +'<div class="card-body">'
                                                 +'<div class="card-content">'
                                                     +'<div class="card-title">'
-                                                        +'<h4>{{rows.parValue}}</h4>'
+                                                        +'<h4>{{list.parValue}}</h4>'
                                                     +'</div>'
                                                     +'<div class="card-text"> 2020年6月30日</div>'
                                                 +'</div>'
                                             +'</div>'
                                             +'<div class="card-after">'
-                                                +'<button class="pt-btn pt-btn-default">'
-                                                   + '<span>去使用</span>'
-                                                +'</button>'
+                                                +'<div class="card-after">'
+                                                    +'<i class="icon icon-check-circle"></i>'
+                                                +'</div>'
                                             +'</div>'
                                         +'</div>'
                                     +'</div>'
@@ -1189,15 +1189,14 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                 var id = componentConfig.id;
                 var html =this.inithtml(componentConfig);
                 $('#' + id).html(html);
-                var data = typeof(config.serverData) == 'object'? config.serverData : {};
                 var originalRows = [];
                 if(typeof(config.serverData) == "object" && $.isArray(config.serverData[componentConfig.keyField])){
-                    originalRows = config.serverData[blockConfig.keyField];
+                    originalRows = config.serverData[componentConfig.keyField];
                 }
                 var vueObj = new Vue({
-                    el:componentConfig.discountId,
+                    el:'#'+componentConfig.discountId,
                     data:{
-
+                        rows:originalRows,
                     },
                     methods:{
 
