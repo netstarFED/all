@@ -49,8 +49,9 @@
             var config = {
                 package: 'netstar.occmaininspect',
                 // title : '体检登记',
-                template: 'physicalsReport',
-                components: [{
+                template: 'mainInspectItem',
+                components: [
+                {
                     type: 'btns',
                     name: 'btns',
                     field: [
@@ -141,42 +142,197 @@
                             }
                         },
                     ],
-                }, {
+                }, 
+                {
+                    type: 'btns',
+                    name: 'diseasebtns',
+                    operatorObject:"",
+                    field: [
+                        {
+                            "functionConfig": {
+                                "text": "医学资料",
+                            },
+                            "btn": {
+                                "text": "医学资料",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "汇总评价",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "submit",
+                                "englishName": "nsWorkflowSubmit"
+                            },
+                            "btn": {
+                                "text": "汇总评价",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "新增",
+                            },
+                            "btn": {
+                                "text": "新增",
+                                "isReturn": true,
+                                handler:function(){
+                                    
+                                }
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "删除",    
+                            },
+                            "btn": {
+                                "text": "新增",
+                                "isReturn": true,
+                                handler:function(){
+                                    
+                                }
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "删除",
+                            },
+                            "btn": {
+                                "text": "删除",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "生成建议",
+                            },
+                            "btn": {
+                                "text": "生成建议",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "上移",
+                            },
+                            "btn": {
+                                "text": "上移",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "下移",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "reject",
+                                "englishName": "nsWorkflowReject"
+                            },
+                            "btn": {
+                                "text": "下移",
+                                "isReturn": true
+                            }
+                        },
+                    ],
+                }, 
+                {
                     type: 'vo',
                     name: 'personal', // 个人信息
                     keyField: 'root',
                     field: [],
                 }, {
-                    type: 'vo',
-                    name: 'disease', // 登记信息
-                    keyField: 'disease',
+                    type: 'list',
+                    name: 'diseaseList', // 疾病列表
+                    keyField: 'diseaseList',
+                    btnField:[
+                        {
+                            "functionConfig": {
+                                "text": "监控流程",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "submit",
+                                "englishName": "nsWorkflowSubmit"
+                            },
+                            "btn": {
+                                "text": "监控流程",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "提交",
+                            },
+                            "btn": {
+                                "text": "提交",
+                                "isReturn": true,
+                                handler:function(){
+                                    
+                                }
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "撤回",
+                                
+
+                            },
+                            "btn": {
+                                "text": "撤回",
+                                "isReturn": true,
+                                handler:function(){
+                                    
+                                }
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "回退",
+                            },
+                            "btn": {
+                                "text": "回退",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "打印",
+                            },
+                            "btn": {
+                                "text": "打印",
+                                "isReturn": true
+                            }
+                        },
+                        
+                    ],
                     field: [
                        {
                            field:"1",
-                           title:"疾病或异常", 
+                           title:"疾病或异常",
+                           width:200 
                        },
                        {
                            field:"2",
                            title:"职业个体结论", 
+                           width:200 
                        },
                        {
                            field:"3",
                            title:"职业危害", 
+                           width:200 
                        },
                        {
                            field:"4",
-                           title:"建议", 
+                           title:"建议",
+                           width:200  
                        },
                        {
                            field:"5",
                            title:"复查项目及要求", 
+                           width:200 
                        },
                        {
                            field:"6",
-                           title:"目标疾病", 
+                           title:"目标疾病",
+                           width:200  
                        }
-
-
                     ],
                 }, {
                     type: 'list',
@@ -185,10 +341,20 @@
                     field: [],
                 }, {
                     type: 'list',
-                    name: 'cost', // 费用信息
+                    name: 'recheck', //复检状态
                     keyField: 'regPricingVOList',
                     field: [],
                 }, {
+                    type: 'list',
+                    name: 'occharm', //岗前
+                    keyField: 'regPricingVOList',
+                    field: [],
+                },{
+                    type: 'list',
+                    name: 'history', //岗前
+                    keyField: 'regPricingVOList',
+                    field: [],
+                },{
                     type: 'list',
                     name: 'bieflyItem', // 项目小结
                     keyField: 'bieflyItem',

@@ -6,7 +6,7 @@
  * @Desription: 体检登记模板
  * 此模板通过component的name配置设置容器位置  不是一个可多用的模板是单独为体检登记写的
  */
-NetstarTemplate.templates.mainInspectItem = (function ($) {
+NetstarTemplate.templates.samplingManage = (function ($) {
     var configs = {};
     // config管理
     var configManage = {
@@ -86,7 +86,7 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
     var baseFuncManage = {
         //此方法获取到当前模板页的配置定义和当前界面操作值
         dialogBeforeHandler : function(data,templateId){
-            var templateConfig = NetstarTemplate.templates.mainInspectItem.data[templateId].config;
+            var templateConfig = NetstarTemplate.templates.samplingManage.data[templateId].config;
             data.config = templateConfig;
             data.value = dataManage.getPageData(templateConfig);
             return data;
@@ -99,7 +99,7 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
         ajaxAfterHandler : function(data,templateId,ajaxPlusData){
             var templateConfig = {};
             if(templateId){
-                templateConfig = NetstarTemplate.templates.mainInspectItem.data[templateId].config;
+                templateConfig = NetstarTemplate.templates.samplingManage.data[templateId].config;
             }else{
                 if(NetstarUI.labelpageVm.labelPagesArr[NetstarUI.labelpageVm.currentTab]){
                     var packageName = NetstarUI.labelpageVm.labelPagesArr[1].config.package;
@@ -233,6 +233,24 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                             +'</div>'
                         +'</div>'
                         +'<div class="pt-panel">'
+                            +'<div class="user-photo">'
+                                +'<img src="../saas/static/images/user-photo.jpg" alt="">'
+                            +'</div>'
+                            +'<div class="user-photo-eidt">'
+                            +' <div class="pt-btn-group">'
+                                    +'<button class="pt-btn pt-btn-default" @click="clickUpload()">'
+                                        +'<i class="icon icon-image"></i>'
+                                    +'</button>'
+                                    +'<button class="pt-btn pt-btn-default" @click=\'clickPhoto()\'>'
+                                        +'<i class="icon icon-id"></i>'
+                                    +'</button>'
+                                    +'<button class="pt-btn pt-btn-default">'
+                                        +'<i class="icon icon-camera"></i>'
+                                    +'</button>'
+                                +'</div>'
+                            +'</div>'
+                        +'</div>'
+                       +'<div class="pt-panel">'
                             +'<div class="user-info">'
                                 +'<ul class="list">'
                                     +'<li class="list-item">'
@@ -248,7 +266,7 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                                     +'<li class="list-item"><span>河北网星软件有限公司</span></li>'
                                 +'</ul>'
                             +'</div>'
-                    +'</div>'
+                       +'</div>'
                         +'<div class="pt-panel">'
                         +'<div class="queue">'
                             +'<div class="pt-btn-group">'
@@ -271,18 +289,26 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                 $container.html(html)
             }
         },
-        //疾病列表
-        diseaseList : {   
+        //采样信息
+        sampling: {   
             // 获取数据
             getData : function(componentConfig, isValid, config){
-                var gridId = componentConfig.bodyId;
-                var gridData = NetStarGrid.dataManager.getData(gridId);
-                return gridData
+                
             },
             // 设置数据
             setData : function(data, componentConfig, config){
-                var gridId = componentConfig.bodyId;
-                NetStarGrid.refreshDataById(gridId,data);
+                var ajaxConfig = {
+                    url:getRootPath() + '/result/sam/samplings/getList',
+                    contentType:'application/json',
+                    type:"POST",
+                    data:{
+                        //regId : 1331558220321262578
+                    },
+                    dataSrc:''
+                }
+                NetStarUtils.ajax(ajaxConfig,function(res){
+                    _this.item = res.rows
+                })
              
             },
             // 清空数据
@@ -292,322 +318,64 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
             refresh : function(data, componentConfig, config){
                 
             },
-            // 初始化列表
-            initgrid : function(componentConfig, data, config){
-                var field = componentConfig.field;
-                for(var i=0; i<field.length; i++){
-                    field[i].packageName = config.package;
-                }
-                var gridConfig = {
-                    id: componentConfig.bodyId,
-                    columns:field,
-                    data:{
-                        idField:'id',
-                    },
-                    ui:{
-                        height:500,
-                        isAllowAdd:true,
-                    }
-                    
-                }
-                NetStarGrid.init(gridConfig);
-                
-            },
-            headerHtml:function(componentConfig, data,config){
-                var btnId = componentConfig.headerId + '-btnId'
+            
+            initHtml:function(){
                 var html = 
-                '<div class="pt-panel">'
-                    +'<div class="pt-panel-header">'
-                        +'<div class="title">疾病列表</div>'
-                        +'<div class="pt-btn-group">'
-                            +'<div id="'+ btnId +'"></div>'
-                       +'</div>'
-                    +'</div>'
-                +'</div>';
-                componentConfig.btnId = btnId;
+                        '<div class="pt-panel">'
+                            +'<div class="block-list block-list-grid grid-col-4">'
+                                +'<div class="block-list-group">'
+                                    +'<div class="block-list-item" v-for="list in item">'
+                                       +' <div class="block-list-content">'
+                                            +'<div class="list-body">'
+                                                +'<div class="list-title">'
+                                                    +'<h4>样品编号：{{list.sampleCode}}</h4>'
+                                                +'</div>'
+                                                +'<div class="list-text">'
+                                                    +'<span>采样类型：{{list.samplingType}}</span>'
+                                                +'</div>'
+                                                +'<div class="list-text">'
+                                                    +'<span>样品类型:{{list.dictSpecimenType}}</span>'
+                                                +'</div>'
+                                                +'<div class="list-text">'
+                                                    +'<span>组合项目:{{list.combos}}</span>'
+                                                +'</div>'
+                                            +'</div>'
+                                            +'<div class="sample-mark sample-mark-complete" :class=""></div>'
+                                            +'<div class="block-list-control">'
+                                                +'<div class="pt-btn-group">'
+                                                    +'<button class="pt-btn pt-btn-default">'
+                                                        +'<span>打印条码</span>'
+                                                    +'</button>'
+                                                    +'<button class="pt-btn pt-btn-default">'
+                                                        +'<span>重新生成</span>'
+                                                    +'</button>'
+                                                    +'<button class="pt-btn pt-btn-default">'
+                                                        +'<span>作废</span>'
+                                                    +'</button>'
+                                                +'</div>'
+                                            +'</div>'
+                                        +'</div>'
+                                   + '</div>'
+                                +'</div>'
+                            +'</div>';
                 return html
             },
-            //按钮配置  
-            initHeader:function(componentConfig, data,config){
-                var headerId = componentConfig.headerId;
-                var html = this.headerHtml(componentConfig,config);
-                $('#'+headerId).html(html);
-                var btnConfig = config.componentsByName.diseasebtns;
-                var btnsObj = {};
-                btnsObj[componentConfig.btnId] = btnConfig;
-                NetstarTemplate.commonFunc.btns.initBtns(btnsObj, config);
+            // 初始化列表
+            initblockList : function(componentConfig, data, config){
+               
             },
             // 初始化
             init : function(componentConfig, config){
                 console.log(componentConfig);
                 var id = componentConfig.id;
                 var headerId = id + '-header';
-                var bodyId = id + '-body';
                 // 添加容器
-                var html = '<div class="pt-panel-header" id="'+ headerId +'"></div>'+
-                            '<div class="pt-panel-header" id="'+ bodyId +'"></div>'
+                var html = this.initHtml(componentConfig,config);
                 var $container = $('#' + id);
                 componentConfig.headerId = headerId;
-                componentConfig.bodyId = bodyId;
                 $container.html(html);
                 var data = typeof(config.serverData) == "object" ? config.serverData : {}
-                this.initHeader(componentConfig, data,config);
-                this.initgrid(componentConfig, data,config);
-            }
-        },
-        //项目小结
-        bieflyItem : {
-            // 获取数据
-            getData : function(componentConfig, isValid, config){
-
-            },
-            // 设置数据
-            setData : function(data, componentConfig, config){
-
-            },
-            // 清空数据
-            clearData : function(componentConfig, config){
-
-            },
-            // 刷新
-            refresh : function(data, componentConfig, config){
-                
-            },
-            //项目小结的html
-            html:function(componentConfig,config){
-                var id = componentConfig.id + '-body-item'
-                var html = 
-                '<div class="pt-panel">'
-                    +'<div class="pt-panel-header">'
-                        +'<div class="title">'
-                            +'<span>项目小结</span>'
-                        +'</div>'
-                    +'</div>'
-                    +'<div class="pt-panel-body" id = "'+ id +'">'
-                        +'<div class="block-list block-list-vertical">'
-                            +'<div class="block-list-group">'
-                                +'<div class="block-list-item">'
-                                    +'<div class="block-list-content">'
-                                        +'<div class="list-body" v-for = "list in ">'
-                                            +'<div class="list-text">'
-                                                +'<span>眼底动脉硬化</span>'
-                                            +'</div>'
-                                            +'<div class="list-text text-gray">'
-                                               +'<span>收缩压：146mmhg</span><span>舒张压：97mmhg</span>'
-                                            +'</div>'
-                                        +'</div>'
-                                    +'</div>'
-                                +'</div>'
-                            +'</div>'
-                        +'</div>'
-                    +'</div>'
-                +'</div>';
-                componentConfig.bodyId = id
-                return html;
-            },
-            //获取到表格的数据
-            getRowsData:function(){
-
-            },
-            //获取到vue的data
-            getVmData:function(componentConfig,config){
-                var originalRows = [];
-                var data = {
-                    rows:this.getRowsData()
-                }
-                return data;
-            },
-            //初始化
-            init: function(componentConfig, config){  
-                var id = componentConfig.id;
-                var $container = $('#' + id);
-                var html = this.html(componentConfig,config);
-                $container.html(html);
-                var data = this.getVmData(componentConfig,config)
-                var itemVm = new Vue({
-                    el:"#" + componentConfig.bodyId,
-                    data:data
-                })
-                componentConfig.itemVm = itemVm
-            }
-        },
-        // 结论信息
-        conclusion : {
-            // 获取数据
-            getData : function(componentConfig, isValid, config){
-
-            },
-            // 设置数据
-            setData : function(data, componentConfig, config){
-
-
-            },
-            // 清空数据
-            clearData : function(componentConfig, config){
-                
-            },
-            // 刷新
-            refresh : function(data, componentConfig, config){
-                
-            },
-            //获取html
-            getHtml:function(componentConfig){     
-               var html = 
-               '<div class="pt-panel-header" id="'+ headerId +'">'
-                    '<div class="pt-panel">'
-                        +'<div class="pt-panel-header">'
-                            +'<div class="title">基本信息</div>'
-                            +'<div class="pt-btn-group">'
-                                +'<div id=""></div>'
-                            +'</div>'
-                        +'</div>'
-                        +'<div class="pt-panel-header">'
-                            +'<div class="title">基本信息</div>'
-                            +'<div class="pt-btn-group">'
-                                +'<div id=""></div>'
-                            +'</div>'
-                        +'</div>'
-                    +'</div>';
-               '</div>';
-               return html;
-            },
-            // 初始化
-            init : function(componentConfig, config){  
-                debugger;
-                console.log(componentConfig);
-                var id = componentConfig.id;
-                var headerId = id + '-header';
-                var bodyId = id + '-body';
-                // 添加容器
-                var html = this.getHtml(componentConfig);
-                var $container = $('#' + id);
-                componentConfig.headerId = headerId;
-                componentConfig.bodyId = bodyId;
-                $container.html(html);
-                // 数据
-                var data = typeof(config.serverData) == "object" ? config.serverData : {};
-                // 初始化header
-                this.initHeader(componentConfig, data,config);
-                // 初始化表单
-                this.initForm(componentConfig, data,config)
-            }
-        },
-         //职业危害
-        occharm : {
-            // 获取数据
-            getData : function(componentConfig, isValid, config){
-
-            },
-            // 设置数据
-            setData : function(data, componentConfig, config){
-
-
-            },
-            // 清空数据
-            clearData : function(componentConfig, config){
-                
-            },
-            // 刷新
-            refresh : function(data, componentConfig, config){
-                
-            },
-            //获取html
-            getHtml:function(componentConfig){     
-               var html = 
-                        '<div class="pt-panel">'
-                            +'<div class="occ-harm">'
-                                +'<div class="title">'
-                                    +'<span>岗前</span>'
-                                    +'<a href="#" class="more">更多</a>'
-                                +'</div>'
-                                +'<div class="pt-tags">'
-                                    +'<span class="pt-tags-item">危害1</span>'
-                                    +'<span class="pt-tags-item"> 职业病危害</span>'
-                                    +'<span class="pt-tags-item">其他危害</span>'
-                                +'</div>'
-                                +'<div class="title">'
-                                    +'<span>岗前</span>'
-                                +'</div>'
-                                +'<div class="pt-tags">'
-                                   + '<p>暂无危害信息</p>'
-                                +'</div>'
-                            +'</div>'
-                        +'</div>';
-               return html;
-            },
-            // 初始化
-            init : function(componentConfig, config){  
-                debugger;
-                console.log(componentConfig);
-                var id = componentConfig.id;
-                // 添加容器
-                var html = this.getHtml(componentConfig);
-                var $container = $('#' + id);
-                $container.html(html);
-            }
-        },
-        
-        history : {
-            // 获取数据
-            getData : function(componentConfig, isValid, config){
-
-            },
-            // 设置数据
-            setData : function(data, componentConfig, config){
-
-
-            },
-            // 清空数据
-            clearData : function(componentConfig, config){
-                
-            },
-            // 刷新
-            refresh : function(data, componentConfig, config){
-                
-            },
-            //获取html
-            getHtml:function(componentConfig){     
-               var html = 
-                        '<div class="pt-panel">'
-                            +'<div class="pt-list">'
-                                +'<ul class="pt-list-group">'
-                                    +'<li class="pt-list-item">'
-                                        +'<a href="">'
-                                            +'<span>既往史</span>'
-                                            +'<span class="pt-badge pt-badge-warning">10</span>'
-                                        +'</a>'
-                                    +'</li>'
-                                    +'<li class="pt-list-item">'
-                                        +'<a href="">'
-                                            +'<span>既往史</span>'
-                                            +'<span class="pt-badge pt-badge-warning">10</span>'
-                                        +'</a>'
-                                    +'</li>'
-                                    +'<li class="pt-list-item">'
-                                        +'<a href="">'
-                                            +'<span>既往史</span>'
-                                            +'<span class="pt-badge pt-badge-warning">10</span>'
-                                        +'</a>'
-                                    +'</li>'
-                                    +'<li class="pt-list-item">'
-                                        +'<a href="">'
-                                            +'<span>既往史</span>'
-                                            +'<span class="pt-badge pt-badge-warning">10</span>'
-                                        +'</a>'
-                                    +'</li>'
-                                +'</ul>'
-                            +'</div>'
-                        +'</div>';
-               return html;
-            },
-            // 初始化
-            init : function(componentConfig, config){  
-                console.log(componentConfig);
-                var id = componentConfig.id;
-                // 添加容器
-                var html = this.getHtml(componentConfig);
-                var $container = $('#' + id);
-                $container.html(html);
+                // this.initblockList(componentConfig, data,config);
             }
         },
         init : function(config){
@@ -666,7 +434,6 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                         +'</div>';
             return html;
         },
-        // 疾病列表
         getPersonal : function(config){
             var personalConfig = config.componentsByName.personal;
             if(!personalConfig){
@@ -676,6 +443,7 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                         + '</div>'
             return html;
         },
+         // 疾病列表
         getDiseaseList : function(config){
             var getDiseaseList = config.componentsByName.diseaseList;
             if(!getDiseaseList){
@@ -685,61 +453,12 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                         + '</div>'
             return html;
         },
-        getProject : function(config){
-            var projectConfig = config.componentsByName.project;
-            if(!projectConfig){
+        getSampling : function(config){
+            var getSampling = config.componentsByName.sampling;
+            if(!getSampling){
                 return '';
             }
-            var html = '<div class="pt-panel" id="'+ projectConfig.id +'">'
-                        + '</div>'
-            return html;
-        },
-        getCost : function(config){
-            var costConfig = config.componentsByName.cost;
-            if(!costConfig){
-                return '';
-            }
-            var html = '<div class="pt-panel" id="'+ costConfig.id +'">'
-                        + '</div>'
-            return html;
-        },
-        //获取到项目小结的组件方法
-        getBieflyItem : function(config){
-            var bieflyItemConfig = config.componentsByName.bieflyItem;
-            if(!bieflyItemConfig){
-                return '';
-            }
-            var html = '<div class="pt-panel" id="'+ bieflyItemConfig.id +'">'
-                        + '</div>'
-            return html;
-        },
-        //结论信息
-        getConclusion : function(config){
-            var conclusionConfig = config.componentsByName.conclusion;
-            if(!conclusionConfig){
-                return '';
-            }
-            var html = '<div class="pt-panel" id="'+ conclusionConfig.id +'">'
-                        + '</div>'
-            return html;
-        },
-         //列表
-         getHistory : function(config){
-            var historyConfig = config.componentsByName.history;
-            if(!historyConfig){
-                return '';
-            }
-            var html = '<div class="pt-panel" id="'+ historyConfig.id +'">'
-                        + '</div>'
-            return html;
-        },
-        //职业危害
-        getOccharm : function(config){
-            var occharamConfig = config.componentsByName.occharm;
-            if(!occharamConfig){
-                return '';
-            }
-            var html = '<div class="pt-panel" id="'+ occharamConfig.id +'">'
+            var html = '<div class="pt-panel" id="'+ getSampling.id +'">'
                         + '</div>'
             return html;
         },
@@ -748,18 +467,11 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
             var titleHtml = panelManage.getTitle(config);
             // btns
             var btnsHtml = panelManage.getBtns(config);
-            // 疾病列表
+            // 个人信息
             var personalHtml = panelManage.getPersonal(config);
             // 疾病列表
-            var diseaseListHtml = panelManage.getDiseaseList(config);
+            var samplingHtml = panelManage.getSampling(config);
             // 项目小结
-            var bieflyItemHtml = panelManage.getBieflyItem(config);
-            //结论信息
-            var conclusionHtml = panelManage.getConclusion(config);
-            //职业危害
-            var occharmHtml = panelManage.getOccharm(config);
-            //列表
-            var historyHtml = panelManage.getHistory(config);
             // html
             var templateClassStr = '';
             if(config.plusClass){
@@ -780,22 +492,12 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                                     + '<div class="pt-main-col">'
                                         // 个人信息
                                         + personalHtml
-                                        //职业危害
-                                       + occharmHtml
-                                        //列表
-                                        + historyHtml
+                                        // 费用信息
+                                      //  + costHtml
                                     + '</div>'
-                                    // center
                                     + '<div class="pt-main-col">'
-                                        // 疾病列表
-                                        + diseaseListHtml
-                                        // 结论信息
-                                        + conclusionHtml
-                                    + '</div>'
-                                    // right
-                                    + '<div class="pt-main-col">'
-                                        // 项目信息
-                                        + bieflyItemHtml
+                                        //采样信息
+                                        + samplingHtml
                                     + '</div>'
                                 + '</div>'
                             + '</div>'

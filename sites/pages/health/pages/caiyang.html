@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+    <script type="text/javascript" src="/static/dev/script/template/nspt-physicalsreport.js?v=10.0.0"></script>
+    <script type="text/javascript" src="/static/dev/script/common/netstar-rabbitmqTool.js"></script>
+
+    <script>
+        NetstarHomePage = false;
+        nsPublic = {
+            getAppendContainer : function(){
+                var insertLocation = $('container:not(.hidden)').not('.content');
+                if ($('.nswindow .content').length > 0) {
+                    insertLocation = $('.nswindow .content:last');
+                }
+                return insertLocation;
+            }
+        }
+        
+    </script>
+    <link rel="stylesheet" href="/static/dev/style/tj-common.css">
+    <style>
+        /* 临时STYLE CSS */
+    </style>
+
+</head>
+
+<body>
+    <container>
+        
+        <div class="pt-main">
+            <div class="pt-container">
+                <div class="pt-main-row">
+                    <!-- left -->
+                    <div class="pt-main-col">
+                        <div class="pt-panel">
+                            <div class="search-box">
+                                <input type="text" class="pt-form-control" placeholder="体检编号">
+                            </div>
+                        </div>
+                        <!-- 用户照片 -->
+                        <div class="pt-panel">
+                            <div class="user-photo">
+                                <img src="../static/images/user-photo.jpg" alt="">
+                            </div>
+                            <div class="user-photo-eidt">
+                                <div class="pt-btn-group">
+                                    <button class="pt-btn pt-btn-default">
+                                        <i class="icon icon-image"></i>
+                                    </button>
+                                    <button class="pt-btn pt-btn-default">
+                                        <i class="icon icon-id"></i>
+                                    </button>
+                                    <button class="pt-btn pt-btn-default">
+                                        <i class="icon icon-camera"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 用户照片 end-->
+                        <!-- 用户信息 -->
+                        <div class="pt-panel">
+                            <div class="user-info">
+                                <ul class="list">
+                                    <li class="list-item">
+                                        <span class="name">张文远</span>
+                                        <!-- 男 -->
+                                        <span class="sex sex-male">
+                                            <i class="fa fa-mars"></i>
+                                        </span>
+                                        <!-- 女 -->
+                                        <span class="sex sex-female"><i class="fa fa-venus"></i></span>
+                                    </li>
+                                    <li class="list-item"><span>28岁</span></li>
+                                    <li class="list-item"><span>建筑工</span></li>
+                                    <li class="list-item"><span>体检类别</span></li>
+                                    <li class="list-item"><span>河北网星软件有限公司</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                      
+                        <!-- 用户信息 end-->
+                        <!-- 排队 -->
+                        <div class="pt-panel">
+                            <div class="queue">
+                                <div class="pt-btn-group">
+                                    <button class="pt-btn pt-btn-default"><i
+                                            class="icon icon-arrow-left-o"></i><span>上一位</span></button>
+                                    <button class="pt-btn pt-btn-default"><span>下一位</span><i
+                                            class="icon icon-arrow-right-o"></i></button>
+                                </div>
+                                <!-- <div class="list">
+                                    <a class="list-item" href="#">
+                                        <i class="fa fa-venus"></i>
+                                        <span>王晓霖</span>
+                                        <div class="list-after">
+                                            <i class="icon icon-arrow-top-o"></i>
+                                        </div>
+                                    </a>
+                                    <a class="list-item current" href="#">
+                                        <i class="fa fa-mars"></i>
+                                        <span>张文远</span>
+                                        <div class="list-after">
+                                            <i class="icon icon-user"></i>
+                                        </div>
+                                    </a>
+                                    <a class="list-item" href="#">
+                                        <i class="fa fa-mars"></i>
+                                        <span>宋文涛</span>
+                                        <div class="list-after">
+                                            <i class="icon icon-arrow-down-o"></i>
+                                        </div>
+                                    </a>
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- 排队 end -->
+                        <!-- 列表 -->
+                        <div class="pt-panel">
+                            <div class="pt-list">
+                                <ul class="pt-list-group">
+                                    <li class="pt-list-item">
+                                        <a href="">
+                                            <span>既往史</span>
+                                            <span class="pt-badge pt-badge-warning">10</span>
+                                        </a>
+                                    </li>
+                                    <li class="pt-list-item">
+                                        <a href="">
+                                            <span>既往史</span>
+                                            <span class="pt-badge pt-badge-warning">10</span>
+                                        </a>
+                                    </li>
+                                    <li class="pt-list-item">
+                                        <a href="">
+                                            <span>既往史</span>
+                                            <span class="pt-badge pt-badge-warning">10</span>
+                                        </a>
+                                    </li>
+                                    <li class="pt-list-item">
+                                        <a href="">
+                                            <span>既往史</span>
+                                            <span class="pt-badge pt-badge-warning">10</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 列表 end -->
+                    </div>
+                    <!-- center -->
+                    <div class="pt-main-col">
+                        <!-- 采样管理 -->
+                        <div class="pt-panel" id="samping">
+                            <div class="block-list block-list-grid grid-col-4">
+                                <div class="block-list-group">
+                                    <div class="block-list-item" v-for="list in item">
+                                        <div class="block-list-content">
+                                            <div class="list-body">
+                                                <div class="list-title">
+                                                    <h4>样品编号：{{list.sampleCode}}</h4>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>采样类型：{{list.samplingType}}</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>样品类型:{{list.dictSpecimenType}}</span>
+                                                </div>
+                                                <div class="list-text">
+                                                    <span>组合项目:{{list.combos}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="sample-mark sample-mark-complete" :class=""></div>
+                                            <div class="block-list-control">
+                                                <div class="pt-btn-group">
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>打印条码</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>重新生成</span>
+                                                    </button>
+                                                    <button class="pt-btn pt-btn-default">
+                                                        <span>作废</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 采样管理 end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var getRootPath = function(){
+                return 'https:/qaapi.wangxingcloud.com/'
+            }
+            var samping =  new Vue({
+                el:'#samping',
+                data:{
+                    item:[]
+                },
+                methods:{},
+
+                mounted(){
+                    debugger;
+                  /* 
+                    *regId : 1331558220321262578
+                  */  
+                 var _this = this
+                    var ajaxConfig = {
+                        url:getRootPath() + '/result/sam/samplings/getList',
+                        contentType:'application/json',
+                        type:"POST",
+                        data:{
+                            //regId : 1331558220321262578
+                        },
+                        dataSrc:''
+                    }
+                    NetStarUtils.ajax(ajaxConfig,function(res){
+                        _this.item = res.rows
+                    })
+                }
+
+            })
+        </script>
+    </container>
+</body>
+
+</html>

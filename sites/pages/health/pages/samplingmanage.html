@@ -1,0 +1,182 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="网星云服务" />
+    <meta name="author" content="netstar" />
+    <title>采样管理</title>
+
+    <script type="text/javascript">
+        var language = 'cn';
+        mxBasePath = '/assets/flow/'; //mx基础库 应当有resource css images等 '../src';
+    </script>
+    <!--# include file="/sites/include/login-static-dev.html" -->
+    <!--# include file="/sites/include/preload-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-dev.html" -->
+    <!--# include file="/sites/include/lazy-static-dev.html" -->
+    <!--# include file="/sites/include/mainpage-static-neweditor.html" -->
+    <script type="text/javascript" src="/static/dev/script/template/nspt-maininspectitem.js?v=10.0.0"></script>
+    <script type="text/javascript" src="/static/dev/script/template/nspt-samplingmanage.js?v=10.0.0"></script>
+    <script type="text/javascript" src="/static/dev/script/common/netstar-rabbitmqTool.js"></script>
+
+    <script>
+        NetstarHomePage = false;
+        nsPublic = {
+            getAppendContainer : function(){
+                var insertLocation = $('container:not(.hidden)').not('.content');
+                if ($('.nswindow .content').length > 0) {
+                    insertLocation = $('.nswindow .content:last');
+                }
+                return insertLocation;
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/static/dev/style/tj-common.css">
+    <style>
+        /* 临时STYLE CSS */
+    </style>
+</head>
+
+<body class="home pt-systeminfo pt-veritical">
+    <container>
+        <script>
+            var getRootPath = function () {
+                return 'https://qaapi.wangxingcloud.com/'
+            };
+            var config = {
+                package: 'netstar.occmaininspect',
+                // title : '体检登记',
+                template: 'samplingManage',
+                components: [
+                {
+                    type: 'btns',
+                    name: 'btns',
+                    field: [
+                        {
+                            "functionConfig": {
+                                "text": "保存",
+                            },
+                            "btn": {
+                                "text": "保存",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "查询",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "submit",
+                                "englishName": "nsWorkflowSubmit"
+                            },
+                            "btn": {
+                                "text": "查询",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "保存",
+                            },
+                            "btn": {
+                                "text": "保存",
+                                "isReturn": true,
+                                handler:function(){
+                                    
+                                }
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "批量操作",     
+                            },
+                            "btn": {
+                                "text": "批量操作",
+                                "isReturn": true,
+                                handler:function(){
+                                    
+                                }
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "打印",
+                            },
+                            "btn": {
+                                "text": "打印",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "流程监控",
+                            },
+                            "btn": {
+                                "text": "流程监控",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "提交",
+                            },
+                            "btn": {
+                                "text": "提交",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "撤回",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "reject",
+                                "englishName": "nsWorkflowReject"
+                            },
+                            "btn": {
+                                "text": "撤回",
+                                "isReturn": true
+                            }
+                        },
+                        {
+                            "functionConfig": {
+                                "text": "回退",
+                                "defaultMode": "workflowSubmit",
+                                "workflowType": "reject",
+                                "englishName": "nsWorkflowReject"
+                            },
+                            "btn": {
+                                "text": "回退",
+                                "isReturn": true
+                            }
+                        },
+                    ],
+                }, 
+                {
+                    type: 'vo',
+                    name: 'personal', // 个人信息
+                    keyField: 'root',
+                    field: [],
+                }, {
+                    type: 'list',
+                    name: 'sampling', //c采样管理
+                    keyField: 'sampling',
+                    field: [],
+                }],
+                getValueAjax:{
+                    url: 'http://localhost:2000/debugger/data/physicalsreport.json',
+                    dataSrc: 'data',
+                    type : 'GET',
+                    contentType : 'application/x-www-form-urlencoded',
+                }
+            }
+            var pageConfig = NetstarProject.init(config);
+            // NETSTAR添加url参数即pageParam
+            NetstarTemplate.init(pageConfig);
+        </script>
+    </container>
+</body>
+
+</html>

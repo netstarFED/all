@@ -694,7 +694,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         btns: [{
                                 text: '确认',
                                 handler: function () {
-                                    var selectedData= componentConfig.selectedData;
+                                    var selectedData= ''
                                     //传参 comboIds
                                     var checkedData = NetStarGrid.getCheckedData(componentConfig.dialoglistId);
                                     //拼接套餐里面的项目加勾选的项目
@@ -860,7 +860,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             // 清空数据
             clearData : function(componentConfig, config){
                 componentConfig.itemVue.addComboVOList = [];
-            },
+            }, 
             // 刷新
             refresh : function(data, componentConfig, config){
                 
@@ -1057,15 +1057,15 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 + '<ul>'
                                     + '<li>'
                                         + '<label for="">标准价格：</label>'
-                                        + '<span>￥{{row.standardAmount}}</span>'
+                                        + '<span>￥{{row.couponType}}</span>'
                                     + '</li>'
                                     + '<li>'
                                         + '<label for="">优惠券：</label>'
-                                        + '<span>￥{{row.discountAmount}}</span>'
+                                        + '<span>￥{{row.}}</span>'
                                     + '</li>'
                                     + '<li>'
                                         + '<label for="">实收金额：</label>'
-                                        + '<span><b>￥{{row.amount}}</b></span>'
+                                        + '<span><b>￥{{row.}}</b></span>'
                                     + '</li>'
                                 + '</ul>'
                             + '</div>'
@@ -1153,9 +1153,57 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             refresh : function(data, componentConfig, config){
                 
             },
+            inithtml:function(componentConfig){
+                var id = componentConfig.id + '-discount'
+                var html =  
+                            '<div class="pt-panel" id="'+ id +'">'
+                               +'<div class="card-group">'
+                                    +'<div class="card-list">'
+                                        +'<div class="card">'
+                                            +'<div class="card-before">'
+                                                +'<span>{{rows.couponType}}</span>'
+                                           + '</div>'
+                                            +'<div class="card-body">'
+                                                +'<div class="card-content">'
+                                                    +'<div class="card-title">'
+                                                        +'<h4>{{rows.parValue}}</h4>'
+                                                    +'</div>'
+                                                    +'<div class="card-text"> 2020年6月30日</div>'
+                                                +'</div>'
+                                            +'</div>'
+                                            +'<div class="card-after">'
+                                                +'<button class="pt-btn pt-btn-default">'
+                                                   + '<span>去使用</span>'
+                                                +'</button>'
+                                            +'</div>'
+                                        +'</div>'
+                                    +'</div>'
+                                +'</div>'
+                            +'</div>';
+                componentConfig.discountId = id;
+                return html
+            },
             // 初始化
             init : function(componentConfig, config){
-                
+                debugger;
+                var id = componentConfig.id;
+                var html =this.inithtml(componentConfig);
+                $('#' + id).html(html);
+                var data = typeof(config.serverData) == 'object'? config.serverData : {};
+                var originalRows = [];
+                if(typeof(config.serverData) == "object" && $.isArray(config.serverData[componentConfig.keyField])){
+                    originalRows = config.serverData[blockConfig.keyField];
+                }
+                var vueObj = new Vue({
+                    el:componentConfig.discountId,
+                    data:{
+
+                    },
+                    methods:{
+
+                    }
+                });
+                componentConfig.discountVue = vueObj
             }
         },
         // 危害信息
