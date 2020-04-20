@@ -82,18 +82,18 @@
                                 "englishName": "save",
                                 "text": "保存",
                                 "defaultMode": "custom",
-                                "isCloseWindow": true,
+                                "isCloseWindow": false,
                                 "isInlineBtn": false,
                                 "isMobileInlineBtn": true,
                                 "isKeepSelected": false,
                                 "ajax": {
                                     "datasourceType": "api",
-                                    "url": "/reg/regs/save?wfHandleType=2&params="+encodeURI(JSON.stringify(["regCombo","regType"])),
+                                    "url": "/reg/regs/save?wfHandleType=1&params="+encodeURI(JSON.stringify(["regCombo","regType"])),
                                     "type": "POST",
                                     //
                                     "data": {
                                     },
-                                    "dataSrc": "rows",
+                                    "dataSrc": "data",
                                     "contentType": "application/json",
                                     "isUseGetRootPath": true,
                                     "filterType": "",
@@ -110,7 +110,7 @@
                                 "title": "",
                                 "targetField": "",
                                 "shortcutKey": "",
-                                "successOperate": "",
+                                "successOperate": "refresh",
                                 "successMsg": "",
                                 "requestSource": "",
                                 "validateParams": "",
@@ -205,13 +205,14 @@
                         {
                             id: "regCode",
                             label: '体检编号',
-                            type: 'text'
+                            type: 'text',
+                            disabled:true,
                         },
                         {
                             id: 'peTypeId',
                             type: 'select',
                             label: '体检类别',
-                            // required: true,
+                            required: true,
                             url: getRootPath() + '/npebase/datPeClasss/getList',
                             contentType: 'application/json',
                             selectMode: 'multi',
@@ -269,10 +270,10 @@
                         {
                             id: "isVip",
                             label: '是否是vip',
-                            type: 'select',
+                            type: 'radio',
                             valueField: 'id',
                             textField: "name",
-                            // rules: 'required',
+                            rules: 'required',
                             subdata: [{
                                     id: 0,
                                     name: '是'
@@ -293,7 +294,6 @@
                             id: "age",
                             label: '年龄',
                             type: 'number',
-                            rules: 'required',
                             isShowCalculator: false,
                         },
                         {
@@ -301,6 +301,19 @@
                             label: '出生日期',
                             type: 'date',
                             rules: 'required',
+                            changeHandler:function(data,value){
+                                var id = data.config.formID
+                                var time = new Date().getTime();
+                                var birthdayTime = data.value
+                                if(time > birthdayTime){
+                                    var day = time - birthdayTime;
+                                   var _day = Math.floor(day/86400000);
+                                   var years = (_day/365)+1;
+                                   var _years = Math.floor(years)
+                                }
+                                var time2 = (time -data.value)/86400;
+                                NetstarComponent.fillValues({age:_years},id)
+                            }
                         },
                         {
                             id: "sex",
@@ -329,10 +342,12 @@
                             id: 'grade',
                             type: 'text',
                             label: '文化程度',
-                            dictArguments: "grade",
+                            dictArguments: "DICT_GRADE",
                             type: 'select',
-                            textField: '',
-                            valueField: ''
+                            textField: 'value',
+                            valueField: 'value',
+                            mindjetType : 'dict',
+                            // subdata:nsVals.dictData['DICT_GRADE']
                         },
                         {
                             id: 'nativePlace',
@@ -349,32 +364,21 @@
                             id: 'nation',
                             type: 'text',
                             label: '民族',
-                            dictArguments: "nation",
+                            dictArguments: "DICT_NATION",
                             type: 'select',
                             textField: 'value',
-                            valueField: 'id',
+                            valueField: 'value',
+                            mindjetType : 'dict',
 
                         },
                         {
                             id: 'marriage',
                             label: '婚姻状态',
-                            dictArguments: "marriage",
+                            dictArguments: "DICT_MARRIAGE",
                             type: 'select',
                             textField: 'value',
                             valueField: 'value',
-                            subdata: [{
-                                    id: '1',
-                                    value: '已婚'
-                                },
-                                {
-                                    id: '2',
-                                    value: '未婚'
-                                },
-                                {
-                                    id: '3',
-                                    value: '不祥'
-                                }
-                            ]
+                            mindjetType : 'dict',
                         },
                         {
                             id: 'customerName',
@@ -413,7 +417,8 @@
                         {
                             id: 'customerBatchId',
                             type: 'text',
-                            label: '合同批次'
+                            label: '合同批次',
+                            disabled:true,
                         },
                         {
                             id: 'whenEntry',
@@ -459,12 +464,12 @@
                     keyField: 'regHazardVOList',
                     field: [],
                 }],
-                getValueAjax: {
-                    url: 'http://localhost:2000/debugger/data/physicalsreport.json',
-                    dataSrc: 'data',
-                    type : 'GET',
-                    contentType : 'application/x-www-form-urlencoded',
-                },
+                // getValueAjax: {
+                //     url: 'http://localhost:2000/debugger/data/physicalsreport.json',
+                //     dataSrc: 'data',
+                //     type : 'GET',
+                //     contentType : 'application/x-www-form-urlencoded',
+                // },
                 draftBox : {
                     isUse : true,
                     isUseSave : true,

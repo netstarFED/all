@@ -184,28 +184,27 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         case NSSAVEDATAFLAG.DELETE:
                             //删除
                             templateConfig.serverData = {};
-                            clearByAll(templateConfig);
+                            dataManage.clearPageData(templateConfig);
                         break;
                         case NSSAVEDATAFLAG.EDIT:
                             //修改
                             templateConfig.serverData = nsServerTools.setObjectStateData(data);//改变服务端数据值，删除ojbectState为-1的数据
                             NetStarUtils.deleteAllObjectState(templateConfig.serverData);//删除objectState状态值
                             templateConfig.pageData = NetStarUtils.deepCopy(templateConfig.serverData);
-                            clearByAll(templateConfig);
-                            initComponentByFillValues(templateConfig);
+                            dataManage.clearPageData(templateConfig);
+                            dataManage.setPageData(templateConfig.serverData, templateConfig);
                         break;
                         case NSSAVEDATAFLAG.ADD:
                             //新增
                             templateConfig.serverData = {};
-                            clearByAll(templateConfig);
+                            dataManage.clearPageData(templateConfig);
                         break;
                         case NSSAVEDATAFLAG.VIEW:
                             //刷新
                             templateConfig.serverData = nsServerTools.setObjectStateData(data);//改变服务端数据值，删除ojbectState为-1的数据
                             NetStarUtils.deleteAllObjectState(templateConfig.serverData);//删除objectState状态值
                             templateConfig.pageData = NetStarUtils.deepCopy(templateConfig.serverData);
-                            clearByAll(templateConfig);
-                            initComponentByFillValues(templateConfig);
+                            dataManage.setPageData(templateConfig.serverData, templateConfig);
                         break;
                     }
                 }else{
@@ -688,7 +687,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                         id:  componentConfig.dialoglistId,
                         data: {
                             idField: 'id',
-                            src: getRootPath() + '/npebase/datPackages/getList',
+                            src: getRootPath() + '/npebase/datPackages/getPage',
                             contentType: 'application/json',
                             mentod: 'GET',
                             data: {
@@ -709,11 +708,11 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                                 title: '标准金额',
                             },
                             {
-                                field: 'itemType',
+                                field: 'discountPrice',
                                 title: '优惠金额',
                             },
                             {
-                                field: 'pkgPrice',
+                                field: 'price',
                                 title: '应收金额',
                             },
                             {
@@ -725,7 +724,18 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                             isOpenQuery: true,
                             height: 500,
                             selectedHandler: function (data) {
-                                /* setSelectedData(data) */
+                                var id = data.id
+                                var ajaxConfig = {
+                                    url: getRootPath() + '/npebase/datPackageCombos/getList',
+                                    contentType: 'application/json',
+                                    type: 'GET',
+                                    data: {
+                                        packageId: id
+                                    },
+                                }
+                                NetStarUtils.ajax(ajaxConfig, function (res) {
+                                    componentConfig.selectedData = res.rows       
+                                })
 
                             }
                         }
@@ -922,6 +932,7 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             },        
             //初始化header
             initHeader:function(componentConfig,config){
+                debugger;
                 /* 
                     *项目的数据  itemData 
                 */
@@ -941,11 +952,8 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
                             //验证如果登记信息必填内容为空的不可点击
                             var voData = config.components[2].bodyId;
                             var _voData = NetstarComponent.getValues(voData);
-                            if(_voData){
-                                NetstarComponent.dialogComponent.init(dialog);
-                            }else{
-                                nsalert('必填项目未填写','error');
-                            }
+                            NetstarComponent.dialogComponent.init(dialog);
+
                             
                         },
                         //清空按钮
@@ -1240,7 +1248,6 @@ NetstarTemplate.templates.physicalsReport = (function ($) {
             },
             // 初始化
             init : function(componentConfig, config){
-                debugger;
                 var id = componentConfig.id;
                 var html =this.inithtml(componentConfig);
                 $('#' + id).html(html);
