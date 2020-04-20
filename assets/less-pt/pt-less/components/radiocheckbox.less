@@ -64,7 +64,7 @@
         cursor: pointer;
         padding-left: 24px;
         padding-right: @base-margin;
-        font-size: @font-size-base;
+        // font-size: @font-size-base;
 
         &.pt-radio-clear {
             padding: 0;
@@ -79,17 +79,26 @@
         &:after {
             display: block;
             position: absolute;
-            content: "";
-            font-family: 'FontAwesome';
-            top: 4px;
+            content: "\ea8b";
+            font-family: @icon-font-icomoon;
+            top: 3px;
             left: 2px;
-            width: @checkradio-icon-size;
-            height: @checkradio-icon-size;
-            border: 1px solid #ccc;
-            background-color: #fff;
+            // width: @checkradio-icon-size;
+            // height: @checkradio-icon-size;
+            // border: 1px solid #ccc;
+            // background-color: #fff;
             line-height: @checkradio-icon-size;
             text-align: center;
             color: @gray-darker;
+            font-size: 16px;
+        }
+
+        &.checked {
+            &:after {
+                content: '\ea8c';
+                font-size: 16px;
+                top: 4px;
+            }
         }
     }
 

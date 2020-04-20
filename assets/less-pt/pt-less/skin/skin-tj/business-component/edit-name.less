@@ -1,0 +1,38 @@
+.edit-name {
+    display: block;
+    position: relative;
+
+    .pt-form-control {
+        border: 0;
+        width: 100%;
+        padding-left: 25px;
+        cursor: auto;
+
+        &:hover,
+        &:focus {
+            box-shadow: 0 0 0 1px @warning;
+        }
+
+    }
+
+    &:before {
+        position: absolute;
+        content: '\e9e5';
+        font-family: @icon-font-icomoon;
+        color: darken(@border-color, 10);
+        top: 5px;
+        left: 4px;
+        z-index: 9;
+    }
+
+    &:hover,
+    &:focus {
+        cursor: auto;
+
+        &:before {
+            color: @warning;
+        }
+
+    }
+
+}

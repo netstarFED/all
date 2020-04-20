@@ -3330,7 +3330,6 @@ label.pt-control-label {
   cursor: pointer;
   padding-left: 24px;
   padding-right: 10px;
-  font-size: 14px;
 }
 .pt-radio-inline label.pt-radio-clear,
 .pt-checkbox-inline label.pt-radio-clear,
@@ -3359,17 +3358,27 @@ label.pt-control-label {
 .pt-clear-inline .pt-clear-inline:after {
   display: block;
   position: absolute;
-  content: "";
-  font-family: 'FontAwesome';
-  top: 4px;
+  content: "\ea8b";
+  font-family: "icomoon";
+  top: 3px;
   left: 2px;
-  width: 16px;
-  height: 16px;
-  border: 1px solid #ccc;
-  background-color: #fff;
   line-height: 16px;
   text-align: center;
   color: #212121;
+  font-size: 16px;
+}
+.pt-radio-inline .pt-radio-inline.checked:after,
+.pt-checkbox-inline .pt-radio-inline.checked:after,
+.pt-clear-inline .pt-radio-inline.checked:after,
+.pt-radio-inline .pt-checkbox-inline.checked:after,
+.pt-checkbox-inline .pt-checkbox-inline.checked:after,
+.pt-clear-inline .pt-checkbox-inline.checked:after,
+.pt-radio-inline .pt-clear-inline.checked:after,
+.pt-checkbox-inline .pt-clear-inline.checked:after,
+.pt-clear-inline .pt-clear-inline.checked:after {
+  content: '\ea8c';
+  font-size: 16px;
+  top: 4px;
 }
 .pt-radio-inline + .pt-radio-inline,
 .pt-checkbox-inline + .pt-checkbox-inline,

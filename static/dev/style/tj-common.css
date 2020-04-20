@@ -2868,7 +2868,6 @@ label.pt-control-label {
   cursor: pointer;
   padding-left: 24px;
   padding-right: 10px;
-  font-size: 14px;
 }
 .pt-radio-inline label.pt-radio-clear,
 .pt-checkbox-inline label.pt-radio-clear,
@@ -2897,17 +2896,27 @@ label.pt-control-label {
 .pt-clear-inline .pt-clear-inline:after {
   display: block;
   position: absolute;
-  content: "";
-  font-family: 'FontAwesome';
-  top: 4px;
+  content: "\ea8b";
+  font-family: "icomoon";
+  top: 3px;
   left: 2px;
-  width: 16px;
-  height: 16px;
-  border: 1px solid #ccc;
-  background-color: #fff;
   line-height: 16px;
   text-align: center;
   color: #212121;
+  font-size: 16px;
+}
+.pt-radio-inline .pt-radio-inline.checked:after,
+.pt-checkbox-inline .pt-radio-inline.checked:after,
+.pt-clear-inline .pt-radio-inline.checked:after,
+.pt-radio-inline .pt-checkbox-inline.checked:after,
+.pt-checkbox-inline .pt-checkbox-inline.checked:after,
+.pt-clear-inline .pt-checkbox-inline.checked:after,
+.pt-radio-inline .pt-clear-inline.checked:after,
+.pt-checkbox-inline .pt-clear-inline.checked:after,
+.pt-clear-inline .pt-clear-inline.checked:after {
+  content: '\ea8c';
+  font-size: 16px;
+  top: 4px;
 }
 .pt-radio-inline + .pt-radio-inline,
 .pt-checkbox-inline + .pt-checkbox-inline,
@@ -20047,6 +20056,9 @@ body.body-lg .pt-grid-body .pt-grid-body-footer table.pt-grid tbody tr td:first-
 .pt-list .pt-list-group .pt-list-item a .pt-badge {
   float: right;
 }
+.block-list.block-list-vertical .block-list-group .block-list-item:last-child {
+  margin-bottom: 0;
+}
 .block-list .block-list-item {
   position: relative;
   margin-bottom: 10px;
@@ -20632,16 +20644,31 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
 .filter .pt-btn-group .pt-btn.current span {
   color: #fff;
 }
+.titlte,
 .pt-title {
   display: block;
 }
-.pt-title .more {
+.more {
   float: right;
   color: #666;
+  position: relative;
 }
-.pt-title .more:hover {
+.more:hover {
   color: #000;
   text-decoration: underline;
+}
+.more:hover .pt-panel {
+  display: block;
+}
+.more .pt-panel {
+  position: absolute;
+  z-index: 9;
+  display: none;
+  min-width: 240px;
+  max-width: 320px;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 .pt-main .pt-main-row .pt-main-col:nth-child(3) {
   max-width: 320px;
@@ -20678,7 +20705,7 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   margin-right: 10px;
 }
 .pt-panel .pt-panel-header .title span {
-  font-size: 16px;
+  font-size: 15px;
 }
 .pt-panel .pt-panel-header .title + .pt-btn-group {
   margin-left: 10px;
@@ -21321,6 +21348,37 @@ body .price-grid .pt-grid-body .pt-grid-body-head .pt-grid tbody tr:first-child 
   float: left;
   border: 1px solid #e0e0e0;
   padding: 10px;
+}
+.edit-name {
+  display: block;
+  position: relative;
+}
+.edit-name .pt-form-control {
+  border: 0;
+  width: 100%;
+  padding-left: 25px;
+  cursor: auto;
+}
+.edit-name .pt-form-control:hover,
+.edit-name .pt-form-control:focus {
+  box-shadow: 0 0 0 1px #e8743b;
+}
+.edit-name:before {
+  position: absolute;
+  content: '\e9e5';
+  font-family: "icomoon";
+  color: #c7c7c7;
+  top: 5px;
+  left: 4px;
+  z-index: 9;
+}
+.edit-name:hover,
+.edit-name:focus {
+  cursor: auto;
+}
+.edit-name:hover:before,
+.edit-name:focus:before {
+  color: #e8743b;
 }
 @media only screen and (min-device-width: 768px) and (max-device-width: 1280px) {
   .border-pad {

@@ -1,13 +1,32 @@
+.titlte,
 .pt-title {
     display: block;
 
-    .more {
-        float: right;
-        color: #666;
+}
 
-        &:hover {
-            color: #000;
-            text-decoration: underline;
+.more {
+    float: right;
+    color: #666;
+    position: relative;
+
+
+    &:hover {
+        color: #000;
+        text-decoration: underline;
+
+        .pt-panel {
+            display: block;
         }
+    }
+
+    .pt-panel {
+        position: absolute;
+        z-index: 9;
+        display: none;
+        min-width: 240px;
+        max-width: 320px;
+        background: #fff;
+        padding: @base-padding;
+        box-shadow: 0 0 5px rgba(0, 0, 0, .15);
     }
 }
