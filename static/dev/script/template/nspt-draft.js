@@ -296,9 +296,17 @@ NetstarTemplate.draft = (function(){
                         }
                         str = moment(value).format(format);
                         break;
+                    case 'number':
+                        if(value == null){
+                            str = ''; 
+                        }
+                        break;
                     default:
                         str = value;
                         break;
+                }
+                if(typeof(str) == "number"){
+                    str = str.toString();
                 }
                 if(str.length > 0 && str[str.length-1] === ','){
                     str = str.substring(0, str.length-1);
