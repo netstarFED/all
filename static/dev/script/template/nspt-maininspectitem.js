@@ -666,7 +666,7 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                         +'</div>';
             return html;
         },
-        // 疾病列表
+        // 个人信息
         getPersonal : function(config){
             var personalConfig = config.componentsByName.personal;
             if(!personalConfig){
@@ -676,6 +676,7 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                         + '</div>'
             return html;
         },
+        // 疾病列表
         getDiseaseList : function(config){
             var getDiseaseList = config.componentsByName.diseaseList;
             if(!getDiseaseList){
@@ -723,8 +724,8 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                         + '</div>'
             return html;
         },
-         //列表
-         getHistory : function(config){
+        //列表
+        getHistory : function(config){
             var historyConfig = config.componentsByName.history;
             if(!historyConfig){
                 return '';
@@ -748,7 +749,7 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
             var titleHtml = panelManage.getTitle(config);
             // btns
             var btnsHtml = panelManage.getBtns(config);
-            // 疾病列表
+            // 个人信息
             var personalHtml = panelManage.getPersonal(config);
             // 疾病列表
             var diseaseListHtml = panelManage.getDiseaseList(config);
@@ -775,8 +776,8 @@ NetstarTemplate.templates.mainInspectItem = (function ($) {
                                         + btnsHtml
                                     + '</div>'
                                 + '</div>'
-                                // left
                                 + '<div class="pt-main-row">'
+                                // left
                                     + '<div class="pt-main-col">'
                                         // 个人信息
                                         + personalHtml
