@@ -27,7 +27,7 @@ NetStarUtils.getDefaultValues = function (_sourceJSON, _defaultValuesJSON) {
 	if (typeof (sourceJSON) == 'undefined') {
 
 		sourceJSON = {};
-	}
+	};
 	$.each(_defaultValuesJSON, function (key, value) {
 		if (typeof (sourceJSON[key]) == 'undefined') {
 			switch (typeof (value)) {
